@@ -324,13 +324,13 @@ Class Enemy Extends MobileEntity
     Method GetMovementDirection: Object()
     End Method
 
-    Method Hit: Bool(damageSource: Int, damage: Int, dir: Int, hitter: Object, hitAtLastTile: Bool, hitType: Int)
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
     End Method
 
     Method ImageFlipX: Void(flipX: Bool)
     End Method
 
-    Method Init3: Void(xVal: Int, yVal: Int, l: Int, name: Int, overrideSpriteName: Int, overrideFrameW: Int, overrideFrameH: Int)
+    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
     End Method
 
     Method InitDirtJump: Void(xVal: Int, yVal: Int)
@@ -464,7 +464,7 @@ Class Enemy Extends MobileEntity
         GetMovementDirection()
         Hit(0, 0, 0, Null, False, 0)
         ImageFlipX(False)
-        Init3(0, 0, 0, 0, 0, 0, 0)
+        Init(0, 0, 0, 0, 0, 0, 0)
         InitDirtJump(0, 0)
         InitImage(Null, 0, 0, 0)
         IsAt(0, 0)

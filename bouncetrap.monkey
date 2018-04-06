@@ -13,9 +13,9 @@ Class BounceTrap Extends Trap
 
         Self.type = 1
         Self.x = xVal
-        Self.field_68 = 12.0
+        Self.xOff = 12.0
         Self.y = yVal
-        Self.field_64 = 18.0
+        Self.yOff = 18.0
 
         If d = -1
             Local i := 499
@@ -153,6 +153,6 @@ Class BounceTrapDirection
     Const UpLeft: Int = 6
     Const UpRight: Int = 7
     Const Omni: Int = 8
-    Const Spin: Int = 0
+    Const Spin: Int = 9
 
 End Class

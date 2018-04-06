@@ -53,7 +53,7 @@ Class Chest Extends Entity
     Method BecomeLocked: Void()
     End Method
 
-    Method DetermineContentsNow: Int()
+    Method DetermineContentsNow_PlayerDoesntOwn: Int()
     End Method
 
     Method Die: Void()
@@ -78,7 +78,7 @@ Class Chest Extends Entity
         IsItemAppropriateForChestColor(0, 0)
         AddKeyToContents()
         BecomeLocked()
-        DetermineContentsNow()
+        DetermineContentsNow_PlayerDoesntOwn()
         Die()
         Open(Null)
         Render()

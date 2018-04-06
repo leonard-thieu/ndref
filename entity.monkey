@@ -68,9 +68,9 @@ Class Entity Extends RenderableObject
 
     Field field_58: Object
     Field sprite: Sprite
-    Field field_60: Int
-    Field field_64: Float
-    Field field_68: Float
+    Field sprite2: Sprite
+    Field yOff: Float
+    Field xOff: Float
     Field x3: Int
     Field y3: Int
     Field field_74: Bool
@@ -132,7 +132,7 @@ Class Entity Extends RenderableObject
     Method Die: Void()
         If Not Self.dead
             Local field_58 := Self.field_58
-            If field_58 <> Null
+            If field_58
                 ' TODO: Determine what field_58 is.
             End If
 

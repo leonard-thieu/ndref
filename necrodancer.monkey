@@ -10,19 +10,19 @@ Import util
 Import player
 
 Function Main()
-	Local x: Float = Rnd(1, 3)
+    Local x: Float = Rnd(1, 3)
 
-	(New BombTrap(0, 0)).NoTrim()
+    (New BombTrap(0, 0)).NoTrim()
     (New RenderableObject()).NoTrim()
     (New Entity()).NoTrim()
-	(New Level()).NoTrim()
-	(New LevelObject(0, 0, 0, False, Null)).NoTrim()
-	(New RNG()).NoTrim()
-	(New Util()).NoTrim()
-	(New Trap()).NoTrim()
-	(New Player()).NoTrim()
-	currentZone = 0
-	currentLevel = 0
+    (New Level()).NoTrim()
+    (New LevelObject(0, 0, 0, False, Null)).NoTrim()
+    (New RNG()).NoTrim()
+    (New Util()).NoTrim()
+    (New Trap()).NoTrim()
+    (New Player()).NoTrim()
+    currentZone = 0
+    currentLevel = 0
 End
 
 Class Doppelganger End Class
@@ -50,13 +50,9 @@ Class BlobRoom Extends RoomBase End Class
 
 Class Bomb Extends Item End Class
 
-Class ConfuseTrap Extends Trap End Class
 Class DecorativeFireTrap Extends Trap End Class
 Class FrankensteinwaySwitch Extends Trap End Class
-Class ScatterTrap Extends Trap End Class
 Class Switch Extends Trap End Class
-Class TeleportTrap Extends Trap End Class
-Class TrapDoor Extends Trap End Class
 
 Class CrystalShards Extends Entity End Class
 Class FloorPulse Extends Entity End Class
@@ -71,7 +67,6 @@ Class SoulFamiliar Extends FamiliarFixed End Class
 
 Class Familiar Extends MobileEntity End Class
 
-Class BeatAnimationData End Class
 Class GuiBorder End Class
 Class GuiContainer End Class
 Class HighScoreSubmission End Class

@@ -47,7 +47,7 @@ Class LevelObject
                     Case 1
                         Local bounceTrap := BounceTrap(trap)
                         If bounceTrap.field_106 Or bounceTrap.field_107
-                            trapObj.subtype = 9
+                            trapObj.subtype = TrapType.BombTrap
                         End If
                     Case 8
                         Local travelRune := TravelRune(trap)

@@ -7,9 +7,9 @@ Class BombTrap Extends Trap
 	Method New(xVal: Int, yVal: Int)
 		Super.New()
 
-		Self.type = 9
-		Self.field_68 = 5.0
-		Self.field_64 = 15.0
+		Self.type = TrapType.BombTrap
+		Self.xOff = 5.0
+		Self.yOff = 15.0
 
 		Self.x = xVal
 		Self.y = yVal
@@ -19,5 +19,7 @@ Class BombTrap Extends Trap
 		sprite.SetZ(-995.0)
 		Self.sprite = sprite
 	End Method
+
+	Field field_10C: Int
 
 End Class
