@@ -1,0 +1,3 @@
+Class Medic
+
+End Class

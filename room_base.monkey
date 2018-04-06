@@ -1,0 +1,3 @@
+Class RoomBase
+
+End Class
