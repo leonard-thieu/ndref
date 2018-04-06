@@ -1,4 +1,5 @@
 Import monkey.map
+Import monkey.math
 Import monkey.random
 Import beastmaster
 Import bossmaster
@@ -28,6 +29,7 @@ Import tile
 Import trap
 Import util
 Import xml
+Import tiledata
 
 Class Level
     
@@ -281,6 +283,47 @@ Class Level
     End Function
 
     Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
+        Local doSecondaryCarve := True
+        Local i := 0
+        Local iMax := True
+
+        If (roomType = 5) Or (roomType = 7)
+            iMax = False
+        End If
+
+        While True
+            Local tileAt := Level.GetTileAt(Level.carveX, Level.carveY)
+            If tileAt And tileAt.GetType() And Not doSecondaryCarve
+                Return False
+            End If
+
+            If wideCorridor
+                If horiz
+                    Local tileBelow := Level.GetTileAt(Level.carveX, Level.carveY + 1)
+                    If tileBelow And tileBelow.GetType() And Not doSecondaryCarve
+                        Return False
+                    End If
+                Else
+                    Local tileRight := Level.GetTileAt(Level.carveX + 1, Level.carveY)
+                    If tileRight And tileRight.GetType() And Not doSecondaryCarve
+                        Return False
+                    End If
+                End If
+            End If
+
+            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, True, secondaryCarve, roomType, wideCorridor)
+
+            If Not secondaryCarve Then doSecondaryCarve = False
+
+            i += 1
+
+            Level.carveX += moveX
+            Level.carveY += moveY
+
+            If i > iMax Then Exit
+
+            secondaryCarve = False
+        End While
     End Function
 
     Function CheckLOS: Bool(x1: Int, y1: Int, x2: Int, y2: Int, includeOffscreen: Bool)
@@ -892,50 +935,327 @@ Class Level
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
-        Local exceedsConstraints: Bool = True
+        Local withinConstraints := False
         
         If currentZone = 1 Or currentZone = 2 Or currentZone = 3
-            If xVal < Level.levelConstraintX Then exceedsConstraints = False
-            If yVal < Level.levelConstraintY Then exceedsConstraints = False
-            If xVal + wVal > Level.levelConstraintX + Level.levelConstraintW Then exceedsConstraints = False
-            If hVal + yVal > Level.levelConstraintY + Level.levelConstraintH Then exceedsConstraints = False
+            If Level.levelConstraintY <= yVal And Level.levelConstraintX <= xVal
+                withinConstraints = True
+            End If
 
-            If Not exceedsConstraints And currentLevel <> 0
-                If ++Level.levelConstraintNum > 100
-                    Level.levelConstraintW += 2
-                    Level.levelConstraintH += 2
-                    Level.levelConstraintNum = 0
-                    Level.levelConstraintX -= 1
-                    Level.levelConstraintY -= 1
+            If (wVal + xVal) > (Level.levelConstraintX + Level.levelConstraintW)
+                withinConstraints = False
+            End If
+
+            If Not ((hVal + yVal) <= (Level.levelConstraintY + Level.levelConstraintW) And withinConstraints)
+                If controller_game.currentLevel
+                    Level.levelConstraintNum += 1
+                    If Level.levelConstraintNum > 100
+                        Level.levelConstraintNum = 0
+                        Level.levelConstraintX -= 1
+                        Level.levelConstraintY -= 1
+                        Level.levelConstraintW += 2
+                        Level.levelConstraintH += 2
+                    End If
                 End If
                 Return False
             End If
         End If
 
-        Local v21: Float = 0.0
-        Select currentLevel
-            Case 2
-                v21 = 0.1
-            Case 3
-                v21 = 0.13
-            Case 4
-                v21 = 0.16
-            Default
-                If currentLevel >= 5
-                    v21 = currentLevel * 0.04
-                    If v21 > 0.4
-                        v21 = 0.4
+        ' WARN: Decompiler now shows this part without the constants for levels 2, 3, and 4
+        'Local v21: Float = 0.0
+        'Select controller_game.currentLevel
+        '    Case 2
+        '        v21 = 0.1
+        '    Case 3
+        '        v21 = 0.13
+        '    Case 4
+        '        v21 = 0.16
+        '    Default
+        '        If controller_game.currentLevel >= 5
+        '            v21 = controller_game.currentLevel * 0.04
+        '            If v21 > 0.4
+        '                v21 = 0.4
+        '            End If
+        '        End If
+        'End Select
+
+        Local v20: Float = 0.0
+        If controller_game.currentLevel > 4
+            Local v99: Float = controller_game.currentLevel * 0.04
+            If v99 > 0.4 Then v99 = 0.4
+            v20 = v99
+        End If
+
+        'LABEL_14
+        ' TODO: Determine args for RndIntRange
+        If (v20 > Util.RndIntRange(0, 0, True, -1)) And Not (roomType = -1)
+            If controller_game.currentZone = 1 Then wallType = TileType.CatacombWall
+        End If
+
+        Local x: Int
+        Local y: Int
+        Local xMax := xVal + wVal
+        Local yMax := yVal + hVal
+
+        Local tiles := New List<TileData>()
+        Select roomType
+            Case -1
+                If controller_game.currentZone = 1
+                    If controller_game.currentLevel = 1
+                        roomType = 2
+                        If Not Util.RndBool(True)
+                            roomType = 0
+                            'goto LABEL_26
+                        End If
+                        'goto LABEL_145
+                    End If
+
+                    Local rndVal := Util.RndIntRange(0, 2, True, -1)
+
+                    roomType = 0
+                    If Not rndVal
+                        'goto LABEL_26
+                    End If
+
+                    roomType = 1
+                    If Not rndVal = 1
+                        'goto LABEL_108
+                    End If
+                Else
+                    If controller_game.currentZone = 4
+                        roomType = 0
+                        If Not (Util.RndIntRange(0, 1, True, -1) = 1) Then roomType = -1
+                        'goto LABEL_26
+                    End If
+
+                    roomType = 0
+                    Local v81 := Util.RndIntRange(0, 3, True, -1)
+                    If Not v81
+                        'LABEL_26
+                        x = xVal
+                        While x <= xMax
+                            tiles.AddLast(New TileData(x, yVal, wallType))
+                            tiles.AddLast(New TileData(x, yMax, wallType))
+                            x += 1
+                        End While
+
+                        y = yVal + 1
+                        While y < yMax
+                            tiles.AddLast(New TileData(xVal, y, wallType))
+                            tiles.AddLast(New TileData(xMax, y, wallType))
+                            y += 1
+                        End While
+
+                        x = xVal + 1
+                        While x < xMax
+                            y = yVal + 1
+                            While y < yMax
+                                tiles.AddLast(New TileData(x, y, TileType.Floor))
+                                y += 1
+                            End While
+                        End While
+                        'break
+                    End If
+
+                    If Not (v81 = 1)
+                        If v81 = 2
+                            roomType = 1
+                            'goto LABEL_108
+                        End If
+
+                        'LABEL_43
+                        x = xVal
+                        While x <= xMax
+                            tiles.AddLast(New TileData(x, yVal, wallType))
+                            tiles.AddLast(New TileData(x, yMax, wallType))
+                            x += 1
+                        End While
+
+                        y = yVal + 1
+                        While y < yMax
+                            tiles.AddLast(New TileData(xVal, y, wallType))
+                            tiles.AddLast(New TileData(xMax, y, wallType))
+                            y += 1
+                        End While
+
+                        Local v233_x := 2
+                        If Not (originX = xVal) Then v233_x = (originX = xMax) + 1
+                        Local v233_y := 2
+                        If Not (originY = yVal) Then v233_y = (originY = yMax) + 1
+
+                        x = xVal + 1
+                        While x < xMax
+                            y = yVal + 1
+                            If y < yMax
+                                If v233_x < math.Abs(x - originX)
+                                    Repeat
+                                        If v233_y >= math.Abs(y - originY)
+                                            tiles.AddLast(New TileData(x, y, TileType.Floor))
+                                        Else
+                                            tiles.AddLast(New TileData(x, y, wallType))
+                                        End If
+                                        y += 1
+                                    Until Not (y = yMax)
+                                Else
+                                    Repeat
+                                        tiles.AddLast(New TileData(x, y, TileType.Floor))
+                                        y += 1
+                                    Until Not (y = yMax)
+                                End If
+                            End If
+                            x += 1
+                        End While
+
+                        roomType = 0
+                        'break
                     End If
                 End If
-        End Select
 
-        Local seed: Int
-        If Util.storedSeed = -1
-            seed = Seed
-        Else
-            Util.storedSeed = -1
-        End If
-        
+                roomType = 2
+
+                'LABEL_145
+                x = xVal
+                While x <= xMax
+                    tiles.AddLast(New TileData(x, yVal, wallType))
+                    tiles.AddLast(New TileData(x, yMax, wallType))
+                    x += 1
+                End While
+
+                y = yVal + 1
+                While y < yMax
+                    tiles.AddLast(New TileData(xVal, y, wallType))
+                    tiles.AddLast(New TileData(xMax, y, wallType))
+                    y += 1
+                End While
+
+                x = xVal + 1
+                Local xRem := originX - xVal - 1
+                While x < xMax
+                    y = yVal + 1
+                    Local yRem := originY - yVal - 1
+                    ' Probably need a separate `y` for this part.
+                    While y < yMax
+                        While True
+                            ' TODO: Distance calc?
+
+                            yRem -= 1
+
+                            tiles.AddLast(New TileData(x, y, TileType.Floor))
+                            y += 1
+
+                            If y = yMax
+                                'goto LABEL_169
+                            End If
+                        End While
+                        
+                        yRem -= 1
+
+                        tiles.AddLast(New TileData(x, y, wallType))
+                        y += 1
+                    End While
+
+                    'LABEL_169
+                    x += 1
+                    xRem -= 1
+                End While
+                'break
+            Case 8
+                'goto LABEL_43
+            Case 1
+                'LABEL_108
+                x = xVal
+                While x <= xMax 
+                    tiles.AddLast(New TileData(x, yVal, wallType))
+                    tiles.AddLast(New TileData(x, yMax, wallType))
+                    x += 1
+                End While
+
+                y = yVal + 1
+                While y < yMax
+                    tiles.AddLast(New TileData(xVal, y, wallType))
+                    tiles.AddLast(New TileData(yMax, y, wallType))
+                    y += 1
+                End While
+
+                Local v236 := Util.RndIntRange(0, 6, True, -1)
+
+                If xMax <= xVal + 1
+                    'break
+                End If
+
+                Local xOff := 1
+                Local xRem := xMax - xVal - 1
+                While True
+                    x = xVal + xOff
+
+                    If yVal + 1 < yMax Then Exit
+
+                    'LABEL_127
+                    xOff += 1
+                    xRem -= 1
+                    If Not xRem
+                        'goto LABEL_62
+                    End If
+                End While
+
+                Local yOff := 1
+                Local yRem := yMax - yVal - 1
+                While True
+                    While True
+                        y = yOff + yVal
+
+                        If (xOff = 2 Or xRem = 2) And (yOff = 2 Or yRem = 2) Then Exit
+
+                        tiles.AddLast(New TileData(x, y, TileType.Floor))
+
+                        'LABEL_121
+                        yOff += 1
+                        yRem -= 1
+                        If Not yRem
+                            'goto LABEL_127
+                        End If
+                    End While
+
+                    If v236
+                        tiles.AddLast(New TileData(x, y, wallType))
+                        'goto LABEL_121
+                    End If
+
+                    tiles.AddLast(New TileData(x, y, TileType.CatacombWall))
+
+                    yOff += 1
+                    yRem -= 1
+                    If Not yRem
+                        'goto LABEL_127
+                    End If
+                End While
+            Case 2
+                'goto LABEL_145
+            Case RoomType.Shop
+                x = xVal
+                While x <= xMax
+                    tiles.AddLast(New TileData(x, yVal, TileType.ShopWall))
+                    tiles.AddLast(New TileData(x, yMax, TileType.ShopWall))
+                    x += 1
+                End While
+
+                y = yVal + 1
+                While y < yMax
+                    tiles.AddLast(New TileData(xVal, y, TileType.ShopWall))
+                    tiles.AddLast(New TileData(xMax, y, TileType.ShopWall))
+                    y += 1
+                End While
+
+                x = xVal + 1
+                If x >= xMax
+                    Level.shopX = xVal
+                    Level.shopY = yVal
+                    Level.shopW = wVal
+                    Level.shopH = hVal
+
+                    'break
+                End If
+        End Select
     End Function
 
     Function CreateRoomZone5: Void(rm: RoomWithDoor, roomType: Int)
@@ -993,7 +1313,7 @@ Class Level
 
         For Local i := 0 To numPlayers
             Local player := players[i]
-            If player.characterID <> 1
+            If player.characterID <> Character.Melody
                 If player.HasItemOfType("weapon_golden_lute", False)
                     player.AddItemOfType("weapon_dagger", Null, True, True)
                 End If
@@ -1059,6 +1379,60 @@ Class Level
     End Function
 
     Function DumpMap: Void()
+        ' Max and Min might be backwards.
+        Local yMax := 100
+        Local xMax := 100
+        Local yMin := -100
+        Local xMin := -100
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If (tile.x >= -100 And tile.x <= 100) And
+                   (tile.y >= -100 And tile.y <= 100)
+                   If xMax > tile.x Then xMax = tile.x
+                   If yMax > tile.y Then yMax = tile.y
+                   If xMin >= tile.x Then xMin = tile.x
+                   If yMin > tile.y Then yMin = tile.y
+               End If
+            End For
+        End For
+
+        Local v37: Int ' Probably yMin
+        If yMax <= yMin
+            ' TODO: No Repeat Until in Monkey X?
+            'Repeat
+            '    Local dump := New StringStack()
+            '    If xMax <= xMin
+            '        Local x := xMax
+            '        Repeat
+            '            Local tile := Level.GetTileAt(x, yMax)
+            '            Local val := String = " "
+            '            If tile
+            '                If tile.type = TileType.Wire
+            '                    val = "w"
+            '                Else If tile.IsFloor()
+            '                    val = "."
+            '                Else If tile.IsDoor()
+            '                    val = "\"
+            '                Else If tile.IsWall(False, False, False, False)
+            '                    val = "#"
+            '                Else
+            '                    val = "?"
+            '                End If
+            '            End If
+
+            '            dump.Push(val)
+            '            x += 1
+            '        Until x <= xMin
+            '    End If
+
+            '    ' TODO: Looks like some copying happens here?
+            '    ' TODO: Print
+
+            '    yMax++
+            'Until yMax <= v37
+        End If
     End Function
 
     Function Earthquake: Void(xVal: Int, yVal: Int)
@@ -1172,6 +1546,8 @@ Class Level
                 Return tilesOnX.Get(yVal)
             End If
         End If
+
+        Return Null
     End Function
 
     Function GetTileFlyawayAt: Int(xVal: Int, yVal: Int)
@@ -1182,9 +1558,7 @@ Class Level
 
     Function GetTileTypeAt: Int(xVal: Int, yVal: Int)
         Local tile := Level.GetTileAt(xVal, yVal)
-        If tile <> Null
-            Return tile.GetType()
-        End If
+        If tile Then Return tile.GetType()
 
         Return -1
     End Function
@@ -1451,17 +1825,444 @@ Class Level
             Tile.pendingTilesList.RemoveFirst().Die()
         End While
 
-        ' TODO: horiz part
+        Local rndVal := Util.RndIntRange(0, 100, True, -1)
+        Local wideCorridor: Bool
+        If rndVal <= 60
+            wideCorridor = True
+            If Not (controller_game.currentLevel = 3)
+                wideCorridor = (controller_game.currentLevel = 2) And (rndVal <= 30)
+            End If
+        Else
+            wideCorridor = (controller_game.currentLevel = 2) And (rndVal <= 30)
+        End If
+        If (rndVal <= 80) And (controller_game.currentLevel = 4)
+            wideCorridor = True
+        End If
+        If (rndVal <= 90) And (controller_game.currentLevel > 4)
+            wideCorridor = True
+        End If
+
+        Select roomType
+            Case 3
+            Case 5
+            Case 7
+                wideCorridor = False
+        End Select
 
         Local point := New Point() ' This doesn't get used. Decompilation issue?
-        ' TODO: This section
+
+        Local x: Int
+        Local y: Int
+
+        Local xLeft: Int
+        Local xRight: Int
+        Local yAbove: Int
+        Local yBelow: Int
+
+        If roomToAttachTo
+            Local xMax := roomToAttachTo.x + roomToAttachTo.width
+            Local yMax := roomToAttachTo.y + roomToAttachTo.height
+
+            If roomToAttachTo.x And xMax And roomToAttachTo.y And yMax
+                Local xOff: Int
+                Local yOff: Int
+
+                While True
+                    xOff = roomToAttachTo.x + Util.RndIntRange(0, roomToAttachTo.width - 1, True, -1)
+                    yOff = roomToAttachTo.y + Util.RndIntRange(0, roomToAttachTo.height - 1, True, -1)
+
+                    If roomToAttachTo.x = xOff + 1
+                        'LABEL_26
+                        'goto LABEL_27
+                    End If
+
+                    If (roomToAttachTo.x + roomToAttachTo.width) = (xOff + 1)
+                        Exit
+                    End If
+
+                    If Not (roomToAttachTo.y = (yOff + 1))
+                        If Not ((roomToAttachTo.height + (yOff + 1)) = (yOff + 1))
+                            Continue
+                        End If
+                    End If
+                    'goto LABEL_26
+                End While
+
+                'LABEL_27
+                y = yAbove + 1
+                xRight = xLeft + 2
+                yBelow = yAbove + 2
+            Else
+                xLeft = -1
+                x = 0
+                xRight = 1
+
+                yAbove = -1
+                y = 0
+                yBelow = 1
+            End If
+        End If
 
         Local tile: Tile
 
-        tile = Level.GetTileAt(0, 0)
-        If tile
-        
+        Local dunno3: Int
+        Local dunno2: Int
+        Local dunno1: Int
+        Local dunno0: Int
+
+        If Not roomToAttachTo
+             ' Decompiler doesn't show what `tileType` and `ignoreCrackedWalls` are set to.
+            Local tileType: Int
+            Local ignoreCrackedWalls: Bool
+            tile = Level.FindTileOfType(tileType, ignoreCrackedWalls)
+            ' This seems like an issue with the structure definition of Tile but the definition is consistent everywhere else.
+            x = tile.field_10
+            y = tile.x
+            xLeft = x - 1
+            xRight = x + 1
+            yAbove = y - 1
+            yBelow = y + 1
         End If
+
+        tile = Level.GetTileAt(xRight, y)
+        If tile And Not tile.GetType()
+            dunno3 = 3
+            dunno2 = 2
+            dunno1 = 1
+            dunno0 = 0
+        Else
+            dunno3 = 4
+            dunno2 = 3
+            dunno1 = 2
+            dunno0 = 1
+        End If
+
+        tile = Level.GetTileAt(x, yBelow)
+        If tile And Not tile.GetType()
+            dunno0 = dunno1
+            Local dunno2_old := dunno2
+            dunno2 = dunno3
+            dunno1 = dunno2_old
+        End If
+
+        tile = Level.GetTileAt(xLeft, y)
+        If tile And Not tile.GetType()
+            dunno0 = dunno1
+            dunno1 = dunno2
+        End If
+
+        tile = Level.GetTileAt(x, yAbove)
+        If tile And Not tile.GetType()
+            dunno0 = dunno1
+        End If
+
+        Local notHoriz: Bool
+        Local moveX: Int
+        Local moveY: Int
+
+        If dunno0 = 1
+            tile = Level.GetTileAt(xRight, y)
+            If tile And Not tile.GetType()
+                notHoriz = True
+                moveX = -1
+            Else
+                notHoriz = False
+                moveX = 0
+            End If
+
+            tile = Level.GetTileAt(x, yBelow)
+            If tile And Not tile.GetType()
+                moveY = -1
+            Else
+                moveY = 0
+            End If
+
+            tile = Level.GetTileAt(xLeft, y)
+            If tile And Not tile.GetType()
+                notHoriz = True
+                moveX = 1
+            End If
+
+            tile = Level.GetTileAt(x, yAbove)
+            If Not (tile And Not tile.GetType())
+                moveY = 1
+            End If
+
+            Level.carveX = x
+            Level.carveY = y
+
+            Local width: Int
+            Local height: Int
+
+            If Level.CarveNewCorridor(moveX, moveY, notHoriz, True, False, roomType, wideCorridor)
+                If (roomType = 5) Or (roomType = 7)
+                    ' `width` and `height` are overwritten but `RndIntRange` has side effects. Do not remove.
+                    width = Util.RndIntRange(6, 8, True, -1)
+                    height = Util.RndIntRange(5, 7, True, -1)
+
+                    width = 4
+                    height = 3
+                Else
+                    If Util.RndBool(True)
+                        tile = Level.GetTileAt(Level.carveX, Level.carveY)
+                        If Not (tile and tile.IsFloor())
+                            New Tile(Level.carveX, Level.carveY, TileType.DirtWall2, True, -1)
+                        End If
+
+                        If notHoriz
+                            tile = Level.GetTileAt(Level.carveX, Level.carveY - 1)
+                            If Not (tile and tile.IsFloor())
+                                New Tile(Level.carveX, Level.carveY - 1, TileType.DirtWall2, True, -1)
+                            End If
+
+                            tile = Level.GetTileAt(Level.carveX, Level.carveY + 1)
+                            If Not (tile and tile.IsFloor())
+                                New Tile(Level.carveX, Level.carveY + 1, TileType.DirtWall2, True, -1)
+                            End If
+
+                            Level.carveX -= moveX
+                            Level.carveY -= moveY
+
+                            moveX = 0
+                            moveY = -1
+                            If Util.RndBool(True)
+                                moveY = 1
+                            End If
+                        Else
+                            tile = Level.GetTileAt(Level.carveX - 1, Level.carveY)
+                            If Not (tile and tile.IsFloor())
+                                New Tile(Level.carveX - 1, Level.carveY, TileType.DirtWall2, True, -1)
+                            End If
+
+                            tile = Level.GetTileAt(Level.carveX + 1, Level.carveY)
+                            If Not (tile and tile.IsFloor())
+                                New Tile(Level.carveX + 1, Level.carveY, TileType.DirtWall2, True, -1)
+                            End If
+
+                            Level.carveX -= moveX
+                            Level.carveY -= moveY
+
+                            moveX = -1
+                            moveY = 0
+                            If Util.RndBool(True)
+                                moveX = 1
+                            End If
+                        End If
+                    End If
+
+                    If Not Level.CarveNewCorridor(moveX, moveY, Not notHoriz, True, True, roomType, wideCorridor)
+                        Return Null
+                    End If
+                End If
+
+                If Util.RndBool(True)
+                    tile = Level.GetTileAt(Level.carveX, Level.carveY)
+                    If Not (tile and tile.IsFloor())
+                        New Tile(Level.carveX, Level.carveY, TileType.DirtWall2, True, -1)
+                    End If
+
+                    If notHoriz
+                        tile = Level.GetTileAt(Level.carveX, Level.carveY - 1)
+                        If Not (tile and tile.IsFloor())
+                            New Tile(Level.carveX, Level.carveY - 1, TileType.DirtWall2, True, -1)
+                        End If
+
+                        tile = Level.GetTileAt(Level.carveX, Level.carveY + 1)
+                        If Not (tile and tile.IsFloor())
+                            New Tile(Level.carveX, Level.carveY + 1, TileType.DirtWall2, True, -1)
+                        End If
+
+                        Level.carveX -= moveX
+                        Level.carveY -= moveY
+
+                        moveX = 0
+                        moveY = -1
+                        If Util.RndBool(True)
+                            moveY = 1
+                        End If
+                    Else
+                        tile = Level.GetTileAt(Level.carveX - 1, Level.carveY)
+                        If Not (tile and tile.IsFloor())
+                            New Tile(Level.carveX - 1, Level.carveY, TileType.DirtWall2, True, -1)
+                        End If
+
+                        tile = Level.GetTileAt(Level.carveX + 1, Level.carveY)
+                        If Not (tile and tile.IsFloor())
+                            New Tile(Level.carveX + 1, Level.carveY, TileType.DirtWall2, True, -1)
+                        End If
+
+                        Level.carveX -= moveX
+                        Level.carveY -= moveY
+
+                        moveX = -1
+                        moveY = 0
+                        If Util.RndBool(True)
+                            moveX = 1
+                        End If
+                    End If
+
+                    If Not Level.CarveNewCorridor(moveX, moveY, Not notHoriz, True, True, roomType, wideCorridor)
+                        Return Null
+                    End If
+                End If
+
+                width = Util.RndIntRange(6, 8, True, -1)
+                height = Util.RndIntRange(5, 7, True, -1)
+                If roomType = RoomType.Shop
+                    width = 6
+                    height = 8
+                End If
+            End If
+
+            Local originX: Int
+            Local originY: Int
+
+            Local xOff: Int
+            Local yOff: Int
+
+            If moveX = -1
+                x = Level.carveX - width
+                yOff = Util.RndIntRange(0, height - 2, True, -1)
+                originY = Level.carveY
+                If wideCorridor
+                    y = Level.carveY - Util.RndIntRange(0, height - 3, True, -1) - 1
+                    originX = Level.carveX
+                    'goto LABEL_95
+                End If
+            Else
+                If Not (moveX = 1)
+                    If Not (moveY = -1)
+                        ' `RndIntRange` has side effects. Must stay outside of the following If-block.
+                        Local xOff2 := Util.RndIntRange(0, width - 2, True, -1)
+                        originX = Level.carveX
+                        y = Level.carveY
+                        If Not wideCorridor
+                            x = Level.carveX - xOff2 - 1
+                            originY = Level.carveY
+                            'goto LABEL_95
+                        End If
+                        'goto LABEL_106
+                    End If
+
+                    Local yOff2 := Util.RndIntRange(0, width - 2, True, -1)
+                    originX = Level.carveX
+                    originY = Level.carveY
+                    y = Level.carveY - height
+                    If wideCorridor
+                        'LABEL_106
+                        x = Level.carveX - Util.RndIntRange(0, width - 3, True, -1) - 1
+                        originX = Level.carveX
+                        originY = Level.carveY
+                        'goto LABEL_95
+                    End If
+
+                    x = Level.carveX - yOff2 - 1
+
+                    'LABEL_95
+                    Local originX2 := originX + 1
+                    Local originY2 := originY
+                    If notHoriz
+                        originX2 = originX
+                        originY2 = originY + 1
+                    End If
+
+                    If Not Level.CreateRoom(x, y, width, height, True, roomType, originX, originY, originX2, originY2, wideCorridor, TileType.DirtWall, False, True)
+                        Return Null
+                    End If
+
+                    For Local pendingTilesOnXNode := EachIn Level.pendingTiles
+                        For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
+                            Local pendingTileX := pendingTilesOnXNode.Key()
+                            Local pendingTileY := pendingTileNode.Key()
+                            
+                            Local tileAt := Level.GetTileAt(pendingTileX, pendingTileY)
+                            If tileAt Then tileAt.Die()
+
+                            Local pendingTileType := pendingTileNode.Value().GetType()
+                            New Tile(pendingTileX, pendingTileY, pendingTileType, False, -1)
+                        End For
+                    End For
+
+                    If roomType = RoomType.Shop
+                        Level.PlaceShopItemsAt(x, y, Null)
+                        'goto LABEL_85
+                    End If
+
+                    If (roomType = 5) Or (roomType = 7)
+                        'goto LABEL_85
+                    End If
+
+                    Local rndVal := Util.RndIntRange(0, 100, True, -1)
+                    Local v50: Bool
+
+                    If rndVal <= 70
+                        v50 = True
+                        If Not (controller_game.currentLevel = 2)
+                            v50 = (controller_game.currentLevel = 1) And (rndVal <= 80)
+                        End If
+                    Else
+                        v50 = (controller_game.currentLevel = 1) And (rndVal <= 80)
+                    End If
+
+                    If (rndVal <= 60) And (controller_game.currentLevel = 3)
+                        v50 = True
+                    End If
+
+                    Local tileType: Int
+                    If ((rndVal <= 50) And (controller_game.currentLevel > 3)) Or v50
+                        If Level.isHardcoreMode
+                            If Not wideCorridor
+                                If Util.RndIntRange(0, 8, True, -1)
+                                    New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                                Else
+                                    New Tile(Level.carveX, Level.carveY, TileType.MetalDoor, False, -1)
+                                End If
+                                'goto LABEL_85
+                            End If
+
+                            New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                        Else
+                            New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                            
+                            If Not wideCorridor
+                                'goto LABEL_85
+                            End If
+                        End If
+
+                        tileType = TileType.Door
+                    Else
+                        New Tile(Level.carveX, Level.carveY, TileType.Floor2, False, -1)
+
+                        If Not wideCorridor
+                            'LABEL_85
+                            Local room := New RoomData(x, y, width, height, Level.lastCreatedRoomType, False)
+                            Level.rooms.AddLast(room)
+
+                            Return room
+                        End If
+
+                        tileType = TileType.Floor2
+                    End If
+
+                    New Tile(originX2, originY2, tileType, False, -1)
+                    'goto LABEL_85
+                End If
+
+                x = Level.carveX
+                yOff = Util.RndIntRange(0, height - 2, True, -1)
+                originY = Level.carveY
+                If wideCorridor
+                    yOff = Util.RndIntRange(0, height - 3, True, -1)
+                    originY = Level.carveY
+                End If
+            End If
+
+            y = originY - yOff - 1
+            originX = Level.carveX
+            'goto LABEL_95
+        End If
+
+        Return Null
     End Function
 
     Function PlaceRoomZone2: RoomData(roomType: Int, roomToAttachTo: RoomData)
@@ -1915,5 +2716,11 @@ Class MinibossTileData
     Field y: Int
     Field type: Int
     Field field_1C: Int
+
+End Class
+
+Class RoomType
+
+    Const Shop: Int = 3
 
 End Class

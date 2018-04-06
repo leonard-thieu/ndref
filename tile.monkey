@@ -475,9 +475,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetTileset: Int()
+        Return Self.tileset
     End Method
 
     Method GetType: Int()
+        Return Self.type
     End Method
 
     Method GetZone2Wall: Object()
@@ -689,6 +691,7 @@ End Class
 
 Class TileType
 
+    Const None: Int = -1
     Const Floor: Int = 0
     Const Floor2: Int = 1
     Const Stairs: Int = 2
