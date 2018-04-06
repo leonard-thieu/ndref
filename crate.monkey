@@ -13,6 +13,9 @@ Class Crate Extends Enemy
     Global fallenGargoyles: List<Gargoyle>
     Global crateList: List<Crate>
 
+    Method New(xVal: Int, yVal: Int, type: Int, cont: String)
+    End Method
+
     Field cont: String
 
 End Class

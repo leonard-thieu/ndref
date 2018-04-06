@@ -9,6 +9,7 @@ Class BounceTrap Extends Trap
         Super.New()
 
         Local dir := d
+        Local dir2: Int
 
         Self.type = 1
         Self.x = xVal
@@ -19,7 +20,7 @@ Class BounceTrap Extends Trap
         If d = -1
             Local i := 499
             While True
-                Local dir2 := Util.RndIntRange(0, 3, True, -1)
+                dir2 = Util.RndIntRange(0, 3, True, -1)
                 Self.direction = dir2
 
                 If dir2 Then Exit

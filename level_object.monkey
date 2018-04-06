@@ -1,6 +1,8 @@
 Import monkey.list
+Import bombtrap
 Import bouncetrap
 Import chest
+Import confusetrap
 Import controller_game
 Import crate
 Import enemy
@@ -10,9 +12,12 @@ Import level
 Import point
 Import salechest
 Import saleitem
+Import scattertrap
 Import shrine
+Import teleportrap
 Import tile
 Import trap
+Import trapdoor
 Import travelrune
 
 Class LevelObject
@@ -57,7 +62,7 @@ Class LevelObject
 
             For Local enemy := EachIn Enemy.enemyList
                 If Crate(enemy) = Null
-                    Local enemyObj := New EnemyObject(enemy.x, enemy.y, enemy.type, enemy.field_114, enemy.isLord)
+                    Local enemyObj := New EnemyObject(enemy.x, enemy.y, enemy.type, enemy.field_110, enemy.isLord)
                     Self.enemies.AddLast(enemyObj)
                 End If
             End For
@@ -111,101 +116,69 @@ Class LevelObject
     Field shrines: List<ShrineObject> = New List<ShrineObject>()
 
     Method CreateMap: Void()
-        ' LABEL_5
         For Local tileObj := EachIn tiles
             Local tile := Level.PlaceTileRemovingExistingTiles(tileObj.x, tileObj.y, tileObj.type, False, tileObj.tileset, False)
             
             If tileObj.isCracked Then tile.BecomeCracked()
-                
-            If Not tileObj.hasTorch
-                If tile.type = TileType.Stairs
-                    ' goto LABEL_9
-                Else
-                    ' goto LABEL_4
-                End If
-            End If
-            
-            tile.AddTorch()
+            If tileObj.hasTorch Then tile.AddTorch()
 
-            If tile.type = TileType.Stairs
-                ' LABEL_9
-                Local exit_p1 := New Point(tile.x, tile.y)
-                Local exit_p2 := New Point(-3, currentZone)
-                Level.exits.Set(exit_p1, exit_p2)
-
-                If tile.type <> TileType.LockedStairsMiniboss
-                    ' goto LABEL_5
-                End If
-                ' goto LABEL_10
-            End If
-
-            ' LABEL_4
-            If tile.type <> TileType.LockedStairsMiniboss
-                ' goto LABEL_5
-            End If
-
-            ' LABEL_10
-            Level.CreateExit(tile.x, tile.y)
+            Select tile.type
+                Case TileType.Stairs
+                    Local exit_p1 := New Point(tile.x, tile.y)
+                    Local exit_p2 := New Point(-3, currentZone)
+                    Level.exits.Set(exit_p1, exit_p2)
+                Case TileType.LockedStairsMiniboss
+                    Level.CreateExit(tile.x, tile.y)
+            End Select
         End For
 
         Tile.GenerateWireConnections()
 
-        ' LABEL_12
         For Local trapObj := EachIn traps
-            While True
-                Select trapObj.type
-                    Case TrapType.BounceTrap
-                        ' BounceTrap
-                    Case TrapType.SpikeTrap
-                        ' SpikeTrap
-                    Case TrapType.TrapDoor
-                        ' TrapDoor
-                    Case TrapType.ConfuseTrap
-                        ' ConfuseTrap
-                    Case TrapType.TeleportTrap
-                        ' TeleportTrap
-                    Case TrapType.SlowDownTrap
-                        ' SlowDownTrap
-                    Case TrapType.SpeedUpTrap
-                        ' SpeedUpTrap
-                    Case TrapType.BombTrap
-                        ' BombTrap
-                    Case TrapType.ScatterTrap
-                        ' ScatterTrap
-                End Select
+            Select trapObj.type
+                Case TrapType.BounceTrap
+                    New BounceTrap(trapObj.x, trapObj.y, trapObj.subtype)
+                Case TrapType.SpikeTrap
+                    New SpikeTrap(trapObj.x, trapObj.y)
+                Case TrapType.TrapDoor
+                    New TrapDoor(trapObj.x, trapObj.y)
+                Case TrapType.ConfuseTrap
+                    New ConfuseTrap(trapObj.x, trapObj.y)
+                Case TrapType.TeleportTrap
+                    New TeleportTrap(trapObj.x, trapObj.y)
+                Case TrapType.SlowDownTrap
+                    New SlowDownTrap(trapObj.x, trapObj.y)
+                Case TrapType.SpeedUpTrap
+                    New SpeedUpTrap(trapObj.x, trapObj.y)
+                Case TrapType.BombTrap
+                    New BombTrap(trapObj.x, trapObj.y)
+                Case TrapType.ScatterTrap
+                    New ScatterTrap(trapObj.x, trapObj.y)
+                Case TrapType.FireballTrap
+                    New FireTrap(trapObj.x, trapObj.y, trapObj.subtype, False)
+                Case TrapType.TravelRune
+                    If Not Level.isLevelEditor
+                        Level.secretAtX = trapObj.x
+                        Level.secretAtY = trapObj.y
+                        Level.AddSpecialRoom(trapObj.subtype, False)
+                    End If
 
-                If trapObj.type = TrapType.FireballTrap
-                    Exit
-                End If
-
-                If trapObj.type <> TrapType.TravelRune
-                    ' goto LABEL_12
-                End If
-
-                If Not Level.isLevelEditor
-                    Level.secretAtX = trapObj.x
-                    Level.secretAtY = trapObj.y
-                    Level.AddSpecialRoom(trapObj.subtype, False)
-                End If
-
-                ' TravelRune
-
-                ' TODO: Translate if statement that appears here                
-            End While
-
-            ' FireTrap
+                    New TravelRune(trapObj.x, trapObj.y, Level.specialRoomEntranceX, Level.specialRoomEntranceY, trapObj.subtype)
+            End Select
         End For
 
         For Local enemyObj := EachIn enemies
             Local enemy := Enemy.MakeEnemy(enemyObj.x, enemyObj.y, enemyObj.type)
 
             If enemyObj.field_1C <> -1
-                enemy.field_114 = enemyObj.field_1C
+                enemy.field_110 = enemyObj.field_1C
             End If
             
             If enemyObj.isLord
                 enemy.MakeLord()
-            Else If enemy.field_121
+            End If
+
+            If enemy.field_11D
                 enemy.isMiniboss = True
             End If
         End For
@@ -232,12 +205,14 @@ Class LevelObject
             If chestObj.field_24 <= 0
                 chest = New Chest(chestObj.x, chestObj.y, chestObj.cont, chestObj.isLocked, False, chestObj.isLocked, chestObj.color)
             Else
-                chest = New SaleChest()
+                chest = New SaleChest(chestObj.x, chestObj.y, chestObj.cont, chestObj.isLocked, False, chestObj.isLocked, chestObj.color)
             End If
+
+            chest.singleChoice_ = chestObj.singleChoice_
         End For
 
         For Local crateObj := EachIn crates
-            New Crate()
+            New Crate(crateObj.x, crateObj.y, crateObj.type, crateObj.cont)
         End For
 
         For Local shrineObj := EachIn shrines
@@ -330,12 +305,12 @@ End Class
 
 Class ChestObject
 
-    Method New(xVal: Int, yVal: Int, color: Int, cont: String, field_20: Bool, isLocked: Bool, field_24: Int)
+    Method New(xVal: Int, yVal: Int, color: Int, cont: String, singleChoice_: Bool, isLocked: Bool, field_24: Int)
         Self.x = xVal
         Self.y = yVal
         Self.color = color
         Self.cont = cont
-        Self.field_20 = field_20
+        Self.singleChoice_ = singleChoice_
         Self.isLocked = isLocked
         Self.field_24 = field_24
     End Method
@@ -344,7 +319,7 @@ Class ChestObject
     Field y: Int
     Field color: Int
     Field cont: String
-    Field field_20: Bool
+    Field singleChoice_: Bool
     Field isLocked: Bool
     Field field_24: Int
 

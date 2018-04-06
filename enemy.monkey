@@ -1,5 +1,6 @@
 Import monkey.list
 Import monkey.map
+Import beatanimationdata
 Import mobileentity
 Import point
 
@@ -131,118 +132,107 @@ Class Enemy Extends MobileEntity
 
     Function _EditorFix() End
 
-    Field field_F4: Bool
-    Field field_F8: Int
-    Field field_FC: Int
-    Field field_100: Int
-    Field field_104: Bool
-    Field field_105: Bool
-    Field field_106: Bool
-    Field field_107: Bool
-    Field field_108: Bool
-    Field field_109: Bool
-    Field field_10C: Int
     Field type: Int
-    Field field_114: Int
+    Field field_110: Int
     Field isLord: Bool
-    Field field_11C: Int
+    Field field_118: Int
+    Field field_11C: Bool
+    Field field_11D: Bool
+    Field field_11E: Bool
+    Field field_11F: Bool
     Field field_120: Bool
     Field field_121: Bool
-    Field field_122: Bool
-    Field field_123: Bool
-    Field field_124: Bool
-    Field field_125: Bool
-    Field field_128: String
+    Field field_124: Int[]
+    Field field_128: String[]
     Field field_12C: Int
     Field field_130: Int
     Field field_134: Int
-    Field field_138: Int
-    Field field_13C: Bool
-    Field field_13D: Bool
-    Field field_140: String
-    Field field_144: Bool
+    Field field_138: Bool
+    Field field_139: Bool
+    Field field_13C: String
+    Field field_140: Bool
+    Field field_144: Int
     Field field_148: Int
     Field field_14C: Int
     Field field_150: Int
-    Field field_154: Int
-    Field field_158: Bool
-    Field field_15C: String
-    Field field_160: IntMap<Object>
-    Field field_164: IntMap<Object>
-    Field field_168: IntMap<Object>
-    Field field_16C: IntMap<Object>
-    Field field_170: IntMap<Object>
-    Field field_174: IntMap<Object>
+    Field field_154: Bool
+    Field field_158: String
+    Field field_15C: IntMap<BeatAnimationData>
+    Field field_160: IntMap<BeatAnimationData>
+    Field field_164: IntMap<BeatAnimationData>
+    Field field_168: IntMap<BeatAnimationData>
+    Field field_16C: IntMap<BeatAnimationData>
+    Field field_170: IntMap<BeatAnimationData>
+    Field field_174: Int
     Field field_178: Int
     Field field_17C: Int
     Field field_180: Int
     Field field_184: Int
     Field field_188: Int
-    Field field_18C: Int
+    Field field_18C: String
     Field field_190: String
-    Field field_194: String
-    Field field_198: Int
-    Field field_19C: String
-    Field field_1A0: Bool
-    Field field_1A1: Bool
-    Field field_1A2: Bool
-    Field field_1A3: Bool
+    Field field_194: Bool
+    Field field_198: String
+    Field field_19C: Bool
+    Field field_19D: Bool
+    Field field_19E: Bool
+    Field field_19F: Bool
+    Field field_1A0: Int
     Field field_1A4: Int
     Field field_1A8: Int
-    Field field_1AC: Int
     Field isMiniboss: Bool
-    Field field_1B1: Bool
-    Field field_1B2: Bool
-    Field field_1B3: Bool
+    Field field_1AD: Bool
+    Field field_1AE: Bool
+    Field field_1AF: Bool
+    Field field_1B0: Int
     Field field_1B4: Int
     Field field_1B8: Int
-    Field field_1BC: Int
-    Field field_1C0: Point
+    Field field_1BC: Point
+    Field field_1C0: Int
     Field field_1C4: Int
-    Field field_1C8: Int
-    Field field_1CC: String
-    Field field_1D0: Bool
-    Field field_1D4: Int
-    Field field_1D8: Bool
-    Field field_1D9: Bool
-    Field field_1DA: Bool
+    Field field_1C8: String
+    Field field_1CC: Bool
+    Field field_1D0: Int
+    Field field_1D4: Bool
+    Field field_1D5: Bool
+    Field field_1D6: Bool
+    Field field_1D8: Int
     Field field_1DC: Int
     Field field_1E0: Int
-    Field field_1E4: Int
+    Field field_1E4: Bool
+    Field field_1E5: Bool
+    Field field_1E6: Bool
+    Field field_1E7: Bool
     Field field_1E8: Bool
     Field field_1E9: Bool
     Field field_1EA: Bool
     Field field_1EB: Bool
     Field field_1EC: Bool
     Field field_1ED: Bool
-    Field field_1EE: Bool
-    Field field_1EF: Bool
-    Field field_1F0: Bool
-    Field field_1F1: Bool
-    Field field_1F4: Int
+    Field field_1F0: Int
+    Field field_1F4: Bool
+    Field field_1F5: Bool
+    Field field_1F6: Bool
+    Field field_1F7: Bool
     Field field_1F8: Bool
     Field field_1F9: Bool
-    Field field_1FA: Bool
-    Field field_1FB: Bool
-    Field field_1FC: Bool
-    Field field_1FD: Bool
-    Field field_200: Int
-    Field field_204: Point
-    Field field_208: Bool
-    Field field_209: Bool
-    Field field_20A: Bool
-    Field field_20C: Int
-    Field field_210: Bool
+    Field field_1FC: Int
+    Field field_200: Point
+    Field field_204: Bool
+    Field field_205: Bool
+    Field field_206: Bool
+    Field field_208: Int
+    Field field_20C: Bool
+    Field field_210: Int
     Field field_214: Int
     Field field_218: Int
     Field field_21C: Int
     Field field_220: Int
     Field field_224: Int
     Field field_228: Int
-    Field field_22C: Int
-    Field field_230: Bool
-    Field field_231: Bool
-    Field field_232: Bool
+    Field field_22C: Bool
+    Field field_22D: Bool
+    Field field_22E: Bool
 
     Method AdjustLordImage: Void()
     End Method

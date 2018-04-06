@@ -44,6 +44,8 @@ Class Chest Extends Entity
     Field field_F8: Bool
     Field field_FA: Bool
     Field isLocked: Bool
+    
+    Field singleChoice_: Bool
 
     Method AddKeyToContents: Void()
     End Method
