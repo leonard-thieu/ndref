@@ -44,15 +44,15 @@ Class LevelObject
                 Local trapObj := New TrapObject(trap.x, trap.y, trap.type)
 
                 Select trap.type
-                    Case 1
+                    Case TrapType.BounceTrap
                         Local bounceTrap := BounceTrap(trap)
                         If bounceTrap.field_106 Or bounceTrap.field_107
                             trapObj.subtype = TrapType.BombTrap
                         End If
-                    Case 8
+                    Case TrapType.TravelRune
                         Local travelRune := TravelRune(trap)
                         trapObj.subtype = travelRune.subtype
-                    Case 10
+                    Case TrapType.FireTrap
                         Local fireTrap := FireTrap(trap)
                         trapObj.subtype = fireTrap.subtype
                 End Select
@@ -154,7 +154,7 @@ Class LevelObject
                     New BombTrap(trapObj.x, trapObj.y)
                 Case TrapType.ScatterTrap
                     New ScatterTrap(trapObj.x, trapObj.y)
-                Case TrapType.FireballTrap
+                Case TrapType.FireTrap
                     New FireTrap(trapObj.x, trapObj.y, trapObj.subtype, False)
                 Case TrapType.TravelRune
                     If Not Level.isLevelEditor

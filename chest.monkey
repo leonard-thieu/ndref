@@ -3,15 +3,15 @@ Import entity
 
 Class Chest Extends Entity
 
-	Const CHEST_COLOR_BLACK: Int = 2
-	Const CHEST_COLOR_BLUE: Int = 4
-	Const CHEST_COLOR_NONE: Int = 0
-	Const CHEST_COLOR_RED: Int = 1
-	Const CHEST_COLOR_WHITE: Int = 3
+    Const CHEST_COLOR_BLACK: Int = 2
+    Const CHEST_COLOR_BLUE: Int = 4
+    Const CHEST_COLOR_NONE: Int = 0
+    Const CHEST_COLOR_RED: Int = 1
+    Const CHEST_COLOR_WHITE: Int = 3
 
-	Global chestList: List<Chest>
-	Global lastChestColor: Int
-	Global lastChestColor2: Int
+    Global chestList: List<Chest>
+    Global lastChestColor: Int
+    Global lastChestColor2: Int
 
     Function ClearAllSingleChoiceChests: Void(except: Object)
     End Function

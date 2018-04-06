@@ -84,11 +84,11 @@ Class RenderableObject
     End Method
     
     Method Die: Void()
-    	If Not Self.dead
-    		RenderableObject.renderableObjectList.RemoveEach(Self)
-    		RenderableObject.lightSourceList.RemoveEach(Self)
-    		Self.dead = True
-    	End If
+        If Not Self.dead
+            RenderableObject.renderableObjectList.RemoveEach(Self)
+            RenderableObject.lightSourceList.RemoveEach(Self)
+            Self.dead = True
+        End If
     End Method
     
     Method GetLocation: Point()

@@ -6,7 +6,7 @@ Import point
 
 Class Util
 
-	Global storedSeed: Int
+    Global storedSeed: Int
 
     Function AddMetric: Void(key: Int, value: Int, send: Bool, blocking: Bool, isNumber: Bool)
     End Function

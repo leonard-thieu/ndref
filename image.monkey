@@ -1,5 +1,5 @@
 Class Image
 
-	Global DefaultFlags: Int
+    Global DefaultFlags: Int
 
 End Class

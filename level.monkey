@@ -1,5 +1,7 @@
 Import monkey.map
 Import monkey.random
+Import beastmaster
+Import bossmaster
 Import chest
 Import controller_game
 Import crate
@@ -7,6 +9,8 @@ Import entity
 Import exitmap
 import gamedata
 Import level_object
+Import merlin
+Import npc
 Import particles
 Import portal_seg
 Import rect
@@ -783,6 +787,19 @@ Class Level
                         End If
                     End If
                 End For
+
+                Local npc: NPC
+                Select controller_game.currentLevel
+                    Case 1
+                        npc = New Beastmaster()
+                        npc.Init(0, 0, 0, "", "", 0, 0) ' TODO: Determine args
+                    Case 2
+                        npc = New Merlin()
+                        npc.Init(0, 0, 0, "", "", 0, 0) ' TODO: Determine args
+                    Case 3
+                        npc = New Bossmaster()
+                        npc.Init(0, 0, 0, "", "", 0, 0) ' TODO: Determine args
+                End Select
             End If
 
             ' TODO: Place shop
@@ -791,7 +808,8 @@ Class Level
 
             Level.PadWalls()
             Level.ProcessSpecialRoom()
-            Level.CreateIndestructibleBorder()
+
+            If Not Level.isLevelEditor Then Level.CreateIndestructibleBorder()
 
             If Level.isHardcoreMode
                 Level.chestsStillToPlace = 1
@@ -1366,16 +1384,12 @@ Class Level
             Local x := rdExit.x + Util.RndIntRange(0, rdExit.width - 1, True, -1)
             Local y := rdExit.y + Util.RndIntRange(0, rdExit.height - 1, True, -1)
             Local tile := Level.GetTileAt(x, y)
-            If tile <> Null
-                If Not tile.GetType() And Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
-                    Local tileBelow := Level.GetTileAt(x, y + 1)
-                    If tileBelow <> Null
-                        If Not tileBelow.IsWall(False, False, False, False)
-                            Level.CreateExit(x, y)
+            If tile And Not tile.GetType() And Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
+                Local tileBelow := Level.GetTileAt(x, y + 1)
+                If tileBelow And Not tileBelow.IsWall(False, False, False, False)
+                    Level.CreateExit(x, y)
 
-                            Return True
-                        End If
-                    End If
+                    Return True
                 End If
             End If
         End For

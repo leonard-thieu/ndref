@@ -3,8 +3,8 @@ Import entity
 
 Class Item Extends Entity
 
-	Global lastChestItemClass1: String
-	Global lastChestItemClass2: String
+    Global lastChestItemClass1: String
+    Global lastChestItemClass2: String
     Global seenItems: StringMap<Int>
     Global pickupList: List<Item>
 
