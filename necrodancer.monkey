@@ -1,28 +1,101 @@
-Import monkey.map
+Strict
+
+Import beastmaster
+Import beatanimationdata
 Import bombtrap
+Import bossmaster
+Import bouncer
+Import bouncetrap
+Import chest
+Import confusetrap
 Import controller_game
-Import entity
+Import crate
+Import exitmap
+Import firetrap
+Import gargoyle
+Import image
+Import item
 Import level
 Import level_object
-Import renderable_object
-Import rng
-Import util
+Import medic
+Import merlin
+Import particles
 Import player
+Import player_health
+Import point
+Import portal_seg
+Import rect
+Import rect_room
+Import rng
+Import room_with_door
+Import salechest
+Import scattertrap
+Import shopkeeper
+Import shrine
+Import slowdowntrap
+Import speeduptrap
+Import spells
+Import sprite
+Import swarm_sarcophagus
+Import tile
+Import tiledata
+Import trapdoor
+Import travelrune
+Import util
+Import xml
 
-Function Main()
-    Local x: Float = Rnd(1, 3)
-
+Function Main: Int()
+    (New Beastmaster()).NoTrim()
+    (New BeatAnimationData())
     (New BombTrap(0, 0)).NoTrim()
-    (New RenderableObject()).NoTrim()
-    (New Entity()).NoTrim()
+    (New Bossmaster()).NoTrim()
+    (New Bouncer())
+    (New BounceTrap()).NoTrim()
+    (New Chest()).NoTrim()
+    (New ConfuseTrap()).NoTrim()
+    (New Crate()).NoTrim()
+    (New ExitMap())
+    (New FireTrap()).NoTrim()
+    (New Gargoyle())
+    (New Image())
+    (New Item()).NoTrim()
     (New Level()).NoTrim()
     (New LevelObject(0, 0, 0, False, Null)).NoTrim()
-    (New RNG()).NoTrim()
-    (New Util()).NoTrim()
-    (New Trap()).NoTrim()
+    (New Medic()).NoTrim()
+    (New Merlin()).NoTrim()
+    (New ParticleSystem())
     (New Player()).NoTrim()
-    currentZone = 0
-    currentLevel = 0
+    (New PlayerHealth())
+    (New Point()).NoTrim()
+    (New Point2())
+    (New PortalSeg())
+    (New Rect())
+    (New RectRoom())
+    (New RNG()).NoTrim()
+    (New RoomWithDoor())
+    (New SaleChest()).NoTrim()
+    (New ScatterTrap()).NoTrim()
+    (New Shopkeeper()).NoTrim()
+    (New Shrine()).NoTrim()
+    (New SlowDownTrap()).NoTrim()
+    (New SpeedUpTrap()).NoTrim()
+    (New Spells())
+    (New SpikeTrap()).NoTrim()
+    (New Sprite()).NoTrim()
+    (New StackEx<Int>())
+    (New SwarmSarcophagus()).NoTrim()
+    (New Tile()).NoTrim()
+    (New TileData())
+    (New TrapDoor()).NoTrim()
+    (New TravelRune()).NoTrim()
+    (New TeleportTrap()).NoTrim()
+    (New Util()).NoTrim()
+    (New XMLNode()).NoTrim()
+    
+    controller_game.currentZone = 0
+    controller_game.currentLevel = 0
+
+    Return 0
 End
 
 Class Doppelganger End Class
@@ -245,7 +318,7 @@ Class IntSet Extends Set End Class
 
 Class Stack End Class
 Class IntStack Extends Stack End Class
-Class StackEx Extends Stack End Class
+'Class StackEx Extends Stack End Class
 
 Class Stack6 End Class
 Class StackEx3 Extends Stack6 End Class

@@ -218,6 +218,10 @@ Class Item Extends Entity
     Method GetValue: Int()
     End Method
 
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Return False
+    End Method
+
     Method IsItemOfClass: Bool(itemClass: Int)
     End Method
 

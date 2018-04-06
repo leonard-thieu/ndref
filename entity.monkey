@@ -2,7 +2,7 @@ Import monkey.list
 Import renderableobject
 Import sprite
 
-Class Entity Extends RenderableObject
+Class Entity Extends RenderableObject Abstract
 
     Global anyPlayerHaveNazarCharmCached: Bool
     Global anyPlayerHaveNazarCharmCachedFrame: Int
@@ -153,6 +153,8 @@ Class Entity Extends RenderableObject
 
     Method Freeze: Bool(duration: Int, stone: Bool)
     End Method
+
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
 
     Method IsConfused: Bool()
     End Method

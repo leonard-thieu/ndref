@@ -339,18 +339,18 @@ Class Tile Extends RenderableObject
     Field type: Int
     Field tileset: Int = -1
     Field isCracked: Bool
-    Field field_64: Int
+    Field torch: Int
     Field sprite: Sprite
     Field field_6C: Object
     Field field_70: Object
     Field field_74: String
-    Field field_78: Int = -1
+    Field metalDoorState: Int = -1
     Field field_7C: Int = 1
     Field field_80: Bool
     Field field_81: Bool
     Field sprite2: Sprite
     Field field_88: Int
-    Field field_8C: Bool
+    Field isNotDirt: Bool
     Field field_90: Int
     Field field_94: Int
     Field field_98: Int
@@ -498,15 +498,20 @@ Class Tile Extends RenderableObject
     End Method
 
     Method HasTorch: Bool()
+        Return Not (Self.torch = 0)
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
     End Method
 
     Method IsConductorWall: Bool()
+        Return (TileType.ConductorWallPipe1 <= Self.type) And (Self.type <= TileType.ConductorWallPipe4)
     End Method
 
     Method IsDirt: Bool()
+        If Self.IsDoor() Then Return False
+
+        Return Not Self.isNotDirt
     End Method
 
     Method IsDoor: Bool()
@@ -515,19 +520,28 @@ Class Tile Extends RenderableObject
             Case TileType.Door
             Case TileType.LockedDoor
                 Return True
+            Case TileType.MetalDoor
+                Return Not Self.IsMetalDoorOpen()
             Default
-                If Self.type = TileType.MetalDoor
-                    Return Not Self.IsMetalDoorOpen()
-                End If
-
                 Return False
         End Select
     End Method
 
     Method IsEarth: Bool()
+        Return Self.type = TileType.Earth
     End Method
 
     Method IsExit: Bool()
+        Select Self.type
+            Case TileType.LockedStairs
+            Case TileType.Stairs
+            Case TileType.LockedStairsMiniboss
+            Case TileType.LockedStairs3Diamonds
+            Case TileType.LockedStairs9Diamonds
+                Return True
+            Default
+                Return False
+        End Select
     End Method
 
     Method IsFloor: Bool()
@@ -535,7 +549,7 @@ Class Tile Extends RenderableObject
             Return True
         End If
 
-        Return Self.type <= 24
+        Return Self.type <= 24 ' Max index of floor tiles
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
@@ -545,7 +559,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsMetalDoorOpen: Bool()
-        Return Self.field_78 <> -1
+        Return Self.metalDoorState <> -1
     End Method
 
     Method IsNearNightmare: Bool()
@@ -555,15 +569,45 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsNormalFloor: Bool()
+        Select Self.type
+            Case TileType.Floor
+            Case TileType.Floor2
+            Case TileType.Floor3
+            Case TileType.Floor4
+            Case TileType.ShopFloor
+                Return True
+            Case TileType.MetalDoor
+                Return Self.IsMetalDoorOpen()
+            Default
+                Return False
+        End Select
     End Method
 
     Method IsShopWall: Bool()
+        Select Self.type
+            Case TileType.CrackedShopWall
+            Case TileType.ShopWall
+                Return True
+            Default
+                Return False
+        End Select
     End Method
 
     Method IsStairs: Bool()
+        Select Self.type
+            Case TileType.LockedStairs
+            Case TileType.Stairs
+            Case TileType.LockedStairsMiniboss
+            Case TileType.LockedStairs3Diamonds
+            Case TileType.LockedStairs9Diamonds
+                Return True
+            Default
+                Return False
+        End Select
     End Method
 
     Method IsTileset: Bool(t: Int)
+        Return Self.GetTileset() = t
     End Method
 
     Method IsVisible: Bool()
@@ -573,9 +617,17 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsWire: Bool()
+        Select Self.type
+            Case TileType.Wire
+            Case TileType.WiredDoor
+                Return True
+            Default
+                Return False
+        End Select
     End Method
 
     Method IsZone4Dirt: Bool()
+        Return Self.IsTileset(4) And Self.IsDirt()
     End Method
 
     Method LoadDiamond: Object()
@@ -736,7 +788,7 @@ Class TileType
     Const NecroDancerSpeaker2: Int = 116
     Const NecroDancerSpeaker3: Int = 117
     Const WiredDoor: Int = 118
-    Const Unknown119: Int = 119
+    Const Earth: Int = 119
     Const ConductorWallPipe1: Int = 120
     Const ConductorWallPipe2: Int = 121
     Const ConductorWallPipe3: Int = 122

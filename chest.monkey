@@ -59,6 +59,10 @@ Class Chest Extends Entity
     Method Die: Void()
     End Method
 
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Return False
+    End Method
+
     Method Open: Bool(player: Object)
     End Method
 

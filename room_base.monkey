@@ -1,3 +1,3 @@
-Class RoomBase
+Class RoomBase Abstract
 
 End Class

@@ -66,19 +66,19 @@ Class XMLNode
     Method RemoveChild: Void(child: Object)
     End Method
 
-    Method SetAttribute: Void(id: Int)
+    Method SetAttribute: Void(id: String)
     End Method
 
-    Method SetAttribute: Void(id: Int, value: Bool)
+    Method SetAttribute: Void(id: String, value: Bool)
     End Method
 
-    Method SetAttribute: Void(id: Int, value: Int)
+    Method SetAttribute: Void(id: String, value: Int)
     End Method
 
-    Method SetAttribute: Void(id: Int, value: Float)
+    Method SetAttribute: Void(id: String, value: Float)
     End Method
 
-    Method SetAttribute: Void(id: Int, value: Int)
+    Method SetAttribute: Void(id: String, value: String)
     End Method
 
     Method NoTrim()
@@ -86,11 +86,11 @@ Class XMLNode
         Export(0, Null, 0)
         ExportHack(0)
         Free()
-        GetAttribute(0)
-        GetAttribute(0, False)
-        GetAttribute(0, 0)
-        GetAttribute(0, 0)
-        GetAttribute(0, 0)
+        GetAttribute("")
+        GetAttribute("", False)
+        GetAttribute("", 0)
+        GetAttribute("", 0.0)
+        GetAttribute("", "")
         GetChild()
         GetChild(0)
         GetChild(0, 0)
@@ -104,11 +104,11 @@ Class XMLNode
         HasAttribute(0)
         RemoveAttribute(0)
         RemoveChild(Null)
-        SetAttribute(0)
-        SetAttribute(0, False)
-        SetAttribute(0, 0)
-        SetAttribute(0, 0)
-        SetAttribute(0, 0)
+        SetAttribute("")
+        SetAttribute("", False)
+        SetAttribute("", 0)
+        SetAttribute("", 0.0)
+        SetAttribute("", "")
     End Method
 
 End Class

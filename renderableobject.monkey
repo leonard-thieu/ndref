@@ -2,7 +2,7 @@ Import monkey.list
 Import entity
 Import point
 
-Class RenderableObject
+Class RenderableObject Abstract
     
     Global deletingAll: Bool
     Global lightSourceList: List<RenderableObject>
@@ -59,8 +59,8 @@ Class RenderableObject
     Field field_1C: Bool
     Field x2: Int
     Field y2: Int
-    Field field_28: Int
-    Field field_2C: Int
+    Field lMin: Int
+    Field lMax: Int
     Field field_30: Bool
     Field field_31: Bool
     Field field_32: Bool
@@ -69,8 +69,8 @@ Class RenderableObject
     Field field_3C: Bool
     Field field_3D: Bool
     Field field_3E: Bool
-    Field field_3F: Bool
-    Field field_40: Int
+    Field isLight: Bool
+    Field lMax2: Int
     Field field_44: Bool
     Field field_48: Float = 1.0
     Field field_4C: Bool
@@ -81,6 +81,12 @@ Class RenderableObject
     Field field_54: Float = 1.0
     
     Method ActivateLight(lMin: Float, lMax: Float)
+        Self.isLight = True
+        Self.lMin = lMin
+        Self.lMax = lMax
+        Self.lMax2 = lMax
+
+        RenderableObject.lightSourceList.AddLast(Self)
     End Method
     
     Method Die: Void()
@@ -90,6 +96,8 @@ Class RenderableObject
             Self.dead = True
         End If
     End Method
+
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
     
     Method GetLocation: Point()
     End Method

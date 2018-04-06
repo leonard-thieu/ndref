@@ -1,7 +1,7 @@
 Import monkey.list
 Import entity
 
-Class Trap Extends Entity
+Class Trap Extends Entity Abstract
 
     Global trapList: TrapList
 

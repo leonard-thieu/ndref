@@ -4,7 +4,7 @@ Import beatanimationdata
 Import mobileentity
 Import point
 
-Class Enemy Extends MobileEntity
+Class Enemy Extends MobileEntity Abstract
 
     Global enemiesFearfulDuration: Int
     Global enemiesPaused: Bool

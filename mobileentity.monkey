@@ -1,6 +1,6 @@
 Import entity
 
-Class MobileEntity Extends Entity
+Class MobileEntity Extends Entity Abstract
 
     Method New()
         Super.New()

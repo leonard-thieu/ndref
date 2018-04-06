@@ -504,7 +504,7 @@ Class Player Extends MobileEntity
     Method Heal: Void(amt: Int, fromFood: Bool, playVO: Bool, fromMagicFood: Bool)
     End Method
 
-    Method Hit: Bool(damageSource: Int, damage: Int, dir: Int, hitter: Object, hitAtLastTile: Bool, hitType: Int)
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
     End Method
 
     Method ImmediatelyMoveTo: Void(xVal: Int, yVal: Int, fromKeyboard: Bool, fromClampedEnemy: Bool, fromBounceTrap: Bool, fromCourage: Bool, overrideStairs: Bool)

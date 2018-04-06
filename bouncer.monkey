@@ -1,4 +1,5 @@
 Import monkey.random
+Import util
 
 Class Bouncer
 

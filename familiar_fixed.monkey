@@ -1,6 +1,6 @@
 Import entity
 
-Class FamiliarFixed Extends Entity
+Class FamiliarFixed Extends Entity Abstract
 
     Field field_F4: Int
     Field field_F8: Int

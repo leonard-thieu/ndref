@@ -1,3 +1,3 @@
-Class Tweenable
+Class Tweenable Abstract
 
 End Class

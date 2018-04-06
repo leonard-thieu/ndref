@@ -71,7 +71,7 @@ Class Shrine Extends Entity
     Method GiveOutPainItem: Void(targetX: Int, targetY: Int)
     End Method
 
-    Method Hit: Bool(damageSource: Int, damage: Int, dir: Int, hitter: Object, hitAtLastTile: Bool, hitType: Int)
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
     End Method
 
     Method LoadBombImage: Void()

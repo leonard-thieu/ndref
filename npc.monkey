@@ -1,6 +1,6 @@
 Import enemy
 
-Class NPC Extends Enemy
+Class NPC Extends Enemy Abstract
 
     Field field_234: Bool
     Field field_235: Bool
