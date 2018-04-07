@@ -133,6 +133,7 @@ Class BounceTrap Extends Trap
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         GetFrameToShow()
         Rotate()
         RotateDir(0, False)

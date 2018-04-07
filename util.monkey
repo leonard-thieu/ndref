@@ -218,7 +218,7 @@ Class Util
             seed = random.Seed
             Util.storedSeed = random.Seed
         End If
-        
+
         Local rndVal := random.Rnd(low, high + 1)
 
         Return rndVal

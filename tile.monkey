@@ -58,8 +58,8 @@ Class Tile Extends RenderableObject
                         Local adjacentTile := Level.GetTileAt(adjacentLocation.x, adjacentLocation.y)
                         If adjacentTile
                             Local adjacentTileType := adjacentTile.GetType()
-                            If adjacentTileType = TileType.Wire Or 
-                               adjacentTileType = TileType.WiredDoor Or 
+                            If adjacentTileType = TileType.Wire Or
+                               adjacentTileType = TileType.WiredDoor Or
                                adjacentTile.IsExit()
                                tile.AddWireConnection(i)
                             End If
@@ -128,7 +128,7 @@ Class Tile Extends RenderableObject
                             sprite.InitSprite("level/TEMP_floor_water.png", 0, 0, 3, 6)
                         Else
                             Select Self.type
-                                Case TileType.HotCoals 
+                                Case TileType.HotCoals
                                     sprite.InitSprite("level/TEMP_floor_hotcoal.png", 0, 0, 3, 6)
                                 Case TileType.Ice
                                     sprite.InitSprite("level/TEMP_floor_ice.png", 0, 0, 3, 6)
@@ -170,13 +170,13 @@ Class Tile Extends RenderableObject
         End If
 
         Select Self.type
-            Case TileType.ShopWall 
+            Case TileType.ShopWall
                 sprite.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
                 Self.field_7C = 4
-            Case TileType.CrackedShopWall 
+            Case TileType.CrackedShopWall
                 sprite.InitSprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
                 Self.field_7C = 4
-            Case TileType.BossWall 
+            Case TileType.BossWall
                 Select currentLevel
                     Case -494
                     Case 5
@@ -195,7 +195,7 @@ Class Tile Extends RenderableObject
                 Local frame := Util.RndIntRange(0, 4, False, -1)
                 sprite.SetFrame(frame)
                 Self.field_80 = True
-            Case TileType.UnbreakableWall 
+            Case TileType.UnbreakableWall
                 sprite.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
                 Self.field_80 = True
             Case TileType.LevelBorder
@@ -236,12 +236,12 @@ Class Tile Extends RenderableObject
 
                 Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
                 Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
-                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or 
+                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
                    (tileRight And tileRight.IsWall(False, False, False, False))
                     sprite2.InitSprite("level/door_metal_front.png", 24, 29, 4, Image.DefaultFlags)
                 Else
                     sprite2.InitSprite("level/door_metal_side.png", 11, 39, 2, Image.DefaultFlags)
-                End If                
+                End If
             Case TileType.WiredDoor
             Case TileType.Door
                 sprite2 = sprite
@@ -249,7 +249,7 @@ Class Tile Extends RenderableObject
 
                 Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
                 Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
-                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or 
+                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
                    (tileRight And tileRight.IsWall(False, False, False, False))
                     sprite2.InitSprite("level/door_front.png", 0, 0, 1, Image.DefaultFlags)
                 Else
@@ -263,7 +263,7 @@ Class Tile Extends RenderableObject
 
                 Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
                 Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
-                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or 
+                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
                    (tileRight And tileRight.IsWall(False, False, False, False))
                     sprite2.InitSprite("level/door_locked_front.png", 0, 0, 1, Image.DefaultFlags)
                 Else
@@ -280,7 +280,7 @@ Class Tile Extends RenderableObject
 
         Self.sprite = sprite
         Self.sprite2 = sprite2
-        
+
         ' TODO: Missing stuff here
 
         'LABEL_118
@@ -408,7 +408,7 @@ Class Tile Extends RenderableObject
     Field field_164: Int
     Field field_168: Int
     Field field_16C: Float = -1.0
-    
+
     Field hasTorch: Bool
 
     Method AddFloorOverlayImage: Void(imageName: Int)
@@ -667,6 +667,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         AnyPlayerHaveCompass()
         AnyPlayerHaveMonocle()
         AnyPlayerHaveRingOfLuck()

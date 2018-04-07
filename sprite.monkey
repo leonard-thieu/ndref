@@ -136,6 +136,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         DrawSpriteText(0, 0, 0)
         GetNextTempImageName()
         LoadImageFromPath(0, False)

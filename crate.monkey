@@ -98,6 +98,7 @@ Class Crate Extends Enemy
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         ProcessFallenCrates()
         SelectItem(0)
         DecideIfStayingEmpty()

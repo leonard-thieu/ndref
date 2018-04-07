@@ -73,6 +73,7 @@ Class Chest Extends Entity
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         ClearAllSingleChoiceChests(Null)
         GetChestAt(0, 0)
         GetEmptyNonSecretChest()

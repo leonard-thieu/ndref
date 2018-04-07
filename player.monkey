@@ -691,6 +691,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         ActuallyPlayVO(0, Null)
         AddCoins(0)
         AllPlayersPerished()

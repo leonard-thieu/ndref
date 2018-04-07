@@ -394,6 +394,7 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         AddTagsToEnemyName(0, 0)
         ApplyMonkeyPawAll()
         Charm(0, 0)

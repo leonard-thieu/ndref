@@ -2,10 +2,10 @@ Import point
 
 Class Rect
 
-    Method GetRight: Object()
+    Method GetRight: Int()
     End
     
-    Method GetBottom: Object()
+    Method GetBottom: Int()
     End
     
     Method GetCenter: Object()

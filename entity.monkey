@@ -194,6 +194,7 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         AnyPlayerHaveCirclet()
         AnyPlayerHaveCircletOrGlassTorch()
         AnyPlayerHaveForesightTorch()

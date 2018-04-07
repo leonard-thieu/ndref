@@ -12,6 +12,7 @@ Import controller_game
 Import crate
 Import exitmap
 Import firetrap
+Import gamedata
 Import gargoyle
 Import image
 Import item
@@ -56,6 +57,7 @@ Function Main: Int()
     (New Crate()).NoTrim()
     (New ExitMap())
     (New FireTrap()).NoTrim()
+    (New GameData()).NoTrim()
     (New Gargoyle())
     (New Image())
     (New Item()).NoTrim()
@@ -91,7 +93,7 @@ Function Main: Int()
     (New TeleportTrap()).NoTrim()
     (New Util()).NoTrim()
     (New XMLNode()).NoTrim()
-    
+
     controller_game.currentZone = 0
     controller_game.currentLevel = 0
 

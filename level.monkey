@@ -32,7 +32,7 @@ Import xml
 Import tiledata
 
 Class Level
-    
+
     Global addKeyInSecretChest: Bool
     Global allCharsCompletion: Int
     Global allCharsCompletionDLC: Int
@@ -936,7 +936,7 @@ Class Level
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
         Local withinConstraints := False
-        
+
         If currentZone = 1 Or currentZone = 2 Or currentZone = 3
             If Level.levelConstraintY <= yVal And Level.levelConstraintX <= xVal
                 withinConstraints = True
@@ -1147,7 +1147,7 @@ Class Level
                                 'goto LABEL_169
                             End If
                         End While
-                        
+
                         yRem -= 1
 
                         tiles.AddLast(New TileData(x, y, wallType))
@@ -1164,7 +1164,7 @@ Class Level
             Case 1
                 'LABEL_108
                 x = xVal
-                While x <= xMax 
+                While x <= xMax
                     tiles.AddLast(New TileData(x, yVal, wallType))
                     tiles.AddLast(New TileData(x, yMax, wallType))
                     x += 1
@@ -1509,6 +1509,10 @@ Class Level
     Function GetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
     End Function
 
+    Function GetMaxDepth: Int()
+        Return 5
+    End Function
+
     Function GetNPCSaleItem: Int(npcNum: Int, slotNum: Int, exclude1: String, exclude2: String)
     End Function
 
@@ -1595,19 +1599,38 @@ Class Level
     Function IsCorridorFloorOrDoorAdjacent: Bool(xVal: Int, yVal: Int)
     End Function
 
+    Function IsCorridorOrRoomWallAt: Bool(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And tile.IsWall(False, True, False, False)
+    End Function
+
     Function IsCrackedWallAdjacent: Bool(xVal: Int, yVal: Int)
     End Function
 
     Function IsCrackedWallAt: Bool(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And tile.isCracked
     End Function
 
     Function IsDoorAdjacent: Bool(x: Int, y: Int)
     End Function
 
     Function IsDoorAt: Bool(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And tile.IsDoor()
+    End Function
+
+    Function IsExit: Bool(xVal: Int, yVal: Int)
+        Return Not (Level.GetExitValue(xVal, yVal).x = -4)
     End Function
 
     Function IsExitAt: Bool(x: Int, y: Int)
+        Local tile := Level.GetTileAt(x, y)
+
+        Return tile And tile.IsExit()
     End Function
 
     Function IsFinalBoss: Bool()
@@ -1617,6 +1640,9 @@ Class Level
     End Function
 
     Function IsFloorAt: Bool(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And tile.IsFloor()
     End Function
 
     Function IsFreeLevelForSpecialRoom: Bool(tempLevel: Int, tempDepth: Int)
@@ -1631,6 +1657,18 @@ Class Level
                (tempLevel = Level.placePawnbrokerOnLevel And tempDepth = Level.placePawnbrokerOnDepth)
     End Function
 
+    Function IsHotCoalAt(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And (tile.GetType() = TileType.HotCoals)
+    End Function
+
+    Function IsIceAt(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And (tile.GetType() = TileType.Ice)
+    End Function
+
     Function IsIcePartOfLevel: Bool(xVal: Int, yVal: Int)
     End Function
 
@@ -1638,6 +1676,9 @@ Class Level
     End Function
 
     Function IsNormalFloorAt: Bool(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And tile.IsNormalFloor()
     End Function
 
     Function IsPassable: Bool()
@@ -1655,6 +1696,12 @@ Class Level
     End Function
 
     Function IsSurroundedByDestructibleWalls: Bool(xVal: Int, yVal: Int)
+    End Function
+
+    Function IsTileEmpty(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile And (tile.GetType() = TileType.None)
     End Function
 
     Function IsTileTypeAdjacent: Bool(xVal: Int, yVal: Int, tempType: Int)
@@ -1860,10 +1907,10 @@ Class Level
         Local yBelow: Int
 
         If roomToAttachTo
-            Local xMax := roomToAttachTo.x + roomToAttachTo.width
-            Local yMax := roomToAttachTo.y + roomToAttachTo.height
-
-            If roomToAttachTo.x And xMax And roomToAttachTo.y And yMax
+            If roomToAttachTo.x And
+               roomToAttachTo.x + roomToAttachTo.width And
+               roomToAttachTo.y And
+               roomToAttachTo.y + roomToAttachTo.height
                 Local xOff: Int
                 Local yOff: Int
 
@@ -2005,18 +2052,18 @@ Class Level
                 Else
                     If Util.RndBool(True)
                         tile = Level.GetTileAt(Level.carveX, Level.carveY)
-                        If Not (tile and tile.IsFloor())
+                        If Not (tile And tile.IsFloor())
                             New Tile(Level.carveX, Level.carveY, TileType.DirtWall2, True, -1)
                         End If
 
                         If notHoriz
                             tile = Level.GetTileAt(Level.carveX, Level.carveY - 1)
-                            If Not (tile and tile.IsFloor())
+                            If Not (tile And tile.IsFloor())
                                 New Tile(Level.carveX, Level.carveY - 1, TileType.DirtWall2, True, -1)
                             End If
 
                             tile = Level.GetTileAt(Level.carveX, Level.carveY + 1)
-                            If Not (tile and tile.IsFloor())
+                            If Not (tile And tile.IsFloor())
                                 New Tile(Level.carveX, Level.carveY + 1, TileType.DirtWall2, True, -1)
                             End If
 
@@ -2030,12 +2077,12 @@ Class Level
                             End If
                         Else
                             tile = Level.GetTileAt(Level.carveX - 1, Level.carveY)
-                            If Not (tile and tile.IsFloor())
+                            If Not (tile And tile.IsFloor())
                                 New Tile(Level.carveX - 1, Level.carveY, TileType.DirtWall2, True, -1)
                             End If
 
                             tile = Level.GetTileAt(Level.carveX + 1, Level.carveY)
-                            If Not (tile and tile.IsFloor())
+                            If Not (tile And tile.IsFloor())
                                 New Tile(Level.carveX + 1, Level.carveY, TileType.DirtWall2, True, -1)
                             End If
 
@@ -2057,18 +2104,18 @@ Class Level
 
                 If Util.RndBool(True)
                     tile = Level.GetTileAt(Level.carveX, Level.carveY)
-                    If Not (tile and tile.IsFloor())
+                    If Not (tile And tile.IsFloor())
                         New Tile(Level.carveX, Level.carveY, TileType.DirtWall2, True, -1)
                     End If
 
                     If notHoriz
                         tile = Level.GetTileAt(Level.carveX, Level.carveY - 1)
-                        If Not (tile and tile.IsFloor())
+                        If Not (tile And tile.IsFloor())
                             New Tile(Level.carveX, Level.carveY - 1, TileType.DirtWall2, True, -1)
                         End If
 
                         tile = Level.GetTileAt(Level.carveX, Level.carveY + 1)
-                        If Not (tile and tile.IsFloor())
+                        If Not (tile And tile.IsFloor())
                             New Tile(Level.carveX, Level.carveY + 1, TileType.DirtWall2, True, -1)
                         End If
 
@@ -2082,12 +2129,12 @@ Class Level
                         End If
                     Else
                         tile = Level.GetTileAt(Level.carveX - 1, Level.carveY)
-                        If Not (tile and tile.IsFloor())
+                        If Not (tile And tile.IsFloor())
                             New Tile(Level.carveX - 1, Level.carveY, TileType.DirtWall2, True, -1)
                         End If
 
                         tile = Level.GetTileAt(Level.carveX + 1, Level.carveY)
-                        If Not (tile and tile.IsFloor())
+                        If Not (tile And tile.IsFloor())
                             New Tile(Level.carveX + 1, Level.carveY, TileType.DirtWall2, True, -1)
                         End If
 
@@ -2174,7 +2221,7 @@ Class Level
                         For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
                             Local pendingTileX := pendingTilesOnXNode.Key()
                             Local pendingTileY := pendingTileNode.Key()
-                            
+
                             Local tileAt := Level.GetTileAt(pendingTileX, pendingTileY)
                             If tileAt Then tileAt.Die()
 
@@ -2223,7 +2270,7 @@ Class Level
                             New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
                         Else
                             New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
-                            
+
                             If Not wideCorridor
                                 'goto LABEL_85
                             End If
@@ -2580,15 +2627,19 @@ Class Level
         IsBossLevel()
         IsCorridorFloorAt(0, 0)
         IsCorridorFloorOrDoorAdjacent(0, 0)
+        IsCorridorOrRoomWallAt(0, 0)
         IsCrackedWallAdjacent(0, 0)
         IsCrackedWallAt(0, 0)
         IsDoorAdjacent(0, 0)
         IsDoorAt(0, 0)
+        IsExit(0, 0)
         IsExitAt(0, 0)
         IsFinalBoss()
         IsFinalBossZone()
         IsFloorAt(0, 0)
         IsFreeLevelForSpecialRoom(0, 0)
+        IsHotCoalAt(0, 0)
+        IsIceAt(0, 0)
         IsIcePartOfLevel(0, 0)
         IsLockedExit(0, 0)
         IsNormalFloorAt(0, 0)
@@ -2597,6 +2648,7 @@ Class Level
         IsSecretRoom(0)
         IsSeededMode(0)
         IsSurroundedByDestructibleWalls(0, 0)
+        IsTileEmpty(0, 0)
         IsTileTypeAdjacent(0, 0, 0)
         IsTrapAdjacent(0, 0)
         IsTrapOrExitAbove(0, 0)
@@ -2707,7 +2759,7 @@ Class Level
         WantPenaltyBox()
         WidenCorridors()
     End Method
-    
+
 End
 
 Class MinibossTileData

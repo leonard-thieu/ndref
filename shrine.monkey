@@ -96,6 +96,7 @@ Class Shrine Extends Entity
     End Method
 
     Method NoTrim: Void()
+        Super.NoTrim()
         AddPendingShrinesToUsedList()
         GetAdjacentShrine(0, 0)
         GetHintText(0)
