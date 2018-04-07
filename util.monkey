@@ -3,7 +3,7 @@ Strict
 Import monkey.random
 Import controller_game
 Import level
-Import player
+Import player_class
 Import point
 
 Class Util
@@ -199,7 +199,7 @@ Class Util
     End Function
 
     Function IsCharacterActive: Bool(charID: Int)
-        For Local i := 0 To controller_game.numPlayers
+        For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
             If player And player.characterID = charID Then Return True
         End For
@@ -224,7 +224,7 @@ Class Util
     End Function
 
     Function IsWeaponlessCharacterActive: Bool()
-        For Local i := 0 To controller_game.numPlayers
+        For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
             If player.IsWeaponlessCharacter() Then Return True
         End For
@@ -233,7 +233,29 @@ Class Util
     End Function
 
     Function ParseTextSeed: Int(randSeedString: String)
-        Throw New Throwable()
+        Const NUMBER_9 := 57
+        Const NUMBER_0 := 48
+
+        Local seed := 0
+
+        If randSeedString.Length > 0
+            For Local i := 0 Until randSeedString.Length
+                seed += i * randSeedString[i]
+            End For
+
+            If randSeedString[0] <= NUMBER_9
+                For Local i := 1 Until randSeedString.Length
+                    If randSeedString[i] > NUMBER_9 Then Return seed
+                End For
+
+                seed = 0
+                For Local i := 0 Until randSeedString.Length
+                    seed = randSeedString[i] + 2 * (5 * seed) - NUMBER_0
+                End For
+            End If
+        End If
+
+        Return seed
     End Function
 
     Function ProcessDelayedStats: Void()
@@ -245,7 +267,7 @@ Class Util
     End Function
 
     Function RndBool: Bool(useSeed: Bool)
-        Throw New Throwable()
+        Return Util.RndIntRange(0, 1, useSeed, -1) = 0.0
     End Function
 
     Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int)
@@ -264,6 +286,8 @@ Class Util
         End If
 
         Local rndVal := random.Rnd(low, high + 1)
+
+        ' TODO: `replayConsistencyChannel` section
 
         Return rndVal
     End Function
@@ -385,7 +409,7 @@ Class Util
         IsNonMobileCollisionAt(0, 0)
         IsOnScreen(0, 0, 0, 0)
         IsWeaponlessCharacterActive()
-        ParseTextSeed(0)
+        ParseTextSeed("")
         ProcessDelayedStats()
         Pump()
         RndBool(False)

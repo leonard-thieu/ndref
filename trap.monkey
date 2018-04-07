@@ -5,7 +5,7 @@ Import entity
 
 Class Trap Extends Entity Abstract
 
-    Global trapList: TrapList
+    Global trapList: TrapList = New TrapList()
 
     Function FindRandomTrap: Trap()
         Throw New Throwable()

@@ -1,5 +1,6 @@
 Strict
 
+Import monkey.list
 Import beastmaster
 Import beatanimationdata
 Import bombtrap
@@ -21,7 +22,7 @@ Import level_object
 Import medic
 Import merlin
 Import particles
-Import player
+Import player_class
 Import player_health
 Import point
 Import portal_seg
@@ -45,7 +46,24 @@ Import travelrune
 Import util
 Import xml
 
+Global asd: List<Object>
+
 Function Main: Int()
+    controller_game.currentDepth = 1
+    controller_game.currentZone = 1
+    controller_game.currentLevel = 1
+
+    Local levelObj := New LevelObject(1, 0, 0, False, Null)
+    Level.CreateMap(Null)
+
+    asd.Clear()
+
+    NoTrim()
+
+    Return 0
+End Function
+
+Function NoTrim: Void()
     (New Beastmaster()).NoTrim()
     (New BeatAnimationData())
     (New BombTrap(0, 0)).NoTrim()
@@ -96,9 +114,7 @@ Function Main: Int()
 
     controller_game.currentZone = 0
     controller_game.currentLevel = 0
-
-    Return 0
-End
+End Function
 
 Class Doppelganger End Class
 Class ElectricArc End Class
@@ -223,7 +239,7 @@ Class KeyEnumerator2 End Class
 Class KeyEnumerator3 End Class
 Class KeyEnumerator4 End Class
 Class KeyEnumerator5 End Class
-Class List End Class
+'Class List End Class
 Class List3 End Class
 Class List4 End Class
 Class List5 End Class

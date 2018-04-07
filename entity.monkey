@@ -17,8 +17,8 @@ Class Entity Extends RenderableObject Abstract
     Global anyPlayerHaveCircletCached: Bool
     Global anyPlayerHaveCircletCachedFrame: Int
     Global entityCount: Int
-    Global deadEntityList: List<Entity>
-    Global entityList: List<Entity>
+    Global deadEntityList: List<Entity> = New List<Entity>()
+    Global entityList: List<Entity> = New List<Entity>()
 
     Function AnyPlayerHaveCirclet: Bool()
         Throw New Throwable()

@@ -14,17 +14,23 @@ Import textsprite
 
 Class Player Extends MobileEntity
 
+    Global AltHeadHeights: Int[] = []
+    Global AltHeadWidths: Int[] = []
     Global coinXOR: Int
     Global cursedHeart: Sprite
     Global cursedHeartEmpty: Sprite
     Global cursedHeartHalf: Sprite
+    Global debugHudForceFixedSpellSlots: Bool
+    Global debugHudForceNoAlignSpells: Bool
     Global debugHudForceShowDiamonds: Bool
+    Global goldenLuteTowards: Int
     Global heart: Sprite
     Global heartEmpty: Sprite
     Global heartHalf: Sprite
+    Global heartsLoaded: Int
     Global hudCoins: Sprite
     Global hudDiamonds: Sprite
-    Global lobbySaleItemMinCost: Int
+    Global lobbySaleItemMinCost: Int = 999999
     Global numCoins: Int
     Global numDiamonds: Int
     Global playerTempCount: Int

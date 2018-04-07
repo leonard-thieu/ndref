@@ -3,6 +3,7 @@ Strict
 Import monkey.map
 Import monkey.math
 Import monkey.random
+Import monkey.set
 Import beastmaster
 Import bossmaster
 Import chest
@@ -11,13 +12,17 @@ Import crate
 Import entity
 Import exitmap
 import gamedata
+Import intpointlist
+Import intpointset
 Import level_object
 Import merlin
 Import npc
 Import particles
+Import player_class
 Import portal_seg
 Import rect
 Import renderable_object
+Import rng
 Import room_with_door
 Import roomdata
 Import saleitem
@@ -36,35 +41,35 @@ Import xml
 Class Level
 
     Global addKeyInSecretChest: Bool
-    Global allCharsCompletion: Int
-    Global allCharsCompletionDLC: Int
-    Global arenaNum: Int
-    Global bossNumber: Int
+    Global allCharsCompletion: Bool[] = []
+    Global allCharsCompletionDLC: Bool[] = []
+    Global arenaNum: Int = -1
+    Global bossNumber: Int = 1
     Global carveX: Int
     Global carveY: Int
-    Global charactersJustUnlocked: Int
+    Global charactersJustUnlocked: List<Int> = New List<Int>()
     Global chestsStillToPlace: Int
     Global conjurer: Object
-    Global constMapLightValues: Int
+    Global constMapLightValues: Float[]
     Global continuedRunCoinScore: Int
     Global creatingMap: Int
-    Global currentFloorRNG: Int
+    Global currentFloorRNG: RNG
     Global dailyChallengeX: Int
     Global dailyChallengeY: Int
     Global deathlessWinCount: Int
     Global debugForceMonstrousShop: Int
     Global enemiesDropSingleCoinForThisLevel: Bool
     Global exitArrow: Int
-    Global exitArrowX: Int
-    Global exitArrowY: Int
-    Global exits: ExitMap
+    Global exitArrowX: Float
+    Global exitArrowY: Float
+    Global exits: ExitMap = New ExitMap()
     Global firstRoom: RoomData
-    Global flawlessVictory: Int
-    Global forceBoss: Int
+    Global flawlessVictory: Int = True
+    Global forceBoss: Int = -1
     Global hallwayZone5: Int
     Global isAllCharactersDLCMode: Bool
     Global isAllCharactersMode: Bool
-    Global isAllCharsRunNoItemsNoShrines: Bool
+    Global isAllCharsRunNoItemsNoShrines: Bool = True
     Global isAnyTar: Bool
     Global isBeastmaster: Bool
     Global isConductorLevel: Bool
@@ -81,15 +86,15 @@ Class Level
     Global isPhasingMode: Bool
     Global isRandomizerMode: Bool
     Global isReplaying: Bool
-    Global isRunNoItemsNoShrines: Bool
+    Global isRunNoItemsNoShrines: Bool = True
     Global isSeededMode: Bool
     Global isSoulMode: Bool
     Global isStoryMode: Bool
     Global isSwarmMode: Bool
     Global isTrainingMode: Bool
     Global justUnlocked: Int
-    Global lastCreatedRoomType: Int
-    Global lastTileCount: Int
+    Global lastCreatedRoomType: Int = -1
+    Global lastTileCount: Int = -1
     Global levelConstraintH: Int
     Global levelConstraintNum: Int
     Global levelConstraintW: Int
@@ -97,67 +102,67 @@ Class Level
     Global levelConstraintY: Int
     Global levelJustStarted: Bool
     Global lockedShopPlaced: Int
-    Global mapLightValues: Int
-    Global mapLightValuesCachedFrame: Int
+    Global mapLightValues: Float[]
+    Global mapLightValuesCachedFrame: Int = -1
     Global mapLightValuesInitialized: Int
     Global maxLevelMinimapX: Int
     Global maxLevelMinimapY: Int
     Global maxLevelX: Int
     Global maxLevelY: Int
-    Global mentorLevel: Int
-    Global minibossFormerWall: List<MinibossTileData>
+    Global mentorLevel: Int = -1
+    Global minibossFormerWall: List<MinibossTileData> = New List<MinibossTileData>()
     Global minimap: Int
     Global minLevelMinimapX: Int
     Global minLevelMinimapY: Int
     Global minLevelX: Int
     Global minLevelY: Int
-    Global nonDeterministicMSStart: Int
+    Global nonDeterministicMSStart: Int = -1
     Global outsideBossChamber: Int
     Global pacifismModeOn: Int
     Global pawnbroker: Object
     Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>
-    Global placeArenaOnDepth: Int
-    Global placeArenaOnLevel: Int
-    Global placeBloodShopOnDepth: Int
-    Global placeBloodShopOnLevel: Int
-    Global placeConjurerOnDepth: Int
-    Global placeConjurerOnLevel: Int
+    Global placeArenaOnDepth: Int = -1
+    Global placeArenaOnLevel: Int = -1
+    Global placeBloodShopOnDepth: Int = -1
+    Global placeBloodShopOnLevel: Int = -1
+    Global placeConjurerOnDepth: Int = -1
+    Global placeConjurerOnLevel: Int = -1
     Global placedAdditionalBlackChest: Int
     Global placedAdditionalRedChest: Int
     Global placedAdditionalWhiteChest: Int
     Global placedArena: Int
     Global placedUrnThisRun: Int
-    Global placeFoodShopOnDepth: Int
-    Global placeFoodShopOnLevel: Int
-    Global placeGlassShopOnDepth: Int
-    Global placeGlassShopOnLevel: Int
-    Global placeLordOnLevel: Int
-    Global placePawnbrokerOnDepth: Int
-    Global placePawnbrokerOnLevel: Int
+    Global placeFoodShopOnDepth: Int = -1
+    Global placeFoodShopOnLevel: Int = -1
+    Global placeGlassShopOnDepth: Int = -1
+    Global placeGlassShopOnLevel: Int = -1
+    Global placeLordOnLevel: Int = -1
+    Global placePawnbrokerOnDepth: Int = -1
+    Global placePawnbrokerOnLevel: Int = -1
     Global placeShrineOnLevel: Int
-    Global placeShrinerOnDepth: Int
-    Global placeShrinerOnLevel: Int
-    Global placeTransmogrifierOnDepth: Int
-    Global placeTransmogrifierOnLevel: Int
+    Global placeShrinerOnDepth: Int = -1
+    Global placeShrinerOnLevel: Int = -1
+    Global placeTransmogrifierOnDepth: Int = -1
+    Global placeTransmogrifierOnLevel: Int = -1
     Global playedVictoryCutscene: Int
     Global popUpController: Int
-    Global popUpType: Int
-    Global practiceEnemyNum: Int
-    Global previousLevelMinibosses: StackEx<Int>
-    Global previousLevelUnkilledStairLockingMinibosses: StackEx<Int>
+    Global popUpType: Int = -1
+    Global practiceEnemyNum: Int = -1
+    Global previousLevelMinibosses: StackEx<Int> = New StackEx<Int>()
+    Global previousLevelUnkilledStairLockingMinibosses: StackEx<Int> = New StackEx<Int>()
     Global quickRestart: Int
-    Global randSeed: Int
+    Global randSeed: Int = -1
     Global randSeedString: String
     Global replay: Int
-    Global rooms: List<RoomData>
+    Global rooms: List<RoomData> = New List<RoomData>()
     Global secretAtX: Int
     Global secretAtY: Int
     Global secretRockRoomPlaced: Int
     Global shopH: Int
     Global shopkeeperDead: Int
     Global shopkeeperFell: Bool
-    Global shopkeeperGhostDepth: Int
-    Global shopkeeperGhostLevel: Int
+    Global shopkeeperGhostDepth: Int = -1
+    Global shopkeeperGhostLevel: Int = -1
     Global shopW: Int
     Global shopX: Int
     Global shopY: Int
@@ -166,18 +171,18 @@ Class Level
     Global specialRoomEntranceX: Int
     Global specialRoomEntranceY: Int
     Global startedShrinerFight: Bool
-    Global tempTileWalk: Int
-    Global tileObstructionList: Int
+    Global tempTileWalk: List<Point> = New List<Point>()
+    Global tileObstructionList: IntPointList  = New IntPointList()
     Global tiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>
     Global todaysRandSeedString: String
     Global transmogrifier: Object
-    Global triggerList: List<Int>
-    Global usedBosses: Int
+    Global triggerList: List<Int> = New List<Int>()
+    Global usedBosses: IntSet = New IntSet()
     Global usedCustomMusic: Int
     Global wasMinibossLockedInBattle: Bool
-    Global wholeRunRNG: Int
-    Global zone3DividingLineX: Int
-    Global zone3DividingLineY: Int
+    Global wholeRunRNG: RNG
+    Global zone3DividingLineX: Float
+    Global zone3DividingLineY: Float
     Global zoneOrder: Int
 
     Function ActivateTrigger: Int(triggerNum: Int, ent: Entity, target: RenderableObject)
@@ -487,7 +492,8 @@ Class Level
     End Function
 
     Function CreateIndestructibleBorder: Void()
-        Throw New Throwable()
+        'Throw New Throwable()
+        ' TODO: Skipping this for testing purposes.
     End Function
 
     Function CreateJanitor: Void()
@@ -575,7 +581,7 @@ Class Level
             Level.placeFoodShopOnDepth = depth
         End If
 
-        If Level.placeArenaOnLevel = -1 And Not Util.IsCharacterActive(6)
+        If Level.placeArenaOnLevel = -1 And Not Util.IsCharacterActive(Character.Dove)
             Local level: Int = -1
             Local depth: Int = -1
 
@@ -615,7 +621,7 @@ Class Level
             Level.placeConjurerOnDepth = depth
         End If
 
-        If Level.placePawnbrokerOnLevel = -1 And Not Util.IsCharacterActive(5)
+        If Level.placePawnbrokerOnLevel = -1 And Not Util.IsCharacterActive(Character.Monk)
             Local level: Int = -1
             Local depth: Int = -1
 
@@ -750,21 +756,21 @@ Class Level
 
         room1 = Level.PlaceFirstRoom()
 
-        For Local i := limit To 0 Step -1
+        For Local i := limit Until 0 Step -1
             room2 = Level.PlaceRoomZone1(-1, room1)
             If room2 Then Exit
         End For
 
         limit -= 1
 
-        For Local i := limit To 0 Step -1
+        For Local i := limit Until 0 Step -1
             room3 = Level.PlaceRoomZone1(-1, room2)
             If room3 Then Exit
         End For
 
         limit -= 1
 
-        For Local i := limit To 0 Step -1
+        For Local i := limit Until 0 Step -1
             room4 = Level.PlaceRoomZone1(-1, room3)
             If room4 Then Exit
         End For
@@ -794,7 +800,7 @@ Class Level
 
         limit -= 1
 
-        For Local i := limit To 0 Step -1
+        For Local i := limit Until 0 Step -1
             If Util.RndIntRange(0, 50, True, -1)
                 room6 = Level.PlaceRoomZone1(-1, room1)
             Else If Util.RndIntRange(0, 10, True, -1)
@@ -817,7 +823,7 @@ Class Level
         If Shrine.spaceShrineActive
             limit -= 1
 
-            For Local i := limit To 0 Step -1
+            For Local i := limit Until 0 Step -1
                 If Util.RndBool(True)
                     If Util.RndBool(True)
                         room7 = Level.PlaceRoomZone1(-1, room1)
@@ -870,7 +876,7 @@ Class Level
 
             If Not Level.isHardcoreMode And Not Level.isDDRMode And v25
                 ' TODO: Verify limit check here
-                For Local i := limit To 0 Step -1
+                For Local i := limit Until 0 Step -1
                     Local x := room3.x + Util.RndIntRange(0, room3.width - 1, False, -1)
                     Local y := room3.y + Util.RndIntRange(0, room3.height - 1, False, -1)
 
@@ -992,61 +998,47 @@ Class Level
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
-        Local withinConstraints := False
-
-        If currentZone = 1 Or currentZone = 2 Or currentZone = 3
-            If Level.levelConstraintY <= yVal And Level.levelConstraintX <= xVal
-                withinConstraints = True
-            End If
-
-            If (wVal + xVal) > (Level.levelConstraintX + Level.levelConstraintW)
-                withinConstraints = False
-            End If
-
-            If Not ((hVal + yVal) <= (Level.levelConstraintY + Level.levelConstraintW) And withinConstraints)
-                If controller_game.currentLevel
-                    Level.levelConstraintNum += 1
-                    If Level.levelConstraintNum > 100
-                        Level.levelConstraintNum = 0
-                        Level.levelConstraintX -= 1
-                        Level.levelConstraintY -= 1
-                        Level.levelConstraintW += 2
-                        Level.levelConstraintH += 2
-                    End If
+        If controller_game.currentZone > 3 Or
+           Level.levelConstraintX > xVal Or
+           Level.levelConstraintY > yVal Or
+           xVal + wVal > Level.levelConstraintX + Level.levelConstraintW Or
+           yVal + hVal > Level.levelConstraintY + Level.levelConstraintH
+            If controller_game.currentLevel
+                Level.levelConstraintNum += 1
+                If Level.levelConstraintNum > 100
+                    Level.levelConstraintNum = 0
+                    Level.levelConstraintX -= 1
+                    Level.levelConstraintY -= 1
+                    Level.levelConstraintW += 2
+                    Level.levelConstraintH += 2
                 End If
+            
                 Return False
             End If
         End If
 
-        ' WARN: Decompiler now shows this part without the constants for levels 2, 3, and 4
-        'Local v21: Float = 0.0
-        'Select controller_game.currentLevel
-        '    Case 2
-        '        v21 = 0.1
-        '    Case 3
-        '        v21 = 0.13
-        '    Case 4
-        '        v21 = 0.16
-        '    Default
-        '        If controller_game.currentLevel >= 5
-        '            v21 = controller_game.currentLevel * 0.04
-        '            If v21 > 0.4
-        '                v21 = 0.4
-        '            End If
-        '        End If
-        'End Select
+        Local catacombWallChance: Float
+        Select controller_game.currentLevel
+            Case 1
+                catacombWallChance = 0.0
+            Case 2
+                catacombWallChance = 0.1
+            Case 3
+                catacombWallChance = 0.13
+            Case 4
+                catacombWallChance = 0.16
+            Default
+                ' NOTE: Assumes `currentLevel` cannot be less than 1.
+                catacombWallChance = controller_game.currentLevel * 0.04
+                If catacombWallChance > 0.4
+                    catacombWallChance = 0.4
+                End If
+        End Select
 
-        Local v20: Float = 0.0
-        If controller_game.currentLevel > 4
-            Local v99: Float = controller_game.currentLevel * 0.04
-            If v99 > 0.4 Then v99 = 0.4
-            v20 = v99
-        End If
-
-        'LABEL_14
-        ' TODO: Determine args for RndIntRange
-        If (v20 > Util.RndIntRange(0, 0, True, -1)) And Not (roomType = -1)
-            If controller_game.currentZone = 1 Then wallType = TileType.CatacombWall
+        If (catacombWallChance > Util.RndIntRange(0, 1, True, -1)) And 
+           (roomType = -1) And
+           (controller_game.currentZone = 1)
+           wallType = TileType.CatacombWall
         End If
 
         Local x: Int
@@ -1068,14 +1060,14 @@ Class Level
                     End If
 
                     Local rndVal := Util.RndIntRange(0, 2, True, -1)
-
                     roomType = 0
+
                     If Not rndVal
                         'goto LABEL_26
                     End If
 
                     roomType = 1
-                    If Not rndVal = 1
+                    If Not (rndVal = 1)
                         'goto LABEL_108
                     End If
                 Else
@@ -1111,6 +1103,7 @@ Class Level
                                 y += 1
                             End While
                         End While
+                        
                         'break
                     End If
 
@@ -1376,7 +1369,7 @@ Class Level
         Level.addKeyInSecretChest = False
         Level.startedShrinerFight = False
 
-        For Local i := 0 To numPlayers
+        For Local i := 0 Until numPlayers
             Local player := players[i]
             If player.characterID <> Character.Melody
                 If player.HasItemOfType("weapon_golden_lute", False)
@@ -1392,7 +1385,7 @@ Class Level
         RenderableObject.DeleteAll(True)
         ParticleSystem.systems.Clear()
 
-        For Local i := 0 To numPlayers
+        For Local i := 0 Until numPlayers
             Local player := players[i]
             player.field_58 = Null
         End For
@@ -1799,6 +1792,57 @@ Class Level
     End Function
 
     Function IsPassable: Bool()
+        Local points := New List<Point>()
+        Local intPointSet := New IntPointSet()
+        Local point := New Point(0, 0)
+
+        points.AddLast(point)
+        intPointSet.Insert(point)
+
+        While Not points.IsEmpty()
+            Local firstPoint := points.RemoveFirst()
+            Local dir := 0
+
+            For Local dir := 0 Until 4
+                Local newPoint := firstPoint.Add(Util.GetPointFromDir(dir))
+                Local x := newPoint.x
+                Local y := newPoint.y
+
+                If Not intPointSet.Contains(newPoint)
+                    If Level.IsExit(x, y) Then Return True
+
+                    Local tile := Level.GetTileAt(x, y)
+                    If tile
+                        If tile.IsFloor() Or 
+                           tile.type = TileType.DirtWall Or 
+                           tile.type = TileType.DirtWall2 Or 
+                           tile.IsDoor()
+                            Local dirBlocked := False
+
+                            For Local trap := EachIn Trap.trapList
+                                If (x = trap.x) And (y = trap.y)
+                                    dirBlocked = True
+                                End If
+                            End For
+
+                            If dirBlocked Then Continue
+
+                            For Local shrine := EachIn Shrine.shrineList
+                                If (x = shrine.x) And (y = shrine.y)
+                                    dirBlocked = True
+                                End If
+                            End For
+
+                            If dirBlocked Then Continue
+
+                            points.AddLast(newPoint)
+                            intPointSet.Insert(newPoint)
+                        End If
+                    End If
+                End If
+            End For
+        End While
+
         Throw New Throwable()
     End Function
 
@@ -1953,7 +1997,7 @@ Class Level
     End Function
 
     Function PlaceExit: Bool(rdExit: RoomData)
-        For Local i := 0 To 500
+        For Local i := 0 Until 500
             Local x := rdExit.x + Util.RndIntRange(0, rdExit.width - 1, True, -1)
             Local y := rdExit.y + Util.RndIntRange(0, rdExit.height - 1, True, -1)
             Local tile := Level.GetTileAt(x, y)
@@ -2178,7 +2222,7 @@ Class Level
                     width = 4
                     height = 3
                 Else
-                    For Local i := 0 To 2
+                    For Local i := 0 Until 2
                         If Util.RndBool(True)
                             tile = Level.GetTileAt(Level.carveX, Level.carveY)
                             If Not (tile And tile.IsFloor())

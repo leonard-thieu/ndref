@@ -1,6 +1,6 @@
 Strict
 
-Import player
+Import player_class
 
 Global beatData: Int
 Global bpmCalculatorBeats: Int
@@ -28,7 +28,7 @@ Global lastEnemyMoveBeat: Int
 Global lastPlayerMoveBeat: Int
 Global numPlayers: Int
 Global player1: Int
-Global players: Player[]
+Global players: Player[] = []
 Global runPlaytimeLastAdded: Int
 Global runPlaytimeMilliseconds: Int
 Global showScoreMessage: Int

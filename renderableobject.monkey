@@ -7,8 +7,8 @@ Import point
 Class RenderableObject Abstract
     
     Global deletingAll: Bool
-    Global lightSourceList: List<RenderableObject>
-    Global renderableObjectList: List<RenderableObject>
+    Global lightSourceList: List<RenderableObject> = New List<RenderableObject>()
+    Global renderableObjectList: List<RenderableObject> = New List<RenderableObject>()
 
     Function DeleteAll: Void(spareThePlayers: Bool)
         RenderableObject.deletingAll = True
