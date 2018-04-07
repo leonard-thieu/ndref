@@ -770,6 +770,7 @@ Class TileType
     Const FloorReceding: Int = 22
     Const ConductorWirePhase1: Int = 23
     Const ConductorWirePhase2: Int = 24
+    Const Unknown98: Int = 98
     Const DirtWall: Int = 100
     Const DirtWall2: Int = 101
     Const LevelBorder: Int = 102
