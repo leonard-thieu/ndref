@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import monkey.map
 Import monkey.set
@@ -29,93 +31,122 @@ Class Player Extends MobileEntity
     Global sessionMaxCoins: Int
 
     Function ActuallyPlayVO: Void(voSound: Int, player: Object)
+        Throw New Throwable()
     End Function
 
     Function AddCoins: Void(tmpNum: Int)
+        Throw New Throwable()
     End Function
 
     Function AllPlayersPerished: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerInSpecialRoom: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerPeace: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerTemporaryMapSight: Bool()
+        Throw New Throwable()
     End Function
 
     Function CheckAllModeCompletion: Void()
+        Throw New Throwable()
     End Function
 
     Function ChooseNewPlayer1: Void()
+        Throw New Throwable()
     End Function
 
     Function DoesAnyPlayerHaveItemOfType: Bool(it: Int, overrideBatForm: Bool)
+        Throw New Throwable()
     End Function
 
     Function DoesPlayer1HaveItemOfType: Bool(i: Int)
+        Throw New Throwable()
     End Function
 
     Function GetCharacterName: Int(charNum: Int, tagType: Int)
+        Throw New Throwable()
     End Function
 
     Function GetGreedMultiplier: Int()
+        Throw New Throwable()
     End Function
 
     Function GetSlotFromNum: Int(num: Int)
+        Throw New Throwable()
     End Function
 
     Function GetSlotNum: Int(sl: Int)
+        Throw New Throwable()
     End Function
 
     Function GetTransplantDisplayTime: Int()
+        Throw New Throwable()
     End Function
 
     Function IsBloodDamage: Bool(damageSource: Int)
+        Throw New Throwable()
     End Function
 
     Function IsIntentionalDamage: Bool(damageSource: Int)
+        Throw New Throwable()
     End Function
 
     Function IsInternalDamage: Bool(damageSource: Int)
+        Throw New Throwable()
     End Function
 
     Function IsLastLevel: Bool()
+        Throw New Throwable()
     End Function
 
     Function IsSolo: Bool()
+        Throw New Throwable()
     End Function
 
     Function IsUnpreventableDamage: Bool(damageSource: Int)
+        Throw New Throwable()
     End Function
 
     Function MakeBodyImage: Object(characterID: Int, idSuffix: Int, altSkin: Int)
+        Throw New Throwable()
     End Function
 
     Function MakeHeadImage: Object(characterID: Int, idSuffix: Int, altSkin: Int)
+        Throw New Throwable()
     End Function
 
     Function NumEnabledCharacters: Int()
+        Throw New Throwable()
     End Function
 
     Function OffsetCoins: Void(tmpNum: Int)
+        Throw New Throwable()
     End Function
 
     Function PlayersHaveMovedThisBeat: Bool()
+        Throw New Throwable()
     End Function
 
     Function PlayVOPlayer1: Void(voSound: Int)
+        Throw New Throwable()
     End Function
 
     Function SetCoins: Void(tmpNum: Int, allowAchievement: Bool)
+        Throw New Throwable()
     End Function
 
     Function UpdateAll: Void()
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New(id: Int, characterID_: Int)
         Super.New()
@@ -283,66 +314,87 @@ Class Player Extends MobileEntity
     Field field_330: Int
 
     Method AddFamiliarAt: Void(offsetX: Int, offsetY: Int, item: Int)
+        Throw New Throwable()
     End Method
 
     Method AddGeneralMetrics: Void(sendIt: Bool)
+        Throw New Throwable()
     End Method
 
     Method AddItemOfType: Void(item: String, itemObj: Item, ignoreFlyTo: Bool, isInitialEquip: Bool)
+        Throw New Throwable()
     End Method
 
     Method AddItemOfType_PreProcess: Bool(i: String, itemObj: Item)
+        Throw New Throwable()
     End Method
 
     Method AfterEnemyMovement: Void()
+        Throw New Throwable()
     End Method
 
     Method AfterHitHook: Void(nme: Object, hitX: Int, hitY: Int, dir: Int)
+        Throw New Throwable()
     End Method
 
     Method AttackDirection: Bool(dir: Int, isThrow: Bool)
+        Throw New Throwable()
     End Method
 
     Method AttemptOffbeatMove: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method BreakGlassShovel: Void()
+        Throw New Throwable()
     End Method
 
     Method BreakGlassStuff: Void()
+        Throw New Throwable()
     End Method
 
     Method BreakSpikedEars: Void()
+        Throw New Throwable()
     End Method
 
     Method CalcMinVisibility: Int()
+        Throw New Throwable()
     End Method
 
     Method CancelTween: Void()
+        Throw New Throwable()
     End Method
 
     Method CheckConductorWire: Void()
+        Throw New Throwable()
     End Method
 
     Method CheckFloating: Void()
+        Throw New Throwable()
     End Method
 
     Method CheckVowOfPoverty: Void()
+        Throw New Throwable()
     End Method
 
     Method ClearAllFamiliars: Void(includeLamb: Bool)
+        Throw New Throwable()
     End Method
 
     Method ClearFamiliarAt: Void(offsetX: Int, offsetY: Int)
+        Throw New Throwable()
     End Method
 
     Method CommitZap: Void()
+        Throw New Throwable()
     End Method
 
     Method ConsumeItemSlot: Bool(sl: Int)
+        Throw New Throwable()
     End Method
 
     Method ConsumeOne: Bool(item: Int)
+        Throw New Throwable()
     End Method
 
     Method Die: Void()
@@ -352,342 +404,455 @@ Class Player Extends MobileEntity
     End Method
 
     Method DoBigDig: Bool(x0: Int, y0: Int, shovelDamage: Int, dir: Int, allowNoShovel: Bool)
+        Throw New Throwable()
     End Method
 
     Method DoComboLeftDown: Bool()
+        Throw New Throwable()
     End Method
 
     Method DoComboLeftRight: Bool()
+        Throw New Throwable()
     End Method
 
     Method DoComboLeftUp: Bool()
+        Throw New Throwable()
     End Method
 
     Method DoComboRightDown: Bool()
+        Throw New Throwable()
     End Method
 
     Method DoComboRightUp: Bool()
+        Throw New Throwable()
     End Method
 
     Method DoComboUpDown: Bool()
+        Throw New Throwable()
     End Method
 
     Method DoCrownTeleport: Void()
+        Throw New Throwable()
     End Method
 
     Method DoEnchantWeapon: Void()
+        Throw New Throwable()
     End Method
 
     Method DoHitEffects: Void(dir: Int, hitter: Object, tempDam: Int)
+        Throw New Throwable()
     End Method
 
     Method DoNeed: Void()
+        Throw New Throwable()
     End Method
 
     Method DropBomb: Object()
+        Throw New Throwable()
     End Method
 
     Method DropItem: Object(i: Int, xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method EmptyAllSlots: Void(includeLamb: Bool)
+        Throw New Throwable()
     End Method
 
     Method EmptySlot: Void(sl: Int)
+        Throw New Throwable()
     End Method
 
     Method EnterBatForm: Void()
+        Throw New Throwable()
     End Method
 
     Method ExitBatForm: Void()
+        Throw New Throwable()
     End Method
 
     Method Fall: Void(keepMultiplier: Bool)
+        Throw New Throwable()
     End Method
 
     Method FeetIgnoreCoals: Bool()
+        Throw New Throwable()
     End Method
 
     Method FeetIgnoreIce: Bool()
+        Throw New Throwable()
     End Method
 
     Method FeetIgnoreOoze: Bool()
+        Throw New Throwable()
     End Method
 
     Method FeetIgnoreWaterAndTar: Bool()
+        Throw New Throwable()
     End Method
 
     Method FrostItemCount: Int()
+        Throw New Throwable()
     End Method
 
     Method GetArmorAmount: Int()
+        Throw New Throwable()
     End Method
 
     Method GetBonusDamage: Int(baseDamage: Int)
+        Throw New Throwable()
     End Method
 
     Method GetDamage: Int()
+        Throw New Throwable()
     End Method
 
     Method GetElectricStrength: Int()
+        Throw New Throwable()
     End Method
 
     Method GetHUDQuantityText: Object(slot: Int)
+        Throw New Throwable()
     End Method
 
     Method GetItemInSlot: Int(sl: Int, overrideBatForm: Bool)
+        Throw New Throwable()
     End Method
 
     Method GetItemQuantity: Int(item: Int)
+        Throw New Throwable()
     End Method
 
     Method GetKillsUntilHealingString: Int()
+        Throw New Throwable()
     End Method
 
     Method GetLightSourceMax: Float()
+        Throw New Throwable()
     End Method
 
     Method GetLightSourceMin: Float()
+        Throw New Throwable()
     End Method
 
     Method GetMinVisibility: Int()
+        Throw New Throwable()
     End Method
 
     Method GetMoveLastBeat: Int()
+        Throw New Throwable()
     End Method
 
     Method GetNewWeapon: Void(w: Int)
+        Throw New Throwable()
     End Method
 
     Method GetPositionLastBeat: Object()
+        Throw New Throwable()
     End Method
 
     Method GetShovelDamage: Int(fromMinersCap: Bool)
+        Throw New Throwable()
     End Method
 
     Method GetShovelDamageHelper: Int()
+        Throw New Throwable()
     End Method
 
     Method GetTorchLevel: Int()
+        Throw New Throwable()
     End Method
 
     Method GetWeapon: Object(overrideBatForm: Bool)
+        Throw New Throwable()
     End Method
 
     Method GiveInitialEquipment: Void(resetHealth: Bool)
+        Throw New Throwable()
     End Method
 
     Method GotBlood: Void(amount: Int)
+        Throw New Throwable()
     End Method
 
     Method GotKill: Void()
+        Throw New Throwable()
     End Method
 
     Method GrantIBeats: Void(num: Int)
+        Throw New Throwable()
     End Method
 
     Method HandleIceAndCoals: Void()
+        Throw New Throwable()
     End Method
 
     Method HasCouponLike: Bool()
+        Throw New Throwable()
     End Method
 
     Method HasItemOfType: Bool(i: String, overrideBatForm: Bool)
+        Throw New Throwable()
     End Method
 
     Method HasShovel: Bool()
+        Throw New Throwable()
     End Method
 
     Method HaveSecondActionSlot: Bool()
+        Throw New Throwable()
     End Method
 
     Method Heal: Void(amt: Int, fromFood: Bool, playVO: Bool, fromMagicFood: Bool)
+        Throw New Throwable()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Throw New Throwable()
     End Method
 
     Method ImmediatelyMoveTo: Void(xVal: Int, yVal: Int, fromKeyboard: Bool, fromClampedEnemy: Bool, fromBounceTrap: Bool, fromCourage: Bool, overrideStairs: Bool)
+        Throw New Throwable()
     End Method
 
     Method IsAnythingInSlot: Bool(sl: Int)
+        Throw New Throwable()
     End Method
 
     Method IsBomblessCharacter: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsHeavy: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsLordCrownActive: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsLordCrownActive_Flicker: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsNecroDancer1Alive: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsPhasing: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsShieldActive: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsShieldActive_Flicker: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsShrunk: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method IsSlotCursed: Bool(sl: Int)
+        Throw New Throwable()
     End Method
 
     Method IsVisible: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsWeaponlessCharacter: Bool()
+        Throw New Throwable()
     End Method
 
     Method KnockSelfBack: Void(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method LambDeath: Void()
+        Throw New Throwable()
     End Method
 
     Method LoadImages: Void()
+        Throw New Throwable()
     End Method
 
     Method MaybeOpenZap: Void(playerX: Int, playerY: Int, electricStrength: Int)
+        Throw New Throwable()
     End Method
 
     Method MomentumDir: Int()
+        Throw New Throwable()
     End Method
 
     Method MoveFamiliars: Void(deltaX: Int, deltaY: Int)
+        Throw New Throwable()
     End Method
 
     Method MoveSoulFamiliars: Void(moveDir: Int)
+        Throw New Throwable()
     End Method
 
     Method MoveTo: Void(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method PainFlyaway: Void()
+        Throw New Throwable()
     End Method
 
     Method PerformTween: Void(xVal: Int, yVal: Int, oldX: Int, oldY: Int, tweenType: Int, shadowTweenType: Int, bufferTween: Bool)
+        Throw New Throwable()
     End Method
 
     Method Perished: Bool()
+        Throw New Throwable()
     End Method
 
     Method PermitMoveFail: Bool()
+        Throw New Throwable()
     End Method
 
     Method PlayVO: Void(voSound: Int)
+        Throw New Throwable()
     End Method
 
     Method ProcessDropMystery: Void(item: Object, slot: Int)
+        Throw New Throwable()
     End Method
 
     Method ProcessMoveQueue: Void()
+        Throw New Throwable()
     End Method
 
     Method ProcessSlotOffsets: Object(tmpSlotNum: Int, tmpX: Int, tmpY: Int)
+        Throw New Throwable()
     End Method
 
     Method ProcessSlotOffsets2: Object(tmpSlot: Int, tmpX: Int, tmpY: Int)
+        Throw New Throwable()
     End Method
 
     Method ProcessTheResultsOfEquippingItem: Void(item: Int)
+        Throw New Throwable()
     End Method
 
     Method ProcessTheResultsOfLosingItem: Void(i: Int)
+        Throw New Throwable()
     End Method
 
     Method PutItemInSlot: Void(sl: Int, i: Int, ignoreFlyTo: Bool)
+        Throw New Throwable()
     End Method
 
     Method Render: Void()
+        Throw New Throwable()
     End Method
 
     Method RenderHUD: Void(position: Int, small: Bool)
+        Throw New Throwable()
     End Method
 
     Method RenderHUDSlotHotkey: Void(inputMove: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, overrideBatForm: Bool)
+        Throw New Throwable()
     End Method
 
     Method RenderHUDSlotQuantity: Void(textSprite: Object, num: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, alpha: Float)
+        Throw New Throwable()
     End Method
 
     Method RenderHUDSlotQuantity2: Void(textSprite: Object, item: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, alpha: Float)
+        Throw New Throwable()
     End Method
 
     Method ResetStateAfterLevel: Void()
+        Throw New Throwable()
     End Method
 
     Method ScatterItems: Void()
+        Throw New Throwable()
     End Method
 
     Method SetCharacter: Void(charNum: Int)
+        Throw New Throwable()
     End Method
 
     Method SetDugRecently: Void()
+        Throw New Throwable()
     End Method
 
     Method SetSlotCursed: Void(sl: Int, b: Bool)
+        Throw New Throwable()
     End Method
 
     Method SetSlotMystery: Void(sl: Int, b: Bool)
+        Throw New Throwable()
     End Method
 
     Method SetTotallyBlank: Void()
+        Throw New Throwable()
     End Method
 
     Method StopFalling: Void()
+        Throw New Throwable()
     End Method
 
     Method SubtractItemOfType: Bool(i: Int)
+        Throw New Throwable()
     End Method
 
     Method SubtractKey: Bool()
+        Throw New Throwable()
     End Method
 
     Method SwapWeapons: Bool()
+        Throw New Throwable()
     End Method
 
     Method TestCourage: Bool(beat: Int)
+        Throw New Throwable()
     End Method
 
     Method ToggleBatForm: Void()
+        Throw New Throwable()
     End Method
 
     Method TurnAllItemsToGlass: Void()
+        Throw New Throwable()
     End Method
 
     Method TurnAllItemsToObsidian: Void()
+        Throw New Throwable()
     End Method
 
     Method TurnSlotInto: Void(slot: Int, newItem: Int)
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method UpdateBonusHeart: Void()
+        Throw New Throwable()
     End Method
 
     Method UseBomb: Bool()
+        Throw New Throwable()
     End Method
 
     Method VocalizeAttack: Void()
+        Throw New Throwable()
     End Method
 
     Method WarpFamiliars: Void()
+        Throw New Throwable()
     End Method
 
     Method WarpTo: Void(newX: Int, newY: Int)
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

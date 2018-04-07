@@ -1,9 +1,11 @@
+Strict
+
 Import trap
 Import util
 
 Class BounceTrap Extends Trap
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, d: Int)
         Super.New()
@@ -118,18 +120,23 @@ Class BounceTrap Extends Trap
     Field field_118: Int = -1
 
     Method GetFrameToShow: Int()
+        Throw New Throwable()
     End Method
 
     Method Rotate: Void()
+        Throw New Throwable()
     End Method
 
     Method RotateDir: Int(dir: Int, cw: Bool)
+        Throw New Throwable()
     End Method
 
     Method Trigger: Void(ent: Entity)
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

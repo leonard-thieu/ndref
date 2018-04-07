@@ -1,8 +1,12 @@
+Strict
+
 Import image
 Import sprite
 Import trap
 
 Class BombTrap Extends Trap
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
         Super.New()

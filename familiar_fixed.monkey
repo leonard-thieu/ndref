@@ -1,6 +1,10 @@
+Strict
+
 Import entity
 
 Class FamiliarFixed Extends Entity Abstract
+
+    Function _EditorFix: Void() End
 
     Field field_F4: Int
     Field field_F8: Int

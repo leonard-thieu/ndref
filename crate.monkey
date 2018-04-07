@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import enemy
 Import gargoyle
@@ -15,12 +17,14 @@ Class Crate Extends Enemy
     Global crateList: List<Crate>
 
     Function ProcessFallenCrates: Void()
+        Throw New Throwable()
     End Function
 
     Function SelectItem: Int(itemLevel: Int)
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: Int, cont: String)
         Super.New()
@@ -56,45 +60,59 @@ Class Crate Extends Enemy
     Field field_264: Int
 
     Method DecideIfStayingEmpty: Void()
+        Throw New Throwable()
     End Method
 
     Method DetermineContents: Void()
+        Throw New Throwable()
     End Method
 
     Method DetermineContentsNow_PlayerDoesntOwn: Int()
+        Throw New Throwable()
     End Method
 
     Method Die: Void()
+        Throw New Throwable()
     End Method
 
     Method GetMovementDirection: Object()
+        Throw New Throwable()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Throw New Throwable()
     End Method
 
     Method IsGorgonStatue: Bool()
+        Throw New Throwable()
     End Method
 
     Method Knockback: Void(dir: Int)
+        Throw New Throwable()
     End Method
 
     Method MoveFail: Void()
+        Throw New Throwable()
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
+        Throw New Throwable()
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
+        Throw New Throwable()
     End Method
 
     Method Open: Bool(playSound: Bool)
+        Throw New Throwable()
     End Method
 
     Method Render: Void()
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

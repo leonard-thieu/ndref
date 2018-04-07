@@ -1,4 +1,8 @@
+Strict
+
 Class TileData
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: Int)
         Self.x = xVal

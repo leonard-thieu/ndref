@@ -1,3 +1,5 @@
+Strict
+
 Class RNG
 
     Function Make: RNG(x: Int)
@@ -15,7 +17,7 @@ Class RNG
         Return rng
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method Rand: Int()
         Local seed: Int = 48271 * (Self.seed Mod 44488) - 3399 * (Self.seed / 44488)
@@ -52,7 +54,7 @@ Class RNG
         Return rng
     End Method
 
-    Method NoTrim()
+    Method NoTrim: Void()
         Make(0)
         Rand()
         RndIntRange(0, 0)

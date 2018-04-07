@@ -1,6 +1,10 @@
+Strict
+
 Import enemy
 
 Class NPC Extends Enemy Abstract
+
+    Function _EditorFix: Void() End
 
     Field field_234: Bool
     Field field_235: Bool

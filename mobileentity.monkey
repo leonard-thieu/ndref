@@ -1,6 +1,10 @@
+Strict
+
 Import entity
 
 Class MobileEntity Extends Entity Abstract
+
+    Function _EditorFix: Void() End
 
     Method New()
         Super.New()

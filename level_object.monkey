@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import bombtrap
 Import bouncetrap
@@ -21,6 +23,8 @@ Import trapdoor
 Import travelrune
 
 Class LevelObject
+
+    Function _EditorFix: Void() End
 
     Method New(num: Int, music: Int, boss: Int, loadFromCurrent: Bool, fromXML: Object)
         Self.num = num
@@ -221,9 +225,10 @@ Class LevelObject
     End Method
 
     Method ToXML: Object()
+        Throw New Throwable()
     End Method
 
-    Method NoTrim()
+    Method NoTrim: Void()
         CreateMap()
         ToXML()
     End Method

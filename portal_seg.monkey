@@ -1,3 +1,7 @@
+Strict
+
 Class PortalSeg
 
-End
+    Function _EditorFix: Void() End
+
+End Class

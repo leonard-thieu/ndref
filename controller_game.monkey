@@ -1,3 +1,5 @@
+Strict
+
 Import player
 
 Global beatData: Int

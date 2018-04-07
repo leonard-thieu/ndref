@@ -1,20 +1,37 @@
+Strict
+
 Import point
 
 Class Rect
 
+    Function _EditorFix: Void() End
+
     Method GetRight: Int()
-    End
+        Throw New Throwable()
+    End Method
     
     Method GetBottom: Int()
-    End
+        Throw New Throwable()
+    End Method
     
     Method GetCenter: Object()
-    End
+        Throw New Throwable()
+    End Method
     
     Method GetPoints: Object()
-    End
+        Throw New Throwable()
+    End Method
     
     Method RandomPoint: Object()
-    End
+        Throw New Throwable()
+    End Method
+
+    Method NoTrim: Void()
+        GetRight()
+        GetBottom()
+        GetCenter()
+        GetPoints()
+        RandomPoint()
+    End Method
     
 End

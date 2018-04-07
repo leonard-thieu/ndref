@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import entity
 Import point
@@ -29,21 +31,26 @@ Class RenderableObject Abstract
     End Function
     
     Function HitTile: Bool(damageSource: String, xVal: Int, yVal: Int, damage: Int, dir: Int, hitter: Entity, allowSelfHits: Bool, phasing: Bool, piercing: Bool, confuse: Bool, frost: Bool)
+        Throw New Throwable()
     End Function
 
     Function IsExplosiveDamage: Bool(damageSource: String)
+        Throw New Throwable()
     End Function
 
     Function IsParryableDamage: Bool(damageSource: String)
+        Throw New Throwable()
     End Function
 
     Function IsPlayerMeleeDamage: Bool(damageSource: String)
+        Throw New Throwable()
     End Function
     
     Function UpdateAll: Void()
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New()
         RenderableObject.renderableObjectList.AddLast(Self)
@@ -80,7 +87,7 @@ Class RenderableObject Abstract
     Field field_50: Bool
     Field field_54: Float = 1.0
     
-    Method ActivateLight(lMin: Float, lMax: Float)
+    Method ActivateLight: Void(lMin: Float, lMax: Float)
         Self.isLight = True
         Self.lMin = lMin
         Self.lMax = lMax
@@ -100,15 +107,19 @@ Class RenderableObject Abstract
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
     
     Method GetLocation: Point()
+        Throw New Throwable()
     End Method
     
     Method IsFrozen: Bool(ignoreLastBeat: Bool)
+        Throw New Throwable()
     End Method
     
     Method IsOnScreen: Bool()
+        Throw New Throwable()
     End Method
     
     Method IsOnTile: Bool(px: Int, py: Int)
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

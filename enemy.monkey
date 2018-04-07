@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import monkey.map
 Import beatanimationdata
@@ -17,120 +19,158 @@ Class Enemy Extends MobileEntity Abstract
     Global randomizerXML: Object
 
     Function AddTagsToEnemyName: Int(eName: Int, size: Int)
+        Throw New Throwable()
     End Function
 
     Function ApplyMonkeyPawAll: Void()
+        Throw New Throwable()
     End Function
 
     Function Charm: Void(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function CreateLord: Void()
+        Throw New Throwable()
     End Function
 
     Function CullAllEnemies: Void()
+        Throw New Throwable()
     End Function
 
     Function CullEnemiesDownTo: Void(cullNum: Int)
+        Throw New Throwable()
     End Function
 
     Function DoesDamageKnockback: Bool(player: Object, damageSource: Int)
+        Throw New Throwable()
     End Function
 
     Function EarthquakeEnemies: Void(xVal: Int, yVal: Int, damageAmount: Int)
+        Throw New Throwable()
     End Function
 
     Function EnemiesHaveMovedClosestBeat: Bool()
+        Throw New Throwable()
     End Function
 
     Function EnemiesHaveMovedThisBeat: Bool()
+        Throw New Throwable()
     End Function
 
     Function FreezeEnemiesNear: Void(xVal: Int, yVal: Int, duration: Int, allEnemies: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetBaseType: Int(fullType: Int)
+        Throw New Throwable()
     End Function
 
     Function GetDamagableEnemiesAt: Object(xVal: Int, yVal: Int, phasing: Bool, piercing: Bool, attackSourceX: Int, attackSourceY: Int, dVal: Int)
+        Throw New Throwable()
     End Function
 
     Function GetEnemyAt: Object(xVal: Int, yVal: Int, includeFalling: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetEnemyName: Int(type: Int)
+        Throw New Throwable()
     End Function
 
     Function GetEnemyNameHelper: Int(type: Int)
+        Throw New Throwable()
     End Function
 
     Function GetEnemyXML: Object(name: Int, level: Int)
+        Throw New Throwable()
     End Function
 
     Function GetNumArenaEnemiesRemaining: Int()
+        Throw New Throwable()
     End Function
 
     Function GetNumCullableEnemies: Int()
+        Throw New Throwable()
     End Function
 
     Function GetNumEnemiesIgnoreDancers: Int()
+        Throw New Throwable()
     End Function
 
     Function GetNumPenaltyBoxMinibosses: Int()
+        Throw New Throwable()
     End Function
 
     Function GetNumStairLockingMinibosses: Int()
+        Throw New Throwable()
     End Function
 
     Function GetRandomEnemy: Object()
+        Throw New Throwable()
     End Function
 
     Function KillAllEnemies: Void()
+        Throw New Throwable()
     End Function
 
     Function KillAllNonConductorEnemies: Void()
+        Throw New Throwable()
     End Function
 
     Function KillAllNonNecroDancerEnemies: Void()
+        Throw New Throwable()
     End Function
 
     Function LoadBestiarySprite: Object(type: Int)
+        Throw New Throwable()
     End Function
 
     Function MakeEnemy: Enemy(xVal: Int, yVal: Int, type: Int)
+        Throw New Throwable()
     End Function
 
     Function MakeNonNecroDancerEnemiesIntoFormationDancers: Void()
+        Throw New Throwable()
     End Function
 
     Function MarkAllEnemiesAsVisible: Void()
+        Throw New Throwable()
     End Function
 
     Function MoveAll: Void()
+        Throw New Throwable()
     End Function
 
     Function MoveSwarmEnemiesAwayFromStartLocation: Void()
+        Throw New Throwable()
     End Function
 
     Function ResetAll: Void()
+        Throw New Throwable()
     End Function
 
     Function SetAllEnemiesMinimumMoveDistance: Void(dist: Int)
+        Throw New Throwable()
     End Function
 
     Function SetAllNonNecroDancerEnemyMoveDelays: Void(cmd: Int)
+        Throw New Throwable()
     End Function
 
     Function SetEnemiesToDropNoCoins: Void()
+        Throw New Throwable()
     End Function
 
     Function SetEnemiesToDropNoCoinsOverride: Void()
+        Throw New Throwable()
     End Function
 
     Function StartRandomizerRun: Void()
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Field type: Int
     Field field_110: Int
@@ -235,162 +275,215 @@ Class Enemy Extends MobileEntity Abstract
     Field field_22E: Bool
 
     Method AdjustLordImage: Void()
+        Throw New Throwable()
     End Method
 
     Method AdvanceMovementDelay: Void()
+        Throw New Throwable()
     End Method
 
     Method AnimateToTheBeat: Void()
+        Throw New Throwable()
     End Method
 
     Method ApplyMonkeyPaw: Void()
+        Throw New Throwable()
     End Method
 
     Method AttemptMove: Int(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method BasicFlee: Object(includeDiagonals: Bool)
+        Throw New Throwable()
     End Method
 
     Method BasicSeek: Object()
+        Throw New Throwable()
     End Method
 
     Method BasicSeekAvoidLiquids: Object()
+        Throw New Throwable()
     End Method
 
     Method BasicSeekIncludeDiagonals: Object()
+        Throw New Throwable()
     End Method
 
     Method BasicSeekInWalls: Object()
+        Throw New Throwable()
     End Method
 
     Method BasicSeekNoTraps: Object()
+        Throw New Throwable()
     End Method
 
     Method BasicSeekTarget: Object(targetX: Int, targetY: Int, targetLastX: Int, targetLastY: Int, ignoreLiquids: Bool, ignoreTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
+        Throw New Throwable()
     End Method
 
     Method BasicSeekTargetIncludeDiagonals: Object(targetX: Int, targetY: Int)
+        Throw New Throwable()
     End Method
 
     Method BasicSeekTargetIncludeDiagonals_dumb: Object(targetX: Int, targetY: Int)
+        Throw New Throwable()
     End Method
 
     Method CanBeLord: Bool()
+        Throw New Throwable()
     End Method
 
     Method CheckFamiliarTouch: Void(dir: Int)
+        Throw New Throwable()
     End Method
 
     Method Cull: Void()
+        Throw New Throwable()
     End Method
 
     Method CustomMoveCheck: Bool(newX: Int, newY: Int)
+        Throw New Throwable()
     End Method
 
     Method Delete: Void()
+        Throw New Throwable()
     End Method
 
     Method DiagonalsOnlySeekTarget: Object(targetX: Int, targetY: Int, bounceOnFail: Bool)
+        Throw New Throwable()
     End Method
 
     Method Die: Void()
+        Throw New Throwable()
     End Method
 
     Method ExemptFromMysteryMode: Bool()
+        Throw New Throwable()
     End Method
 
     Method Fall: Void(keepMultiplier: Bool)
+        Throw New Throwable()
     End Method
 
     Method GetAdjacentTileThatIsClosestToTarget: Object(targetX: Int, targetY: Int, moveDistVal: Int)
+        Throw New Throwable()
     End Method
 
     Method GetBeatNum: Int()
+        Throw New Throwable()
     End Method
 
     Method GetClosestMovement: Object(targetX: Int, targetY: Int, dirVal: Int, allowLiquids: Bool, allowTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
+        Throw New Throwable()
     End Method
 
     Method GetDisplayHealth: Int()
+        Throw New Throwable()
     End Method
 
     Method GetDisplayHealthMax: Int()
+        Throw New Throwable()
     End Method
 
     Method GetFurthestMovement: Object(targetX: Int, targetY: Int, allowCollisions: Bool, includeDiagonal: Bool)
+        Throw New Throwable()
     End Method
 
     Method GetMovementDirection: Object()
+        Throw New Throwable()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Throw New Throwable()
     End Method
 
     Method ImageFlipX: Void(flipX: Bool)
+        Throw New Throwable()
     End Method
 
     Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
+        Throw New Throwable()
     End Method
 
     Method InitDirtJump: Void(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method InitImage: Void(enemyXML: Object, overrideSpriteName: Int, overrideFrameW: Int, overrideFrameH: Int)
+        Throw New Throwable()
     End Method
 
     Method IsAt: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method IsBetweenFraction: Bool(on: Float, off: Float)
+        Throw New Throwable()
     End Method
 
     Method IsCullable: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsDoubleHit: Bool(damageSource: Int, hitter: Object)
+        Throw New Throwable()
     End Method
 
     Method IsStealthed: Bool()
+        Throw New Throwable()
     End Method
 
     Method Knockback: Void(dir: Int)
+        Throw New Throwable()
     End Method
 
     Method MakeLord: Void()
+        Throw New Throwable()
     End Method
 
     Method Move: Int()
+        Throw New Throwable()
     End Method
 
     Method MoveFail: Void()
+        Throw New Throwable()
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
+        Throw New Throwable()
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
+        Throw New Throwable()
     End Method
 
     Method RandomIncludeDiagonals: Object(trueRandom: Bool, ignoreRingOfLuck: Bool)
+        Throw New Throwable()
     End Method
 
     Method RandomSeek: Object(trueRandom: Bool, ignoreRingOfLuck: Bool)
+        Throw New Throwable()
     End Method
 
     Method RelativeVideoTimeUntilBeat: Float()
+        Throw New Throwable()
     End Method
 
     Method Render: Void()
+        Throw New Throwable()
     End Method
 
     Method SelectOptimalMoveFrom: Object(targetX: Int, targetY: Int, moves: Object, farthest: Bool, allowCollisions: Bool, allowLiquids: Bool, allowTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
+        Throw New Throwable()
     End Method
 
     Method SetDoubleHitData: Void(damageSource: Int, hitter: Object)
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

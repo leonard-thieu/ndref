@@ -1,7 +1,11 @@
+Strict
+
 Import monkey.random
 Import util
 
 Class Bouncer
+
+    Function _EditorFix: Void() End
 
     Method New(minVal: Float, maxVal: Float, powerVal: Float, stepsVal: Int)
         Self.max = maxVal

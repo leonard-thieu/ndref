@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import entity
 
@@ -6,6 +8,7 @@ Class Trap Extends Entity Abstract
     Global trapList: TrapList
 
     Function FindRandomTrap: Trap()
+        Throw New Throwable()
     End Function
 
     Function GetTrapAt: Trap(xVal: Int, yVal: Int)
@@ -17,12 +20,14 @@ Class Trap Extends Entity Abstract
     End Function
 
     Function IsLiveTrapAt: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function RemoveAll: Void()
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New()
         Super.New()
@@ -42,21 +47,27 @@ Class Trap Extends Entity Abstract
     Field field_105: Bool
 
     Method Die: Void()
+        Throw New Throwable()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Throw New Throwable()
     End Method
 
     Method IsLive: Bool()
+        Throw New Throwable()
     End Method
 
     Method Move: Void()
+        Throw New Throwable()
     End Method
 
     Method Trigger: Void(ent: Entity)
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

@@ -1,4 +1,8 @@
+Strict
+
 Class RoomData
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, width: Int, height: Int, type: Int, field_24: Bool)
         Self.x = xVal
@@ -17,18 +21,22 @@ Class RoomData
     Field field_24: Bool
 
     Method GetBounds: Object()
+        Throw New Throwable()
     End Method
 
     Method GetLocation: Object()
+        Throw New Throwable()
     End Method
 
     Method GetSize: Object()
+        Throw New Throwable()
     End Method
 
     Method ToString: String()
+        Throw New Throwable()
     End Method
 
-    Method NoTrim()
+    Method NoTrim: Void()
         GetBounds()
         GetLocation()
         GetSize()

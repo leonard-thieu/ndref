@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import entity
 
@@ -14,29 +16,37 @@ Class Chest Extends Entity
     Global lastChestColor2: Int
 
     Function ClearAllSingleChoiceChests: Void(except: Object)
+        Throw New Throwable()
     End Function
 
     Function GetChestAt: Object(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function GetEmptyNonSecretChest: Object()
+        Throw New Throwable()
     End Function
 
     Function GetEmptySecretChest: Object()
+        Throw New Throwable()
     End Function
 
     Function GetNumEmptyNonSecretChests: Int()
+        Throw New Throwable()
     End Function
 
     Function GetNumEmptySecretChests: Int()
+        Throw New Throwable()
     End Function
 
     Function IsItemAppropriateForChestColor: Bool(cont: Int, tmpColor: Int)
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, cont: String, invis: Bool, isLocked: Bool, isSecret: Bool, tmpColor: Int)
+        Throw New Throwable()
     End Method
 
     Field color: Int
@@ -48,15 +58,19 @@ Class Chest Extends Entity
     Field singleChoice_: Bool
 
     Method AddKeyToContents: Void()
+        Throw New Throwable()
     End Method
 
     Method BecomeLocked: Void()
+        Throw New Throwable()
     End Method
 
     Method DetermineContentsNow_PlayerDoesntOwn: Int()
+        Throw New Throwable()
     End Method
 
     Method Die: Void()
+        Throw New Throwable()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
@@ -64,12 +78,15 @@ Class Chest Extends Entity
     End Method
 
     Method Open: Bool(player: Object)
+        Throw New Throwable()
     End Method
 
     Method Render: Void()
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

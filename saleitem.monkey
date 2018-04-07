@@ -1,3 +1,5 @@
+Strict
+
 Import item
 Import medic
 Import shopkeeper
@@ -8,6 +10,8 @@ Class SaleItem Extends Item
     Global lastSaleItemClass2: String
     Global randomSaleItemList: List<String>
     Global currentSaleItems: List<SaleItem>
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: String, bldCost: Bool, sk: Shopkeeper, fCost: Float, m: Medic)
         Super.New(xVal, yVal, type, False, -1, False)

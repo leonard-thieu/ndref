@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import image
 Import level_object
@@ -26,24 +28,31 @@ Class Tile Extends RenderableObject
     Global floorRisingList: List<Tile>
 
     Function AnyPlayerHaveCompass: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveMonocle: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveRingOfLuck: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveSunglasses: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveZoneMap: Bool()
+        Throw New Throwable()
     End Function
 
     Function CheckRingOfShadows: Bool()
+        Throw New Throwable()
     End Function
 
     Function CleanUpPendingTiles: Void()
+        Throw New Throwable()
     End Function
 
     Function GenerateWireConnections: Void()
@@ -71,12 +80,14 @@ Class Tile Extends RenderableObject
     End Function
 
     Function IsNearNightmare: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function MoveAll: Void()
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, typeVal: Int, pending: Bool, tilesetOvrd: Int)
         Super.New()
@@ -412,66 +423,87 @@ Class Tile Extends RenderableObject
     Field hasTorch: Bool
 
     Method AddFloorOverlayImage: Void(imageName: Int)
+        Throw New Throwable()
     End Method
 
     Method AddTextLabel: Void(filename: Int, tmpXOff: Int, tmpYOff: Int, displayD: Float, flash: Bool, textString: Bool)
+        Throw New Throwable()
     End Method
 
     Method AddTorch: Void()
+        Throw New Throwable()
     End Method
 
     Method AddTorch2: Void()
+        Throw New Throwable()
     End Method
 
     Method AddWireConnection: Void(dir: Int)
+        Throw New Throwable()
     End Method
 
     Method BecomeBombWall: Void()
+        Throw New Throwable()
     End Method
 
     Method BecomeCracked: Void()
+        Throw New Throwable()
     End Method
 
     Method BecomeDarkShopWall: Void(spritePath: Int)
+        Throw New Throwable()
     End Method
 
     Method BecomeDiamond: Void()
+        Throw New Throwable()
     End Method
 
     Method BecomeDirt: Void()
+        Throw New Throwable()
     End Method
 
     Method BecomeHarderStone: Void()
+        Throw New Throwable()
     End Method
 
     Method BecomeStone: Void()
+        Throw New Throwable()
     End Method
 
     Method BecomeUnbreakable: Void()
+        Throw New Throwable()
     End Method
 
     Method CalcTileset: Int()
+        Throw New Throwable()
     End Method
 
     Method CalculateTileAlpha: Float()
+        Throw New Throwable()
     End Method
 
     Method CalculateTileLightValue: Float(forVision: Bool)
+        Throw New Throwable()
     End Method
 
     Method ClearTextLabel: Void()
+        Throw New Throwable()
     End Method
 
     Method DarkenShopWall: Void()
+        Throw New Throwable()
     End Method
 
     Method Die: Void()
+        Throw New Throwable()
     End Method
 
     Method GetCurrentAlpha: Float()
+        Throw New Throwable()
     End Method
 
     Method GetNumWireConnections: Int()
+        Throw New Throwable()
     End Method
 
     Method GetTileset: Int()
@@ -483,18 +515,23 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone2Wall: Object()
+        Throw New Throwable()
     End Method
 
     Method GetZone3Wall: Object()
+        Throw New Throwable()
     End Method
 
     Method GetZone4Wall: Object()
+        Throw New Throwable()
     End Method
 
     Method GetZone5Wall: Object()
+        Throw New Throwable()
     End Method
 
     Method HasTileBeenSeen: Bool()
+        Throw New Throwable()
     End Method
 
     Method HasTorch: Bool()
@@ -502,6 +539,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Throw New Throwable()
     End Method
 
     Method IsConductorWall: Bool()
@@ -522,9 +560,9 @@ Class Tile Extends RenderableObject
                 Return True
             Case TileType.MetalDoor
                 Return Not Self.IsMetalDoorOpen()
-            Default
-                Return False
         End Select
+
+        Return False
     End Method
 
     Method IsEarth: Bool()
@@ -539,9 +577,9 @@ Class Tile Extends RenderableObject
             Case TileType.LockedStairs3Diamonds
             Case TileType.LockedStairs9Diamonds
                 Return True
-            Default
-                Return False
         End Select
+
+        Return False
     End Method
 
     Method IsFloor: Bool()
@@ -553,9 +591,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsInAnyPlayerTrueLineOfSight: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsMetalDoorOpen: Bool()
@@ -563,9 +603,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsNearNightmare: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsNecrodancerPlatform: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsNormalFloor: Bool()
@@ -578,9 +620,9 @@ Class Tile Extends RenderableObject
                 Return True
             Case TileType.MetalDoor
                 Return Self.IsMetalDoorOpen()
-            Default
-                Return False
         End Select
+
+        Return False
     End Method
 
     Method IsShopWall: Bool()
@@ -588,9 +630,9 @@ Class Tile Extends RenderableObject
             Case TileType.CrackedShopWall
             Case TileType.ShopWall
                 Return True
-            Default
-                Return False
         End Select
+
+        Return False
     End Method
 
     Method IsStairs: Bool()
@@ -601,9 +643,9 @@ Class Tile Extends RenderableObject
             Case TileType.LockedStairs3Diamonds
             Case TileType.LockedStairs9Diamonds
                 Return True
-            Default
-                Return False
         End Select
+
+        Return False
     End Method
 
     Method IsTileset: Bool(t: Int)
@@ -611,9 +653,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsVisible: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsWall: Bool(nonCorridor: Bool, destructibleOnly: Bool, forVision: Bool, torchlessOnly: Bool)
+        Throw New Throwable()
     End Method
 
     Method IsWire: Bool()
@@ -621,9 +665,9 @@ Class Tile Extends RenderableObject
             Case TileType.Wire
             Case TileType.WiredDoor
                 Return True
-            Default
-                Return False
         End Select
+
+        Return False
     End Method
 
     Method IsZone4Dirt: Bool()
@@ -631,39 +675,51 @@ Class Tile Extends RenderableObject
     End Method
 
     Method LoadDiamond: Object()
+        Throw New Throwable()
     End Method
 
     Method LoadFloor: Sprite()
+        Throw New Throwable()
     End Method
 
     Method LoadWireImages: Void(mainImage: String, conductorPhase: Int)
+        Throw New Throwable()
     End Method
 
     Method Render: Void()
+        Throw New Throwable()
     End Method
 
     Method RenderImageAs: Void(img: Object, renderAsWall: Bool, extraXOff: Int, extraYOff: Int)
+        Throw New Throwable()
     End Method
 
     Method SelectWireFlip: Bool()
+        Throw New Throwable()
     End Method
 
     Method SelectWireFrame: Int()
+        Throw New Throwable()
     End Method
 
     Method SetDigTrigger: Void(triggerVal: Int)
+        Throw New Throwable()
     End Method
 
     Method SetDoorTrigger: Void(triggerVal: Int)
+        Throw New Throwable()
     End Method
 
     Method SetTrigger: Void(triggerVal: Int)
+        Throw New Throwable()
     End Method
 
     Method ToggleDoor: Void()
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()

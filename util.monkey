@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.random
 Import controller_game
 Import level
@@ -9,6 +11,7 @@ Class Util
     Global storedSeed: Int
 
     Function AddMetric: Void(key: Int, value: Int, send: Bool, blocking: Bool, isNumber: Bool)
+        Throw New Throwable()
     End Function
 
     Function AreAriaOrCodaActive: Bool()
@@ -16,78 +19,103 @@ Class Util
     End Function
 
     Function CreateScaledTextSprite: Object(str: Int, color: Int, scale: Int)
+        Throw New Throwable()
     End Function
 
     Function CreateTextSprite: Object(str: Int, color: Int, addShadow: Bool)
+        Throw New Throwable()
     End Function
 
     Function CustomMusicInUse: Bool()
+        Throw New Throwable()
     End Function
 
     Function DirToString: Int(dir: Int)
+        Throw New Throwable()
     End Function
 
     Function FindClosestTrulyUnoccupiedSpace: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
+        Throw New Throwable()
     End Function
 
     Function FindClosestTrulyUnoccupiedSpaceNotAdjacentToEnemy: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
+        Throw New Throwable()
     End Function
 
     Function FindClosestUnoccupiedSpace: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetActiveLanguagesFolderPath: Int()
+        Throw New Throwable()
     End Function
 
     Function GetAngleBetweenDirections: Int(dir1: Int, dir2: Int)
+        Throw New Throwable()
     End Function
 
     Function GetAnyPlayerAt: Object(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function GetClosestPlayer: Object(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function GetClosestPlayerIncludeItemEffects: Object(xVal: Int, yVal: Int, ignorePhasing: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetDirAfterRotation: Int(dir: Int, rotation: Int, includeDiagonals: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetDirFromDiff: Int(xDiff: Int, yDiff: Int)
+        Throw New Throwable()
     End Function
 
     Function GetDirRotationOrder: Object()
+        Throw New Throwable()
     End Function
 
     Function GetDistFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetDistSqFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool, includeLambs: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetLanguagesFolderPath: Int()
+        Throw New Throwable()
     End Function
 
     Function GetLeaderboardScores: Void(rangeStart: Int, rangeEnd: Int, dayOffset: Int, specificLeaderboard: Int, useTodaysSeed: Bool, friendsOnly: Bool, playerOnly: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetLeaderboardSetPrefix: Int()
+        Throw New Throwable()
     End Function
 
     Function GetLeaderboardSuffix: Int()
+        Throw New Throwable()
     End Function
 
     Function GetLeaderboardSuffixForCharacterAndCoopAndDeathlessState: Int(includeCadence: Bool, includeCustomMusic: Bool, includeExtraMode: Bool, includeChar: Bool, includeAllChars: Bool, includeTags: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetPlayerLocation: Object(playerNum: Int)
+        Throw New Throwable()
     End Function
 
     Function GetPlayersAt: Object(where: Object)
+        Throw New Throwable()
     End Function
 
     Function GetPlayersAt: Object(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function GetPointFromDir: Point(dir: Int)
@@ -128,6 +156,7 @@ Class Util
     End Function
 
     Function GetSteamStat: Int(statName: Int)
+        Throw New Throwable()
     End Function
 
     Function GetTileAt: Tile(xVal: Int, yVal: Int)
@@ -142,24 +171,31 @@ Class Util
     End Function
 
     Function GetTimeStringFromMilliseconds: Int(msecs: Int, secondsOnly: Bool, padSeconds: Bool)
+        Throw New Throwable()
     End Function
 
     Function GetVersionString: Int()
+        Throw New Throwable()
     End Function
 
     Function HasLeaderboardDownloaded: Bool()
+        Throw New Throwable()
     End Function
 
     Function IncrementSteamStat: Bool(statName: Int, inGameplayOnly: Bool, allowCoop: Bool, allowSeeded: Bool, delayUntilLevelLoad: Bool)
+        Throw New Throwable()
     End Function
 
     Function InvertDir: Int(dir: Int)
+        Throw New Throwable()
     End Function
 
     Function IsAnyPlayerAt: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function IsBomblessCharacterActive: Bool()
+        Throw New Throwable()
     End Function
 
     Function IsCharacterActive: Bool(charID: Int)
@@ -172,15 +208,19 @@ Class Util
     End Function
 
     Function IsEnemyAdjacent: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function IsGlobalCollisionAt: Bool(xVal: Int, yVal: Int, isPlayer: Bool, ignoreWalls: Bool, includeTheNothing: Bool, includeShopWallsDespiteIgnoringWalls: Bool, skipIgnoreWalls: Bool)
+        Throw New Throwable()
     End Function
 
     Function IsNonMobileCollisionAt: Bool(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Function
 
     Function IsOnScreen: Bool(xVal: Int, yVal: Int, cameraSeekX: Float, cameraSeekY: Float)
+        Throw New Throwable()
     End Function
 
     Function IsWeaponlessCharacterActive: Bool()
@@ -193,15 +233,19 @@ Class Util
     End Function
 
     Function ParseTextSeed: Int(randSeedString: String)
+        Throw New Throwable()
     End Function
 
     Function ProcessDelayedStats: Void()
+        Throw New Throwable()
     End Function
 
     Function Pump: Void()
+        Throw New Throwable()
     End Function
 
     Function RndBool: Bool(useSeed: Bool)
+        Throw New Throwable()
     End Function
 
     Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int)
@@ -225,62 +269,80 @@ Class Util
     End Function
 
     Function RndIntRangeFromZero: Int(high: Int, useSeed: Bool)
+        Throw New Throwable()
     End Function
 
     Function RotateDirInDirection: Int(original: Int, dir: Int)
+        Throw New Throwable()
     End Function
 
     Function RotatePoint45DegreesClockwise: Object(p: Object)
+        Throw New Throwable()
     End Function
 
     Function RotatePointInDirection: Object(original: Object, dir: Int)
+        Throw New Throwable()
     End Function
 
     Function RotatePointInGeneralDirection: Object(p: Object, dir: Int)
+        Throw New Throwable()
     End Function
 
     Function SegmentSegmentIntersection: Object(p0_x: Float, p0_y: Float, p1_x: Float, p1_y: Float, p2_x: Float, p2_y: Float, p3_x: Float, p3_y: Float)
+        Throw New Throwable()
     End Function
 
     Function SendEntityTo: Void(ent: Object, xVal: Int, yVal: Int, triggerBossStart: Bool)
+        Throw New Throwable()
     End Function
 
     Function SetAppFolder: Void()
+        Throw New Throwable()
     End Function
 
     Function SetSteamIntStat: Bool(statName: Int, val: Int, inGameplayOnly: Bool, allowCoop: Bool, delayUntilLevelLoad: Bool)
+        Throw New Throwable()
     End Function
 
     Function SongNameSoundtrackId: Int(songName: Int)
+        Throw New Throwable()
     End Function
 
     Function StringLeft: Int(str: Int, n: Int)
+        Throw New Throwable()
     End Function
 
     Function SubmitDailyHardcoreScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
+        Throw New Throwable()
     End Function
 
     Function SubmitHardcoreScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
+        Throw New Throwable()
     End Function
 
     Function SubmitModeScore: Void(mode: Int, score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
+        Throw New Throwable()
     End Function
 
     Function SubmitSeededScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
+        Throw New Throwable()
     End Function
 
     Function SubmitSeededSpeedrunScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
+        Throw New Throwable()
     End Function
 
     Function SubmitSpeedrunScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
+        Throw New Throwable()
     End Function
 
     Function TeleportEntity: Bool(ent: Object, minDist: Float, oldX: Int, oldY: Int, anyFloor: Bool)
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
-    Method NoTrim()
+    Method NoTrim: Void()
         AddMetric(0, 0, False, False, False)
         AreAriaOrCodaActive()
         CreateScaledTextSprite(0, 0, 0)

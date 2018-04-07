@@ -1,3 +1,5 @@
+Strict
+
 Import monkey.list
 Import renderableobject
 Import sprite
@@ -19,41 +21,51 @@ Class Entity Extends RenderableObject Abstract
     Global entityList: List<Entity>
 
     Function AnyPlayerHaveCirclet: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveCircletOrGlassTorch: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveForesightTorch: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveGlassTorch: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveNazarCharm: Bool()
+        Throw New Throwable()
     End Function
 
     Function AnyPlayerHaveWallsTorch: Bool()
+        Throw New Throwable()
     End Function
 
     Function GetEntityAt: Entity(x: Int, y: Int, includePlayer: Bool)
+        Throw New Throwable()
     End Function
 
     Function RemoveAnyPerishedEntities: Void()
+        Throw New Throwable()
     End Function
 
-    Function RemoveFromList(entity: Entity)
+    Function RemoveFromList: Void(entity: Entity)
         Entity.entityList.RemoveEach(entity)
         Entity.deadEntityList.AddLast(entity)
     End Function
 
     Function RenderAll: Void()
+        Throw New Throwable()
     End Function
 
     Function UpdateVisibility: Void()
+        Throw New Throwable()
     End Function
 
-    Function _EditorFix() End
+    Function _EditorFix: Void() End
 
     Method New()
         Super.New()
@@ -118,15 +130,19 @@ Class Entity Extends RenderableObject Abstract
     Field field_F3: Bool
 
     Method BounceInPlace: Void(bufferTween: Bool)
+        Throw New Throwable()
     End Method
 
     Method BounceToward: Void(p: Point, bufferTween: Bool)
+        Throw New Throwable()
     End Method
 
     Method CancelTween: Void()
+        Throw New Throwable()
     End Method
 
     Method CheckRingOfShadows: Bool()
+        Throw New Throwable()
     End Method
 
     Method Die: Void()
@@ -143,35 +159,45 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method Fall: Void(keepMultiplier: Bool)
+        Throw New Throwable()
     End Method
 
     Method FlagForDeath: Void(numFrames: Int)
+        Throw New Throwable()
     End Method
 
     Method Flicker: Void(duration: Int)
+        Throw New Throwable()
     End Method
 
     Method Freeze: Bool(duration: Int, stone: Bool)
+        Throw New Throwable()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
 
     Method IsConfused: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsFrozen: Bool(ignoreLastBeat: Bool)
+        Throw New Throwable()
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
+        Throw New Throwable()
     End Method
 
     Method IsVisible: Bool()
+        Throw New Throwable()
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
+        Throw New Throwable()
     End Method
 
     Method PerformMovement: Int(xVal: Int, yVal: Int)
+        Throw New Throwable()
     End Method
 
     Method PerformMovement: Int(p: Point)
@@ -179,18 +205,23 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method PerformTween: Void(xVal: Int, yVal: Int, oldX: Int, oldY: Int, tweenType: Int, shadowTweenType: Int, bufferTween: Bool)
+        Throw New Throwable()
     End Method
 
     Method Render: Void()
+        Throw New Throwable()
     End Method
 
     Method RenderSprite: Void(img: Sprite)
+        Throw New Throwable()
     End Method
 
     Method SkipNextDraw: Void()
+        Throw New Throwable()
     End Method
 
     Method Update: Void()
+        Throw New Throwable()
     End Method
 
     Method NoTrim: Void()
@@ -203,6 +234,7 @@ Class Entity Extends RenderableObject Abstract
         AnyPlayerHaveWallsTorch()
         GetEntityAt(0, 0, False)
         RemoveAnyPerishedEntities()
+        RemoveFromList(Null)
         RenderAll()
         UpdateVisibility()
         BounceInPlace(False)
