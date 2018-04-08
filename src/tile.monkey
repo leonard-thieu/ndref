@@ -94,7 +94,7 @@ Class Tile Extends RenderableObject
 
         Tile.totalTilesCreatedOrDestroyed += 1
 
-        If typeVal = 8
+        If typeVal = TileType.Tar
             Level.isAnyTar = True
         End If
 
@@ -328,23 +328,16 @@ Class Tile Extends RenderableObject
         sprite3.SetZ(-901.0)
         Self.sprite3 = sprite
 
+        Local tiles := Level.tiles
         If pending
-            If Not Level.pendingTiles.Contains(Self.x)
-                Level.pendingTiles.Set(Self.x, New IntMap<Tile>())
-            End If
-
-            Local pendingTilesOnX := Level.pendingTiles.Get(Self.x)
-            pendingTilesOnX.Set(Self.y, Self)
-
+            tiles = Level.pendingTiles
             Tile.pendingTilesList.AddLast(Self)
-        Else
-            If Not Level.tiles.Contains(Self.x)
-                Level.tiles.Set(Self.x, New IntMap<Tile>())
-            End If
-
-            Local tilesOnX := Level.tiles.Get(Self.x)
-            tilesOnX.Set(Self.y, Self)
         End If
+
+        If Not tiles.Contains(Self.x)
+            tiles.Set(Self.x, New IntMap<Tile>())
+        End If
+        tiles.Get(Self.x).Set(Self.y, Self)
     End Method
 
     Field type: Int
