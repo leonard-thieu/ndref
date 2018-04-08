@@ -998,22 +998,23 @@ Class Level
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
-        If controller_game.currentZone > 3 Or
-           Level.levelConstraintX > xVal Or
-           Level.levelConstraintY > yVal Or
-           xVal + wVal > Level.levelConstraintX + Level.levelConstraintW Or
-           yVal + hVal > Level.levelConstraintY + Level.levelConstraintH
-            If controller_game.currentLevel
-                Level.levelConstraintNum += 1
-                If Level.levelConstraintNum > 100
-                    Level.levelConstraintNum = 0
-                    Level.levelConstraintX -= 1
-                    Level.levelConstraintY -= 1
-                    Level.levelConstraintW += 2
-                    Level.levelConstraintH += 2
+        If controller_game.currentZone <= 3
+            If Level.levelConstraintX > xVal Or
+               Level.levelConstraintY > yVal Or
+               xVal + wVal > Level.levelConstraintX + Level.levelConstraintW Or
+               yVal + hVal > Level.levelConstraintY + Level.levelConstraintH
+                If controller_game.currentLevel
+                    Level.levelConstraintNum += 1
+                    If Level.levelConstraintNum > 100
+                        Level.levelConstraintNum = 0
+                        Level.levelConstraintX -= 1
+                        Level.levelConstraintY -= 1
+                        Level.levelConstraintW += 2
+                        Level.levelConstraintH += 2
+                    End If
+                
+                    Return False
                 End If
-            
-                Return False
             End If
         End If
 
@@ -1028,286 +1029,452 @@ Class Level
             Case 4
                 catacombWallChance = 0.16
             Default
-                ' NOTE: Assumes `currentLevel` cannot be less than 1.
-                catacombWallChance = controller_game.currentLevel * 0.04
-                If catacombWallChance > 0.4
-                    catacombWallChance = 0.4
+                If currentLevel > 4
+                    catacombWallChance = math.Max(controller_game.currentLevel * 0.04, 0.4)
                 End If
         End Select
 
-        If (catacombWallChance > Util.RndIntRange(0, 1, True, -1)) And 
-           (roomType = -1) And
-           (controller_game.currentZone = 1)
-           wallType = TileType.CatacombWall
+        If catacombWallChance > Util.RndIntRangeFromZero(1, True) And 
+           roomType = -1 And
+           controller_game.currentZone = 1
+            wallType = TileType.CatacombWall
         End If
 
-        Local x: Int
-        Local y: Int
-        Local xMax := xVal + wVal
-        Local yMax := yVal + hVal
-
-        Local tiles := New List<TileData>()
+        Local lastCreatedRoomType := roomType
+        Local tiles: List<TileData>
         Select roomType
             Case -1
                 If controller_game.currentZone = 1
                     If controller_game.currentLevel = 1
-                        roomType = 2
                         If Not Util.RndBool(True)
-                            roomType = 0
-                            'goto LABEL_26
+                            lastCreatedRoomType = 0
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, wallType)
                         End If
-                        'goto LABEL_145
+
+                        lastCreatedRoomType = 2
+                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 2, originX, originY, originX2, originY2, wideCorridor, wallType)
                     End If
 
-                    Local rndVal := Util.RndIntRange(0, 2, True, -1)
-                    roomType = 0
-
-                    If Not rndVal
-                        'goto LABEL_26
-                    End If
-
-                    roomType = 1
-                    If Not (rndVal = 1)
-                        'goto LABEL_108
-                    End If
+                    Select Util.RndIntRangeFromZero(2, True)
+                        Case 0
+                            lastCreatedRoomType = 0
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, wallType)
+                        Case 1
+                            lastCreatedRoomType = 1
+                            ' No room?
+                        Case 2
+                            lastCreatedRoomType = 1
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 1, wallType)
+                    End Select
                 Else
                     If controller_game.currentZone = 4
-                        roomType = 0
-                        If Not (Util.RndIntRange(0, 1, True, -1) = 1) Then roomType = -1
-                        'goto LABEL_26
+                        lastCreatedRoomType = 0
+                        ' Substitute with `RndBool`?
+                        If Not Util.RndIntRangeFromZero(1, True) Then lastCreatedRoomType = -1
+
+                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, wallType)
                     End If
 
-                    roomType = 0
-                    Local v81 := Util.RndIntRange(0, 3, True, -1)
-                    If Not v81
-                        'LABEL_26
-                        x = xVal
-                        While x <= xMax
-                            tiles.AddLast(New TileData(x, yVal, wallType))
-                            tiles.AddLast(New TileData(x, yMax, wallType))
-                            x += 1
-                        End While
+                    Select Util.RndIntRangeFromZero(3, True)
+                        Case 0
+                            lastCreatedRoomType = 0
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, wallType)
+                        Case 1
+                            lastCreatedRoomType = 2
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 2, originX, originY, originX2, originY2, wideCorridor, wallType)
+                        Case 2
+                            lastCreatedRoomType = 1
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 1, wallType)
+                        Case 3
+                            lastCreatedRoomType = 0
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 8, wallType)
+                    End Select
+                End If
+            Case 1
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 1, wallType)
+            Case 2
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 2, originX, originY, originX2, originY2, wideCorridor, wallType)
+            Case 3
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 3)
+            Case 5
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 5)
+            Case 6
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 6)
+            Case 7
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 7)
+            Case 8
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 8, wallType)
+            Case 10
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 10)
+            Default
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, wallType)
+        End Select
 
-                        y = yVal + 1
-                        While y < yMax
-                            tiles.AddLast(New TileData(xVal, y, wallType))
-                            tiles.AddLast(New TileData(xMax, y, wallType))
-                            y += 1
-                        End While
+        If allowWaterTarOoze
+            Local chanceWaterTarOoze := Util.RndIntRangeFromZero(100, True)
+            Local levelIndex := math.Max(controller_game.currentLevel - 1, 5)
 
-                        x = xVal + 1
-                        While x < xMax
-                            y = yVal + 1
-                            While y < yMax
-                                tiles.AddLast(New TileData(x, y, TileType.Floor))
-                                y += 1
-                            End While
-                        End While
-                        
-                        'break
-                    End If
+            Local v58 := Util.RndIntRange(2, 7, True, -1)
+            Local floorCountMax := Util.RndIntRangeFromZero(levelIndex, True) + v58
 
-                    If Not (v81 = 1)
-                        If v81 = 2
-                            roomType = 1
-                            'goto LABEL_108
-                        End If
+            Local tileType: Int
+            Select controller_game.currentZone
+                Case 2
+                    Local v166 := Util.RndIntRange(2, 7, True, -1)
+                    floorCountMax = Util.RndIntRangeFromZero(levelIndex, True) + v166
 
-                        'LABEL_43
-                        x = xVal
-                        While x <= xMax
-                            tiles.AddLast(New TileData(x, yVal, wallType))
-                            tiles.AddLast(New TileData(x, yMax, wallType))
-                            x += 1
-                        End While
+                    tileType = TileType.Tar
+                Case 4
+                    tileType = TileType.Ooze
+                Default
+                    tileType = TileType.Water
+            End Select
 
-                        y = yVal + 1
-                        While y < yMax
-                            tiles.AddLast(New TileData(xVal, y, wallType))
-                            tiles.AddLast(New TileData(xMax, y, wallType))
-                            y += 1
-                        End While
+            Local placeWaterTarOoze := False
+            If (controller_game.currentLevel = 1) And (chanceWaterTarOoze <=  5) Then placeWaterTarOoze = True
+            If (controller_game.currentLevel = 2) And (chanceWaterTarOoze <= 25) Then placeWaterTarOoze = True
+            If (controller_game.currentLevel = 3) And (chanceWaterTarOoze <= 45) Then placeWaterTarOoze = True
+            If (controller_game.currentLevel > 3) And (chanceWaterTarOoze <= 65) Then placeWaterTarOoze = True
 
-                        Local v233_x := 2
-                        If Not (originX = xVal) Then v233_x = (originX = xMax) + 1
-                        Local v233_y := 2
-                        If Not (originY = yVal) Then v233_y = (originY = yMax) + 1
+            Local floorCount := 0
+            Local v70: Int
+            If placeWaterTarOoze
+                Select lastCreatedRoomType
+                    Case 0
+                    Case 1
+                    Case 2
+                        For Local tile := EachIn tiles
+                            ' Can be simplified to `tile.type = TileType.Floor` if `tile.type` can be guaranteed to be non-negative.
+                            If tile.type < 1 Then floorCount += 1
+                        End For
 
-                        x = xVal + 1
-                        While x < xMax
-                            y = yVal + 1
-                            If y < yMax
-                                If v233_x < math.Abs(x - originX)
-                                    Repeat
-                                        If v233_y >= math.Abs(y - originY)
-                                            tiles.AddLast(New TileData(x, y, TileType.Floor))
-                                        Else
-                                            tiles.AddLast(New TileData(x, y, wallType))
-                                        End If
-                                        y += 1
-                                    Until Not (y = yMax)
-                                Else
-                                    Repeat
-                                        tiles.AddLast(New TileData(x, y, TileType.Floor))
-                                        y += 1
-                                    Until Not (y = yMax)
+                        floorCount = math.Max(floorCount, floorCountMax)
+                        v70 = Util.RndIntRangeFromZero(floorCount - 1, True)
+                End Select
+            End If
+
+            If floorCount > 0
+                Local x := 0
+                Local y := 0
+                Local i := 999
+                Local j := floorCount
+                Local v224 := False
+                Repeat
+                    If v224
+                        For Local tile := EachIn tiles
+                            Local tileX := tile.x
+                            Local tileY := tile.y
+
+                            If tile.type = TileType.Floor And
+                               Util.GetDist(x, y, tileX, tileY) <= 1.01 And
+                               Not Util.RndIntRangeFromZero(3, True)
+                                x = tileX
+                                y = tileY
+                                tile.type = tileType
+                                j -= 1
+                                Exit
+                           End If
+                        End For
+                    Else
+                        For Local tile := EachIn tiles
+                            Local tileX := tile.x
+                            Local tileY := tile.y
+
+                            If tile.type = TileType.Floor
+                                v70 -= 1
+                                If v70 < 0
+                                    x = tileX
+                                    y = tileY
+                                    tile.type = tileType
+                                    j -= 1
+                                    v224 = True
+
+                                    If j <= 0
+                                        'goto LABEL_71
+                                    End If
+
+                                    i -= 1
                                 End If
                             End If
-                            x += 1
-                        End While
-
-                        roomType = 0
-                        'break
+                        End For
                     End If
-                End If
 
-                roomType = 2
+                    If j <= 0
+                        'goto LABEL_71
+                    End If
 
-                'LABEL_145
-                x = xVal
-                While x <= xMax
-                    tiles.AddLast(New TileData(x, yVal, wallType))
-                    tiles.AddLast(New TileData(x, yMax, wallType))
-                    x += 1
-                End While
+                    i -= 1
+                Until i = 0
 
-                y = yVal + 1
-                While y < yMax
-                    tiles.AddLast(New TileData(xVal, y, wallType))
-                    tiles.AddLast(New TileData(xMax, y, wallType))
-                    y += 1
-                End While
+                Return False
+            End If
+        End If
 
-                x = xVal + 1
-                Local xRem := originX - xVal - 1
-                While x < xMax
-                    y = yVal + 1
-                    Local yRem := originY - yVal - 1
-                    ' Probably need a separate `y` for this part.
-                    While y < yMax
-                        While True
-                            ' TODO: Distance calc?
+        'LABEL_71
+        For Local tile := EachIn tiles
+            Local tileX := tile.x
+            Local tileY := tile.y
+            Local tileType := tile.type
 
-                            yRem -= 1
+            If pending And Not (Level.GetTileTypeAt(tileX, tileY) = TileType.None)
+                If Not allowWallOverlap Then Return False
+                If Not Level.IsWallAt(tileX, tileY, False, False) Then Return False
 
-                            tiles.AddLast(New TileData(x, y, TileType.Floor))
-                            y += 1
+                New Tile(tileX, tileY, tileType, True, -1)
+            Else
+                Level.PlaceTileRemovingExistingTiles(tileX, tileY, tileType, pending, -1, False)
+            End If
+        End For
 
-                            If y = yMax
-                                'goto LABEL_169
-                            End If
-                        End While
+        Level.lastCreatedRoomType = lastCreatedRoomType
 
-                        yRem -= 1
+        Return True
+    End Function
 
-                        tiles.AddLast(New TileData(x, y, wallType))
-                        y += 1
-                    End While
+    Function _CreateRoom: List<TileData>(xVal: Int, yVal: Int, wVal: Int, hVal: Int, roomType: Int)
+        Return Level._CreateRoom(xVal, yVal, wVal, hVal, roomType, TileType.None)
+    End Function
 
-                    'LABEL_169
-                    x += 1
-                    xRem -= 1
-                End While
-                'break
-            Case 8
-                'goto LABEL_43
+    Function _CreateRoom: List<TileData>(xVal: Int, yVal: Int, wVal: Int, hVal: Int, roomType: Int, wallType: Int)
+        Return Level._CreateRoom(xVal, yVal, wVal, hVal, roomType, 0, 0, 0, 0, False, wallType)
+    End Function
+
+    Function _CreateRoom: List<TileData>(xVal: Int, yVal: Int, wVal: Int, hVal: Int, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int)
+        Local tiles := New List<TileData>()
+
+        Local xMax := xVal + wVal
+        Local yMax := yVal + hVal
+
+        Select roomType
+            Case 0
+                Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor)
             Case 1
-                'LABEL_108
-                x = xVal
-                While x <= xMax
-                    tiles.AddLast(New TileData(x, yVal, wallType))
-                    tiles.AddLast(New TileData(x, yMax, wallType))
-                    x += 1
-                End While
-
-                y = yVal + 1
-                While y < yMax
-                    tiles.AddLast(New TileData(xVal, y, wallType))
-                    tiles.AddLast(New TileData(yMax, y, wallType))
-                    y += 1
-                End While
+                Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
                 Local v236 := Util.RndIntRange(0, 6, True, -1)
 
-                If xMax <= xVal + 1
-                    'break
-                End If
-
-                Local xOff := 1
-                Local xRem := xMax - xVal - 1
-                While True
-                    x = xVal + xOff
-
-                    If yVal + 1 < yMax Then Exit
-
-                    'LABEL_127
-                    xOff += 1
-                    xRem -= 1
-                    If Not xRem
-                        'goto LABEL_62
-                    End If
-                End While
-
-                Local yOff := 1
-                Local yRem := yMax - yVal - 1
-                While True
+                If xVal + 1 < xMax
+                    Local x: Int
+                    Local xOff := 1
+                    Local xRem := xMax - xVal - 1
                     While True
-                        y = yOff + yVal
+                        x = xVal + xOff
 
-                        If (xOff = 2 Or xRem = 2) And (yOff = 2 Or yRem = 2) Then Exit
+                        If yVal + 1 < yMax Then Exit
 
-                        tiles.AddLast(New TileData(x, y, TileType.Floor))
+                        'LABEL_127
+                        xOff += 1
+                        xRem -= 1
+                        If Not xRem
+                            'Break out of select
+                        End If
+                    End While
 
-                        'LABEL_121
+                    Local y: Int
+                    Local yOff := 1
+                    Local yRem := yMax - yVal - 1
+                    While True
+                        While True
+                            y = yOff + yVal
+
+                            If (xOff = 2 Or xRem = 2) And (yOff = 2 Or yRem = 2) Then Exit
+
+                            tiles.AddLast(New TileData(x, y, TileType.Floor))
+
+                            'LABEL_121
+                            yOff += 1
+                            yRem -= 1
+                            If Not yRem
+                                'goto LABEL_127
+                            End If
+                        End While
+
+                        If v236
+                            tiles.AddLast(New TileData(x, y, wallType))
+                            'goto LABEL_121
+                        End If
+
+                        tiles.AddLast(New TileData(x, y, TileType.CatacombWall))
+
                         yOff += 1
                         yRem -= 1
                         If Not yRem
                             'goto LABEL_127
                         End If
                     End While
-
-                    If v236
-                        tiles.AddLast(New TileData(x, y, wallType))
-                        'goto LABEL_121
-                    End If
-
-                    tiles.AddLast(New TileData(x, y, TileType.CatacombWall))
-
-                    yOff += 1
-                    yRem -= 1
-                    If Not yRem
-                        'goto LABEL_127
-                    End If
-                End While
-            Case 2
-                'goto LABEL_145
-            Case RoomType.Shop
-                x = xVal
-                While x <= xMax
-                    tiles.AddLast(New TileData(x, yVal, TileType.ShopWall))
-                    tiles.AddLast(New TileData(x, yMax, TileType.ShopWall))
-                    x += 1
-                End While
-
-                y = yVal + 1
-                While y < yMax
-                    tiles.AddLast(New TileData(xVal, y, TileType.ShopWall))
-                    tiles.AddLast(New TileData(xMax, y, TileType.ShopWall))
-                    y += 1
-                End While
-
-                x = xVal + 1
-                If x >= xMax
-                    Level.shopX = xVal
-                    Level.shopY = yVal
-                    Level.shopW = wVal
-                    Level.shopH = hVal
-
-                    'break
                 End If
+            Case 2
+                Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
+
+                Local xMin := xVal + 1
+                Local xRem := originX - xVal - 1
+                For Local x := xMin Until xMax
+                    Local yMin := yVal + 1
+                    Local yRem := originY - yVal - 1
+                    For Local y := yMin Until yMax
+                        While True
+                            If (x = xMin Or x = xMax - 1) And
+                               ((y = yMin) Or
+                                (x = xMin And y = yMax - 1) Or
+                                (x = xMax - 1 And y = yMax - 1))
+                                If (wideCorridor Or Util.GetDist(originX, originY, xRem + originX2, yRem + originY2) <= 1.0) And
+                                   (Util.GetDist(0, 0, xRem, yRem) > 1.0)
+                                    Exit
+                               End If
+                            End If
+
+                            tiles.AddLast(New TileData(x, y, TileType.Floor))
+                            y += 1
+                            yRem -= 1
+
+                            If y = yMax
+                                'goto LABEL_169
+                            End If
+                        End While
+
+                        tiles.AddLast(New TileData(x, y, wallType))
+                        yRem -= 1
+                    End For
+
+                    'LABEL_169
+                    xRem -= 1
+                End For
+            Case 3
+                Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.ShopWall)
+
+                ' Floor
+                Local xMid := (wVal / 2) + xVal
+                Local xMidLeft := xMid - 1
+                Local xMidRight := xMid + 1
+
+                Local yMid := (hVal / 2) + yVal
+                Local yMidAbove := yMid - 1
+
+                For Local x := xVal + 1 Until xMax
+                    Local y := yVal + 1
+                    If y < yMax
+                        If x = xMidLeft
+                            Repeat
+                                While Not (y = yMidAbove)
+                                    tiles.AddLast(New TileData(xMidLeft, y, TileType.Floor))
+                                    y += 1
+
+                                    If y = yMax
+                                        'goto LABEL_212
+                                    End If
+                                End While
+
+                                tiles.AddLast(New TileData(xMidLeft, yMidAbove, TileType.ShopFloor))
+                                y += 1
+                            Until y = yMax
+                        Else
+                            If Not (x = xMidRight)
+                                Repeat
+                                    tiles.AddLast(New TileData(x, y, TileType.Floor))
+                                    y += 1
+                                Until y = yMax
+                                'goto LABEL_206
+                            End If
+
+                            Repeat
+                                If y = yMidAbove
+                                    tiles.AddLast(New TileData(xMidRight, yMidAbove, TileType.ShopFloor))
+                                Else
+                                    tiles.AddLast(New TileData(xMidRight, y, TileType.Floor))
+                                End If
+                                y += 1
+                            Until y = yMax
+                        End If
+
+                        'LABEL_212
+                    End If
+
+                    'LABEL_206
+                End For
+
+                Level.shopX = xVal
+                Level.shopY = yVal
+                Level.shopW = wVal
+                Level.shopH = hVal
+            Case 5
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
+            Case 6
+                Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.BossWall)
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor3)
+            Case 7
+                Local tileType := TileType.StoneWall
+                If controller_game.currentLevel = 3
+                    tileType = TileType.CatacombWall
+                End If
+
+                ' Horizontal walls and corners
+                For Local x := xVal To xMax
+                    If Not (Level.GetTileTypeAt(x, yVal) = TileType.CatacombWall)
+                        Level.PlaceTileRemovingExistingTiles(x, yVal, tileType, False, -1, False) ' Top wall
+                    End If
+                    If Not (Level.GetTileTypeAt(x, yMax) = TileType.CatacombWall)
+                        Level.PlaceTileRemovingExistingTiles(x, yMax, tileType, False, -1, False) ' Bottom wall
+                    End If
+                End For
+
+                ' Vertical walls
+                For Local y := yVal + 1 Until yMax
+                    If Not (Level.GetTileTypeAt(xVal, y) = TileType.CatacombWall)
+                        Level.PlaceTileRemovingExistingTiles(xVal, y, tileType, False, -1, False) ' Left wall
+                    End If
+                    If Not (Level.GetTileTypeAt(xVal, y) = TileType.CatacombWall)
+                        Level.PlaceTileRemovingExistingTiles(xVal, y, tileType, False, -1, False) ' Right wall
+                    End If
+                End For
+
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
+            Case 8
+                Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
+
+                Local v233_x := 2
+                If Not (originX = xVal) Then v233_x = (originX = xMax) + 1
+                Local v233_y := 2
+                If Not (originY = yVal) Then v233_y = (originY = yMax) + 1
+
+                For Local x := xVal + 1 Until xMax
+                    For Local y := yVal + 1 Until yMax
+                        If v233_x < math.Abs(x - originX) And
+                           v233_y < math.Abs(y - originY)
+                            tiles.AddLast(New TileData(x, y, wallType))
+                        Else
+                            tiles.AddLast(New TileData(x, y, TileType.Floor))
+                        End If
+                    End For
+                End For
+            Case 10
+                Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.ShopWall)
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor)
         End Select
 
-        Throw New Throwable()
+        Return tiles
+    End Function
+
+    Function _CreateWalls: Void(tiles: List<TileData>, xVal: Int, yVal: Int, xMax: Int, yMax: Int, tileType: Int)
+        ' Horizontal walls and corners
+        For Local x := xVal To xMax
+            tiles.AddLast(New TileData(x, yVal, tileType)) ' Top wall
+            tiles.AddLast(New TileData(x, yMax, tileType)) ' Bottom wall
+        End For
+
+        ' Vertical walls
+        For Local y:= yVal + 1 Until yMax
+            tiles.AddLast(New TileData(xVal, y, tileType)) ' Left wall
+            tiles.AddLast(New TileData(xMax, y, tileType)) ' Right wall
+        End For
+    End Function
+
+    Function _CreateFloor: Void(tiles: List<TileData>, xVal: Int, yVal: Int, xMax: Int, yMax: Int, tileType: Int)
+        For Local x := xVal + 1 Until xMax
+            For Local y := yVal + 1 Until yMax
+                tiles.AddLast(New TileData(x, y, tileType))
+            End For
+        End For
     End Function
 
     Function CreateRoomZone5: Void(rm: RoomWithDoor, roomType: Int)

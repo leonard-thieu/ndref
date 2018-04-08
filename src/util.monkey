@@ -1,5 +1,6 @@
 Strict
 
+Import monkey.math
 Import monkey.random
 Import controller_game
 Import level
@@ -76,6 +77,15 @@ Class Util
 
     Function GetDirRotationOrder: Object()
         Throw New Throwable()
+    End Function
+
+    Function GetDist: Float(x: Int, y: Int, x2: Int, y2: Int)
+        Return math.Sqrt(Util.GetDistSq(x, y, x2, y2))
+    End Function
+
+    Function GetDistSq: Float(x: Int, y: Int, x2: Int, y2: Int)
+        Return ((x2 - x) * (x2 - x)) + 
+               ((y2 - y) * (y2 - y))
     End Function
 
     Function GetDistFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool)
@@ -238,22 +248,18 @@ Class Util
 
         Local seed := 0
 
-        If randSeedString.Length > 0
-            For Local i := 0 Until randSeedString.Length
-                seed += i * randSeedString[i]
-            End For
+        For Local i := 0 Until randSeedString.Length
+            seed += i * randSeedString[i]
+        End For
 
-            If randSeedString[0] <= NUMBER_9
-                For Local i := 1 Until randSeedString.Length
-                    If randSeedString[i] > NUMBER_9 Then Return seed
-                End For
+        For Local i := 0 Until randSeedString.Length
+            If randSeedString[i] > NUMBER_9 Then Return seed
+        End For
 
-                seed = 0
-                For Local i := 0 Until randSeedString.Length
-                    seed = randSeedString[i] + 2 * (5 * seed) - NUMBER_0
-                End For
-            End If
-        End If
+        seed = 0
+        For Local i := 0 Until randSeedString.Length
+            seed = randSeedString[i] + 2 * (5 * seed) - NUMBER_0
+        End For
 
         Return seed
     End Function
@@ -384,6 +390,8 @@ Class Util
         GetDirAfterRotation(0, 0, False)
         GetDirFromDiff(0, 0)
         GetDirRotationOrder()
+        GetDist(0, 0, 0, 0)
+        GetDistSq(0, 0, 0, 0)
         GetDistFromClosestPlayer(0, 0, False)
         GetDistSqFromClosestPlayer(0, 0, False, False)
         GetLanguagesFolderPath()
