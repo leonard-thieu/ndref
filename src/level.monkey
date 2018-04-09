@@ -2547,15 +2547,16 @@ Class Level
                         End If
 
                         Return Level._PlaceRoom(xVal, yVal, width, height)
-                    End If
-
-                    xVal = Level.carveX
-                    yOff = Util.RndIntRangeFromZero(height - 2, True)
-                    originY = Level.carveY
-
-                    If wideCorridor
-                        yOff = Util.RndIntRangeFromZero(height - 3, True)
+                    Else
+                        ' moveX = 1
+                        xVal = Level.carveX
+                        yOff = Util.RndIntRangeFromZero(height - 2, True)
                         originY = Level.carveY
+
+                        If wideCorridor
+                            yOff = Util.RndIntRangeFromZero(height - 3, True)
+                            originY = Level.carveY
+                        End If
                     End If
                 End If
 
