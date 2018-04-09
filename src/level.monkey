@@ -2454,7 +2454,6 @@ Class Level
                     If wideCorridor
                         yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
                         originX = Level.carveX
-                        'goto LABEL_95
                     Else
                         yVal = originY - yOff - 1
                         originX = Level.carveX
@@ -2476,80 +2475,6 @@ Class Level
                         Else
                             xVal = Level.carveX - xOff - 1
                         End If
-
-                        'LABEL_95
-                        Local originX2 := originX + 1
-                        Local originY2 := originY
-
-                        If horiz
-                            originX2 = originX
-                            originY2 = originY + 1
-                        End If
-
-                        If Not Level.CreateRoom(xVal, yVal, width, height, True, roomType, originX, originY, originX2, originY2, wideCorridor, TileType.DirtWall, False, True)
-                            Return Null
-                        End If
-
-                        For Local pendingTilesOnXNode := EachIn Level.pendingTiles
-                            For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
-                                Local pendingTileX := pendingTilesOnXNode.Key()
-                                Local pendingTileY := pendingTileNode.Key()
-
-                                Local tileAt := Level.GetTileAt(pendingTileX, pendingTileY)
-                                If tileAt Then tileAt.Die()
-
-                                Local pendingTileType := pendingTileNode.Value().GetType()
-                                New Tile(pendingTileX, pendingTileY, pendingTileType, False, -1)
-                            End For
-                        End For
-
-                        If roomType = RoomType.Shop
-                            Level.PlaceShopItemsAt(xVal, yVal, Null)
-
-                            Return Level._PlaceRoom(xVal, yVal, width, height)
-                        End If
-
-                        If (roomType = 5) Or (roomType = 7)
-                            Return Level._PlaceRoom(xVal, yVal, width, height)
-                        End If
-
-                        Local rndVal := Util.RndIntRangeFromZero(100, True)
-                        Local addDoor: Bool
-                        If (controller_game.currentLevel = 1) And (rndVal <= 80) Then addDoor = True
-                        If (controller_game.currentLevel = 2) And (rndVal <= 70) Then addDoor = True
-                        If (controller_game.currentLevel = 3) And (rndVal <= 60) Then addDoor = True
-                        If (controller_game.currentLevel > 3) And (rndVal <= 50) Then addDoor = True
-
-                        Local tileType: Int
-                        If addDoor
-                            If Level.isHardcoreMode
-                                If Not wideCorridor
-                                    If Util.RndIntRangeFromZero(8, True)
-                                        New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
-                                    Else
-                                        New Tile(Level.carveX, Level.carveY, TileType.MetalDoor, False, -1)
-                                    End If
-
-                                    Return Level._PlaceRoom(xVal, yVal, width, height)
-                                Else
-                                    New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
-                                End If
-                            Else
-                                New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
-                            End If
-
-                            tileType = TileType.Door
-                        Else
-                            New Tile(Level.carveX, Level.carveY, TileType.Floor2, False, -1)
-
-                            tileType = TileType.Floor2
-                        End If
-
-                        If wideCorridor
-                            New Tile(originX2, originY2, tileType, False, -1)
-                        End If
-
-                        Return Level._PlaceRoom(xVal, yVal, width, height)
                     Else
                         ' moveX = 1
                         xVal = Level.carveX
@@ -2565,7 +2490,79 @@ Class Level
                         originX = Level.carveX
                     End If
                 End If
-                'goto LABEL_95
+                
+                Local originX2 := originX + 1
+                Local originY2 := originY
+
+                If horiz
+                    originX2 = originX
+                    originY2 = originY + 1
+                End If
+
+                If Not Level.CreateRoom(xVal, yVal, width, height, True, roomType, originX, originY, originX2, originY2, wideCorridor, TileType.DirtWall, False, True)
+                    Return Null
+                End If
+
+                For Local pendingTilesOnXNode := EachIn Level.pendingTiles
+                    For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
+                        Local pendingTileX := pendingTilesOnXNode.Key()
+                        Local pendingTileY := pendingTileNode.Key()
+
+                        Local tileAt := Level.GetTileAt(pendingTileX, pendingTileY)
+                        If tileAt Then tileAt.Die()
+
+                        Local pendingTileType := pendingTileNode.Value().GetType()
+                        New Tile(pendingTileX, pendingTileY, pendingTileType, False, -1)
+                    End For
+                End For
+
+                If roomType = RoomType.Shop
+                    Level.PlaceShopItemsAt(xVal, yVal, Null)
+
+                    Return Level._PlaceRoom(xVal, yVal, width, height)
+                End If
+
+                If (roomType = 5) Or (roomType = 7)
+                    Return Level._PlaceRoom(xVal, yVal, width, height)
+                End If
+
+                Local rndVal := Util.RndIntRangeFromZero(100, True)
+                Local addDoor: Bool
+                If (controller_game.currentLevel = 1) And (rndVal <= 80) Then addDoor = True
+                If (controller_game.currentLevel = 2) And (rndVal <= 70) Then addDoor = True
+                If (controller_game.currentLevel = 3) And (rndVal <= 60) Then addDoor = True
+                If (controller_game.currentLevel > 3) And (rndVal <= 50) Then addDoor = True
+
+                Local tileType: Int
+                If addDoor
+                    If Level.isHardcoreMode
+                        If Not wideCorridor
+                            If Util.RndIntRangeFromZero(8, True)
+                                New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                            Else
+                                New Tile(Level.carveX, Level.carveY, TileType.MetalDoor, False, -1)
+                            End If
+
+                            Return Level._PlaceRoom(xVal, yVal, width, height)
+                        Else
+                            New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                        End If
+                    Else
+                        New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                    End If
+
+                    tileType = TileType.Door
+                Else
+                    New Tile(Level.carveX, Level.carveY, TileType.Floor2, False, -1)
+
+                    tileType = TileType.Floor2
+                End If
+
+                If wideCorridor
+                    New Tile(originX2, originY2, tileType, False, -1)
+                End If
+
+                Return Level._PlaceRoom(xVal, yVal, width, height)
             End If
         End If
 
