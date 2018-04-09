@@ -1623,6 +1623,7 @@ Class Level
             End For
         End For
 
+        Local v37: Int
         If yMax <= yMin
             Repeat
                 Local dump := New StringStack()
@@ -1630,7 +1631,7 @@ Class Level
                     Local x := xMax
                     Repeat
                         Local tile := Level.GetTileAt(x, yMax)
-                        Local val := String = " "
+                        Local val := " "
                         If tile
                             If tile.type = TileType.Wire
                                 val = "w"
@@ -1653,7 +1654,7 @@ Class Level
                 ' TODO: Looks like some copying happens here?
                 ' TODO: Print
 
-                yMax++
+                yMax += 1
             Until yMax <= v37
         End If
     End Function
@@ -3112,5 +3113,6 @@ End Class
 Class RoomType
 
     Const Shop: Int = 3
+    Const Start: Int = 4
 
 End Class
