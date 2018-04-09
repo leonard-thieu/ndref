@@ -1753,7 +1753,7 @@ Class Level
         Throw New Throwable()
     End Function
 
-    Function GetRandomWallInRoom: Object(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
+    Function GetRandomWallInRoom: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
         Throw New Throwable()
     End Function
 
@@ -2210,6 +2210,10 @@ Class Level
 
     Function PlaceResourceWall: Void()
         Throw New Throwable()
+    End Function
+
+    Function PlaceRoomZone1: RoomData(roomToAttachTo: RoomData)
+        Return Level.PlaceRoomZone1(RoomType.None, roomToAttachTo)
     End Function
 
     Function PlaceRoomZone1: RoomData(roomType: Int, roomToAttachTo: RoomData)
@@ -3114,7 +3118,7 @@ Class RoomType
     Const None: Int = -1
     Const Unknown0: Int = 0
     Const Unknown1: Int = 1
-    Const Unknown2: Int = 3
+    Const Unknown2: Int = 2
     Const Shop: Int = 3
     Const Start: Int = 4
     Const Unknown5: Int = 5
