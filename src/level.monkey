@@ -1539,7 +1539,7 @@ Class Level
                 End If
             End If
 
-            If player.field_110
+            If player.isHelper
                 player.AddItemOfType("weapon_dagger", Null, True, True)
             End If
         End For
