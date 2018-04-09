@@ -23,21 +23,21 @@ Class BounceTrap Extends Trap
             Local i := 499
             While True
                 dir2 = Util.RndIntRange(0, 3, True, -1)
-                Self.direction = dir2
+                Self.bounceDir = dir2
 
                 If dir2 Then Exit
 
                 Local tileRight := Level.GetTileAt(xVal + 1, yVal)
                 If Not tileRight Or Not tileRight.IsWall(False, False, False, False)
                     'LABEL_27
-                    dir = Self.direction
+                    dir = Self.bounceDir
                     If Not dir = BounceTrapDirection.Spin
                         'goto LABEL_4
                     End If
                     'goto LABEL_28
                 End If
 
-                dir2 = Self.direction
+                dir2 = Self.bounceDir
                 If dir2 = BounceTrapDirection.Left
                     'goto LABEL_24
                 End If
@@ -48,7 +48,7 @@ Class BounceTrap Extends Trap
                     If Not tileBelow Or Not tileBelow.IsWall(False, False, False, False)
                         'goto LABEL_27
                     End If
-                    dir2 = Self.direction
+                    dir2 = Self.bounceDir
                 End If
 
                 If dir2 = BounceTrapDirection.Up
@@ -56,7 +56,7 @@ Class BounceTrap Extends Trap
                     If Not tileAbove Or Not tileAbove.IsWall(False, False, False, False)
                         'goto LABEL_27
                     End If
-                    dir2 = Self.direction
+                    dir2 = Self.bounceDir
                 End If
 
                 If dir2 - 8 <= 1
@@ -80,22 +80,22 @@ Class BounceTrap Extends Trap
             If Not tileLeft Or Not tileLeft.IsWall(False, False, False, False)
                 'goto LABEL_27
             End If
-            dir2 = Self.direction
+            dir2 = Self.bounceDir
             'goto LABEL_16
         End If
 
-        Self.direction = d
+        Self.bounceDir = d
 
         'LABEL_3
         If dir = BounceTrapDirection.Spin
             'LABEL_28
-            Self.direction = Util.RndIntRange(0, 3, True, -1)
+            Self.bounceDir = Util.RndIntRange(0, 3, True, -1)
             If Util.RndBool(True)
-                Self.field_106 = True
+                Self.isRotatingCW = True
             Else
-                Self.field_107 = True
+                Self.isRotatingCCW = True
             End If
-            dir = Self.direction
+            dir = Self.bounceDir
         End If
 
         'LABEL_4
@@ -112,15 +112,15 @@ Class BounceTrap Extends Trap
         image.SetZ(-995.0)
         Self.image = image
 
-        Self.field_110 = Self.direction
+        Self.originalDir = Self.bounceDir
     End Method
 
-    Field field_106: Bool
-    Field field_107: Bool
-    Field direction: Int
-    Field field_110: Int
-    Field field_114: Int
-    Field field_118: Int = -1
+    Field isRotatingCW: Bool
+    Field isRotatingCCW: Bool
+    Field bounceDir: Int
+    Field originalDir: Int
+    Field retractCounter: Int
+    Field rotatedBeat: Int = -1
 
     Method GetFrameToShow: Int()
         Throw New Throwable()

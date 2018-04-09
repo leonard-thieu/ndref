@@ -50,7 +50,7 @@ Class LevelObject
                 Select trap.trapType
                     Case TrapType.BounceTrap
                         Local bounceTrap := BounceTrap(trap)
-                        If bounceTrap.field_106 Or bounceTrap.field_107
+                        If bounceTrap.isRotatingCW Or bounceTrap.isRotatingCCW
                             trapObj.subtype = TrapType.BombTrap
                         End If
                     Case TrapType.TravelRune
