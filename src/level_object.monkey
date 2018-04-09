@@ -90,7 +90,7 @@ Class LevelObject
 
                 If chest.field_FA
                     Local saleChest := SaleChest(chest)
-                    chestObj.saleCost = saleChest.field_110
+                    chestObj.saleCost = saleChest.cost
                 End If
 
                 Self.chests.AddLast(chestObj)
