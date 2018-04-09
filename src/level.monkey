@@ -2441,22 +2441,17 @@ Class Level
 
                 Local xVal: Int
                 Local yVal: Int
-                Local originX: Int
-                Local originY: Int
-
-                Local yOff: Int
+                Local originX := Level.carveX
+                Local originY := Level.carveY
 
                 If moveX = -1
                     xVal = Level.carveX - width
-                    yOff = Util.RndIntRangeFromZero(height - 2, True)
-                    originY = Level.carveY
+                    Local yOff := Util.RndIntRangeFromZero(height - 2, True)
 
                     If wideCorridor
                         yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
-                        originX = Level.carveX
                     Else
                         yVal = originY - yOff - 1
-                        originX = Level.carveX
                     End If
                 Else
                     If Not (moveX = 1)
@@ -2464,8 +2459,6 @@ Class Level
 
                         ' `RndIntRange` has side effects. Must stay outside of the following If-block.
                         Local xOff := Util.RndIntRangeFromZero(width - 2, True)
-                        originX = Level.carveX
-                        originY = Level.carveY
 
                         yVal = Level.carveY
                         If moveY = -1 Then yVal -= height
@@ -2478,19 +2471,16 @@ Class Level
                     Else
                         ' moveX = 1
                         xVal = Level.carveX
-                        yOff = Util.RndIntRangeFromZero(height - 2, True)
-                        originY = Level.carveY
+                        Local yOff := Util.RndIntRangeFromZero(height - 2, True)
 
                         If wideCorridor
                             yOff = Util.RndIntRangeFromZero(height - 3, True)
-                            originY = Level.carveY
                         End If
 
                         yVal = originY - yOff - 1
-                        originX = Level.carveX
                     End If
                 End If
-                
+
                 Local originX2 := originX + 1
                 Local originY2 := originY
 
