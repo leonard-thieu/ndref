@@ -45,9 +45,9 @@ Class LevelObject
             End For
 
             For Local trap := EachIn Trap.trapList
-                Local trapObj := New TrapObject(trap.x, trap.y, trap.type)
+                Local trapObj := New TrapObject(trap.x, trap.y, trap.trapType)
 
-                Select trap.type
+                Select trap.trapType
                     Case TrapType.BounceTrap
                         Local bounceTrap := BounceTrap(trap)
                         If bounceTrap.field_106 Or bounceTrap.field_107

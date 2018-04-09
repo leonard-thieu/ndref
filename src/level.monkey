@@ -659,7 +659,7 @@ Class Level
 
         If currentZone = 4
             For Local trap := EachIn Trap.trapList
-                If trap.type = TrapType.TrapDoor
+                If trap.trapType = TrapType.TrapDoor
                     new SpikeTrap(trap.x, trap.y)
                     trap.Die()
                 End If
@@ -674,7 +674,7 @@ Class Level
 
         If Level.pacifismModeOn Or (Level.isHardMode And Level.GetHardModeXML().GetAttribute("disableTrapdoors", False))
             For Local trap := EachIn Trap.trapList
-                If trap.type = TrapType.TrapDoor
+                If trap.trapType = TrapType.TrapDoor
                     new SpikeTrap(trap.x, trap.y)
                     trap.Die()
                 End If
@@ -946,7 +946,7 @@ Class Level
                         Local traps := Trap.trapList.ToArray()
                         Local trap := traps[trapIndex]
                         If trap
-                            If trap.field_103 And trap.type = TrapType.BounceTrap
+                            If trap.canBeReplacedByTempoTrap And trap.trapType = TrapType.BounceTrap
                                 If Util.RndBool(True)
                                     New SpeedUpTrap(trap.x, trap.y)
                                 Else

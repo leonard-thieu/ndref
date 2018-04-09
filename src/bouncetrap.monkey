@@ -13,7 +13,7 @@ Class BounceTrap Extends Trap
         Local dir := d
         Local dir2: Int
 
-        Self.type = 1
+        Self.trapType = TrapType.BounceTrap
         Self.x = xVal
         Self.xOff = 12.0
         Self.y = yVal

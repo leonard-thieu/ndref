@@ -35,16 +35,16 @@ Class Trap Extends Entity Abstract
         Trap.trapList.AddLast(Self)
     End Method
 
-    Field type: Int
-    Field field_F4: Int = -1
-    Field field_F8: Int
-    Field field_FC: Int
-    Field field_100: Bool
-    Field field_101: Bool
-    Field field_102: Bool
-    Field field_103: Bool = True
-    Field field_104: Bool = True
-    Field field_105: Bool
+    Field trapType: Int
+    Field triggeredOnBeat: Int = -1
+    Field willTriggerOn: Entity
+    Field triggeredOn: Entity
+    Field triggered: Bool
+    Field isRune: Bool
+    Field indestructible: Bool
+    Field canBeReplacedByTempoTrap: Bool = True
+    Field newTrap: Bool = True
+    Field playerWasClose: Bool
 
     Method Die: Void()
         Throw New Throwable()

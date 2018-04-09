@@ -11,7 +11,7 @@ Class BombTrap Extends Trap
     Method New(xVal: Int, yVal: Int)
         Super.New()
 
-        Self.type = TrapType.BombTrap
+        Self.trapType = TrapType.BombTrap
         Self.xOff = 5.0
         Self.yOff = 15.0
 
