@@ -2444,19 +2444,26 @@ Class Level
                 Local originX := Level.carveX
                 Local originY := Level.carveY
 
-                If moveX = -1
-                    xVal = Level.carveX - width
-                    Local yOff := Util.RndIntRangeFromZero(height - 2, True)
+                Select moveX
+                    Case -1
+                        xVal = Level.carveX - width
+                        Local yOff := Util.RndIntRangeFromZero(height - 2, True)
 
-                    If wideCorridor
-                        yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
-                    Else
+                        If wideCorridor
+                            yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
+                        Else
+                            yVal = originY - yOff - 1
+                        End If
+                    Case 1
+                        xVal = Level.carveX
+                        Local yOff := Util.RndIntRangeFromZero(height - 2, True)
+
+                        If wideCorridor
+                            yOff = Util.RndIntRangeFromZero(height - 3, True)
+                        End If
+
                         yVal = originY - yOff - 1
-                    End If
-                Else
-                    If Not (moveX = 1)
-                        ' moveX = 0
-
+                    Default
                         ' `RndIntRange` has side effects. Must stay outside of the following If-block.
                         Local xOff := Util.RndIntRangeFromZero(width - 2, True)
 
@@ -2468,18 +2475,7 @@ Class Level
                         Else
                             xVal = Level.carveX - xOff - 1
                         End If
-                    Else
-                        ' moveX = 1
-                        xVal = Level.carveX
-                        Local yOff := Util.RndIntRangeFromZero(height - 2, True)
-
-                        If wideCorridor
-                            yOff = Util.RndIntRangeFromZero(height - 3, True)
-                        End If
-
-                        yVal = originY - yOff - 1
-                    End If
-                End If
+                End Select
 
                 Local originX2 := originX + 1
                 Local originY2 := originY
