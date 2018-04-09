@@ -255,7 +255,8 @@ Class Level
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
-        If roomType = 5 Or roomType = 7
+        If roomType = RoomType.Unknown5 Or
+           roomType = RoomType.Unknown7
             New Tile(xVal, yVal, TileType.DirtWall2, pending, -1)
         Else
             New Tile(xVal, yVal, TileType.Floor2, pending, -1)
@@ -271,8 +272,7 @@ Class Level
 
         If Not skipWalls
             If horiz
-                Local tileAbove := Level.GetTileAt(xVal, yVal - 1)
-                If Not tileAbove Or Not tileAbove.IsFloor()
+                If Not Level.IsFloorAt(xVal, yVal - 1)
                     New Tile(xVal, yVal - 1, TileType.DirtWall2, pending, -1)
                 End If
 
@@ -282,8 +282,7 @@ Class Level
                     yVal = yVal + 1
                 End If
             Else
-                Local tileLeft := Level.GetTileAt(xVal - 1, yVal)
-                If Not tileLeft Or Not tileLeft.IsFloor()
+                If Not Level.IsFloorAt(xVal - 1, yVal)
                     new Tile(xVal - 1, yVal, TileType.DirtWall2, pending, -1)
                 End If
 
@@ -294,8 +293,7 @@ Class Level
                 End If
             End If
 
-            Local tileAt := Level.GetTileAt(xVal, yVal)
-            If Not tileAt Or Not tileAt.IsFloor()
+            If Not Level.IsFloorAt(xVal, yVal)
                 New Tile(xVal, yVal, TileType.DirtWall2, pending, -1)
             End If
         End If
@@ -303,29 +301,28 @@ Class Level
 
     Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
         Local doSecondaryCarve := True
-        Local i := 0
-        Local iMax := True
 
-        If (roomType = 5) Or (roomType = 7)
-            iMax = False
+        Local iMax := 1
+        If roomType = RoomType.Unknown5 Or
+           roomType = RoomType.Unknown7
+            iMax = 0
         End If
 
-        While True
-            Local tileAt := Level.GetTileAt(Level.carveX, Level.carveY)
-            If tileAt And tileAt.GetType() And Not doSecondaryCarve
-                Return False
-            End If
+        For Local i := 0 To iMax
+            If Not doSecondaryCarve
+                If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY) = TileType.Floor)
+                    Return False
+                End If
 
-            If wideCorridor
-                If horiz
-                    Local tileBelow := Level.GetTileAt(Level.carveX, Level.carveY + 1)
-                    If tileBelow And tileBelow.GetType() And Not doSecondaryCarve
-                        Return False
-                    End If
-                Else
-                    Local tileRight := Level.GetTileAt(Level.carveX + 1, Level.carveY)
-                    If tileRight And tileRight.GetType() And Not doSecondaryCarve
-                        Return False
+                If wideCorridor
+                    If horiz
+                        If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY + 1) = TileType.Floor)
+                            Return False
+                        End If
+                    Else
+                        If Not (Level.GetTileTypeAt(Level.carveX + 1, Level.carveY) = TileType.Floor)
+                            Return False
+                        End If
                     End If
                 End If
             End If
@@ -333,16 +330,11 @@ Class Level
             Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, True, secondaryCarve, roomType, wideCorridor)
 
             If Not secondaryCarve Then doSecondaryCarve = False
-
-            i += 1
+            secondaryCarve = False
 
             Level.carveX += moveX
             Level.carveY += moveY
-
-            If i > iMax Then Exit
-
-            secondaryCarve = False
-        End While
+        End For
 
         Return True
     End Function
