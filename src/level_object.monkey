@@ -39,7 +39,7 @@ Class LevelObject
             For Local tilesOnX := EachIn Level.tiles
                 For Local tileNode := EachIn tilesOnX.Value()
                     Local tile := tileNode.Value()
-                    Local tileObj := New TileObject(tile.x, tile.y, tile.type, tile.tileset, tile.isCracked, tile.hasTorch)
+                    Local tileObj := New TileObject(tile.x, tile.y, tile.type, tile.tilesetOverride, tile.isCracked, tile.hasTorch)
                     Self.tiles.AddLast(tileObj)
                 End For
             End For

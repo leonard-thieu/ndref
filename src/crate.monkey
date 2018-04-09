@@ -29,7 +29,7 @@ Class Crate Extends Enemy
     Method New(xVal: Int, yVal: Int, type: Int, cont: String)
         Super.New()
 
-        Self.field_3D = True
+        Self.isCrate = True
         Self.field_1E4 = True
 
         Self.Init(xVal, yVal, type + 1, "crate", "", -1, -1)

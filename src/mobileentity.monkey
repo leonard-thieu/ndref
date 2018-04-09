@@ -9,7 +9,7 @@ Class MobileEntity Extends Entity Abstract
     Method New()
         Super.New()
 
-        Self.field_4F = True
+        Self.isMobile = True
     End Method
 
     Field field_F4: Bool

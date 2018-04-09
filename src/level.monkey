@@ -211,13 +211,13 @@ Class Level
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
         Local tile := Level.GetTileAt(xVal, yVal)
         If tile
-            If tile.field_FC Then Return
+            If tile.triggerDig Then Return
 
             Local tileData := new MinibossTileData()
             tileData.x = xVal
             tileData.y = yVal
             tileData.type = tile.type
-            tileData.field_1C = tile.field_C0
+            tileData.wireMask = tile.wireMask
 
             Level.minibossFormerWall.AddLast(tileData)
         End If
@@ -463,7 +463,7 @@ Class Level
         Level.GetTileAt(exitX, exitY).Die()
 
         Local exitTile := new Tile(exitX, exitY, 9, False, -1)
-        exitTile.flyaway_ = "|198|DEFEAT THE MINIBOSS!|"
+        exitTile.flyawayText = "|198|DEFEAT THE MINIBOSS!|"
 
         Level.exits.Set(new Point(exitX, exitY), new Point(-6, -6))
     End Function
@@ -3107,7 +3107,7 @@ Class MinibossTileData
     Field x: Int
     Field y: Int
     Field type: Int
-    Field field_1C: Int
+    Field wireMask: Int
 
 End Class
 
