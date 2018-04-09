@@ -327,7 +327,7 @@ Class Level
                 End If
             End If
 
-            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, True, secondaryCarve, roomType, wideCorridor)
+            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, pending, secondaryCarve, roomType, wideCorridor)
 
             If Not secondaryCarve Then doSecondaryCarve = False
             secondaryCarve = False
