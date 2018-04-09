@@ -1,6 +1,8 @@
 Strict
 
 Import monkey.list
+Import image
+Import particles
 Import renderableobject
 Import sprite
 
@@ -71,63 +73,63 @@ Class Entity Extends RenderableObject Abstract
         Super.New()
 
         Entity.entityCount += 1
-        Self.entityCount_ = Entity.entityCount
+        Self.entityNum = Entity.entityCount
         Entity.entityList.AddLast(Self)
 
-        Self.x3 = Self.x
-        Self.y3 = Self.y
+        Self.lastX = Self.x
+        Self.lastY = Self.y
     End Method
 
-    Field field_58: Object
-    Field sprite: Sprite
-    Field sprite2: Sprite
+    Field confusedParticles: ParticleSystem
+    Field image: Sprite
+    Field shadow: Sprite
     Field yOff: Float
     Field xOff: Float
-    Field x3: Int
-    Field y3: Int
-    Field field_74: Bool
-    Field field_75: Bool
-    Field field_78: Int
-    Field field_7C: Bool
-    Field entityCount_: Int = -1
-    Field field_84: Bool = True
-    Field field_85: Bool
-    Field field_86: Bool
-    Field field_88: Bouncer
-    Field field_8C: Bool
-    Field field_8D: Bool
-    Field field_90: String
-    Field field_94: Int = 1
-    Field field_98: Int
-    Field field_9C: Bool
-    Field field_9D: Bool
-    Field field_9E: Bool
-    Field field_A0: Int
-    Field field_A4: Bool
-    Field field_A8: Int
-    Field field_AC: Int
-    Field field_B0: String
-    Field field_B4: Int
-    Field field_B8: Int = 1
-    Field field_BC: Sprite
-    Field field_C0: Bool
-    Field field_C4: String
-    Field field_C8: Bool = True
-    Field field_C9: Bool
-    Field field_CC: Int
-    Field field_D0: Int
-    Field field_D4: Bool
-    Field field_D5: Bool
-    Field field_D8: Int = -1
-    Field field_DC: Bool
-    Field field_E0: Sprite
-    Field field_E4: Int
-    Field field_E8: Int
-    Field field_EC: Int
-    Field field_F0: Bool
-    Field field_F1: Bool
-    Field field_F2: Bool
-    Field field_F3: Bool
+    Field lastX: Int
+    Field lastY: Int
+    Field floating: Bool
+    Field falling: Bool
+    Field frozenDuration: Int
+    Field hasBeenVisible: Bool
+    Field entityNum: Int = -1
+    Field hasSilhouette: Bool = True
+    Field ignoreCollisionWhenMoving: Bool
+    Field canMoveOntoPlayer: Bool
+    Field bounce: Bouncer
+    Field ignoreWalls: Bool
+    Field isGentle: Bool
+    Field friendlyName: String
+    Field damagePerHit: Int = 1
+    Field hitType: Int
+    Field invisible: Bool
+    Field hasBeenSilhouetted: Bool
+    Field isMysteried: Bool
+    Field shadowYOff: Int
+    Field flaggedForDeath: Bool
+    Field flaggedForDeathCounter: Int
+    Field level: Int
+    Field xmlName: String
+    Field shadowXOff: Int
+    Field coinsToDrop: Int = 1
+    Field frozenImage: Sprite
+    Field frozenPermanently: Bool
+    Field overrideAttackSound: String
+    Field canBeFrozen: Bool = True
+    Field frozenStone: Bool
+    Field flickerCurrentTimer: Int
+    Field flickerTimer: Int
+    Field flickerHide: Bool
+    Field wasTeleported: Bool
+    Field confusedUntil: Int = -1
+    Field isWraithLike: Bool
+    Field frozenStoneImage: Sprite
+    Field frozenXOff: Int
+    Field frozenYOff: Int
+    Field waterOffset: Int
+    Field deAggroed: Bool
+    Field renderSilhouette: Bool
+    Field neverSilhouette: Bool
+    Field showConfuseOverride: Bool
 
     Method BounceInPlace: Void(bufferTween: Bool)
         Throw New Throwable()
@@ -147,9 +149,9 @@ Class Entity Extends RenderableObject Abstract
 
     Method Die: Void()
         If Not Self.dead
-            Local field_58 := Self.field_58
-            If field_58
-                ' TODO: Determine what field_58 is.
+            Local confusedParticles := Self.confusedParticles
+            If confusedParticles
+                ' TODO: this section
             End If
 
             Entity.RemoveFromList(Self)

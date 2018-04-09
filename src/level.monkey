@@ -1549,7 +1549,7 @@ Class Level
 
         For Local i := 0 Until numPlayers
             Local player := players[i]
-            player.field_58 = Null
+            player.confusedParticles = Null
         End For
 
         Level.triggerList.Clear()

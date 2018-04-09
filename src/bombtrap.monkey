@@ -18,10 +18,10 @@ Class BombTrap Extends Trap
         Self.x = xVal
         Self.y = yVal
 
-        Local sprite := new Sprite()
-        sprite.InitSprite("traps/bombtrap.png", 14, 16, 4, Image.DefaultFlags)
-        sprite.SetZ(-995.0)
-        Self.sprite = sprite
+        Local image := new Sprite()
+        image.InitSprite("traps/bombtrap.png", 14, 16, 4, Image.DefaultFlags)
+        image.SetZ(-995.0)
+        Self.image = image
     End Method
 
     Field field_10C: Int

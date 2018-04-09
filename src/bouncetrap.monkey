@@ -99,16 +99,19 @@ Class BounceTrap Extends Trap
         End If
 
         'LABEL_4
-        Self.sprite = New Sprite()
-        If dir = BounceTrapDirection.Omni
-            Self.sprite.InitSprite("traps/bouncetrap_omni.png", 14, 16, 12, 1)
-        Else If (dir - 4) > 3
-            Self.sprite.InitSprite("traps/bouncetrap.png", 14, 16, 12, 1)
-        Else
-            Self.sprite.InitSprite("traps/diagonal_bouncetrap.png", 14, 16, 16, 1)
-        End If
+        Local image := New Sprite()
 
-        Self.sprite.SetZ(-995.0)
+        If dir = BounceTrapDirection.Omni
+            image.InitSprite("traps/bouncetrap_omni.png", 14, 16, 12, 1)
+        Else If (dir - 4) > 3
+            image.InitSprite("traps/bouncetrap.png", 14, 16, 12, 1)
+        Else
+            image.InitSprite("traps/diagonal_bouncetrap.png", 14, 16, 16, 1)
+        End If
+        
+        image.SetZ(-995.0)
+        Self.image = image
+
         Self.field_110 = Self.direction
     End Method
 
