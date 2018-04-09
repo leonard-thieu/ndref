@@ -102,7 +102,7 @@ Class LevelObject
             End For
 
             For Local shrine := EachIn Shrine.shrineList
-                Local shrineObj := New ShrineObject(shrine.x, shrine.y, shrine.cType)
+                Local shrineObj := New ShrineObject(shrine.x, shrine.y, shrine.type)
                 Self.shrines.AddLast(shrineObj)
             End For
         End If
