@@ -855,7 +855,7 @@ Class Level
             Case 5 lastRoom = room6
             Case 6 lastRoom = room7
         End Select
-        lastRoom.field_24 = True
+        lastRoom.hasExit = True
 
         If Level.PlaceExit(lastRoom)
             ' TODO: Place NPCs
@@ -878,8 +878,8 @@ Class Level
             If Not Level.isHardcoreMode And Not Level.isDDRMode And v25
                 ' TODO: Verify limit check here
                 For Local i := limit Until 0 Step -1
-                    Local x := room3.x + Util.RndIntRangeFromZero(room3.width - 1, False)
-                    Local y := room3.y + Util.RndIntRangeFromZero(room3.height - 1, False)
+                    Local x := room3.x + Util.RndIntRangeFromZero(room3.w - 1, False)
+                    Local y := room3.y + Util.RndIntRangeFromZero(room3.h - 1, False)
 
                     Local tile := Level.GetTileAt(x, y)
                     If tile
@@ -2159,8 +2159,8 @@ Class Level
 
     Function PlaceExit: Bool(rdExit: RoomData)
         For Local i := 0 Until 500
-            Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.width - 1, True)
-            Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.height - 1, True)
+            Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.w - 1, True)
+            Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.h - 1, True)
             Local tile := Level.GetTileAt(x, y)
             If tile And Not tile.GetType() And Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
                 Local tileBelow := Level.GetTileAt(x, y + 1)
@@ -2267,17 +2267,17 @@ Class Level
 
         If roomToAttachTo
             If roomToAttachTo.x And
-               roomToAttachTo.x + roomToAttachTo.width And
+               roomToAttachTo.x + roomToAttachTo.w And
                roomToAttachTo.y And
-               roomToAttachTo.y + roomToAttachTo.height
+               roomToAttachTo.y + roomToAttachTo.h
                 While True
-                    x = 1 + roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.width - 1, True)
-                    y = 1 + roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.height - 1, True)
+                    x = 1 + roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.w - 1, True)
+                    y = 1 + roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.h - 1, True)
 
                     If roomToAttachTo.x = x Then Exit
-                    If (roomToAttachTo.x + roomToAttachTo.width) = x Then Exit
+                    If (roomToAttachTo.x + roomToAttachTo.w) = x Then Exit
                     If roomToAttachTo.y = y Then Exit
-                    If (roomToAttachTo.y + roomToAttachTo.height) = y Then Exit
+                    If (roomToAttachTo.y + roomToAttachTo.h) = y Then Exit
                 End While
             Else
                 x = 0
