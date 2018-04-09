@@ -12,16 +12,16 @@ Class MobileEntity Extends Entity Abstract
         Self.isMobile = True
     End Method
 
-    Field field_F4: Bool
-    Field field_F8: Int = 1
-    Field field_FC: Int = 2
-    Field field_100: Int = -1
-    Field field_104: Bool
-    Field field_105: Bool
-    Field field_106: Bool
-    Field field_107: Bool
-    Field field_108: Bool
-    Field field_109: Bool
-    Field field_10C: Int = 1
+    Field gotOutOfTar: Bool
+    Field moveTween: Int = 1
+    Field moveShadowTween: Int = 2
+    Field slidingDir: Int = -1
+    Field isMassive: Bool
+    Field ignoreLiquids: Bool
+    Field wasKnockedBack: Bool
+    Field wasInWater: Bool
+    Field wasInDeepWater: Bool
+    Field wasInTar: Bool
+    Field distancePerMovement: Int = 1
 
 End Class
