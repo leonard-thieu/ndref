@@ -592,7 +592,7 @@ Class Level
 
             Level.placeArenaOnLevel = level
             Level.placeArenaOnDepth = depth
-            Level.arenaNum = Util.RndIntRange(0, 2, True, -1)
+            Level.arenaNum = Util.RndIntRangeFromZero(2, True)
         End If
 
         If Level.placeTransmogrifierOnLevel = -1 And Level.isHardcoreMode
@@ -780,7 +780,7 @@ Class Level
         Local v112: Int
 
         ' TODO: Double check this section
-        While Util.RndIntRange(0, 50, True, -1)
+        While Util.RndIntRangeFromZero(50, True)
             room5 = Level.PlaceRoomZone1(-1, room4)
             If room5
                 v112 = 4
@@ -801,9 +801,9 @@ Class Level
         limit -= 1
 
         For Local i := limit Until 0 Step -1
-            If Util.RndIntRange(0, 50, True, -1)
+            If Util.RndIntRangeFromZero(50, True)
                 room6 = Level.PlaceRoomZone1(-1, room1)
-            Else If Util.RndIntRange(0, 10, True, -1)
+            Else If Util.RndIntRangeFromZero(10, True)
                 room6 = Level.PlaceRoomZone1(-1, room4)
 
                 If room6 And v112 = 3
@@ -877,8 +877,8 @@ Class Level
             If Not Level.isHardcoreMode And Not Level.isDDRMode And v25
                 ' TODO: Verify limit check here
                 For Local i := limit Until 0 Step -1
-                    Local x := room3.x + Util.RndIntRange(0, room3.width - 1, False, -1)
-                    Local y := room3.y + Util.RndIntRange(0, room3.height - 1, False, -1)
+                    Local x := room3.x + Util.RndIntRangeFromZero(room3.width - 1, False)
+                    Local y := room3.y + Util.RndIntRangeFromZero(room3.height - 1, False)
 
                     Local tile := Level.GetTileAt(x, y)
                     If tile
@@ -941,7 +941,7 @@ Class Level
                 For Local i := 0 Until 500
                     Local numTraps := Trap.trapList.Count()
                     If numTraps > 0
-                        Local trapIndex := Util.RndIntRange(0, numTraps - 1, True, -1)
+                        Local trapIndex := Util.RndIntRangeFromZero(numTraps - 1, True)
                         Local traps := Trap.trapList.ToArray()
                         Local trap := traps[trapIndex]
                         If trap
@@ -1246,7 +1246,7 @@ Class Level
             Case 1
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
-                Local wallChance := Util.RndIntRange(0, 6, True, -1)
+                Local wallChance := Util.RndIntRangeFromZero(6, True)
 
                 If xVal + 1 < xMax
                     Local x: Int
@@ -2157,8 +2157,8 @@ Class Level
 
     Function PlaceExit: Bool(rdExit: RoomData)
         For Local i := 0 Until 500
-            Local x := rdExit.x + Util.RndIntRange(0, rdExit.width - 1, True, -1)
-            Local y := rdExit.y + Util.RndIntRange(0, rdExit.height - 1, True, -1)
+            Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.width - 1, True)
+            Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.height - 1, True)
             Local tile := Level.GetTileAt(x, y)
             If tile And Not tile.GetType() And Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
                 Local tileBelow := Level.GetTileAt(x, y + 1)
@@ -2237,7 +2237,7 @@ Class Level
             Tile.pendingTilesList.RemoveFirst().Die()
         End While
 
-        Local rndVal := Util.RndIntRange(0, 100, True, -1)
+        Local rndVal := Util.RndIntRangeFromZero(100, True)
         Local wideCorridor: Bool
         If (controller_game.currentLevel = 2) And (rndVal <= 30) Then wideCorridor = True
         If (controller_game.currentLevel = 3) And (rndVal <= 60) Then wideCorridor = True
@@ -2269,8 +2269,8 @@ Class Level
                roomToAttachTo.y And
                roomToAttachTo.y + roomToAttachTo.height
                 While True
-                    x = 1 + roomToAttachTo.x + Util.RndIntRange(0, roomToAttachTo.width - 1, True, -1)
-                    y = 1 + roomToAttachTo.y + Util.RndIntRange(0, roomToAttachTo.height - 1, True, -1)
+                    x = 1 + roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.width - 1, True)
+                    y = 1 + roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.height - 1, True)
 
                     If roomToAttachTo.x = x Then Exit
                     If (roomToAttachTo.x + roomToAttachTo.width) = x Then Exit
@@ -2447,11 +2447,11 @@ Class Level
 
                 If moveX = -1
                     xVal = Level.carveX - width
-                    yOff = Util.RndIntRange(0, height - 2, True, -1)
+                    yOff = Util.RndIntRangeFromZero(height - 2, True)
                     originY = Level.carveY
 
                     If wideCorridor
-                        yVal = Level.carveY - Util.RndIntRange(0, height - 3, True, -1) - 1
+                        yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
                         originX = Level.carveX
                         'goto LABEL_95
                     End If
@@ -2460,13 +2460,13 @@ Class Level
                         ' moveX = 0
                         If Not (moveY = -1)
                             ' `RndIntRange` has side effects. Must stay outside of the following If-block.
-                            Local xOff := Util.RndIntRange(0, width - 2, True, -1)
+                            Local xOff := Util.RndIntRangeFromZero(width - 2, True)
                             originX = Level.carveX
                             originY = Level.carveY
                             yVal = Level.carveY
 
                             If wideCorridor
-                                xVal = Level.carveX - Util.RndIntRange(0, width - 3, True, -1) - 1
+                                xVal = Level.carveX - Util.RndIntRangeFromZero(width - 3, True) - 1
                             Else
                                 xVal = Level.carveX - xOff - 1
                             End If
@@ -2474,13 +2474,13 @@ Class Level
                             'goto LABEL_95
                         End If
 
-                        Local xOff2 := Util.RndIntRange(0, width - 2, True, -1)
+                        Local xOff2 := Util.RndIntRangeFromZero(width - 2, True)
                         originX = Level.carveX
                         originY = Level.carveY
                         yVal = Level.carveY - height
 
                         If wideCorridor
-                            xVal = Level.carveX - Util.RndIntRange(0, width - 3, True, -1) - 1
+                            xVal = Level.carveX - Util.RndIntRangeFromZero(width - 3, True) - 1
                         Else
                             xVal = Level.carveX - xOff2 - 1
                         End If
@@ -2521,7 +2521,7 @@ Class Level
                             Return Level._PlaceRoom(xVal, yVal, width, height)
                         End If
 
-                        Local rndVal := Util.RndIntRange(0, 100, True, -1)
+                        Local rndVal := Util.RndIntRangeFromZero(100, True)
                         Local addDoor: Bool
                         If (controller_game.currentLevel = 1) And (rndVal <= 80) Then addDoor = True
                         If (controller_game.currentLevel = 2) And (rndVal <= 70) Then addDoor = True
@@ -2532,7 +2532,7 @@ Class Level
                         If addDoor
                             If Level.isHardcoreMode
                                 If Not wideCorridor
-                                    If Util.RndIntRange(0, 8, True, -1)
+                                    If Util.RndIntRangeFromZero(8, True)
                                         New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
                                     Else
                                         New Tile(Level.carveX, Level.carveY, TileType.MetalDoor, False, -1)
@@ -2561,11 +2561,11 @@ Class Level
                     End If
 
                     xVal = Level.carveX
-                    yOff = Util.RndIntRange(0, height - 2, True, -1)
+                    yOff = Util.RndIntRangeFromZero(height - 2, True)
                     originY = Level.carveY
 
                     If wideCorridor
-                        yOff = Util.RndIntRange(0, height - 3, True, -1)
+                        yOff = Util.RndIntRangeFromZero(height - 3, True)
                         originY = Level.carveY
                     End If
                 End If
