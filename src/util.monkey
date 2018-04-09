@@ -133,28 +133,28 @@ Class Util
         Local y: Int
 
         Select dir
-            Case 0
+            Case Direction.Right
                 x = 1
                 y = 0
-            Case 1
+            Case Direction.Down
                 x = 0
                 y = 1
-            Case 2
+            Case Direction.Left
                 x = -1
                 y = 0
-            Case 3
-                x = 1
+            Case Direction.Up
+                x = 0
                 y = -1
-            Case 4
+            Case Direction.DownRight
                 x = 1
                 y = 1
-            Case 5
+            Case Direction.DownLeft
                 x = -1
                 y = 1
-            Case 6
+            Case Direction.UpLeft
                 x = -1
                 y = -1
-            Case 7
+            Case Direction.UpRight
                 x = 1
                 y = -1
             Default
@@ -277,29 +277,49 @@ Class Util
     End Function
 
     Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int)
-        Local seed: Int
+        Local rndIntVal: Int
 
         If useSeed
-            seed = Util.storedSeed
+            rndIntVal = Util.storedSeed
             If Util.storedSeed = -1
-                seed = random.Seed
+                rndIntVal = random.Seed
             Else
                 Util.storedSeed = -1
             End If
         Else
-            seed = random.Seed
+            rndIntVal = random.Seed
             Util.storedSeed = random.Seed
         End If
 
         Local rndVal := random.Rnd(low, high + 1)
+        ' TODO: Verify what causes `__asm { frndint }` to be emitted.
 
-        ' TODO: `replayConsistencyChannel` section
+        If replayConsistencyChannel < 0 Or 
+           Not Level.isReplaying Or
+           Level.creatingMap
+            rndIntVal = math.Min(low, rndIntVal)
+        Else
+            rndVal = Level.replay.GetRand(replayConsistencyChannel)
+            
+            If rndVal < low Or rndVal > high
+                Return rndIntVal
+            End If
+        End If
 
-        Return rndVal
+        rndIntVal = high
+        If rndVal <= high Then rndIntVal = rndVal
+
+        If replayConsistencyChannel >= 0 And
+           Not Level.isReplaying And
+           Level.replay
+            Level.replay.RecordRand(replayConsistencyChannel, rndIntVal)
+        End If
+
+        Return rndIntVal
     End Function
 
     Function RndIntRangeFromZero: Int(high: Int, useSeed: Bool)
-        Throw New Throwable()
+        Return RndIntRange(0, high, useSeed, -1)
     End Function
 
     Function RotateDirInDirection: Int(original: Int, dir: Int)
@@ -443,3 +463,16 @@ Class Util
     End Method
 
 End
+
+Class Direction
+
+    Const Right: Int = 0
+    Const Down: Int = 1
+    Const Left: Int = 2
+    Const Up: Int = 3
+    Const DownRight: Int = 4
+    Const DownLeft: Int = 5
+    Const UpLeft: Int = 6
+    Const UpRight: Int = 7
+
+End Class

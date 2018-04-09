@@ -1,19 +1,21 @@
 Strict
 
 Import enemy
+Import sprite
 
 Class NPC Extends Enemy Abstract
 
     Function _EditorFix: Void() End
 
-    Field field_234: Bool
-    Field field_235: Bool
-    Field field_238: Int
-    Field field_23C: Bool
-    Field field_240: Int
-    Field field_244: Int
-    Field field_248: Bool
-    Field field_249: Bool = True
-    Field field_24A: Bool
+    Field attackedByPlayer: Bool
+    Field captive: Bool
+    Field glassCage: Bool
+    Field flyawayDelay: Int
+    Field wasCaptive: Bool
+    Field cageFrontImage: Sprite
+    Field cageBackImage: Sprite
+    Field isMainShopkeeper: Bool
+    Field saysHi: Bool = True
+    Field saidHi: Bool
 
 End Class

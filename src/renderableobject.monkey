@@ -15,7 +15,7 @@ Class RenderableObject Abstract
 
         If spareThePlayers
             For Local renderableObj := EachIn RenderableObject.renderableObjectList
-                If Not (renderableObj.field_31 And renderableObj.field_30)
+                If Not (renderableObj.isPlayer And renderableObj.isFamiliar)
                     renderableObj.Die()
                 End If
             End For
@@ -55,43 +55,43 @@ Class RenderableObject Abstract
     Method New()
         RenderableObject.renderableObjectList.AddLast(Self)
 
-        Self.x2 = Self.x
-        Self.y2 = Self.y
+        Self.lastFrameX = Self.x
+        Self.lastFrameY = Self.y
     End Method
 
-    Field field_10: Bool
+    Field perished: Bool
     Field dead: Bool
     Field x: Int
     Field y: Int
-    Field field_1C: Bool
-    Field x2: Int
-    Field y2: Int
-    Field lMin: Int
-    Field lMax: Int
-    Field field_30: Bool
-    Field field_31: Bool
-    Field field_32: Bool
-    Field field_34: Int = 1
-    Field field_38: Int = 1
-    Field field_3C: Bool
-    Field field_3D: Bool
-    Field field_3E: Bool
-    Field isLight: Bool
-    Field lMax2: Int
-    Field field_44: Bool
-    Field field_48: Float = 1.0
-    Field field_4C: Bool
-    Field field_4D: Bool
-    Field field_4E: Bool
-    Field field_4F: Bool
-    Field field_50: Bool
-    Field field_54: Float = 1.0
+    Field collides: Bool
+    Field lastFrameX: Int
+    Field lastFrameY: Int
+    Field lightSourceMin: Float
+    Field lightSourceMax: Float
+    Field isFamiliar: Bool
+    Field isPlayer: Bool
+    Field playerOverrideCollide: Bool
+    Field width: Int = 1
+    Field height: Int = 1
+    Field clampedOn: Bool
+    Field isCrate: Bool
+    Field isItem: Bool
+    Field lightSource: Bool
+    Field constLightSourceMax: Float
+    Field wasHitAlreadyDuringHitTile: Bool
+    Field lightSourceBrightness: Float = 1.0
+    Field isTrap: Bool
+    Field isNPC: Bool
+    Field isChest: Bool
+    Field isMobile: Bool
+    Field isEnemy: Bool
+    Field constLightSourceBrightness: Float = 1.0
     
     Method ActivateLight: Void(lMin: Float, lMax: Float)
-        Self.isLight = True
-        Self.lMin = lMin
-        Self.lMax = lMax
-        Self.lMax2 = lMax
+        Self.lightSource = True
+        Self.lightSourceMin = lMin
+        Self.lightSourceMax = lMax
+        Self.constLightSourceMax = lMax
 
         RenderableObject.lightSourceList.AddLast(Self)
     End Method

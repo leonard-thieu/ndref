@@ -22,6 +22,7 @@ Import player_class
 Import portal_seg
 Import rect
 Import renderable_object
+Import replay
 Import rng
 Import room_with_door
 Import roomdata
@@ -93,7 +94,7 @@ Class Level
     Global isSwarmMode: Bool
     Global isTrainingMode: Bool
     Global justUnlocked: Int
-    Global lastCreatedRoomType: Int = -1
+    Global lastCreatedRoomType: Int = RoomType.None
     Global lastTileCount: Int = -1
     Global levelConstraintH: Int
     Global levelConstraintNum: Int
@@ -153,7 +154,7 @@ Class Level
     Global quickRestart: Int
     Global randSeed: Int = -1
     Global randSeedString: String
-    Global replay: Int
+    Global replay: Replay
     Global rooms: List<RoomData> = New List<RoomData>()
     Global secretAtX: Int
     Global secretAtY: Int
@@ -210,13 +211,13 @@ Class Level
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
         Local tile := Level.GetTileAt(xVal, yVal)
         If tile
-            If tile.field_FC Then Return
+            If tile.triggerDig Then Return
 
             Local tileData := new MinibossTileData()
             tileData.x = xVal
             tileData.y = yVal
             tileData.type = tile.type
-            tileData.field_1C = tile.field_C0
+            tileData.wireMask = tile.wireMask
 
             Level.minibossFormerWall.AddLast(tileData)
         End If
@@ -462,7 +463,7 @@ Class Level
         Level.GetTileAt(exitX, exitY).Die()
 
         Local exitTile := new Tile(exitX, exitY, 9, False, -1)
-        exitTile.flyaway_ = "|198|DEFEAT THE MINIBOSS!|"
+        exitTile.flyawayText = "|198|DEFEAT THE MINIBOSS!|"
 
         Level.exits.Set(new Point(exitX, exitY), new Point(-6, -6))
     End Function
@@ -505,12 +506,12 @@ Class Level
     End Function
 
     Function CreateMap: Bool(levelObj: LevelObject)
-        If currentLevel = 1
+        If controller_game.currentLevel = 1
             Level.previousLevelMinibosses.Clear()
             Level.previousLevelUnkilledStairLockingMinibosses.Clear()
             Level.skipNextPenaltyBox = False
 
-            If currentDepth = 1
+            If controller_game.currentDepth = 1
                 SaleItem.lastSaleItemClass1 = ""
                 SaleItem.lastSaleItemClass2 = ""
                 Item.lastChestItemClass1 = ""
@@ -648,7 +649,7 @@ Class Level
             Return True
         End If
 
-        Select currentZone
+        Select controller_game.currentZone
             Case 5 If Not Level.CreateMapZone5(False) Then Return False
             Case 4 If Not Level.CreateMapZone4(False) Return False
             Case 3 If Not Level.CreateMapZone3() Then Return False
@@ -656,9 +657,9 @@ Class Level
             Default If Not Level.CreateMapZone1() Then Return False
         End Select
 
-        If currentZone = 4
+        If controller_game.currentZone = 4
             For Local trap := EachIn Trap.trapList
-                If trap.type = TrapType.TrapDoor
+                If trap.trapType = TrapType.TrapDoor
                     new SpikeTrap(trap.x, trap.y)
                     trap.Die()
                 End If
@@ -673,7 +674,7 @@ Class Level
 
         If Level.pacifismModeOn Or (Level.isHardMode And Level.GetHardModeXML().GetAttribute("disableTrapdoors", False))
             For Local trap := EachIn Trap.trapList
-                If trap.type = TrapType.TrapDoor
+                If trap.trapType = TrapType.TrapDoor
                     new SpikeTrap(trap.x, trap.y)
                     trap.Die()
                 End If
@@ -854,7 +855,7 @@ Class Level
             Case 5 lastRoom = room6
             Case 6 lastRoom = room7
         End Select
-        lastRoom.field_24 = True
+        lastRoom.hasExit = True
 
         If Level.PlaceExit(lastRoom)
             ' TODO: Place NPCs
@@ -877,8 +878,8 @@ Class Level
             If Not Level.isHardcoreMode And Not Level.isDDRMode And v25
                 ' TODO: Verify limit check here
                 For Local i := limit Until 0 Step -1
-                    Local x := room3.x + Util.RndIntRangeFromZero(room3.width - 1, False)
-                    Local y := room3.y + Util.RndIntRangeFromZero(room3.height - 1, False)
+                    Local x := room3.x + Util.RndIntRangeFromZero(room3.w - 1, False)
+                    Local y := room3.y + Util.RndIntRangeFromZero(room3.h - 1, False)
 
                     Local tile := Level.GetTileAt(x, y)
                     If tile
@@ -945,7 +946,7 @@ Class Level
                         Local traps := Trap.trapList.ToArray()
                         Local trap := traps[trapIndex]
                         If trap
-                            If trap.field_103 And trap.type = TrapType.BounceTrap
+                            If trap.canBeReplacedByTempoTrap And trap.trapType = TrapType.BounceTrap
                                 If Util.RndBool(True)
                                     New SpeedUpTrap(trap.x, trap.y)
                                 Else
@@ -1538,7 +1539,7 @@ Class Level
                 End If
             End If
 
-            If player.field_110
+            If player.isHelper
                 player.AddItemOfType("weapon_dagger", Null, True, True)
             End If
         End For
@@ -1548,7 +1549,7 @@ Class Level
 
         For Local i := 0 Until numPlayers
             Local player := players[i]
-            player.field_58 = Null
+            player.confusedParticles = Null
         End For
 
         Level.triggerList.Clear()
@@ -1615,10 +1616,10 @@ Class Level
                 Local tile := tileNode.Value()
                 If (tile.x >= -100 And tile.x <= 100) And
                    (tile.y >= -100 And tile.y <= 100)
-                   If xMax > tile.x Then xMax = tile.x
-                   If yMax > tile.y Then yMax = tile.y
-                   If xMin >= tile.x Then xMin = tile.x
-                   If yMin > tile.y Then yMin = tile.y
+                    If xMax > tile.x Then xMax = tile.x
+                    If yMax > tile.y Then yMax = tile.y
+                    If xMin >= tile.x Then xMin = tile.x
+                    If yMin > tile.y Then yMin = tile.y
                End If
             End For
         End For
@@ -1961,7 +1962,6 @@ Class Level
 
         While Not points.IsEmpty()
             Local firstPoint := points.RemoveFirst()
-            Local dir := 0
 
             For Local dir := 0 Until 4
                 Local newPoint := firstPoint.Add(Util.GetPointFromDir(dir))
@@ -2158,8 +2158,8 @@ Class Level
 
     Function PlaceExit: Bool(rdExit: RoomData)
         For Local i := 0 Until 500
-            Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.width - 1, True)
-            Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.height - 1, True)
+            Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.w - 1, True)
+            Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.h - 1, True)
             Local tile := Level.GetTileAt(x, y)
             If tile And Not tile.GetType() And Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
                 Local tileBelow := Level.GetTileAt(x, y + 1)
@@ -2248,8 +2248,8 @@ Class Level
         ' Overwrites `wideCorridor` but cannot skip the call to `RndIntRange` because it has side effects.
         Select roomType
             Case RoomType.Shop
-            Case 5
-            Case 7
+            Case RoomType.Unknown5
+            Case RoomType.Unknown7
                 wideCorridor = False
         End Select
 
@@ -2266,17 +2266,17 @@ Class Level
 
         If roomToAttachTo
             If roomToAttachTo.x And
-               roomToAttachTo.x + roomToAttachTo.width And
+               roomToAttachTo.x + roomToAttachTo.w And
                roomToAttachTo.y And
-               roomToAttachTo.y + roomToAttachTo.height
+               roomToAttachTo.y + roomToAttachTo.h
                 While True
-                    x = 1 + roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.width - 1, True)
-                    y = 1 + roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.height - 1, True)
+                    x = 1 + roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.w - 1, True)
+                    y = 1 + roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.h - 1, True)
 
                     If roomToAttachTo.x = x Then Exit
-                    If (roomToAttachTo.x + roomToAttachTo.width) = x Then Exit
+                    If (roomToAttachTo.x + roomToAttachTo.w) = x Then Exit
                     If roomToAttachTo.y = y Then Exit
-                    If (roomToAttachTo.y + roomToAttachTo.height) = y Then Exit
+                    If (roomToAttachTo.y + roomToAttachTo.h) = y Then Exit
                 End While
             Else
                 x = 0
@@ -2368,7 +2368,8 @@ Class Level
             Local height: Int
 
             If Level.CarveNewCorridor(moveX, moveY, horiz, True, False, roomType, wideCorridor)
-                If (roomType = 5) Or (roomType = 7)
+                If roomType = RoomType.Unknown5 Or
+                   roomType = RoomType.Unknown7
                     ' `width` and `height` are overwritten but `RndIntRange` has side effects. Do not remove.
                     width = Util.RndIntRange(6, 8, True, -1)
                     height = Util.RndIntRange(5, 7, True, -1)
@@ -2508,9 +2509,10 @@ Class Level
                     Return Level._PlaceRoom(xVal, yVal, width, height)
                 End If
 
-                If (roomType = 5) Or (roomType = 7)
-                    Return Level._PlaceRoom(xVal, yVal, width, height)
-                End If
+                        If roomType = RoomType.Unknown5 Or
+                           roomType = RoomType.Unknown7
+                            Return Level._PlaceRoom(xVal, yVal, width, height)
+                        End If
 
                 Local rndVal := Util.RndIntRangeFromZero(100, True)
                 Local addDoor: Bool
@@ -3081,13 +3083,22 @@ Class MinibossTileData
     Field x: Int
     Field y: Int
     Field type: Int
-    Field field_1C: Int
+    Field wireMask: Int
 
 End Class
 
 Class RoomType
 
+    Const None: Int = -1
+    Const Unknown0: Int = 0
+    Const Unknown1: Int = 1
+    Const Unknown2: Int = 3
     Const Shop: Int = 3
     Const Start: Int = 4
+    Const Unknown5: Int = 5
+    Const Unknown6: Int = 6
+    Const Unknown7: Int = 7
+    Const Unknown8: Int = 8
+    Const Unknown10: Int = 10
 
 End Class

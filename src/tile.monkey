@@ -60,7 +60,7 @@ Class Tile Extends RenderableObject
             For Local tileNode := EachIn tilesOnXNode.Value()
                 Local tile := tileNode.Value()
                 If tile.IsWire()
-                    tile.field_C0 = 0
+                    tile.wireMask = 0
 
                     For Local i := 0 To 4
                         Local adjacentLocation := tile.GetLocation().Add(Util.GetPointFromDir(i))
@@ -108,73 +108,73 @@ Class Tile Extends RenderableObject
         End If
 
         Self.type = typeVal
-        Self.tileset = tilesetOvrd
+        Self.tilesetOverride = tilesetOvrd
         Self.x = xVal
         Self.y = yVal
 
         If tilesetOvrd = -1
-            Self.tileset = Self.CalcTileset()
+            Self.tilesetOverride = Self.CalcTileset()
         End If
 
-        Local sprite := New Sprite()
-        Local sprite2: Sprite
+        Local image := New Sprite()
+        Local image2: Sprite
 
         If Not Self.IsWall(False, False, False, False)
             If Self.IsFloor()
                 Select Self.type
                     Case TileType.Stairs
-                        sprite.InitSprite("level/stairs.png", 0, 0, 1, Image.DefaultFlags)
+                        image.InitSprite("level/stairs.png", 0, 0, 1, Image.DefaultFlags)
                     Case TileType.LockedStairs
-                        sprite.InitSprite("level/stairs_locked.png", 0, 0, 1, Image.DefaultFlags)
+                        image.InitSprite("level/stairs_locked.png", 0, 0, 1, Image.DefaultFlags)
                     Case TileType.LockedStairs3Diamonds
-                        sprite.InitSprite("level/stairs_locked_diamond3.png", 0, 0, 1, Image.DefaultFlags)
+                        image.InitSprite("level/stairs_locked_diamond3.png", 0, 0, 1, Image.DefaultFlags)
                     Case TileType.LockedStairs9Diamonds
-                        sprite.InitSprite("level/stairs_locked_diamond9.png", 0, 0, 1, Image.DefaultFlags)
+                        image.InitSprite("level/stairs_locked_diamond9.png", 0, 0, 1, Image.DefaultFlags)
                     Case TileType.LockedStairsMiniboss
-                        sprite.InitSprite("level/stairs_locked_miniboss.png", 0, 0, 1, Image.DefaultFlags)
+                        image.InitSprite("level/stairs_locked_miniboss.png", 0, 0, 1, Image.DefaultFlags)
                     Case TileType.ShopFloor
-                        sprite.InitSprite("level/TEMP_shop_floor.png", 0, 0, 3, 6)
+                        image.InitSprite("level/TEMP_shop_floor.png", 0, 0, 3, 6)
                     Default
                         If Self.type <= 5
-                            sprite.InitSprite("level/TEMP_floor_water.png", 0, 0, 3, 6)
+                            image.InitSprite("level/TEMP_floor_water.png", 0, 0, 3, 6)
                         Else
                             Select Self.type
                                 Case TileType.HotCoals
-                                    sprite.InitSprite("level/TEMP_floor_hotcoal.png", 0, 0, 3, 6)
+                                    image.InitSprite("level/TEMP_floor_hotcoal.png", 0, 0, 3, 6)
                                 Case TileType.Ice
-                                    sprite.InitSprite("level/TEMP_floor_ice.png", 0, 0, 3, 6)
+                                    image.InitSprite("level/TEMP_floor_ice.png", 0, 0, 3, 6)
                                 Case TileType.Crystal
-                                    sprite.InitSprite("level/TEMP_floor_crystal.png", 26, 26, 6, 6)
+                                    image.InitSprite("level/TEMP_floor_crystal.png", 26, 26, 6, 6)
                                 Case TileType.Ooze
-                                    sprite.InitSprite("level/TEMP_floor_magnetic.png", 26, 26, 3, 6)
+                                    image.InitSprite("level/TEMP_floor_magnetic.png", 26, 26, 3, 6)
                                 Case TileType.Lava
-                                    sprite.InitSprite("level/floor_lava.png", 26, 26, 15, 6)
-                                    Self.field_90 = Util.RndIntRange(0, 10000, False, -1)
-                                    Self.field_94 = Util.RndIntRange(0, 200, False, -1)
+                                    image.InitSprite("level/floor_lava.png", 26, 26, 15, 6)
+                                    Self.tarAnimCounter = Util.RndIntRange(0, 10000, False, -1)
+                                    Self.tarAnimDelay = Util.RndIntRange(0, 200, False, -1)
                                 Case TileType.Geyser
-                                    sprite.InitSprite("level/TEMP_floor_geyser.png", 0, 0, 3, 6)
+                                    image.InitSprite("level/TEMP_floor_geyser.png", 0, 0, 3, 6)
                                 Case TileType.Tar
-                                    sprite.InitSprite("level/floor_tar.png", 26, 26, 18, 6)
-                                    Self.field_90 = Util.RndIntRange(0, 10000, False, -1)
-                                    Self.field_94 = Util.RndIntRange(0, 200, False, -1)
+                                    image.InitSprite("level/floor_tar.png", 26, 26, 18, 6)
+                                    Self.tarAnimCounter = Util.RndIntRange(0, 10000, False, -1)
+                                    Self.tarAnimDelay = Util.RndIntRange(0, 200, False, -1)
                                 Default
                                     Select Self.type
                                         Case TileType.LobbyUpgradesFloor
-                                            sprite.InitSprite("level/TEMP_npc_floor.png", 0, 0, 3, 6)
+                                            image.InitSprite("level/TEMP_npc_floor.png", 0, 0, 3, 6)
                                         Case TileType.FloorRising
-                                            sprite.InitSprite("level/floor_rising.png", 0, 0, 3, 6)
+                                            image.InitSprite("level/floor_rising.png", 0, 0, 3, 6)
                                             Tile.floorRisingList.AddLast(Self)
                                         Case TileType.FloorReceding
-                                            sprite.InitSprite("level/floor_receded.png", 0, 0, 3, 6)
+                                            image.InitSprite("level/floor_receded.png", 0, 0, 3, 6)
                                             Tile.floorRecededList.AddLast(Self)
                                         Default
-                                            sprite = Self.LoadFloor()
+                                            image = Self.LoadFloor()
                                     End Select
                             End Select
                         End If
                 End Select
 
-                sprite.SetZ(-1001.0)
+                image.SetZ(-1001.0)
             Else
                 'Goto LABEL_29
             End If
@@ -182,11 +182,11 @@ Class Tile Extends RenderableObject
 
         Select Self.type
             Case TileType.ShopWall
-                sprite.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
-                Self.field_7C = 4
+                image.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                Self.health = 4
             Case TileType.CrackedShopWall
-                sprite.InitSprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
-                Self.field_7C = 4
+                image.InitSprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
+                Self.health = 4
             Case TileType.BossWall
                 Select currentLevel
                     Case -494
@@ -195,90 +195,90 @@ Class Tile Extends RenderableObject
                     Case -492
                     Case -490
                         If Level.isConductorLevel
-                            sprite.InitSprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
+                            image.InitSprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
                         Else
-                            sprite.InitSprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
+                            image.InitSprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
                         End If
                     Default
-                        sprite.InitSprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
+                        image.InitSprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
                 End Select
 
                 Local frame := Util.RndIntRange(0, 4, False, -1)
-                sprite.SetFrame(frame)
-                Self.field_80 = True
+                image.SetFrame(frame)
+                Self.unbreakable = True
             Case TileType.UnbreakableWall
-                sprite.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
-                Self.field_80 = True
+                image.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                Self.unbreakable = True
             Case TileType.LevelBorder
-                sprite.InitSprite("level/end_of_world.png", 24, 48, 8, Image.DefaultFlags)
+                image.InitSprite("level/end_of_world.png", 24, 48, 8, Image.DefaultFlags)
                 Local frame := Util.RndIntRange(0, 7, False, -1)
-                sprite.SetFrame(frame)
-                Self.field_80 = True
+                image.SetFrame(frame)
+                Self.unbreakable = True
             ' All of these goto LABEL_87
         End Select
 
         If Self.IsNecrodancerPlatform()
-            sprite.InitSprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
-            sprite.SetFrame(Self.type - 112)
-            Self.field_7C = 4
+            image.InitSprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
+            image.SetFrame(Self.type - 112)
+            Self.health = 4
             ' goto LABEL_87
         End If
 
         Select Self.type
             Case TileType.ConductorWallPipe1
-                sprite.InitSprite("level/conductor_wall_pipe1.png", 24, 79, 1, Image.DefaultFlags)
-                Self.field_80 = True
+                image.InitSprite("level/conductor_wall_pipe1.png", 24, 79, 1, Image.DefaultFlags)
+                Self.unbreakable = True
             Case TileType.ConductorWallPipe2
-                sprite.InitSprite("level/conductor_wall_pipe2.png", 24, 79, 1, Image.DefaultFlags)
-                Self.field_80 = True
+                image.InitSprite("level/conductor_wall_pipe2.png", 24, 79, 1, Image.DefaultFlags)
+                Self.unbreakable = True
             Case TileType.ConductorWallPipe3
-                sprite.InitSprite("level/conductor_wall_pipe3.png", 24, 79, 1, Image.DefaultFlags)
-                Self.field_80 = True
+                image.InitSprite("level/conductor_wall_pipe3.png", 24, 79, 1, Image.DefaultFlags)
+                Self.unbreakable = True
             Case TileType.ConductorWallPipe4
-                sprite.InitSprite("level/conductor_wall_pipe4.png", 24, 79, 1, Image.DefaultFlags)
-                Self.field_80 = True
+                image.InitSprite("level/conductor_wall_pipe4.png", 24, 79, 1, Image.DefaultFlags)
+                Self.unbreakable = True
             ' All of these goto LABEL_87
         End Select
 
         Select Self.type
             Case TileType.MetalDoor
-                sprite2 = sprite
-                sprite = Self.LoadFloor()
+                image2 = image
+                image = Self.LoadFloor()
 
                 Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
                 Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
                 If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
                    (tileRight And tileRight.IsWall(False, False, False, False))
-                    sprite2.InitSprite("level/door_metal_front.png", 24, 29, 4, Image.DefaultFlags)
+                    image2.InitSprite("level/door_metal_front.png", 24, 29, 4, Image.DefaultFlags)
                 Else
-                    sprite2.InitSprite("level/door_metal_side.png", 11, 39, 2, Image.DefaultFlags)
+                    image2.InitSprite("level/door_metal_side.png", 11, 39, 2, Image.DefaultFlags)
                 End If
             Case TileType.WiredDoor
             Case TileType.Door
-                sprite2 = sprite
-                sprite = Self.LoadFloor()
+                image2 = image
+                image = Self.LoadFloor()
 
                 Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
                 Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
                 If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
                    (tileRight And tileRight.IsWall(False, False, False, False))
-                    sprite2.InitSprite("level/door_front.png", 0, 0, 1, Image.DefaultFlags)
+                    image2.InitSprite("level/door_front.png", 0, 0, 1, Image.DefaultFlags)
                 Else
-                    sprite2.InitSprite("level/door_side.png", 0, 0, 1, Image.DefaultFlags)
+                    image2.InitSprite("level/door_side.png", 0, 0, 1, Image.DefaultFlags)
                 End If
             Case TileType.LockedDoor
-                Self.field_7C = 100
+                Self.health = 100
 
-                sprite2 = sprite
-                sprite = Self.LoadFloor()
+                image2 = image
+                image = Self.LoadFloor()
 
                 Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
                 Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
                 If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
                    (tileRight And tileRight.IsWall(False, False, False, False))
-                    sprite2.InitSprite("level/door_locked_front.png", 0, 0, 1, Image.DefaultFlags)
+                    image2.InitSprite("level/door_locked_front.png", 0, 0, 1, Image.DefaultFlags)
                 Else
-                    sprite2.InitSprite("level/door_locked_side.png", 0, 0, 1, Image.DefaultFlags)
+                    image2.InitSprite("level/door_locked_side.png", 0, 0, 1, Image.DefaultFlags)
                 End If
             Case TileType.StoneWall
                 Self.BecomeStone()
@@ -289,20 +289,20 @@ Class Tile Extends RenderableObject
                 ' TODO: Missing stuff here
         End Select
 
-        Self.sprite = sprite
-        Self.sprite2 = sprite2
+        Self.image = image
+        Self.image2 = image2
 
         ' TODO: Missing stuff here
 
         'LABEL_118
-        Self.field_7C = False
+        Self.health = False
 
         'LABEL_87
-        If Not pending Then Self.field_1C = True
+        If Not pending Then Self.collides = True
 
         'LABEL_29
-        If sprite Then sprite.SetAlphaValue(0.0)
-        If sprite2 Then sprite2.SetAlphaValue(0.0)
+        If image Then image.SetAlphaValue(0.0)
+        If image2 Then image2.SetAlphaValue(0.0)
 
         ' TODO: Missing stuff here
 
@@ -317,16 +317,16 @@ Class Tile Extends RenderableObject
 
         'LABEL_37
         If Self.IsDoor()
-            Self.sprite.SetZ(-1001.0)
-            Self.sprite2.SetZOff(8.0)
+            Self.image.SetZ(-1001.0)
+            Self.image2.SetZOff(8.0)
         Else
-            Self.sprite.SetZOff(8.0)
+            Self.image.SetZOff(8.0)
         End If
 
-        Local sprite3 := New Sprite()
-        sprite3.InitSprite("level/floor_x.png", 0, 0, 1, Image.DefaultFlags)
-        sprite3.SetZ(-901.0)
-        Self.sprite3 = sprite
+        Local xImage := New Sprite()
+        xImage.InitSprite("level/floor_x.png", 0, 0, 1, Image.DefaultFlags)
+        xImage.SetZ(-901.0)
+        Self.xImage = image
 
         Local tiles := Level.tiles
         If pending
@@ -341,77 +341,77 @@ Class Tile Extends RenderableObject
     End Method
 
     Field type: Int
-    Field tileset: Int = -1
+    Field tilesetOverride: Int = -1
     Field isCracked: Bool
-    Field torch: Int
-    Field sprite: Sprite
-    Field field_6C: Object
-    Field field_70: Object
-    Field field_74: String
-    Field metalDoorState: Int = -1
-    Field field_7C: Int = 1
-    Field field_80: Bool
-    Field field_81: Bool
-    Field sprite2: Sprite
-    Field field_88: Int
-    Field isNotDirt: Bool
-    Field field_90: Int
-    Field field_94: Int
-    Field field_98: Int
-    Field field_9C: Int
-    Field field_A0: Int
-    Field field_A4: Int = -1
-    Field field_A8: Int = -1
-    Field sprite3: Sprite
-    Field field_B0: Int
-    Field field_B4: Int
-    Field field_B8: Int
-    Field field_BC: Bool
-    Field field_C0: Int
-    Field field_C4: Bool
-    Field field_C5: Bool
-    Field field_C8: Int
-    Field field_CC: Int
-    Field field_D0: Float = -1.0
-    Field field_D4: Int = -1
-    Field field_D8: Bool
-    Field field_DC: Int
-    Field field_E0: Int = 3
-    Field field_E4: Int
-    Field field_E8: Bool
-    Field field_EC: Int
-    Field field_F0: Int
-    Field field_F4: Int
-    Field field_F8: Int
-    Field field_FC: Int
-    Field field_100: Bool
-    Field flyaway_: String
-    Field field_108: Int
-    Field field_10C: Int = -1
-    Field field_110: Bool
-    Field field_114: Int = -1
-    Field field_118: Bool
-    Field field_11C: Int = -1
-    Field field_120: Bool
-    Field field_124: Int = 2
-    Field field_128: Int
-    Field field_12C: Int
-    Field field_130: Int
-    Field field_134: Int
-    Field field_138: Int
-    Field field_13C: Int = -1
-    Field field_140: Int
-    Field field_144: Int
-    Field field_148: Int
-    Field field_14C: Int
-    Field field_150: Bool
-    Field field_154: Int
-    Field field_158: Int
-    Field field_15C: Bool = True
-    Field field_160: Int
-    Field field_164: Int
-    Field field_168: Int
-    Field field_16C: Float = -1.0
+    Field torchDir: Int
+    Field image: Sprite
+    Field textLabel: Sprite
+    Field textLabel2: TextSprite
+    Field textLabelText: String
+    Field metalDoorOpenedBeat: Int = -1
+    Field health: Int = 1
+    Field unbreakable: Bool
+    Field image1HasBeenLoadedWithFloor: Bool
+    Field image2: Sprite
+    Field hasResource: Int
+    Field isStone: Bool
+    Field tarAnimCounter: Int
+    Field tarAnimDelay: Int
+    Field imageWireSilhouette: Sprite
+    Field imageWire: Sprite
+    Field imageWireFlash: Sprite
+    Field wireFlashDelay: Int = -1
+    Field wireFlashAnimDelay: Int = -1
+    Field xImage: Sprite
+    Field textLabelOffX: Int
+    Field textLabelOffY: Int
+    Field textLabelDisplayDistance: Float
+    Field textLabelFlash: Bool
+    Field wireMask: Int
+    Field activatedConductorWire: Bool
+    Field magicBarrier: Bool
+    Field constAlpha: Float
+    Field trigger: Int
+    Field lightValueCached: Float = -1.0
+    Field lightValueFrameNum: Int = -1
+    Field hasBeenSeen: Bool
+    Field TORCH_LIGHT_MIN: Int = 0
+    Field TORCH_LIGHT_MAX: Int = 3
+    Field torchImage: Sprite
+    Field animateTorch: Bool
+    Field torchOffX: Int
+    Field torchOffY: Int
+    Field triggerDoor: Int
+    Field pickaxedNumTimes: Int
+    Field triggerDig: Int
+    Field wasInLOS: Bool
+    Field flyawayText: String
+    Field floorOverlayImage: Sprite
+    Field playerWasOnTileAtBeat: Int = -1
+    Field cachedLOS: Bool
+    Field cachedLOSFrame: Int = -1
+    Field cachedTrueLOS: Bool
+    Field cachedTrueLOSFrame: Int = -1
+    Field risingTriggered: Bool
+    Field recedeTimer: Int = 2
+    Field textLabelFlashDuration: Int
+    Field extraImage: Sprite
+    Field extraImageOffX: Int
+    Field extraImageOffY: Int
+    Field grassValue: Float
+    Field diamondSparkleDelay: Int = -1
+    Field image2XOff: Int
+    Field image2YOff: Int
+    Field floorOverlayImageXOff: Int
+    Field floorOverlayImageYOff: Int
+    Field playerWasOnTileLastFrame: Bool
+    Field wireXOff: Int
+    Field wireYOff: Int
+    Field doorHorizontal: Bool = True
+    Field nextEruptionBeat: Int
+    Field triggerPlayer: Player
+    Field torchFlickerNext: Int
+    Field constLightValueCached: Float = -1.0
 
     Field hasTorch: Bool
 
@@ -500,7 +500,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetTileset: Int()
-        Return Self.tileset
+        Return Self.tilesetOverride
     End Method
 
     Method GetType: Int()
@@ -528,7 +528,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method HasTorch: Bool()
-        Return Not (Self.torch = 0)
+        Return Not (Self.torchDir = 0)
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
@@ -542,7 +542,7 @@ Class Tile Extends RenderableObject
     Method IsDirt: Bool()
         If Self.IsDoor() Then Return False
 
-        Return Not Self.isNotDirt
+        Return Not Self.isStone
     End Method
 
     Method IsDoor: Bool()
@@ -592,7 +592,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsMetalDoorOpen: Bool()
-        Return Self.metalDoorState <> -1
+        Return Self.metalDoorOpenedBeat <> -1
     End Method
 
     Method IsNearNightmare: Bool()

@@ -4,21 +4,21 @@ Class RoomData
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, width: Int, height: Int, type: Int, field_24: Bool)
+    Method New(xVal: Int, yVal: Int, wVal: Int, hVal: Int, type: Int, hasExit: Bool)
         Self.x = xVal
         Self.y = yVal
-        Self.width = width
-        Self.height = height
+        Self.w = wVal
+        Self.h = hVal
         Self.type = type
-        Self.field_24 = field_24
+        Self.hasExit = hasExit
     End Method
 
     Field x: Int
     Field y: Int
-    Field width: Int
-    Field height: Int
+    Field w: Int
+    Field h: Int
     Field type: Int
-    Field field_24: Bool
+    Field hasExit: Bool
 
     Method GetBounds: Object()
         Throw New Throwable()

@@ -1,36 +1,46 @@
 Strict
 
+Import monkey.list
 Import item
 Import medic
 Import shopkeeper
+Import sprite
 
 Class SaleItem Extends Item
 
+    Const CHARISMA_DISCOUNT: Float = 0.5
+
+    Global currentSaleItems: List<SaleItem> = New List<SaleItem>()
+    Global randomSaleItemList: List<String> = New List<String>()
     Global lastSaleItemClass1: String
     Global lastSaleItemClass2: String
-    Global randomSaleItemList: List<String>
-    Global currentSaleItems: List<SaleItem>
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: String, bldCost: Bool, sk: Shopkeeper, fCost: Float, m: Medic)
         Super.New(xVal, yVal, type, False, -1, False)
 
-        currentSaleItems.AddLast(Self)
-        field_F6 = True
-        bldCost = bldCost
-        fCost = fCost
-        SetCost()
-        shopkeeper = sk
-        medic = m
+        Self.isSaleItem = True
+        SaleItem.currentSaleItems.AddLast(Self)
+
+        Self.hasBloodCost = bldCost
+        Self.forceCost = fCost
+        Self.SetCost()
+
+        Self.shopkeeper = sk
+        Self.medic = m
     End Method
 
+    Field bloodCost: Float
+    Field cost: Float = 999.0
+    Field discount: Float = 1.0
+    Field forceCost: Float = -1.0
+    Field miniDiamond: Sprite
+    Field miniHeart: Sprite
+    Field digits: Sprite[]
+    Field digitVal: int[]
     Field shopkeeper: Shopkeeper
     Field medic: Medic
-    Field bldCost: Bool
-    Field fCost: Float
-    Field field_144: Int
-    Field field_148: Int
 
     Method SetCost: Void()
     End Method

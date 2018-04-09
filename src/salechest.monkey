@@ -1,6 +1,7 @@
 Strict
 
 Import chest
+Import sprite
 
 Class SaleChest Extends Chest
 
@@ -10,6 +11,8 @@ Class SaleChest Extends Chest
         Throw New Throwable()
     End Method
 
-    Field field_110: Int
+    Field cost: Int
+    Field digits: Sprite[]
+    Field digitVal: Int[]
 
 End Class

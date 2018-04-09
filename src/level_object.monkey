@@ -27,9 +27,9 @@ Class LevelObject
     Function _EditorFix: Void() End
 
     Method New(num: Int, music: Int, boss: Int, loadFromCurrent: Bool, fromXML: Object)
-        Self.num = num
-        Self.music = music
-        Self.boss = boss
+        Self.levelNum = num
+        Self.musicType = music
+        Self.bossNum = boss
 
         If Not loadFromCurrent
             If fromXML
@@ -39,15 +39,15 @@ Class LevelObject
             For Local tilesOnX := EachIn Level.tiles
                 For Local tileNode := EachIn tilesOnX.Value()
                     Local tile := tileNode.Value()
-                    Local tileObj := New TileObject(tile.x, tile.y, tile.type, tile.tileset, tile.isCracked, tile.hasTorch)
+                    Local tileObj := New TileObject(tile.x, tile.y, tile.type, tile.tilesetOverride, tile.isCracked, tile.HasTorch())
                     Self.tiles.AddLast(tileObj)
                 End For
             End For
 
             For Local trap := EachIn Trap.trapList
-                Local trapObj := New TrapObject(trap.x, trap.y, trap.type)
+                Local trapObj := New TrapObject(trap.x, trap.y, trap.trapType)
 
-                Select trap.type
+                Select trap.trapType
                     Case TrapType.BounceTrap
                         Local bounceTrap := BounceTrap(trap)
                         If bounceTrap.field_106 Or bounceTrap.field_107
@@ -72,14 +72,14 @@ Class LevelObject
             End For
 
             For Local item := EachIn Item.pickupList
-                Local itemObj := New ItemObject(item.x, item.y, item.type, item.field_F4, 0, 0)
+                Local itemObj := New ItemObject(item.x, item.y, item.itemType, item.singleChoiceItem, 0, 0)
 
-                If item.bldCost
+                If item.hasBloodCost
                     Local saleItem := SaleItem(item)
-                    itemObj.field_24 = saleItem.field_144
-                Else If item.field_F6
+                    itemObj.bloodCost = saleItem.bloodCost
+                Else If item.isSaleItem
                     Local saleItem := SaleItem(item)
-                    itemObj.field_20 = saleItem.field_148
+                    itemObj.saleCost = saleItem.cost
                 End If
 
                 Self.items.AddLast(itemObj)
@@ -90,7 +90,7 @@ Class LevelObject
 
                 If chest.field_FA
                     Local saleChest := SaleChest(chest)
-                    chestObj.field_24 = saleChest.field_110
+                    chestObj.saleCost = saleChest.cost
                 End If
 
                 Self.chests.AddLast(chestObj)
@@ -102,15 +102,15 @@ Class LevelObject
             End For
 
             For Local shrine := EachIn Shrine.shrineList
-                Local shrineObj := New ShrineObject(shrine.x, shrine.y, shrine.cType)
+                Local shrineObj := New ShrineObject(shrine.x, shrine.y, shrine.type)
                 Self.shrines.AddLast(shrineObj)
             End For
         End If
     End Method
 
-    Field num: Int = 1
-    Field music: Int = 0
-    Field boss: Int = -1
+    Field levelNum: Int = 1
+    Field musicType: Int = 0
+    Field bossNum: Int = -1
     Field tiles: List<TileObject> = New List<TileObject>()
     Field traps: List<TrapObject> = New List<TrapObject>()
     Field enemies: List<EnemyObject> = New List<EnemyObject>()
@@ -121,10 +121,10 @@ Class LevelObject
 
     Method CreateMap: Void()
         For Local tileObj := EachIn tiles
-            Local tile := Level.PlaceTileRemovingExistingTiles(tileObj.x, tileObj.y, tileObj.type, False, tileObj.tileset, False)
+            Local tile := Level.PlaceTileRemovingExistingTiles(tileObj.x, tileObj.y, tileObj.type, False, tileObj.zone, False)
             
-            If tileObj.isCracked Then tile.BecomeCracked()
-            If tileObj.hasTorch Then tile.AddTorch()
+            If tileObj.cracked Then tile.BecomeCracked()
+            If tileObj.torch Then tile.AddTorch()
 
             Select tile.type
                 Case TileType.Stairs
@@ -174,11 +174,11 @@ Class LevelObject
         For Local enemyObj := EachIn enemies
             Local enemy := Enemy.MakeEnemy(enemyObj.x, enemyObj.y, enemyObj.type)
 
-            If enemyObj.field_1C <> -1
-                enemy.field_110 = enemyObj.field_1C
+            If enemyObj.beatDelay <> -1
+                enemy.field_110 = enemyObj.beatDelay
             End If
             
-            If enemyObj.isLord
+            If enemyObj.lord
                 enemy.MakeLord()
             End If
 
@@ -190,8 +190,8 @@ Class LevelObject
         For Local itemObj := EachIn items
             Local item: Item
 
-            If itemObj.field_24 <= 0.0
-                If itemObj.field_20 <= 0
+            If itemObj.bloodCost <= 0.0
+                If itemObj.saleCost <= 0
                     item = New Item(itemObj.x, itemObj.y, itemObj.type, False, -1, False)
                 Else
                     item = New SaleItem(itemObj.x, itemObj.y, itemObj.type, False, Null, -1.0, Null)
@@ -200,27 +200,27 @@ Class LevelObject
                 item = New SaleItem(itemObj.x, itemObj.y, itemObj.type, True, Null, -1.0, Null)
             End If
 
-            item.field_F4 = itemObj.field_1C
+            item.singleChoiceItem = itemObj.singleChoice
         End For
 
         For Local chestObj := EachIn chests
             Local chest: Chest
 
-            If chestObj.field_24 <= 0
-                chest = New Chest(chestObj.x, chestObj.y, chestObj.cont, chestObj.isLocked, False, chestObj.isLocked, chestObj.color)
+            If chestObj.saleCost <= 0
+                chest = New Chest(chestObj.x, chestObj.y, chestObj.contents, chestObj.hidden, False, chestObj.hidden, chestObj.color)
             Else
-                chest = New SaleChest(chestObj.x, chestObj.y, chestObj.cont, chestObj.isLocked, False, chestObj.isLocked, chestObj.color)
+                chest = New SaleChest(chestObj.x, chestObj.y, chestObj.contents, chestObj.hidden, False, chestObj.hidden, chestObj.color)
             End If
 
-            chest.singleChoice_ = chestObj.singleChoice_
+            chest.singleChoice_ = chestObj.singleChoice
         End For
 
         For Local crateObj := EachIn crates
-            New Crate(crateObj.x, crateObj.y, crateObj.type, crateObj.cont)
+            New Crate(crateObj.x, crateObj.y, crateObj.type, crateObj.contents)
         End For
 
         For Local shrineObj := EachIn shrines
-            New Shrine(shrineObj.x, shrineObj.y, shrineObj.cType, Null, False, False)
+            New Shrine(shrineObj.x, shrineObj.y, shrineObj.type, Null, False, False)
         End For
     End Method
 
@@ -237,21 +237,21 @@ End Class
 
 Class TileObject
 
-    Method New(xVal: Int, yVal: Int, type: Int, tileset: Int, isCracked: Bool, hasTorch: Bool)
+    Method New(xVal: Int, yVal: Int, type: Int, zone: Int, cracked: Bool, torch: Bool)
         Self.x = xVal
         Self.y = yVal
         Self.type = type
-        Self.tileset = tileset
-        Self.isCracked = isCracked
-        Self.hasTorch = hasTorch
+        Self.zone = zone
+        Self.cracked = cracked
+        Self.torch = torch
     End Method
 
     Field x: Int
     Field y: Int
     Field type: Int
-    Field tileset: Int
-    Field isCracked: Bool
-    Field hasTorch: Bool
+    Field zone: Int
+    Field cracked: Bool
+    Field torch: Bool
 
 End Class
 
@@ -272,90 +272,90 @@ End Class
 
 Class EnemyObject
 
-    Method New(xVal: Int, yVal: Int, type: Int, field_1C: Int, isLord: Bool)
+    Method New(xVal: Int, yVal: Int, type: Int, beatDelay: Int, lord: Bool)
         Self.x = xVal
         Self.y = yVal
         Self.type = type
-        Self.field_1C = field_1C
-        Self.isLord = isLord
+        Self.beatDelay = beatDelay
+        Self.lord = lord
     End Method
 
     Field x: int
     Field y: int
     Field type: int
-    Field field_1C: int = -1
-    Field isLord: bool
+    Field beatDelay: int = -1
+    Field lord: bool
 
 End Class
 
 Class ItemObject
 
-    Method New(xVal: Int, yVal: Int, type: String, field_1C: Bool, field_20: Int, field_24: Int)
+    Method New(xVal: Int, yVal: Int, type: String, singleChoice: Bool, saleCost: Int, bloodCost: Int)
         Self.x = xVal
         Self.y = yVal
         Self.type = type
-        Self.field_1C = field_1C
-        Self.field_20 = field_20
-        Self.field_24 = field_24
+        Self.singleChoice = singleChoice
+        Self.saleCost = saleCost
+        Self.bloodCost = bloodCost
     End Method
 
     Field x: Int
     Field y: Int
     Field type: String
-    Field field_1C: Bool
-    Field field_20: Int
-    Field field_24: Int
+    Field singleChoice: Bool
+    Field saleCost: Int
+    Field bloodCost: Int
 
 End Class
 
 Class ChestObject
 
-    Method New(xVal: Int, yVal: Int, color: Int, cont: String, singleChoice_: Bool, isLocked: Bool, field_24: Int)
+    Method New(xVal: Int, yVal: Int, color: Int, contents: String, singleChoice: Bool, hidden: Bool, saleCost: Int)
         Self.x = xVal
         Self.y = yVal
         Self.color = color
-        Self.cont = cont
-        Self.singleChoice_ = singleChoice_
-        Self.isLocked = isLocked
-        Self.field_24 = field_24
+        Self.contents = contents
+        Self.singleChoice = singleChoice
+        Self.hidden = hidden
+        Self.saleCost = saleCost
     End Method
 
     Field x: Int
     Field y: Int
     Field color: Int
-    Field cont: String
-    Field singleChoice_: Bool
-    Field isLocked: Bool
-    Field field_24: Int
+    Field contents: String
+    Field singleChoice: Bool
+    Field hidden: Bool
+    Field saleCost: Int
 
 End Class
 
 Class CrateObject
 
-    Method New(xVal: Int, yVal: Int, type: Int, cont: String)
+    Method New(xVal: Int, yVal: Int, type: Int, contents: String)
         Self.x = xVal
         Self.y = yVal
         Self.type = type
-        Self.cont = cont
+        Self.contents = contents
     End Method
 
     Field x: Int
     Field y: Int
     Field type: Int
-    Field cont: String
+    Field contents: String
 
 End Class
 
 Class ShrineObject
 
-    Method New(xVal: Int, yVal: Int, cType: Int)
+    Method New(xVal: Int, yVal: Int, type: Int)
         Self.x = xVal
         Self.y = yVal
-        Self.cType = cType
+        Self.type = type
     End Method
 
     Field x: Int
     Field y: Int
-    Field cType: Int
+    Field type: Int
 
 End Class

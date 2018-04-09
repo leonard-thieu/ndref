@@ -3,6 +3,8 @@ Strict
 Import monkey.list
 Import entity
 Import rng
+Import sprite
+Import textsprite
 
 Class Shrine Extends Entity
 
@@ -47,7 +49,25 @@ Class Shrine Extends Entity
         Throw New Throwable()
     End Method
 
-    Field cType: Int
+    Field type: Int
+    Field isForSale: Bool
+    Field cost: Int
+    Field digitVal: int[]
+    Field digits: Sprite[]
+    Field active: Bool
+    Field numKills: Int
+    Field painItemCount: Int
+    Field hintText: TextSprite
+    Field contents1: String
+    Field contents2: String
+    Field contents3: String
+    Field contents4: String
+    Field contents5: String
+    Field contents6: String
+    Field rng: RNG
+    Field chanceItemNum: Int
+    Field image2: Sprite
+    Field bounce2: Bouncer
 
     Method Activate: Bool(player: Object, dir: Int, fromMiniboss: Bool)
         Throw New Throwable()
