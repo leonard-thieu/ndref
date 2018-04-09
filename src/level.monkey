@@ -22,6 +22,7 @@ Import player_class
 Import portal_seg
 Import rect
 Import renderable_object
+Import replay
 Import rng
 Import room_with_door
 Import roomdata
@@ -153,7 +154,7 @@ Class Level
     Global quickRestart: Int
     Global randSeed: Int = -1
     Global randSeedString: String
-    Global replay: Int
+    Global replay: Replay
     Global rooms: List<RoomData> = New List<RoomData>()
     Global secretAtX: Int
     Global secretAtY: Int

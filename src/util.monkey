@@ -277,29 +277,49 @@ Class Util
     End Function
 
     Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int)
-        Local seed: Int
+        Local rndIntVal: Int
 
         If useSeed
-            seed = Util.storedSeed
+            rndIntVal = Util.storedSeed
             If Util.storedSeed = -1
-                seed = random.Seed
+                rndIntVal = random.Seed
             Else
                 Util.storedSeed = -1
             End If
         Else
-            seed = random.Seed
+            rndIntVal = random.Seed
             Util.storedSeed = random.Seed
         End If
 
         Local rndVal := random.Rnd(low, high + 1)
+        ' TODO: Verify what causes `__asm { frndint }` to be emitted.
 
-        ' TODO: `replayConsistencyChannel` section
+        If replayConsistencyChannel < 0 Or 
+           Not Level.isReplaying Or
+           Level.creatingMap
+            rndIntVal = math.Min(low, rndIntVal)
+        Else
+            rndVal = Level.replay.GetRand(replayConsistencyChannel)
+            
+            If rndVal < low Or rndVal > high
+                Return rndIntVal
+            End If
+        End If
 
-        Return rndVal
+        rndIntVal = high
+        If rndVal <= high Then rndIntVal = rndVal
+
+        If replayConsistencyChannel >= 0 And
+           Not Level.isReplaying And
+           Level.replay
+            Level.replay.RecordRand(replayConsistencyChannel, rndIntVal)
+        End If
+
+        Return rndIntVal
     End Function
 
     Function RndIntRangeFromZero: Int(high: Int, useSeed: Bool)
-        Throw New Throwable()
+        Return RndIntRange(0, high, useSeed, -1)
     End Function
 
     Function RotateDirInDirection: Int(original: Int, dir: Int)
