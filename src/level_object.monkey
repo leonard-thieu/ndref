@@ -76,10 +76,10 @@ Class LevelObject
 
                 If item.hasBloodCost
                     Local saleItem := SaleItem(item)
-                    itemObj.bloodCost = saleItem.field_144
+                    itemObj.bloodCost = saleItem.bloodCost
                 Else If item.isSaleItem
                     Local saleItem := SaleItem(item)
-                    itemObj.saleCost = saleItem.field_148
+                    itemObj.saleCost = saleItem.cost
                 End If
 
                 Self.items.AddLast(itemObj)
