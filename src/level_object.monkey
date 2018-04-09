@@ -72,12 +72,12 @@ Class LevelObject
             End For
 
             For Local item := EachIn Item.pickupList
-                Local itemObj := New ItemObject(item.x, item.y, item.type, item.field_F4, 0, 0)
+                Local itemObj := New ItemObject(item.x, item.y, item.itemType, item.singleChoiceItem, 0, 0)
 
-                If item.bldCost
+                If item.hasBloodCost
                     Local saleItem := SaleItem(item)
                     itemObj.field_24 = saleItem.field_144
-                Else If item.field_F6
+                Else If item.isSaleItem
                     Local saleItem := SaleItem(item)
                     itemObj.field_20 = saleItem.field_148
                 End If
@@ -200,7 +200,7 @@ Class LevelObject
                 item = New SaleItem(itemObj.x, itemObj.y, itemObj.type, True, Null, -1.0, Null)
             End If
 
-            item.field_F4 = itemObj.field_1C
+            item.singleChoiceItem = itemObj.field_1C
         End For
 
         For Local chestObj := EachIn chests

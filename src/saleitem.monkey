@@ -16,13 +16,13 @@ Class SaleItem Extends Item
     Method New(xVal: Int, yVal: Int, type: String, bldCost: Bool, sk: Shopkeeper, fCost: Float, m: Medic)
         Super.New(xVal, yVal, type, False, -1, False)
 
-        currentSaleItems.AddLast(Self)
-        field_F6 = True
-        bldCost = bldCost
-        fCost = fCost
-        SetCost()
-        shopkeeper = sk
-        medic = m
+        SaleItem.currentSaleItems.AddLast(Self)
+        Self.isSaleItem = True
+        Self.bldCost = bldCost
+        Self.fCost = fCost
+        Self.SetCost()
+        Self.shopkeeper = sk
+        Self.medic = m
     End Method
 
     Field shopkeeper: Shopkeeper

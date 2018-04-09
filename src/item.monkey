@@ -221,32 +221,33 @@ Class Item Extends Entity
         Super.New()
     End Method
 
-    Field type: String
-    Field field_F4: Bool
-    Field bldCost: Bool
-    Field field_F6: Bool
-    Field field_F8: Int = -1
-    Field field_FC: Int
-    Field field_100: Int
-    Field field_104: Bool
-    Field field_108: Int = 1
-    Field field_10C: Bool
-    Field field_110: Int
-    Field field_114: Int = 1
-    Field field_118: Int
-    Field field_11C: Int = -100000
-    Field field_120: Int = -100000
-    Field field_124: Bool
-    Field field_125: Bool
-    Field field_126: Bool = True
-    Field field_128: Int
-    Field field_12C: Int
-    Field field_130: Int
-    Field field_134: Bool
-    Field field_135: Bool
-    Field field_136: Bool
-    Field field_138: Int = 8
-    Field field_13C: Int
+    Field itemType: String
+    Field singleChoiceItem: Bool
+    Field hasBloodCost: Bool
+    Field isSaleItem: Bool
+    Field utility: Int = -1
+    Field coinCost: Int
+    Field diamondCost: Int
+    Field saleItem: Bool
+    Field stackQuantity: Int = 1
+    Field hideQuantity: Bool
+    Field diamondDealerPrice: Int
+    Field imageFrames: Int = 1
+    Field quantityYOff: Int
+    Field dropX: Int = -100000
+    Field dropY: Int = -100000
+    Field droppedByPlayer: Bool
+    Field trainingWeapon: Bool
+    Field pickupable: Bool = True
+    Field hintText: TextSprite
+    Field nameText: TextSprite
+    Field quantityText: TextSprite
+    Field isMystery: Bool
+    Field janitorItem: Bool
+    Field diamondDealerItem: Bool
+    Field leprechaunBeats: Int = 8
+    Field numAdjacentItems: Int
+    Field frameToShow: Int
 
     Method CheckAdjacentItems: Void()
         Throw New Throwable()
