@@ -2459,31 +2459,19 @@ Class Level
                 Else
                     If Not (moveX = 1)
                         ' moveX = 0
-                        If Not (moveY = -1)
-                            ' `RndIntRange` has side effects. Must stay outside of the following If-block.
-                            Local xOff := Util.RndIntRangeFromZero(width - 2, True)
-                            originX = Level.carveX
-                            originY = Level.carveY
-                            yVal = Level.carveY
 
-                            If wideCorridor
-                                xVal = Level.carveX - Util.RndIntRangeFromZero(width - 3, True) - 1
-                            Else
-                                xVal = Level.carveX - xOff - 1
-                            End If
-
-                            'goto LABEL_95
-                        End If
-
-                        Local xOff2 := Util.RndIntRangeFromZero(width - 2, True)
+                        ' `RndIntRange` has side effects. Must stay outside of the following If-block.
+                        Local xOff := Util.RndIntRangeFromZero(width - 2, True)
                         originX = Level.carveX
                         originY = Level.carveY
-                        yVal = Level.carveY - height
+
+                        yVal = Level.carveY
+                        If moveY = -1 Then yVal -= height
 
                         If wideCorridor
                             xVal = Level.carveX - Util.RndIntRangeFromZero(width - 3, True) - 1
                         Else
-                            xVal = Level.carveX - xOff2 - 1
+                            xVal = Level.carveX - xOff - 1
                         End If
 
                         'LABEL_95
