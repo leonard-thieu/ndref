@@ -2455,6 +2455,9 @@ Class Level
                         yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
                         originX = Level.carveX
                         'goto LABEL_95
+                    Else
+                        yVal = originY - yOff - 1
+                        originX = Level.carveX
                     End If
                 Else
                     If Not (moveX = 1)
@@ -2557,11 +2560,11 @@ Class Level
                             yOff = Util.RndIntRangeFromZero(height - 3, True)
                             originY = Level.carveY
                         End If
+
+                        yVal = originY - yOff - 1
+                        originX = Level.carveX
                     End If
                 End If
-
-                yVal = originY - yOff - 1
-                originX = Level.carveX
                 'goto LABEL_95
             End If
         End If
