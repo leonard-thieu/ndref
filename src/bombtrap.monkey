@@ -24,6 +24,6 @@ Class BombTrap Extends Trap
         Self.image = image
     End Method
 
-    Field field_10C: Int
+    Field triggeredFrames: Int
 
 End Class
