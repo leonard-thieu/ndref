@@ -133,28 +133,28 @@ Class Util
         Local y: Int
 
         Select dir
-            Case 0
+            Case Direction.Right
                 x = 1
                 y = 0
-            Case 1
+            Case Direction.Down
                 x = 0
                 y = 1
-            Case 2
+            Case Direction.Left
                 x = -1
                 y = 0
-            Case 3
-                x = 1
+            Case Direction.Up
+                x = 0
                 y = -1
-            Case 4
+            Case Direction.DownRight
                 x = 1
                 y = 1
-            Case 5
+            Case Direction.DownLeft
                 x = -1
                 y = 1
-            Case 6
+            Case Direction.UpLeft
                 x = -1
                 y = -1
-            Case 7
+            Case Direction.UpRight
                 x = 1
                 y = -1
             Default
@@ -463,3 +463,16 @@ Class Util
     End Method
 
 End
+
+Class Direction
+
+    Const Right: Int = 0
+    Const Down: Int = 1
+    Const Left: Int = 2
+    Const Up: Int = 3
+    Const DownRight: Int = 4
+    Const DownLeft: Int = 5
+    Const UpLeft: Int = 6
+    Const UpRight: Int = 7
+
+End Class
