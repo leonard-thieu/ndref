@@ -97,7 +97,7 @@ Class LevelObject
             End For
 
             For Local crate := EachIn Crate.crateList
-                Local crateObj := New CrateObject(crate.x, crate.y, crate.type, crate.cont)
+                Local crateObj := New CrateObject(crate.x, crate.y, crate.type, crate.contents)
                 Self.crates.AddLast(crateObj)
             End For
 

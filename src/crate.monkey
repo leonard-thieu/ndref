@@ -34,30 +34,30 @@ Class Crate Extends Enemy
 
         Self.Init(xVal, yVal, type + 1, "crate", "", -1, -1)
 
-        Self.field_23C = Self.yOff ' WARN: This might be xOff.
-        Self.subtype = type
+        Self.initialYOff = Self.yOff
+        Self.crateType = type
         
-        Self.cont = cont
-        If Self.cont = "no_item" And Level.randSeed <> -1
+        Self.contents = cont
+        If Self.contents = "no_item" And Level.randSeed <> -1
             Self.DetermineContents()
         End If
 
         Crate.crateList.AddLast(Self)
     End Method
 
-    Field subtype: Int
-    Field cont: String = "no_item"
-    Field field_23C: Int
-    Field itemSlot: String = "no_item"
-    Field item: String = "no_item"
-    Field field_248: Bool
-    Field field_24C: Int
-    Field field_250: Bool
-    Field field_254: Int
-    Field field_258: Int
-    Field field_25C: Int = -1
-    Field field_260: Bool
-    Field field_264: Int
+    Field crateType: Int
+    Field contents: String = "no_item"
+    Field initialYOff: Int
+    Field contents2: String = "no_item"
+    Field contents3: String = "no_item"
+    Field beEmpty: Bool
+    Field emptyCoins: Int
+    Field determinedContents: Bool
+    Field image2: Sprite
+    Field bounce2: Bouncer
+    Field chargingDir: Int = -1
+    Field gorgonFlipX: Bool
+    Field gorgonFlashFrames: Int
 
     Method DecideIfStayingEmpty: Void()
         Throw New Throwable()
