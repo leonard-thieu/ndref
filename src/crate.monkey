@@ -30,7 +30,7 @@ Class Crate Extends Enemy
         Super.New()
 
         Self.isCrate = True
-        Self.field_1E4 = True
+        Self.containsItem = True
 
         Self.Init(xVal, yVal, type + 1, "crate", "", -1, -1)
 

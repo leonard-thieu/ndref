@@ -66,7 +66,7 @@ Class LevelObject
 
             For Local enemy := EachIn Enemy.enemyList
                 If Crate(enemy) = Null
-                    Local enemyObj := New EnemyObject(enemy.x, enemy.y, enemy.type, enemy.field_110, enemy.isLord)
+                    Local enemyObj := New EnemyObject(enemy.x, enemy.y, enemy.enemyType, enemy.currentMoveDelay, enemy.isLord)
                     Self.enemies.AddLast(enemyObj)
                 End If
             End For
@@ -97,7 +97,7 @@ Class LevelObject
             End For
 
             For Local crate := EachIn Crate.crateList
-                Local crateObj := New CrateObject(crate.x, crate.y, crate.type, crate.contents)
+                Local crateObj := New CrateObject(crate.x, crate.y, crate.enemyType, crate.contents)
                 Self.crates.AddLast(crateObj)
             End For
 
@@ -175,14 +175,14 @@ Class LevelObject
             Local enemy := Enemy.MakeEnemy(enemyObj.x, enemyObj.y, enemyObj.type)
 
             If enemyObj.beatDelay <> -1
-                enemy.field_110 = enemyObj.beatDelay
+                enemy.currentMoveDelay = enemyObj.beatDelay
             End If
             
             If enemyObj.lord
                 enemy.MakeLord()
             End If
 
-            If enemy.field_11D
+            If enemy.isMiniboss
                 enemy.isMiniboss = True
             End If
         End For

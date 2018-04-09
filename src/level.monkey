@@ -720,7 +720,7 @@ Class Level
 
         For Local enemy := EachIn Enemy.enemyList
             If enemy.isMiniboss
-                Level.previousLevelMinibosses.Push(enemy.type)
+                Level.previousLevelMinibosses.Push(enemy.enemyType)
             End If
         End For
 
