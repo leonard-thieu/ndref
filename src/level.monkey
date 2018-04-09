@@ -2590,7 +2590,44 @@ Class Level
     End Function
 
     Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
-        Throw New Throwable()
+        Local lightValueCached: Float
+        Local alpha: Float
+        Local hasBeenSeen: Bool
+        Local lightValueFrameNum: Int
+
+        Local tile := Level.GetTileAt(xVal, yVal)
+        If Not tile Or
+           Not (tilesetOverride = -1) Or
+           Not (tile.type = tileType)
+            If Not tile
+                hasBeenSeen = False
+                lightValueFrameNum = -1
+                lightValueCached = -1.0
+                alpha = 0.0
+            Else
+                If fromEarthSpell And
+                   Not (tile.trigger = 0) And
+                   Not (tile.trigger = 1)
+                    Return tile
+                End If
+
+                If tilesetOverride = -1 Then tilesetOverride = tile.tilesetOverride
+                hasBeenSeen = tile.hasBeenSeen
+                lightValueFrameNum = tile.lightValueFrameNum
+                lightValueCached = tile.lightValueCached
+                alpha = tile.image.alpha
+
+                tile.Die()
+            End If
+
+            tile = New Tile(xVal, yVal, tileType, pending, tilesetOverride)
+            tile.hasBeenSeen = hasBeenSeen
+            tile.lightValueFrameNum = lightValueFrameNum
+            tile.lightValueCached = lightValueCached
+            tile.image.alpha = alpha
+        End If
+
+        Return tile
     End Function
 
     Function PlaceTileTypeAt: Void(xVal: Int, yVal: Int, tileType: Int)
