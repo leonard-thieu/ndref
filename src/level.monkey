@@ -94,7 +94,7 @@ Class Level
     Global isSwarmMode: Bool
     Global isTrainingMode: Bool
     Global justUnlocked: Int
-    Global lastCreatedRoomType: Int = -1
+    Global lastCreatedRoomType: Int = RoomType.None
     Global lastTileCount: Int = -1
     Global levelConstraintH: Int
     Global levelConstraintNum: Int
@@ -506,12 +506,12 @@ Class Level
     End Function
 
     Function CreateMap: Bool(levelObj: LevelObject)
-        If currentLevel = 1
+        If controller_game.currentLevel = 1
             Level.previousLevelMinibosses.Clear()
             Level.previousLevelUnkilledStairLockingMinibosses.Clear()
             Level.skipNextPenaltyBox = False
 
-            If currentDepth = 1
+            If controller_game.currentDepth = 1
                 SaleItem.lastSaleItemClass1 = ""
                 SaleItem.lastSaleItemClass2 = ""
                 Item.lastChestItemClass1 = ""
@@ -649,7 +649,7 @@ Class Level
             Return True
         End If
 
-        Select currentZone
+        Select controller_game.currentZone
             Case 5 If Not Level.CreateMapZone5(False) Then Return False
             Case 4 If Not Level.CreateMapZone4(False) Return False
             Case 3 If Not Level.CreateMapZone3() Then Return False
@@ -657,7 +657,7 @@ Class Level
             Default If Not Level.CreateMapZone1() Then Return False
         End Select
 
-        If currentZone = 4
+        If controller_game.currentZone = 4
             For Local trap := EachIn Trap.trapList
                 If trap.trapType = TrapType.TrapDoor
                     new SpikeTrap(trap.x, trap.y)
@@ -1616,10 +1616,10 @@ Class Level
                 Local tile := tileNode.Value()
                 If (tile.x >= -100 And tile.x <= 100) And
                    (tile.y >= -100 And tile.y <= 100)
-                   If xMax > tile.x Then xMax = tile.x
-                   If yMax > tile.y Then yMax = tile.y
-                   If xMin >= tile.x Then xMin = tile.x
-                   If yMin > tile.y Then yMin = tile.y
+                    If xMax > tile.x Then xMax = tile.x
+                    If yMax > tile.y Then yMax = tile.y
+                    If xMin >= tile.x Then xMin = tile.x
+                    If yMin > tile.y Then yMin = tile.y
                End If
             End For
         End For
@@ -1962,7 +1962,6 @@ Class Level
 
         While Not points.IsEmpty()
             Local firstPoint := points.RemoveFirst()
-            Local dir := 0
 
             For Local dir := 0 Until 4
                 Local newPoint := firstPoint.Add(Util.GetPointFromDir(dir))
@@ -2249,8 +2248,8 @@ Class Level
         ' Overwrites `wideCorridor` but cannot skip the call to `RndIntRange` because it has side effects.
         Select roomType
             Case RoomType.Shop
-            Case 5
-            Case 7
+            Case RoomType.Unknown5
+            Case RoomType.Unknown7
                 wideCorridor = False
         End Select
 
@@ -2369,7 +2368,8 @@ Class Level
             Local height: Int
 
             If Level.CarveNewCorridor(moveX, moveY, horiz, True, False, roomType, wideCorridor)
-                If (roomType = 5) Or (roomType = 7)
+                If roomType = RoomType.Unknown5 Or
+                   roomType = RoomType.Unknown7
                     ' `width` and `height` are overwritten but `RndIntRange` has side effects. Do not remove.
                     width = Util.RndIntRange(6, 8, True, -1)
                     height = Util.RndIntRange(5, 7, True, -1)
@@ -2519,7 +2519,8 @@ Class Level
                             Return Level._PlaceRoom(xVal, yVal, width, height)
                         End If
 
-                        If (roomType = 5) Or (roomType = 7)
+                        If roomType = RoomType.Unknown5 Or
+                           roomType = RoomType.Unknown7
                             Return Level._PlaceRoom(xVal, yVal, width, height)
                         End If
 
@@ -3113,7 +3114,16 @@ End Class
 
 Class RoomType
 
+    Const None: Int = -1
+    Const Unknown0: Int = 0
+    Const Unknown1: Int = 1
+    Const Unknown2: Int = 3
     Const Shop: Int = 3
     Const Start: Int = 4
+    Const Unknown5: Int = 5
+    Const Unknown6: Int = 6
+    Const Unknown7: Int = 7
+    Const Unknown8: Int = 8
+    Const Unknown10: Int = 10
 
 End Class
