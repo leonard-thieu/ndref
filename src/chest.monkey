@@ -49,11 +49,17 @@ Class Chest Extends Entity
         Throw New Throwable()
     End Method
 
-    Field color: Int
-    Field cont: String
-    Field field_F8: Bool
-    Field field_FA: Bool
-    Field isLocked: Bool
+    Field chestColor: Int
+    Field contents: String
+    Field singleChoiceChest: Bool
+    Field secretChest: Bool
+    Field saleChest: Bool
+    Field locked: Bool
+    Field lockChest: Bool
+    Field image2: Sprite
+    Field image2XOff: Int
+    Field image2YOff: Int
+    Field bounce2: Bouncer
     
     Field singleChoice_: Bool
 

@@ -86,9 +86,9 @@ Class LevelObject
             End For
 
             For Local chest := EachIn Chest.chestList
-                Local chestObj := New ChestObject(chest.x, chest.y, chest.color, chest.cont, chest.field_F8, chest.isLocked, 0)
+                Local chestObj := New ChestObject(chest.x, chest.y, chest.chestColor, chest.contents, chest.singleChoiceChest, chest.secretChest, 0)
 
-                If chest.field_FA
+                If chest.saleChest
                     Local saleChest := SaleChest(chest)
                     chestObj.saleCost = saleChest.cost
                 End If
