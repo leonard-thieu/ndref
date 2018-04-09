@@ -1,5 +1,7 @@
 Strict
 
+Import monkey.list
+
 Class Replay
 
     Global lastSavedReplayFile: String
@@ -21,6 +23,20 @@ Class Replay
     End Function
 
     Function _EditorFix: Void() End
+
+    Field curReplayData: Node<ReplayData>
+    Field gaveWarning: Bool
+    Field startingZone: Int
+    Field startingLevel: Int
+    Field curBeats: Int[]
+    Field beatOffset: Int
+    Field runTime: Int
+    Field replayStr: String
+    Field gameVersion: Int
+    Field startingGold: Int
+    Field hasBroadsword: Bool
+    Field replayData: List<ReplayData>
+    Field saveData: String
 
     Method GetDirectionsHitForBeat: Object(playerNum: Int, closestBeat: Int, percentDist: Float)
         Throw New Throwable()
@@ -88,5 +104,11 @@ Class Replay
         Reset()
         Save()
     End Method
+
+End Class
+
+Class ReplayData
+
+    Function _EditorFix: Void() End
 
 End Class
