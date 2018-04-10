@@ -10,7 +10,7 @@ Class XMLNode
 
     Function _EditorFix: Void() End
 
-    Method AddChild: Object(name: Int, attributes: Int)
+    Method AddChild: Object(name: String, attributes: Int)
         Throw New Throwable()
     End Method
 
@@ -50,19 +50,19 @@ Class XMLNode
         Throw New Throwable()
     End Method
 
-    Method GetChild: Object(name: Int)
+    Method GetChild: Object(name: String)
         Throw New Throwable()
     End Method
 
-    Method GetChild: Object(name: Int, attributes: Int)
+    Method GetChild: Object(name: String, attributes: Int)
         Throw New Throwable()
     End Method
 
-    Method GetChildAtPath: Object(path: Int)
+    Method GetChildAtPath: XMLNode(path: String)
         Throw New Throwable()
     End Method
 
-    Method GetChildAtPath: Object(path: Int, attributes: Int)
+    Method GetChildAtPath: XMLNode(path: String, attributes: Int)
         Throw New Throwable()
     End Method
 
@@ -70,11 +70,11 @@ Class XMLNode
         Throw New Throwable()
     End Method
 
-    Method GetChildren: Object(name: Int)
+    Method GetChildren: Object(name: String)
         Throw New Throwable()
     End Method
 
-    Method GetChildren: Object(name: Int, attributes: Int)
+    Method GetChildren: Object(name: String, attributes: Int)
         Throw New Throwable()
     End Method
 

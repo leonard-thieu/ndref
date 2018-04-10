@@ -87,11 +87,11 @@ Class Item Extends Entity
         Throw New Throwable()
     End Function
 
-    Function GetRandomItemInClass: Int(itemClass: Int, requestedLevel: Int, randomType: Int, chestColor: Int, ignorePendingMetaGameItems: Bool, itemSlot: Int, nonDeterministic: Bool)
+    Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String, chestColor: Int, ignorePendingMetaGameItems: Bool, itemSlot: String, nonDeterministic: Bool)
         Throw New Throwable()
     End Function
 
-    Function GetRandomItemInClassByPredicate: Int(predicate: Object, requestedLevel: Int, randomType: Int, nonDeterministic: Bool)
+    Function GetRandomItemInClassByPredicate: String(predicate: Object, requestedLevel: Int, randomType: String, nonDeterministic: Bool)
         Throw New Throwable()
     End Function
 
