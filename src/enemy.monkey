@@ -174,48 +174,57 @@ Class Enemy Extends MobileEntity Abstract
 
     Function _EditorFix: Void() End
 
+    Method New()
+        Super.New()
+        
+        Enemy.enemyList.AddLast(Self)
+
+        Self.collides = True
+        Self.isEnemy = True
+    End Method
+
     Field enemyType: Int
-    Field currentMoveDelay: Int
+    Field currentMoveDelay: Int = 1
     Field isLord: Bool
-    Field animOverride: Int
+    Field animOverride: Int = -1
     Field isShieldedFrankensteinway: Bool
     Field isMiniboss: Bool
     Field isBoss: Bool
     Field isSarcophagus: Bool
     Field inArena: Bool
     Field stealth: Bool
-    Field lastPlayerHitFrame: int[]
-    Field lastPlayerHitSource: String[]
+    Field lastPlayerHitFrame: Int[4]
+    Field lastPlayerHitSource: String[4]
     Field heartXOff: Int
     Field heartYOff: Int
     Field storedZOff: Int
-    Field autoFlip: Bool
+    Field autoFlip: Bool = True
     Field baseFlipX: Bool
     Field shadowVal: String
-    Field bounceOnMovementFail: Bool
-    Field beatsPerMove: Int
+    Field bounceOnMovementFail: Bool = True
+    Field beatsPerMove: Int = 1
     Field movePriority: Int
-    Field health: Int
+    Field health: Int = 1
     Field healthMax: Int
     Field isMonkeyLike: Bool
     Field hitParticle: String
-    Field animNormal: IntMap<BeatAnimationData>
-    Field animNormal2: IntMap<BeatAnimationData>
-    Field animNormal3: IntMap<BeatAnimationData>
-    Field animBlink: IntMap<BeatAnimationData>
-    Field animTell: IntMap<BeatAnimationData>
-    Field animTellBlink: IntMap<BeatAnimationData>
-    Field hitTween: Int
-    Field hitShadowTween: Int
+    Field animNormal: IntMap<BeatAnimationData> = New IntMap<BeatAnimationData>()
+    Field animNormal2: IntMap<BeatAnimationData> = New IntMap<BeatAnimationData>()
+    Field animNormal3: IntMap<BeatAnimationData> = New IntMap<BeatAnimationData>()
+    Field animBlink: IntMap<BeatAnimationData> = New IntMap<BeatAnimationData>()
+    Field animTell: IntMap<BeatAnimationData> = New IntMap<BeatAnimationData>()
+    Field animTellBlink: IntMap<BeatAnimationData> = New IntMap<BeatAnimationData>()
+    Field hitTween: Int = 5
+    Field hitShadowTween: Int = 6
     Field movementType: Int
     Field attackSwipeImage: Sprite
     Field jumpDirt: Sprite
-    Field jumpDirtTimer: Int
+    Field jumpDirtTimer: Int = -1
     Field overrideDeathSound: String
     Field overrideHitSound: String
     Field isFormationDancer: Bool
     Field overrideCrySound: String
-    Field justSpawned: Bool
+    Field justSpawned: Bool = True
     Field isDancer: Bool
     Field charmed: Bool
     Field freezeImmunity: Bool
@@ -228,52 +237,52 @@ Class Enemy Extends MobileEntity Abstract
     Field dropNoCoinsOverride: Bool
     Field deathTrigger: Int
     Field renderSwipeTime: Int
-    Field attackSwipeDir: Int
-    Field attackSwipePoint: Point
+    Field attackSwipeDir: Int = -1
+    Field attackSwipePoint: Point = New Point(0, 0)
     Field jumpDirtX: Int
     Field jumpDirtY: Int
     Field overrideMoveSound: String
     Field changedTilePositionThisFrame: Bool
-    Field zapGeneration: Int
+    Field zapGeneration: Int = -1
     Field isNecroDancer: Bool
     Field earthquaked: Bool
     Field movesRegardlessOfDistance: Bool
-    Field blink_MIN: Int
-    Field blink_MAX: Int
-    Field blink_DUR: Int
+    Field blink_MIN: Int = 50
+    Field blink_MAX: Int = 120
+    Field blink_DUR: Int = 20
     Field containsItem: Bool
-    Field enableTell: Bool
+    Field enableTell: Bool = True
     Field swarmCulprit: Bool
     Field overrideAttackSwipe: Bool
     Field allowDiagonalFlip: Bool
     Field tramples: Bool
-    Field showHearts: Bool
+    Field showHearts: Bool = True
     Field inSecretRoom: Bool
     Field dontMove: Bool
-    Field enableDeathEffects: Bool
-    Field minEnemyMoveDistance: Int
+    Field enableDeathEffects: Bool = True
+    Field minEnemyMoveDistance: Int = 3
     Field exemptFromPause: Bool
-    Field wasSeekingX: Bool
+    Field wasSeekingX: Bool = True
     Field isMosh: Bool
     Field isUnaffectedByArenas: Bool
     Field movedThisFrame: Bool
     Field attemptedMoveThisFrame: Bool
     Field seekingPlayer: Player
-    Field lastAttemptedMove: Point
+    Field lastAttemptedMove: Point = New Point(0, 0)
     Field useLastPosForSwipe: Bool
     Field justHitPlayer: Bool
     Field executedCry: Bool
-    Field animOverrideState: Int
+    Field animOverrideState: Int = -1
     Field wasFrozen: Bool
     Field blinkDelay: Int
     Field blinkDuration: Int
     Field animOffset: Int
-    Field overrideNormal2Timing: Int
-    Field overrideTellTiming: Int
-    Field numSwipeFrames: Int
-    Field numSwipeFramesPerImage: Int
+    Field overrideNormal2Timing: Int = -1
+    Field overrideTellTiming: Int = -1
+    Field numSwipeFrames: Int = 5
+    Field numSwipeFramesPerImage: Int = 2
     Field alwaysShowHearts: Bool
-    Field spawnsDropGold: Bool
+    Field spawnsDropGold: Bool = True
     Field wasVisibleLastFrame: Bool
 
     Method AdjustLordImage: Void()
