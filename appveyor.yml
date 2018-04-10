@@ -1,5 +1,12 @@
 image: Ubuntu
 
+skip_branch_with_pr: true
+
+notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: c7l1UmXHWpIDLL1awU4r0QYVPToYM/XjV8trFyD1oHArKxs/vBTYiKYScr1EhCUgmEX6sAFBTvkUHF/k5B+cGjzqRBR2XkAO+lzk8cHQ1FI=
+
 install:
   - sudo apt-get --yes install g++-multilib xorg-dev libgl1-mesa-dev:i386 libopenal-dev:i386 libxi6:i386 libxrandr2:i386 libxinerama1:i386 libxcursor1:i386
   - sudo ln -s /usr/lib/i386-linux-gnu/libXi.so.6 /usr/lib/i386-linux-gnu/libXi.so
