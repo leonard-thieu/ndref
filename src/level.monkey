@@ -1215,7 +1215,7 @@ Class Level
         End Select
 
         If catacombWallChance > Util.RndIntRangeFromZero(1, True) And 
-           roomType = -1 And
+           roomType = RoomType.None And
            controller_game.currentZone = 1
             wallType = TileType.CatacombWall
         End If
@@ -1223,22 +1223,22 @@ Class Level
         Local lastCreatedRoomType := roomType
         Local tiles: List<TileData>
         Select roomType
-            Case -1
+            Case RoomType.None
                 If controller_game.currentZone = 1
                     If controller_game.currentLevel = 1
                         If Not Util.RndBool(True)
-                            lastCreatedRoomType = 0
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            lastCreatedRoomType = RoomType.Basic
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
                         End If
 
-                        lastCreatedRoomType = 2
-                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 2, originX, originY, originX2, originY2, wideCorridor, wallType)
+                        lastCreatedRoomType = RoomType.OutsideCorners
+                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.OutsideCorners, originX, originY, originX2, originY2, wideCorridor, wallType)
                     End If
 
                     Select Util.RndIntRangeFromZero(2, True)
                         Case 0
-                            lastCreatedRoomType = 0
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            lastCreatedRoomType = RoomType.Basic
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
                         Case 1
                             lastCreatedRoomType = 1
                             ' No room?
@@ -1248,20 +1248,20 @@ Class Level
                     End Select
                 Else
                     If controller_game.currentZone = 4
-                        lastCreatedRoomType = 0
+                        lastCreatedRoomType = RoomType.Basic
                         ' Substitute with `RndBool`?
-                        If Not Util.RndIntRangeFromZero(1, True) Then lastCreatedRoomType = -1
+                        If Not Util.RndIntRangeFromZero(1, True) Then lastCreatedRoomType = RoomType.None
 
-                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, originX, originY, originX2, originY2, wideCorridor, wallType)
+                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
                     End If
 
                     Select Util.RndIntRangeFromZero(3, True)
                         Case 0
-                            lastCreatedRoomType = 0
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            lastCreatedRoomType = RoomType.Basic
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
                         Case 1
-                            lastCreatedRoomType = 2
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 2, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            lastCreatedRoomType = RoomType.OutsideCorners
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.OutsideCorners, originX, originY, originX2, originY2, wideCorridor, wallType)
                         Case 2
                             lastCreatedRoomType = 1
                             tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 1, originX, originY, originX2, originY2, wideCorridor, wallType)
@@ -1271,8 +1271,8 @@ Class Level
                     End Select
                 End If
             Case 1
-            Case 2
-            Case 3
+            Case RoomType.OutsideCorners
+            Case RoomType.Shop
             Case 5
             Case 6
             Case 7
@@ -1391,7 +1391,7 @@ Class Level
             Local tileY := tile.y
             Local tileType := tile.type
 
-            If pending And Not (Level.GetTileTypeAt(tileX, tileY) = TileType.None)
+            If pending And Not (Level.GetTileTypeAt(tileX, tileY) = TileType.Empty)
                 If Not allowWallOverlap Then Return False
                 If Not Level.IsWallAt(tileX, tileY, False, False) Then Return False
 
@@ -1413,7 +1413,7 @@ Class Level
         Local yMax := yVal + hVal
 
         Select roomType
-            Case 0
+            Case RoomType.Basic
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor)
             Case 1
@@ -1471,7 +1471,7 @@ Class Level
                         End If
                     End While
                 End If
-            Case 2
+            Case RoomType.OutsideCorners
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
                 Local xMin := xVal + 1
@@ -1507,7 +1507,7 @@ Class Level
                     'LABEL_169
                     xRem -= 1
                 End For
-            Case 3
+            Case RoomType.Shop
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.ShopWall)
 
                 ' Floor
@@ -2100,7 +2100,7 @@ Class Level
     End Function
 
     Function IsHotCoalAt: Bool(xVal: Int, yVal: Int)
-        Return Level.GetTileTypeAt(xVal, yVal) = TileType.HotCoals
+        Return Level.GetTileTypeAt(xVal, yVal) = TileType.HotCoal
     End Function
 
     Function IsIceAt: Bool(xVal: Int, yVal: Int)
@@ -2192,7 +2192,7 @@ Class Level
     End Function
 
     Function IsTileEmpty: Bool(xVal: Int, yVal: Int)
-        Return Level.GetTileTypeAt(xVal, yVal) = TileType.None
+        Return Level.GetTileTypeAt(xVal, yVal) = TileType.Empty
     End Function
 
     Function IsTileTypeAdjacent: Bool(xVal: Int, yVal: Int, tempType: Int)
@@ -3278,9 +3278,9 @@ End Class
 Class RoomType
 
     Const None: Int = -1
-    Const Unknown0: Int = 0
+    Const Basic: Int = 0
     Const Unknown1: Int = 1
-    Const Unknown2: Int = 2
+    Const OutsideCorners: Int = 2
     Const Shop: Int = 3
     Const Start: Int = 4
     Const Unknown5: Int = 5

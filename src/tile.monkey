@@ -139,7 +139,7 @@ Class Tile Extends RenderableObject
                             image.InitSprite("level/TEMP_floor_water.png", 0, 0, 3, 6)
                         Else
                             Select Self.type
-                                Case TileType.HotCoals
+                                Case TileType.HotCoal
                                     image.InitSprite("level/TEMP_floor_hotcoal.png", 0, 0, 3, 6)
                                 Case TileType.Ice
                                     image.InitSprite("level/TEMP_floor_ice.png", 0, 0, 3, 6)
@@ -161,10 +161,10 @@ Class Tile Extends RenderableObject
                                     Select Self.type
                                         Case TileType.LobbyUpgradesFloor
                                             image.InitSprite("level/TEMP_npc_floor.png", 0, 0, 3, 6)
-                                        Case TileType.FloorRising
+                                        Case TileType.RisingFloor
                                             image.InitSprite("level/floor_rising.png", 0, 0, 3, 6)
                                             Tile.floorRisingList.AddLast(Self)
-                                        Case TileType.FloorReceding
+                                        Case TileType.RecededFloor
                                             image.InitSprite("level/floor_receded.png", 0, 0, 3, 6)
                                             Tile.floorRecededList.AddLast(Self)
                                         Default
@@ -189,11 +189,11 @@ Class Tile Extends RenderableObject
                 Self.health = 4
             Case TileType.BossWall
                 Select currentLevel
+                    Case -490
+                    Case -492
+                    Case -493
                     Case -494
                     Case 5
-                    Case -493
-                    Case -492
-                    Case -490
                         If Level.isConductorLevel
                             image.InitSprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
                         Else
@@ -209,7 +209,7 @@ Class Tile Extends RenderableObject
             Case TileType.UnbreakableWall
                 image.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
                 Self.unbreakable = True
-            Case TileType.LevelBorder
+            Case TileType.IndestructibleBorder
                 image.InitSprite("level/end_of_world.png", 24, 48, 8, Image.DefaultFlags)
                 Local frame := Util.RndIntRange(0, 7, False, -1)
                 image.SetFrame(frame)
@@ -793,7 +793,7 @@ End Class
 
 Class TileType
 
-    Const None: Int = -1
+    Const Empty: Int = -1
     Const Floor: Int = 0
     Const Floor2: Int = 1
     Const Stairs: Int = 2
@@ -804,7 +804,7 @@ Class TileType
     Const LobbyUpgradesFloor: Int = 7
     Const Tar: Int = 8
     Const LockedStairsMiniboss: Int = 9
-    Const HotCoals: Int = 10
+    Const HotCoal: Int = 10
     Const Ice: Int = 11
     Const Crystal: Int = 12
     Const Geyser: Int = 13
@@ -815,14 +815,14 @@ Class TileType
     Const Lava: Int = 18
     Const Floor4: Int = 19
     Const Wire: Int = 20
-    Const FloorRising: Int = 21
-    Const FloorReceding: Int = 22
+    Const RisingFloor: Int = 21
+    Const RecededFloor: Int = 22
     Const ConductorWirePhase1: Int = 23
     Const ConductorWirePhase2: Int = 24
     Const Unknown98: Int = 98
     Const DirtWall: Int = 100
     Const DirtWall2: Int = 101
-    Const LevelBorder: Int = 102
+    Const IndestructibleBorder: Int = 102
     Const Door: Int = 103
     Const ShopWall: Int = 104
     Const UnbreakableWall: Int = 105
