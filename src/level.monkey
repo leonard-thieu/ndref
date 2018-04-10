@@ -237,7 +237,7 @@ Class Level
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
         ' Adding special room
-        
+
         If addCrack
             Level.AddCrackedWall(roomType)
         End If
@@ -325,7 +325,7 @@ Class Level
                     Local randomItem1 := Item.GetRandomItemInClass(itemClass, requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
                     If Not (randomItem1 = "no_item") Or
                        Not (randomItem1 = "resource_hoard_gold")
-                        new SaleItem(entranceX - 1, entranceY - 2, randomItem1, True, Null, -1.0, Null)
+                        New SaleItem(entranceX - 1, entranceY - 2, randomItem1, True, Null, -1.0, Null)
                     End If
                 End If
 
@@ -333,14 +333,14 @@ Class Level
                 Local randomItem2 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
                 If Not (randomItem2 = "no_item") Or
                    Not (randomItem2 = "resource_hoard_gold")
-                    new SaleItem(entranceX + saleItemXOff, entranceY - 2, randomItem2, True, Null, -1.0, Null)
+                    New SaleItem(entranceX + saleItemXOff, entranceY - 2, randomItem2, True, Null, -1.0, Null)
                 End If
 
                 ' Right item
                 Local randomItem3 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
                 If Not (randomItem3 = "no_item") Or
                    Not (randomItem3 = "resource_hoard_gold")
-                    new SaleItem(entranceX + 1, entranceY - 2, randomItem3, True, Null, -1.0, Null)
+                    New SaleItem(entranceX + 1, entranceY - 2, randomItem3, True, Null, -1.0, Null)
                 End If
 
                 If Not Util.RndIntRangeFromZero(9, True)
@@ -383,18 +383,52 @@ Class Level
                     End If
                 End For
 
+                Local anotherItems := New Stack<String>()
                 Local newItems := New StringSet()
                 For Local validGlassItem := EachIn validGlassItems
                     If Not Item.seenItems.Contains(validGlassItem)
+                        anotherItems.Push(validGlassItem)
                         newItems.Insert(validGlassItem)
                     End If
                 End For
 
                 For Local validGlassItem := EachIn validGlassItems
-                    If newItems.Contains(validGlassItem)
-
+                    If Not newItems.Contains(validGlassItem)
+                        anotherItems.Push(validGlassItem)
                     End If
                 End For
+
+                While anotherItems.Length() > 2
+                    anotherItems.Pop()
+                End While
+
+                While anotherItems.Length() <= 2
+                    Local glassWeapon := Item.GetRandomItemInClass("isGlass", controller_game.currentLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "weapon", False)
+                    anotherItems.Push(glassWeapon)
+                End While
+
+                Local glassItemXOff := -1
+                Local i := 0
+                Repeat
+                    Local anotherItem := anotherItems.Get(i)
+                    If Not (anotherItem = "no_item") And
+                       Not (anotherItem = "resource_hoard_gold")
+                        Local glassItem := New SaleItem(entranceX + glassItemXOff, entranceY - 2, anotherItem, False, shopkeeper, -1.0, Null)
+                        glassItem.ApplyDiscount(0.5)
+                    End If
+
+                    If Util.IsWeaponlessCharacterActive()
+                        glassItemXOff += 2
+                    Else
+                        glassItemXOff += 1
+                    End If
+
+                    i += 1
+                Until (i < 3) And (glassItemXOff <= 1)
+
+                If Not Util.RndIntRangeFromZero(9, True)
+                    Level.PlaceSecondarySpecialShop(False, False)
+                End If
             Case SpecialRoomType.Arena
                 Level.CreateRoom(-200, -200, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
                 
