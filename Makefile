@@ -15,7 +15,7 @@ CPPFLAGS=$(CCOPTS) \
 -D_GLFW_HAS_GLXGETPROCADDRESS \
 -pthread \
 -m32 \
--g
+-g1
 
 LD=g++
 LDFLAGS=-m32
