@@ -415,11 +415,11 @@ Class Tile Extends RenderableObject
 
     Field hasTorch: Bool
 
-    Method AddFloorOverlayImage: Void(imageName: Int)
+    Method AddFloorOverlayImage: Void(imageName: String)
         Throw New Throwable()
     End Method
 
-    Method AddTextLabel: Void(filename: Int, tmpXOff: Int, tmpYOff: Int, displayD: Float, flash: Bool, textString: Bool)
+    Method AddTextLabel: Void(filename: String, tmpXOff: Int, tmpYOff: Int, displayD: Float, flash: Bool, textString: Bool)
         Throw New Throwable()
     End Method
 

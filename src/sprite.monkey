@@ -46,7 +46,7 @@ Class Sprite Extends Tweenable
     Function _EditorFix: Void() End
 
     Method New(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int)
-        Throw New Throwable()
+        Self.InitSprite(p, frameWidth, frameHeight, frameCount, flags)
     End Method
 
     Method New(p: String, frames: Int, flags: Int)
@@ -56,22 +56,22 @@ Class Sprite Extends Tweenable
     Field path: String
     Field zSet: Bool
     Field z: Float
-    Field inWorld: Bool
+    Field inWorld: Bool = True
     Field isLocalizedText: Bool
     Field srcX: Int
     Field srcW: Int
     Field srcH: Int
     Field xOffLocalization: Int
-    Field scaleX: Float
-    Field scaleY: Float
+    Field scaleX: Float = 1.0
+    Field scaleY: Float = 1.0
     Field zOff: Float
     Field frame: Int
     Field flipX: Bool
-    Field flipXWithOffset: Bool
+    Field flipXWithOffset: Bool = True
     Field flipXOff: Int
     Field flipY: Bool
     Field flipYWithOffset: Bool
-    Field alpha: Float
+    Field alpha: Float = 1.0
     Field renderX: Float
     Field renderLastX: Float
     Field renderY: Float
