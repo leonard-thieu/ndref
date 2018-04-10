@@ -12,9 +12,9 @@ Class Crate Extends Enemy
     Const TYPE_GREEN_GORGON_STATUE: Int = 3
     Const TYPE_GOLD_GORGON_STATUE: Int = 4
 
-    Global fallenCrates: List<Crate>
-    Global fallenGargoyles: List<Gargoyle>
-    Global crateList: List<Crate>
+    Global fallenCrates: List<Crate> = New List<Crate>()
+    Global fallenGargoyles: List<Gargoyle> = New List<Gargoyle>()
+    Global crateList: List<Crate> = New List<Crate>()
 
     Function ProcessFallenCrates: Void()
         Throw New Throwable()

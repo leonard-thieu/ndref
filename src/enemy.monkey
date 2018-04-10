@@ -5,18 +5,20 @@ Import monkey.map
 Import beatanimationdata
 Import mobileentity
 Import point
+Import sprite
+Import xml
 
 Class Enemy Extends MobileEntity Abstract
 
     Global enemiesFearfulDuration: Int
     Global enemiesPaused: Bool
-    Global enemyList: List<Enemy>
-    Global heartEmptySmall: Object
-    Global heartSmall: Object
-    Global killingAllEnemies: Object
-    Global lastWraithSpawnBeat: Object
-    Global movesBehind: Object
-    Global randomizerXML: Object
+    Global enemyList: List<Enemy> = New List<Enemy>()
+    Global heartEmptySmall: Sprite
+    Global heartSmall: Sprite
+    Global killingAllEnemies: Bool
+    Global lastWraithSpawnBeat: Int
+    Global movesBehind: Int
+    Global randomizerXML: XMLDoc
 
     Function AddTagsToEnemyName: Int(eName: Int, size: Int)
         Throw New Throwable()

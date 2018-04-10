@@ -14,8 +14,8 @@ Import textsprite
 
 Class Player Extends MobileEntity
 
-    Global AltHeadHeights: Int[] = []
-    Global AltHeadWidths: Int[] = []
+    Global AltHeadHeights: Int[] = [24, 24, 24, 33, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24]
+    Global AltHeadWidths:  Int[] = [24, 24, 24, 32, 24, 28, 28, 28, 28, 28, 24, 28, 28, 28]
     Global coinXOR: Int
     Global cursedHeart: Sprite
     Global cursedHeartEmpty: Sprite

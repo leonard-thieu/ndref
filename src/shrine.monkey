@@ -9,7 +9,7 @@ Import textsprite
 Class Shrine Extends Entity
 
     Global spaceShrineActive: Bool
-    Global shrineList: List<Shrine>
+    Global shrineList: List<Shrine> = New List<Shrine>()
 
     Function AddPendingShrinesToUsedList: Void()
         Throw New Throwable()

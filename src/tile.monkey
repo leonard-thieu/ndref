@@ -8,24 +8,24 @@ Import tile
 
 Class Tile Extends RenderableObject
 
-    Global anyPlayerHaveSunglassesCached: Bool
-    Global anyPlayerHaveRingOfLuckCached: Bool
-    Global anyPlayerHaveRingOfShadowsCached: Int
-    Global anyPlayerHaveSunglassesCachedFrame: Int
-    Global anyPlayerHaveRingOfLuckCachedFrame: Int
-    Global anyPlayerHaveRingOfShadowsCachedFrame: Int
-    Global ignoreFailSounds: Int
-    Global playSounds: Int
     Global anyPlayerHaveCompassCached: Bool
     Global anyPlayerHaveCompassCachedFrame: Int
-    Global anyPlayerHaveZoneMapCached: Bool
-    Global anyPlayerHaveZoneMapCachedFrame: Int
     Global anyPlayerHaveMonocleCached: Bool
     Global anyPlayerHaveMonocleCachedFrame: Int
-    Global pendingTilesList: List<Tile>
+    Global anyPlayerHaveRingOfLuckCached: Bool
+    Global anyPlayerHaveRingOfLuckCachedFrame: Int
+    Global anyPlayerHaveRingOfShadowsCached: Int
+    Global anyPlayerHaveRingOfShadowsCachedFrame: Int
+    Global anyPlayerHaveSunglassesCached: Bool
+    Global anyPlayerHaveSunglassesCachedFrame: Int
+    Global anyPlayerHaveZoneMapCached: Bool
+    Global anyPlayerHaveZoneMapCachedFrame: Int
+    Global floorRecededList: List<Tile> = New List<Tile>()
+    Global floorRisingList: List<Tile> = New List<Tile>()
+    Global ignoreFailSounds: Bool
+    Global pendingTilesList: List<Tile> = New List<Tile>()
+    Global playSounds: Bool
     Global totalTilesCreatedOrDestroyed: Int
-    Global floorRecededList: List<Tile>
-    Global floorRisingList: List<Tile>
 
     Function AnyPlayerHaveCompass: Bool()
         Throw New Throwable()

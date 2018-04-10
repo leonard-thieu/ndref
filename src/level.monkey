@@ -42,8 +42,8 @@ Import xml
 Class Level
 
     Global addKeyInSecretChest: Bool
-    Global allCharsCompletion: Bool[] = []
-    Global allCharsCompletionDLC: Bool[] = []
+    Global allCharsCompletion: Bool[9]
+    Global allCharsCompletionDLC: Bool[13]
     Global arenaNum: Int = -1
     Global bossNumber: Int = 1
     Global carveX: Int
@@ -74,12 +74,12 @@ Class Level
     Global isAnyTar: Bool
     Global isBeastmaster: Bool
     Global isConductorLevel: Bool
-    Global isDailyChallenge: Bool
     Global isDDRMode: Bool
+    Global isDailyChallenge: Bool
     Global isDeathlessMode: Bool
     Global isFloorIsLavaMode: Bool
-    Global isHardcoreMode: Bool
     Global isHardMode: Bool
+    Global isHardcoreMode: Bool
     Global isLevelEditor: Bool
     Global isLevelEnding: Bool
     Global isMysteryMode: Bool
@@ -111,28 +111,23 @@ Class Level
     Global maxLevelX: Int
     Global maxLevelY: Int
     Global mentorLevel: Int = -1
-    Global minibossFormerWall: List<MinibossTileData> = New List<MinibossTileData>()
-    Global minimap: Int
     Global minLevelMinimapX: Int
     Global minLevelMinimapY: Int
     Global minLevelX: Int
     Global minLevelY: Int
+    Global minibossFormerWall: List<MinibossTileData> = New List<MinibossTileData>()
+    Global minimap: Int
     Global nonDeterministicMSStart: Int = -1
     Global outsideBossChamber: Int
     Global pacifismModeOn: Int
     Global pawnbroker: Object
-    Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>
+    Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global placeArenaOnDepth: Int = -1
     Global placeArenaOnLevel: Int = -1
     Global placeBloodShopOnDepth: Int = -1
     Global placeBloodShopOnLevel: Int = -1
     Global placeConjurerOnDepth: Int = -1
     Global placeConjurerOnLevel: Int = -1
-    Global placedAdditionalBlackChest: Int
-    Global placedAdditionalRedChest: Int
-    Global placedAdditionalWhiteChest: Int
-    Global placedArena: Int
-    Global placedUrnThisRun: Int
     Global placeFoodShopOnDepth: Int = -1
     Global placeFoodShopOnLevel: Int = -1
     Global placeGlassShopOnDepth: Int = -1
@@ -145,6 +140,11 @@ Class Level
     Global placeShrinerOnLevel: Int = -1
     Global placeTransmogrifierOnDepth: Int = -1
     Global placeTransmogrifierOnLevel: Int = -1
+    Global placedAdditionalBlackChest: Int
+    Global placedAdditionalRedChest: Int
+    Global placedAdditionalWhiteChest: Int
+    Global placedArena: Int
+    Global placedUrnThisRun: Int
     Global playedVictoryCutscene: Int
     Global popUpController: Int
     Global popUpType: Int = -1
@@ -159,14 +159,14 @@ Class Level
     Global secretAtX: Int
     Global secretAtY: Int
     Global secretRockRoomPlaced: Int
+    Global shopX: Int
+    Global shopY: Int
+    Global shopW: Int
     Global shopH: Int
     Global shopkeeperDead: Int
     Global shopkeeperFell: Bool
     Global shopkeeperGhostDepth: Int = -1
     Global shopkeeperGhostLevel: Int = -1
-    Global shopW: Int
-    Global shopX: Int
-    Global shopY: Int
     Global shriner: Object
     Global skipNextPenaltyBox: Bool
     Global specialRoomEntranceX: Int
@@ -174,7 +174,7 @@ Class Level
     Global startedShrinerFight: Bool
     Global tempTileWalk: List<Point> = New List<Point>()
     Global tileObstructionList: IntPointList  = New IntPointList()
-    Global tiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>
+    Global tiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global todaysRandSeedString: String
     Global transmogrifier: Object
     Global triggerList: List<Int> = New List<Int>()
