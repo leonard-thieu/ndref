@@ -5,18 +5,20 @@ Import monkey.map
 Import beatanimationdata
 Import mobileentity
 Import point
+Import sprite
+Import xml
 
 Class Enemy Extends MobileEntity Abstract
 
     Global enemiesFearfulDuration: Int
     Global enemiesPaused: Bool
-    Global enemyList: List<Enemy>
-    Global heartEmptySmall: Object
-    Global heartSmall: Object
-    Global killingAllEnemies: Object
-    Global lastWraithSpawnBeat: Object
-    Global movesBehind: Object
-    Global randomizerXML: Object
+    Global enemyList: List<Enemy> = New List<Enemy>()
+    Global heartEmptySmall: Sprite
+    Global heartSmall: Sprite
+    Global killingAllEnemies: Bool
+    Global lastWraithSpawnBeat: Int
+    Global movesBehind: Int
+    Global randomizerXML: XMLDoc
 
     Function AddTagsToEnemyName: Int(eName: Int, size: Int)
         Throw New Throwable()
@@ -172,107 +174,107 @@ Class Enemy Extends MobileEntity Abstract
 
     Function _EditorFix: Void() End
 
-    Field type: Int
-    Field field_110: Int
+    Field enemyType: Int
+    Field currentMoveDelay: Int
     Field isLord: Bool
-    Field field_118: Int
-    Field field_11C: Bool
-    Field field_11D: Bool
-    Field field_11E: Bool
-    Field field_11F: Bool
-    Field field_120: Bool
-    Field field_121: Bool
-    Field field_124: Int[]
-    Field field_128: String[]
-    Field field_12C: Int
-    Field field_130: Int
-    Field field_134: Int
-    Field field_138: Bool
-    Field field_139: Bool
-    Field field_13C: String
-    Field field_140: Bool
-    Field field_144: Int
-    Field field_148: Int
-    Field field_14C: Int
-    Field field_150: Int
-    Field field_154: Bool
-    Field field_158: String
-    Field field_15C: IntMap<BeatAnimationData>
-    Field field_160: IntMap<BeatAnimationData>
-    Field field_164: IntMap<BeatAnimationData>
-    Field field_168: IntMap<BeatAnimationData>
-    Field field_16C: IntMap<BeatAnimationData>
-    Field field_170: IntMap<BeatAnimationData>
-    Field field_174: Int
-    Field field_178: Int
-    Field field_17C: Int
-    Field field_180: Int
-    Field field_184: Int
-    Field field_188: Int
-    Field field_18C: String
-    Field field_190: String
-    Field field_194: Bool
-    Field field_198: String
-    Field field_19C: Bool
-    Field field_19D: Bool
-    Field field_19E: Bool
-    Field field_19F: Bool
-    Field field_1A0: Int
-    Field field_1A4: Int
-    Field field_1A8: Int
+    Field animOverride: Int
+    Field isShieldedFrankensteinway: Bool
     Field isMiniboss: Bool
-    Field field_1AD: Bool
-    Field field_1AE: Bool
-    Field field_1AF: Bool
-    Field field_1B0: Int
-    Field field_1B4: Int
-    Field field_1B8: Int
-    Field field_1BC: Point
-    Field field_1C0: Int
-    Field field_1C4: Int
-    Field field_1C8: String
-    Field field_1CC: Bool
-    Field field_1D0: Int
-    Field field_1D4: Bool
-    Field field_1D5: Bool
-    Field field_1D6: Bool
-    Field field_1D8: Int
-    Field field_1DC: Int
-    Field field_1E0: Int
-    Field field_1E4: Bool
-    Field field_1E5: Bool
-    Field field_1E6: Bool
-    Field field_1E7: Bool
-    Field field_1E8: Bool
-    Field field_1E9: Bool
-    Field field_1EA: Bool
-    Field field_1EB: Bool
-    Field field_1EC: Bool
-    Field field_1ED: Bool
-    Field field_1F0: Int
-    Field field_1F4: Bool
-    Field field_1F5: Bool
-    Field field_1F6: Bool
-    Field field_1F7: Bool
-    Field field_1F8: Bool
-    Field field_1F9: Bool
-    Field field_1FC: Int
-    Field field_200: Point
-    Field field_204: Bool
-    Field field_205: Bool
-    Field field_206: Bool
-    Field field_208: Int
-    Field field_20C: Bool
-    Field field_210: Int
-    Field field_214: Int
-    Field field_218: Int
-    Field field_21C: Int
-    Field field_220: Int
-    Field field_224: Int
-    Field field_228: Int
-    Field field_22C: Bool
-    Field field_22D: Bool
-    Field field_22E: Bool
+    Field isBoss: Bool
+    Field isSarcophagus: Bool
+    Field inArena: Bool
+    Field stealth: Bool
+    Field lastPlayerHitFrame: int[]
+    Field lastPlayerHitSource: String[]
+    Field heartXOff: Int
+    Field heartYOff: Int
+    Field storedZOff: Int
+    Field autoFlip: Bool
+    Field baseFlipX: Bool
+    Field shadowVal: String
+    Field bounceOnMovementFail: Bool
+    Field beatsPerMove: Int
+    Field movePriority: Int
+    Field health: Int
+    Field healthMax: Int
+    Field isMonkeyLike: Bool
+    Field hitParticle: String
+    Field animNormal: IntMap<BeatAnimationData>
+    Field animNormal2: IntMap<BeatAnimationData>
+    Field animNormal3: IntMap<BeatAnimationData>
+    Field animBlink: IntMap<BeatAnimationData>
+    Field animTell: IntMap<BeatAnimationData>
+    Field animTellBlink: IntMap<BeatAnimationData>
+    Field hitTween: Int
+    Field hitShadowTween: Int
+    Field movementType: Int
+    Field attackSwipeImage: Sprite
+    Field jumpDirt: Sprite
+    Field jumpDirtTimer: Int
+    Field overrideDeathSound: String
+    Field overrideHitSound: String
+    Field isFormationDancer: Bool
+    Field overrideCrySound: String
+    Field justSpawned: Bool
+    Field isDancer: Bool
+    Field charmed: Bool
+    Field freezeImmunity: Bool
+    Field killCoinMultiplier: Int
+    Field bonusCoinsToDrop: Int
+    Field ringOfGoldCoinsToDrop: Int
+    Field isStairLockingMiniboss: Bool
+    Field inPenaltyBox: Bool
+    Field dropLordScroll: Bool
+    Field dropNoCoinsOverride: Bool
+    Field deathTrigger: Int
+    Field renderSwipeTime: Int
+    Field attackSwipeDir: Int
+    Field attackSwipePoint: Point
+    Field jumpDirtX: Int
+    Field jumpDirtY: Int
+    Field overrideMoveSound: String
+    Field changedTilePositionThisFrame: Bool
+    Field zapGeneration: Int
+    Field isNecroDancer: Bool
+    Field earthquaked: Bool
+    Field movesRegardlessOfDistance: Bool
+    Field blink_MIN: Int
+    Field blink_MAX: Int
+    Field blink_DUR: Int
+    Field containsItem: Bool
+    Field enableTell: Bool
+    Field swarmCulprit: Bool
+    Field overrideAttackSwipe: Bool
+    Field allowDiagonalFlip: Bool
+    Field tramples: Bool
+    Field showHearts: Bool
+    Field inSecretRoom: Bool
+    Field dontMove: Bool
+    Field enableDeathEffects: Bool
+    Field minEnemyMoveDistance: Int
+    Field exemptFromPause: Bool
+    Field wasSeekingX: Bool
+    Field isMosh: Bool
+    Field isUnaffectedByArenas: Bool
+    Field movedThisFrame: Bool
+    Field attemptedMoveThisFrame: Bool
+    Field seekingPlayer: Player
+    Field lastAttemptedMove: Point
+    Field useLastPosForSwipe: Bool
+    Field justHitPlayer: Bool
+    Field executedCry: Bool
+    Field animOverrideState: Int
+    Field wasFrozen: Bool
+    Field blinkDelay: Int
+    Field blinkDuration: Int
+    Field animOffset: Int
+    Field overrideNormal2Timing: Int
+    Field overrideTellTiming: Int
+    Field numSwipeFrames: Int
+    Field numSwipeFramesPerImage: Int
+    Field alwaysShowHearts: Bool
+    Field spawnsDropGold: Bool
+    Field wasVisibleLastFrame: Bool
 
     Method AdjustLordImage: Void()
         Throw New Throwable()

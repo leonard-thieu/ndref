@@ -50,7 +50,7 @@ Class LevelObject
                 Select trap.trapType
                     Case TrapType.BounceTrap
                         Local bounceTrap := BounceTrap(trap)
-                        If bounceTrap.field_106 Or bounceTrap.field_107
+                        If bounceTrap.isRotatingCW Or bounceTrap.isRotatingCCW
                             trapObj.subtype = TrapType.BombTrap
                         End If
                     Case TrapType.TravelRune
@@ -66,7 +66,7 @@ Class LevelObject
 
             For Local enemy := EachIn Enemy.enemyList
                 If Crate(enemy) = Null
-                    Local enemyObj := New EnemyObject(enemy.x, enemy.y, enemy.type, enemy.field_110, enemy.isLord)
+                    Local enemyObj := New EnemyObject(enemy.x, enemy.y, enemy.enemyType, enemy.currentMoveDelay, enemy.isLord)
                     Self.enemies.AddLast(enemyObj)
                 End If
             End For
@@ -86,9 +86,9 @@ Class LevelObject
             End For
 
             For Local chest := EachIn Chest.chestList
-                Local chestObj := New ChestObject(chest.x, chest.y, chest.color, chest.cont, chest.field_F8, chest.isLocked, 0)
+                Local chestObj := New ChestObject(chest.x, chest.y, chest.chestColor, chest.contents, chest.singleChoiceChest, chest.secretChest, 0)
 
-                If chest.field_FA
+                If chest.saleChest
                     Local saleChest := SaleChest(chest)
                     chestObj.saleCost = saleChest.cost
                 End If
@@ -97,7 +97,7 @@ Class LevelObject
             End For
 
             For Local crate := EachIn Crate.crateList
-                Local crateObj := New CrateObject(crate.x, crate.y, crate.type, crate.cont)
+                Local crateObj := New CrateObject(crate.x, crate.y, crate.enemyType, crate.contents)
                 Self.crates.AddLast(crateObj)
             End For
 
@@ -175,14 +175,14 @@ Class LevelObject
             Local enemy := Enemy.MakeEnemy(enemyObj.x, enemyObj.y, enemyObj.type)
 
             If enemyObj.beatDelay <> -1
-                enemy.field_110 = enemyObj.beatDelay
+                enemy.currentMoveDelay = enemyObj.beatDelay
             End If
             
             If enemyObj.lord
                 enemy.MakeLord()
             End If
 
-            If enemy.field_11D
+            If enemy.isMiniboss
                 enemy.isMiniboss = True
             End If
         End For

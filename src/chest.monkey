@@ -5,13 +5,13 @@ Import entity
 
 Class Chest Extends Entity
 
-    Const CHEST_COLOR_BLACK: Int = 2
-    Const CHEST_COLOR_BLUE: Int = 4
     Const CHEST_COLOR_NONE: Int = 0
     Const CHEST_COLOR_RED: Int = 1
+    Const CHEST_COLOR_BLACK: Int = 2
     Const CHEST_COLOR_WHITE: Int = 3
+    Const CHEST_COLOR_BLUE: Int = 4
 
-    Global chestList: List<Chest>
+    Global chestList: List<Chest> = New List<Chest>()
     Global lastChestColor: Int
     Global lastChestColor2: Int
 
@@ -49,11 +49,17 @@ Class Chest Extends Entity
         Throw New Throwable()
     End Method
 
-    Field color: Int
-    Field cont: String
-    Field field_F8: Bool
-    Field field_FA: Bool
-    Field isLocked: Bool
+    Field chestColor: Int
+    Field contents: String
+    Field singleChoiceChest: Bool
+    Field secretChest: Bool
+    Field saleChest: Bool
+    Field locked: Bool
+    Field lockChest: Bool
+    Field image2: Sprite
+    Field image2XOff: Int
+    Field image2YOff: Int
+    Field bounce2: Bouncer
     
     Field singleChoice_: Bool
 

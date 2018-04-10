@@ -53,6 +53,39 @@ Class Sprite Extends Tweenable
         Throw New Throwable()
     End Method
 
+    Field path: String
+    Field zSet: Bool
+    Field z: Float
+    Field inWorld: Bool
+    Field isLocalizedText: Bool
+    Field srcX: Int
+    Field srcW: Int
+    Field srcH: Int
+    Field xOffLocalization: Int
+    Field scaleX: Float
+    Field scaleY: Float
+    Field zOff: Float
+    Field frame: Int
+    Field flipX: Bool
+    Field flipXWithOffset: Bool
+    Field flipXOff: Int
+    Field flipY: Bool
+    Field flipYWithOffset: Bool
+    Field alpha: Float
+    Field renderX: Float
+    Field renderLastX: Float
+    Field renderY: Float
+    Field renderLastY: Float
+    Field srcY: Int
+    Field cutoffYSet: Bool
+    Field cutoffXSet: Bool
+    Field cutoffX: Int
+    Field cutoffY: Int
+    Field skipNextDraw: Bool
+    Field rotation: Float
+    Field blendMode: Int
+    Field hideInReplay: Bool
+
     Method DiscardTempImage: Void()
         Throw New Throwable()
     End Method

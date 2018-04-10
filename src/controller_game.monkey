@@ -28,7 +28,7 @@ Global lastEnemyMoveBeat: Int
 Global lastPlayerMoveBeat: Int
 Global numPlayers: Int
 Global player1: Int
-Global players: Player[] = []
+Global players: Player[4]
 Global runPlaytimeLastAdded: Int
 Global runPlaytimeMilliseconds: Int
 Global showScoreMessage: Int

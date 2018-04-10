@@ -42,8 +42,8 @@ Import xml
 Class Level
 
     Global addKeyInSecretChest: Bool
-    Global allCharsCompletion: Bool[] = []
-    Global allCharsCompletionDLC: Bool[] = []
+    Global allCharsCompletion: Bool[9]
+    Global allCharsCompletionDLC: Bool[13]
     Global arenaNum: Int = -1
     Global bossNumber: Int = 1
     Global carveX: Int
@@ -74,12 +74,12 @@ Class Level
     Global isAnyTar: Bool
     Global isBeastmaster: Bool
     Global isConductorLevel: Bool
-    Global isDailyChallenge: Bool
     Global isDDRMode: Bool
+    Global isDailyChallenge: Bool
     Global isDeathlessMode: Bool
     Global isFloorIsLavaMode: Bool
-    Global isHardcoreMode: Bool
     Global isHardMode: Bool
+    Global isHardcoreMode: Bool
     Global isLevelEditor: Bool
     Global isLevelEnding: Bool
     Global isMysteryMode: Bool
@@ -111,28 +111,23 @@ Class Level
     Global maxLevelX: Int
     Global maxLevelY: Int
     Global mentorLevel: Int = -1
-    Global minibossFormerWall: List<MinibossTileData> = New List<MinibossTileData>()
-    Global minimap: Int
     Global minLevelMinimapX: Int
     Global minLevelMinimapY: Int
     Global minLevelX: Int
     Global minLevelY: Int
+    Global minibossFormerWall: List<MinibossTileData> = New List<MinibossTileData>()
+    Global minimap: Int
     Global nonDeterministicMSStart: Int = -1
     Global outsideBossChamber: Int
     Global pacifismModeOn: Int
     Global pawnbroker: Object
-    Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>
+    Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global placeArenaOnDepth: Int = -1
     Global placeArenaOnLevel: Int = -1
     Global placeBloodShopOnDepth: Int = -1
     Global placeBloodShopOnLevel: Int = -1
     Global placeConjurerOnDepth: Int = -1
     Global placeConjurerOnLevel: Int = -1
-    Global placedAdditionalBlackChest: Int
-    Global placedAdditionalRedChest: Int
-    Global placedAdditionalWhiteChest: Int
-    Global placedArena: Int
-    Global placedUrnThisRun: Int
     Global placeFoodShopOnDepth: Int = -1
     Global placeFoodShopOnLevel: Int = -1
     Global placeGlassShopOnDepth: Int = -1
@@ -145,6 +140,11 @@ Class Level
     Global placeShrinerOnLevel: Int = -1
     Global placeTransmogrifierOnDepth: Int = -1
     Global placeTransmogrifierOnLevel: Int = -1
+    Global placedAdditionalBlackChest: Int
+    Global placedAdditionalRedChest: Int
+    Global placedAdditionalWhiteChest: Int
+    Global placedArena: Int
+    Global placedUrnThisRun: Int
     Global playedVictoryCutscene: Int
     Global popUpController: Int
     Global popUpType: Int = -1
@@ -159,14 +159,14 @@ Class Level
     Global secretAtX: Int
     Global secretAtY: Int
     Global secretRockRoomPlaced: Int
+    Global shopX: Int
+    Global shopY: Int
+    Global shopW: Int
     Global shopH: Int
     Global shopkeeperDead: Int
     Global shopkeeperFell: Bool
     Global shopkeeperGhostDepth: Int = -1
     Global shopkeeperGhostLevel: Int = -1
-    Global shopW: Int
-    Global shopX: Int
-    Global shopY: Int
     Global shriner: Object
     Global skipNextPenaltyBox: Bool
     Global specialRoomEntranceX: Int
@@ -174,7 +174,7 @@ Class Level
     Global startedShrinerFight: Bool
     Global tempTileWalk: List<Point> = New List<Point>()
     Global tileObstructionList: IntPointList  = New IntPointList()
-    Global tiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>
+    Global tiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global todaysRandSeedString: String
     Global transmogrifier: Object
     Global triggerList: List<Int> = New List<Int>()
@@ -327,7 +327,7 @@ Class Level
                 End If
             End If
 
-            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, True, secondaryCarve, roomType, wideCorridor)
+            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, pending, secondaryCarve, roomType, wideCorridor)
 
             If Not secondaryCarve Then doSecondaryCarve = False
             secondaryCarve = False
@@ -720,7 +720,7 @@ Class Level
 
         For Local enemy := EachIn Enemy.enemyList
             If enemy.isMiniboss
-                Level.previousLevelMinibosses.Push(enemy.type)
+                Level.previousLevelMinibosses.Push(enemy.enemyType)
             End If
         End For
 
@@ -1753,7 +1753,7 @@ Class Level
         Throw New Throwable()
     End Function
 
-    Function GetRandomWallInRoom: Object(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
+    Function GetRandomWallInRoom: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
         Throw New Throwable()
     End Function
 
@@ -2212,6 +2212,10 @@ Class Level
         Throw New Throwable()
     End Function
 
+    Function PlaceRoomZone1: RoomData(roomToAttachTo: RoomData)
+        Return Level.PlaceRoomZone1(RoomType.None, roomToAttachTo)
+    End Function
+
     Function PlaceRoomZone1: RoomData(roomType: Int, roomToAttachTo: RoomData)
         Level.pendingTiles.Clear()
 
@@ -2565,7 +2569,44 @@ Class Level
     End Function
 
     Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
-        Throw New Throwable()
+        Local lightValueCached: Float
+        Local alpha: Float
+        Local hasBeenSeen: Bool
+        Local lightValueFrameNum: Int
+
+        Local tile := Level.GetTileAt(xVal, yVal)
+        If Not tile Or
+           Not (tilesetOverride = -1) Or
+           Not (tile.type = tileType)
+            If Not tile
+                hasBeenSeen = False
+                lightValueFrameNum = -1
+                lightValueCached = -1.0
+                alpha = 0.0
+            Else
+                If fromEarthSpell And
+                   Not (tile.trigger = 0) And
+                   Not (tile.trigger = 1)
+                    Return tile
+                End If
+
+                If tilesetOverride = -1 Then tilesetOverride = tile.tilesetOverride
+                hasBeenSeen = tile.hasBeenSeen
+                lightValueFrameNum = tile.lightValueFrameNum
+                lightValueCached = tile.lightValueCached
+                alpha = tile.image.alpha
+
+                tile.Die()
+            End If
+
+            tile = New Tile(xVal, yVal, tileType, pending, tilesetOverride)
+            tile.hasBeenSeen = hasBeenSeen
+            tile.lightValueFrameNum = lightValueFrameNum
+            tile.lightValueCached = lightValueCached
+            tile.image.alpha = alpha
+        End If
+
+        Return tile
     End Function
 
     Function PlaceTileTypeAt: Void(xVal: Int, yVal: Int, tileType: Int)
@@ -3052,7 +3093,7 @@ Class RoomType
     Const None: Int = -1
     Const Unknown0: Int = 0
     Const Unknown1: Int = 1
-    Const Unknown2: Int = 3
+    Const Unknown2: Int = 2
     Const Shop: Int = 3
     Const Start: Int = 4
     Const Unknown5: Int = 5

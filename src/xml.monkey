@@ -1,5 +1,11 @@
 Strict
 
+Class XMLDoc Extends XMLNode
+
+    Function _EditorFix: Void() End
+
+End Class
+
 Class XMLNode
 
     Function _EditorFix: Void() End

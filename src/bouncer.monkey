@@ -11,19 +11,19 @@ Class Bouncer
         Self.max = maxVal
         Self.steps = stepsVal
         Self.min = minVal
-        Self.field_1C = minVal
+        Self.value = minVal
         Self.power = powerVal
-        Self.field_24 = random.Rnd(-stepsVal, stepsVal)
-        Self.field_28 = Util.RndBool(False)
+        Self.currentSteps = random.Rnd(-stepsVal, stepsVal)
+        Self.goingUp = Util.RndBool(False)
     End Method
 
     Field min: Float
     Field max: Float
     Field power: Float
-    Field field_1C: Float
+    Field value: Float
     Field steps: Int
-    Field field_24: Int
-    Field field_28: Bool = True
-    Field field_29: Bool = True
+    Field currentSteps: Int
+    Field goingUp: Bool = True
+    Field enabled: Bool = True
 
 End Class
