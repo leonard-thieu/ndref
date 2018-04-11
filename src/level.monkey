@@ -1818,91 +1818,51 @@ Class Level
 
                 Local wallChance := Util.RndIntRangeFromZero(6, True)
 
-                If xVal + 1 < xMax
-                    Local x: Int
-                    Local xOff := 1
-                    Local xRem := xMax - xVal - 1
-                    While True
-                        x = xVal + xOff
-
-                        If yVal + 1 < yMax Then Exit
-
-                        'LABEL_127
-                        xOff += 1
-                        xRem -= 1
-                        If Not xRem
-                            'Break out of select
-                        End If
-                    End While
-
-                    Local y: Int
-                    Local yOff := 1
-                    Local yRem := yMax - yVal - 1
-                    While True
-                        While True
-                            y = yOff + yVal
-
-                            If (xOff = 2 Or xRem = 2) And (yOff = 2 Or yRem = 2) Then Exit
-
-                            tiles.AddLast(New TileData(x, y, TileType.Floor))
-
-                            'LABEL_121
-                            yOff += 1
-                            yRem -= 1
-                            If Not yRem
-                                'goto LABEL_127
+                For Local x := xVal + 1 Until xMax
+                    For Local y := yVal + 1 Until yMax
+                        ' If 2 units away both horizontally and veritcally from the walls
+                        If ((x - xVal = 2) Or (xMax - x - 2 = 2)) And
+                           ((y - yVal = 2) Or (yMax - y - 2 = 2))
+                            If wallChance
+                                tiles.AddLast(New TileData(x, y, wallType))
+                            Else
+                                tiles.AddLast(New TileData(x, y, TileType.CatacombWall))
                             End If
-                        End While
 
-                        If wallChance
-                            tiles.AddLast(New TileData(x, y, wallType))
-                            'goto LABEL_121
+                            Continue
                         End If
 
-                        tiles.AddLast(New TileData(x, y, TileType.CatacombWall))
-
-                        yOff += 1
-                        yRem -= 1
-                        If Not yRem
-                            'goto LABEL_127
-                        End If
-                    End While
-                End If
+                        tiles.AddLast(New TileData(x, y, TileType.Floor))
+                    End For
+                End For
             Case RoomType.OutsideCorners
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
-                Local xMin := xVal + 1
-                Local xRem := originX - xVal - 1
-                For Local x := xMin Until xMax
-                    Local yMin := yVal + 1
-                    Local yRem := originY - yVal - 1
-                    For Local y := yMin Until yMax
-                        While True
-                            If (x = xMin Or x = xMax - 1) And
-                               ((y = yMin) Or
-                                (x = xMin And y = yMax - 1) Or
-                                (x = xMax - 1 And y = yMax - 1))
-                                If (Not wideCorridor Or Util.GetDist(originX, originY, xRem + originX2, yRem + originY2) > 1.0) And
-                                   (Util.GetDist(0, 0, xRem, yRem) > 1.0)
-                                    Exit
-                               End If
+                ' Min and max values within the walls of the room
+                Local xInsideMin := xVal + 1
+                Local xInsideMax := xMax - 1
+                Local yInsideMin := yVal + 1
+                Local yInsideMax := yMax - 1
+
+                For Local x := xInsideMin To xInsideMax
+                    For Local y := yInsideMin To yInsideMax
+                        ' If at a corner
+                        If (x = xInsideMin And y = yInsideMin) Or
+                           (x = xInsideMin And y = yInsideMax) Or
+                           (x = xInsideMax And y = yInsideMin) Or
+                           (x = xInsideMax And y = yInsideMax)
+                            Local xRem := originX - x - 2
+                            Local yRem := originY - y - 2
+                            If (Not wideCorridor Or Util.GetDist(originX, originY, originX2 + xRem, originY2 + yRem) > 1.0) And
+                               (Util.GetDist(0, 0, xRem, yRem) > 1.0)
+                                tiles.AddLast(New TileData(x, y, wallType))
+
+                                Continue
                             End If
+                        End If
 
-                            tiles.AddLast(New TileData(x, y, TileType.Floor))
-                            y += 1
-                            yRem -= 1
-
-                            If y = yMax
-                                'goto LABEL_169
-                            End If
-                        End While
-
-                        tiles.AddLast(New TileData(x, y, wallType))
-                        yRem -= 1
+                        tiles.AddLast(New TileData(x, y, TileType.Floor))
                     End For
-
-                    'LABEL_169
-                    xRem -= 1
                 End For
             Case RoomType.Shop
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.ShopWall)
@@ -1916,45 +1876,17 @@ Class Level
                 Local yMidAbove := yMid - 1
 
                 For Local x := xVal + 1 Until xMax
-                    Local y := yVal + 1
-                    If y < yMax
-                        If x = xMidLeft
-                            Repeat
-                                While Not (y = yMidAbove)
-                                    tiles.AddLast(New TileData(xMidLeft, y, TileType.Floor))
-                                    y += 1
-
-                                    If y = yMax
-                                        'goto LABEL_212
-                                    End If
-                                End While
-
-                                tiles.AddLast(New TileData(xMidLeft, yMidAbove, TileType.ShopFloor))
-                                y += 1
-                            Until y = yMax
-                        Else
-                            If Not (x = xMidRight)
-                                Repeat
-                                    tiles.AddLast(New TileData(x, y, TileType.Floor))
-                                    y += 1
-                                Until y = yMax
-                                'goto LABEL_206
+                    For Local y := yVal + 1 Until yMax
+                        If y = yMidAbove
+                            If x = xMidLeft Or
+                               x = xMidRight
+                                tiles.AddLast(New TileData(x, y, TileType.ShopFloor))
+                                Continue
                             End If
-
-                            Repeat
-                                If y = yMidAbove
-                                    tiles.AddLast(New TileData(xMidRight, yMidAbove, TileType.ShopFloor))
-                                Else
-                                    tiles.AddLast(New TileData(xMidRight, y, TileType.Floor))
-                                End If
-                                y += 1
-                            Until y = yMax
                         End If
 
-                        'LABEL_212
-                    End If
-
-                    'LABEL_206
+                        tiles.AddLast(New TileData(x, y, TileType.Floor))
+                    End For
                 End For
 
                 Level.shopX = xVal
