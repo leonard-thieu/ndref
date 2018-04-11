@@ -1664,7 +1664,7 @@ Class Level
                             tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
                         Case 3
                             lastCreatedRoomType = RoomType.Basic
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Unknown8, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Notched, originX, originY, originX2, originY2, wideCorridor, wallType)
                     End Select
                 End If
             Case RoomType.Pillar
@@ -1673,7 +1673,7 @@ Class Level
             Case RoomType.Secret
             Case RoomType.Boss
             Case RoomType.Vault
-            Case RoomType.Unknown8
+            Case RoomType.Notched
             Case RoomType.Special
                 tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, roomType, originX, originY, originX2, originY2, wideCorridor, wallType)
             Default
@@ -1993,7 +1993,7 @@ Class Level
                 End For
 
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
-            Case RoomType.Unknown8
+            Case RoomType.Notched
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
                 Local xDiffMin := 2
@@ -3689,7 +3689,7 @@ Class RoomType
     Const Secret: Int = 5
     Const Boss: Int = 6
     Const Vault: Int = 7
-    Const Unknown8: Int = 8
+    Const Notched: Int = 8
     Const Special: Int = 10
 
 End Class
