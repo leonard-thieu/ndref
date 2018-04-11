@@ -7,6 +7,7 @@ Import monkey.set
 Import beastmaster
 Import bossmaster
 Import chest
+Import conjurer
 Import controller_game
 Import crate
 Import entity
@@ -16,8 +17,10 @@ Import intpointlist
 Import intpointset
 Import level_object
 Import merlin
+Import necrodancergame
 Import npc
 Import particles
+Import pawnbroker
 Import player_class
 Import portal_seg
 Import rect
@@ -27,6 +30,7 @@ Import rng
 Import room_with_door
 Import roomdata
 Import saleitem
+Import shriner
 Import slowdowntrap
 Import speeduptrap
 Import spells
@@ -35,6 +39,7 @@ Import stack_ex
 Import swarm_sarcophagus
 Import tile
 Import tiledata
+Import transmogrifier
 Import trap
 Import util
 Import xml
@@ -50,7 +55,7 @@ Class Level
     Global carveY: Int
     Global charactersJustUnlocked: List<Int> = New List<Int>()
     Global chestsStillToPlace: Int
-    Global conjurer: Object
+    Global conjurer: Conjurer
     Global constMapLightValues: Float[]
     Global continuedRunCoinScore: Int
     Global creatingMap: Int
@@ -120,7 +125,7 @@ Class Level
     Global nonDeterministicMSStart: Int = -1
     Global outsideBossChamber: Int
     Global pacifismModeOn: Int
-    Global pawnbroker: Object
+    Global pawnbroker: Pawnbroker
     Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global placeArenaOnDepth: Int = -1
     Global placeArenaOnLevel: Int = -1
@@ -167,7 +172,7 @@ Class Level
     Global shopkeeperFell: Bool
     Global shopkeeperGhostDepth: Int = -1
     Global shopkeeperGhostLevel: Int = -1
-    Global shriner: Object
+    Global shriner: Shriner
     Global skipNextPenaltyBox: Bool
     Global specialRoomEntranceX: Int
     Global specialRoomEntranceY: Int
@@ -176,7 +181,7 @@ Class Level
     Global tileObstructionList: IntPointList  = New IntPointList()
     Global tiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global todaysRandSeedString: String
-    Global transmogrifier: Object
+    Global transmogrifier: Transmogrifier
     Global triggerList: List<Int> = New List<Int>()
     Global usedBosses: IntSet = New IntSet()
     Global usedCustomMusic: Int
@@ -231,7 +236,402 @@ Class Level
     End Function
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
-        Throw New Throwable()
+        ' Adding special room
+
+        If addCrack
+            Level.AddCrackedWall(roomType)
+        End If
+
+        ' Probably an inlined function
+        Level.levelConstraintX = -1000
+        Level.levelConstraintY = -1000
+        Level.levelConstraintW = 2000
+        Level.levelConstraintH = 2000
+        Level.levelConstraintNum = 0
+
+        Select roomType
+            Case SpecialRoomType.HealthShop
+                Level.CreateRoom(-200, -200, 8, 10, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-198, -200).AddTorch()
+                Level.GetTileAt(-194, -200).AddTorch()
+                Level.GetTileAt(-198, -190).AddTorch()
+                Level.GetTileAt(-194, -190).AddTorch()
+                Level.GetTileAt(-200, -197).AddTorch()
+                Level.GetTileAt(-192, -197).AddTorch()
+                Level.GetTileAt(-200, -193).AddTorch()
+                Level.GetTileAt(-192, -193).AddTorch()
+
+                Local entranceX := -196
+                Local entranceY := -193
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.HealthShop)
+
+                Local shopkeeper := New Shopkeeper(entranceX, entranceY - 4, 4, False)
+                
+                Local food := Level.RandomFood()
+                New SaleItem(entranceX - 1, entranceY - 2, food, False, shopkeeper, -1.0, Null)
+
+                Local heartContainerChance := Util.RndIntRangeFromZero(100, True)
+                Local heartContainer: String
+                If heartContainerChance <= 20 Then heartContainer = "misc_heart_container"
+                If heartContainerChance <= 25 Then heartContainer = "misc_heart_container2"
+                If heartContainerChance <= 50 Then heartContainer = "misc_heart_container_empty2"
+                If heartContainerChance >  50 Then heartContainer = "misc_heart_container_empty"
+                New SaleItem(entranceX + 1, entranceY - 2, heartContainer, False, shopkeeper, -1.0, Null)
+
+                If Not Util.RndIntRangeFromZero(9, True)
+                    Level.PlaceSecondarySpecialShop(False, True)
+                End If
+            Case SpecialRoomType.BloodShop
+                Level.CreateRoom(-200, -200, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-199, -200).AddTorch()
+                Level.GetTileAt(-195, -200).AddTorch()
+                Level.GetTileAt(-199, -192).AddTorch()
+                Level.GetTileAt(-195, -192).AddTorch()
+                Level.GetTileAt(-200, -198).AddTorch()
+                Level.GetTileAt(-194, -198).AddTorch()
+                Level.GetTileAt(-200, -194).AddTorch()
+                Level.GetTileAt(-194, -194).AddTorch()
+
+                Local entranceX := -197
+                Local entranceY := -194
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.BloodShop)
+
+                Local shopkeeper := New Shopkeeper(entranceX, entranceY - 4, 2, False)
+
+                Local requestedLevel := controller_game.currentLevel + 2
+
+                Local saleItemXOff := -1
+                If Not Util.IsWeaponlessCharacterActive()
+                    saleItemXOff = 0
+
+                    Local itemClass: String
+                    If Level.isDailyChallenge
+                        itemClass = ""
+                    Else
+                        itemClass = "isGold"
+                    End If
+
+                    ' Left item
+                    Local randomItem1 := Item.GetRandomItemInClass(itemClass, requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
+                    If Not (randomItem1 = "no_item") Or
+                       Not (randomItem1 = "resource_hoard_gold")
+                        New SaleItem(entranceX - 1, entranceY - 2, randomItem1, True, Null, -1.0, Null)
+                    End If
+                End If
+
+                ' Center item (left item if a weaponless character is active)
+                Local randomItem2 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
+                If Not (randomItem2 = "no_item") Or
+                   Not (randomItem2 = "resource_hoard_gold")
+                    New SaleItem(entranceX + saleItemXOff, entranceY - 2, randomItem2, True, Null, -1.0, Null)
+                End If
+
+                ' Right item
+                Local randomItem3 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
+                If Not (randomItem3 = "no_item") Or
+                   Not (randomItem3 = "resource_hoard_gold")
+                    New SaleItem(entranceX + 1, entranceY - 2, randomItem3, True, Null, -1.0, Null)
+                End If
+
+                If Not Util.RndIntRangeFromZero(9, True)
+                    Level.PlaceSecondarySpecialShop(True, False)
+                End If
+            Case SpecialRoomType.GlassShop
+                Level.CreateRoom(-200, -200, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-199, -200).AddTorch()
+                Level.GetTileAt(-195, -200).AddTorch()
+                Level.GetTileAt(-199, -192).AddTorch()
+                Level.GetTileAt(-195, -192).AddTorch()
+                Level.GetTileAt(-200, -198).AddTorch()
+                Level.GetTileAt(-194, -198).AddTorch()
+                Level.GetTileAt(-200, -194).AddTorch()
+                Level.GetTileAt(-194, -194).AddTorch()
+
+                Local entranceX := -197
+                Local entranceY := -194
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.GlassShop)
+
+                Local shopkeeper := New Shopkeeper(-197, -198, 3, False)
+
+                Local glassItems := New Stack<String>()
+                glassItems.Push("armor_glass")
+                glassItems.Push("shovel_glass")
+                glassItems.Push("torch_glass")
+                glassItems.Push("feet_glass_slippers")
+
+                ' Decompilation is a little awkward in this section. Absolutely zero clue what's going on.
+                Local validGlassItems := New Stack<String>()
+                For Local glassItem := EachIn glassItems
+                    Local itemsNode := necrodancergame.xmlData.GetChildAtPath("items/")
+                    If Item.IsValidItemForCurrentChars(itemsNode)
+                        validGlassItems.Push(glassItem)
+                    End If
+                End For
+
+                Local anotherItems := New Stack<String>()
+                Local newItems := New StringSet()
+                For Local validGlassItem := EachIn validGlassItems
+                    If Not Item.seenItems.Contains(validGlassItem)
+                        anotherItems.Push(validGlassItem)
+                        newItems.Insert(validGlassItem)
+                    End If
+                End For
+
+                For Local validGlassItem := EachIn validGlassItems
+                    If Not newItems.Contains(validGlassItem)
+                        anotherItems.Push(validGlassItem)
+                    End If
+                End For
+
+                While anotherItems.Length() > 2
+                    anotherItems.Pop()
+                End While
+
+                While anotherItems.Length() <= 2
+                    Local glassWeapon := Item.GetRandomItemInClass("isGlass", controller_game.currentLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "weapon", False)
+                    anotherItems.Push(glassWeapon)
+                End While
+
+                Local glassItemXOff := -1
+                Local i := 0
+                Repeat
+                    Local anotherItem := anotherItems.Get(i)
+                    If Not (anotherItem = "no_item") And
+                       Not (anotherItem = "resource_hoard_gold")
+                        Local glassItem := New SaleItem(entranceX + glassItemXOff, entranceY - 2, anotherItem, False, shopkeeper, -1.0, Null)
+                        glassItem.ApplyDiscount(0.5)
+                    End If
+
+                    If Util.IsWeaponlessCharacterActive()
+                        glassItemXOff += 2
+                    Else
+                        glassItemXOff += 1
+                    End If
+
+                    i += 1
+                Until (i < 3) And (glassItemXOff <= 1)
+
+                If Not Util.RndIntRangeFromZero(9, True)
+                    Level.PlaceSecondarySpecialShop(False, False)
+                End If
+            Case SpecialRoomType.Arena
+                Level.CreateRoom(-200, -200, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-199, -200).AddTorch()
+                Level.GetTileAt(-195, -200).AddTorch()
+                Level.GetTileAt(-199, -192).AddTorch()
+                Level.GetTileAt(-195, -192).AddTorch()
+                Level.GetTileAt(-200, -198).AddTorch()
+                Level.GetTileAt(-194, -198).AddTorch()
+                Level.GetTileAt(-200, -194).AddTorch()
+                Level.GetTileAt(-194, -194).AddTorch()
+
+                Local entranceX := -197
+                Local entranceY := -195
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY + 1, Level.secretAtX, Level.secretAtY, TravelRuneType.Arena)
+
+                Local requestedLevel := controller_game.currentLevel + 2
+
+                Local randomRedChestItemType := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_RED, False, "", False)
+                Local randomRedChestItem := New Item(-198, -197, randomRedChestItemType, False, -1, False)
+                randomRedChestItem.singleChoiceItem = True
+
+                Local randomWhiteChestItemType := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_WHITE, False, "", False)
+                Local randomWhiteChestItem := New Item(-197, -197, randomWhiteChestItemType, False, -1, False)
+                randomWhiteChestItem.singleChoiceItem = True
+
+                Local randomBlackChestItemType := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_BLACK, False, "", False)
+                Local randomBlackChestItem := New Item(-196, -197, randomBlackChestItemType, False, -1, False)
+                randomBlackChestItem.singleChoiceItem = True
+
+                Level.GetTileAt(-198, -197).SetTrigger(18)
+                Level.GetTileAt(-197, -197).SetTrigger(18)
+                Level.GetTileAt(-196, -197).SetTrigger(18)
+            Case SpecialRoomType.Transmogrifier
+                Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-199, -200).AddTorch()
+                Level.GetTileAt(-195, -200).AddTorch()
+                Level.GetTileAt(-199, -191).AddTorch()
+                Level.GetTileAt(-195, -191).AddTorch()
+                Level.GetTileAt(-200, -198).AddTorch()
+                Level.GetTileAt(-194, -198).AddTorch()
+                Level.GetTileAt(-200, -194).AddTorch()
+                Level.GetTileAt(-194, -194).AddTorch()
+
+                Local entranceX := -197
+                Local entranceY := -193
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY + 1, Level.secretAtX, Level.secretAtY, TravelRuneType.Transmogrifier)
+
+                Level.transmogrifier = New Transmogrifier(entranceX, entranceY - 3, 1, False)
+
+                Local headTile := Level.GetTileAt(entranceX - 1, entranceY - 4)
+                headTile.AddFloorOverlayImage("level/tile_transmogrify_head.png")
+                headTile.SetTrigger(11)
+                Local bodyTile := Level.GetTileAt(entranceX - 1, entranceY - 3)
+                bodyTile.AddFloorOverlayImage("level/tile_transmogrify_body.png")
+                bodyTile.SetTrigger(12)
+                Local feetTile := Level.GetTileAt(entranceX - 1, entranceY - 3)
+                feetTile.AddFloorOverlayImage("level/tile_transmogrify_feet.png")
+                feetTile.SetTrigger(13)
+                Local torchTile := Level.GetTileAt(entranceX - 1, entranceY - 2)
+                torchTile.AddFloorOverlayImage("level/tile_transmogrify_torch.png")
+                torchTile.SetTrigger(14)
+                Local weaponTile := Level.GetTileAt(entranceX + 1, entranceY - 2)
+                weaponTile.AddFloorOverlayImage("level/tile_transmogrify_weapon.png")
+                weaponTile.SetTrigger(15)
+                Local shovelTile := Level.GetTileAt(entranceX + 1, entranceY - 3)
+                shovelTile.AddFloorOverlayImage("level/tile_transmogrify_shovel.png")
+                shovelTile.SetTrigger(17)
+                Local ringTile := Level.GetTileAt(entranceX + 1, entranceY - 4)
+                ringTile.AddFloorOverlayImage("level/tile_transmogrify_ring.png")
+                ringTile.SetTrigger(16)
+            Case SpecialRoomType.Conjurer
+                Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-199, -200).AddTorch()
+                Level.GetTileAt(-195, -200).AddTorch()
+                Level.GetTileAt(-199, -191).AddTorch()
+                Level.GetTileAt(-195, -191).AddTorch()
+                Level.GetTileAt(-200, -198).AddTorch()
+                Level.GetTileAt(-194, -198).AddTorch()
+                Level.GetTileAt(-200, -194).AddTorch()
+                Level.GetTileAt(-194, -194).AddTorch()
+
+                Local entranceX := -197
+                Local entranceY := -193
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.Conjurer)
+
+                Level.conjurer = New Conjurer(entranceX - 1, entranceY - 6, 1, False)
+
+                Local headTile := Level.GetTileAt(entranceX - 1, entranceY - 4)
+                headTile.AddFloorOverlayImage("level/tile_transmogrify_head.png")
+                headTile.SetTrigger(38)
+                Local bodyTile := Level.GetTileAt(entranceX - 1, entranceY - 3)
+                bodyTile.AddFloorOverlayImage("level/tile_transmogrify_body.png")
+                bodyTile.SetTrigger(39)
+                Local feetTile := Level.GetTileAt(entranceX - 1, entranceY - 3)
+                feetTile.AddFloorOverlayImage("level/tile_transmogrify_feet.png")
+                feetTile.SetTrigger(40)
+                Local torchTile := Level.GetTileAt(entranceX - 1, entranceY - 2)
+                torchTile.AddFloorOverlayImage("level/tile_transmogrify_torch.png")
+                torchTile.SetTrigger(41)
+                Local weaponTile := Level.GetTileAt(entranceX + 1, entranceY - 2)
+                weaponTile.AddFloorOverlayImage("level/tile_transmogrify_weapon.png")
+                weaponTile.SetTrigger(42)
+                Local shovelTile := Level.GetTileAt(entranceX + 1, entranceY - 3)
+                shovelTile.AddFloorOverlayImage("level/tile_transmogrify_shovel.png")
+                shovelTile.SetTrigger(44)
+                Local ringTile := Level.GetTileAt(entranceX + 1, entranceY - 4)
+                ringTile.AddFloorOverlayImage("level/tile_transmogrify_ring.png")
+                ringTile.SetTrigger(43)
+            Case SpecialRoomType.Shriner
+                Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-199, -200).AddTorch()
+                Level.GetTileAt(-195, -200).AddTorch()
+                Level.GetTileAt(-199, -191).AddTorch()
+                Level.GetTileAt(-195, -191).AddTorch()
+                Level.GetTileAt(-200, -198).AddTorch()
+                Level.GetTileAt(-194, -198).AddTorch()
+                Level.GetTileAt(-200, -194).AddTorch()
+                Level.GetTileAt(-194, -194).AddTorch()
+
+                Local entranceX := -197
+                Local entranceY := -193
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.Shriner)
+
+                Local shriner := New Shriner(entranceX, entranceY - 4, 1, False)
+                Level.shriner = shriner
+
+                Local shrineType1 := Shrine.GetRandomShrineInt(True, -1, -2)
+                Local shrineType2 := Shrine.GetRandomShrineInt(True, shrineType1, -2)
+                Local shrineType3 := Shrine.GetRandomShrineInt(True, shrineType1, shrineType2)
+
+                shriner.shrine1 = New Shrine(entranceX - 1, entranceY - 2, shrineType1, Null, True, True)
+                shriner.shrine2 = New Shrine(entranceX, entranceY - 2, shrineType2, Null, True, True)
+                shriner.shrine3 = New Shrine(entranceX + 1, entranceY - 2, shrineType3, Null, True, True)
+            Case SpecialRoomType.Pawnbroker
+                Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                
+                Level.GetTileAt(-199, -200).AddTorch()
+                Level.GetTileAt(-195, -200).AddTorch()
+                Level.GetTileAt(-199, -191).AddTorch()
+                Level.GetTileAt(-195, -191).AddTorch()
+                Level.GetTileAt(-200, -198).AddTorch()
+                Level.GetTileAt(-194, -198).AddTorch()
+                Level.GetTileAt(-200, -194).AddTorch()
+                Level.GetTileAt(-194, -194).AddTorch()
+
+                Local entranceX := -197
+                Local entranceY := -193
+
+                Level.specialRoomEntranceX = entranceX
+                Level.specialRoomEntranceY = entranceY
+                
+                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.Pawnbroker)
+
+                Level.pawnbroker = New Pawnbroker(entranceX, entranceY - 6, 1, False)
+
+                Local headTile := Level.GetTileAt(entranceX - 1, entranceY - 4)
+                headTile.AddFloorOverlayImage("level/tile_transmogrify_head.png")
+                headTile.SetTrigger(45)
+                Local bodyTile := Level.GetTileAt(entranceX - 1, entranceY - 3)
+                bodyTile.AddFloorOverlayImage("level/tile_transmogrify_body.png")
+                bodyTile.SetTrigger(46)
+                Local feetTile := Level.GetTileAt(entranceX - 1, entranceY - 3)
+                feetTile.AddFloorOverlayImage("level/tile_transmogrify_feet.png")
+                feetTile.SetTrigger(47)
+                Local torchTile := Level.GetTileAt(entranceX - 1, entranceY - 2)
+                torchTile.AddFloorOverlayImage("level/tile_transmogrify_torch.png")
+                torchTile.SetTrigger(48)
+                Local weaponTile := Level.GetTileAt(entranceX + 1, entranceY - 2)
+                weaponTile.AddFloorOverlayImage("level/tile_transmogrify_weapon.png")
+                weaponTile.SetTrigger(49)
+                Local shovelTile := Level.GetTileAt(entranceX + 1, entranceY - 3)
+                shovelTile.AddFloorOverlayImage("level/tile_transmogrify_shovel.png")
+                shovelTile.SetTrigger(51)
+                Local ringTile := Level.GetTileAt(entranceX + 1, entranceY - 4)
+                ringTile.AddFloorOverlayImage("level/tile_transmogrify_ring.png")
+                ringTile.SetTrigger(50)
+
+                ' Not in the constructor unlike the other NPCs.
+                Local tile := Level.GetTileAt(entranceX, entranceY - 5)
+                tile.AddTextLabel("|124|SELL ONE OF YOUR ITEMS?|", 0, 20, 0.0, False, True)
+        End Select
+
+        ' Finished adding special room
     End Function
 
     Function AddStone: Void()
@@ -1650,6 +2050,8 @@ Class Level
 
     Function CreateSwarmMap: Void()
         Level.InitNewMap(True)
+
+        ' Probably an inlined function
         Level.levelConstraintX = -1000
         Level.levelConstraintY = -1000
         Level.levelConstraintW = 2000
@@ -3287,6 +3689,19 @@ Class RoomType
     Const Unknown6: Int = 6
     Const Unknown7: Int = 7
     Const Unknown8: Int = 8
-    Const Unknown10: Int = 10
+    Const Special: Int = 10
+
+End Class
+
+Class SpecialRoomType
+
+    Const Transmogrifier: Int = 1
+    Const Arena: Int = 2
+    Const BloodShop: Int = 3
+    Const GlassShop: Int = 4
+    Const HealthShop: Int = 5
+    Const Conjurer: Int = 6
+    Const Shriner: Int = 7
+    Const Pawnbroker: Int = 8
 
 End Class

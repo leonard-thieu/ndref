@@ -55,7 +55,7 @@ Class LevelObject
                         End If
                     Case TrapType.TravelRune
                         Local travelRune := TravelRune(trap)
-                        trapObj.subtype = travelRune.subtype
+                        trapObj.subtype = travelRune.runeType
                     Case TrapType.FireTrap
                         Local fireTrap := FireTrap(trap)
                         trapObj.subtype = fireTrap.subtype
