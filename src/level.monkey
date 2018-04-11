@@ -2387,8 +2387,9 @@ Class Level
 
     Function InitNewMap: Void(saveGameData: Bool)
         Debug.WriteLine("Entered Level.InitNewMap()")
-        
-        For Local player := EachIn players
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
             player.ResetStateAfterLevel()
         End For
 
