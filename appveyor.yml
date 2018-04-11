@@ -21,5 +21,7 @@ build_script:
   - ./tools/monkey/bin/transcc_linux -config=release -target="Desktop_Game_(Glfw3)" ./src/necrodancer.monkey
 
 artifacts:
+  - path: ./src/necrodancer.buildv87a/glfw3/main.cpp
+    name: ndref-source
   - path: ./src/necrodancer.buildv87a/glfw3/gcc_linux/Release/
-    name: NecroDancer-Release
+    name: ndref
