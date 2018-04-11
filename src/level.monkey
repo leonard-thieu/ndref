@@ -657,15 +657,15 @@ Class Level
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
         If Level.IsSecretRoom(roomType)
-            New Tile(xVal, yVal, TileType.DirtWall2, pending, -1)
+            New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
         Else
-            New Tile(xVal, yVal, TileType.Floor2, pending, -1)
+            New Tile(xVal, yVal, TileType.CorridorFloor, pending, -1)
 
             If wideCorridor
                 If horiz
-                    New Tile(xVal, yVal + 1, TileType.Floor2, pending, -1)
+                    New Tile(xVal, yVal + 1, TileType.CorridorFloor, pending, -1)
                 Else
-                    New Tile(xVal + 1, yVal, TileType.Floor2, pending, -1)
+                    New Tile(xVal + 1, yVal, TileType.CorridorFloor, pending, -1)
                 End If
             End If
         End If
@@ -673,7 +673,7 @@ Class Level
         If Not skipWalls
             If horiz
                 If Not Level.IsFloorAt(xVal, yVal - 1)
-                    New Tile(xVal, yVal - 1, TileType.DirtWall2, pending, -1)
+                    New Tile(xVal, yVal - 1, TileType.CorridorDirtWall, pending, -1)
                 End If
 
                 If wideCorridor
@@ -683,7 +683,7 @@ Class Level
                 End If
             Else
                 If Not Level.IsFloorAt(xVal - 1, yVal)
-                    new Tile(xVal - 1, yVal, TileType.DirtWall2, pending, -1)
+                    new Tile(xVal - 1, yVal, TileType.CorridorDirtWall, pending, -1)
                 End If
 
                 If wideCorridor
@@ -694,7 +694,7 @@ Class Level
             End If
 
             If Not Level.IsFloorAt(xVal, yVal)
-                New Tile(xVal, yVal, TileType.DirtWall2, pending, -1)
+                New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
             End If
         End If
     End Function
@@ -1339,30 +1339,30 @@ Class Level
                     Local yBelow := y + 1
 
                     If Not Level.GetTileAt(xRight, yAbove)
-                        New Tile(xRight, yAbove, TileType.DirtWall2, False, -1)
+                        New Tile(xRight, yAbove, TileType.CorridorDirtWall, False, -1)
                     End If
                     If Not Level.GetTileAt(x, yAbove)
-                        New Tile(x, yAbove, TileType.DirtWall2, False, -1)
+                        New Tile(x, yAbove, TileType.CorridorDirtWall, False, -1)
                     End If
                     If Not Level.GetTileAt(xLeft, yAbove)
-                        New Tile(xLeft, yAbove, TileType.DirtWall2, False, -1)
+                        New Tile(xLeft, yAbove, TileType.CorridorDirtWall, False, -1)
                     End If
 
                     If Not Level.GetTileAt(xRight, y)
-                        New Tile(xRight, y, TileType.DirtWall2, False, -1)
+                        New Tile(xRight, y, TileType.CorridorDirtWall, False, -1)
                     End If
                     If Not Level.GetTileAt(xLeft, y)
-                        New Tile(xLeft, y, TileType.DirtWall2, False, -1)
+                        New Tile(xLeft, y, TileType.CorridorDirtWall, False, -1)
                     End If
 
                     If Not Level.GetTileAt(xRight, yBelow)
-                        New Tile(xRight, yBelow, TileType.DirtWall2, False, -1)
+                        New Tile(xRight, yBelow, TileType.CorridorDirtWall, False, -1)
                     End If
                     If Not Level.GetTileAt(x, yBelow)
-                        New Tile(x, yBelow, TileType.DirtWall2, False, -1)
+                        New Tile(x, yBelow, TileType.CorridorDirtWall, False, -1)
                     End If
                     If Not Level.GetTileAt(xLeft, yBelow)
-                        New Tile(xLeft, yBelow, TileType.DirtWall2, False, -1)
+                        New Tile(xLeft, yBelow, TileType.CorridorDirtWall, False, -1)
                     End If
                 End If
             End For
@@ -1913,7 +1913,7 @@ Class Level
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
             Case RoomType.Boss
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.BossWall)
-                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor3)
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.BossFloor)
             Case RoomType.Vault
                 Local tileType := TileType.StoneWall
                 If controller_game.currentLevel = 3
@@ -2530,7 +2530,7 @@ Class Level
                     If tile
                         If tile.IsFloor() Or 
                            tile.type = TileType.DirtWall Or 
-                           tile.type = TileType.DirtWall2 Or 
+                           tile.type = TileType.CorridorDirtWall Or 
                            tile.IsDoor()
                             Local dirBlocked := False
 
@@ -2920,16 +2920,16 @@ Class Level
             For Local i := 0 Until 2
                 If Util.RndBool(True)
                     If Not (Level.IsFloorAt(Level.carveX, Level.carveY))
-                        New Tile(Level.carveX, Level.carveY, TileType.DirtWall2, True, -1)
+                        New Tile(Level.carveX, Level.carveY, TileType.CorridorDirtWall, True, -1)
                     End If
 
                     If horiz
                         If Not (Level.IsFloorAt(Level.carveX, Level.carveY - 1))
-                            New Tile(Level.carveX, Level.carveY - 1, TileType.DirtWall2, True, -1)
+                            New Tile(Level.carveX, Level.carveY - 1, TileType.CorridorDirtWall, True, -1)
                         End If
 
                         If Not (Level.IsFloorAt(Level.carveX, Level.carveY + 1))
-                            New Tile(Level.carveX, Level.carveY + 1, TileType.DirtWall2, True, -1)
+                            New Tile(Level.carveX, Level.carveY + 1, TileType.CorridorDirtWall, True, -1)
                         End If
 
                         Level.carveX -= moveX
@@ -2942,11 +2942,11 @@ Class Level
                         End If
                     Else
                         If Not (Level.IsFloorAt(Level.carveX - 1, Level.carveY))
-                            New Tile(Level.carveX - 1, Level.carveY, TileType.DirtWall2, True, -1)
+                            New Tile(Level.carveX - 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
                         End If
 
                         If Not (Level.IsFloorAt(Level.carveX + 1, Level.carveY))
-                            New Tile(Level.carveX + 1, Level.carveY, TileType.DirtWall2, True, -1)
+                            New Tile(Level.carveX + 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
                         End If
 
                         Level.carveX -= moveX
@@ -3075,9 +3075,9 @@ Class Level
 
             tileType = TileType.Door
         Else
-            New Tile(Level.carveX, Level.carveY, TileType.Floor2, False, -1)
+            New Tile(Level.carveX, Level.carveY, TileType.CorridorFloor, False, -1)
 
-            tileType = TileType.Floor2
+            tileType = TileType.CorridorFloor
         End If
 
         If wideCorridor

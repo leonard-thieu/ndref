@@ -469,7 +469,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method CalcTileset: Int()
-        If Self.type = TileType.Floor3 Then Return 5
+        If Self.type = TileType.BossFloor Then Return 5
 
         If controller_game.currentLevel = 4 Or
            controller_game.currentLevel = 5 Or
@@ -486,7 +486,7 @@ Class Tile Extends RenderableObject
                 If ((Self.x * Level.zone3DividingLineX) - (Self.y * Level.zone3DividingLineY) > 0)
                     Return 3
                 End If
-                
+
                 Return 2
             Case 4
                 Return 4
@@ -641,8 +641,8 @@ Class Tile Extends RenderableObject
     Method IsNormalFloor: Bool()
         Select Self.type
             Case TileType.Floor
-            Case TileType.Floor2
-            Case TileType.Floor3
+            Case TileType.CorridorFloor
+            Case TileType.BossFloor
             Case TileType.Floor4
             Case TileType.ShopFloor
                 Return True
@@ -685,7 +685,45 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsWall: Bool(nonCorridor: Bool, destructibleOnly: Bool, forVision: Bool, torchlessOnly: Bool)
-        Debug.TraceNotImplemented("Tile.IsWall()")
+        If destructibleOnly
+            Select Self.type
+                Case TileType.IndestructibleBorder
+                Case TileType.Door
+                Case TileType.WiredDoor
+                Case TileType.LockedDoor
+                Case TileType.MetalDoor
+                    Return False
+                Default
+                    If Self.IsShopWall() Then Return False
+            End Select
+        End If
+
+        If nonCorridor And Self.type = TileType.CorridorDirtWall
+            Return False
+        End If
+
+        If torchlessOnly
+            If Self.HasTorch() Or
+               Self.IsDoor() Or
+               Trap.GetTrapAt(Self.x, Self.y)
+                Return False
+            End If
+        End If
+
+        If forVision
+            Select Self.type
+                Case TileType.NecroDancerStageGreen
+                Case TileType.NecroDancerStageTurquoise
+                Case TileType.NecroDancerStageCyan
+                    Return False
+            End Select
+        End If
+
+        If Self.type = TileType.MetalDoor And Self.IsMetalDoorOpen()
+            Return False
+        End If
+
+        Return 100 <= Self.type And Self.type <= 123
     End Method
 
     Method IsWire: Bool()
@@ -830,7 +868,7 @@ Class TileType
 
     Const Empty: Int = -1
     Const Floor: Int = 0
-    Const Floor2: Int = 1
+    Const CorridorFloor: Int = 1
     Const Stairs: Int = 2
     Const ShopFloor: Int = 3
     Const Water: Int = 4
@@ -843,7 +881,7 @@ Class TileType
     Const Ice: Int = 11
     Const Crystal: Int = 12
     Const Geyser: Int = 13
-    Const Floor3: Int = 14
+    Const BossFloor: Int = 14
     Const LockedStairs3Diamonds: Int = 15
     Const LockedStairs9Diamonds: Int = 16
     Const Ooze: Int = 17
@@ -856,7 +894,7 @@ Class TileType
     Const ConductorWirePhase2: Int = 24
     Const Unknown98: Int = 98
     Const DirtWall: Int = 100
-    Const DirtWall2: Int = 101
+    Const CorridorDirtWall: Int = 101
     Const IndestructibleBorder: Int = 102
     Const Door: Int = 103
     Const ShopWall: Int = 104
