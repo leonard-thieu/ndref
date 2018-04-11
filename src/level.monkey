@@ -1763,6 +1763,7 @@ Class Level
 
                 If numPendingLiquid <= 0 Then Exit
 
+                ' CREATEROOM abort: failed to place liquid
                 If i = 0 Then Return False
             End For
         End If
