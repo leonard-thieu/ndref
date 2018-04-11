@@ -488,7 +488,16 @@ Class Tile Extends RenderableObject
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Tile.floorRisingList.RemoveEach(Self)
+        Tile.floorRecededList.RemoveEach(Self)
+
+        If Not Self.dead
+            Tile.totalTilesCreatedOrDestroyed += 1
+            Self.collides = False
+            Self.ClearTextLabel()
+
+            Super.Die()
+        End If
     End Method
 
     Method GetCurrentAlpha: Float()
