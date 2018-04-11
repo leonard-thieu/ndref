@@ -506,7 +506,17 @@ Class Tile Extends RenderableObject
     End Method
 
     Method ClearTextLabel: Void()
-        Debug.TraceNotImplemented("Tile.ClearTextLabel()")
+        If Self.textLabel
+            Self.textLabel.DiscardTempImage()
+            Self.textLabel = Null
+        End If
+
+        If Self.textLabel2
+            Self.textLabel2.Discard()
+            Self.textLabel2 = Null
+        End If
+
+        Self.textLabelText = ""
     End Method
 
     Method DarkenShopWall: Void()
