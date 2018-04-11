@@ -205,6 +205,8 @@ Class Level
     End Function
 
     Function AddExit: Void(xVal: Int, yVal: Int, levelPointer: Int, zonePointer: Int)
+        Debug.WriteLine("Entered Level.AddExit()")
+
         Local location := New Point(xVal, yVal)
         Local floor := New Point(levelPointer, zonePointer)
         Level.exits.Set(location, floor)
@@ -215,6 +217,8 @@ Class Level
     End Function
 
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
+        Debug.WriteLine("Entered Level.AddMinibossWall()")
+        
         Local tile := Level.GetTileAt(xVal, yVal)
         If tile
             If tile.triggerDig Then Return
@@ -237,6 +241,8 @@ Class Level
     End Function
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
+        Debug.WriteLine("Entered Level.AddSpecialRoom()")
+        
         ' Adding special room
 
         If addCrack
@@ -656,6 +662,8 @@ Class Level
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
+        Debug.WriteLine("Entered Level.CarveCorridorTile()")
+        
         If Level.IsSecretRoom(roomType)
             New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
         Else
@@ -700,6 +708,8 @@ Class Level
     End Function
 
     Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
+        Debug.WriteLine("Entered Level.CarveNewCorridor()")
+        
         Local doSecondaryCarve := True
 
         Local iMax := 1
@@ -851,6 +861,8 @@ Class Level
     End Function
 
     Function CreateExit: Void(exitX: Int, exitY: Int)
+        Debug.WriteLine("Entered Level.CreateExit()")
+        
         Level.GetTileAt(exitX, exitY).Die()
 
         Local exitTile := new Tile(exitX, exitY, TileType.LockedStairsMiniboss, False, -1)
@@ -1498,6 +1510,8 @@ Class Level
     End Function
 
     Function _FailMap: Bool()
+        Debug.WriteLine("Entered Level._FailMap()")
+        
         Level.CreateMap(Null)
 
         Return False
@@ -1524,6 +1538,8 @@ Class Level
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
+        Debug.WriteLine("Entered Level.CreateRoom()")
+        
         If controller_game.currentZone <= 3
             If Level.levelConstraintX > xVal Or
                Level.levelConstraintY > yVal Or

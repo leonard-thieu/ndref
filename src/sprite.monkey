@@ -52,7 +52,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method New(p: String, frames: Int, flags: Int)
-        Debug.TraceNotImplemented("Sprite.New(p()")
+        Debug.TraceNotImplemented("Sprite.New()")
     End Method
 
     Field path: String
