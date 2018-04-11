@@ -655,8 +655,7 @@ Class Level
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
-        If roomType = RoomType.Unknown5 Or
-           roomType = RoomType.Unknown7
+        If Level.IsSecretRoom(roomType)
             New Tile(xVal, yVal, TileType.DirtWall2, pending, -1)
         Else
             New Tile(xVal, yVal, TileType.Floor2, pending, -1)
@@ -703,8 +702,7 @@ Class Level
         Local doSecondaryCarve := True
 
         Local iMax := 1
-        If roomType = RoomType.Unknown5 Or
-           roomType = RoomType.Unknown7
+        If Level.IsSecretRoom(roomType)
             iMax = 0
         End If
 
@@ -1640,16 +1638,15 @@ Class Level
                             lastCreatedRoomType = RoomType.Basic
                             tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
                         Case 1
-                            lastCreatedRoomType = 1
+                            lastCreatedRoomType = RoomType.Pillar
                             ' No room?
                         Case 2
-                            lastCreatedRoomType = 1
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 1, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            lastCreatedRoomType = RoomType.Pillar
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
                     End Select
                 Else
                     If controller_game.currentZone = 4
                         lastCreatedRoomType = RoomType.Basic
-                        ' Substitute with `RndBool`?
                         If Not Util.RndIntRangeFromZero(1, True) Then lastCreatedRoomType = RoomType.None
 
                         tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
@@ -1663,24 +1660,24 @@ Class Level
                             lastCreatedRoomType = RoomType.OutsideCorners
                             tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.OutsideCorners, originX, originY, originX2, originY2, wideCorridor, wallType)
                         Case 2
-                            lastCreatedRoomType = 1
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 1, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            lastCreatedRoomType = RoomType.Pillar
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
                         Case 3
-                            lastCreatedRoomType = 0
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 8, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            lastCreatedRoomType = RoomType.Basic
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Unknown8, originX, originY, originX2, originY2, wideCorridor, wallType)
                     End Select
                 End If
-            Case 1
+            Case RoomType.Pillar
             Case RoomType.OutsideCorners
             Case RoomType.Shop
-            Case 5
-            Case 6
-            Case 7
-            Case 8
-            Case 10
+            Case RoomType.Secret
+            Case RoomType.Boss
+            Case RoomType.Vault
+            Case RoomType.Unknown8
+            Case RoomType.Special
                 tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, roomType, originX, originY, originX2, originY2, wideCorridor, wallType)
             Default
-                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, 0, originX, originY, originX2, originY2, wideCorridor, wallType)
+                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
         End Select
 
         If allowWaterTarOoze
@@ -1816,7 +1813,7 @@ Class Level
             Case RoomType.Basic
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor)
-            Case 1
+            Case RoomType.Pillar
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
                 Local wallChance := Util.RndIntRangeFromZero(6, True)
@@ -1964,12 +1961,12 @@ Class Level
                 Level.shopY = yVal
                 Level.shopW = wVal
                 Level.shopH = hVal
-            Case 5
+            Case RoomType.Secret
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
-            Case 6
+            Case RoomType.Boss
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.BossWall)
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor3)
-            Case 7
+            Case RoomType.Vault
                 Local tileType := TileType.StoneWall
                 If controller_game.currentLevel = 3
                     tileType = TileType.CatacombWall
@@ -1996,7 +1993,7 @@ Class Level
                 End For
 
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
-            Case 8
+            Case RoomType.Unknown8
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
                 Local xDiffMin := 2
@@ -2014,7 +2011,7 @@ Class Level
                         End If
                     End For
                 End For
-            Case 10
+            Case RoomType.Special
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.ShopWall)
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor)
         End Select
@@ -2582,7 +2579,13 @@ Class Level
     End Function
 
     Function IsSecretRoom: Bool(rmType: Int)
-        Throw New Throwable()
+        Select rmType
+            Case RoomType.Secret
+            Case RoomType.Vault
+                Return True
+        End Select
+
+        Return False
     End Function
 
     Function IsSeededMode: Bool(mode: Int)
@@ -2822,8 +2825,8 @@ Class Level
         ' Overwrites `wideCorridor` but cannot skip the call to `RndIntRange` because it has side effects.
         Select roomType
             Case RoomType.Shop
-            Case RoomType.Unknown5
-            Case RoomType.Unknown7
+            Case RoomType.Secret
+            Case RoomType.Vault
                 wideCorridor = False
         End Select
 
@@ -2926,8 +2929,7 @@ Class Level
             Local height: Int
 
             If Level.CarveNewCorridor(moveX, moveY, horiz, True, False, roomType, wideCorridor)
-                If roomType = RoomType.Unknown5 Or
-                   roomType = RoomType.Unknown7
+                If Level.IsSecretRoom(roomType)
                     ' `width` and `height` are overwritten but `RndIntRange` has side effects. Do not remove.
                     width = Util.RndIntRange(6, 8, True, -1)
                     height = Util.RndIntRange(5, 7, True, -1)
@@ -3062,10 +3064,9 @@ Class Level
                     Return Level._PlaceRoom(xVal, yVal, width, height)
                 End If
 
-                        If roomType = RoomType.Unknown5 Or
-                           roomType = RoomType.Unknown7
-                            Return Level._PlaceRoom(xVal, yVal, width, height)
-                        End If
+                If Level.IsSecretRoom(roomType)
+                    Return Level._PlaceRoom(xVal, yVal, width, height)
+                End If
 
                 Local rndVal := Util.RndIntRangeFromZero(100, True)
                 Local addDoor: Bool
@@ -3681,13 +3682,13 @@ Class RoomType
 
     Const None: Int = -1
     Const Basic: Int = 0
-    Const Unknown1: Int = 1
+    Const Pillar: Int = 1
     Const OutsideCorners: Int = 2
     Const Shop: Int = 3
     Const Start: Int = 4
-    Const Unknown5: Int = 5
-    Const Unknown6: Int = 6
-    Const Unknown7: Int = 7
+    Const Secret: Int = 5
+    Const Boss: Int = 6
+    Const Vault: Int = 7
     Const Unknown8: Int = 8
     Const Special: Int = 10
 
