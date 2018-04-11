@@ -1137,94 +1137,58 @@ Class Level
         Level.InitNewMap(True)
         room1 = Level.PlaceFirstRoom()
 
-        ' CREATEMAP ZONE1: Trying to place room 2
-        Local limit := 4999
+        Local limit := 5000
 
-        While True
+        ' CREATEMAP ZONE1: Trying to place room 2
+        For limit = limit - 1 Until 0 Step -1
             room2 = Level.PlaceRoomZone1(room1)
             If room2 Then Exit
-
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
+        End For
 
         ' CREATEMAP ZONE1: Trying to place room 3
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
-
-        While True
+        For limit = limit - 1 Until 0 Step -1
             room3 = Level.PlaceRoomZone1(room2)
             If room3 Then Exit
+        End For
 
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
-
-        ' CREATEMAP ZONE1: Trying to place room 3
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
-
-        While True
+        ' CREATEMAP ZONE1: Trying to place room 4
+        For limit = limit - 1 Until 0 Step -1
             room4 = Level.PlaceRoomZone1(room3)
             If room4 Then Exit
-
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
-
-        ' CREATEMAP ZONE1: Trying to place room 3
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
+        End For
 
         Local lastRoomIndex: Int
 
-        While Util.RndIntRangeFromZero(50, True)
-            room5 = Level.PlaceRoomZone1(room4)
+        ' CREATEMAP ZONE1: Trying to place room 5
+        For limit = limit - 1 Until 0 Step -1
+            For limit = limit Until 0 Step -1
+                If Not Util.RndIntRangeFromZero(50, True) Then Exit
+
+                room5 = Level.PlaceRoomZone1(room4)
+                If room5
+                    lastRoomIndex = 4
+
+                    Exit
+                End If
+            End For
+
+            If room5 Then Exit
+
+            If Util.RndBool(True)
+                room5 = Level.PlaceRoomZone1(room3)
+            Else
+                room5 = Level.PlaceRoomZone1(room1)
+            End If
+
             If room5
-                lastRoomIndex = 4
+                lastRoomIndex = 3
 
-                'goto LABEL_21
+                Exit
             End If
+        End For
 
-            'LABEL_17
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
-
-        If Util.RndBool(True)
-            room5 = Level.PlaceRoomZone1(room3)
-        Else
-            room5 = Level.PlaceRoomZone1(room1)
-        End If
-
-        If Not room5
-            'goto LABEL_17
-        End If
-
-        lastRoomIndex = 3
-
-        'LABEL_21
         ' CREATEMAP ZONE1: Trying to place room 6
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
-
-        While True
+        For limit = limit - 1 Until 0 Step -1
             If Util.RndIntRangeFromZero(50, True)
                 room6 = Level.PlaceRoomZone1(room1)
             Else If Util.RndIntRangeFromZero(10, True)
@@ -1242,21 +1206,11 @@ Class Level
             End If
 
             If room6 Then Exit
-
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
+        End For
 
         ' CREATEMAP ZONE1: Trying to place room 7
         If Shrine.spaceShrineActive
-            limit -= 1
-            If limit <= 0
-                'goto FAIL_MAP
-            End If
-
-            While True
+            For limit = limit - 1 Until 0 Step -1
                 If Util.RndBool(True)
                     If Util.RndBool(True)
                         room7 = Level.PlaceRoomZone1(room1)
@@ -1276,13 +1230,10 @@ Class Level
                 End If
 
                 If room7 Then Exit
-
-                limit -= 1
-                If Not limit
-                    'goto FAIL_MAP
-                End If
-            End While
+            End For
         End If
+
+        If limit <= 0 Then Return Level._FailMap()
 
         Local lastRoom: RoomData = room4
         Select lastRoomIndex
@@ -1292,265 +1243,242 @@ Class Level
         End Select
         lastRoom.hasExit = True
 
-        If Level.PlaceExit(lastRoom)
-            ' CREATEMAP ZONE1: Deploying NPCs if necessary
-            Local deployNPC: Bool = False
-            Select controller_game.currentLevel
-                Case 1
-                    If Not GameData.GetNPCUnlock("beastmaster") Then deployNPC = True
-                Case 2
-                    If Not GameData.GetNPCUnlock("merlin") Then deployNPC = True
-                Case 3
-                    If Not GameData.GetNPCUnlock("bossmaster") Then deployNPC = True
-            End Select
+        ' `PlaceExit` performs the retry on its own.
+        If Not Level.PlaceExit(lastRoom) Then Return False
 
-            If Not Level.isHardcoreMode And 
-               Not Level.isDDRMode And 
-               Not Level.isLevelEditor And
-               deployNPC
-                Local x: Int
-                Local y: Int
+        ' CREATEMAP ZONE1: Deploying NPCs if necessary
+        Local deployNPC: Bool = False
+        Select controller_game.currentLevel
+            Case 1
+                If Not GameData.GetNPCUnlock("beastmaster") Then deployNPC = True
+            Case 2
+                If Not GameData.GetNPCUnlock("merlin") Then deployNPC = True
+            Case 3
+                If Not GameData.GetNPCUnlock("bossmaster") Then deployNPC = True
+        End Select
 
-                While True
-                    limit -= 1
-                    If limit <= 0
-                        'goto FAIL_MAP
+        If Not Level.isHardcoreMode And 
+           Not Level.isDDRMode And 
+           Not Level.isLevelEditor And
+           deployNPC
+            Local x: Int
+            Local y: Int
+
+            For limit = limit - 1 Until 0 Step -1
+                x = room3.x + Util.RndIntRangeFromZero(room3.w - 1, False)
+                y = room3.y + Util.RndIntRangeFromZero(room3.h - 1, False)
+
+                Local tile := Level.GetTileAt(x, y)
+                If tile
+                    If Not (tile.GetType() = TileType.Floor) And 
+                       Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
+                        tile = GetTileAt(x, y + 1)
+                        If tile And Not tile.IsWall(False, False, False, False) Then Exit
                     End If
-
-                    x = room3.x + Util.RndIntRangeFromZero(room3.w - 1, False)
-                    y = room3.y + Util.RndIntRangeFromZero(room3.h - 1, False)
-
-                    Local tile := Level.GetTileAt(x, y)
-                    If tile
-                        If Not (tile.GetType() = TileType.Floor) And 
-                           Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
-                            tile = GetTileAt(x, y + 1)
-                            If tile And Not tile.IsWall(False, False, False, False) Then Exit
-                        End If
-                    End If
-                End While
-
-                Local npc: NPC
-                Select controller_game.currentLevel
-                    Case 1
-                        npc = New Beastmaster()
-                        npc.NPCInit(x, y, 1, "beastmaster", True, False)
-                    Case 2
-                        npc = New Merlin()
-                        npc.NPCInit(x, y, 1, "merlin", True, False)
-                    Case 3
-                        npc = New Bossmaster()
-                        npc.NPCInit(x, y, 1, "bossmaster", True, False)
-                End Select
-
-                If npc
-                    ' CREATEMAP: NPC placed at 
                 End If
-            End If
-
-            ' CREATEMAP ZONE1: Placing shop
-            Repeat
-                limit -= 1
-                If limit <= 0
-                    'goto FAIL_MAP
-                End If
-            Until Level.PlaceRoomZone1(RoomType.Shop, Null)
-
-            ' CREATEMAP ZONE1: Filling out walls surrounding all floor
-            For Local tilesOnXNode := EachIn Level.tiles
-                For Local tileNode := EachIn tilesOnXNode.Value()
-                    Local tile := tileNode.Value()
-                    If tile.IsFloor()
-                        Local x := tilesOnXNode.Key()
-                        Local xLeft := x - 1
-                        Local xRight := x + 1
-                        Local y := tileNode.Key()
-                        Local yAbove := y - 1
-                        Local yBelow := y + 1
-
-                        If Not Level.GetTileAt(xRight, yAbove)
-                            New Tile(xRight, yAbove, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(x, yAbove)
-                            New Tile(x, yAbove, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(xLeft, yAbove)
-                            New Tile(xLeft, yAbove, TileType.DirtWall2, False, -1)
-                        End If
-
-                        If Not Level.GetTileAt(xRight, y)
-                            New Tile(xRight, y, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(xLeft, y)
-                            New Tile(xLeft, y, TileType.DirtWall2, False, -1)
-                        End If
-
-                        If Not Level.GetTileAt(xRight, yBelow)
-                            New Tile(xRight, yBelow, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(x, yBelow)
-                            New Tile(x, yBelow, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(xLeft, yBelow)
-                            New Tile(xLeft, yBelow, TileType.DirtWall2, False, -1)
-                        End If
-                    End If
-                End For
             End For
 
-            Level.PadWalls()
-            Level.ProcessSpecialRoom()
+            If limit <= 0 Then Return Level._FailMap()
 
-            If Not Level.isLevelEditor Then Level.CreateIndestructibleBorder()
-
-            If Level.isHardcoreMode
-                Level.chestsStillToPlace = 1
-            Else
-                Level.chestsStillToPlace = Util.RndIntRange(1, 2, True, -1)
-            End If
-
-            ' CREATEMAP ZONE1: Placing secret rooms
-            Level.PlaceSecretRooms(-1) ' Decompiler showing wrong value for t_numRooms
-
-            Local secretRoomsFilled: Bool
-            Select controller_game.currentZone
-                Case 4
-                    secretRoomsFilled = Level.FillSecretRoomsZone4()
+            Local npc: NPC
+            Select controller_game.currentLevel
+                Case 1
+                    npc = New Beastmaster()
+                    npc.NPCInit(x, y, 1, "beastmaster", True, False)
                 Case 2
-                    secretRoomsFilled = Level.FillSecretRoomsZone2()
-                Default
-                    secretRoomsFilled = Level.FillSecretRoomsZone1()
+                    npc = New Merlin()
+                    npc.NPCInit(x, y, 1, "merlin", True, False)
+                Case 3
+                    npc = New Bossmaster()
+                    npc.NPCInit(x, y, 1, "bossmaster", True, False)
             End Select
 
-            If secretRoomsFilled
-                ' CREATEMAP ZONE1: Finished filling secret rooms!  Chests remaining:
-                If Level.chestsStillToPlace > 0
-                    If Level.isHardcoreMode Or 
-                       Not (Level.chestsStillToPlace = 1)
-                        'goto LABEL_118
+            If npc
+                ' CREATEMAP: NPC placed at 
+            End If
+        End If
+
+        ' CREATEMAP ZONE1: Placing shop
+        For limit = limit - 1 Until 0 Step -1
+            Local shop := Level.PlaceRoomZone1(RoomType.Shop, Null)
+            If shop Then Exit
+        End For
+
+        If limit <= 0 Then Return Level._FailMap()
+
+        ' CREATEMAP ZONE1: Filling out walls surrounding all floor
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsFloor()
+                    Local x := tilesOnXNode.Key()
+                    Local xLeft := x - 1
+                    Local xRight := x + 1
+                    Local y := tileNode.Key()
+                    Local yAbove := y - 1
+                    Local yBelow := y + 1
+
+                    If Not Level.GetTileAt(xRight, yAbove)
+                        New Tile(xRight, yAbove, TileType.DirtWall2, False, -1)
+                    End If
+                    If Not Level.GetTileAt(x, yAbove)
+                        New Tile(x, yAbove, TileType.DirtWall2, False, -1)
+                    End If
+                    If Not Level.GetTileAt(xLeft, yAbove)
+                        New Tile(xLeft, yAbove, TileType.DirtWall2, False, -1)
                     End If
 
-                    'LABEL_162
-                    If controller_game.currentLevel <= 2
-                        Level.chestsStillToPlace = 2
+                    If Not Level.GetTileAt(xRight, y)
+                        New Tile(xRight, y, TileType.DirtWall2, False, -1)
                     End If
-                    'goto LABEL_118
+                    If Not Level.GetTileAt(xLeft, y)
+                        New Tile(xLeft, y, TileType.DirtWall2, False, -1)
+                    End If
+
+                    If Not Level.GetTileAt(xRight, yBelow)
+                        New Tile(xRight, yBelow, TileType.DirtWall2, False, -1)
+                    End If
+                    If Not Level.GetTileAt(x, yBelow)
+                        New Tile(x, yBelow, TileType.DirtWall2, False, -1)
+                    End If
+                    If Not Level.GetTileAt(xLeft, yBelow)
+                        New Tile(xLeft, yBelow, TileType.DirtWall2, False, -1)
+                    End If
                 End If
+            End For
+        End For
 
-                If Not Level.isHardcoreMode
-                    Level.chestsStillToPlace = 1
-                    'goto LABEL_162
-                End If
+        Level.PadWalls()
+        Level.ProcessSpecialRoom()
 
-                'LABEL_118
-                Level.AddStone()
-                Level.PlaceTraps()
-                Level.PlaceEnemies()
+        If Not Level.isLevelEditor Then Level.CreateIndestructibleBorder()
 
-                ' CREATEMAP ZONE1: Placing one speedup or slowdown trap
-                Local trap: Trap
-                Local i := 500
-                While True
-                    Local numTraps := Trap.trapList.Count()
-                    If numTraps > 0
-                        Local trapIndex := Util.RndIntRangeFromZero(numTraps - 1, True)
-                        Local traps := Trap.trapList.ToArray()
-                        trap = traps[trapIndex]
-                        If trap
-                            If trap.canBeReplacedByTempoTrap And 
-                               trap.trapType = TrapType.BounceTrap
-                                Exit
-                            End If
-                        End If
-                    End If
+        If Level.isHardcoreMode
+            Level.chestsStillToPlace = 1
+        Else
+            Level.chestsStillToPlace = Util.RndIntRange(1, 2, True, -1)
+        End If
 
-                    i -= 1
-                    If Not i Then Exit
-                End While
+        ' CREATEMAP ZONE1: Placing secret rooms
+        Level.PlaceSecretRooms(-1) ' Decompiler showing wrong value for t_numRooms
 
+        If Not Level.FillSecretRooms() Then Return Level._FailMap()
+
+        ' CREATEMAP ZONE1: Finished filling secret rooms!  Chests remaining:
+        If Not Level.isHardcoreMode
+            Level.chestsStillToPlace = 1
+            
+            If controller_game.currentLevel <= 2
+                Level.chestsStillToPlace = 2
+            End If
+        End If
+
+        Level.AddStone()
+        Level.PlaceTraps()
+        Level.PlaceEnemies()
+
+        ' CREATEMAP ZONE1: Placing one speedup or slowdown trap
+        Local trap: Trap
+        Local i := 500
+        While True
+            Local numTraps := Trap.trapList.Count()
+            If numTraps > 0
+                Local trapIndex := Util.RndIntRangeFromZero(numTraps - 1, True)
+                Local traps := Trap.trapList.ToArray()
+                trap = traps[trapIndex]
                 If trap
-                    Local trapX := trap.x
-                    Local trapY := trap.y
-                    trap.Die()
-
-                    If Util.RndBool(True)
-                        New SpeedUpTrap(trapX, trapY)
-                        ' CREATEMAP ZONE1: Speedup trap placed at 
-                    Else
-                        New SlowDownTrap(trapX, trapY)
-                        ' CREATEMAP ZONE1: Slowdown trap placed at
+                    If trap.canBeReplacedByTempoTrap And 
+                       trap.trapType = TrapType.BounceTrap
+                        Exit
                     End If
                 End If
-
-                ' CREATEMAP ZONE1: Placing torches
-                Local torchChanceLow := 3
-                Local torchChanceHigh := 4
-                If Not (controller_game.currentLevel = 2)
-                    torchChanceLow = 2
-                    torchChanceHigh = 3
-                    If Not (controller_game.currentLevel = 3)
-                        torchChanceLow = 1
-                        torchChanceHigh = 2
-                        If Not (controller_game.currentLevel = 4)
-                            torchChanceLow = 4 * (controller_game.currentLevel <= 4)
-                            torchChanceHigh = torchChanceLow + 1
-                        End If
-                    End If
-                End If
-
-                Local rooms := New List<RoomData>()
-
-                For Local room := EachIn Level.rooms
-                    rooms.AddLast(room)
-                End For
-
-                Local j: Int
-                For Local room := EachIn rooms
-                    Local i := Util.RndIntRange(torchChanceLow, torchChanceHigh, True, -1)
-                    Local minTorchDistance: Float
-                    If room.type = RoomType.Shop
-                        j = 199
-                        i = 20
-                        minTorchDistance = 2.0
-                    Else
-                        If i <= 0 Then Continue
-
-                        j = 49
-                        minTorchDistance = 3.5
-                    End If
-
-                    Repeat
-                        Local wall := Level.GetRandomWallInRoom(room.x, room.y, room.w, room.h)
-                        Local wallTile := Level.GetTileAt(wall.x, wall.y)
-                        If wallTile And
-                           Not wallTile.IsDoor() And
-                           minTorchDistance <= Level.GetDistanceToNearestTorch(wallTile)
-                            i -= 1
-                            wallTile.AddTorch()
-                        End If
-
-                        If i <= 0 Then Exit
-
-                        j -= 1
-                    Until Not j
-                End For
-
-                Level.PlaceCrateOrBarrel()
-                Level.PlaceChests(currentLevel = 1)
-                Level.PlaceResourceWall()
-                Level.PlaceLockedChests()
-                Level.PlaceShrine()
-                ' CREATEMAP ZONE1: Cleaning up pending tiles
-                Tile.CleanUpPendingTiles()
-                Level.PlaceNocturnaArea()
-                ' CREATEMAP ZONE1: Finished!
-
-                Return True
             End If
 
-            'FAIL_MAP
-            Level.CreateMap(Null)
+            i -= 1
+            If Not i Then Exit
+        End While
+
+        If trap
+            Local trapX := trap.x
+            Local trapY := trap.y
+            trap.Die()
+
+            If Util.RndBool(True)
+                New SpeedUpTrap(trapX, trapY)
+                ' CREATEMAP ZONE1: Speedup trap placed at 
+            Else
+                New SlowDownTrap(trapX, trapY)
+                ' CREATEMAP ZONE1: Slowdown trap placed at
+            End If
         End If
+
+        ' CREATEMAP ZONE1: Placing torches
+        Local torchChanceLow := 4
+        Select controller_game.currentLevel
+            Case 2
+                torchChanceLow = 3
+            Case 3
+                torchChanceLow = 2
+            Case 4
+                torchChanceLow = 1
+            Default
+                If controller_game.currentLevel > 4
+                    torchChanceLow = 0
+                End If
+        End Select
+        Local torchChanceHigh := torchChanceLow + 1
+
+        Local rooms := New List<RoomData>()
+        For Local room := EachIn Level.rooms
+            rooms.AddLast(room)
+        End For
+
+        For Local room := EachIn rooms
+            Local numTorch := Util.RndIntRange(torchChanceLow, torchChanceHigh, True, -1)
+            Local i: Int
+            Local minTorchDistance: Float
+            If room.type = RoomType.Shop
+                i = 199
+                numTorch = 20
+                minTorchDistance = 2.0
+            Else
+                If numTorch <= 0 Then Continue
+
+                i = 49
+                minTorchDistance = 3.5
+            End If
+
+            Repeat
+                Local wall := Level.GetRandomWallInRoom(room.x, room.y, room.w, room.h)
+                Local wallTile := Level.GetTileAt(wall.x, wall.y)
+                If wallTile And
+                   Not wallTile.IsDoor() And
+                   minTorchDistance <= Level.GetDistanceToNearestTorch(wallTile)
+                    wallTile.AddTorch()
+                    numTorch -= 1
+                End If
+
+                If numTorch <= 0 Then Exit
+
+                i -= 1
+            Until Not i
+        End For
+
+        Level.PlaceCrateOrBarrel()
+        Level.PlaceChests(currentLevel = 1)
+        Level.PlaceResourceWall()
+        Level.PlaceLockedChests()
+        Level.PlaceShrine()
+        ' CREATEMAP ZONE1: Cleaning up pending tiles
+        Tile.CleanUpPendingTiles()
+        Level.PlaceNocturnaArea()
+        ' CREATEMAP ZONE1: Finished!
+
+        Return True
+    End Function
+
+    Function _FailMap: Bool()
+        Level.CreateMap(Null)
 
         Return False
     End Function
@@ -2240,7 +2168,14 @@ Class Level
     End Function
 
     Function FillSecretRooms: Bool()
-        Throw New Throwable()
+        Select controller_game.currentZone
+            Case 4
+                Return Level.FillSecretRoomsZone4()
+            Case 2
+                Return Level.FillSecretRoomsZone2()
+        End Select
+
+        Return Level.FillSecretRoomsZone1()
     End Function
 
     Function FillSecretRoomsZone1: Bool()
@@ -2744,9 +2679,7 @@ Class Level
             End If
         End For
 
-        Level.CreateMap(Null)
-
-        Return False
+        Return Level._FailMap()
     End Function
 
     Function PlaceFirstRoom: RoomData()
