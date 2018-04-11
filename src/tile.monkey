@@ -635,7 +635,17 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsNecrodancerPlatform: Bool()
-        Debug.TraceNotImplemented("Tile.IsNecrodancerPlatform()")
+        Select Self.type
+            Case TileType.NecroDancerStageGreen
+            Case TileType.NecroDancerStageTurquoise
+            Case TileType.NecroDancerStageCyan
+            Case TileType.NecroDancerSpeaker1
+            Case TileType.NecroDancerSpeaker2
+            Case TileType.NecroDancerSpeaker3
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method IsNormalFloor: Bool()
