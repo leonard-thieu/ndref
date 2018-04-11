@@ -2199,7 +2199,36 @@ Class Level
     End Function
 
     Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool)
-        Throw New Throwable()
+        While True
+            Local tilesOnXNode: map.Node<Int, IntMap<Tile>>
+            Local i := Util.RndIntRangeFromZero(Level.tiles.Count() - 1, True)
+            For tilesOnXNode = EachIn Level.tiles
+                If i = 0 Then Exit
+
+                i -= 1
+            End For
+            Local tilesOnX := tilesOnXNode.Value()
+
+            Local tileNode: map.Node<Int, Tile>
+            Local j := Util.RndIntRangeFromZero(tilesOnX.Count() - 1, True)
+            For tileNode = EachIn tilesOnX
+                If j = 0 Then Exit
+
+                j -= 1
+            End For
+            Local tile := tileNode.Value()
+
+            If Not ignoreCrackedWalls Or
+               Not tile.isCracked
+                If (tileType = TileType.Unknown98 And tile.IsWall(True, False, False, False)) Or
+                   (tileType = tile.GetType())
+                    Local x := tilesOnXNode.Key()
+                    Local y := tileNode.Key()
+
+                    Return New Point(x, y)
+                End If
+            End If
+        End While
     End Function
 
     Function FreezeTilesNear: Void(xVal: Int, yVal: Int, allTiles: Bool)
@@ -2785,7 +2814,7 @@ Class Level
                 y = 0
             End If
         Else
-            Local tileLocation := Level.FindTileOfType(TileType.Unknown98, False)
+            Local tileLocation := Level.FindTileOfType(TileType.Unknown98, True)
             x = tileLocation.x
             y = tileLocation.y
         End If
