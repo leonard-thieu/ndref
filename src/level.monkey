@@ -1681,35 +1681,35 @@ Class Level
         End Select
 
         If allowWaterTarOoze
-            Local chanceLiquid := Util.RndIntRangeFromZero(100, True)
+            Local liquidChance := Util.RndIntRangeFromZero(100, True)
 
-            Local floorCountMaxPart1 := math.Max(controller_game.currentLevel - 1, 5)
-            Local floorCountMaxPart2 := Util.RndIntRange(2, 7, True, -1)
-            Local floorCountMaxPart3 := Util.RndIntRangeFromZero(floorCountMaxPart1, True)
-            Local floorCountMax := floorCountMaxPart2 + floorCountMaxPart3
+            Local numPendingLiquidMaxPart1 := math.Max(controller_game.currentLevel - 1, 5)
+            Local numPendingLiquidMaxPart2 := Util.RndIntRange(2, 7, True, -1)
+            Local numPendingLiquidMaxPart3 := Util.RndIntRangeFromZero(numPendingLiquidMaxPart1, True)
+            Local numPendingLiquidMax := numPendingLiquidMaxPart2 + numPendingLiquidMaxPart3
 
-            Local tileType: Int
+            Local liquidTileType: Int
             Select controller_game.currentZone
                 Case 2
-                    floorCountMaxPart2 = Util.RndIntRange(2, 7, True, -1)
-                    floorCountMaxPart3 = Util.RndIntRangeFromZero(floorCountMaxPart1, True)
-                    floorCountMax = floorCountMaxPart2 + floorCountMaxPart3
+                    numPendingLiquidMaxPart2 = Util.RndIntRange(2, 7, True, -1)
+                    numPendingLiquidMaxPart3 = Util.RndIntRangeFromZero(numPendingLiquidMaxPart1, True)
+                    numPendingLiquidMax = numPendingLiquidMaxPart2 + numPendingLiquidMaxPart3
 
-                    tileType = TileType.Tar
+                    liquidTileType = TileType.Tar
                 Case 4
-                    tileType = TileType.Ooze
+                    liquidTileType = TileType.Ooze
                 Default
-                    tileType = TileType.Water
+                    liquidTileType = TileType.Water
             End Select
 
             Local placeLiquid := False
-            If (controller_game.currentLevel = 1) And (chanceLiquid <=  5) Then placeLiquid = True
-            If (controller_game.currentLevel = 2) And (chanceLiquid <= 25) Then placeLiquid = True
-            If (controller_game.currentLevel = 3) And (chanceLiquid <= 45) Then placeLiquid = True
-            If (controller_game.currentLevel > 3) And (chanceLiquid <= 65) Then placeLiquid = True
+            If (controller_game.currentLevel = 1) And (liquidChance <=  5) Then placeLiquid = True
+            If (controller_game.currentLevel = 2) And (liquidChance <= 25) Then placeLiquid = True
+            If (controller_game.currentLevel = 3) And (liquidChance <= 45) Then placeLiquid = True
+            If (controller_game.currentLevel > 3) And (liquidChance <= 65) Then placeLiquid = True
 
-            Local floorCount := 0
-            Local v70: Int
+            Local numPendingLiquid := 0
+            Local minFloorCount: Int
             If placeLiquid
                 Select lastCreatedRoomType
                     Case 0
@@ -1717,72 +1717,56 @@ Class Level
                     Case 2
                         For Local tile := EachIn tiles
                             ' Can be simplified to `tile.type = TileType.Floor` if `tile.type` can be guaranteed to be non-negative.
-                            If tile.type < 1 Then floorCount += 1
+                            If tile.type < 1 Then numPendingLiquid += 1
                         End For
 
-                        floorCount = math.Max(floorCount, floorCountMax)
-                        v70 = Util.RndIntRangeFromZero(floorCount - 1, True)
+                        numPendingLiquid = math.Max(numPendingLiquid, numPendingLiquidMax)
+                        minFloorCount = Util.RndIntRangeFromZero(numPendingLiquid - 1, True)
                 End Select
             End If
 
-            If floorCount > 0
-                Local x := 0
-                Local y := 0
-                Local i := 999
-                Local j := floorCount
-                Local v224 := False
-                Repeat
-                    If v224
-                        For Local tile := EachIn tiles
-                            Local tileX := tile.x
-                            Local tileY := tile.y
+            For Local i := 999 To 0 Step -1
+                Local lastTileX := 0
+                Local lastTileY := 0
+                Local createdFirstLiquid := False
 
-                            If tile.type = TileType.Floor And
-                               Util.GetDist(x, y, tileX, tileY) <= 1.01 And
-                               Not Util.RndIntRangeFromZero(3, True)
-                                x = tileX
-                                y = tileY
-                                tile.type = tileType
-                                j -= 1
+                If Not createdFirstLiquid
+                    For Local tile := EachIn tiles
+                        If tile.type = TileType.Floor
+                            minFloorCount -= 1
+                            If minFloorCount < 0
+                                lastTileX = tile.x
+                                lastTileY = tile.y
+                                tile.type = liquidTileType
+                                numPendingLiquid -= 1
+
+                                createdFirstLiquid = True
+
                                 Exit
-                           End If
-                        End For
-                    Else
-                        For Local tile := EachIn tiles
-                            Local tileX := tile.x
-                            Local tileY := tile.y
-
-                            If tile.type = TileType.Floor
-                                v70 -= 1
-                                If v70 < 0
-                                    x = tileX
-                                    y = tileY
-                                    tile.type = tileType
-                                    j -= 1
-                                    v224 = True
-
-                                    If j <= 0
-                                        'goto LABEL_71
-                                    End If
-
-                                    i -= 1
-                                End If
                             End If
-                        End For
-                    End If
+                        End If
+                    End For
+                Else
+                    For Local tile := EachIn tiles
+                        If tile.type = TileType.Floor And
+                           Util.GetDist(lastTileX, lastTileY, tile.x, tile.y) <= 1.01 And
+                           Not Util.RndIntRangeFromZero(3, True)
+                            lastTileX = tile.x
+                            lastTileY = tile.y
+                            tile.type = liquidTileType
+                            numPendingLiquid -= 1
 
-                    If j <= 0
-                        'goto LABEL_71
-                    End If
+                            Exit
+                       End If
+                    End For
+                End If
 
-                    i -= 1
-                Until i = 0
+                If numPendingLiquid <= 0 Then Exit
 
-                Return False
-            End If
+                If i = 0 Then Return False
+            End For
         End If
 
-        'LABEL_71
         For Local tile := EachIn tiles
             Local tileX := tile.x
             Local tileY := tile.y
@@ -1820,7 +1804,7 @@ Class Level
 
                 For Local x := xVal + 1 Until xMax
                     For Local y := yVal + 1 Until yMax
-                        ' If 2 units away both horizontally and veritcally from the walls
+                        ' If 2 units away (horizontally and veritcally) from the walls
                         If ((x - xVal = 2) Or (xMax - x - 2 = 2)) And
                            ((y - yVal = 2) Or (yMax - y - 2 = 2))
                             If wallChance
