@@ -1,4 +1,6 @@
-Strict
+'Strict
+
+Import logger
 
 Class RoomData
 
@@ -21,19 +23,19 @@ Class RoomData
     Field hasExit: Bool
 
     Method GetBounds: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RoomData.GetBounds()")
     End Method
 
     Method GetLocation: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RoomData.GetLocation()")
     End Method
 
     Method GetSize: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RoomData.GetSize()")
     End Method
 
     Method ToString: String()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RoomData.ToString()")
     End Method
 
     Method NoTrim: Void()

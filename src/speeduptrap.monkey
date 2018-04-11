@@ -1,5 +1,6 @@
-Strict
+'Strict
 
+Import logger
 Import trap
 
 Class SpeedUpTrap Extends Trap
@@ -7,7 +8,7 @@ Class SpeedUpTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SpeedUpTrap.New(xVal()")
     End Method
 
 End Class

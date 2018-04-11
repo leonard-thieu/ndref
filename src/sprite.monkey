@@ -1,5 +1,6 @@
-Strict
+'Strict
 
+Import logger
 Import tweenable
 
 Class Sprite Extends Tweenable
@@ -16,31 +17,31 @@ Class Sprite Extends Tweenable
     Global textMap: Object
 
     Function DrawSpriteText: Void(str: Int, xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.DrawSpriteText()")
     End Function
 
     Function GetNextTempImageName: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.GetNextTempImageName()")
     End Function
 
     Function LoadImageFromPath: Object(p: Int, allowMod: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.LoadImageFromPath()")
     End Function
 
     Function ReloadAllSprites: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.ReloadAllSprites()")
     End Function
 
     Function RenderAll: Void(captureFrame: Bool, frameNum: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.RenderAll()")
     End Function
 
     Function RenderFrameCapture: Void(frameNum: Int, isReplay: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.RenderFrameCapture()")
     End Function
 
     Function UpdateImageMap: Bool(path: Int, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int, checkDimensions: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.UpdateImageMap()")
     End Function
 
     Function _EditorFix: Void() End
@@ -50,7 +51,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method New(p: String, frames: Int, flags: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.New(p()")
     End Method
 
     Field path: String
@@ -87,127 +88,127 @@ Class Sprite Extends Tweenable
     Field hideInReplay: Bool
 
     Method DiscardTempImage: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.DiscardTempImage()")
     End Method
 
     Method Draw: Void(x: Float, y: Float, frameOverride: Int, sX: Int, sY: Int, sW: Int, sH: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.Draw()")
     End Method
 
     Method FlipX: Void(f: Bool, withOffset: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.FlipX()")
     End Method
 
     Method FlipY: Void(f: Bool, withOffset: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.FlipY()")
     End Method
 
     Method GetAlphaValue: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.GetAlphaValue()")
     End Method
 
     Method GetFrame: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.GetFrame()")
     End Method
 
     Method GetImage: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.GetImage()")
     End Method
 
     Method GetNumFrames: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.GetNumFrames()")
     End Method
 
     Method GetZOff: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.GetZOff()")
     End Method
 
     Method Height: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.Height()")
     End Method
 
     Method InitSprite: Void(p: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.InitSprite()")
     End Method
 
     Method InitSprite: Void(img: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.InitSprite()")
     End Method
 
     Method InitSprite: Void(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.InitSprite()")
     End Method
 
     Method InWorld: Void(world: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.InWorld()")
     End Method
 
     Method SetAlphaTweenFromCurrent: Void(finalVal: Float, duration: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetAlphaTweenFromCurrent()")
     End Method
 
     Method SetAlphaValue: Void(a: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetAlphaValue()")
     End Method
 
     Method SetCutoffY: Void(cY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetCutoffY()")
     End Method
 
     Method SetFlipXOff: Void(x: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetFlipXOff()")
     End Method
 
     Method SetFrame: Void(f: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetFrame()")
     End Method
 
     Method SetHandle: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetHandle()")
     End Method
 
     Method SetRotation: Void(r: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetRotation()")
     End Method
 
     Method SetScale: Void(scaleVal: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetScale()")
     End Method
 
     Method SetScaleX: Void(sX: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetScaleX()")
     End Method
 
     Method SetScaleY: Void(sY: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetScaleY()")
     End Method
 
     Method SetZ: Void(zVal: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetZ()")
     End Method
 
     Method SetZOff: Void(zVal: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SetZOff()")
     End Method
 
     Method SkipNextDraw: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.SkipNextDraw()")
     End Method
 
     Method ToggleFlipY: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.ToggleFlipY()")
     End Method
 
     Method UnsetCutoffY: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.UnsetCutoffY()")
     End Method
 
     Method UnSetZ: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.UnSetZ()")
     End Method
 
     Method Width: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Sprite.Width()")
     End Method
 
     Method NoTrim: Void()

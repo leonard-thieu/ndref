@@ -1,4 +1,4 @@
-Strict
+'Strict
 
 Import monkey.list
 Import bombtrap
@@ -11,6 +11,7 @@ Import enemy
 Import firetrap
 Import item
 Import level
+Import logger
 Import point
 Import salechest
 Import saleitem
@@ -225,7 +226,7 @@ Class LevelObject
     End Method
 
     Method ToXML: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("LevelObject.ToXML()")
     End Method
 
     Method NoTrim: Void()

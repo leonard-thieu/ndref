@@ -1,7 +1,8 @@
-Strict
+'Strict
 
 Import monkey.list
 Import enemy
+Import logger
 Import sprite
 
 Class NPC Extends Enemy Abstract
@@ -9,11 +10,11 @@ Class NPC Extends Enemy Abstract
     Global npcList: List<NPC> = New List<NPC>()
 
     Function GetCaptiveNPCAt: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("NPC.GetCaptiveNPCAt()")
     End Function
 
     Function GetDistFromClosestNPC: Float(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("NPC.GetDistFromClosestNPC()")
     End Function
 
     Function _EditorFix: Void() End
@@ -36,7 +37,7 @@ Class NPC Extends Enemy Abstract
     Field saidHi: Bool
 
     Method Delete: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("NPC.Delete()")
     End Method
 
     Method Die: Void()
@@ -48,19 +49,19 @@ Class NPC Extends Enemy Abstract
     End Method
 
     Method NPCInit: Void(xVal: Int, yVal: Int, l: Int, name: String, captv: Bool, glCage: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("NPC.NPCInit()")
     End Method
 
     Method ReleaseFromCage: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("NPC.ReleaseFromCage()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("NPC.Render()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("NPC.Update()")
     End Method
 
     Method NoTrim: Void()

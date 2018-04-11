@@ -19,6 +19,7 @@ Import image
 Import item
 Import level
 Import level_object
+Import logger
 Import medic
 Import merlin
 Import particles
@@ -53,8 +54,13 @@ Function Main: Int()
     controller_game.currentZone = 1
     controller_game.currentLevel = 1
 
-    Local levelObj := New LevelObject(1, 0, 0, False, Null)
-    Level.CreateMap(Null)
+    Try
+        Local levelObj := New LevelObject(1, 0, 0, False, Null)
+        Level.CreateMap(Null)
+    Catch ex: Throwable
+        Debug.WriteLine("Exception thrown.")
+        Debug.Destroy()
+    End Try
 
     asd.Clear()
 

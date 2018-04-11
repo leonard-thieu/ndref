@@ -1,7 +1,8 @@
-Strict
+'Strict
 
 Import monkey.list
 Import entity
+Import logger
 
 Class Chest Extends Entity
 
@@ -16,37 +17,37 @@ Class Chest Extends Entity
     Global lastChestColor2: Int
 
     Function ClearAllSingleChoiceChests: Void(except: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.ClearAllSingleChoiceChests()")
     End Function
 
     Function GetChestAt: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.GetChestAt()")
     End Function
 
     Function GetEmptyNonSecretChest: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.GetEmptyNonSecretChest()")
     End Function
 
     Function GetEmptySecretChest: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.GetEmptySecretChest()")
     End Function
 
     Function GetNumEmptyNonSecretChests: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.GetNumEmptyNonSecretChests()")
     End Function
 
     Function GetNumEmptySecretChests: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.GetNumEmptySecretChests()")
     End Function
 
     Function IsItemAppropriateForChestColor: Bool(cont: Int, tmpColor: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.IsItemAppropriateForChestColor()")
     End Function
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, cont: String, invis: Bool, isLocked: Bool, isSecret: Bool, tmpColor: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.New(xVal()")
     End Method
 
     Field chestColor: Int
@@ -64,19 +65,19 @@ Class Chest Extends Entity
     Field singleChoice_: Bool
 
     Method AddKeyToContents: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.AddKeyToContents()")
     End Method
 
     Method BecomeLocked: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.BecomeLocked()")
     End Method
 
     Method DetermineContentsNow_PlayerDoesntOwn: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.DetermineContentsNow_PlayerDoesntOwn()")
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.Die()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
@@ -84,15 +85,15 @@ Class Chest Extends Entity
     End Method
 
     Method Open: Bool(player: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.Open()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.Render()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Chest.Update()")
     End Method
 
     Method NoTrim: Void()

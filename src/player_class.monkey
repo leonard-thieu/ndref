@@ -1,4 +1,4 @@
-Strict
+'Strict
 
 Import monkey.list
 Import monkey.map
@@ -6,6 +6,7 @@ Import monkey.set
 Import bouncer
 Import familiar_fixed
 Import item
+Import logger
 Import mobileentity
 Import player_health
 Import point
@@ -37,119 +38,119 @@ Class Player Extends MobileEntity
     Global sessionMaxCoins: Int
 
     Function ActuallyPlayVO: Void(voSound: Int, player: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ActuallyPlayVO()")
     End Function
 
     Function AddCoins: Void(tmpNum: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AddCoins()")
     End Function
 
     Function AllPlayersPerished: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AllPlayersPerished()")
     End Function
 
     Function AnyPlayerInSpecialRoom: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AnyPlayerInSpecialRoom()")
     End Function
 
     Function AnyPlayerPeace: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AnyPlayerPeace()")
     End Function
 
     Function AnyPlayerTemporaryMapSight: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AnyPlayerTemporaryMapSight()")
     End Function
 
     Function CheckAllModeCompletion: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.CheckAllModeCompletion()")
     End Function
 
     Function ChooseNewPlayer1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ChooseNewPlayer1()")
     End Function
 
     Function DoesAnyPlayerHaveItemOfType: Bool(it: Int, overrideBatForm: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoesAnyPlayerHaveItemOfType()")
     End Function
 
     Function DoesPlayer1HaveItemOfType: Bool(i: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoesPlayer1HaveItemOfType()")
     End Function
 
     Function GetCharacterName: Int(charNum: Int, tagType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetCharacterName()")
     End Function
 
     Function GetGreedMultiplier: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetGreedMultiplier()")
     End Function
 
     Function GetSlotFromNum: Int(num: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetSlotFromNum()")
     End Function
 
     Function GetSlotNum: Int(sl: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetSlotNum()")
     End Function
 
     Function GetTransplantDisplayTime: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetTransplantDisplayTime()")
     End Function
 
     Function IsBloodDamage: Bool(damageSource: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsBloodDamage()")
     End Function
 
     Function IsIntentionalDamage: Bool(damageSource: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsIntentionalDamage()")
     End Function
 
     Function IsInternalDamage: Bool(damageSource: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsInternalDamage()")
     End Function
 
     Function IsLastLevel: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsLastLevel()")
     End Function
 
     Function IsSolo: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsSolo()")
     End Function
 
     Function IsUnpreventableDamage: Bool(damageSource: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsUnpreventableDamage()")
     End Function
 
     Function MakeBodyImage: Object(characterID: Int, idSuffix: Int, altSkin: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.MakeBodyImage()")
     End Function
 
     Function MakeHeadImage: Object(characterID: Int, idSuffix: Int, altSkin: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.MakeHeadImage()")
     End Function
 
     Function NumEnabledCharacters: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.NumEnabledCharacters()")
     End Function
 
     Function OffsetCoins: Void(tmpNum: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.OffsetCoins()")
     End Function
 
     Function PlayersHaveMovedThisBeat: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.PlayersHaveMovedThisBeat()")
     End Function
 
     Function PlayVOPlayer1: Void(voSound: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.PlayVOPlayer1()")
     End Function
 
     Function SetCoins: Void(tmpNum: Int, allowAchievement: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SetCoins()")
     End Function
 
     Function UpdateAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.UpdateAll()")
     End Function
 
     Function _EditorFix: Void() End
@@ -320,87 +321,87 @@ Class Player Extends MobileEntity
     Field deadRenderFrames: Int
 
     Method AddFamiliarAt: Void(offsetX: Int, offsetY: Int, item: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AddFamiliarAt()")
     End Method
 
     Method AddGeneralMetrics: Void(sendIt: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AddGeneralMetrics()")
     End Method
 
     Method AddItemOfType: Void(item: String, itemObj: Item, ignoreFlyTo: Bool, isInitialEquip: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AddItemOfType()")
     End Method
 
     Method AddItemOfType_PreProcess: Bool(i: String, itemObj: Item)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AddItemOfType_PreProcess()")
     End Method
 
     Method AfterEnemyMovement: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AfterEnemyMovement()")
     End Method
 
     Method AfterHitHook: Void(nme: Object, hitX: Int, hitY: Int, dir: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AfterHitHook()")
     End Method
 
     Method AttackDirection: Bool(dir: Int, isThrow: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AttackDirection()")
     End Method
 
     Method AttemptOffbeatMove: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.AttemptOffbeatMove()")
     End Method
 
     Method BreakGlassShovel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.BreakGlassShovel()")
     End Method
 
     Method BreakGlassStuff: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.BreakGlassStuff()")
     End Method
 
     Method BreakSpikedEars: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.BreakSpikedEars()")
     End Method
 
     Method CalcMinVisibility: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.CalcMinVisibility()")
     End Method
 
     Method CancelTween: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.CancelTween()")
     End Method
 
     Method CheckConductorWire: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.CheckConductorWire()")
     End Method
 
     Method CheckFloating: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.CheckFloating()")
     End Method
 
     Method CheckVowOfPoverty: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.CheckVowOfPoverty()")
     End Method
 
     Method ClearAllFamiliars: Void(includeLamb: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ClearAllFamiliars()")
     End Method
 
     Method ClearFamiliarAt: Void(offsetX: Int, offsetY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ClearFamiliarAt()")
     End Method
 
     Method CommitZap: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.CommitZap()")
     End Method
 
     Method ConsumeItemSlot: Bool(sl: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ConsumeItemSlot()")
     End Method
 
     Method ConsumeOne: Bool(item: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ConsumeOne()")
     End Method
 
     Method Die: Void()
@@ -410,455 +411,455 @@ Class Player Extends MobileEntity
     End Method
 
     Method DoBigDig: Bool(x0: Int, y0: Int, shovelDamage: Int, dir: Int, allowNoShovel: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoBigDig()")
     End Method
 
     Method DoComboLeftDown: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoComboLeftDown()")
     End Method
 
     Method DoComboLeftRight: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoComboLeftRight()")
     End Method
 
     Method DoComboLeftUp: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoComboLeftUp()")
     End Method
 
     Method DoComboRightDown: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoComboRightDown()")
     End Method
 
     Method DoComboRightUp: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoComboRightUp()")
     End Method
 
     Method DoComboUpDown: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoComboUpDown()")
     End Method
 
     Method DoCrownTeleport: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoCrownTeleport()")
     End Method
 
     Method DoEnchantWeapon: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoEnchantWeapon()")
     End Method
 
     Method DoHitEffects: Void(dir: Int, hitter: Object, tempDam: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoHitEffects()")
     End Method
 
     Method DoNeed: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DoNeed()")
     End Method
 
     Method DropBomb: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DropBomb()")
     End Method
 
     Method DropItem: Object(i: Int, xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.DropItem()")
     End Method
 
     Method EmptyAllSlots: Void(includeLamb: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.EmptyAllSlots()")
     End Method
 
     Method EmptySlot: Void(sl: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.EmptySlot()")
     End Method
 
     Method EnterBatForm: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.EnterBatForm()")
     End Method
 
     Method ExitBatForm: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ExitBatForm()")
     End Method
 
     Method Fall: Void(keepMultiplier: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.Fall()")
     End Method
 
     Method FeetIgnoreCoals: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.FeetIgnoreCoals()")
     End Method
 
     Method FeetIgnoreIce: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.FeetIgnoreIce()")
     End Method
 
     Method FeetIgnoreOoze: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.FeetIgnoreOoze()")
     End Method
 
     Method FeetIgnoreWaterAndTar: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.FeetIgnoreWaterAndTar()")
     End Method
 
     Method FrostItemCount: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.FrostItemCount()")
     End Method
 
     Method GetArmorAmount: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetArmorAmount()")
     End Method
 
     Method GetBonusDamage: Int(baseDamage: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetBonusDamage()")
     End Method
 
     Method GetDamage: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetDamage()")
     End Method
 
     Method GetElectricStrength: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetElectricStrength()")
     End Method
 
     Method GetHUDQuantityText: Object(slot: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetHUDQuantityText()")
     End Method
 
     Method GetItemInSlot: Int(sl: Int, overrideBatForm: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetItemInSlot()")
     End Method
 
     Method GetItemQuantity: Int(item: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetItemQuantity()")
     End Method
 
     Method GetKillsUntilHealingString: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetKillsUntilHealingString()")
     End Method
 
     Method GetLightSourceMax: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetLightSourceMax()")
     End Method
 
     Method GetLightSourceMin: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetLightSourceMin()")
     End Method
 
     Method GetMinVisibility: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetMinVisibility()")
     End Method
 
     Method GetMoveLastBeat: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetMoveLastBeat()")
     End Method
 
     Method GetNewWeapon: Void(w: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetNewWeapon()")
     End Method
 
     Method GetPositionLastBeat: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetPositionLastBeat()")
     End Method
 
     Method GetShovelDamage: Int(fromMinersCap: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetShovelDamage()")
     End Method
 
     Method GetShovelDamageHelper: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetShovelDamageHelper()")
     End Method
 
     Method GetTorchLevel: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetTorchLevel()")
     End Method
 
     Method GetWeapon: Object(overrideBatForm: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GetWeapon()")
     End Method
 
     Method GiveInitialEquipment: Void(resetHealth: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GiveInitialEquipment()")
     End Method
 
     Method GotBlood: Void(amount: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GotBlood()")
     End Method
 
     Method GotKill: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GotKill()")
     End Method
 
     Method GrantIBeats: Void(num: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.GrantIBeats()")
     End Method
 
     Method HandleIceAndCoals: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.HandleIceAndCoals()")
     End Method
 
     Method HasCouponLike: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.HasCouponLike()")
     End Method
 
     Method HasItemOfType: Bool(i: String, overrideBatForm: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.HasItemOfType()")
     End Method
 
     Method HasShovel: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.HasShovel()")
     End Method
 
     Method HaveSecondActionSlot: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.HaveSecondActionSlot()")
     End Method
 
     Method Heal: Void(amt: Int, fromFood: Bool, playVO: Bool, fromMagicFood: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.Heal()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.Hit()")
     End Method
 
     Method ImmediatelyMoveTo: Void(xVal: Int, yVal: Int, fromKeyboard: Bool, fromClampedEnemy: Bool, fromBounceTrap: Bool, fromCourage: Bool, overrideStairs: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ImmediatelyMoveTo()")
     End Method
 
     Method IsAnythingInSlot: Bool(sl: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsAnythingInSlot()")
     End Method
 
     Method IsBomblessCharacter: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsBomblessCharacter()")
     End Method
 
     Method IsHeavy: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsHeavy()")
     End Method
 
     Method IsLordCrownActive: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsLordCrownActive()")
     End Method
 
     Method IsLordCrownActive_Flicker: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsLordCrownActive_Flicker()")
     End Method
 
     Method IsNecroDancer1Alive: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsNecroDancer1Alive()")
     End Method
 
     Method IsPhasing: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsPhasing()")
     End Method
 
     Method IsShieldActive: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsShieldActive()")
     End Method
 
     Method IsShieldActive_Flicker: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsShieldActive_Flicker()")
     End Method
 
     Method IsShrunk: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsShrunk()")
     End Method
 
     Method IsSlotCursed: Bool(sl: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsSlotCursed()")
     End Method
 
     Method IsVisible: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsVisible()")
     End Method
 
     Method IsWeaponlessCharacter: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.IsWeaponlessCharacter()")
     End Method
 
     Method KnockSelfBack: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.KnockSelfBack()")
     End Method
 
     Method LambDeath: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.LambDeath()")
     End Method
 
     Method LoadImages: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.LoadImages()")
     End Method
 
     Method MaybeOpenZap: Void(playerX: Int, playerY: Int, electricStrength: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.MaybeOpenZap()")
     End Method
 
     Method MomentumDir: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.MomentumDir()")
     End Method
 
     Method MoveFamiliars: Void(deltaX: Int, deltaY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.MoveFamiliars()")
     End Method
 
     Method MoveSoulFamiliars: Void(moveDir: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.MoveSoulFamiliars()")
     End Method
 
     Method MoveTo: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.MoveTo()")
     End Method
 
     Method PainFlyaway: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.PainFlyaway()")
     End Method
 
     Method PerformTween: Void(xVal: Int, yVal: Int, oldX: Int, oldY: Int, tweenType: Int, shadowTweenType: Int, bufferTween: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.PerformTween()")
     End Method
 
     Method Perished: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.Perished()")
     End Method
 
     Method PermitMoveFail: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.PermitMoveFail()")
     End Method
 
     Method PlayVO: Void(voSound: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.PlayVO()")
     End Method
 
     Method ProcessDropMystery: Void(item: Object, slot: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ProcessDropMystery()")
     End Method
 
     Method ProcessMoveQueue: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ProcessMoveQueue()")
     End Method
 
     Method ProcessSlotOffsets: Object(tmpSlotNum: Int, tmpX: Int, tmpY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ProcessSlotOffsets()")
     End Method
 
     Method ProcessSlotOffsets2: Object(tmpSlot: Int, tmpX: Int, tmpY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ProcessSlotOffsets2()")
     End Method
 
     Method ProcessTheResultsOfEquippingItem: Void(item: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ProcessTheResultsOfEquippingItem()")
     End Method
 
     Method ProcessTheResultsOfLosingItem: Void(i: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ProcessTheResultsOfLosingItem()")
     End Method
 
     Method PutItemInSlot: Void(sl: Int, i: Int, ignoreFlyTo: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.PutItemInSlot()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.Render()")
     End Method
 
     Method RenderHUD: Void(position: Int, small: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.RenderHUD()")
     End Method
 
     Method RenderHUDSlotHotkey: Void(inputMove: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, overrideBatForm: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.RenderHUDSlotHotkey()")
     End Method
 
     Method RenderHUDSlotQuantity: Void(textSprite: Object, num: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, alpha: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.RenderHUDSlotQuantity()")
     End Method
 
     Method RenderHUDSlotQuantity2: Void(textSprite: Object, item: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, alpha: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.RenderHUDSlotQuantity2()")
     End Method
 
     Method ResetStateAfterLevel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ResetStateAfterLevel()")
     End Method
 
     Method ScatterItems: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ScatterItems()")
     End Method
 
     Method SetCharacter: Void(charNum: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SetCharacter()")
     End Method
 
     Method SetDugRecently: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SetDugRecently()")
     End Method
 
     Method SetSlotCursed: Void(sl: Int, b: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SetSlotCursed()")
     End Method
 
     Method SetSlotMystery: Void(sl: Int, b: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SetSlotMystery()")
     End Method
 
     Method SetTotallyBlank: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SetTotallyBlank()")
     End Method
 
     Method StopFalling: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.StopFalling()")
     End Method
 
     Method SubtractItemOfType: Bool(i: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SubtractItemOfType()")
     End Method
 
     Method SubtractKey: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SubtractKey()")
     End Method
 
     Method SwapWeapons: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.SwapWeapons()")
     End Method
 
     Method TestCourage: Bool(beat: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.TestCourage()")
     End Method
 
     Method ToggleBatForm: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.ToggleBatForm()")
     End Method
 
     Method TurnAllItemsToGlass: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.TurnAllItemsToGlass()")
     End Method
 
     Method TurnAllItemsToObsidian: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.TurnAllItemsToObsidian()")
     End Method
 
     Method TurnSlotInto: Void(slot: Int, newItem: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.TurnSlotInto()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.Update()")
     End Method
 
     Method UpdateBonusHeart: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.UpdateBonusHeart()")
     End Method
 
     Method UseBomb: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.UseBomb()")
     End Method
 
     Method VocalizeAttack: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.VocalizeAttack()")
     End Method
 
     Method WarpFamiliars: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.WarpFamiliars()")
     End Method
 
     Method WarpTo: Void(newX: Int, newY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Player.WarpTo()")
     End Method
 
     Method NoTrim: Void()

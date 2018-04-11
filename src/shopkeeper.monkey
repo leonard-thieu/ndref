@@ -1,6 +1,7 @@
-Strict
+'Strict
 
 Import gamedata
+Import logger
 Import npc
 
 Class Shopkeeper Extends NPC
@@ -46,31 +47,31 @@ Class Shopkeeper Extends NPC
     Field lastBeatSFX: Int = -1
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shopkeeper.CanBeDamaged()")
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shopkeeper.Die()")
     End Method
 
     Method GetMovementDirection: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shopkeeper.GetMovementDirection()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shopkeeper.Hit()")
     End Method
 
     Method IsSinging: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shopkeeper.IsSinging()")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shopkeeper.MoveSucceed()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shopkeeper.Update()")
     End Method
 
     Method NoTrim: Void()

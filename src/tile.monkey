@@ -1,4 +1,4 @@
-Strict
+'Strict
 
 Import monkey.list
 Import image
@@ -28,31 +28,31 @@ Class Tile Extends RenderableObject
     Global totalTilesCreatedOrDestroyed: Int
 
     Function AnyPlayerHaveCompass: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveCompass()")
     End Function
 
     Function AnyPlayerHaveMonocle: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveMonocle()")
     End Function
 
     Function AnyPlayerHaveRingOfLuck: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveRingOfLuck()")
     End Function
 
     Function AnyPlayerHaveSunglasses: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveSunglasses()")
     End Function
 
     Function AnyPlayerHaveZoneMap: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveZoneMap()")
     End Function
 
     Function CheckRingOfShadows: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CheckRingOfShadows()")
     End Function
 
     Function CleanUpPendingTiles: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CleanUpPendingTiles()")
     End Function
 
     Function GenerateWireConnections: Void()
@@ -80,11 +80,11 @@ Class Tile Extends RenderableObject
     End Function
 
     Function IsNearNightmare: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsNearNightmare()")
     End Function
 
     Function MoveAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.MoveAll()")
     End Function
 
     Function _EditorFix: Void() End
@@ -416,75 +416,75 @@ Class Tile Extends RenderableObject
     Field hasTorch: Bool
 
     Method AddFloorOverlayImage: Void(imageName: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddFloorOverlayImage()")
     End Method
 
     Method AddTextLabel: Void(filename: String, tmpXOff: Int, tmpYOff: Int, displayD: Float, flash: Bool, textString: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddTextLabel()")
     End Method
 
     Method AddTorch: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddTorch()")
     End Method
 
     Method AddTorch2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddTorch2()")
     End Method
 
     Method AddWireConnection: Void(dir: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddWireConnection()")
     End Method
 
     Method BecomeBombWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeBombWall()")
     End Method
 
     Method BecomeCracked: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeCracked()")
     End Method
 
     Method BecomeDarkShopWall: Void(spritePath: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeDarkShopWall()")
     End Method
 
     Method BecomeDiamond: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeDiamond()")
     End Method
 
     Method BecomeDirt: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeDirt()")
     End Method
 
     Method BecomeHarderStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeHarderStone()")
     End Method
 
     Method BecomeStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeStone()")
     End Method
 
     Method BecomeUnbreakable: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeUnbreakable()")
     End Method
 
     Method CalcTileset: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CalcTileset()")
     End Method
 
     Method CalculateTileAlpha: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CalculateTileAlpha()")
     End Method
 
     Method CalculateTileLightValue: Float(forVision: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CalculateTileLightValue()")
     End Method
 
     Method ClearTextLabel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.ClearTextLabel()")
     End Method
 
     Method DarkenShopWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.DarkenShopWall()")
     End Method
 
     Method Die: Void()
@@ -501,11 +501,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetCurrentAlpha: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetCurrentAlpha()")
     End Method
 
     Method GetNumWireConnections: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetNumWireConnections()")
     End Method
 
     Method GetTileset: Int()
@@ -517,23 +517,23 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone2Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone2Wall()")
     End Method
 
     Method GetZone3Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone3Wall()")
     End Method
 
     Method GetZone4Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone4Wall()")
     End Method
 
     Method GetZone5Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone5Wall()")
     End Method
 
     Method HasTileBeenSeen: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.HasTileBeenSeen()")
     End Method
 
     Method HasTorch: Bool()
@@ -541,7 +541,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.Hit()")
     End Method
 
     Method IsConductorWall: Bool()
@@ -593,11 +593,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsInAnyPlayerLineOfSight()")
     End Method
 
     Method IsInAnyPlayerTrueLineOfSight: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsInAnyPlayerTrueLineOfSight()")
     End Method
 
     Method IsMetalDoorOpen: Bool()
@@ -605,11 +605,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsNearNightmare: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsNearNightmare()")
     End Method
 
     Method IsNecrodancerPlatform: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsNecrodancerPlatform()")
     End Method
 
     Method IsNormalFloor: Bool()
@@ -655,11 +655,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsVisible: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsVisible()")
     End Method
 
     Method IsWall: Bool(nonCorridor: Bool, destructibleOnly: Bool, forVision: Bool, torchlessOnly: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsWall()")
     End Method
 
     Method IsWire: Bool()
@@ -677,51 +677,51 @@ Class Tile Extends RenderableObject
     End Method
 
     Method LoadDiamond: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.LoadDiamond()")
     End Method
 
     Method LoadFloor: Sprite()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.LoadFloor()")
     End Method
 
     Method LoadWireImages: Void(mainImage: String, conductorPhase: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.LoadWireImages()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.Render()")
     End Method
 
     Method RenderImageAs: Void(img: Object, renderAsWall: Bool, extraXOff: Int, extraYOff: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.RenderImageAs()")
     End Method
 
     Method SelectWireFlip: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SelectWireFlip()")
     End Method
 
     Method SelectWireFrame: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SelectWireFrame()")
     End Method
 
     Method SetDigTrigger: Void(triggerVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SetDigTrigger()")
     End Method
 
     Method SetDoorTrigger: Void(triggerVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SetDoorTrigger()")
     End Method
 
     Method SetTrigger: Void(triggerVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SetTrigger()")
     End Method
 
     Method ToggleDoor: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.ToggleDoor()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.Update()")
     End Method
 
     Method NoTrim: Void()

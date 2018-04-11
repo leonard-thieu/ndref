@@ -1,7 +1,8 @@
-Strict
+'Strict
 
 Import monkey.list
 Import item
+Import logger
 Import medic
 Import shopkeeper
 Import sprite
@@ -16,19 +17,19 @@ Class SaleItem Extends Item
     Global lastSaleItemClass2: String
 
     Function GetCostMultiplier: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.GetCostMultiplier()")
     End Function
 
     Function GetMinCost: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.GetMinCost()")
     End Function
 
     Function GetRandomItem: Int(level: Int, randType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.GetRandomItem()")
     End Function
 
     Function ResetCosts: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.ResetCosts()")
     End Function
 
     Function _EditorFix: Void() End
@@ -59,55 +60,55 @@ Class SaleItem Extends Item
     Field medic: Medic
 
     Method ApplyDiscount: Void(val: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.ApplyDiscount()")
     End Method
 
     Method CanSeeShopkeeper: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.CanSeeShopkeeper()")
     End Method
 
     Method CanSteal: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.CanSteal()")
     End Method
 
     Method CostsBlood: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.CostsBlood()")
     End Method
 
     Method CostsDiamonds: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.CostsDiamonds()")
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.Die()")
     End Method
 
     Method GetCost: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.GetCost()")
     End Method
 
     Method Pickup: Int(player: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.Pickup()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.Render()")
     End Method
 
     Method SetBloodCost: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.SetBloodCost()")
     End Method
 
     Method SetCost: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.SetCost()")
     End Method
 
     Method SetCostHelper: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.SetCostHelper()")
     End Method
 
     Method SkipNextDraw: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SaleItem.SkipNextDraw()")
     End Method
 
     Method NoTrim: Void()

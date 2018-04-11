@@ -1,12 +1,13 @@
-Strict
+'Strict
 
 Import monkey.stack
+Import logger
 Import point
 
 Class Rect
 
     Function MakeBounds: Rect(minX: Int, minY: Int, maxX: Int, maxY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.MakeBounds()")
     End Function
 
     Function _EditorFix: Void() End
@@ -24,59 +25,59 @@ Class Rect
     Field h: Int
 
     Method Contains: Bool(other: Point)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.Contains()")
     End Method
 
     Method Contains: Bool(other: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.Contains()")
     End Method
 
     Method Contains: Bool(px: Int, py: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.Contains()")
     End Method
 
     Method ContainsNoCorners: Bool(other: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.ContainsNoCorners()")
     End Method
 
     Method GetBottom: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.GetBottom()")
     End Method
 
     Method GetCenter: Point()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.GetCenter()")
     End Method
 
     Method GetCorners: Stack<Point>()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.GetCorners()")
     End Method
 
     Method GetL1Dist: Int(other: Point)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.GetL1Dist()")
     End Method
 
     Method GetL1Dist: Int(other: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.GetL1Dist()")
     End Method
 
     Method GetPoints: Stack<Point>()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.GetPoints()")
     End Method
 
     Method GetRight: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.GetRight()")
     End Method
 
     Method OnBorder: Bool(px: Int, py: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.OnBorder()")
     End Method
 
     Method RandomPoint: Point()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.RandomPoint()")
     End Method
 
     Method ToString: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Rect.ToString()")
     End Method
 
     Method NoTrim: Void()

@@ -1,4 +1,4 @@
-Strict
+'Strict
 
 Import monkey.map
 Import monkey.math
@@ -16,6 +16,7 @@ import gamedata
 Import intpointlist
 Import intpointset
 Import level_object
+Import logger
 Import merlin
 Import necrodancergame
 Import npc
@@ -192,15 +193,15 @@ Class Level
     Global zoneOrder: Int
 
     Function ActivateTrigger: Int(triggerNum: Int, ent: Entity, target: RenderableObject)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ActivateTrigger()")
     End Function
 
     Function ActuallyGetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ActuallyGetMapTileLightValue()")
     End Function
 
     Function AddCrackedWall: Void(roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddCrackedWall()")
     End Function
 
     Function AddExit: Void(xVal: Int, yVal: Int, levelPointer: Int, zonePointer: Int)
@@ -210,7 +211,7 @@ Class Level
     End Function
 
     Function AddHarderStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddHarderStone()")
     End Function
 
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
@@ -232,7 +233,7 @@ Class Level
     End Function
 
     Function AddSomePillarsInOpenSpace: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddSomePillarsInOpenSpace()")
     End Function
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
@@ -635,23 +636,23 @@ Class Level
     End Function
 
     Function AddStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddStone()")
     End Function
 
     Function AdvanceLevel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AdvanceLevel()")
     End Function
 
     Function AllowSpirit: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AllowSpirit()")
     End Function
 
     Function BossMaybeMinibossesAt: Void(x1: Int, y1: Int, x2: Int, y2: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.BossMaybeMinibossesAt()")
     End Function
 
     Function BreakIce: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.BreakIce()")
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
@@ -738,115 +739,115 @@ Class Level
     End Function
 
     Function CheckLOS: Bool(x1: Int, y1: Int, x2: Int, y2: Int, includeOffscreen: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CheckLOS()")
     End Function
 
     Function CheckMapConsistency: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CheckMapConsistency()")
     End Function
 
     Function ClearMinibossWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ClearMinibossWall()")
     End Function
 
     Function ClearTextLabelAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ClearTextLabelAt()")
     End Function
 
     Function CloseInOuterWalls: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CloseInOuterWalls()")
     End Function
 
     Function ConjureSlot: Void(slotName: String, ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ConjureSlot()")
     End Function
 
     Function CreateAllCharsDLCSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateAllCharsDLCSelect()")
     End Function
 
     Function CreateAllCharsSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateAllCharsSelect()")
     End Function
 
     Function CreateBeastmaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmaster()")
     End Function
 
     Function CreateBeastmasterZone1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone1()")
     End Function
 
     Function CreateBeastmasterZone2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone2()")
     End Function
 
     Function CreateBeastmasterZone3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone3()")
     End Function
 
     Function CreateBeastmasterZone4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone4()")
     End Function
 
     Function CreateBeastmasterZone5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone5()")
     End Function
 
     Function CreateBossBattle: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle()")
     End Function
 
     Function CreateBossBattle1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle1()")
     End Function
 
     Function CreateBossBattle2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle2()")
     End Function
 
     Function CreateBossBattle3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle3()")
     End Function
 
     Function CreateBossBattle4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle4()")
     End Function
 
     Function CreateBossBattle5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle5()")
     End Function
 
     Function CreateBossBattle9: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle9()")
     End Function
 
     Function CreateBossBattleFrankensteinway: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattleFrankensteinway()")
     End Function
 
     Function CreateBossmaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossmaster()")
     End Function
 
     Function CreateBossmasterBosses: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossmasterBosses()")
     End Function
 
     Function CreateBossmasterMinibosses: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossmasterMinibosses()")
     End Function
 
     Function CreateCharSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateCharSelect()")
     End Function
 
     Function CreateDiamondDealer: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateDiamondDealer()")
     End Function
 
     Function CreateDungeonMaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateDungeonMaster()")
     End Function
 
     Function CreateExit: Void(exitX: Int, exitY: Int)
@@ -859,43 +860,44 @@ Class Level
     End Function
 
     Function CreateExtraModesSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateExtraModesSelect()")
     End Function
 
     Function CreateFinalBossBattle: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattle()")
     End Function
 
     Function CreateFinalBossBattle2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattle2()")
     End Function
 
     Function CreateFinalBossBattle3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattle3()")
     End Function
 
     Function CreateFinalBossBattleConductor: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattleConductor()")
     End Function
 
     Function CreateHephaestus: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateHephaestus()")
     End Function
 
     Function CreateIndestructibleBorder: Void()
-        'Throw New Throwable()
-        ' TODO: Skipping this for testing purposes.
+        Debug.TraceNotImplemented("Level.CreateIndestructibleBorder()")
     End Function
 
     Function CreateJanitor: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateJanitor()")
     End Function
 
     Function CreateLobby: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateLobby()")
     End Function
 
     Function CreateMap: Bool(levelObj: LevelObject)
+        Debug.WriteLine("Entered Level.CreateMap()")
+
         If controller_game.currentLevel = 1
             Level.previousLevelMinibosses.Clear()
             Level.previousLevelUnkilledStairLockingMinibosses.Clear()
@@ -926,6 +928,8 @@ Class Level
 
             Level.placeShrinerOnLevel = level
             Level.placeShrinerOnDepth = depth
+
+            Debug.WriteLine("Placed shriner on " + depth + "-" + level)
         End If
 
         If Level.placeBloodShopOnLevel = -1 And Not Util.AreAriaOrCodaActive()
@@ -944,6 +948,8 @@ Class Level
 
             Level.placeBloodShopOnLevel = level
             Level.placeBloodShopOnDepth = depth
+
+            Debug.WriteLine("Placed blood shop on " + depth + "-" + level)
         End If
 
         If Level.placeGlassShopOnLevel = -1
@@ -957,6 +963,8 @@ Class Level
 
             Level.placeGlassShopOnLevel = level
             Level.placeGlassShopOnDepth = depth
+
+            Debug.WriteLine("Placed glass shop on " + depth + "-" + level)
         End If
 
         If Level.placeFoodShopOnLevel = -1 And Not Util.AreAriaOrCodaActive()
@@ -970,6 +978,8 @@ Class Level
 
             Level.placeFoodShopOnLevel = level
             Level.placeFoodShopOnDepth = depth
+
+            Debug.WriteLine("Placed food shop on " + depth + "-" + level)
         End If
 
         If Level.placeArenaOnLevel = -1 And Not Util.IsCharacterActive(Character.Dove)
@@ -984,6 +994,8 @@ Class Level
             Level.placeArenaOnLevel = level
             Level.placeArenaOnDepth = depth
             Level.arenaNum = Util.RndIntRangeFromZero(2, True)
+
+            Debug.WriteLine("Placed arena on " + depth + "-" + level)
         End If
 
         If Level.placeTransmogrifierOnLevel = -1 And Level.isHardcoreMode
@@ -997,6 +1009,8 @@ Class Level
 
             Level.placeTransmogrifierOnLevel = level
             Level.placeTransmogrifierOnDepth = depth
+
+            Debug.WriteLine("Placed transmogrifier on " + depth + "-" + level)
         End If
 
         If Level.placeConjurerOnLevel = -1
@@ -1010,6 +1024,8 @@ Class Level
 
             Level.placeConjurerOnLevel = level
             Level.placeConjurerOnDepth = depth
+
+            Debug.WriteLine("Placed conjurer on " + depth + "-" + level)
         End If
 
         If Level.placePawnbrokerOnLevel = -1 And Not Util.IsCharacterActive(Character.Monk)
@@ -1023,6 +1039,8 @@ Class Level
 
             Level.placePawnbrokerOnLevel = level
             Level.placePawnbrokerOnDepth = depth
+
+            Debug.WriteLine("Placed pawnbroker on " + depth + "-" + level)
         End If
 
         If levelObj
@@ -1126,6 +1144,8 @@ Class Level
     End Function
 
     Function CreateMapZone1: Bool()
+        Debug.WriteLine("Entered Level.CreateMapZone1()")
+
         Local room1: RoomData
         Local room2: RoomData
         Local room3: RoomData
@@ -1484,23 +1504,23 @@ Class Level
     End Function
 
     Function CreateMapZone2: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone2()")
     End Function
 
     Function CreateMapZone3: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone3()")
     End Function
 
     Function CreateMapZone4: Bool(recursive: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone4()")
     End Function
 
     Function CreateMapZone5: Bool(recursive: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone5()")
     End Function
 
     Function CreateMerlin: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMerlin()")
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
@@ -1970,7 +1990,7 @@ Class Level
     End Function
 
     Function CreateRoomZone5: Void(rm: RoomWithDoor, roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateRoomZone5()")
     End Function
 
     Function CreateSwarmMap: Void()
@@ -1997,23 +2017,23 @@ Class Level
     End Function
 
     Function CreateTestMap: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTestMap()")
     End Function
 
     Function CreateTrainer: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTrainer()")
     End Function
 
     Function CreateTrainingMap: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTrainingMap()")
     End Function
 
     Function CreateTutorialMap: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTutorialMap()")
     End Function
 
     Function CreateWeaponmaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateWeaponmaster()")
     End Function
 
     Function DeleteMap: Void()
@@ -2080,27 +2100,27 @@ Class Level
     End Function
 
     Function DistanceFromZone3DividingLine: Float(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DistanceFromZone3DividingLine()")
     End Function
 
     Function DoQuickRestart: Void(continuedRun: Bool, showPopups: Bool, playIntroCutscene: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoQuickRestart()")
     End Function
 
     Function DoRestart: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoRestart()")
     End Function
 
     Function DoRestart: Void(continuedRun: Bool, cancelFade: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoRestart()")
     End Function
 
     Function DoWePlaceAdditionalChestThisLevel: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoWePlaceAdditionalChestThisLevel()")
     End Function
 
     Function DryUpAllWater: Void(replacementFloor: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DryUpAllWater()")
     End Function
 
     Function DumpMap: Void()
@@ -2160,11 +2180,11 @@ Class Level
     End Function
 
     Function Earthquake: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.Earthquake()")
     End Function
 
     Function EnsureBossTraining: Void(name: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.EnsureBossTraining()")
     End Function
 
     Function FillSecretRooms: Bool()
@@ -2179,23 +2199,23 @@ Class Level
     End Function
 
     Function FillSecretRoomsZone1: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillSecretRoomsZone1()")
     End Function
 
     Function FillSecretRoomsZone2: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillSecretRoomsZone2()")
     End Function
 
     Function FillSecretRoomsZone4: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillSecretRoomsZone4()")
     End Function
 
     Function FillTiles: Void(rect: Rect, tileType: Int, tileTypeEdge: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillTiles()")
     End Function
 
     Function FillVault: Void(tmpRoom: RoomData)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillVault()")
     End Function
 
     Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool)
@@ -2232,31 +2252,31 @@ Class Level
     End Function
 
     Function FreezeTilesNear: Void(xVal: Int, yVal: Int, allTiles: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FreezeTilesNear()")
     End Function
 
     Function GenerateHardcoreZoneOrder: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GenerateHardcoreZoneOrder()")
     End Function
 
     Function GenerateJanitorItems: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GenerateJanitorItems()")
     End Function
 
     Function GetAdjustedZoneForAllChars: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetAdjustedZoneForAllChars()")
     End Function
 
     Function GetAdjustedZoneForAllCharsDLC: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetAdjustedZoneForAllCharsDLC()")
     End Function
 
     Function GetAdjustedZoneForStoryMode: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetAdjustedZoneForStoryMode()")
     End Function
 
     Function GetDistanceToNearestTorch: Float(r: RenderableObject)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetDistanceToNearestTorch()")
     End Function
 
     Function GetExitValue: Point(xVal: Int, yVal: Int)
@@ -2272,23 +2292,23 @@ Class Level
     End Function
 
     Function GetExtraEnemiesBase: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetExtraEnemiesBase()")
     End Function
 
     Function GetHardModeExtraEnemies: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetHardModeExtraEnemies()")
     End Function
 
     Function GetHardModeXML: XMLNode()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetHardModeXML()")
     End Function
 
     Function GetInitialZone: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetInitialZone()")
     End Function
 
     Function GetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetMapTileLightValue()")
     End Function
 
     Function GetMaxDepth: Int()
@@ -2296,43 +2316,43 @@ Class Level
     End Function
 
     Function GetNPCSaleItem: Int(npcNum: Int, slotNum: Int, exclude1: String, exclude2: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetNPCSaleItem()")
     End Function
 
     Function GetRandomOffsetPoint: Point()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandomOffsetPoint()")
     End Function
 
     Function GetRandomWallInRoom: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandomWallInRoom()")
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(room: RoomBase, tileType: Int, skipCollisions: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType()")
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, tileType: Int, skipCollisions: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType()")
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(room: RoomBase, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions()")
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions()")
     End Function
 
     Function GetShrinePoint: Point()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetShrinePoint()")
     End Function
 
     Function GetSingleZoneModeFinalBossZone: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetSingleZoneModeFinalBossZone()")
     End Function
 
     Function GetStandardExitCoords: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetStandardExitCoords()")
     End Function
 
     Function GetTileAt: Tile(xVal: Int, yVal: Int)
@@ -2347,11 +2367,11 @@ Class Level
     End Function
 
     Function GetTileFlyawayAt: Int(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetTileFlyawayAt()")
     End Function
 
     Function GetTileObstructionList: Object(includeOffscreen: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetTileObstructionList()")
     End Function
 
     Function GetTileTypeAt: Int(xVal: Int, yVal: Int)
@@ -2362,10 +2382,12 @@ Class Level
     End Function
 
     Function HaveFinalBoss: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.HaveFinalBoss()")
     End Function
 
     Function InitNewMap: Void(saveGameData: Bool)
+        Debug.WriteLine("Entered Level.InitNewMap()")
+        
         For Local player := EachIn players
             player.ResetStateAfterLevel()
         End For
@@ -2377,27 +2399,27 @@ Class Level
     End Function
 
     Function IsAnyPlayerWithinShop: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsAnyPlayerWithinShop()")
     End Function
 
     Function IsAnyWallAt: Bool(r: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsAnyWallAt()")
     End Function
 
     Function IsAnyWaterAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsAnyWaterAt()")
     End Function
 
     Function IsBossLevel: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsBossLevel()")
     End Function
 
     Function IsCorridorFloorAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsCorridorFloorAt()")
     End Function
 
     Function IsCorridorFloorOrDoorAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsCorridorFloorOrDoorAdjacent()")
     End Function
 
     Function IsCorridorOrRoomWallAt: Bool(xVal: Int, yVal: Int)
@@ -2407,7 +2429,7 @@ Class Level
     End Function
 
     Function IsCrackedWallAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsCrackedWallAdjacent()")
     End Function
 
     Function IsCrackedWallAt: Bool(xVal: Int, yVal: Int)
@@ -2417,7 +2439,7 @@ Class Level
     End Function
 
     Function IsDoorAdjacent: Bool(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsDoorAdjacent()")
     End Function
 
     Function IsDoorAt: Bool(xVal: Int, yVal: Int)
@@ -2437,11 +2459,11 @@ Class Level
     End Function
 
     Function IsFinalBoss: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsFinalBoss()")
     End Function
 
     Function IsFinalBossZone: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsFinalBossZone()")
     End Function
 
     Function IsFloorAt: Bool(xVal: Int, yVal: Int)
@@ -2471,11 +2493,11 @@ Class Level
     End Function
 
     Function IsIcePartOfLevel: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsIcePartOfLevel()")
     End Function
 
     Function IsLockedExit: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsLockedExit()")
     End Function
 
     Function IsNormalFloorAt: Bool(xVal: Int, yVal: Int)
@@ -2539,7 +2561,7 @@ Class Level
     End Function
 
     Function IsPeaceful: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsPeaceful()")
     End Function
 
     Function IsSecretRoom: Bool(rmType: Int)
@@ -2553,11 +2575,11 @@ Class Level
     End Function
 
     Function IsSeededMode: Bool(mode: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsSeededMode()")
     End Function
 
     Function IsSurroundedByDestructibleWalls: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsSurroundedByDestructibleWalls()")
     End Function
 
     Function IsTileEmpty: Bool(xVal: Int, yVal: Int)
@@ -2565,27 +2587,27 @@ Class Level
     End Function
 
     Function IsTileTypeAdjacent: Bool(xVal: Int, yVal: Int, tempType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsTileTypeAdjacent()")
     End Function
 
     Function IsTrapAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsTrapAdjacent()")
     End Function
 
     Function IsTrapOrExitAbove: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsTrapOrExitAbove()")
     End Function
 
     Function IsVisibleTileAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsVisibleTileAt()")
     End Function
 
     Function IsWallAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWallAdjacent()")
     End Function
 
     Function IsWallAdjacent8: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWallAdjacent8()")
     End Function
 
     Function IsWallAt: Bool(xVal: Int, yVal: Int, destructibleOnly: Bool, torchlessOnly: Bool)
@@ -2595,103 +2617,103 @@ Class Level
     End Function
 
     Function IsWaterOrTarAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWaterOrTarAt()")
     End Function
 
     Function IsWireLikeAt: Bool(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWireLikeAt()")
     End Function
 
     Function IsZone5RoomLegal: Bool(loc: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsZone5RoomLegal()")
     End Function
 
     Function JanitorReset: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.JanitorReset()")
     End Function
 
     Function LoadLevelSong: Void(levelObj: LevelObject)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.LoadLevelSong()")
     End Function
 
     Function MakeAllWallsUnbreakable: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MakeAllWallsUnbreakable()")
     End Function
 
     Function MakeHelper: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MakeHelper()")
     End Function
 
     Function MakeInvisibleChestAt: Void(tmpX: Int, tmpY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MakeInvisibleChestAt()")
     End Function
 
     Function MarkAllTilesAsSeen: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MarkAllTilesAsSeen()")
     End Function
 
     Function MaybeForbidTrapdoor: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MaybeForbidTrapdoor()")
     End Function
 
     Function NewLevel: Void(level: Int, zone: Int, playerID: Int, inEditor: Bool, levelObj: LevelObject, continuedRun: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.NewLevel()")
     End Function
 
     Function PadWalls: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PadWalls()")
     End Function
 
     Function PaintTriggerInterior: Void(x: Int, y: Int, w: Int, h: Int, trigger: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PaintTriggerInterior()")
     End Function
 
     Function PawnSlot: Void(slotName: String, ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PawnSlot()")
     End Function
 
     Function PlaceAdditionalChestAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceAdditionalChestAt()")
     End Function
 
     Function PlaceAppropriateMinibosses: Void(room: RoomBase)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceAppropriateMinibosses()")
     End Function
 
     Function PlaceChests: Void(freeBroadSword: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceChests()")
     End Function
 
     Function PlaceConnectedWireDoor: Void(p: Point)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceConnectedWireDoor()")
     End Function
 
     Function PlaceCrateOrBarrel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceCrateOrBarrel()")
     End Function
 
     Function PlaceEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemies()")
     End Function
 
     Function PlaceEnemiesZone1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone1()")
     End Function
 
     Function PlaceEnemiesZone2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone2()")
     End Function
 
     Function PlaceEnemiesZone3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone3()")
     End Function
 
     Function PlaceEnemiesZone4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone4()")
     End Function
 
     Function PlaceEnemiesZone5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone5()")
     End Function
 
     Function PlaceExit: Bool(rdExit: RoomData)
@@ -2727,43 +2749,43 @@ Class Level
     End Function
 
     Function PlaceGargoyle: Object(xVal: Int, yVal: Int, l: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceGargoyle()")
     End Function
 
     Function PlaceHotCoalTileAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceHotCoalTileAt()")
     End Function
 
     Function PlaceIceTileAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceIceTileAt()")
     End Function
 
     Function PlaceLockedChests: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceLockedChests()")
     End Function
 
     Function PlaceMinibossOfShapeAt: Object(newMiniboss: Int, xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceMinibossOfShapeAt()")
     End Function
 
     Function PlaceNocturnaArea: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceNocturnaArea()")
     End Function
 
     Function PlacePenaltyBoxEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlacePenaltyBoxEnemies()")
     End Function
 
     Function PlaceRandomEnemyForTempo: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRandomEnemyForTempo()")
     End Function
 
     Function PlaceRareEnemies: Void(room: RoomBase, hasExit: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRareEnemies()")
     End Function
 
     Function PlaceResourceWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceResourceWall()")
     End Function
 
     Function PlaceRoomZone1: RoomData(roomToAttachTo: RoomData)
@@ -3072,43 +3094,43 @@ Class Level
     End Function
 
     Function PlaceRoomZone2: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone2()")
     End Function
 
     Function PlaceRoomZone3: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone3()")
     End Function
 
     Function PlaceRoomZone4: RoomData(roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone4()")
     End Function
 
     Function PlaceRoomZone5: RoomData(pseg: PortalSeg, width: Int, height: Int, minEntryDist: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone5()")
     End Function
 
     Function PlaceRoomZone5: RoomData(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone5()")
     End Function
 
     Function PlaceSecondarySpecialShop: Void(useBloodCost: Bool, isFoodShop: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceSecondarySpecialShop()")
     End Function
 
     Function PlaceSecretRooms: Void(numRooms: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceSecretRooms()")
     End Function
 
     Function PlaceShopItemsAt: Void(tmpX: Int, tmpY: Int, door: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceShopItemsAt()")
     End Function
 
     Function PlaceShopkeeperGhostIfNeededAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceShopkeeperGhostIfNeededAt()")
     End Function
 
     Function PlaceShrine: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceShrine()")
     End Function
 
     Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
@@ -3153,215 +3175,215 @@ Class Level
     End Function
 
     Function PlaceTileTypeAt: Void(xVal: Int, yVal: Int, tileType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTileTypeAt()")
     End Function
 
     Function PlaceTorchesAnywhere: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTorchesAnywhere()")
     End Function
 
     Function PlaceTrapInRoom: Object(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapInRoom()")
     End Function
 
     Function PlaceTraps: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTraps()")
     End Function
 
     Function PlaceTrapsZone1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone1()")
     End Function
 
     Function PlaceTrapsZone2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone2()")
     End Function
 
     Function PlaceTrapsZone3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone3()")
     End Function
 
     Function PlaceTrapsZone4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone4()")
     End Function
 
     Function PlaceTrapsZone5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone5()")
     End Function
 
     Function PlaceTrapZone3: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapZone3()")
     End Function
 
     Function PlaceTrapZone4: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapZone4()")
     End Function
 
     Function PlaceTrapZone5: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapZone5()")
     End Function
 
     Function PlaceWire: Bool(src: Point, dst: Point)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceWire()")
     End Function
 
     Function PlaceZone3Beetle: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Beetle()")
     End Function
 
     Function PlaceZone3Cauldron: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Cauldron()")
     End Function
 
     Function PlaceZone3Elemental: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Elemental()")
     End Function
 
     Function PlaceZone3Slime: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Slime()")
     End Function
 
     Function PlaceZone3YetiHellhound: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3YetiHellhound()")
     End Function
 
     Function PlaceZoneAppropriateNumberOfDiamondsAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZoneAppropriateNumberOfDiamondsAt()")
     End Function
 
     Function ProcessSpecialRoom: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ProcessSpecialRoom()")
     End Function
 
     Function PutBeastmasterStairs: Void(x: Int, y: Int, stairName: String, enemyName: String, enemyType: Int, enemyId: Int, stairNamePrefix: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutBeastmasterStairs()")
     End Function
 
     Function PutBossStair: Void(x: Int, y: Int, bossName: String, enemyType: Int, zone: Int, label: String, labelXOff: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutBossStair()")
     End Function
 
     Function PutCrateOrBarrel: Void(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutCrateOrBarrel()")
     End Function
 
     Function PutEnemyZone5: Void(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutEnemyZone5()")
     End Function
 
     Function PutFutureStair: Void(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutFutureStair()")
     End Function
 
     Function PutMinibossStair: Void(x: Int, y: Int, minibossName: String, enemyType: Int, label: String, labelXOff: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutMinibossStair()")
     End Function
 
     Function PutRoomEnemiesZone5: Void(room: RoomBase, hasExit: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutRoomEnemiesZone5()")
     End Function
 
     Function PutVariedEnemiesZone5: Void(pts: StackEx<Point>)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutVariedEnemiesZone5()")
     End Function
 
     Function QueryHarderBosses: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.QueryHarderBosses()")
     End Function
 
     Function RandomFood: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RandomFood()")
     End Function
 
     Function RandomWalkOfTempTiles: Void(xVal: Int, yVal: Int, distCounter: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RandomWalkOfTempTiles()")
     End Function
 
     Function RecalcLevelBoundaries: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RecalcLevelBoundaries()")
     End Function
 
     Function RefreshLineOfSightTiles: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RefreshLineOfSightTiles()")
     End Function
 
     Function RemoveExit: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RemoveExit()")
     End Function
 
     Function RemoveSomeWallsAwayFromCorridors: Void(percentToRemove: Float, includeCorridors: Bool, maxHealth: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RemoveSomeWallsAwayFromCorridors()")
     End Function
 
     Function RemoveTileAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RemoveTileAt()")
     End Function
 
     Function RenderAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RenderAll()")
     End Function
 
     Function RenderExitArrow: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RenderExitArrow()")
     End Function
 
     Function ResetCosts: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ResetCosts()")
     End Function
 
     Function ResetSpecialRoomVariables: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ResetSpecialRoomVariables()")
     End Function
 
     Function SetMagicBarrier: Void(on: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.SetMagicBarrier()")
     End Function
 
     Function ShopkeeperMissing: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ShopkeeperMissing()")
     End Function
 
     Function ShowModPopup: Void(imageName: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ShowModPopup()")
     End Function
 
     Function SplashWater: Void(xVal: Int, yVal: Int, destroyWater: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.SplashWater()")
     End Function
 
     Function StartReplayPlayback: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.StartReplayPlayback()")
     End Function
 
     Function TakeActionAfterAllCharsScoreSubmit: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TakeActionAfterAllCharsScoreSubmit()")
     End Function
 
     Function TransmogrifySlot: Void(slotName: String, ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TransmogrifySlot()")
     End Function
 
     Function TransmogrifyWeaponToType: Void(ent: Entity, type: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TransmogrifyWeaponToType()")
     End Function
 
     Function TrySpawnBossMinibossAt: Void(x: Int, y: Int, etype: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TrySpawnBossMinibossAt()")
     End Function
 
     Function UnlockChar: Void(characterID: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.UnlockChar()")
     End Function
 
     Function Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.Update()")
     End Function
 
     Function WantPenaltyBox: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.WantPenaltyBox()")
     End Function
 
     Function WidenCorridors: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.WidenCorridors()")
     End Function
 
     Function _EditorFix: Void() End

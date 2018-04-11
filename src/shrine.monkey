@@ -1,7 +1,8 @@
-Strict
+'Strict
 
 Import monkey.list
 Import entity
+Import logger
 Import rng
 Import sprite
 Import textsprite
@@ -12,41 +13,41 @@ Class Shrine Extends Entity
     Global shrineList: List<Shrine> = New List<Shrine>()
 
     Function AddPendingShrinesToUsedList: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.AddPendingShrinesToUsedList()")
     End Function
 
     Function GetAdjacentShrine: Object(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GetAdjacentShrine()")
     End Function
 
     Function GetHintText: Int(shrineType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GetHintText()")
     End Function
 
     Function GetRandomShrineInt: Int(isShriner: Bool, banType1: Int, banType2: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GetRandomShrineInt()")
     End Function
 
     Function GetShrineAt: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GetShrineAt()")
     End Function
 
     Function IsValidShrine: Bool(shrineType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.IsValidShrine()")
     End Function
 
     Function ResetCosts: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.ResetCosts()")
     End Function
 
     Function ResetShrines: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.ResetShrines()")
     End Function
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, cType: Int, rng_: RNG, saleShrine: Bool, pending: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.New(xVal()")
     End Method
 
     Field type: Int
@@ -70,79 +71,79 @@ Class Shrine Extends Entity
     Field bounce2: Bouncer
 
     Method Activate: Bool(player: Object, dir: Int, fromMiniboss: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.Activate()")
     End Method
 
     Method AdjacentKill: Void(wasMiniboss: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.AdjacentKill()")
     End Method
 
     Method AdjacentPain: Void(player: Object, damage: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.AdjacentPain()")
     End Method
 
     Method CanSteal: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.CanSteal()")
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.Die()")
     End Method
 
     Method GenBossContents: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GenBossContents()")
     End Method
 
     Method GenPainContents: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GenPainContents()")
     End Method
 
     Method GenUncertaintyContents: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GenUncertaintyContents()")
     End Method
 
     Method GetBombItem: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GetBombItem()")
     End Method
 
     Method GiveOutChanceItem: Void(xVal: Int, yVal: Int, forceHere: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GiveOutChanceItem()")
     End Method
 
     Method GiveOutPainItem: Void(targetX: Int, targetY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.GiveOutPainItem()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.Hit()")
     End Method
 
     Method LoadBombImage: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.LoadBombImage()")
     End Method
 
     Method RandomGlassWeapon: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.RandomGlassWeapon()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.Render()")
     End Method
 
     Method SetCost: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.SetCost()")
     End Method
 
     Method SpawnChoiceOfThree: Void(item1: Int, item2: Int, item3: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.SpawnChoiceOfThree()")
     End Method
 
     Method TryYourLuck: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.TryYourLuck()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Shrine.Update()")
     End Method
 
     Method NoTrim: Void()

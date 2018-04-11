@@ -1,5 +1,6 @@
-Strict
+'Strict
 
+Import logger
 Import trap
 Import util
 
@@ -123,23 +124,23 @@ Class BounceTrap Extends Trap
     Field rotatedBeat: Int = -1
 
     Method GetFrameToShow: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("BounceTrap.GetFrameToShow()")
     End Method
 
     Method Rotate: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("BounceTrap.Rotate()")
     End Method
 
     Method RotateDir: Int(dir: Int, cw: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("BounceTrap.RotateDir()")
     End Method
 
     Method Trigger: Void(ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("BounceTrap.Trigger()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("BounceTrap.Update()")
     End Method
 
     Method NoTrim: Void()

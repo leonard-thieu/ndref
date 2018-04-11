@@ -1,15 +1,18 @@
+'Strict
+
 Import entity
+Import logger
 
 Class Thing Extends Entity
 
     Function _EditorFix: Void() End
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Thing.Hit()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Thing.Update()")
     End Method
 
     Method NoTrim: Void()

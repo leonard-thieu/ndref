@@ -1,5 +1,6 @@
-Strict
+'Strict
 
+Import logger
 Import trap
 
 Class ConfuseTrap Extends Trap
@@ -7,7 +8,7 @@ Class ConfuseTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("ConfuseTrap.New()")
     End Method
 
 End Class
