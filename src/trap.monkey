@@ -1,14 +1,15 @@
-Strict
+'Strict
 
 Import monkey.list
 Import entity
+Import logger
 
 Class Trap Extends Entity Abstract
 
     Global trapList: TrapList = New TrapList()
 
     Function FindRandomTrap: Trap()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.FindRandomTrap()")
     End Function
 
     Function GetTrapAt: Trap(xVal: Int, yVal: Int)
@@ -20,11 +21,11 @@ Class Trap Extends Entity Abstract
     End Function
 
     Function IsLiveTrapAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.IsLiveTrapAt()")
     End Function
 
     Function RemoveAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.RemoveAll()")
     End Function
 
     Function _EditorFix: Void() End
@@ -47,27 +48,27 @@ Class Trap Extends Entity Abstract
     Field playerWasClose: Bool
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.Die()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.Hit()")
     End Method
 
     Method IsLive: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.IsLive()")
     End Method
 
     Method Move: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.Move()")
     End Method
 
     Method Trigger: Void(ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.Trigger()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Trap.Update()")
     End Method
 
     Method NoTrim: Void()

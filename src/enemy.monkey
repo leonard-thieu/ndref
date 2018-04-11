@@ -1,8 +1,9 @@
-Strict
+'Strict
 
 Import monkey.list
 Import monkey.map
 Import beatanimationdata
+Import logger
 Import mobileentity
 Import point
 Import sprite
@@ -21,155 +22,155 @@ Class Enemy Extends MobileEntity Abstract
     Global randomizerXML: XMLDoc
 
     Function AddTagsToEnemyName: Int(eName: Int, size: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.AddTagsToEnemyName()")
     End Function
 
     Function ApplyMonkeyPawAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.ApplyMonkeyPawAll()")
     End Function
 
     Function Charm: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Charm()")
     End Function
 
     Function CreateLord: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.CreateLord()")
     End Function
 
     Function CullAllEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.CullAllEnemies()")
     End Function
 
     Function CullEnemiesDownTo: Void(cullNum: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.CullEnemiesDownTo()")
     End Function
 
     Function DoesDamageKnockback: Bool(player: Object, damageSource: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.DoesDamageKnockback()")
     End Function
 
     Function EarthquakeEnemies: Void(xVal: Int, yVal: Int, damageAmount: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.EarthquakeEnemies()")
     End Function
 
     Function EnemiesHaveMovedClosestBeat: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.EnemiesHaveMovedClosestBeat()")
     End Function
 
     Function EnemiesHaveMovedThisBeat: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.EnemiesHaveMovedThisBeat()")
     End Function
 
     Function FreezeEnemiesNear: Void(xVal: Int, yVal: Int, duration: Int, allEnemies: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.FreezeEnemiesNear()")
     End Function
 
     Function GetBaseType: Int(fullType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetBaseType()")
     End Function
 
     Function GetDamagableEnemiesAt: Object(xVal: Int, yVal: Int, phasing: Bool, piercing: Bool, attackSourceX: Int, attackSourceY: Int, dVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetDamagableEnemiesAt()")
     End Function
 
     Function GetEnemyAt: Object(xVal: Int, yVal: Int, includeFalling: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetEnemyAt()")
     End Function
 
     Function GetEnemyName: Int(type: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetEnemyName()")
     End Function
 
     Function GetEnemyNameHelper: Int(type: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetEnemyNameHelper()")
     End Function
 
     Function GetEnemyXML: Object(name: Int, level: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetEnemyXML()")
     End Function
 
     Function GetNumArenaEnemiesRemaining: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetNumArenaEnemiesRemaining()")
     End Function
 
     Function GetNumCullableEnemies: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetNumCullableEnemies()")
     End Function
 
     Function GetNumEnemiesIgnoreDancers: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetNumEnemiesIgnoreDancers()")
     End Function
 
     Function GetNumPenaltyBoxMinibosses: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetNumPenaltyBoxMinibosses()")
     End Function
 
     Function GetNumStairLockingMinibosses: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetNumStairLockingMinibosses()")
     End Function
 
     Function GetRandomEnemy: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetRandomEnemy()")
     End Function
 
     Function KillAllEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.KillAllEnemies()")
     End Function
 
     Function KillAllNonConductorEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.KillAllNonConductorEnemies()")
     End Function
 
     Function KillAllNonNecroDancerEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.KillAllNonNecroDancerEnemies()")
     End Function
 
     Function LoadBestiarySprite: Object(type: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.LoadBestiarySprite()")
     End Function
 
     Function MakeEnemy: Enemy(xVal: Int, yVal: Int, type: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MakeEnemy()")
     End Function
 
     Function MakeNonNecroDancerEnemiesIntoFormationDancers: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MakeNonNecroDancerEnemiesIntoFormationDancers()")
     End Function
 
     Function MarkAllEnemiesAsVisible: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MarkAllEnemiesAsVisible()")
     End Function
 
     Function MoveAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MoveAll()")
     End Function
 
     Function MoveSwarmEnemiesAwayFromStartLocation: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MoveSwarmEnemiesAwayFromStartLocation()")
     End Function
 
     Function ResetAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.ResetAll()")
     End Function
 
     Function SetAllEnemiesMinimumMoveDistance: Void(dist: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.SetAllEnemiesMinimumMoveDistance()")
     End Function
 
     Function SetAllNonNecroDancerEnemyMoveDelays: Void(cmd: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.SetAllNonNecroDancerEnemyMoveDelays()")
     End Function
 
     Function SetEnemiesToDropNoCoins: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.SetEnemiesToDropNoCoins()")
     End Function
 
     Function SetEnemiesToDropNoCoinsOverride: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.SetEnemiesToDropNoCoinsOverride()")
     End Function
 
     Function StartRandomizerRun: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.StartRandomizerRun()")
     End Function
 
     Function _EditorFix: Void() End
@@ -286,215 +287,215 @@ Class Enemy Extends MobileEntity Abstract
     Field wasVisibleLastFrame: Bool
 
     Method AdjustLordImage: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.AdjustLordImage()")
     End Method
 
     Method AdvanceMovementDelay: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.AdvanceMovementDelay()")
     End Method
 
     Method AnimateToTheBeat: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.AnimateToTheBeat()")
     End Method
 
     Method ApplyMonkeyPaw: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.ApplyMonkeyPaw()")
     End Method
 
     Method AttemptMove: Int(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.AttemptMove()")
     End Method
 
     Method BasicFlee: Object(includeDiagonals: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicFlee()")
     End Method
 
     Method BasicSeek: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeek()")
     End Method
 
     Method BasicSeekAvoidLiquids: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeekAvoidLiquids()")
     End Method
 
     Method BasicSeekIncludeDiagonals: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeekIncludeDiagonals()")
     End Method
 
     Method BasicSeekInWalls: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeekInWalls()")
     End Method
 
     Method BasicSeekNoTraps: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeekNoTraps()")
     End Method
 
     Method BasicSeekTarget: Object(targetX: Int, targetY: Int, targetLastX: Int, targetLastY: Int, ignoreLiquids: Bool, ignoreTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeekTarget()")
     End Method
 
     Method BasicSeekTargetIncludeDiagonals: Object(targetX: Int, targetY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeekTargetIncludeDiagonals()")
     End Method
 
     Method BasicSeekTargetIncludeDiagonals_dumb: Object(targetX: Int, targetY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.BasicSeekTargetIncludeDiagonals_dumb()")
     End Method
 
     Method CanBeLord: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.CanBeLord()")
     End Method
 
     Method CheckFamiliarTouch: Void(dir: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.CheckFamiliarTouch()")
     End Method
 
     Method Cull: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Cull()")
     End Method
 
     Method CustomMoveCheck: Bool(newX: Int, newY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.CustomMoveCheck()")
     End Method
 
     Method Delete: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Delete()")
     End Method
 
     Method DiagonalsOnlySeekTarget: Object(targetX: Int, targetY: Int, bounceOnFail: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.DiagonalsOnlySeekTarget()")
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Die()")
     End Method
 
     Method ExemptFromMysteryMode: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.ExemptFromMysteryMode()")
     End Method
 
     Method Fall: Void(keepMultiplier: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Fall()")
     End Method
 
     Method GetAdjacentTileThatIsClosestToTarget: Object(targetX: Int, targetY: Int, moveDistVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetAdjacentTileThatIsClosestToTarget()")
     End Method
 
     Method GetBeatNum: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetBeatNum()")
     End Method
 
     Method GetClosestMovement: Object(targetX: Int, targetY: Int, dirVal: Int, allowLiquids: Bool, allowTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetClosestMovement()")
     End Method
 
     Method GetDisplayHealth: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetDisplayHealth()")
     End Method
 
     Method GetDisplayHealthMax: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetDisplayHealthMax()")
     End Method
 
     Method GetFurthestMovement: Object(targetX: Int, targetY: Int, allowCollisions: Bool, includeDiagonal: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetFurthestMovement()")
     End Method
 
     Method GetMovementDirection: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.GetMovementDirection()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Hit()")
     End Method
 
     Method ImageFlipX: Void(flipX: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.ImageFlipX()")
     End Method
 
     Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Init()")
     End Method
 
     Method InitDirtJump: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.InitDirtJump()")
     End Method
 
     Method InitImage: Void(enemyXML: Object, overrideSpriteName: Int, overrideFrameW: Int, overrideFrameH: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.InitImage()")
     End Method
 
     Method IsAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.IsAt()")
     End Method
 
     Method IsBetweenFraction: Bool(on: Float, off: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.IsBetweenFraction()")
     End Method
 
     Method IsCullable: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.IsCullable()")
     End Method
 
     Method IsDoubleHit: Bool(damageSource: Int, hitter: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.IsDoubleHit()")
     End Method
 
     Method IsStealthed: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.IsStealthed()")
     End Method
 
     Method Knockback: Void(dir: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Knockback()")
     End Method
 
     Method MakeLord: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MakeLord()")
     End Method
 
     Method Move: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Move()")
     End Method
 
     Method MoveFail: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MoveFail()")
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MoveImmediate()")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.MoveSucceed()")
     End Method
 
     Method RandomIncludeDiagonals: Object(trueRandom: Bool, ignoreRingOfLuck: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.RandomIncludeDiagonals()")
     End Method
 
     Method RandomSeek: Object(trueRandom: Bool, ignoreRingOfLuck: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.RandomSeek()")
     End Method
 
     Method RelativeVideoTimeUntilBeat: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.RelativeVideoTimeUntilBeat()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Render()")
     End Method
 
     Method SelectOptimalMoveFrom: Object(targetX: Int, targetY: Int, moves: Object, farthest: Bool, allowCollisions: Bool, allowLiquids: Bool, allowTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.SelectOptimalMoveFrom()")
     End Method
 
     Method SetDoubleHitData: Void(damageSource: Int, hitter: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.SetDoubleHitData()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Enemy.Update()")
     End Method
 
     Method NoTrim: Void()

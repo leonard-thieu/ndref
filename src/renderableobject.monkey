@@ -1,7 +1,8 @@
-Strict
+'Strict
 
 Import monkey.list
 Import entity
+Import logger
 Import point
 
 Class RenderableObject Abstract
@@ -31,23 +32,23 @@ Class RenderableObject Abstract
     End Function
     
     Function HitTile: Bool(damageSource: String, xVal: Int, yVal: Int, damage: Int, dir: Int, hitter: Entity, allowSelfHits: Bool, phasing: Bool, piercing: Bool, confuse: Bool, frost: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.HitTile()")
     End Function
 
     Function IsExplosiveDamage: Bool(damageSource: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.IsExplosiveDamage()")
     End Function
 
     Function IsParryableDamage: Bool(damageSource: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.IsParryableDamage()")
     End Function
 
     Function IsPlayerMeleeDamage: Bool(damageSource: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.IsPlayerMeleeDamage()")
     End Function
     
     Function UpdateAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.UpdateAll()")
     End Function
 
     Function _EditorFix: Void() End
@@ -107,19 +108,19 @@ Class RenderableObject Abstract
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
     
     Method GetLocation: Point()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.GetLocation()")
     End Method
     
     Method IsFrozen: Bool(ignoreLastBeat: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.IsFrozen()")
     End Method
     
     Method IsOnScreen: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.IsOnScreen()")
     End Method
     
     Method IsOnTile: Bool(px: Int, py: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("RenderableObject.IsOnTile()")
     End Method
 
     Method NoTrim: Void()

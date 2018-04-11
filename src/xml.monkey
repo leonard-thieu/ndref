@@ -1,4 +1,6 @@
-Strict
+'Strict
+
+Import logger
 
 Class XMLDoc Extends XMLNode
 
@@ -11,111 +13,111 @@ Class XMLNode
     Function _EditorFix: Void() End
 
     Method AddChild: Object(name: String, attributes: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.AddChild()")
     End Method
 
     Method Export: Void(options: Int, buffer: Object, depth: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.Export()")
     End Method
 
     Method ExportHack: Int(options: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.ExportHack()")
     End Method
 
     Method Free: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.Free()")
     End Method
 
     Method GetAttribute: String(id: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetAttribute()")
     End Method
 
     Method GetAttribute: Bool(id: String, defaultValue: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetAttribute()")
     End Method
 
     Method GetAttribute: Int(id: String, defaultValue: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetAttribute()")
     End Method
 
     Method GetAttribute: Float(id: String, defaultValue: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetAttribute()")
     End Method
 
     Method GetAttribute: String(id: String, defaultValue: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetAttribute()")
     End Method
 
     Method GetChild: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChild()")
     End Method
 
     Method GetChild: Object(name: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChild()")
     End Method
 
     Method GetChild: Object(name: String, attributes: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChild()")
     End Method
 
     Method GetChildAtPath: XMLNode(path: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChildAtPath()")
     End Method
 
     Method GetChildAtPath: XMLNode(path: String, attributes: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChildAtPath()")
     End Method
 
     Method GetChildren: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChildren()")
     End Method
 
     Method GetChildren: Object(name: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChildren()")
     End Method
 
     Method GetChildren: Object(name: String, attributes: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChildren()")
     End Method
 
     Method GetChildrenWithAttributes: Object(attributes: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetChildrenWithAttributes()")
     End Method
 
     Method GetXMLAttribute: Object(id: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.GetXMLAttribute()")
     End Method
 
     Method HasAttribute: Bool(id: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.HasAttribute()")
     End Method
 
     Method RemoveAttribute: Void(id: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.RemoveAttribute()")
     End Method
 
     Method RemoveChild: Void(child: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.RemoveChild()")
     End Method
 
     Method SetAttribute: Void(id: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.SetAttribute()")
     End Method
 
     Method SetAttribute: Void(id: String, value: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.SetAttribute()")
     End Method
 
     Method SetAttribute: Void(id: String, value: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.SetAttribute()")
     End Method
 
     Method SetAttribute: Void(id: String, value: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.SetAttribute()")
     End Method
 
     Method SetAttribute: Void(id: String, value: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("XMLNode.SetAttribute()")
     End Method
 
     Method NoTrim: Void()

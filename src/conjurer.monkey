@@ -1,6 +1,7 @@
-Strict
+'Strict
 
 Import controller_game
+Import logger
 Import npc
 Import thing
 
@@ -43,15 +44,15 @@ Class Conjurer Extends NPC
     Field box: Thing
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Conjurer.Die()")
     End Method
 
     Method DisplayCost: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Conjurer.DisplayCost()")
     End Method
 
     Method IncreaseCost: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Conjurer.IncreaseCost()")
     End Method
 
     Method NoTrim: Void()

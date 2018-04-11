@@ -19,6 +19,7 @@ Import image
 Import item
 Import level
 Import level_object
+Import logger
 Import medic
 Import merlin
 Import particles
@@ -45,6 +46,7 @@ Import trapdoor
 Import travelrune
 Import util
 Import xml
+Import familiar
 
 Global asd: List<Object>
 
@@ -55,6 +57,8 @@ Function Main: Int()
 
     Local levelObj := New LevelObject(1, 0, 0, False, Null)
     Level.CreateMap(Null)
+
+    Debug.WriteLine("Created map.")
 
     asd.Clear()
 
@@ -68,17 +72,17 @@ Function NoTrim: Void()
     (New BeatAnimationData())
     (New BombTrap(0, 0)).NoTrim()
     (New Bossmaster()).NoTrim()
-    (New Bouncer())
-    (New BounceTrap()).NoTrim()
-    (New Chest()).NoTrim()
-    (New ConfuseTrap()).NoTrim()
-    (New Crate()).NoTrim()
+    (New Bouncer(0.0, 0.0, 0.0, 0))
+    (New BounceTrap(0, 0, 0)).NoTrim()
+    (New Chest(0, 0, "", False, False, False, 0)).NoTrim()
+    (New ConfuseTrap(0, 0)).NoTrim()
+    (New Crate(0, 0, 0, "")).NoTrim()
     (New ExitMap())
-    (New FireTrap()).NoTrim()
+    (New FireTrap(0, 0, 0, False)).NoTrim()
     (New GameData()).NoTrim()
     (New Gargoyle())
     (New Image())
-    (New Item()).NoTrim()
+    (New Item(0, 0, "", False, 0, False)).NoTrim()
     (New Level()).NoTrim()
     (New LevelObject(0, 0, 0, False, Null)).NoTrim()
     (New Medic()).NoTrim()
@@ -156,8 +160,6 @@ Class ShieldFamiliar Extends FamiliarFixed End Class
 Class ShopkeeperFamiliar Extends FamiliarFixed End Class
 Class SoulFamiliar Extends FamiliarFixed End Class
 
-Class Familiar Extends MobileEntity End Class
-
 Class GuiBorder End Class
 Class GuiContainer End Class
 Class HighScoreSubmission End Class
@@ -185,8 +187,6 @@ Class ControllerGame Extends Controller End Class
 
 Class BBGameDelegate End Class
 Class GameDelegate Extends BBGameDelegate End Class
-
-Class XMLDoc Extends XMLNode End Class
 
 'Class BackwardsEnumerator End Class
 'Class BackwardsStack End Class

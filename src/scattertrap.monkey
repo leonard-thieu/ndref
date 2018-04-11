@@ -1,5 +1,6 @@
-Strict
+'Strict
 
+Import logger
 Import trap
 
 Class ScatterTrap Extends Trap
@@ -7,7 +8,7 @@ Class ScatterTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("ScatterTrap.New(xVal()")
     End Method
 
 End Class

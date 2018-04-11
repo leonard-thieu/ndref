@@ -1,7 +1,8 @@
-Strict
+'Strict
 
 Import monkey.map
 Import entity
+Import logger
 
 Class Item Extends Entity
 
@@ -20,199 +21,199 @@ Class Item Extends Entity
     End Function
 
     Function ChangeWeaponMaterial: Int(t: Int, materialClass: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.ChangeWeaponMaterial()")
     End Function
 
     Function ClearAllSingleChoiceItems: Void(takenItem: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.ClearAllSingleChoiceItems()")
     End Function
 
     Function ConsumeCoinsRemainingOnLevel: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.ConsumeCoinsRemainingOnLevel()")
     End Function
 
     Function CreateAmountOfCoins: Void(xVal: Int, yVal: Int, amt: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.CreateAmountOfCoins()")
     End Function
 
     Function CreateItemPools: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.CreateItemPools()")
     End Function
 
     Function DropItem: Object(xVal: Int, yVal: Int, t: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.DropItem()")
     End Function
 
     Function FilterDisabledItems: Void(list: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.FilterDisabledItems()")
     End Function
 
     Function FindAllGoldPiles: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.FindAllGoldPiles()")
     End Function
 
     Function GetAllItemsInClass: Object(itemClass: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetAllItemsInClass()")
     End Function
 
     Function GetAppropriateCoinItemForQuantity: Int(quantity: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetAppropriateCoinItemForQuantity()")
     End Function
 
     Function GetCost: Int(i: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetCost()")
     End Function
 
     Function GetFlyawayText: Int(i: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetFlyawayText()")
     End Function
 
     Function GetHeavyGlassFrame: Int(quantity: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetHeavyGlassFrame()")
     End Function
 
     Function GetIntAttribute: Int(i: Int, attr: Int, dflt: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetIntAttribute()")
     End Function
 
     Function GetItemXML: Object(i: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetItemXML()")
     End Function
 
     Function GetPickupAt: Object(xVal: Int, yVal: Int, slf: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetPickupAt()")
     End Function
 
     Function GetPickupsAt: Object(xVal: Int, yVal: Int, slf: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetPickupsAt()")
     End Function
 
     Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String, chestColor: Int, ignorePendingMetaGameItems: Bool, itemSlot: String, nonDeterministic: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetRandomItemInClass()")
     End Function
 
     Function GetRandomItemInClassByPredicate: String(predicate: Object, requestedLevel: Int, randomType: String, nonDeterministic: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetRandomItemInClassByPredicate()")
     End Function
 
     Function GetSet: Int(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetSet()")
     End Function
 
     Function GetSlot: Int(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetSlot()")
     End Function
 
     Function GetSlot2: Int(i: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetSlot2()")
     End Function
 
     Function GetStringAttribute: Int(i: Int, attr: Int, dflt: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetStringAttribute()")
     End Function
 
     Function GetValue: Int(t: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetValue()")
     End Function
 
     Function GetWeaponBaseType: Int(t: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetWeaponBaseType()")
     End Function
 
     Function GetWeaponShapeClass: Int(t: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetWeaponShapeClass()")
     End Function
 
     Function HasSeenItemXTimes: Bool(itemName: Int, x: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.HasSeenItemXTimes()")
     End Function
 
     Function InitAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.InitAll()")
     End Function
 
     Function IsCourageItem: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsCourageItem()")
     End Function
 
     Function IsDamageBonusItem: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsDamageBonusItem()")
     End Function
 
     Function IsDamageReductionItem: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsDamageReductionItem()")
     End Function
 
     Function IsDisabled: Bool(item: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsDisabled()")
     End Function
 
     Function IsDiscountItem: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsDiscountItem()")
     End Function
 
     Function IsGoldGeneratingItem: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsGoldGeneratingItem()")
     End Function
 
     Function IsHealthBonusItem: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsHealthBonusItem()")
     End Function
 
     Function IsImmediatelyConsumed: Bool(t: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsImmediatelyConsumed()")
     End Function
 
     Function IsItemOfClass: Bool(n: Object, itemClass: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsItemOfClass()")
     End Function
 
     Function IsItemOfType: Bool(i: Int, query: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsItemOfType()")
     End Function
 
     Function IsPainItem: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsPainItem()")
     End Function
 
     Function IsUnlocked: Bool(t: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsUnlocked()")
     End Function
 
     Function IsValidItemForCurrentChars: Bool(n: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars()")
     End Function
 
     Function IsValidItemForCurrentChars2: Bool(name: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars2()")
     End Function
 
     Function IsValidRandomItem: Bool(t: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsValidRandomItem()")
     End Function
 
     Function MoveAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.MoveAll()")
     End Function
 
     Function RandomHardModeHelperItem: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.RandomHardModeHelperItem()")
     End Function
 
     Function RenderItemAt: Void(iType: Int, xVal: Int, yVal: Int, zVal: Int, inWorld: Bool, scale: Float, alpha: Float, frame: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.RenderItemAt()")
     End Function
 
     Function RenderItemImageAt: Void(img: Object, xVal: Int, yVal: Int, zVal: Int, inWorld: Bool, scale: Float, alpha: Float, frame: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.RenderItemImageAt()")
     End Function
 
     Function TransmuteAllItems: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.TransmuteAllItems()")
     End Function
 
     Function TransmuteNearbyItems: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.TransmuteNearbyItems()")
     End Function
 
     Function _EditorFix: Void() End
@@ -250,31 +251,31 @@ Class Item Extends Entity
     Field frameToShow: Int
 
     Method CheckAdjacentItems: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.CheckAdjacentItems()")
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.Die()")
     End Method
 
     Method GetFlyawayText: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetFlyawayText()")
     End Method
 
     Method GetIntAttribute: Int(attr: Int, dflt: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetIntAttribute()")
     End Method
 
     Method GetSlot: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetSlot()")
     End Method
 
     Method GetStringAttribute: Int(attr: Int, dflt: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetStringAttribute()")
     End Method
 
     Method GetValue: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.GetValue()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
@@ -282,39 +283,39 @@ Class Item Extends Entity
     End Method
 
     Method IsItemOfClass: Bool(itemClass: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsItemOfClass()")
     End Method
 
     Method IsItemOfType: Bool(query: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsItemOfType()")
     End Method
 
     Method IsVisible: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.IsVisible()")
     End Method
 
     Method Move: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.Move()")
     End Method
 
     Method Pickup: Int(player: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.Pickup()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.Render()")
     End Method
 
     Method SetMystery: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.SetMystery()")
     End Method
 
     Method Transmute: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.Transmute()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Item.Update()")
     End Method
 
     Method NoTrim: Void()

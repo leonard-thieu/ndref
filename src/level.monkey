@@ -1,4 +1,4 @@
-Strict
+'Strict
 
 Import monkey.map
 Import monkey.math
@@ -16,6 +16,7 @@ import gamedata
 Import intpointlist
 Import intpointset
 Import level_object
+Import logger
 Import merlin
 Import necrodancergame
 Import npc
@@ -192,28 +193,32 @@ Class Level
     Global zoneOrder: Int
 
     Function ActivateTrigger: Int(triggerNum: Int, ent: Entity, target: RenderableObject)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ActivateTrigger()")
     End Function
 
     Function ActuallyGetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ActuallyGetMapTileLightValue()")
     End Function
 
     Function AddCrackedWall: Void(roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddCrackedWall()")
     End Function
 
     Function AddExit: Void(xVal: Int, yVal: Int, levelPointer: Int, zonePointer: Int)
+        Debug.WriteLine("Entered Level.AddExit()")
+
         Local location := New Point(xVal, yVal)
         Local floor := New Point(levelPointer, zonePointer)
         Level.exits.Set(location, floor)
     End Function
 
     Function AddHarderStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddHarderStone()")
     End Function
 
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
+        Debug.WriteLine("Entered Level.AddMinibossWall()")
+        
         Local tile := Level.GetTileAt(xVal, yVal)
         If tile
             If tile.triggerDig Then Return
@@ -232,10 +237,12 @@ Class Level
     End Function
 
     Function AddSomePillarsInOpenSpace: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddSomePillarsInOpenSpace()")
     End Function
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
+        Debug.WriteLine("Entered Level.AddSpecialRoom()")
+        
         ' Adding special room
 
         If addCrack
@@ -635,36 +642,38 @@ Class Level
     End Function
 
     Function AddStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AddStone()")
     End Function
 
     Function AdvanceLevel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AdvanceLevel()")
     End Function
 
     Function AllowSpirit: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.AllowSpirit()")
     End Function
 
     Function BossMaybeMinibossesAt: Void(x1: Int, y1: Int, x2: Int, y2: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.BossMaybeMinibossesAt()")
     End Function
 
     Function BreakIce: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.BreakIce()")
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
+        Debug.WriteLine("Entered Level.CarveCorridorTile()")
+        
         If Level.IsSecretRoom(roomType)
-            New Tile(xVal, yVal, TileType.DirtWall2, pending, -1)
+            New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
         Else
-            New Tile(xVal, yVal, TileType.Floor2, pending, -1)
+            New Tile(xVal, yVal, TileType.CorridorFloor, pending, -1)
 
             If wideCorridor
                 If horiz
-                    New Tile(xVal, yVal + 1, TileType.Floor2, pending, -1)
+                    New Tile(xVal, yVal + 1, TileType.CorridorFloor, pending, -1)
                 Else
-                    New Tile(xVal + 1, yVal, TileType.Floor2, pending, -1)
+                    New Tile(xVal + 1, yVal, TileType.CorridorFloor, pending, -1)
                 End If
             End If
         End If
@@ -672,7 +681,7 @@ Class Level
         If Not skipWalls
             If horiz
                 If Not Level.IsFloorAt(xVal, yVal - 1)
-                    New Tile(xVal, yVal - 1, TileType.DirtWall2, pending, -1)
+                    New Tile(xVal, yVal - 1, TileType.CorridorDirtWall, pending, -1)
                 End If
 
                 If wideCorridor
@@ -682,7 +691,7 @@ Class Level
                 End If
             Else
                 If Not Level.IsFloorAt(xVal - 1, yVal)
-                    new Tile(xVal - 1, yVal, TileType.DirtWall2, pending, -1)
+                    new Tile(xVal - 1, yVal, TileType.CorridorDirtWall, pending, -1)
                 End If
 
                 If wideCorridor
@@ -693,12 +702,14 @@ Class Level
             End If
 
             If Not Level.IsFloorAt(xVal, yVal)
-                New Tile(xVal, yVal, TileType.DirtWall2, pending, -1)
+                New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
             End If
         End If
     End Function
 
     Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
+        Debug.WriteLine("Entered Level.CarveNewCorridor()")
+        
         Local doSecondaryCarve := True
 
         Local iMax := 1
@@ -738,118 +749,120 @@ Class Level
     End Function
 
     Function CheckLOS: Bool(x1: Int, y1: Int, x2: Int, y2: Int, includeOffscreen: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CheckLOS()")
     End Function
 
     Function CheckMapConsistency: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CheckMapConsistency()")
     End Function
 
     Function ClearMinibossWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ClearMinibossWall()")
     End Function
 
     Function ClearTextLabelAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ClearTextLabelAt()")
     End Function
 
     Function CloseInOuterWalls: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CloseInOuterWalls()")
     End Function
 
     Function ConjureSlot: Void(slotName: String, ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ConjureSlot()")
     End Function
 
     Function CreateAllCharsDLCSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateAllCharsDLCSelect()")
     End Function
 
     Function CreateAllCharsSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateAllCharsSelect()")
     End Function
 
     Function CreateBeastmaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmaster()")
     End Function
 
     Function CreateBeastmasterZone1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone1()")
     End Function
 
     Function CreateBeastmasterZone2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone2()")
     End Function
 
     Function CreateBeastmasterZone3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone3()")
     End Function
 
     Function CreateBeastmasterZone4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone4()")
     End Function
 
     Function CreateBeastmasterZone5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBeastmasterZone5()")
     End Function
 
     Function CreateBossBattle: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle()")
     End Function
 
     Function CreateBossBattle1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle1()")
     End Function
 
     Function CreateBossBattle2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle2()")
     End Function
 
     Function CreateBossBattle3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle3()")
     End Function
 
     Function CreateBossBattle4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle4()")
     End Function
 
     Function CreateBossBattle5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle5()")
     End Function
 
     Function CreateBossBattle9: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattle9()")
     End Function
 
     Function CreateBossBattleFrankensteinway: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossBattleFrankensteinway()")
     End Function
 
     Function CreateBossmaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossmaster()")
     End Function
 
     Function CreateBossmasterBosses: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossmasterBosses()")
     End Function
 
     Function CreateBossmasterMinibosses: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateBossmasterMinibosses()")
     End Function
 
     Function CreateCharSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateCharSelect()")
     End Function
 
     Function CreateDiamondDealer: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateDiamondDealer()")
     End Function
 
     Function CreateDungeonMaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateDungeonMaster()")
     End Function
 
     Function CreateExit: Void(exitX: Int, exitY: Int)
+        Debug.WriteLine("Entered Level.CreateExit()")
+        
         Level.GetTileAt(exitX, exitY).Die()
 
         Local exitTile := new Tile(exitX, exitY, TileType.LockedStairsMiniboss, False, -1)
@@ -859,43 +872,44 @@ Class Level
     End Function
 
     Function CreateExtraModesSelect: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateExtraModesSelect()")
     End Function
 
     Function CreateFinalBossBattle: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattle()")
     End Function
 
     Function CreateFinalBossBattle2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattle2()")
     End Function
 
     Function CreateFinalBossBattle3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattle3()")
     End Function
 
     Function CreateFinalBossBattleConductor: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateFinalBossBattleConductor()")
     End Function
 
     Function CreateHephaestus: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateHephaestus()")
     End Function
 
     Function CreateIndestructibleBorder: Void()
-        'Throw New Throwable()
-        ' TODO: Skipping this for testing purposes.
+        Debug.TraceNotImplemented("Level.CreateIndestructibleBorder()")
     End Function
 
     Function CreateJanitor: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateJanitor()")
     End Function
 
     Function CreateLobby: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateLobby()")
     End Function
 
     Function CreateMap: Bool(levelObj: LevelObject)
+        Debug.WriteLine("Entered Level.CreateMap()")
+
         If controller_game.currentLevel = 1
             Level.previousLevelMinibosses.Clear()
             Level.previousLevelUnkilledStairLockingMinibosses.Clear()
@@ -926,6 +940,8 @@ Class Level
 
             Level.placeShrinerOnLevel = level
             Level.placeShrinerOnDepth = depth
+
+            Debug.WriteLine("Placed shriner on " + depth + "-" + level)
         End If
 
         If Level.placeBloodShopOnLevel = -1 And Not Util.AreAriaOrCodaActive()
@@ -944,6 +960,8 @@ Class Level
 
             Level.placeBloodShopOnLevel = level
             Level.placeBloodShopOnDepth = depth
+
+            Debug.WriteLine("Placed blood shop on " + depth + "-" + level)
         End If
 
         If Level.placeGlassShopOnLevel = -1
@@ -957,6 +975,8 @@ Class Level
 
             Level.placeGlassShopOnLevel = level
             Level.placeGlassShopOnDepth = depth
+
+            Debug.WriteLine("Placed glass shop on " + depth + "-" + level)
         End If
 
         If Level.placeFoodShopOnLevel = -1 And Not Util.AreAriaOrCodaActive()
@@ -970,6 +990,8 @@ Class Level
 
             Level.placeFoodShopOnLevel = level
             Level.placeFoodShopOnDepth = depth
+
+            Debug.WriteLine("Placed food shop on " + depth + "-" + level)
         End If
 
         If Level.placeArenaOnLevel = -1 And Not Util.IsCharacterActive(Character.Dove)
@@ -984,6 +1006,8 @@ Class Level
             Level.placeArenaOnLevel = level
             Level.placeArenaOnDepth = depth
             Level.arenaNum = Util.RndIntRangeFromZero(2, True)
+
+            Debug.WriteLine("Placed arena on " + depth + "-" + level)
         End If
 
         If Level.placeTransmogrifierOnLevel = -1 And Level.isHardcoreMode
@@ -997,6 +1021,8 @@ Class Level
 
             Level.placeTransmogrifierOnLevel = level
             Level.placeTransmogrifierOnDepth = depth
+
+            Debug.WriteLine("Placed transmogrifier on " + depth + "-" + level)
         End If
 
         If Level.placeConjurerOnLevel = -1
@@ -1010,6 +1036,8 @@ Class Level
 
             Level.placeConjurerOnLevel = level
             Level.placeConjurerOnDepth = depth
+
+            Debug.WriteLine("Placed conjurer on " + depth + "-" + level)
         End If
 
         If Level.placePawnbrokerOnLevel = -1 And Not Util.IsCharacterActive(Character.Monk)
@@ -1023,6 +1051,8 @@ Class Level
 
             Level.placePawnbrokerOnLevel = level
             Level.placePawnbrokerOnDepth = depth
+
+            Debug.WriteLine("Placed pawnbroker on " + depth + "-" + level)
         End If
 
         If levelObj
@@ -1126,6 +1156,8 @@ Class Level
     End Function
 
     Function CreateMapZone1: Bool()
+        Debug.WriteLine("Entered Level.CreateMapZone1()")
+
         Local room1: RoomData
         Local room2: RoomData
         Local room3: RoomData
@@ -1137,94 +1169,58 @@ Class Level
         Level.InitNewMap(True)
         room1 = Level.PlaceFirstRoom()
 
-        ' CREATEMAP ZONE1: Trying to place room 2
-        Local limit := 4999
+        Local limit := 5000
 
-        While True
+        ' CREATEMAP ZONE1: Trying to place room 2
+        For limit = limit - 1 Until 0 Step -1
             room2 = Level.PlaceRoomZone1(room1)
             If room2 Then Exit
-
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
+        End For
 
         ' CREATEMAP ZONE1: Trying to place room 3
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
-
-        While True
+        For limit = limit - 1 Until 0 Step -1
             room3 = Level.PlaceRoomZone1(room2)
             If room3 Then Exit
+        End For
 
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
-
-        ' CREATEMAP ZONE1: Trying to place room 3
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
-
-        While True
+        ' CREATEMAP ZONE1: Trying to place room 4
+        For limit = limit - 1 Until 0 Step -1
             room4 = Level.PlaceRoomZone1(room3)
             If room4 Then Exit
-
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
-
-        ' CREATEMAP ZONE1: Trying to place room 3
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
+        End For
 
         Local lastRoomIndex: Int
 
-        While Util.RndIntRangeFromZero(50, True)
-            room5 = Level.PlaceRoomZone1(room4)
+        ' CREATEMAP ZONE1: Trying to place room 5
+        For limit = limit - 1 Until 0 Step -1
+            For limit = limit Until 0 Step -1
+                If Not Util.RndIntRangeFromZero(50, True) Then Exit
+
+                room5 = Level.PlaceRoomZone1(room4)
+                If room5
+                    lastRoomIndex = 4
+
+                    Exit
+                End If
+            End For
+
+            If room5 Then Exit
+
+            If Util.RndBool(True)
+                room5 = Level.PlaceRoomZone1(room3)
+            Else
+                room5 = Level.PlaceRoomZone1(room1)
+            End If
+
             If room5
-                lastRoomIndex = 4
+                lastRoomIndex = 3
 
-                'goto LABEL_21
+                Exit
             End If
+        End For
 
-            'LABEL_17
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
-
-        If Util.RndBool(True)
-            room5 = Level.PlaceRoomZone1(room3)
-        Else
-            room5 = Level.PlaceRoomZone1(room1)
-        End If
-
-        If Not room5
-            'goto LABEL_17
-        End If
-
-        lastRoomIndex = 3
-
-        'LABEL_21
         ' CREATEMAP ZONE1: Trying to place room 6
-        limit -= 1
-        If limit <= 0
-            'goto FAIL_MAP
-        End If
-
-        While True
+        For limit = limit - 1 Until 0 Step -1
             If Util.RndIntRangeFromZero(50, True)
                 room6 = Level.PlaceRoomZone1(room1)
             Else If Util.RndIntRangeFromZero(10, True)
@@ -1242,21 +1238,11 @@ Class Level
             End If
 
             If room6 Then Exit
-
-            limit -= 1
-            If Not limit
-                'goto FAIL_MAP
-            End If
-        End While
+        End For
 
         ' CREATEMAP ZONE1: Trying to place room 7
         If Shrine.spaceShrineActive
-            limit -= 1
-            If limit <= 0
-                'goto FAIL_MAP
-            End If
-
-            While True
+            For limit = limit - 1 Until 0 Step -1
                 If Util.RndBool(True)
                     If Util.RndBool(True)
                         room7 = Level.PlaceRoomZone1(room1)
@@ -1276,13 +1262,10 @@ Class Level
                 End If
 
                 If room7 Then Exit
-
-                limit -= 1
-                If Not limit
-                    'goto FAIL_MAP
-                End If
-            End While
+            End For
         End If
+
+        If limit <= 0 Then Return Level._FailMap()
 
         Local lastRoom: RoomData = room4
         Select lastRoomIndex
@@ -1292,290 +1275,271 @@ Class Level
         End Select
         lastRoom.hasExit = True
 
-        If Level.PlaceExit(lastRoom)
-            ' CREATEMAP ZONE1: Deploying NPCs if necessary
-            Local deployNPC: Bool = False
-            Select controller_game.currentLevel
-                Case 1
-                    If Not GameData.GetNPCUnlock("beastmaster") Then deployNPC = True
-                Case 2
-                    If Not GameData.GetNPCUnlock("merlin") Then deployNPC = True
-                Case 3
-                    If Not GameData.GetNPCUnlock("bossmaster") Then deployNPC = True
-            End Select
+        ' `PlaceExit` performs the retry on its own.
+        If Not Level.PlaceExit(lastRoom) Then Return False
 
-            If Not Level.isHardcoreMode And 
-               Not Level.isDDRMode And 
-               Not Level.isLevelEditor And
-               deployNPC
-                Local x: Int
-                Local y: Int
+        ' CREATEMAP ZONE1: Deploying NPCs if necessary
+        Local deployNPC: Bool = False
+        Select controller_game.currentLevel
+            Case 1
+                If Not GameData.GetNPCUnlock("beastmaster") Then deployNPC = True
+            Case 2
+                If Not GameData.GetNPCUnlock("merlin") Then deployNPC = True
+            Case 3
+                If Not GameData.GetNPCUnlock("bossmaster") Then deployNPC = True
+        End Select
 
-                While True
-                    limit -= 1
-                    If limit <= 0
-                        'goto FAIL_MAP
+        If Not Level.isHardcoreMode And 
+           Not Level.isDDRMode And 
+           Not Level.isLevelEditor And
+           deployNPC
+            Local x: Int
+            Local y: Int
+
+            For limit = limit - 1 Until 0 Step -1
+                x = room3.x + Util.RndIntRangeFromZero(room3.w - 1, False)
+                y = room3.y + Util.RndIntRangeFromZero(room3.h - 1, False)
+
+                Local tile := Level.GetTileAt(x, y)
+                If tile
+                    If Not (tile.GetType() = TileType.Floor) And 
+                       Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
+                        tile = GetTileAt(x, y + 1)
+                        If tile And Not tile.IsWall(False, False, False, False) Then Exit
                     End If
-
-                    x = room3.x + Util.RndIntRangeFromZero(room3.w - 1, False)
-                    y = room3.y + Util.RndIntRangeFromZero(room3.h - 1, False)
-
-                    Local tile := Level.GetTileAt(x, y)
-                    If tile
-                        If Not (tile.GetType() = TileType.Floor) And 
-                           Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
-                            tile = GetTileAt(x, y + 1)
-                            If tile And Not tile.IsWall(False, False, False, False) Then Exit
-                        End If
-                    End If
-                End While
-
-                Local npc: NPC
-                Select controller_game.currentLevel
-                    Case 1
-                        npc = New Beastmaster()
-                        npc.NPCInit(x, y, 1, "beastmaster", True, False)
-                    Case 2
-                        npc = New Merlin()
-                        npc.NPCInit(x, y, 1, "merlin", True, False)
-                    Case 3
-                        npc = New Bossmaster()
-                        npc.NPCInit(x, y, 1, "bossmaster", True, False)
-                End Select
-
-                If npc
-                    ' CREATEMAP: NPC placed at 
                 End If
-            End If
-
-            ' CREATEMAP ZONE1: Placing shop
-            Repeat
-                limit -= 1
-                If limit <= 0
-                    'goto FAIL_MAP
-                End If
-            Until Level.PlaceRoomZone1(RoomType.Shop, Null)
-
-            ' CREATEMAP ZONE1: Filling out walls surrounding all floor
-            For Local tilesOnXNode := EachIn Level.tiles
-                For Local tileNode := EachIn tilesOnXNode.Value()
-                    Local tile := tileNode.Value()
-                    If tile.IsFloor()
-                        Local x := tilesOnXNode.Key()
-                        Local xLeft := x - 1
-                        Local xRight := x + 1
-                        Local y := tileNode.Key()
-                        Local yAbove := y - 1
-                        Local yBelow := y + 1
-
-                        If Not Level.GetTileAt(xRight, yAbove)
-                            New Tile(xRight, yAbove, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(x, yAbove)
-                            New Tile(x, yAbove, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(xLeft, yAbove)
-                            New Tile(xLeft, yAbove, TileType.DirtWall2, False, -1)
-                        End If
-
-                        If Not Level.GetTileAt(xRight, y)
-                            New Tile(xRight, y, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(xLeft, y)
-                            New Tile(xLeft, y, TileType.DirtWall2, False, -1)
-                        End If
-
-                        If Not Level.GetTileAt(xRight, yBelow)
-                            New Tile(xRight, yBelow, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(x, yBelow)
-                            New Tile(x, yBelow, TileType.DirtWall2, False, -1)
-                        End If
-                        If Not Level.GetTileAt(xLeft, yBelow)
-                            New Tile(xLeft, yBelow, TileType.DirtWall2, False, -1)
-                        End If
-                    End If
-                End For
             End For
 
-            Level.PadWalls()
-            Level.ProcessSpecialRoom()
+            If limit <= 0 Then Return Level._FailMap()
 
-            If Not Level.isLevelEditor Then Level.CreateIndestructibleBorder()
-
-            If Level.isHardcoreMode
-                Level.chestsStillToPlace = 1
-            Else
-                Level.chestsStillToPlace = Util.RndIntRange(1, 2, True, -1)
-            End If
-
-            ' CREATEMAP ZONE1: Placing secret rooms
-            Level.PlaceSecretRooms(-1) ' Decompiler showing wrong value for t_numRooms
-
-            Local secretRoomsFilled: Bool
-            Select controller_game.currentZone
-                Case 4
-                    secretRoomsFilled = Level.FillSecretRoomsZone4()
+            Local npc: NPC
+            Select controller_game.currentLevel
+                Case 1
+                    npc = New Beastmaster()
+                    npc.NPCInit(x, y, 1, "beastmaster", True, False)
                 Case 2
-                    secretRoomsFilled = Level.FillSecretRoomsZone2()
-                Default
-                    secretRoomsFilled = Level.FillSecretRoomsZone1()
+                    npc = New Merlin()
+                    npc.NPCInit(x, y, 1, "merlin", True, False)
+                Case 3
+                    npc = New Bossmaster()
+                    npc.NPCInit(x, y, 1, "bossmaster", True, False)
             End Select
 
-            If secretRoomsFilled
-                ' CREATEMAP ZONE1: Finished filling secret rooms!  Chests remaining:
-                If Level.chestsStillToPlace > 0
-                    If Level.isHardcoreMode Or 
-                       Not (Level.chestsStillToPlace = 1)
-                        'goto LABEL_118
+            If npc
+                ' CREATEMAP: NPC placed at 
+            End If
+        End If
+
+        ' CREATEMAP ZONE1: Placing shop
+        For limit = limit - 1 Until 0 Step -1
+            Local shop := Level.PlaceRoomZone1(RoomType.Shop, Null)
+            If shop Then Exit
+        End For
+
+        If limit <= 0 Then Return Level._FailMap()
+
+        ' CREATEMAP ZONE1: Filling out walls surrounding all floor
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsFloor()
+                    Local x := tilesOnXNode.Key()
+                    Local xLeft := x - 1
+                    Local xRight := x + 1
+                    Local y := tileNode.Key()
+                    Local yAbove := y - 1
+                    Local yBelow := y + 1
+
+                    If Not Level.GetTileAt(xRight, yAbove)
+                        New Tile(xRight, yAbove, TileType.CorridorDirtWall, False, -1)
+                    End If
+                    If Not Level.GetTileAt(x, yAbove)
+                        New Tile(x, yAbove, TileType.CorridorDirtWall, False, -1)
+                    End If
+                    If Not Level.GetTileAt(xLeft, yAbove)
+                        New Tile(xLeft, yAbove, TileType.CorridorDirtWall, False, -1)
                     End If
 
-                    'LABEL_162
-                    If controller_game.currentLevel <= 2
-                        Level.chestsStillToPlace = 2
+                    If Not Level.GetTileAt(xRight, y)
+                        New Tile(xRight, y, TileType.CorridorDirtWall, False, -1)
                     End If
-                    'goto LABEL_118
+                    If Not Level.GetTileAt(xLeft, y)
+                        New Tile(xLeft, y, TileType.CorridorDirtWall, False, -1)
+                    End If
+
+                    If Not Level.GetTileAt(xRight, yBelow)
+                        New Tile(xRight, yBelow, TileType.CorridorDirtWall, False, -1)
+                    End If
+                    If Not Level.GetTileAt(x, yBelow)
+                        New Tile(x, yBelow, TileType.CorridorDirtWall, False, -1)
+                    End If
+                    If Not Level.GetTileAt(xLeft, yBelow)
+                        New Tile(xLeft, yBelow, TileType.CorridorDirtWall, False, -1)
+                    End If
                 End If
+            End For
+        End For
 
-                If Not Level.isHardcoreMode
-                    Level.chestsStillToPlace = 1
-                    'goto LABEL_162
-                End If
+        Level.PadWalls()
+        Level.ProcessSpecialRoom()
 
-                'LABEL_118
-                Level.AddStone()
-                Level.PlaceTraps()
-                Level.PlaceEnemies()
+        If Not Level.isLevelEditor Then Level.CreateIndestructibleBorder()
 
-                ' CREATEMAP ZONE1: Placing one speedup or slowdown trap
-                Local trap: Trap
-                Local i := 500
-                While True
-                    Local numTraps := Trap.trapList.Count()
-                    If numTraps > 0
-                        Local trapIndex := Util.RndIntRangeFromZero(numTraps - 1, True)
-                        Local traps := Trap.trapList.ToArray()
-                        trap = traps[trapIndex]
-                        If trap
-                            If trap.canBeReplacedByTempoTrap And 
-                               trap.trapType = TrapType.BounceTrap
-                                Exit
-                            End If
-                        End If
-                    End If
+        If Level.isHardcoreMode
+            Level.chestsStillToPlace = 1
+        Else
+            Level.chestsStillToPlace = Util.RndIntRange(1, 2, True, -1)
+        End If
 
-                    i -= 1
-                    If Not i Then Exit
-                End While
+        ' CREATEMAP ZONE1: Placing secret rooms
+        Level.PlaceSecretRooms(-1) ' Decompiler showing wrong value for t_numRooms
 
+        If Not Level.FillSecretRooms() Then Return Level._FailMap()
+
+        ' CREATEMAP ZONE1: Finished filling secret rooms!  Chests remaining:
+        If Not Level.isHardcoreMode
+            Level.chestsStillToPlace = 1
+            
+            If controller_game.currentLevel <= 2
+                Level.chestsStillToPlace = 2
+            End If
+        End If
+
+        Level.AddStone()
+        Level.PlaceTraps()
+        Level.PlaceEnemies()
+
+        ' CREATEMAP ZONE1: Placing one speedup or slowdown trap
+        Local trap: Trap
+        Local i := 500
+        While True
+            Local numTraps := Trap.trapList.Count()
+            If numTraps > 0
+                Local trapIndex := Util.RndIntRangeFromZero(numTraps - 1, True)
+                Local traps := Trap.trapList.ToArray()
+                trap = traps[trapIndex]
                 If trap
-                    Local trapX := trap.x
-                    Local trapY := trap.y
-                    trap.Die()
-
-                    If Util.RndBool(True)
-                        New SpeedUpTrap(trapX, trapY)
-                        ' CREATEMAP ZONE1: Speedup trap placed at 
-                    Else
-                        New SlowDownTrap(trapX, trapY)
-                        ' CREATEMAP ZONE1: Slowdown trap placed at
+                    If trap.canBeReplacedByTempoTrap And 
+                       trap.trapType = TrapType.BounceTrap
+                        Exit
                     End If
                 End If
-
-                ' CREATEMAP ZONE1: Placing torches
-                Local torchChanceLow := 3
-                Local torchChanceHigh := 4
-                If Not (controller_game.currentLevel = 2)
-                    torchChanceLow = 2
-                    torchChanceHigh = 3
-                    If Not (controller_game.currentLevel = 3)
-                        torchChanceLow = 1
-                        torchChanceHigh = 2
-                        If Not (controller_game.currentLevel = 4)
-                            torchChanceLow = 4 * (controller_game.currentLevel <= 4)
-                            torchChanceHigh = torchChanceLow + 1
-                        End If
-                    End If
-                End If
-
-                Local rooms := New List<RoomData>()
-
-                For Local room := EachIn Level.rooms
-                    rooms.AddLast(room)
-                End For
-
-                Local j: Int
-                For Local room := EachIn rooms
-                    Local i := Util.RndIntRange(torchChanceLow, torchChanceHigh, True, -1)
-                    Local minTorchDistance: Float
-                    If room.type = RoomType.Shop
-                        j = 199
-                        i = 20
-                        minTorchDistance = 2.0
-                    Else
-                        If i <= 0 Then Continue
-
-                        j = 49
-                        minTorchDistance = 3.5
-                    End If
-
-                    Repeat
-                        Local wall := Level.GetRandomWallInRoom(room.x, room.y, room.w, room.h)
-                        Local wallTile := Level.GetTileAt(wall.x, wall.y)
-                        If wallTile And
-                           Not wallTile.IsDoor() And
-                           minTorchDistance <= Level.GetDistanceToNearestTorch(wallTile)
-                            i -= 1
-                            wallTile.AddTorch()
-                        End If
-
-                        If i <= 0 Then Exit
-
-                        j -= 1
-                    Until Not j
-                End For
-
-                Level.PlaceCrateOrBarrel()
-                Level.PlaceChests(currentLevel = 1)
-                Level.PlaceResourceWall()
-                Level.PlaceLockedChests()
-                Level.PlaceShrine()
-                ' CREATEMAP ZONE1: Cleaning up pending tiles
-                Tile.CleanUpPendingTiles()
-                Level.PlaceNocturnaArea()
-                ' CREATEMAP ZONE1: Finished!
-
-                Return True
             End If
 
-            'FAIL_MAP
-            Level.CreateMap(Null)
+            i -= 1
+            If Not i Then Exit
+        End While
+
+        If trap
+            Local trapX := trap.x
+            Local trapY := trap.y
+            trap.Die()
+
+            If Util.RndBool(True)
+                New SpeedUpTrap(trapX, trapY)
+                ' CREATEMAP ZONE1: Speedup trap placed at 
+            Else
+                New SlowDownTrap(trapX, trapY)
+                ' CREATEMAP ZONE1: Slowdown trap placed at
+            End If
         End If
+
+        ' CREATEMAP ZONE1: Placing torches
+        Local torchChanceLow := 4
+        Select controller_game.currentLevel
+            Case 2
+                torchChanceLow = 3
+            Case 3
+                torchChanceLow = 2
+            Case 4
+                torchChanceLow = 1
+            Default
+                If controller_game.currentLevel > 4
+                    torchChanceLow = 0
+                End If
+        End Select
+        Local torchChanceHigh := torchChanceLow + 1
+
+        Local rooms := New List<RoomData>()
+        For Local room := EachIn Level.rooms
+            rooms.AddLast(room)
+        End For
+
+        For Local room := EachIn rooms
+            Local numTorch := Util.RndIntRange(torchChanceLow, torchChanceHigh, True, -1)
+            Local i: Int
+            Local minTorchDistance: Float
+            If room.type = RoomType.Shop
+                i = 199
+                numTorch = 20
+                minTorchDistance = 2.0
+            Else
+                If numTorch <= 0 Then Continue
+
+                i = 49
+                minTorchDistance = 3.5
+            End If
+
+            Repeat
+                Local wall := Level.GetRandomWallInRoom(room.x, room.y, room.w, room.h)
+                Local wallTile := Level.GetTileAt(wall.x, wall.y)
+                If wallTile And
+                   Not wallTile.IsDoor() And
+                   minTorchDistance <= Level.GetDistanceToNearestTorch(wallTile)
+                    wallTile.AddTorch()
+                    numTorch -= 1
+                End If
+
+                If numTorch <= 0 Then Exit
+
+                i -= 1
+            Until Not i
+        End For
+
+        Level.PlaceCrateOrBarrel()
+        Level.PlaceChests(currentLevel = 1)
+        Level.PlaceResourceWall()
+        Level.PlaceLockedChests()
+        Level.PlaceShrine()
+        ' CREATEMAP ZONE1: Cleaning up pending tiles
+        Tile.CleanUpPendingTiles()
+        Level.PlaceNocturnaArea()
+        ' CREATEMAP ZONE1: Finished!
+
+        Return True
+    End Function
+
+    Function _FailMap: Bool()
+        Debug.WriteLine("Entered Level._FailMap()")
+        
+        Level.CreateMap(Null)
 
         Return False
     End Function
 
     Function CreateMapZone2: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone2()")
     End Function
 
     Function CreateMapZone3: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone3()")
     End Function
 
     Function CreateMapZone4: Bool(recursive: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone4()")
     End Function
 
     Function CreateMapZone5: Bool(recursive: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMapZone5()")
     End Function
 
     Function CreateMerlin: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateMerlin()")
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
+        Debug.WriteLine("Entered Level.CreateRoom()")
+        
         If controller_game.currentZone <= 3
             If Level.levelConstraintX > xVal Or
                Level.levelConstraintY > yVal Or
@@ -1882,7 +1846,7 @@ Class Level
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
             Case RoomType.Boss
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.BossWall)
-                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor3)
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.BossFloor)
             Case RoomType.Vault
                 Local tileType := TileType.StoneWall
                 If controller_game.currentLevel = 3
@@ -1959,7 +1923,7 @@ Class Level
     End Function
 
     Function CreateRoomZone5: Void(rm: RoomWithDoor, roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateRoomZone5()")
     End Function
 
     Function CreateSwarmMap: Void()
@@ -1986,23 +1950,23 @@ Class Level
     End Function
 
     Function CreateTestMap: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTestMap()")
     End Function
 
     Function CreateTrainer: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTrainer()")
     End Function
 
     Function CreateTrainingMap: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTrainingMap()")
     End Function
 
     Function CreateTutorialMap: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateTutorialMap()")
     End Function
 
     Function CreateWeaponmaster: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.CreateWeaponmaster()")
     End Function
 
     Function DeleteMap: Void()
@@ -2069,27 +2033,27 @@ Class Level
     End Function
 
     Function DistanceFromZone3DividingLine: Float(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DistanceFromZone3DividingLine()")
     End Function
 
     Function DoQuickRestart: Void(continuedRun: Bool, showPopups: Bool, playIntroCutscene: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoQuickRestart()")
     End Function
 
     Function DoRestart: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoRestart()")
     End Function
 
     Function DoRestart: Void(continuedRun: Bool, cancelFade: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoRestart()")
     End Function
 
     Function DoWePlaceAdditionalChestThisLevel: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DoWePlaceAdditionalChestThisLevel()")
     End Function
 
     Function DryUpAllWater: Void(replacementFloor: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.DryUpAllWater()")
     End Function
 
     Function DumpMap: Void()
@@ -2149,67 +2113,103 @@ Class Level
     End Function
 
     Function Earthquake: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.Earthquake()")
     End Function
 
     Function EnsureBossTraining: Void(name: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.EnsureBossTraining()")
     End Function
 
     Function FillSecretRooms: Bool()
-        Throw New Throwable()
+        Select controller_game.currentZone
+            Case 4
+                Return Level.FillSecretRoomsZone4()
+            Case 2
+                Return Level.FillSecretRoomsZone2()
+        End Select
+
+        Return Level.FillSecretRoomsZone1()
     End Function
 
     Function FillSecretRoomsZone1: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillSecretRoomsZone1()")
     End Function
 
     Function FillSecretRoomsZone2: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillSecretRoomsZone2()")
     End Function
 
     Function FillSecretRoomsZone4: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillSecretRoomsZone4()")
     End Function
 
     Function FillTiles: Void(rect: Rect, tileType: Int, tileTypeEdge: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillTiles()")
     End Function
 
     Function FillVault: Void(tmpRoom: RoomData)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FillVault()")
     End Function
 
     Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool)
-        Throw New Throwable()
+        While True
+            Local tilesOnXNode: map.Node<Int, IntMap<Tile>>
+            Local i := Util.RndIntRangeFromZero(Level.tiles.Count() - 1, True)
+            For tilesOnXNode = EachIn Level.tiles
+                If i = 0 Then Exit
+
+                i -= 1
+            End For
+            Local tilesOnX := tilesOnXNode.Value()
+
+            Local tileNode: map.Node<Int, Tile>
+            Local j := Util.RndIntRangeFromZero(tilesOnX.Count() - 1, True)
+            For tileNode = EachIn tilesOnX
+                If j = 0 Then Exit
+
+                j -= 1
+            End For
+            Local tile := tileNode.Value()
+
+            If Not ignoreCrackedWalls Or
+               Not tile.isCracked
+                If (tileType = TileType.Unknown98 And tile.IsWall(True, False, False, False)) Or
+                   (tileType = tile.GetType())
+                    Local x := tilesOnXNode.Key()
+                    Local y := tileNode.Key()
+
+                    Return New Point(x, y)
+                End If
+            End If
+        End While
     End Function
 
     Function FreezeTilesNear: Void(xVal: Int, yVal: Int, allTiles: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.FreezeTilesNear()")
     End Function
 
     Function GenerateHardcoreZoneOrder: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GenerateHardcoreZoneOrder()")
     End Function
 
     Function GenerateJanitorItems: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GenerateJanitorItems()")
     End Function
 
     Function GetAdjustedZoneForAllChars: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetAdjustedZoneForAllChars()")
     End Function
 
     Function GetAdjustedZoneForAllCharsDLC: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetAdjustedZoneForAllCharsDLC()")
     End Function
 
     Function GetAdjustedZoneForStoryMode: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetAdjustedZoneForStoryMode()")
     End Function
 
     Function GetDistanceToNearestTorch: Float(r: RenderableObject)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetDistanceToNearestTorch()")
     End Function
 
     Function GetExitValue: Point(xVal: Int, yVal: Int)
@@ -2225,23 +2225,23 @@ Class Level
     End Function
 
     Function GetExtraEnemiesBase: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetExtraEnemiesBase()")
     End Function
 
     Function GetHardModeExtraEnemies: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetHardModeExtraEnemies()")
     End Function
 
     Function GetHardModeXML: XMLNode()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetHardModeXML()")
     End Function
 
     Function GetInitialZone: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetInitialZone()")
     End Function
 
     Function GetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetMapTileLightValue()")
     End Function
 
     Function GetMaxDepth: Int()
@@ -2249,43 +2249,43 @@ Class Level
     End Function
 
     Function GetNPCSaleItem: Int(npcNum: Int, slotNum: Int, exclude1: String, exclude2: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetNPCSaleItem()")
     End Function
 
     Function GetRandomOffsetPoint: Point()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandomOffsetPoint()")
     End Function
 
     Function GetRandomWallInRoom: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandomWallInRoom()")
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(room: RoomBase, tileType: Int, skipCollisions: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType()")
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, tileType: Int, skipCollisions: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType()")
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(room: RoomBase, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions()")
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions()")
     End Function
 
     Function GetShrinePoint: Point()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetShrinePoint()")
     End Function
 
     Function GetSingleZoneModeFinalBossZone: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetSingleZoneModeFinalBossZone()")
     End Function
 
     Function GetStandardExitCoords: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetStandardExitCoords()")
     End Function
 
     Function GetTileAt: Tile(xVal: Int, yVal: Int)
@@ -2300,11 +2300,11 @@ Class Level
     End Function
 
     Function GetTileFlyawayAt: Int(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetTileFlyawayAt()")
     End Function
 
     Function GetTileObstructionList: Object(includeOffscreen: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.GetTileObstructionList()")
     End Function
 
     Function GetTileTypeAt: Int(xVal: Int, yVal: Int)
@@ -2315,11 +2315,14 @@ Class Level
     End Function
 
     Function HaveFinalBoss: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.HaveFinalBoss()")
     End Function
 
     Function InitNewMap: Void(saveGameData: Bool)
-        For Local player := EachIn players
+        Debug.WriteLine("Entered Level.InitNewMap()")
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
             player.ResetStateAfterLevel()
         End For
 
@@ -2330,27 +2333,27 @@ Class Level
     End Function
 
     Function IsAnyPlayerWithinShop: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsAnyPlayerWithinShop()")
     End Function
 
     Function IsAnyWallAt: Bool(r: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsAnyWallAt()")
     End Function
 
     Function IsAnyWaterAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsAnyWaterAt()")
     End Function
 
     Function IsBossLevel: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsBossLevel()")
     End Function
 
     Function IsCorridorFloorAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsCorridorFloorAt()")
     End Function
 
     Function IsCorridorFloorOrDoorAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsCorridorFloorOrDoorAdjacent()")
     End Function
 
     Function IsCorridorOrRoomWallAt: Bool(xVal: Int, yVal: Int)
@@ -2360,7 +2363,7 @@ Class Level
     End Function
 
     Function IsCrackedWallAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsCrackedWallAdjacent()")
     End Function
 
     Function IsCrackedWallAt: Bool(xVal: Int, yVal: Int)
@@ -2370,7 +2373,7 @@ Class Level
     End Function
 
     Function IsDoorAdjacent: Bool(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsDoorAdjacent()")
     End Function
 
     Function IsDoorAt: Bool(xVal: Int, yVal: Int)
@@ -2390,11 +2393,11 @@ Class Level
     End Function
 
     Function IsFinalBoss: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsFinalBoss()")
     End Function
 
     Function IsFinalBossZone: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsFinalBossZone()")
     End Function
 
     Function IsFloorAt: Bool(xVal: Int, yVal: Int)
@@ -2424,11 +2427,11 @@ Class Level
     End Function
 
     Function IsIcePartOfLevel: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsIcePartOfLevel()")
     End Function
 
     Function IsLockedExit: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsLockedExit()")
     End Function
 
     Function IsNormalFloorAt: Bool(xVal: Int, yVal: Int)
@@ -2460,7 +2463,7 @@ Class Level
                     If tile
                         If tile.IsFloor() Or 
                            tile.type = TileType.DirtWall Or 
-                           tile.type = TileType.DirtWall2 Or 
+                           tile.type = TileType.CorridorDirtWall Or 
                            tile.IsDoor()
                             Local dirBlocked := False
 
@@ -2492,7 +2495,7 @@ Class Level
     End Function
 
     Function IsPeaceful: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsPeaceful()")
     End Function
 
     Function IsSecretRoom: Bool(rmType: Int)
@@ -2506,11 +2509,11 @@ Class Level
     End Function
 
     Function IsSeededMode: Bool(mode: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsSeededMode()")
     End Function
 
     Function IsSurroundedByDestructibleWalls: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsSurroundedByDestructibleWalls()")
     End Function
 
     Function IsTileEmpty: Bool(xVal: Int, yVal: Int)
@@ -2518,27 +2521,27 @@ Class Level
     End Function
 
     Function IsTileTypeAdjacent: Bool(xVal: Int, yVal: Int, tempType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsTileTypeAdjacent()")
     End Function
 
     Function IsTrapAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsTrapAdjacent()")
     End Function
 
     Function IsTrapOrExitAbove: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsTrapOrExitAbove()")
     End Function
 
     Function IsVisibleTileAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsVisibleTileAt()")
     End Function
 
     Function IsWallAdjacent: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWallAdjacent()")
     End Function
 
     Function IsWallAdjacent8: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWallAdjacent8()")
     End Function
 
     Function IsWallAt: Bool(xVal: Int, yVal: Int, destructibleOnly: Bool, torchlessOnly: Bool)
@@ -2548,103 +2551,103 @@ Class Level
     End Function
 
     Function IsWaterOrTarAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWaterOrTarAt()")
     End Function
 
     Function IsWireLikeAt: Bool(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsWireLikeAt()")
     End Function
 
     Function IsZone5RoomLegal: Bool(loc: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.IsZone5RoomLegal()")
     End Function
 
     Function JanitorReset: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.JanitorReset()")
     End Function
 
     Function LoadLevelSong: Void(levelObj: LevelObject)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.LoadLevelSong()")
     End Function
 
     Function MakeAllWallsUnbreakable: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MakeAllWallsUnbreakable()")
     End Function
 
     Function MakeHelper: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MakeHelper()")
     End Function
 
     Function MakeInvisibleChestAt: Void(tmpX: Int, tmpY: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MakeInvisibleChestAt()")
     End Function
 
     Function MarkAllTilesAsSeen: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MarkAllTilesAsSeen()")
     End Function
 
     Function MaybeForbidTrapdoor: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.MaybeForbidTrapdoor()")
     End Function
 
     Function NewLevel: Void(level: Int, zone: Int, playerID: Int, inEditor: Bool, levelObj: LevelObject, continuedRun: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.NewLevel()")
     End Function
 
     Function PadWalls: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PadWalls()")
     End Function
 
     Function PaintTriggerInterior: Void(x: Int, y: Int, w: Int, h: Int, trigger: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PaintTriggerInterior()")
     End Function
 
     Function PawnSlot: Void(slotName: String, ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PawnSlot()")
     End Function
 
     Function PlaceAdditionalChestAt: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceAdditionalChestAt()")
     End Function
 
     Function PlaceAppropriateMinibosses: Void(room: RoomBase)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceAppropriateMinibosses()")
     End Function
 
     Function PlaceChests: Void(freeBroadSword: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceChests()")
     End Function
 
     Function PlaceConnectedWireDoor: Void(p: Point)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceConnectedWireDoor()")
     End Function
 
     Function PlaceCrateOrBarrel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceCrateOrBarrel()")
     End Function
 
     Function PlaceEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemies()")
     End Function
 
     Function PlaceEnemiesZone1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone1()")
     End Function
 
     Function PlaceEnemiesZone2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone2()")
     End Function
 
     Function PlaceEnemiesZone3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone3()")
     End Function
 
     Function PlaceEnemiesZone4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone4()")
     End Function
 
     Function PlaceEnemiesZone5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceEnemiesZone5()")
     End Function
 
     Function PlaceExit: Bool(rdExit: RoomData)
@@ -2661,9 +2664,7 @@ Class Level
             End If
         End For
 
-        Level.CreateMap(Null)
-
-        Return False
+        Return Level._FailMap()
     End Function
 
     Function PlaceFirstRoom: RoomData()
@@ -2682,43 +2683,43 @@ Class Level
     End Function
 
     Function PlaceGargoyle: Object(xVal: Int, yVal: Int, l: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceGargoyle()")
     End Function
 
     Function PlaceHotCoalTileAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceHotCoalTileAt()")
     End Function
 
     Function PlaceIceTileAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceIceTileAt()")
     End Function
 
     Function PlaceLockedChests: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceLockedChests()")
     End Function
 
     Function PlaceMinibossOfShapeAt: Object(newMiniboss: Int, xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceMinibossOfShapeAt()")
     End Function
 
     Function PlaceNocturnaArea: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceNocturnaArea()")
     End Function
 
     Function PlacePenaltyBoxEnemies: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlacePenaltyBoxEnemies()")
     End Function
 
     Function PlaceRandomEnemyForTempo: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRandomEnemyForTempo()")
     End Function
 
     Function PlaceRareEnemies: Void(room: RoomBase, hasExit: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRareEnemies()")
     End Function
 
     Function PlaceResourceWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceResourceWall()")
     End Function
 
     Function PlaceRoomZone1: RoomData(roomToAttachTo: RoomData)
@@ -2732,12 +2733,12 @@ Class Level
             Tile.pendingTilesList.RemoveFirst().Die()
         End While
 
-        Local rndVal := Util.RndIntRangeFromZero(100, True)
+        Local wideCorridorChance := Util.RndIntRangeFromZero(100, True)
         Local wideCorridor: Bool
-        If (controller_game.currentLevel = 2) And (rndVal <= 30) Then wideCorridor = True
-        If (controller_game.currentLevel = 3) And (rndVal <= 60) Then wideCorridor = True
-        If (controller_game.currentLevel = 4) And (rndVal <= 80) Then wideCorridor = True
-        If (controller_game.currentLevel > 4) And (rndVal <= 90) Then wideCorridor = True
+        If (controller_game.currentLevel = 2) And (wideCorridorChance <= 30) Then wideCorridor = True
+        If (controller_game.currentLevel = 3) And (wideCorridorChance <= 60) Then wideCorridor = True
+        If (controller_game.currentLevel = 4) And (wideCorridorChance <= 80) Then wideCorridor = True
+        If (controller_game.currentLevel > 4) And (wideCorridorChance <= 90) Then wideCorridor = True
 
         ' Overwrites `wideCorridor` but cannot skip the call to `RndIntRange` because it has side effects.
         Select roomType
@@ -2746,8 +2747,6 @@ Class Level
             Case RoomType.Vault
                 wideCorridor = False
         End Select
-
-        New Point(0, 0) ' This doesn't get used. Decompilation issue?
 
         Local x: Int
         Local y: Int
@@ -2770,10 +2769,8 @@ Class Level
                 x = 0
                 y = 0
             End If
-
-            New Point(x, y) ' This doesn't get used. Decompilation issue?
         Else
-            Local tileLocation := Level.FindTileOfType(TileType.Unknown98, False)
+            Local tileLocation := Level.FindTileOfType(TileType.Unknown98, True)
             x = tileLocation.x
             y = tileLocation.y
         End If
@@ -2811,221 +2808,216 @@ Class Level
             dunno0 += 1
         End If
 
-        Local horiz: Bool
-        Local moveX: Int ' Possible values: -1, 0, 1
-        Local moveY: Int ' Possible values: -1, 0, 1
+        If Not (dunno0 = 1) Return Null
 
-        If dunno0 = 1
-            horiz = False
-            moveX = 0
+        Local horiz := False
+        Local moveX := 0 ' Possible values: -1, 0, 1
+        Local moveY := 0 ' Possible values: -1, 0, 1
 
-            If Not (Level.GetTileTypeAt(xRight, y) = TileType.Floor)
-                horiz = True
-                moveX = -1
-            End If
+        If Not (Level.GetTileTypeAt(xRight, y) = TileType.Floor)
+            horiz = True
+            moveX = -1
+        End If
 
-            If Not (Level.GetTileTypeAt(x, yBelow) = TileType.Floor)
-                moveY = -1
-            Else
-                moveY = 0
-            End If
+        If Not (Level.GetTileTypeAt(x, yBelow) = TileType.Floor)
+            moveY = -1
+        Else
+            moveY = 0
+        End If
 
-            If Not (Level.GetTileTypeAt(xLeft, y) = TileType.Floor)
-                horiz = True
-                moveX = 1
-            End If
+        If Not (Level.GetTileTypeAt(xLeft, y) = TileType.Floor)
+            horiz = True
+            moveX = 1
+        End If
 
-            If Not (Level.GetTileTypeAt(x, yAbove) = TileType.Floor)
-                moveY = 1
-            End If
+        If Not (Level.GetTileTypeAt(x, yAbove) = TileType.Floor)
+            moveY = 1
+        End If
 
-            Level.carveX = x
-            Level.carveY = y
+        Level.carveX = x
+        Level.carveY = y
 
-            Local width: Int
-            Local height: Int
+        Local width: Int
+        Local height: Int
 
-            If Level.CarveNewCorridor(moveX, moveY, horiz, True, False, roomType, wideCorridor)
-                If Level.IsSecretRoom(roomType)
-                    ' `width` and `height` are overwritten but `RndIntRange` has side effects. Do not remove.
-                    width = Util.RndIntRange(6, 8, True, -1)
-                    height = Util.RndIntRange(5, 7, True, -1)
+        If Not Level.CarveNewCorridor(moveX, moveY, horiz, True, False, roomType, wideCorridor) Return Null
 
-                    width = 4
-                    height = 3
-                Else
-                    For Local i := 0 Until 2
-                        If Util.RndBool(True)
-                            If Not (Level.IsFloorAt(Level.carveX, Level.carveY))
-                                New Tile(Level.carveX, Level.carveY, TileType.DirtWall2, True, -1)
-                            End If
+        If Level.IsSecretRoom(roomType)
+            ' `width` and `height` are overwritten but `RndIntRange` has side effects. Do not remove.
+            width = Util.RndIntRange(6, 8, True, -1)
+            height = Util.RndIntRange(5, 7, True, -1)
 
-                            If horiz
-                                If Not (Level.IsFloorAt(Level.carveX, Level.carveY - 1))
-                                    New Tile(Level.carveX, Level.carveY - 1, TileType.DirtWall2, True, -1)
-                                End If
-
-                                If Not (Level.IsFloorAt(Level.carveX, Level.carveY + 1))
-                                    New Tile(Level.carveX, Level.carveY + 1, TileType.DirtWall2, True, -1)
-                                End If
-
-                                Level.carveX -= moveX
-                                Level.carveY -= moveY
-
-                                moveX = 0
-                                moveY = -1
-                                If Util.RndBool(True)
-                                    moveY = 1
-                                End If
-                            Else
-                                If Not (Level.IsFloorAt(Level.carveX - 1, Level.carveY))
-                                    New Tile(Level.carveX - 1, Level.carveY, TileType.DirtWall2, True, -1)
-                                End If
-
-                                If Not (Level.IsFloorAt(Level.carveX + 1, Level.carveY))
-                                    New Tile(Level.carveX + 1, Level.carveY, TileType.DirtWall2, True, -1)
-                                End If
-
-                                Level.carveX -= moveX
-                                Level.carveY -= moveY
-
-                                moveX = -1
-                                moveY = 0
-                                If Util.RndBool(True)
-                                    moveX = 1
-                                End If
-                            End If
-
-                            If Not Level.CarveNewCorridor(moveX, moveY, Not horiz, True, True, roomType, wideCorridor)
-                                Return Null
-                            End If
-                        End If
-                    End For
-
-                    ' `width` and `height` are overwritten if `roomType` is 3 (Shop) but `RndIntRange` has side effects.
-                    width = Util.RndIntRange(6, 8, True, -1)
-                    height = Util.RndIntRange(5, 7, True, -1)
-
-                    If roomType = RoomType.Shop
-                        width = 6
-                        height = 8
+            width = 4
+            height = 3
+        Else
+            For Local i := 0 Until 2
+                If Util.RndBool(True)
+                    If Not (Level.IsFloorAt(Level.carveX, Level.carveY))
+                        New Tile(Level.carveX, Level.carveY, TileType.CorridorDirtWall, True, -1)
                     End If
-                End If
 
-                Local xVal: Int
-                Local yVal: Int
-                Local originX := Level.carveX
-                Local originY := Level.carveY
-
-                Select moveX
-                    Case -1
-                        xVal = Level.carveX - width
-                        Local yOff := Util.RndIntRangeFromZero(height - 2, True)
-
-                        If wideCorridor
-                            yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
-                        Else
-                            yVal = originY - yOff - 1
-                        End If
-                    Case 1
-                        xVal = Level.carveX
-                        Local yOff := Util.RndIntRangeFromZero(height - 2, True)
-
-                        If wideCorridor
-                            yOff = Util.RndIntRangeFromZero(height - 3, True)
+                    If horiz
+                        If Not (Level.IsFloorAt(Level.carveX, Level.carveY - 1))
+                            New Tile(Level.carveX, Level.carveY - 1, TileType.CorridorDirtWall, True, -1)
                         End If
 
-                        yVal = originY - yOff - 1
-                    Default
-                        ' `RndIntRange` has side effects. Must stay outside of the following If-block.
-                        Local xOff := Util.RndIntRangeFromZero(width - 2, True)
-
-                        yVal = Level.carveY
-                        If moveY = -1 Then yVal -= height
-
-                        If wideCorridor
-                            xVal = Level.carveX - Util.RndIntRangeFromZero(width - 3, True) - 1
-                        Else
-                            xVal = Level.carveX - xOff - 1
+                        If Not (Level.IsFloorAt(Level.carveX, Level.carveY + 1))
+                            New Tile(Level.carveX, Level.carveY + 1, TileType.CorridorDirtWall, True, -1)
                         End If
-                End Select
 
-                Local originX2 := originX + 1
-                Local originY2 := originY
+                        Level.carveX -= moveX
+                        Level.carveY -= moveY
 
-                If horiz
-                    originX2 = originX
-                    originY2 = originY + 1
-                End If
-
-                If Not Level.CreateRoom(xVal, yVal, width, height, True, roomType, originX, originY, originX2, originY2, wideCorridor, TileType.DirtWall, False, True)
-                    Return Null
-                End If
-
-                For Local pendingTilesOnXNode := EachIn Level.pendingTiles
-                    For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
-                        Local pendingTileX := pendingTilesOnXNode.Key()
-                        Local pendingTileY := pendingTileNode.Key()
-
-                        Local tileAt := Level.GetTileAt(pendingTileX, pendingTileY)
-                        If tileAt Then tileAt.Die()
-
-                        Local pendingTileType := pendingTileNode.Value().GetType()
-                        New Tile(pendingTileX, pendingTileY, pendingTileType, False, -1)
-                    End For
-                End For
-
-                If roomType = RoomType.Shop
-                    Level.PlaceShopItemsAt(xVal, yVal, Null)
-
-                    Return Level._PlaceRoom(xVal, yVal, width, height)
-                End If
-
-                If Level.IsSecretRoom(roomType)
-                    Return Level._PlaceRoom(xVal, yVal, width, height)
-                End If
-
-                Local rndVal := Util.RndIntRangeFromZero(100, True)
-                Local addDoor: Bool
-                If (controller_game.currentLevel = 1) And (rndVal <= 80) Then addDoor = True
-                If (controller_game.currentLevel = 2) And (rndVal <= 70) Then addDoor = True
-                If (controller_game.currentLevel = 3) And (rndVal <= 60) Then addDoor = True
-                If (controller_game.currentLevel > 3) And (rndVal <= 50) Then addDoor = True
-
-                Local tileType: Int
-                If addDoor
-                    If Level.isHardcoreMode
-                        If Not wideCorridor
-                            If Util.RndIntRangeFromZero(8, True)
-                                New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
-                            Else
-                                New Tile(Level.carveX, Level.carveY, TileType.MetalDoor, False, -1)
-                            End If
-
-                            Return Level._PlaceRoom(xVal, yVal, width, height)
-                        Else
-                            New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                        moveX = 0
+                        moveY = -1
+                        If Util.RndBool(True)
+                            moveY = 1
                         End If
                     Else
-                        New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                        If Not (Level.IsFloorAt(Level.carveX - 1, Level.carveY))
+                            New Tile(Level.carveX - 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
+                        End If
+
+                        If Not (Level.IsFloorAt(Level.carveX + 1, Level.carveY))
+                            New Tile(Level.carveX + 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
+                        End If
+
+                        Level.carveX -= moveX
+                        Level.carveY -= moveY
+
+                        moveX = -1
+                        moveY = 0
+                        If Util.RndBool(True)
+                            moveX = 1
+                        End If
                     End If
 
-                    tileType = TileType.Door
-                Else
-                    New Tile(Level.carveX, Level.carveY, TileType.Floor2, False, -1)
-
-                    tileType = TileType.Floor2
+                    If Not Level.CarveNewCorridor(moveX, moveY, Not horiz, True, True, roomType, wideCorridor)
+                        Return Null
+                    End If
                 End If
+            End For
 
-                If wideCorridor
-                    New Tile(originX2, originY2, tileType, False, -1)
-                End If
+            ' `width` and `height` are overwritten if `roomType` is 3 (Shop) but `RndIntRange` has side effects.
+            width = Util.RndIntRange(6, 8, True, -1)
+            height = Util.RndIntRange(5, 7, True, -1)
 
-                Return Level._PlaceRoom(xVal, yVal, width, height)
+            If roomType = RoomType.Shop
+                width = 6
+                height = 8
             End If
         End If
 
-        Return Null
+        Local xVal: Int
+        Local yVal: Int
+        Local originX := Level.carveX
+        Local originY := Level.carveY
+
+        Select moveX
+            Case -1
+                xVal = Level.carveX - width
+                Local yOff := Util.RndIntRangeFromZero(height - 2, True)
+
+                If wideCorridor
+                    yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
+                Else
+                    yVal = originY - yOff - 1
+                End If
+            Case 1
+                xVal = Level.carveX
+                Local yOff := Util.RndIntRangeFromZero(height - 2, True)
+
+                If wideCorridor
+                    yOff = Util.RndIntRangeFromZero(height - 3, True)
+                End If
+
+                yVal = originY - yOff - 1
+            Default
+                ' `RndIntRange` has side effects. Must stay outside of the following If-block.
+                Local xOff := Util.RndIntRangeFromZero(width - 2, True)
+
+                yVal = Level.carveY
+                If moveY = -1 Then yVal -= height
+
+                If wideCorridor
+                    xVal = Level.carveX - Util.RndIntRangeFromZero(width - 3, True) - 1
+                Else
+                    xVal = Level.carveX - xOff - 1
+                End If
+        End Select
+
+        Local originX2 := originX + 1
+        Local originY2 := originY
+
+        If horiz
+            originX2 = originX
+            originY2 = originY + 1
+        End If
+
+        If Not Level.CreateRoom(xVal, yVal, width, height, True, roomType, originX, originY, originX2, originY2, wideCorridor, TileType.DirtWall, False, True)
+            Return Null
+        End If
+
+        For Local pendingTilesOnXNode := EachIn Level.pendingTiles
+            For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
+                Local pendingTileX := pendingTilesOnXNode.Key()
+                Local pendingTileY := pendingTileNode.Key()
+
+                Local tileAt := Level.GetTileAt(pendingTileX, pendingTileY)
+                If tileAt Then tileAt.Die()
+
+                Local pendingTileType := pendingTileNode.Value().GetType()
+                New Tile(pendingTileX, pendingTileY, pendingTileType, False, -1)
+            End For
+        End For
+
+        If roomType = RoomType.Shop
+            Level.PlaceShopItemsAt(xVal, yVal, Null)
+
+            Return Level._PlaceRoom(xVal, yVal, width, height)
+        End If
+
+        If Level.IsSecretRoom(roomType)
+            Return Level._PlaceRoom(xVal, yVal, width, height)
+        End If
+
+        Local addDoorChance := Util.RndIntRangeFromZero(100, True)
+        Local addDoor: Bool
+        If (controller_game.currentLevel = 1) And (addDoorChance <= 80) Then addDoor = True
+        If (controller_game.currentLevel = 2) And (addDoorChance <= 70) Then addDoor = True
+        If (controller_game.currentLevel = 3) And (addDoorChance <= 60) Then addDoor = True
+        If (controller_game.currentLevel > 3) And (addDoorChance <= 50) Then addDoor = True
+
+        Local tileType: Int
+        If addDoor
+            If Level.isHardcoreMode
+                If Not wideCorridor
+                    If Util.RndIntRangeFromZero(8, True)
+                        New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                    Else
+                        New Tile(Level.carveX, Level.carveY, TileType.MetalDoor, False, -1)
+                    End If
+
+                    Return Level._PlaceRoom(xVal, yVal, width, height)
+                Else
+                    New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                End If
+            Else
+                New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+            End If
+
+            tileType = TileType.Door
+        Else
+            New Tile(Level.carveX, Level.carveY, TileType.CorridorFloor, False, -1)
+
+            tileType = TileType.CorridorFloor
+        End If
+
+        If wideCorridor
+            New Tile(originX2, originY2, tileType, False, -1)
+        End If
+
+        Return Level._PlaceRoom(xVal, yVal, width, height)
     End Function
 
     Function _PlaceRoom: RoomData(xVal: Int, yVal: Int, width: Int, height: Int)
@@ -3036,43 +3028,43 @@ Class Level
     End Function
 
     Function PlaceRoomZone2: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone2()")
     End Function
 
     Function PlaceRoomZone3: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone3()")
     End Function
 
     Function PlaceRoomZone4: RoomData(roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone4()")
     End Function
 
     Function PlaceRoomZone5: RoomData(pseg: PortalSeg, width: Int, height: Int, minEntryDist: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone5()")
     End Function
 
     Function PlaceRoomZone5: RoomData(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceRoomZone5()")
     End Function
 
     Function PlaceSecondarySpecialShop: Void(useBloodCost: Bool, isFoodShop: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceSecondarySpecialShop()")
     End Function
 
     Function PlaceSecretRooms: Void(numRooms: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceSecretRooms()")
     End Function
 
     Function PlaceShopItemsAt: Void(tmpX: Int, tmpY: Int, door: Rect)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceShopItemsAt()")
     End Function
 
     Function PlaceShopkeeperGhostIfNeededAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceShopkeeperGhostIfNeededAt()")
     End Function
 
     Function PlaceShrine: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceShrine()")
     End Function
 
     Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
@@ -3117,215 +3109,215 @@ Class Level
     End Function
 
     Function PlaceTileTypeAt: Void(xVal: Int, yVal: Int, tileType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTileTypeAt()")
     End Function
 
     Function PlaceTorchesAnywhere: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTorchesAnywhere()")
     End Function
 
     Function PlaceTrapInRoom: Object(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapInRoom()")
     End Function
 
     Function PlaceTraps: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTraps()")
     End Function
 
     Function PlaceTrapsZone1: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone1()")
     End Function
 
     Function PlaceTrapsZone2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone2()")
     End Function
 
     Function PlaceTrapsZone3: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone3()")
     End Function
 
     Function PlaceTrapsZone4: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone4()")
     End Function
 
     Function PlaceTrapsZone5: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapsZone5()")
     End Function
 
     Function PlaceTrapZone3: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapZone3()")
     End Function
 
     Function PlaceTrapZone4: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapZone4()")
     End Function
 
     Function PlaceTrapZone5: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceTrapZone5()")
     End Function
 
     Function PlaceWire: Bool(src: Point, dst: Point)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceWire()")
     End Function
 
     Function PlaceZone3Beetle: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Beetle()")
     End Function
 
     Function PlaceZone3Cauldron: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Cauldron()")
     End Function
 
     Function PlaceZone3Elemental: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Elemental()")
     End Function
 
     Function PlaceZone3Slime: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3Slime()")
     End Function
 
     Function PlaceZone3YetiHellhound: Object(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZone3YetiHellhound()")
     End Function
 
     Function PlaceZoneAppropriateNumberOfDiamondsAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PlaceZoneAppropriateNumberOfDiamondsAt()")
     End Function
 
     Function ProcessSpecialRoom: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ProcessSpecialRoom()")
     End Function
 
     Function PutBeastmasterStairs: Void(x: Int, y: Int, stairName: String, enemyName: String, enemyType: Int, enemyId: Int, stairNamePrefix: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutBeastmasterStairs()")
     End Function
 
     Function PutBossStair: Void(x: Int, y: Int, bossName: String, enemyType: Int, zone: Int, label: String, labelXOff: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutBossStair()")
     End Function
 
     Function PutCrateOrBarrel: Void(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutCrateOrBarrel()")
     End Function
 
     Function PutEnemyZone5: Void(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutEnemyZone5()")
     End Function
 
     Function PutFutureStair: Void(x: Int, y: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutFutureStair()")
     End Function
 
     Function PutMinibossStair: Void(x: Int, y: Int, minibossName: String, enemyType: Int, label: String, labelXOff: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutMinibossStair()")
     End Function
 
     Function PutRoomEnemiesZone5: Void(room: RoomBase, hasExit: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutRoomEnemiesZone5()")
     End Function
 
     Function PutVariedEnemiesZone5: Void(pts: StackEx<Point>)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.PutVariedEnemiesZone5()")
     End Function
 
     Function QueryHarderBosses: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.QueryHarderBosses()")
     End Function
 
     Function RandomFood: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RandomFood()")
     End Function
 
     Function RandomWalkOfTempTiles: Void(xVal: Int, yVal: Int, distCounter: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RandomWalkOfTempTiles()")
     End Function
 
     Function RecalcLevelBoundaries: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RecalcLevelBoundaries()")
     End Function
 
     Function RefreshLineOfSightTiles: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RefreshLineOfSightTiles()")
     End Function
 
     Function RemoveExit: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RemoveExit()")
     End Function
 
     Function RemoveSomeWallsAwayFromCorridors: Void(percentToRemove: Float, includeCorridors: Bool, maxHealth: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RemoveSomeWallsAwayFromCorridors()")
     End Function
 
     Function RemoveTileAt: Void(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RemoveTileAt()")
     End Function
 
     Function RenderAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RenderAll()")
     End Function
 
     Function RenderExitArrow: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.RenderExitArrow()")
     End Function
 
     Function ResetCosts: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ResetCosts()")
     End Function
 
     Function ResetSpecialRoomVariables: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ResetSpecialRoomVariables()")
     End Function
 
     Function SetMagicBarrier: Void(on: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.SetMagicBarrier()")
     End Function
 
     Function ShopkeeperMissing: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ShopkeeperMissing()")
     End Function
 
     Function ShowModPopup: Void(imageName: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.ShowModPopup()")
     End Function
 
     Function SplashWater: Void(xVal: Int, yVal: Int, destroyWater: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.SplashWater()")
     End Function
 
     Function StartReplayPlayback: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.StartReplayPlayback()")
     End Function
 
     Function TakeActionAfterAllCharsScoreSubmit: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TakeActionAfterAllCharsScoreSubmit()")
     End Function
 
     Function TransmogrifySlot: Void(slotName: String, ent: Entity)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TransmogrifySlot()")
     End Function
 
     Function TransmogrifyWeaponToType: Void(ent: Entity, type: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TransmogrifyWeaponToType()")
     End Function
 
     Function TrySpawnBossMinibossAt: Void(x: Int, y: Int, etype: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.TrySpawnBossMinibossAt()")
     End Function
 
     Function UnlockChar: Void(characterID: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.UnlockChar()")
     End Function
 
     Function Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.Update()")
     End Function
 
     Function WantPenaltyBox: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.WantPenaltyBox()")
     End Function
 
     Function WidenCorridors: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Level.WidenCorridors()")
     End Function
 
     Function _EditorFix: Void() End

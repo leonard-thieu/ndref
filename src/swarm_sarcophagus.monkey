@@ -1,5 +1,6 @@
-Strict
+'Strict
 
+Import logger
 Import enemy
 
 Class SwarmSarcophagus Extends Enemy
@@ -7,7 +8,7 @@ Class SwarmSarcophagus Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("SwarmSarcophagus.New(xVal()")
     End Method
 
 End Class

@@ -1,25 +1,26 @@
-Strict
+'Strict
 
 Import monkey.list
+Import logger
 
 Class Replay
 
     Global lastSavedReplayFile: String
 
     Function LoadReplayFromFile: Void(filename: Int, replay: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.LoadReplayFromFile()")
     End Function
 
     Function LoadReplayFromString: Void(data: Int, replay: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.LoadReplayFromString()")
     End Function
 
     Function SaveReplayToFile: Void(replay: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.SaveReplayToFile()")
     End Function
 
     Function SaveReplayToString: Int(replay: Object)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.SaveReplayToString()")
     End Function
 
     Function _EditorFix: Void() End
@@ -39,51 +40,51 @@ Class Replay
     Field saveData: String
 
     Method GetDirectionsHitForBeat: Object(playerNum: Int, closestBeat: Int, percentDist: Float)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.GetDirectionsHitForBeat()")
     End Method
 
     Method GetNumBeats: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.GetNumBeats()")
     End Method
 
     Method GetRand: Int(channel: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.GetRand()")
     End Method
 
     Method Load: Void(filename: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.Load()")
     End Method
 
     Method NewLevel: Void(randSeed: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.NewLevel()")
     End Method
 
     Method NextLevel: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.NextLevel()")
     End Method
 
     Method RecordBeat: Void(beatNum: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.RecordBeat()")
     End Method
 
     Method RecordMissedBeat: Void(playerNum: Int, beatNum: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.RecordMissedBeat()")
     End Method
 
     Method RecordMove: Void(playerNum: Int, move: Int, beatNum: Int, isOffbeat: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.RecordMove()")
     End Method
 
     Method RecordRand: Void(channel: Int, num: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.RecordRand()")
     End Method
 
     Method Reset: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.Reset()")
     End Method
 
     Method Save: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Replay.Save()")
     End Method
 
     Method NoTrim: Void()

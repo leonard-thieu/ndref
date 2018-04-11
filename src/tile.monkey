@@ -1,6 +1,7 @@
-Strict
+'Strict
 
 Import monkey.list
+Import controller_game
 Import image
 Import level_object
 Import renderable_object
@@ -28,31 +29,31 @@ Class Tile Extends RenderableObject
     Global totalTilesCreatedOrDestroyed: Int
 
     Function AnyPlayerHaveCompass: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveCompass()")
     End Function
 
     Function AnyPlayerHaveMonocle: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveMonocle()")
     End Function
 
     Function AnyPlayerHaveRingOfLuck: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveRingOfLuck()")
     End Function
 
     Function AnyPlayerHaveSunglasses: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveSunglasses()")
     End Function
 
     Function AnyPlayerHaveZoneMap: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AnyPlayerHaveZoneMap()")
     End Function
 
     Function CheckRingOfShadows: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CheckRingOfShadows()")
     End Function
 
     Function CleanUpPendingTiles: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CleanUpPendingTiles()")
     End Function
 
     Function GenerateWireConnections: Void()
@@ -80,11 +81,11 @@ Class Tile Extends RenderableObject
     End Function
 
     Function IsNearNightmare: Bool(xVal: Int, yVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsNearNightmare()")
     End Function
 
     Function MoveAll: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.MoveAll()")
     End Function
 
     Function _EditorFix: Void() End
@@ -416,87 +417,131 @@ Class Tile Extends RenderableObject
     Field hasTorch: Bool
 
     Method AddFloorOverlayImage: Void(imageName: String)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddFloorOverlayImage()")
     End Method
 
     Method AddTextLabel: Void(filename: String, tmpXOff: Int, tmpYOff: Int, displayD: Float, flash: Bool, textString: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddTextLabel()")
     End Method
 
     Method AddTorch: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddTorch()")
     End Method
 
     Method AddTorch2: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddTorch2()")
     End Method
 
     Method AddWireConnection: Void(dir: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.AddWireConnection()")
     End Method
 
     Method BecomeBombWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeBombWall()")
     End Method
 
     Method BecomeCracked: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeCracked()")
     End Method
 
     Method BecomeDarkShopWall: Void(spritePath: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeDarkShopWall()")
     End Method
 
     Method BecomeDiamond: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeDiamond()")
     End Method
 
     Method BecomeDirt: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeDirt()")
     End Method
 
     Method BecomeHarderStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeHarderStone()")
     End Method
 
     Method BecomeStone: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeStone()")
     End Method
 
     Method BecomeUnbreakable: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.BecomeUnbreakable()")
     End Method
 
     Method CalcTileset: Int()
-        Throw New Throwable()
+        If Self.type = TileType.BossFloor Then Return 5
+
+        If controller_game.currentLevel = 4 Or
+           controller_game.currentLevel = 5 Or
+           (controller_game.currentLevel >= -500 And controller_game.currentLevel <= -490)
+            If Level.bossNumber = 9 Then Return 0
+
+            Return 5
+        End If
+
+        Select controller_game.currentZone
+            Case 2
+                Return controller_game.currentZone - 1
+            Case 3
+                If ((Self.x * Level.zone3DividingLineX) - (Self.y * Level.zone3DividingLineY) > 0)
+                    Return 3
+                End If
+
+                Return 2
+            Case 4
+                Return 4
+            Case 5
+                Return 6
+        End Select
+
+        Return 0
     End Method
 
     Method CalculateTileAlpha: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CalculateTileAlpha()")
     End Method
 
     Method CalculateTileLightValue: Float(forVision: Bool)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.CalculateTileLightValue()")
     End Method
 
     Method ClearTextLabel: Void()
-        Throw New Throwable()
+        If Self.textLabel
+            Self.textLabel.DiscardTempImage()
+            Self.textLabel = Null
+        End If
+
+        If Self.textLabel2
+            Self.textLabel2.Discard()
+            Self.textLabel2 = Null
+        End If
+
+        Self.textLabelText = ""
     End Method
 
     Method DarkenShopWall: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.DarkenShopWall()")
     End Method
 
     Method Die: Void()
-        Throw New Throwable()
+        Tile.floorRisingList.RemoveEach(Self)
+        Tile.floorRecededList.RemoveEach(Self)
+
+        If Not Self.dead
+            Tile.totalTilesCreatedOrDestroyed += 1
+            Self.collides = False
+            Self.ClearTextLabel()
+
+            Super.Die()
+        End If
     End Method
 
     Method GetCurrentAlpha: Float()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetCurrentAlpha()")
     End Method
 
     Method GetNumWireConnections: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetNumWireConnections()")
     End Method
 
     Method GetTileset: Int()
@@ -508,23 +553,23 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone2Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone2Wall()")
     End Method
 
     Method GetZone3Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone3Wall()")
     End Method
 
     Method GetZone4Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone4Wall()")
     End Method
 
     Method GetZone5Wall: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.GetZone5Wall()")
     End Method
 
     Method HasTileBeenSeen: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.HasTileBeenSeen()")
     End Method
 
     Method HasTorch: Bool()
@@ -532,7 +577,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.Hit()")
     End Method
 
     Method IsConductorWall: Bool()
@@ -584,11 +629,11 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsInAnyPlayerLineOfSight()")
     End Method
 
     Method IsInAnyPlayerTrueLineOfSight: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsInAnyPlayerTrueLineOfSight()")
     End Method
 
     Method IsMetalDoorOpen: Bool()
@@ -596,18 +641,28 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsNearNightmare: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsNearNightmare()")
     End Method
 
     Method IsNecrodancerPlatform: Bool()
-        Throw New Throwable()
+        Select Self.type
+            Case TileType.NecroDancerStageGreen
+            Case TileType.NecroDancerStageTurquoise
+            Case TileType.NecroDancerStageCyan
+            Case TileType.NecroDancerSpeaker1
+            Case TileType.NecroDancerSpeaker2
+            Case TileType.NecroDancerSpeaker3
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method IsNormalFloor: Bool()
         Select Self.type
             Case TileType.Floor
-            Case TileType.Floor2
-            Case TileType.Floor3
+            Case TileType.CorridorFloor
+            Case TileType.BossFloor
             Case TileType.Floor4
             Case TileType.ShopFloor
                 Return True
@@ -646,11 +701,49 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsVisible: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.IsVisible()")
     End Method
 
     Method IsWall: Bool(nonCorridor: Bool, destructibleOnly: Bool, forVision: Bool, torchlessOnly: Bool)
-        Throw New Throwable()
+        If destructibleOnly
+            Select Self.type
+                Case TileType.IndestructibleBorder
+                Case TileType.Door
+                Case TileType.WiredDoor
+                Case TileType.LockedDoor
+                Case TileType.MetalDoor
+                    Return False
+                Default
+                    If Self.IsShopWall() Then Return False
+            End Select
+        End If
+
+        If nonCorridor And Self.type = TileType.CorridorDirtWall
+            Return False
+        End If
+
+        If torchlessOnly
+            If Self.HasTorch() Or
+               Self.IsDoor() Or
+               Trap.GetTrapAt(Self.x, Self.y)
+                Return False
+            End If
+        End If
+
+        If forVision
+            Select Self.type
+                Case TileType.NecroDancerStageGreen
+                Case TileType.NecroDancerStageTurquoise
+                Case TileType.NecroDancerStageCyan
+                    Return False
+            End Select
+        End If
+
+        If Self.type = TileType.MetalDoor And Self.IsMetalDoorOpen()
+            Return False
+        End If
+
+        Return 100 <= Self.type And Self.type <= 123
     End Method
 
     Method IsWire: Bool()
@@ -668,51 +761,51 @@ Class Tile Extends RenderableObject
     End Method
 
     Method LoadDiamond: Object()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.LoadDiamond()")
     End Method
 
     Method LoadFloor: Sprite()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.LoadFloor()")
     End Method
 
     Method LoadWireImages: Void(mainImage: String, conductorPhase: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.LoadWireImages()")
     End Method
 
     Method Render: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.Render()")
     End Method
 
     Method RenderImageAs: Void(img: Object, renderAsWall: Bool, extraXOff: Int, extraYOff: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.RenderImageAs()")
     End Method
 
     Method SelectWireFlip: Bool()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SelectWireFlip()")
     End Method
 
     Method SelectWireFrame: Int()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SelectWireFrame()")
     End Method
 
     Method SetDigTrigger: Void(triggerVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SetDigTrigger()")
     End Method
 
     Method SetDoorTrigger: Void(triggerVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SetDoorTrigger()")
     End Method
 
     Method SetTrigger: Void(triggerVal: Int)
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.SetTrigger()")
     End Method
 
     Method ToggleDoor: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.ToggleDoor()")
     End Method
 
     Method Update: Void()
-        Throw New Throwable()
+        Debug.TraceNotImplemented("Tile.Update()")
     End Method
 
     Method NoTrim: Void()
@@ -795,7 +888,7 @@ Class TileType
 
     Const Empty: Int = -1
     Const Floor: Int = 0
-    Const Floor2: Int = 1
+    Const CorridorFloor: Int = 1
     Const Stairs: Int = 2
     Const ShopFloor: Int = 3
     Const Water: Int = 4
@@ -808,7 +901,7 @@ Class TileType
     Const Ice: Int = 11
     Const Crystal: Int = 12
     Const Geyser: Int = 13
-    Const Floor3: Int = 14
+    Const BossFloor: Int = 14
     Const LockedStairs3Diamonds: Int = 15
     Const LockedStairs9Diamonds: Int = 16
     Const Ooze: Int = 17
@@ -821,7 +914,7 @@ Class TileType
     Const ConductorWirePhase2: Int = 24
     Const Unknown98: Int = 98
     Const DirtWall: Int = 100
-    Const DirtWall2: Int = 101
+    Const CorridorDirtWall: Int = 101
     Const IndestructibleBorder: Int = 102
     Const Door: Int = 103
     Const ShopWall: Int = 104
