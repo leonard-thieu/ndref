@@ -189,7 +189,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetZOff: Void(zVal: Float)
-        Debug.TraceNotImplemented("Sprite.SetZOff()")
+        Self.zOff = zVal
     End Method
 
     Method SkipNextDraw: Void()
