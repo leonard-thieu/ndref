@@ -4,6 +4,7 @@ Import monkey.list
 Import monkey.map
 Import monkey.set
 Import bouncer
+Import familiar
 Import familiar_fixed
 Import item
 Import logger
@@ -775,7 +776,20 @@ Class Player Extends MobileEntity
     End Method
 
     Method ResetStateAfterLevel: Void()
-        Debug.TraceNotImplemented("Player.ResetStateAfterLevel()")
+        Self.lastMoveOntoPlayerInCoopModeBeat = -1
+        Self.StopFalling()
+        Self.immobilized = False
+        Self.lastIceSlideBeat = -1
+        Self.lambDeathBeat = -1
+        Self.tempoBeatsLeft = 16
+        Self.confusedUntil = -1
+
+        If Self.characterID = Character.Mary And
+           Not Self.lambFamiliar
+            ' TODO Implement respawning Marv.
+        End If
+
+        Self.CheckFloating()
     End Method
 
     Method ScatterItems: Void()
