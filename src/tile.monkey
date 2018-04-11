@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import controller_game
 Import image
 Import level_object
 Import renderable_object
@@ -468,7 +469,32 @@ Class Tile Extends RenderableObject
     End Method
 
     Method CalcTileset: Int()
-        Debug.TraceNotImplemented("Tile.CalcTileset()")
+        If Self.type = TileType.Floor3 Then Return 5
+
+        If controller_game.currentLevel = 4 Or
+           controller_game.currentLevel = 5 Or
+           (controller_game.currentLevel >= -500 And controller_game.currentLevel <= -490)
+            If Level.bossNumber = 9 Then Return 0
+
+            Return 5
+        End If
+
+        Select controller_game.currentZone
+            Case 2
+                Return controller_game.currentZone - 1
+            Case 3
+                If ((Self.x * Level.zone3DividingLineX) - (Self.y * Level.zone3DividingLineY) > 0)
+                    Return 3
+                End If
+                
+                Return 2
+            Case 4
+                Return 4
+            Case 5
+                Return 6
+        End Select
+
+        Return 0
     End Method
 
     Method CalculateTileAlpha: Float()
