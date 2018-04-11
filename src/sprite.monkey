@@ -1,5 +1,6 @@
 'Strict
 
+Import monkey.math
 Import logger
 Import tweenable
 
@@ -148,7 +149,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetAlphaValue: Void(a: Float)
-        Debug.TraceNotImplemented("Sprite.SetAlphaValue()")
+        Self.alpha = math.Clamp(a, 0.0, 1.0)
     End Method
 
     Method SetCutoffY: Void(cY: Int)
