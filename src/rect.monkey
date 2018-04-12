@@ -61,7 +61,17 @@ Class Rect
     End Method
 
     Method GetPoints: Stack<Point>()
-        Debug.TraceNotImplemented("Rect.GetPoints()")
+        Local points := New Stack<Point>()
+
+        Local xMax := Self.x + Self.w
+        Local yMax := Self.y + Self.h
+        For Local x := Self.x To xMax
+            For Local y := Self.y To yMax
+                points.Push(New Point(x, y))
+            End For
+        End For
+
+        Return points
     End Method
 
     Method GetRight: Int()
