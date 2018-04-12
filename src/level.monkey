@@ -2262,7 +2262,32 @@ Class Level
     End Function
 
     Function GetRandomWallInRoom: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Debug.TraceNotImplemented("Level.GetRandomWallInRoom()")
+        Local point := New Point(0, 0)
+
+        For Local i := 500 Until 0 Step -1
+            Select Util.RndIntRangeFromZero(3, True)
+                ' Left wall
+                Case 0
+                    point.x = xVal
+                    point.y = yVal + Util.RndIntRangeFromZero(hVal - 1, True)
+                ' Right wall
+                Case 1
+                    point.x = xVal + wVal
+                    point.y = yVal + Util.RndIntRangeFromZero(hVal - 1, True)
+                ' Top wall
+                Case 2
+                    point.x = xVal + Util.RndIntRangeFromZero(wVal - 1, True)
+                    point.y = yVal
+                ' Bottom wall
+                Default
+                    point.x = xVal + Util.RndIntRangeFromZero(wVal - 1, True)
+                    point.y = yVal + hVal
+            End Select
+
+            If Level.IsWallAt(point.x, point.y, False, False) Then Exit
+        End For
+
+        Return point
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(room: RoomBase, tileType: Int, skipCollisions: Bool)
