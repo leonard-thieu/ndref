@@ -130,7 +130,6 @@ Class Doppelganger End Class
 Class ElectricArc End Class
 Class FireballData End Class
 Class PulseData End Class
-Class Replay End Class
 Class ReplayData End Class
 Class Weapon End Class
 Class Zap End Class
@@ -330,7 +329,7 @@ Class Stack5 End Class
 Class Stack11 End Class
 
 Class Set3 End Class
-Class IntPointSet Extends Set3 End Class
+'Class IntPointSet Extends Set3 End Class
 
 Class Stack2 End Class
 Class StackEx2 Extends Stack2 End Class
@@ -339,7 +338,7 @@ Class IntPointStack Extends StackEx2 End Class
 Class Set End Class
 Class IntSet Extends Set End Class
 
-Class Stack End Class
+'Class Stack End Class
 Class IntStack Extends Stack End Class
 'Class StackEx Extends Stack End Class
 
@@ -357,13 +356,13 @@ Class StackEx6 Extends Stack9 End Class
 
 Class Stack3 End Class
 Class StackEx7 Extends Stack3 End Class
-Class StringStack Extends Stack3 End Class
+'Class StringStack Extends Stack3 End Class
 
 Class Stack12 End Class
 Class StackEx8 Extends Stack12 End Class
 
 Class Set2 End Class
-Class StringSet Extends Set2 End Class
+'Class StringSet Extends Set2 End Class
 
 Class Node7 End Class
 Class HeadNode3 Extends Node7 End Class
@@ -480,7 +479,7 @@ Class List26 End Class
 Class IntList Extends List26 End Class
 
 Class Map5 End Class
-Class IntMap Extends Map5 End Class
+'Class IntMap Extends Map5 End Class
 
 Class Map6 End Class
 Class IntMap2 Extends Map6 End Class
@@ -517,7 +516,7 @@ Class List11 End Class
 Class ItemList Extends List11 End Class
 
 Class Map End Class
-Class StringMap Extends Map End Class
+'Class StringMap Extends Map End Class
 
 Class Map3 End Class
 Class StringMap3 Extends Map3 End Class
