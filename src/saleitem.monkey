@@ -24,7 +24,7 @@ Class SaleItem Extends Item
         Debug.TraceNotImplemented("SaleItem.GetMinCost()")
     End Function
 
-    Function GetRandomItem: Int(level: Int, randType: Int)
+    Function GetRandomItem: Int(level: Int, randType: String)
         Debug.TraceNotImplemented("SaleItem.GetRandomItem()")
     End Function
 
