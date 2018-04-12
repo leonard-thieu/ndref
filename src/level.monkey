@@ -2609,7 +2609,29 @@ Class Level
     End Function
 
     Function PadWalls: Void()
-        Debug.TraceNotImplemented("Level.PadWalls()")
+        Debug.Log("PADWALLS: Padding walls")
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsWall()
+                    Local x := tilesOnXNode.Key()
+                    Local y := tileNode.Key
+
+                    Level.RandomWalkOfTempTiles(x, y, 2)
+                End If
+            End For
+        End For
+
+        For Local location := EachIn Level.tempTileWalk
+            Local x := location.x
+            Local y := location.y
+            If Not Level.GetTileAt(x, y)
+                New Tile(x, y, TileType.CorridorDirtWall, False, -1)
+            End If
+        End For
+
+        Level.tempTileWalk.Clear()
     End Function
 
     Function PaintTriggerInterior: Void(x: Int, y: Int, w: Int, h: Int, trigger: Int)
