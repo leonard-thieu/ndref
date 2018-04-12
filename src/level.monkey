@@ -223,7 +223,7 @@ Class Level
         If tile
             If tile.triggerDig Then Return
 
-            Local tileData := new MinibossTileData()
+            Local tileData := New MinibossTileData()
             tileData.x = xVal
             tileData.y = yVal
             tileData.type = tile.type
@@ -691,7 +691,7 @@ Class Level
                 End If
             Else
                 If Not Level.IsFloorAt(xVal - 1, yVal)
-                    new Tile(xVal - 1, yVal, TileType.CorridorDirtWall, pending, -1)
+                    New Tile(xVal - 1, yVal, TileType.CorridorDirtWall, pending, -1)
                 End If
 
                 If wideCorridor
@@ -865,10 +865,10 @@ Class Level
         
         Level.GetTileAt(exitX, exitY).Die()
 
-        Local exitTile := new Tile(exitX, exitY, TileType.LockedStairsMiniboss, False, -1)
+        Local exitTile := New Tile(exitX, exitY, TileType.LockedStairsMiniboss, False, -1)
         exitTile.flyawayText = "|198|DEFEAT THE MINIBOSS!|"
 
-        Level.exits.Set(new Point(exitX, exitY), new Point(-6, -6))
+        Level.exits.Set(New Point(exitX, exitY), New Point(-6, -6))
     End Function
 
     Function CreateExtraModesSelect: Void()
@@ -922,10 +922,10 @@ Class Level
                 Item.lastChestItemClass2 = ""
                 Chest.lastChestColor = Chest.CHEST_COLOR_NONE
                 Chest.lastChestColor2 = Chest.CHEST_COLOR_NONE
-                Crate.fallenCrates = new List<Crate>()
-                Crate.fallenGargoyles = new List<Gargoyle>()
-                SaleItem.randomSaleItemList = new List<String>()
-                Spells.spellCoolKills = new StringMap<Int>()
+                Crate.fallenCrates = New List<Crate>()
+                Crate.fallenGargoyles = New List<Gargoyle>()
+                SaleItem.randomSaleItemList = New List<String>()
+                Spells.spellCoolKills = New StringMap<Int>()
             End If
         End If
 
@@ -1080,7 +1080,7 @@ Class Level
         If controller_game.currentZone = 4
             For Local trap := EachIn Trap.trapList
                 If trap.trapType = TrapType.TrapDoor
-                    new SpikeTrap(trap.x, trap.y)
+                    New SpikeTrap(trap.x, trap.y)
                     trap.Die()
                 End If
             End For
@@ -1095,7 +1095,7 @@ Class Level
         If Level.pacifismModeOn Or (Level.isHardMode And Level.GetHardModeXML().GetAttribute("disableTrapdoors", False))
             For Local trap := EachIn Trap.trapList
                 If trap.trapType = TrapType.TrapDoor
-                    new SpikeTrap(trap.x, trap.y)
+                    New SpikeTrap(trap.x, trap.y)
                     trap.Die()
                 End If
             End For
@@ -1104,7 +1104,7 @@ Class Level
         If Level.previousLevelUnkilledStairLockingMinibosses.Length > 0 And Not Level.skipNextPenaltyBox
             Level.PlacePenaltyBoxEnemies()
 
-            Level.minibossFormerWall = new List<MinibossTileData>()
+            Level.minibossFormerWall = New List<MinibossTileData>()
 
             Local wallType: Int = TileType.StoneWall
             If currentDepth > 2
@@ -1938,14 +1938,14 @@ Class Level
         Level.levelConstraintNum = 0
 
         Level.CreateRoom(-9, -5, 18, 10, False, RoomType.Start, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-        new SwarmSarcophagus(-7, -3)
-        new SwarmSarcophagus(-7, -1)
-        new SwarmSarcophagus(-7, 1)
-        new SwarmSarcophagus(-7, 3)
-        new SwarmSarcophagus(7, -3)
-        new SwarmSarcophagus(7, -1)
-        new SwarmSarcophagus(7, 1)
-        new SwarmSarcophagus(7, 3)
+        New SwarmSarcophagus(-7, -3)
+        New SwarmSarcophagus(-7, -1)
+        New SwarmSarcophagus(-7, 1)
+        New SwarmSarcophagus(-7, 3)
+        New SwarmSarcophagus(7, -3)
+        New SwarmSarcophagus(7, -1)
+        New SwarmSarcophagus(7, 1)
+        New SwarmSarcophagus(7, 3)
 
         Level.CreateIndestructibleBorder()
     End Function
@@ -2716,7 +2716,7 @@ Class Level
 
         Level.CreateRoom(xVal, yVal, width, height, False, type, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
 
-        Local roomData := new RoomData(xVal, yVal, width, height, type, False)
+        Local roomData := New RoomData(xVal, yVal, width, height, type, False)
         Level.firstRoom = roomData
 
         Return roomData
