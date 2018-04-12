@@ -425,7 +425,43 @@ Class Tile Extends RenderableObject
     End Method
 
     Method AddTorch: Void()
-        Debug.TraceNotImplemented("Tile.AddTorch()")
+        Self.lightSourceMin = Self.TORCH_LIGHT_MIN
+        Self.lightSourceMax = Self.TORCH_LIGHT_MAX
+        Self.torchDir = 3
+        Self.lightSource = True
+        Self.lightSourceBrightness = 1.0
+        RenderableObject.lightSourceList.AddLast(Self)
+
+        Local torchImage: Sprite
+
+        If Self.IsTileset(1)
+            torchImage = New Sprite("entities/mushroom_light.png", 24, 24, 4, Image.DefaultFlags)
+            Self.torchOffX = Util.RndIntRange(-2, 2, False, -1)
+            Self.torchOffY = Util.RndIntRange(-2, 2, False, -1) - 7
+
+            If Util.RndBool(False)
+                torchImage.SetFrame(1)
+            End If
+        Else If Self.IsTileset(6) Or Level.isConductorLevel
+            torchImage = New Sprite("level/light_bulb.png", 15, 24, 1, Image.DefaultFlags)
+            Self.torchOffX = 4
+            Self.torchOffY = -8
+            Self.animateTorch = False
+        Else
+            torchImage = New Sprite("level/wall_torch.png", 0, 0, 4, Image.DefaultFlags)
+            Self.torchOffX = 5
+            Self.torchOffY = -12
+            Self.animateTorch = True
+        End If
+        
+        If Util.RndBool(False)
+            torchImage.FlipX(True, True)
+        End If
+
+        torchImage.SetAlphaValue(0.0)
+        torchImage.SetZOff(24.0)
+
+        Self.torchImage = torchImage
     End Method
 
     Method AddTorch2: Void()
