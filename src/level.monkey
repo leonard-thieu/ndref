@@ -205,7 +205,7 @@ Class Level
     End Function
 
     Function AddExit: Void(xVal: Int, yVal: Int, levelPointer: Int, zonePointer: Int)
-        Debug.WriteLine("Entered Level.AddExit()")
+        Debug.TraceEntered("Level.AddExit()")
 
         Local location := New Point(xVal, yVal)
         Local floor := New Point(levelPointer, zonePointer)
@@ -217,7 +217,7 @@ Class Level
     End Function
 
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
-        Debug.WriteLine("Entered Level.AddMinibossWall()")
+        Debug.TraceEntered("Level.AddMinibossWall()")
         
         Local tile := Level.GetTileAt(xVal, yVal)
         If tile
@@ -241,9 +241,9 @@ Class Level
     End Function
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
-        Debug.WriteLine("Entered Level.AddSpecialRoom()")
+        Debug.TraceEntered("Level.AddSpecialRoom()")
         
-        ' Adding special room
+        Debug.Log("Adding special room")
 
         If addCrack
             Level.AddCrackedWall(roomType)
@@ -638,7 +638,7 @@ Class Level
                 tile.AddTextLabel("|124|SELL ONE OF YOUR ITEMS?|", 0, 20, 0.0, False, True)
         End Select
 
-        ' Finished adding special room
+        Debug.Log("Finished adding special room")
     End Function
 
     Function AddStone: Void()
@@ -662,7 +662,7 @@ Class Level
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
-        Debug.WriteLine("Entered Level.CarveCorridorTile()")
+        Debug.TraceEntered("Level.CarveCorridorTile()")
         
         If Level.IsSecretRoom(roomType)
             New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
@@ -708,7 +708,7 @@ Class Level
     End Function
 
     Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
-        Debug.WriteLine("Entered Level.CarveNewCorridor()")
+        Debug.TraceEntered("Level.CarveNewCorridor()")
         
         Local doSecondaryCarve := True
 
@@ -861,7 +861,7 @@ Class Level
     End Function
 
     Function CreateExit: Void(exitX: Int, exitY: Int)
-        Debug.WriteLine("Entered Level.CreateExit()")
+        Debug.TraceEntered("Level.CreateExit()")
         
         Level.GetTileAt(exitX, exitY).Die()
 
@@ -908,7 +908,7 @@ Class Level
     End Function
 
     Function CreateMap: Bool(levelObj: LevelObject)
-        Debug.WriteLine("Entered Level.CreateMap()")
+        Debug.TraceEntered("Level.CreateMap()")
 
         If controller_game.currentLevel = 1
             Level.previousLevelMinibosses.Clear()
@@ -1087,9 +1087,9 @@ Class Level
         End If
 
         If Not Level.IsPassable()
-            Level.CreateMap(Null)
+            Debug.Log("CREATEMAP: Rejected impassable layout")
 
-            Return False
+            Return Level._FailMap()
         End If
 
         If Level.pacifismModeOn Or (Level.isHardMode And Level.GetHardModeXML().GetAttribute("disableTrapdoors", False))
@@ -1156,7 +1156,7 @@ Class Level
     End Function
 
     Function CreateMapZone1: Bool()
-        Debug.WriteLine("Entered Level.CreateMapZone1()")
+        Debug.TraceEntered("Level.CreateMapZone1()")
 
         Local room1: RoomData
         Local room2: RoomData
@@ -1171,19 +1171,19 @@ Class Level
 
         Local limit := 5000
 
-        ' CREATEMAP ZONE1: Trying to place room 2
+        Debug.Log("CREATEMAP ZONE1: Trying to place room 2")
         For limit = limit - 1 Until 0 Step -1
             room2 = Level.PlaceRoomZone1(room1)
             If room2 Then Exit
         End For
 
-        ' CREATEMAP ZONE1: Trying to place room 3
+        Debug.Log("CREATEMAP ZONE1: Trying to place room 3")
         For limit = limit - 1 Until 0 Step -1
             room3 = Level.PlaceRoomZone1(room2)
             If room3 Then Exit
         End For
 
-        ' CREATEMAP ZONE1: Trying to place room 4
+        Debug.Log("CREATEMAP ZONE1: Trying to place room 4")
         For limit = limit - 1 Until 0 Step -1
             room4 = Level.PlaceRoomZone1(room3)
             If room4 Then Exit
@@ -1191,7 +1191,7 @@ Class Level
 
         Local lastRoomIndex: Int
 
-        ' CREATEMAP ZONE1: Trying to place room 5
+        Debug.Log("CREATEMAP ZONE1: Trying to place room 5")
         For limit = limit - 1 Until 0 Step -1
             For limit = limit Until 0 Step -1
                 If Not Util.RndIntRangeFromZero(50, True) Then Exit
@@ -1219,7 +1219,7 @@ Class Level
             End If
         End For
 
-        ' CREATEMAP ZONE1: Trying to place room 6
+        Debug.Log("CREATEMAP ZONE1: Trying to place room 6")
         For limit = limit - 1 Until 0 Step -1
             If Util.RndIntRangeFromZero(50, True)
                 room6 = Level.PlaceRoomZone1(room1)
@@ -1240,7 +1240,7 @@ Class Level
             If room6 Then Exit
         End For
 
-        ' CREATEMAP ZONE1: Trying to place room 7
+        Debug.Log("CREATEMAP ZONE1: Trying to place room 7")
         If Shrine.spaceShrineActive
             For limit = limit - 1 Until 0 Step -1
                 If Util.RndBool(True)
@@ -1278,7 +1278,7 @@ Class Level
         ' `PlaceExit` performs the retry on its own.
         If Not Level.PlaceExit(lastRoom) Then Return False
 
-        ' CREATEMAP ZONE1: Deploying NPCs if necessary
+        Debug.Log("CREATEMAP ZONE1: Deploying NPCs if necessary")
         Local deployNPC: Bool = False
         Select controller_game.currentLevel
             Case 1
@@ -1326,11 +1326,11 @@ Class Level
             End Select
 
             If npc
-                ' CREATEMAP: NPC placed at 
+                Debug.Log("CREATEMAP: NPC placed at " + npc.x + ", " + npc.y)
             End If
         End If
 
-        ' CREATEMAP ZONE1: Placing shop
+        Debug.Log("CREATEMAP ZONE1: Placing shop")
         For limit = limit - 1 Until 0 Step -1
             Local shop := Level.PlaceRoomZone1(RoomType.Shop, Null)
             If shop Then Exit
@@ -1338,7 +1338,7 @@ Class Level
 
         If limit <= 0 Then Return Level._FailMap()
 
-        ' CREATEMAP ZONE1: Filling out walls surrounding all floor
+        Debug.Log("CREATEMAP ZONE1: Filling out walls surrounding all floor")
         For Local tilesOnXNode := EachIn Level.tiles
             For Local tileNode := EachIn tilesOnXNode.Value()
                 Local tile := tileNode.Value()
@@ -1391,12 +1391,13 @@ Class Level
             Level.chestsStillToPlace = Util.RndIntRange(1, 2, True, -1)
         End If
 
-        ' CREATEMAP ZONE1: Placing secret rooms
+        Debug.Log("CREATEMAP ZONE1: Placing secret rooms")
         Level.PlaceSecretRooms(-1) ' Decompiler showing wrong value for t_numRooms
 
+        Debug.Log("CREATEMAP ZONE1: Filling secret rooms.  Chests remaining: " + Level.chestsStillToPlace)
         If Not Level.FillSecretRooms() Then Return Level._FailMap()
 
-        ' CREATEMAP ZONE1: Finished filling secret rooms!  Chests remaining:
+        Debug.Log("CREATEMAP ZONE1: Finished filling secret rooms!  Chests remaining: " + Level.chestsStillToPlace)
         If Not Level.isHardcoreMode
             Level.chestsStillToPlace = 1
             
@@ -1409,7 +1410,7 @@ Class Level
         Level.PlaceTraps()
         Level.PlaceEnemies()
 
-        ' CREATEMAP ZONE1: Placing one speedup or slowdown trap
+        Debug.Log("CREATEMAP ZONE1: Placing one speedup or slowdown trap")
         Local trap: Trap
         Local i := 500
         While True
@@ -1437,14 +1438,14 @@ Class Level
 
             If Util.RndBool(True)
                 New SpeedUpTrap(trapX, trapY)
-                ' CREATEMAP ZONE1: Speedup trap placed at 
+                Debug.Log("CREATEMAP ZONE1: Speedup trap placed at " + trapX + ", " + trapY)
             Else
                 New SlowDownTrap(trapX, trapY)
-                ' CREATEMAP ZONE1: Slowdown trap placed at
+                Debug.Log("CREATEMAP ZONE1: Slowdown trap placed at " + trapX + ", " + trapY)
             End If
         End If
 
-        ' CREATEMAP ZONE1: Placing torches
+        Debug.Log("CREATEMAP ZONE1: Placing torches")
         Local torchChanceLow := 4
         Select controller_game.currentLevel
             Case 2
@@ -1501,16 +1502,16 @@ Class Level
         Level.PlaceResourceWall()
         Level.PlaceLockedChests()
         Level.PlaceShrine()
-        ' CREATEMAP ZONE1: Cleaning up pending tiles
+        Debug.Log("CREATEMAP ZONE1: Cleaning up pending tiles")
         Tile.CleanUpPendingTiles()
         Level.PlaceNocturnaArea()
-        ' CREATEMAP ZONE1: Finished!
+        Debug.Log("CREATEMAP ZONE1: Finished!")
 
         Return True
     End Function
 
     Function _FailMap: Bool()
-        Debug.WriteLine("Entered Level._FailMap()")
+        Debug.TraceEntered("Level._FailMap()")
         
         Level.CreateMap(Null)
 
@@ -1538,7 +1539,7 @@ Class Level
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
-        Debug.WriteLine("Entered Level.CreateRoom()")
+        Debug.TraceEntered("Level.CreateRoom()")
         
         If controller_game.currentZone <= 3
             If Level.levelConstraintX > xVal Or
@@ -1727,7 +1728,7 @@ Class Level
 
                 If numPendingLiquid <= 0 Then Exit
 
-                ' CREATEROOM abort: failed to place liquid
+                Debug.WriteLine("CREATEROOM abort: failed to place liquid")
                 If i = 0 Then Return False
             End For
         End If
@@ -1970,6 +1971,8 @@ Class Level
     End Function
 
     Function DeleteMap: Void()
+        Debug.TraceEntered("Level.DeleteMap()")
+
         For Local tilesOnXNode := EachIn Level.tiles
             For Local tileNode := EachIn tilesOnXNode.Value()
                 tileNode.Value().Die()
@@ -2152,6 +2155,8 @@ Class Level
     End Function
 
     Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool)
+        Debug.TraceEntered("Level.FindTileOfType()")
+
         While True
             Local tilesOnXNode: map.Node<Int, IntMap<Tile>>
             Local i := Util.RndIntRangeFromZero(Level.tiles.Count() - 1, True)
@@ -2319,7 +2324,7 @@ Class Level
     End Function
 
     Function InitNewMap: Void(saveGameData: Bool)
-        Debug.WriteLine("Entered Level.InitNewMap()")
+        Debug.TraceEntered("Level.InitNewMap()")
 
         For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
@@ -2441,6 +2446,8 @@ Class Level
     End Function
 
     Function IsPassable: Bool()
+        Debug.TraceEntered("Level.IsPassable()")
+
         Local points := New List<Point>()
         Local intPointSet := New IntPointSet()
         Local point := New Point(0, 0)
@@ -2651,6 +2658,8 @@ Class Level
     End Function
 
     Function PlaceExit: Bool(rdExit: RoomData)
+        Debug.TraceEntered("Level.PlaceExit()")
+
         For Local i := 499 Until 0 Step -1
             Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.w - 1, True)
             Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.h - 1, True)
@@ -2668,6 +2677,8 @@ Class Level
     End Function
 
     Function PlaceFirstRoom: RoomData()
+        Debug.TraceEntered("Level.PlaceFirstRoom()")
+
         Const xVal := -3
         Const yVal := -3
         Const width := 6
@@ -2727,6 +2738,8 @@ Class Level
     End Function
 
     Function PlaceRoomZone1: RoomData(roomType: Int, roomToAttachTo: RoomData)
+        Debug.TraceEntered("Level.PlaceRoomZone1()")
+
         Level.pendingTiles.Clear()
 
         While Tile.pendingTilesList.Count() > 0

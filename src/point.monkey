@@ -11,7 +11,7 @@ Class Point
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Point.New(xVal()")
+        Debug.TraceNotImplemented("Point.New()")
     End Method
 
     Field x: Int
