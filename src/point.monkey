@@ -19,7 +19,10 @@ Class Point
     Field y: Int
 
     Method Add: Point(other: Point)
-        Debug.TraceNotImplemented("Point.Add()")
+        Local x := Self.x + other.x
+        Local y := Self.y + other.y
+
+        Return New Point(x, y)
     End Method
 
     Method Add: Point(dx: Int, dy: Int)
