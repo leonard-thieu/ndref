@@ -54,6 +54,7 @@ Function Main: Int()
     controller_game.currentDepth = 1
     controller_game.currentZone = 1
     controller_game.currentLevel = 1
+    Level.isHardcoreMode = True
 
     Local levelObj := New LevelObject(1, 0, 0, False, Null)
     Level.CreateMap(Null)
