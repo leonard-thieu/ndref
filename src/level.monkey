@@ -1177,17 +1177,23 @@ Class Level
             If room2 Then Exit
         End For
 
+        If limit <= 0 Then Return Level._FailMap()
+
         Debug.Log("CREATEMAP ZONE1: Trying to place room 3")
         For limit = limit - 1 Until 0 Step -1
             room3 = Level.PlaceRoomZone1(room2)
             If room3 Then Exit
         End For
 
+        If limit <= 0 Then Return Level._FailMap()
+
         Debug.Log("CREATEMAP ZONE1: Trying to place room 4")
         For limit = limit - 1 Until 0 Step -1
             room4 = Level.PlaceRoomZone1(room3)
             If room4 Then Exit
         End For
+
+        If limit <= 0 Then Return Level._FailMap()
 
         Local lastRoomIndex: Int
 
@@ -1204,7 +1210,7 @@ Class Level
                 End If
             End For
 
-            If room5 Then Exit
+            If limit <= 0 Then Return Level._FailMap()
 
             If Util.RndBool(True)
                 room5 = Level.PlaceRoomZone1(room3)
@@ -1218,6 +1224,8 @@ Class Level
                 Exit
             End If
         End For
+
+        If limit <= 0 Then Return Level._FailMap()
 
         Debug.Log("CREATEMAP ZONE1: Trying to place room 6")
         For limit = limit - 1 Until 0 Step -1
@@ -1239,6 +1247,8 @@ Class Level
 
             If room6 Then Exit
         End For
+
+        If limit <= 0 Then Return Level._FailMap()
 
         Debug.Log("CREATEMAP ZONE1: Trying to place room 7")
         If Shrine.spaceShrineActive
