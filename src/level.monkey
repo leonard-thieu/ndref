@@ -257,7 +257,7 @@ Class Level
         Level.levelConstraintNum = 0
 
         Select roomType
-            Case SpecialRoomType.HealthShop
+            Case SpecialRoomType.FoodShop
                 Level.CreateRoom(-200, -200, 8, 10, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
                 
                 Level.GetTileAt(-198, -200).AddTorch()
@@ -275,7 +275,7 @@ Class Level
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
                 
-                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.HealthShop)
+                New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.FoodShop)
 
                 Local shopkeeper := New Shopkeeper(entranceX, entranceY - 4, 4, False)
                 
@@ -3609,7 +3609,7 @@ Class SpecialRoomType
     Const Arena: Int = 2
     Const BloodShop: Int = 3
     Const GlassShop: Int = 4
-    Const HealthShop: Int = 5
+    Const FoodShop: Int = 5
     Const Conjurer: Int = 6
     Const Shriner: Int = 7
     Const Pawnbroker: Int = 8

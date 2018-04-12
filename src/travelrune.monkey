@@ -37,7 +37,7 @@ Class TravelRuneType
     Const Arena: Int = 2
     Const BloodShop: Int = 3
     Const GlassShop: Int = 4
-    Const HealthShop: Int = 5
+    Const FoodShop: Int = 5
     Const Conjurer: Int = 6
     Const Shriner: Int = 7
     Const Pawnbroker: Int = 8
