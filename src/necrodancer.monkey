@@ -12,6 +12,7 @@ Import confusetrap
 Import controller_game
 Import crate
 Import exitmap
+Import familiar
 Import firetrap
 Import gamedata
 Import gargoyle
@@ -46,9 +47,6 @@ Import trapdoor
 Import travelrune
 Import util
 Import xml
-Import familiar
-
-Global asd: List<Object>
 
 Function Main: Int()
     controller_game.currentDepth = 1
@@ -58,12 +56,10 @@ Function Main: Int()
 
     Local levelObj := New LevelObject(1, 0, 0, False, Null)
     Level.CreateMap(Null)
-
     Debug.WriteLine("Created map.")
+    Level.DumpMap()
 
-    asd.Clear()
-
-    NoTrim()
+    'NoTrim()
 
     Return 0
 End Function
@@ -127,7 +123,6 @@ Class FireballData End Class
 Class PulseData End Class
 Class Replay End Class
 Class ReplayData End Class
-Class SpriteInitData End Class
 Class Weapon End Class
 Class Zap End Class
 
