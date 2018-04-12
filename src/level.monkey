@@ -3225,7 +3225,27 @@ Class Level
     End Function
 
     Function ProcessSpecialRoom: Void()
-        Debug.TraceNotImplemented("Level.ProcessSpecialRoom()")
+        Debug.Log("Processing special rooms")
+
+        If controller_game.currentDepth = Level.placeTransmogrifierOnDepth And controller_game.currentLevel = Level.placeTransmogrifierOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.Transmogrifier, True)
+        Else If controller_game.currentDepth = Level.placeArenaOnDepth And controller_game.currentLevel = Level.placeArenaOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.Arena, True)
+        Else If controller_game.currentDepth = Level.placeBloodShopOnDepth And controller_game.currentLevel = Level.placeBloodShopOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.BloodShop, True)
+        Else If controller_game.currentDepth = Level.placeGlassShopOnDepth And controller_game.currentLevel = Level.placeGlassShopOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.GlassShop, True)
+        Else If controller_game.currentDepth = Level.placeFoodShopOnDepth And controller_game.currentLevel = Level.placeFoodShopOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.FoodShop, True)
+        Else If controller_game.currentDepth = Level.placeConjurerOnDepth And controller_game.currentLevel = Level.placeConjurerOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.Conjurer, True)
+        Else If controller_game.currentDepth = Level.placeShrinerOnDepth And controller_game.currentLevel = Level.placeShrineOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.Shriner, True)
+        Else If controller_game.currentDepth = Level.placePawnbrokerOnDepth And controller_game.currentLevel = Level.placePawnbrokerOnLevel
+            Level.AddSpecialRoom(SpecialRoomType.Pawnbroker, True)
+        End If
+
+        Debug.Log("Done processing special rooms")
     End Function
 
     Function PutBeastmasterStairs: Void(x: Int, y: Int, stairName: String, enemyName: String, enemyType: Int, enemyId: Int, stairNamePrefix: String)
