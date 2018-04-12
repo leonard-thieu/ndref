@@ -663,8 +663,6 @@ Class Level
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
-        Debug.TraceEntered("Level.CarveCorridorTile()")
-
         If Level.IsSecretRoom(roomType)
             New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
         Else
@@ -686,9 +684,9 @@ Class Level
                 End If
 
                 If wideCorridor
-                    yVal = yVal + 2
+                    yVal += 2
                 Else
-                    yVal = yVal + 1
+                    yVal += 1
                 End If
             Else
                 If Not Level.IsFloorAt(xVal - 1, yVal)
@@ -696,9 +694,9 @@ Class Level
                 End If
 
                 If wideCorridor
-                    xVal = xVal + 2
+                    xVal += 2
                 Else
-                    xVal = xVal + 1
+                    xVal += 1
                 End If
             End If
 
