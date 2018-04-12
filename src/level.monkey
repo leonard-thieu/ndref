@@ -18,6 +18,7 @@ Import intpointset
 Import level_object
 Import logger
 Import merlin
+Import necrodancer
 Import necrodancergame
 Import npc
 Import particles
@@ -862,7 +863,7 @@ Class Level
 
     Function CreateExit: Void(exitX: Int, exitY: Int)
         Debug.TraceEntered("Level.CreateExit()")
-        
+
         Level.GetTileAt(exitX, exitY).Die()
 
         Local exitTile := New Tile(exitX, exitY, TileType.LockedStairsMiniboss, False, -1)
@@ -1755,6 +1756,10 @@ Class Level
 
         Level.lastCreatedRoomType = lastCreatedRoomType
 
+        If necrodancer.DUMPMAP_ITERATIVE
+            Level.DumpMap()
+        End If
+
         Return True
     End Function
 
@@ -2083,6 +2088,8 @@ Class Level
             End For
         End For
 
+        Debug.WriteLine("DUMPMAP:  ****** Start ******")
+
         For Local y := yMin To yMax
             Local line := New StringStack()
             For Local x := xMin To xMax
@@ -2115,6 +2122,8 @@ Class Level
 
             Debug.WriteLine("DUMPMAP:  " + "".Join(line.ToArray()))
         End For
+
+        Debug.WriteLine("DUMPMAP:  ******* End *******")
     End Function
 
     Function Earthquake: Void(xVal: Int, yVal: Int)

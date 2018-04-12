@@ -48,18 +48,27 @@ Import travelrune
 Import util
 Import xml
 
+Const PREVENT_TRIM := False
+Const DUMPMAP_ITERATIVE := True
+
 Function Main: Int()
     controller_game.currentDepth = 1
     controller_game.currentZone = 1
     controller_game.currentLevel = 1
     Level.isHardcoreMode = True
+    Local textSeed := "1"
+    Local seed := Util.ParseTextSeed(textSeed)
+    Util.SeedRnd(seed)
+    Debug.WriteLine("Using textSeed: " + textSeed + ", seed: " + seed)
 
     Local levelObj := New LevelObject(1, 0, 0, False, Null)
     Level.CreateMap(Null)
     Debug.WriteLine("Created map.")
     Level.DumpMap()
 
-    'NoTrim()
+    If necrodancer.PREVENT_TRIM
+        NoTrim()
+    End If
 
     Return 0
 End Function
