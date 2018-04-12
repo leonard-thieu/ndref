@@ -2065,59 +2065,56 @@ Class Level
     End Function
 
     Function DumpMap: Void()
-        ' Max and Min might be backwards.
-        Local yMax := 100
-        Local xMax := 100
-        Local yMin := -100
-        Local xMin := -100
+        Local xMin := 100
+        Local yMin := 100
+        Local xMax := -100
+        Local yMax := -100
 
         For Local tilesOnXNode := EachIn Level.tiles
             For Local tileNode := EachIn tilesOnXNode.Value()
                 Local tile := tileNode.Value()
-                If (tile.x >= -100 And tile.x <= 100) And
-                   (tile.y >= -100 And tile.y <= 100)
-                    If xMax > tile.x Then xMax = tile.x
-                    If yMax > tile.y Then yMax = tile.y
-                    If xMin >= tile.x Then xMin = tile.x
-                    If yMin > tile.y Then yMin = tile.y
+                If (-100 <= tile.x And tile.x <= 100) And
+                   (-100 <= tile.y And tile.y <= 100)
+                    If tile.x <= xMin Then xMin = tile.x
+                    If tile.y <= yMin Then yMin = tile.y
+                    If tile.x >= xMax Then xMax = tile.x
+                    If tile.y >= yMax Then yMax = tile.y
                End If
             End For
         End For
 
-        Local v37: Int
-        If yMax <= yMin
-            Repeat
-                Local dump := New StringStack()
-                If xMax <= xMin
-                    Local x := xMax
-                    Repeat
-                        Local tile := Level.GetTileAt(x, yMax)
-                        Local val := " "
-                        If tile
-                            If tile.type = TileType.Wire
-                                val = "w"
-                            Else If tile.IsFloor()
-                                val = "."
-                            Else If tile.IsDoor()
-                                val = "\"
-                            Else If tile.IsWall(False, False, False, False)
-                                val = "#"
-                            Else
-                                val = "?"
-                            End If
-                        End If
+        For Local y := yMin To yMax
+            Local line := New StringStack()
+            For Local x := xMin To xMax
+                Local tile: Tile
 
-                        dump.Push(val)
-                        x += 1
-                    Until x <= xMin
+                If Level.tiles.Contains(x)
+                    Local tilesOnX := Level.tiles.Get(x)
+                    If tilesOnX.Contains(y)
+                        tile = tilesOnX.Get(y)
+                    End If
                 End If
 
-                ' TODO: Looks like some copying happens here?
-                ' TODO: Print
+                Local value := " "
+                If tile
+                    If tile.GetType() = TileType.Wire
+                        value = "w"
+                    Else If tile.IsFloor()
+                        value = "."
+                    Else If tile.IsDoor()
+                        value = "\"
+                    Else If tile.IsWall()
+                        value = "#"
+                    Else
+                        value = "?"
+                    End If
+                End If
 
-                yMax += 1
-            Until yMax <= v37
-        End If
+                line.Push(value)
+            End For
+
+            Debug.WriteLine("DUMPMAP:  " + "".Join(line.ToArray()))
+        End For
     End Function
 
     Function Earthquake: Void(xVal: Int, yVal: Int)
