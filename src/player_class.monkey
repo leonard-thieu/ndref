@@ -167,9 +167,9 @@ Class Player Extends MobileEntity
 
         If Not Self.hudSlotInitialized
             Self.hudSlotInitialized = True
-            
+
             If Self.numHudSlots <= 0
-                
+
             End If
         End If
     End Method
@@ -1062,5 +1062,6 @@ Class Character
     Const Diamond: Int = 11
     Const Mary: Int = 12
     Const Tempo: Int = 13
+    Const Unknown15: Int = 15
 
 End Class
