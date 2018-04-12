@@ -2358,7 +2358,11 @@ Class Level
     End Function
 
     Function IsCorridorFloorOrDoorAdjacent: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsCorridorFloorOrDoorAdjacent()")
+        Return Level.IsTileTypeAdjacent(xVal, yVal, TileType.CorridorFloor) Or
+               Level.IsTileTypeAdjacent(xVal, yVal, TileType.Door) Or
+               Level.IsTileTypeAdjacent(xVal, yVal, TileType.MetalDoor) Or
+               Level.IsTileTypeAdjacent(xVal, yVal, TileType.LockedDoor) Or
+               Level.IsTileTypeAdjacent(xVal, yVal, TileType.WiredDoor)
     End Function
 
     Function IsCorridorOrRoomWallAt: Bool(xVal: Int, yVal: Int)
