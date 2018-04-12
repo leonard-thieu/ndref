@@ -2528,7 +2528,10 @@ Class Level
     End Function
 
     Function IsTileTypeAdjacent: Bool(xVal: Int, yVal: Int, tempType: Int)
-        Debug.TraceNotImplemented("Level.IsTileTypeAdjacent()")
+        Return Level.GetTileTypeAt(xVal - 1, yVal) = tempType Or
+               Level.GetTileTypeAt(xVal + 1, yVal) = tempType Or
+               Level.GetTileTypeAt(xVal, yVal - 1) = tempType Or
+               Level.GetTileTypeAt(xVal, yVal + 1) = tempType
     End Function
 
     Function IsTrapAdjacent: Bool(xVal: Int, yVal: Int)
