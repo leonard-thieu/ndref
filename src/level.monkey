@@ -2788,36 +2788,34 @@ Class Level
             y = tileLocation.y
         End If
 
-        Local xLeft := x - 1
-        Local xRight := x + 1
-
-        Local yAbove := y - 1
-        Local yBelow := y + 1
-
         Local dunno3 := 4
         Local dunno2 := 3
         Local dunno1 := 2
         Local dunno0 := 1
 
-        If Not (Level.GetTileTypeAt(xRight, y) = TileType.Floor)
+        Local tileRight := Level.GetTileAt(x + 1, y)
+        If tileRight And Not (tileRight.GetType() = TileType.Floor)
             dunno3 = 3
             dunno2 = 2
             dunno1 = 1
             dunno0 = 0
         End If
 
-        If Not (Level.GetTileTypeAt(x, yBelow) = TileType.Floor)
+        Local tileBelow := Level.GetTileAt(x, y + 1)
+        If tileBelow And Not (tileBelow.GetType() = TileType.Floor)
             dunno2 += 1
             dunno1 += 1
             dunno0 += 1
         End If
 
-        If Not (Level.GetTileTypeAt(xLeft, y) = TileType.Floor)
+        Local tileLeft := Level.GetTileAt(x - 1, y)
+        If tileLeft And Not (tileLeft.GetType() = TileType.Floor)
             dunno1 += 1
             dunno0 += 1
         End If
 
-        If Not (Level.GetTileTypeAt(x, yAbove) = TileType.Floor)
+        Local tileAbove := Level.GetTileAt(x, y - 1)
+        If tileAbove And Not (tileAbove.GetType() = TileType.Floor)
             dunno0 += 1
         End If
 
@@ -2827,23 +2825,23 @@ Class Level
         Local moveX := 0 ' Possible values: -1, 0, 1
         Local moveY := 0 ' Possible values: -1, 0, 1
 
-        If Not (Level.GetTileTypeAt(xRight, y) = TileType.Floor)
+        If tileRight And Not (tileRight.GetType() = TileType.Floor)
             horiz = True
             moveX = -1
         End If
 
-        If Not (Level.GetTileTypeAt(x, yBelow) = TileType.Floor)
+        If tileBelow And Not (tileBelow.GetType() = TileType.Floor)
             moveY = -1
         Else
             moveY = 0
         End If
 
-        If Not (Level.GetTileTypeAt(xLeft, y) = TileType.Floor)
+        If tileLeft And Not (tileLeft.GetType() = TileType.Floor)
             horiz = True
             moveX = 1
         End If
 
-        If Not (Level.GetTileTypeAt(x, yAbove) = TileType.Floor)
+        If tileAbove And Not (tileAbove.GetType() = TileType.Floor)
             moveY = 1
         End If
 
