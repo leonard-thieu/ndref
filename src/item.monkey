@@ -80,7 +80,7 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetItemXML()")
     End Function
 
-    Function GetPickupAt: Object(xVal: Int, yVal: Int, slf: Object)
+    Function GetPickupAt: Item(xVal: Int, yVal: Int, slf: Item)
         Debug.TraceNotImplemented("Item.GetPickupAt()")
     End Function
 
