@@ -1422,8 +1422,7 @@ Class Level
 
         Debug.Log("CREATEMAP ZONE1: Placing one speedup or slowdown trap")
         Local trap: Trap
-        Local i := 500
-        While True
+        For Local i := 500 Until 0 Step -1
             Local numTraps := Trap.trapList.Count()
             If numTraps > 0
                 Local trapIndex := Util.RndIntRangeFromZero(numTraps - 1, True)
@@ -1436,10 +1435,7 @@ Class Level
                     End If
                 End If
             End If
-
-            i -= 1
-            If Not i Then Exit
-        End While
+        End For
 
         If trap
             Local trapX := trap.x
@@ -1481,17 +1477,18 @@ Class Level
             Local i: Int
             Local minTorchDistance: Float
             If room.type = RoomType.Shop
-                i = 199
                 numTorch = 20
+
+                i = 200
                 minTorchDistance = 2.0
             Else
                 If numTorch <= 0 Then Continue
 
-                i = 49
+                i = 50
                 minTorchDistance = 3.5
             End If
 
-            Repeat
+            For i = i - 1 Until 0 Step -1
                 Local wall := Level.GetRandomWallInRoom(room.x, room.y, room.w, room.h)
                 Local wallTile := Level.GetTileAt(wall.x, wall.y)
                 If wallTile And
@@ -1502,9 +1499,7 @@ Class Level
                 End If
 
                 If numTorch <= 0 Then Exit
-
-                i -= 1
-            Until Not i
+            End For
         End For
 
         Level.PlaceCrateOrBarrel()
