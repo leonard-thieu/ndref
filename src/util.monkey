@@ -339,6 +339,11 @@ Class Util
         Debug.TraceNotImplemented("Util.RotatePointInGeneralDirection()")
     End Function
 
+    Function SeedRnd(seed: Int)
+        Util.storedSeed = -1
+        random.Seed = seed
+    End Function
+
     Function SegmentSegmentIntersection: Object(p0_x: Float, p0_y: Float, p1_x: Float, p1_y: Float, p2_x: Float, p2_y: Float, p3_x: Float, p3_y: Float)
         Debug.TraceNotImplemented("Util.SegmentSegmentIntersection()")
     End Function
