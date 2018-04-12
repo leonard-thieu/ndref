@@ -3247,7 +3247,25 @@ Class Level
     End Function
 
     Function RandomWalkOfTempTiles: Void(xVal: Int, yVal: Int, distCounter: Int)
-        Debug.TraceNotImplemented("Level.RandomWalkOfTempTiles()")
+        Repeat
+            If Util.RndBool(True)
+                If Util.RndBool(True)
+                    xVal += 1
+                Else
+                    xVal -= 1
+                End If
+            Else
+                If Util.RndBool(True)
+                    yVal += 1
+                Else
+                    yVal -= 1
+                End If
+            End If
+
+            Level.tempTileWalk.AddLast(New Point(xVal, yVal))
+
+            distCounter -= 1
+        Until distCounter <= 0
     End Function
 
     Function RecalcLevelBoundaries: Void()
