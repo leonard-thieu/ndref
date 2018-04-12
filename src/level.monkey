@@ -2214,7 +2214,22 @@ Class Level
     End Function
 
     Function GetDistanceToNearestTorch: Float(r: RenderableObject)
-        Debug.TraceNotImplemented("Level.GetDistanceToNearestTorch()")
+        Local distance := 10000000.0
+        Local from := r.GetLocation()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.HasTorch()
+                    Local tileX := tilesOnXNode.Key()
+                    Local tileY := tileNode.Key()
+                    
+                    distance = math.Min(distance, Util.GetDist(from.x, from.y, tileX, tileY))
+                End If
+            End For
+        End For
+
+        Return distance
     End Function
 
     Function GetExitValue: Point(xVal: Int, yVal: Int)
