@@ -453,7 +453,32 @@ Class Tile Extends RenderableObject
     End Method
 
     Method BecomeDirt: Void()
-        Debug.TraceNotImplemented("Tile.BecomeDirt()")
+        Self.hasResource = False
+
+        Local wall: Sprite
+        Select Self.GetTileset()
+            Case 1
+                Self.image = Self.GetZone2Wall()
+            Case 2
+            Case 3
+                Self.image = Self.GetZone3Wall()
+            Case 4
+                Self.image = Self.GetZone4Wall()
+            Case 6
+                Self.image = Self.GetZone5Wall()
+            Default
+                Self.image = Self.GetZone1Wall()
+        End Select
+
+        Self.image.SetAlphaValue(0.0)
+
+        Self.health = 1
+        Self.isStone = False
+        Self.unbreakable = False
+
+        If Self.IsWall()
+            Self.image.SetZOff(8.0)
+        End If
     End Method
 
     Method BecomeHarderStone: Void()
@@ -552,19 +577,23 @@ Class Tile Extends RenderableObject
         Return Self.type
     End Method
 
-    Method GetZone2Wall: Object()
+    Method GetZone1Wall: Sprite()
+        Debug.TraceNotImplemented("Tile.GetZone1Wall()")
+    End Method
+
+    Method GetZone2Wall: Sprite()
         Debug.TraceNotImplemented("Tile.GetZone2Wall()")
     End Method
 
-    Method GetZone3Wall: Object()
+    Method GetZone3Wall: Sprite()
         Debug.TraceNotImplemented("Tile.GetZone3Wall()")
     End Method
 
-    Method GetZone4Wall: Object()
+    Method GetZone4Wall: Sprite()
         Debug.TraceNotImplemented("Tile.GetZone4Wall()")
     End Method
 
-    Method GetZone5Wall: Object()
+    Method GetZone5Wall: Sprite()
         Debug.TraceNotImplemented("Tile.GetZone5Wall()")
     End Method
 
@@ -702,6 +731,10 @@ Class Tile Extends RenderableObject
 
     Method IsVisible: Bool()
         Debug.TraceNotImplemented("Tile.IsVisible()")
+    End Method
+
+    Method IsWall: Bool()
+        Return Self.IsWall(False, False, False, False)
     End Method
 
     Method IsWall: Bool(nonCorridor: Bool, destructibleOnly: Bool, forVision: Bool, torchlessOnly: Bool)
