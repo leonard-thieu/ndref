@@ -65,7 +65,7 @@ Class Level
     Global dailyChallengeX: Int
     Global dailyChallengeY: Int
     Global deathlessWinCount: Int
-    Global debugForceMonstrousShop: Int
+    Global debugForceMonstrousShop: Bool
     Global enemiesDropSingleCoinForThisLevel: Bool
     Global exitArrow: Int
     Global exitArrowX: Float
@@ -3147,6 +3147,185 @@ Class Level
     End Function
 
     Function PlaceShopItemsAt: Void(tmpX: Int, tmpY: Int, door: Rect)
+        If Not door
+            door = New Rect(Level.carveX, Level.carveY, 0, 0)
+        End If
+
+        Local v4 := False
+        If Level.isHardcoreMode Or controller_game.currentDepth > 1
+            v4 = True
+            If Util.RndIntRangeFromZero(160, True)
+                v4 = Level.debugForceMonstrousShop
+            End If
+        End If
+
+        Local v8: Bool
+        If Util.IsCharacterActive(Character.Unknown15)
+            'LABEL_13
+            v8 = False
+            If Not (controller_game.currentLevel = 1)
+                'goto LABEL_14
+            End If
+            'goto LABEL_81
+        Else
+            'LABEL_12
+            If Level.shopkeeperDead
+                'goto LABEL_13
+            End If
+
+            If Not v4
+                New Shopkeeper(tmpX + 3, tmpY + 3, 1, False)
+                'goto LABEL_13
+            End If
+
+            New Shopkeeper(tmpX + 3, tmpY + 3, 5, False)
+
+            If Not (controller_game.currentLevel = 1)
+                'goto LABEL_14
+            End If
+
+            'LABEL_81
+            If Not (controller_game.currentZone = 1)
+                'goto LABEL_17
+            End If
+
+            v8 = False
+            If Not GameData.GetNPCUnlock("beastmaster")
+                v8 = Not Level.isLevelEditor
+            End If
+
+            If Not (controller_game.currentLevel = 3)
+                'goto LABEL_144
+            End If
+
+            'LABEL_14
+            If Not (controller_game.currentLevel = 1)
+                'goto LABEL_17
+            End If
+
+            Local v49 := False
+            If Not GameData.GetNPCUnlock("bossmaster")
+                v49 = Not Level.isLevelEditor
+            End If
+
+            If v49
+                v8 = True
+                If Not (controller_game.currentLevel = 2)
+                    'goto LABEL_17
+                End If
+            Else
+                'LABEL_144
+                If Not (controller_game.currentLevel = 2)
+                    'goto LABEL_17
+                End If
+            End If
+
+            If controller_game.currentZone = 2
+                Local v97 := False
+                If Not GameData.GetNPCUnlock("weaponmaster")
+                    v97 = Not Level.isLevelEditor
+                End If
+
+                If v97 Then v8 = True
+            End If
+
+            'LABEL_17
+            If Level.isHardcoreMode
+                v8 = False
+            Else If Level.isDDRMode
+                v8 = False
+            End If
+
+            If Not Util.RndIntRangeFromZero(3, True) And
+               controller_game.currentLevel > 1 And
+               Not Level.lockedShopPlaced
+                Local randomPoint := door.RandomPoint()
+                New Tile(randomPoint.x, randomPoint.y, TileType.CrackedShopWall, False, -1)
+                Level.addKeyInSecretChest = True
+
+                If controller_game.numPlayers <= 0
+                    'LABEL_28
+                    If v8
+                        Local key: String
+
+                        Select controller_game.currentLevel
+                            Case 1
+                                key = "misc_golden_key"
+                            Case 2
+                                key = "misc_golden_key3"
+                            Default
+                                key = "misc_golden_key2"
+                        End Select
+
+                        New SaleItem(tmpX + 2, tmpY + 5, key, False, Null, -1.0, Null)
+                    Else
+                        Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "lockedShopChance")
+                        Local randomItem := New SaleItem(tmpX + 2, tmpY + 5, randomItemName, False, Null, -1.0, Null)
+                        randomItem.ApplyDiscount(0.5)
+                        If randomItem.itemType = "resource_hoard_gold"
+                            randomItem.Die()
+                        End If
+                    End If
+
+                    If Not Util.IsWeaponlessCharacterActive()
+                        Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "lockedShopChance")
+                        Local randomItem := New SaleItem(tmpX + 3, tmpY + 5, randomItemName, False, Null, -1.0, Null)
+                        randomItem.ApplyDiscount(0.5)
+                        If randomItem.itemType = "resource_hoard_gold"
+                            randomItem.Die()
+                        End If
+                    End If
+
+                    Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "lockedShopChance")
+                    Local randomItem := New SaleItem(tmpX + 4, tmpY + 5, randomItemName, False, Null, -1.0, Null)
+                    randomItem.ApplyDiscount(0.5)
+                    If randomItem.itemType = "resource_hoard_gold"
+                        randomItem.Die()
+                    End If
+
+                    Debug.Log("PlaceShopItemsAt ZONE " + controller_game.currentZone + ": Placing LOCKED shop at " + 0 + ", " + 0)
+
+                    If Level.shopkeeperDead
+                        Debug.Log("PlaceShopItemsAt: REMOVING items since shopkeeper is dead.")
+
+                        Local pickup1 := Item.GetPickupAt(tmpX + 2, tmpY + 5, Null)
+                        If pickup1 Then pickup1.Die()
+                        Local pickup2 := Item.GetPickupAt(tmpX + 3, tmpY + 5, Null)
+                        If pickup2 Then pickup2.Die()
+                        Local pickup3 := Item.GetPickupAt(tmpX + 4, tmpY + 5, Null)
+                        If pickup3 Then pickup3.Die()
+                    End If
+                Else
+                    If Not Util.IsCharacterActive(Character.Unknown15)
+                        'goto LABEL_28
+                    End If
+                End If
+
+                Level.lockedShopPlaced = True
+                'goto LABEL_40
+            End If
+
+            If Not Level.isHardcoreMode Or Util.RndIntRangeFromZero(8, True)
+                For Local point := EachIn door.GetPoints()
+                    Local tile := New Tile(point.x, point.y, TileType.Door, False, -1)
+                    tile.SetDoorTrigger(3)
+                End For
+            Else
+                Local randomPoint := door.RandomPoint()
+                Local tile := New Tile(randomPoint.x, randomPoint.y, TileType.MetalDoor, False, -1)
+                tile.SetDoorTrigger(3)
+            End If
+
+            Local v38 := -1
+            If Not Util.RndIntRangeFromZero(3, True)
+                v38 = Util.RndIntRange(1, 3, True, -1)
+            End If
+            Local t_contb := Util.RndIntRange(1, 3, True, -1)
+            If Level.isFloorIsLavaMode
+                v38 = -1
+            End If
+        End If
+
         Debug.TraceNotImplemented("Level.PlaceShopItemsAt()")
     End Function
 
