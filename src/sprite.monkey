@@ -1,7 +1,11 @@
 'Strict
 
+Import monkey.map
 Import monkey.math
+Import image
+Import level
 Import logger
+Import spriteinitdata
 Import tweenable
 
 Class Sprite Extends Tweenable
@@ -10,11 +14,12 @@ Class Sprite Extends Tweenable
     Global currentScaleXOff: Int
     Global currentScaleYOff: Int
     Global debugDumpRender: Bool
-    Global imageInitData: Object
-    Global imageMap: Object
+    Global imageInitData: StringMap<SpriteInitData> = New StringMap<SpriteInitData>()
+    Global imageMap: StringMap<Image> = New StringMap<Image>()
+    Global modErrorImageName: String
     Global newAlphaDrawVal: Float
     Global scaleToFitScreen: Bool
-    Global sourceImageMap: Object
+    Global sourceImageMap: StringMap<Image> = New StringMap<Image>()
     Global textMap: Object
 
     Function DrawSpriteText: Void(str: Int, xVal: Int, yVal: Int)
@@ -25,7 +30,7 @@ Class Sprite Extends Tweenable
         Debug.TraceNotImplemented("Sprite.GetNextTempImageName()")
     End Function
 
-    Function LoadImageFromPath: Object(p: Int, allowMod: Bool)
+    Function LoadImageFromPath: Image(p: String, allowMod: Bool)
         Debug.TraceNotImplemented("Sprite.LoadImageFromPath()")
     End Function
 
@@ -41,7 +46,7 @@ Class Sprite Extends Tweenable
         Debug.TraceNotImplemented("Sprite.RenderFrameCapture()")
     End Function
 
-    Function UpdateImageMap: Bool(path: Int, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int, checkDimensions: Bool)
+    Function UpdateImageMap: Bool(path: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int, checkDimensions: Bool)
         Debug.TraceNotImplemented("Sprite.UpdateImageMap()")
     End Function
 
@@ -137,6 +142,29 @@ Class Sprite Extends Tweenable
     End Method
 
     Method InitSprite: Void(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int)
+        If p = ""
+            Debug.WriteLine("INITSPRITE ERROR: Path is null, ")
+            Throw New Throwable()
+        End If
+
+        Self.path = p
+
+        Local initData := New SpriteInitData(frameWidth, frameHeight, frameCount, flags)
+        Sprite.imageInitData.Set(p, initData)
+
+        If Not Sprite.sourceImageMap.Contains(p)
+            Sprite.LoadImageFromPath(p, True)
+        End If
+
+        If Not Sprite.UpdateImageMap(p, frameWidth, frameHeight, frameCount, flags, True)
+            Level.ShowModPopup(Sprite.modErrorImageName)
+            Debug.WriteLine("Trying to fall back to loading without the mod of image")
+
+            Sprite.LoadImageFromPath(p, False)
+            If Not Sprite.UpdateImageMap(p, frameWidth, frameHeight, frameCount, flags, True)
+                Debug.WriteLine("ERROR: Even bypassing mod, still could not load image")
+            End If
+        End If
         Debug.TraceNotImplemented("Sprite.InitSprite()")
     End Method
 
