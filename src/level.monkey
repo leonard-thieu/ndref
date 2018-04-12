@@ -218,7 +218,7 @@ Class Level
 
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
         Debug.TraceEntered("Level.AddMinibossWall()")
-        
+
         Local tile := Level.GetTileAt(xVal, yVal)
         If tile
             If tile.triggerDig Then Return
@@ -242,7 +242,7 @@ Class Level
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
         Debug.TraceEntered("Level.AddSpecialRoom()")
-        
+
         Debug.Log("Adding special room")
 
         If addCrack
@@ -259,7 +259,7 @@ Class Level
         Select roomType
             Case SpecialRoomType.FoodShop
                 Level.CreateRoom(-200, -200, 8, 10, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-198, -200).AddTorch()
                 Level.GetTileAt(-194, -200).AddTorch()
                 Level.GetTileAt(-198, -190).AddTorch()
@@ -274,11 +274,11 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.FoodShop)
 
                 Local shopkeeper := New Shopkeeper(entranceX, entranceY - 4, 4, False)
-                
+
                 Local food := Level.RandomFood()
                 New SaleItem(entranceX - 1, entranceY - 2, food, False, shopkeeper, -1.0, Null)
 
@@ -295,7 +295,7 @@ Class Level
                 End If
             Case SpecialRoomType.BloodShop
                 Level.CreateRoom(-200, -200, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-199, -200).AddTorch()
                 Level.GetTileAt(-195, -200).AddTorch()
                 Level.GetTileAt(-199, -192).AddTorch()
@@ -310,7 +310,7 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.BloodShop)
 
                 Local shopkeeper := New Shopkeeper(entranceX, entranceY - 4, 2, False)
@@ -355,7 +355,7 @@ Class Level
                 End If
             Case SpecialRoomType.GlassShop
                 Level.CreateRoom(-200, -200, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-199, -200).AddTorch()
                 Level.GetTileAt(-195, -200).AddTorch()
                 Level.GetTileAt(-199, -192).AddTorch()
@@ -370,7 +370,7 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.GlassShop)
 
                 Local shopkeeper := New Shopkeeper(-197, -198, 3, False)
@@ -438,7 +438,7 @@ Class Level
                 End If
             Case SpecialRoomType.Arena
                 Level.CreateRoom(-200, -200, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-199, -200).AddTorch()
                 Level.GetTileAt(-195, -200).AddTorch()
                 Level.GetTileAt(-199, -192).AddTorch()
@@ -453,7 +453,7 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY + 1, Level.secretAtX, Level.secretAtY, TravelRuneType.Arena)
 
                 Local requestedLevel := controller_game.currentLevel + 2
@@ -475,7 +475,7 @@ Class Level
                 Level.GetTileAt(-196, -197).SetTrigger(18)
             Case SpecialRoomType.Transmogrifier
                 Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-199, -200).AddTorch()
                 Level.GetTileAt(-195, -200).AddTorch()
                 Level.GetTileAt(-199, -191).AddTorch()
@@ -490,7 +490,7 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY + 1, Level.secretAtX, Level.secretAtY, TravelRuneType.Transmogrifier)
 
                 Level.transmogrifier = New Transmogrifier(entranceX, entranceY - 3, 1, False)
@@ -518,7 +518,7 @@ Class Level
                 ringTile.SetTrigger(16)
             Case SpecialRoomType.Conjurer
                 Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-199, -200).AddTorch()
                 Level.GetTileAt(-195, -200).AddTorch()
                 Level.GetTileAt(-199, -191).AddTorch()
@@ -533,7 +533,7 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.Conjurer)
 
                 Level.conjurer = New Conjurer(entranceX - 1, entranceY - 6, 1, False)
@@ -561,7 +561,7 @@ Class Level
                 ringTile.SetTrigger(43)
             Case SpecialRoomType.Shriner
                 Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-199, -200).AddTorch()
                 Level.GetTileAt(-195, -200).AddTorch()
                 Level.GetTileAt(-199, -191).AddTorch()
@@ -576,7 +576,7 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.Shriner)
 
                 Local shriner := New Shriner(entranceX, entranceY - 4, 1, False)
@@ -591,7 +591,7 @@ Class Level
                 shriner.shrine3 = New Shrine(entranceX + 1, entranceY - 2, shrineType3, Null, True, True)
             Case SpecialRoomType.Pawnbroker
                 Level.CreateRoom(-200, -200, 6, 9, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-                
+
                 Level.GetTileAt(-199, -200).AddTorch()
                 Level.GetTileAt(-195, -200).AddTorch()
                 Level.GetTileAt(-199, -191).AddTorch()
@@ -606,7 +606,7 @@ Class Level
 
                 Level.specialRoomEntranceX = entranceX
                 Level.specialRoomEntranceY = entranceY
-                
+
                 New TravelRune(entranceX, entranceY, Level.secretAtX, Level.secretAtY, TravelRuneType.Pawnbroker)
 
                 Level.pawnbroker = New Pawnbroker(entranceX, entranceY - 6, 1, False)
@@ -663,7 +663,7 @@ Class Level
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
         Debug.TraceEntered("Level.CarveCorridorTile()")
-        
+
         If Level.IsSecretRoom(roomType)
             New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
         Else
@@ -709,7 +709,7 @@ Class Level
 
     Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
         Debug.TraceEntered("Level.CarveNewCorridor()")
-        
+
         Local doSecondaryCarve := True
 
         Local iMax := 1
@@ -1299,8 +1299,8 @@ Class Level
                 If Not GameData.GetNPCUnlock("bossmaster") Then deployNPC = True
         End Select
 
-        If Not Level.isHardcoreMode And 
-           Not Level.isDDRMode And 
+        If Not Level.isHardcoreMode And
+           Not Level.isDDRMode And
            Not Level.isLevelEditor And
            deployNPC
             Local x: Int
@@ -1312,7 +1312,7 @@ Class Level
 
                 Local tile := Level.GetTileAt(x, y)
                 If tile
-                    If Not (tile.GetType() = TileType.Floor) And 
+                    If Not (tile.GetType() = TileType.Floor) And
                        Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
                         tile = GetTileAt(x, y + 1)
                         If tile And Not tile.IsWall(False, False, False, False) Then Exit
@@ -1410,7 +1410,7 @@ Class Level
         Debug.Log("CREATEMAP ZONE1: Finished filling secret rooms!  Chests remaining: " + Level.chestsStillToPlace)
         If Not Level.isHardcoreMode
             Level.chestsStillToPlace = 1
-            
+
             If controller_game.currentLevel <= 2
                 Level.chestsStillToPlace = 2
             End If
@@ -1429,7 +1429,7 @@ Class Level
                 Local traps := Trap.trapList.ToArray()
                 trap = traps[trapIndex]
                 If trap
-                    If trap.canBeReplacedByTempoTrap And 
+                    If trap.canBeReplacedByTempoTrap And
                        trap.trapType = TrapType.BounceTrap
                         Exit
                     End If
@@ -1517,7 +1517,7 @@ Class Level
 
     Function _FailMap: Bool()
         Debug.TraceEntered("Level._FailMap()")
-        
+
         Level.CreateMap(Null)
 
         Return False
@@ -1545,7 +1545,7 @@ Class Level
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
         Debug.TraceEntered("Level.CreateRoom()")
-        
+
         If controller_game.currentZone <= 3
             If Level.levelConstraintX > xVal Or
                Level.levelConstraintY > yVal Or
@@ -1560,7 +1560,7 @@ Class Level
                         Level.levelConstraintW += 2
                         Level.levelConstraintH += 2
                     End If
-                
+
                     Return False
                 End If
             End If
@@ -1582,7 +1582,7 @@ Class Level
                 End If
         End Select
 
-        If catacombWallChance > Util.RndIntRangeFromZero(1, True) And 
+        If catacombWallChance > Util.RndIntRangeFromZero(1, True) And
            roomType = RoomType.None And
            controller_game.currentZone = 1
             wallType = TileType.CatacombWall
@@ -2225,7 +2225,7 @@ Class Level
                 If tile.HasTorch()
                     Local tileX := tilesOnXNode.Key()
                     Local tileY := tileNode.Key()
-                    
+
                     distance = math.Min(distance, Util.GetDist(from.x, from.y, tileX, tileY))
                 End If
             End For
@@ -2237,7 +2237,7 @@ Class Level
     Function GetExitValue: Point(xVal: Int, yVal: Int)
         For Local node := EachIn Level.exits
             Local ex := node.Key
-            If ex.x = xVal And 
+            If ex.x = xVal And
                ex.y = yVal
                 Return node.Value
             End If
@@ -2514,9 +2514,9 @@ Class Level
 
                     Local tile := Level.GetTileAt(x, y)
                     If tile
-                        If tile.IsFloor() Or 
-                           tile.type = TileType.DirtWall Or 
-                           tile.type = TileType.CorridorDirtWall Or 
+                        If tile.IsFloor() Or
+                           tile.type = TileType.DirtWall Or
+                           tile.type = TileType.CorridorDirtWall Or
                            tile.IsDoor()
                             Local dirBlocked := False
 
@@ -2734,7 +2734,7 @@ Class Level
         For Local i := 499 Until 0 Step -1
             Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.w - 1, True)
             Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.h - 1, True)
-            If Not (Level.GetTileTypeAt(x, y) = TileType.Floor) And 
+            If Not (Level.GetTileTypeAt(x, y) = TileType.Floor) And
                Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
                 If Level.IsWallAt(x, y + 1, False, False)
                     Level.CreateExit(x, y)
