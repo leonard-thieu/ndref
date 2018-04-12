@@ -64,7 +64,9 @@ Class Trap Extends Entity Abstract
     End Method
 
     Method Trigger: Void(ent: Entity)
-        Debug.TraceNotImplemented("Trap.Trigger()")
+        Self.willTriggerOn = Null
+        Self.triggeredOn = ent
+        Self.triggered = True
     End Method
 
     Method Update: Void()
