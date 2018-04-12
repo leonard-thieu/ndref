@@ -108,7 +108,7 @@ Class RenderableObject Abstract
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
     
     Method GetLocation: Point()
-        Debug.TraceNotImplemented("RenderableObject.GetLocation()")
+        Return New Point(Self.x, Self.y)
     End Method
     
     Method IsFrozen: Bool(ignoreLastBeat: Bool)
