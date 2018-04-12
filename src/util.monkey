@@ -85,7 +85,7 @@ Class Util
     End Function
 
     Function GetDistSq: Float(x: Int, y: Int, x2: Int, y2: Int)
-        Return ((x2 - x) * (x2 - x)) + 
+        Return ((x2 - x) * (x2 - x)) +
                ((y2 - y) * (y2 - y))
     End Function
 
@@ -249,17 +249,17 @@ Class Util
 
         Local seed := 0
 
-        For Local i := 0 Until randSeedString.Length
-            seed += i * randSeedString[i]
+        For Local i := 1 Until randSeedString.Length()
+            seed += i * randSeedString[i - 1]
         End For
 
-        For Local i := 0 Until randSeedString.Length
-            If randSeedString[i] > NUMBER_9 Then Return seed
+        For Local j := 0 Until randSeedString.Length()
+            If randSeedString[j] > NUMBER_9 Then Return seed
         End For
 
         seed = 0
-        For Local i := 0 Until randSeedString.Length
-            seed = randSeedString[i] + 2 * (5 * seed) - NUMBER_0
+        For Local k := 0 Until randSeedString.Length()
+            seed = (10 * seed) + (randSeedString[k] - NUMBER_0)
         End For
 
         Return seed
@@ -295,13 +295,13 @@ Class Util
         Local rndVal := random.Rnd(low, high + 1)
         ' TODO: Verify what causes `__asm { frndint }` to be emitted.
 
-        If replayConsistencyChannel < 0 Or 
+        If replayConsistencyChannel < 0 Or
            Not Level.isReplaying Or
            Level.creatingMap
             rndIntVal = math.Min(low, rndIntVal)
         Else
             rndVal = Level.replay.GetRand(replayConsistencyChannel)
-            
+
             If rndVal < low Or rndVal > high
                 Return rndIntVal
             End If
