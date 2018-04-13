@@ -2810,8 +2810,6 @@ Class Level
     End Function
 
     Function PlaceRoomZone1: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Debug.TraceEntered("Level.PlaceRoomZone1()")
-
         Level.pendingTiles.Clear()
 
         While Tile.pendingTilesList.Count() > 0
