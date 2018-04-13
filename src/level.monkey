@@ -1543,8 +1543,6 @@ Class Level
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
-        Debug.TraceEntered("Level.CreateRoom()")
-
         If controller_game.currentZone <= 3
             If Level.levelConstraintX > xVal Or
                Level.levelConstraintY > yVal Or
