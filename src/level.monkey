@@ -707,41 +707,37 @@ Class Level
     End Function
 
     Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
-        Debug.TraceEntered("Level.CarveNewCorridor()")
-
-        Local doSecondaryCarve := True
-
-        Local iMax := 1
+        Local numCarves := 2
         If Level.IsSecretRoom(roomType)
-            iMax = 0
+            numCarves = 1
         End If
 
-        For Local i := 0 To iMax
-            If Not doSecondaryCarve
-                If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY) = TileType.Floor)
+        For Local i := 0 Until numCarves
+            If (i > 0) And Not secondaryCarve
+                If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY) = TileType.Empty)
                     Return False
                 End If
 
                 If wideCorridor
                     If horiz
-                        If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY + 1) = TileType.Floor)
+                        If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY + 1) = TileType.Empty)
                             Return False
                         End If
                     Else
-                        If Not (Level.GetTileTypeAt(Level.carveX + 1, Level.carveY) = TileType.Floor)
+                        If Not (Level.GetTileTypeAt(Level.carveX + 1, Level.carveY) = TileType.Empty)
                             Return False
                         End If
                     End If
                 End If
             End If
 
-            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, pending, secondaryCarve, roomType, wideCorridor)
-
-            If Not secondaryCarve Then doSecondaryCarve = False
-            secondaryCarve = False
+            Local skipWalls := secondaryCarve
+            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, pending, skipWalls, roomType, wideCorridor)
 
             Level.carveX += moveX
             Level.carveY += moveY
+
+            secondaryCarve = False
         End For
 
         Return True
