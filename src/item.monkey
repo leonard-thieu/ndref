@@ -1,15 +1,43 @@
 'Strict
 
 Import monkey.map
+Import monkey.stack
 Import entity
 Import logger
+Import necrodancergame
+Import xml
 
 Class Item Extends Entity
 
+    Global debugTrailerMode: Bool
+    Global diamondDealerItems1: Int
+    Global diamondDealerItems2: Int
+    Global diamondDealerItems3: Int
+    Global hephItems1: Int
+    Global hephItems2: Int
+    Global hephItems3: Int
+    Global itemImages: Int
+    Global itemPoolAnyChest: List<XMLNode>[7]
+    Global itemPoolAnyChest2: List<XMLNode>[7]
+    Global itemPoolChest: List<XMLNode>[7]
+    Global itemPoolChest2: List<XMLNode>[7]
+    Global itemPoolLockedChest: List<XMLNode>[7]
+    Global itemPoolLockedChest2: List<XMLNode>[7]
+    Global itemPoolLockedShop: List<XMLNode>[7]
+    Global itemPoolLockedShop2: List<XMLNode>[7]
+    Global itemPoolRandom: List<XMLNode> = New List<XMLNode>()
+    Global itemPoolRandom2: List<XMLNode> = New List<XMLNode>()
+    Global itemPoolShop: List<XMLNode>[7]
+    Global itemPoolShop2: List<XMLNode>[7]
+    Global itemPoolUrn: List<XMLNode>[7]
+    Global itemPoolUrn2: List<XMLNode>[7]
     Global lastChestItemClass1: String
     Global lastChestItemClass2: String
-    Global seenItems: StringMap<Int> = New StringMap<Int>()
+    Global merlinItems1: Int
+    Global merlinItems2: Int
+    Global merlinItems3: Int
     Global pickupList: List<Item> = New List<Item>()
+    Global seenItems: StringMap<Int> = New StringMap<Int>()
 
     Function AddToSeenItems: Void(itemName: String)
         If seenItems.Contains(itemName)
@@ -37,7 +65,153 @@ Class Item Extends Entity
     End Function
 
     Function CreateItemPools: Void()
-        Debug.TraceNotImplemented("Item.CreateItemPools()")
+        Local itemsNode := necrodancergame.xmlData.GetChild("items")
+        Local itemNodes := itemsNode.GetChildren()
+
+        Local attributeNames := New Stack<String>()
+        Local v3 := New Stack<XMLNode>()
+        Local v4 := New Stack<Int>()
+        Local v5 := New Stack<XMLNode>()
+
+        For Local i := 0 Until 2
+            For Local j := 0 Until 8
+                Local kMax := 1
+                If Not (j = 7)
+                    kMax += 6
+                End If
+
+                For Local k := 0 To kMax
+                    attributeNames.Clear()
+
+                    Local itemPool: List<XMLNode>
+                    If j = 7
+                        itemPool = Item.itemPoolRandom
+                        If i = 1 Then itemPool = Item.itemPoolRandom2
+
+                        attributeNames.Push("chestChance")
+                        attributeNames.Push("lockedChestChance")
+                        attributeNames.Push("shopChance")
+                        attributeNames.Push("lockedShopChance")
+                    Else
+                        Select k
+                            Case 0
+                                itemPool = Item.itemPoolChest[j]
+                                If i = 1 Then itemPool = Item.itemPoolChest2[j]
+
+                                attributeNames.Push("chestChance")
+                            Case 1
+                                itemPool = Item.itemPoolAnyChest[j]
+                                If i = 1 Then itemPool = Item.itemPoolAnyChest2[j]
+
+                                attributeNames.Push("lockedChestChance")
+                            Case 2
+                                itemPool = Item.itemPoolAnyChest[j]
+                                If i = 1 Then itemPool = Item.itemPoolAnyChest2[j]
+
+                                attributeNames.Push("chestChance")
+                                attributeNames.Push("lockedChestChance")
+                            Case 3
+                                itemPool = Item.itemPoolShop[j]
+                                If i = 1 Then itemPool = Item.itemPoolShop2[j]
+
+                                attributeNames.Push("shopChance")
+                            Case 4
+                                itemPool = Item.itemPoolLockedShop[j]
+                                If i = 1 Then itemPool = Item.itemPoolLockedShop2[j]
+
+                                attributeNames.Push("lockedShopChance")
+                            Default
+                                itemPool = Item.itemPoolUrn[j]
+                                If i = 1 Then itemPool = Item.itemPoolUrn2[j]
+
+                                attributeNames.Push("urnChance")
+                        End Select
+                    End If
+
+                    itemPool.Clear()
+                    v3.Clear()
+                    v4.Clear()
+
+                    For Local itemNode := EachIn itemNodes
+                        Local m := 0
+
+                        For Local attributeName := EachIn attributeNames
+                            Local chancesStr := itemNode.GetAttribute(attributeName, "0")
+                            Local chancesStrs := chancesStr.Split("|")
+
+                            Local chanceIndexMax := math.Min(j, chancesStrs.Length() - 1)
+                            Local chance := Int(chancesStrs[chanceIndexMax])
+                            If chance = 0 And
+                               j = 7
+                                chance = Int(chancesStrs[0])
+                            End If
+
+                            If chance > 0
+                                If Level.isHardcoreMode Or
+                                   Item.IsUnlocked(itemNode.name)
+                                    v3.Push(itemNode)
+                                    If j = 7
+                                        v4.Push(1)
+                                    Else
+                                        If Not (m = 0)
+                                            ' TODO: Random roll here?
+                                        End If
+
+                                        ' Might be debug only. Possible to ignore this section?
+                                        If Item.debugTrailerMode
+                                            ' TODO: debugTrailerMode section
+                                        End If
+
+                                        v4.Push(chance)
+
+                                        Exit
+                                    End If
+                                End If
+                            End If
+
+                            m += 1
+                        End For
+
+                        ' TODO: Copy String[]?
+                        'goto LABEL_38 (This is in the middle of `String.Split`)
+                    End For
+
+                    v5.Clear()
+
+                    While Not v3.IsEmpty()
+                        Local high := 0
+                        For Local v4Value := EachIn v4
+                            high += v4Value
+                        End For
+
+                        Local randomValue := Util.RndIntRangeFromZero(high - 1, True)
+
+                        Local n := 0
+                        For n = n Until v4.Length()
+                            Local v4Value := v4.Get(n)
+
+                            If randomValue > v4Value Then Exit
+
+                            randomValue -= v4Value
+                        End For
+
+                        v5.Push(v3.Get(n))
+                        v3.Remove(n)
+                        v4.Remove(n)
+                    End While
+
+                    For Local itemNode := EachIn v5
+                        If Item.IsValidItemForCurrentChars(itemNode)
+                            ' TODO: Something about "familiar_shield"
+
+                            itemPool.AddLast(itemNode)
+                        End If
+                    End For
+                End For
+            End For
+        End For
+
+        ' TODO: Log item to complete item pool generation.
     End Function
 
     Function DropItem: Object(xVal: Int, yVal: Int, t: Int)
@@ -176,7 +350,7 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.IsPainItem()")
     End Function
 
-    Function IsUnlocked: Bool(t: Int)
+    Function IsUnlocked: Bool(t: String)
         Debug.TraceNotImplemented("Item.IsUnlocked()")
     End Function
 

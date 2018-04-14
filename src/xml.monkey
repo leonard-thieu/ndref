@@ -1,5 +1,7 @@
 'Strict
 
+Import monkey.list
+Import monkey.map
 Import logger
 
 Class XMLDoc Extends XMLNode
@@ -11,6 +13,23 @@ End Class
 Class XMLNode
 
     Function _EditorFix: Void() End
+
+    Field _firstChild: XMLNode
+    Field _doc: XMLDoc
+    Field name: String
+    Field _nextSibling: XMLNode
+    Field _attributes: StringMap
+    Field value: String
+    Field _children: List<XMLNode>
+    Field valid: Bool
+    Field path: String
+    Field _pathList: List<XMLNode>
+    Field _parent: XMLNode
+    Field line: Int
+    Field column: Int
+    Field offset: Int
+    Field _lastChild: XMLNode
+    Field _previousSibling: XMLNode
 
     Method AddChild: Object(name: String, attributes: Int)
         Debug.TraceNotImplemented("XMLNode.AddChild()")
@@ -48,15 +67,15 @@ Class XMLNode
         Debug.TraceNotImplemented("XMLNode.GetAttribute()")
     End Method
 
-    Method GetChild: Object()
+    Method GetChild: XMLNode()
         Debug.TraceNotImplemented("XMLNode.GetChild()")
     End Method
 
-    Method GetChild: Object(name: String)
+    Method GetChild: XMLNode(name: String)
         Debug.TraceNotImplemented("XMLNode.GetChild()")
     End Method
 
-    Method GetChild: Object(name: String, attributes: Int)
+    Method GetChild: XMLNode(name: String, attributes: Int)
         Debug.TraceNotImplemented("XMLNode.GetChild()")
     End Method
 
@@ -68,15 +87,15 @@ Class XMLNode
         Debug.TraceNotImplemented("XMLNode.GetChildAtPath()")
     End Method
 
-    Method GetChildren: Object()
+    Method GetChildren: List<XMLNode>()
         Debug.TraceNotImplemented("XMLNode.GetChildren()")
     End Method
 
-    Method GetChildren: Object(name: String)
+    Method GetChildren: List<XMLNode>(name: String)
         Debug.TraceNotImplemented("XMLNode.GetChildren()")
     End Method
 
-    Method GetChildren: Object(name: String, attributes: Int)
+    Method GetChildren: List<XMLNode>(name: String, attributes: Int)
         Debug.TraceNotImplemented("XMLNode.GetChildren()")
     End Method
 
