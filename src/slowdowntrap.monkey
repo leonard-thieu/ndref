@@ -8,7 +8,7 @@ Class SlowDownTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("SlowDownTrap.New(xVal()")
+        Debug.TraceNotImplemented("SlowDownTrap.New()")
     End Method
 
 End Class
