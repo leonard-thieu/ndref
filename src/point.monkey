@@ -45,8 +45,8 @@ Class Point
         Debug.TraceNotImplemented("Point.Scale()")
     End Method
 
-    Method ToString: Int()
-        Debug.TraceNotImplemented("Point.ToString()")
+    Method ToString: String()
+        Return "(" + Self.x + ", " + Self.y + ")"
     End Method
 
     Method NoTrim: Void()
