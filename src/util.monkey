@@ -274,49 +274,49 @@ Class Util
     End Function
 
     Function RndBool: Bool(useSeed: Bool)
-        Return Util.RndIntRange(0, 1, useSeed, -1) = 0.0
+        Return Util.RndIntRangeFromZero(1, useSeed) = 0.0
     End Function
 
-    Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int)
-        Local rndIntVal: Int
+    Function RndFloatRange: Float(low: Float, high: Float, useSeed: Bool)
+        Local seed: Int
 
         If useSeed
-            rndIntVal = Util.storedSeed
             If Util.storedSeed = -1
-                rndIntVal = random.Seed
+                seed = random.Seed
             Else
+                seed = Util.storedSeed
                 Util.storedSeed = -1
             End If
         Else
-            rndIntVal = random.Seed
+            seed = random.Seed
             Util.storedSeed = random.Seed
         End If
 
-        Local rndVal := random.Rnd(low, high + 1)
-        ' TODO: Verify what causes `__asm { frndint }` to be emitted.
+        Return random.Rnd(low, high)
+    End Function
 
-        If replayConsistencyChannel < 0 Or
-           Not Level.isReplaying Or
-           Level.creatingMap
-            rndIntVal = math.Min(low, rndIntVal)
-        Else
-            rndVal = Level.replay.GetRand(replayConsistencyChannel)
+    Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int)
+        Local value: Int = math.Floor(Util.RndFloatRange(low, high + 1, useSeed))
+        value = math.Clamp(value, low, high)
 
-            If rndVal < low Or rndVal > high
-                Return rndIntVal
+        If replayConsistencyChannel >= 0
+            If Level.isReplaying
+                If Not Level.creatingMap
+                    value = Level.replay.GetRand(replayConsistencyChannel)
+
+                    If value < low Or
+                       value > high
+                        Return low
+                    End If
+                End If
+            Else
+                If Level.replay
+                    Level.replay.RecordRand(replayConsistencyChannel, value)
+                End If
             End If
         End If
 
-        rndIntVal = high
-        If rndVal <= high Then rndIntVal = rndVal
-
-        If replayConsistencyChannel >= 0 And
-           Not Level.isReplaying And
-           Level.replay
-            Level.replay.RecordRand(replayConsistencyChannel, rndIntVal)
-        End If
-
-        Return rndIntVal
+        Return value
     End Function
 
     Function RndIntRangeFromZero: Int(high: Int, useSeed: Bool)
