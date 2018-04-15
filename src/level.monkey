@@ -3192,7 +3192,69 @@ Class Level
     End Function
 
     Function PlaceSecretRooms: Void(numRooms: Int)
-        Debug.TraceNotImplemented("Level.PlaceSecretRooms()")
+        Local room: SecretRoomData
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local x := tilesOnXNode.Key()
+                Local y := tileNode.Key()
+
+                room = Level._CreateSecretRoom(x, y, 2, 2)
+                If Not room Then room = Level._CreateSecretRoom(x, y, 1, 2)
+                If Not room Then room = Level._CreateSecretRoom(x, y, 2, 1)
+                If Not room Then room = Level._CreateSecretRoom(x, y, 1, 1)
+
+                If room
+                    Local rndVal := Util.RndIntRangeFromZero(10, True)
+                    Local roomType: Int
+
+                    If (rndVal < 1) And
+                       (room.w = 4 And room.h = 4) And
+                       Not Level.secretRockRoomPlaced And
+                       Not room.isCrackedWallAdjacent
+                        roomType = RoomType.Vault
+                        Level.secretRockRoomPlaced = True
+                    Else
+                        roomType = RoomType.Secret
+                    End If
+
+                    If Level.CreateRoom(room.x, room.y, room.w, room.h, False, roomType, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+                        Local roomData := New RoomData(room.x, room.y, room.w, room.h, roomType, False)
+                        Level.rooms.AddLast(roomData)
+
+                        Local location := New Point(room.x, room.y)
+                        Local size := New Point(room.w, room.h)
+                        Local rock := 0
+                        If roomType = RoomType.Vault Then rock = 1
+                        Debug.Log("Created secret room at " + location.ToString() + " of size " + size.ToString() + " rock = " + rock)
+
+                        numRooms -= 1
+                        If numRooms <= 0 Then Return
+                    End If
+                End If
+            End For
+        End For
+
+        ' Is this realistically reachable?
+        Debug.WriteLine("WARN: Failed to place secret rooms.")
+    End Function
+
+    Function _CreateSecretRoom: SecretRoomData(xVal: Int, yVal: Int, width: Int, height: Int)
+        Local isCrackedWallAdjacentToRoom := False
+
+        For Local x := xVal To xVal + width
+            For Local y := yVal To yVal + height
+                If Not Level.IsSurroundedByDestructibleWalls(x, y) Then Return Null
+                If Level.IsCrackedWallAdjacent(x, y) Then isCrackedWallAdjacentToRoom = True
+            End For
+        End For
+
+        Local roomX := xVal - 1
+        Local roomY := yVal - 1
+        Local roomW := width + 2
+        Local roomH := height + 2
+
+        Return New SecretRoomData(roomX, roomY, roomW, roomH, isCrackedWallAdjacentToRoom)
     End Function
 
     Function PlaceShopItemsAt: Void(tmpX: Int, tmpY: Int, door: Rect)
@@ -3941,6 +4003,25 @@ Class MinibossTileData
     Field y: Int
     Field type: Int
     Field wireMask: Int
+
+End Class
+
+' Helper type
+Class SecretRoomData
+
+    Method New(xVal: Int, yVal: Int, width: Int, height: Int, isCrackedWallAdjacent: Bool)
+        Self.x = xVal
+        Self.y = yVal
+        Self.w = width
+        Self.h = height
+        Self.isCrackedWallAdjacent = isCrackedWallAdjacent
+    End Method
+
+    Field x: Int
+    Field y: Int
+    Field w: Int
+    Field h: Int
+    Field isCrackedWallAdjacent: Bool
 
 End Class
 
