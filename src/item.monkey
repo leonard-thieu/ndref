@@ -19,6 +19,8 @@ End Function
 
 Class Item Extends Entity
 
+    Const NoItem: String = "no_item"
+
     Global debugTrailerMode: Bool
     Global diamondDealerItems1: Int
     Global diamondDealerItems2: Int

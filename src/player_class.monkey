@@ -4,8 +4,12 @@ Import monkey.list
 Import monkey.map
 Import monkey.set
 Import bouncer
+'Import controller_input_popup
+'Import controller_popup
+'Import enemyclamper
 Import familiar
 Import familiar_fixed
+Import gamedata
 Import item
 Import logger
 Import mobileentity
@@ -13,6 +17,7 @@ Import player_health
 Import point
 Import sprite
 Import textsprite
+'Import zap
 
 Class Player Extends MobileEntity
 
@@ -161,24 +166,54 @@ Class Player Extends MobileEntity
 
         Player.coinXOR = Player.numCoins ~ $1D69
 
-        Local playerTempCount := Player.playerTempCount
-        Self.playerTempNum = playerTempCount
+        Self.playerTempNum = Player.playerTempCount
         Player.playerTempCount += 1
 
         If Not Self.hudSlotInitialized
-            Self.hudSlotInitialized = True
+            ' TODO: HUD slot initialization
+        End If
 
-            If Self.numHudSlots <= 0
+        Self.playerID = id
+        Self.isPlayer = True
 
+        If characterID_ = Character.None
+            characterID_ = GameData.GetDefaultCharacter()
+            If Not GameData.GetDLCPlayed()
+                If GameData.GetZone2Unlocked(Character.Cadence)
+                    characterID_ = Character.Nocturna
+                End If
             End If
         End If
+        Self.SetCharacter(characterID_)
+
+        ' TODO: Set Camera x/y
+        ' TODO: Shovel
+
+        Self.tempoHeartText.zVal = 10002
+
+        ' TODO: Sprite stuff
+
+        Self.bounce = New Bouncer() ' TODO: Double check constructor
+        Self.bounce.Disable()
+        Self.wobbler = New Bouncer() ' TODO: Double check constructor
+
+        ' TODO: More sprite stuff
+
+        If Not Level.isReplaying
+            Player.numDiamonds = GameData.GetPlayerDiamonds()
+        End If
+
+        ' `ActivateLight` is inlined in the binary and does not show `constLightSourceMax` being modified although `ActivateLight` does modify it.
+        Local constLightSourceMax := Self.constLightSourceMax
+        Self.ActivateLight(1.25, 1.75)
+        Self.constLightSourceMax = constLightSourceMax
     End Method
 
     Field isHelper: Bool
-    Field familiars: List<FamiliarFixed>
+    Field familiars: List<FamiliarFixed> = New List<FamiliarFixed>()
     Field lambFamiliar: Familiar
-    Field characterID: Int
-    Field playerID: Int
+    Field characterID: Int = Character.None
+    Field playerID: Int = -1
     Field UsingDorianAltSkin: Bool
     Field UsingMelodyAltSkin: Bool
     Field UsingDoveAltSkin: Bool
@@ -187,79 +222,79 @@ Class Player Extends MobileEntity
     Field UsingAltSkin: Bool
     Field headImage: Sprite
     Field headImageForHUD: Sprite
-    Field ownedItems: StringMap<String>
-    Field cursedSlots: StringMap<Bool>
-    Field mysterySlots: StringSet
-    Field miscItems: ItemList
-    Field itemQuantity: StringMap<Int>
+    Field ownedItems: StringMap<String> = New StringMap<String>()
+    Field cursedSlots: StringMap<Bool> = New StringMap<Bool>()
+    Field mysterySlots: StringSet = New StringSet()
+    Field miscItems: ItemList = New ItemList()
+    Field itemQuantity: StringMap<Int> = New StringMap<Int>()
     Field weapon: Weapon
     Field armorAmount: Int
-    Field armorType: String
-    Field torchType: String
+    Field armorType: String = Item.NoItem
+    Field torchType: String = Item.NoItem
     Field hasPickedUpWonderThisRun: Bool
     Field hasPickedUpBlastHelmThisRun: Bool
     Field hasPickedUpGrenadeCharmThisRun: Bool
     Field batFormActive: Bool
-    Field health: PlayerHealth
-    Field courageShovelBeat: Int
-    Field courageRingBeat: Int
+    Field health: PlayerHealth = New PlayerHealth() ' TODO: Double check constructor
+    Field courageShovelBeat: Int = -1
+    Field courageRingBeat: Int = -1
     Field cutlassParry: Bool
     Field batWeapon: Weapon
     Field conductorWireActive: Bool
-    Field lastMove: Int
-    Field moveLastBeat: Int
-    Field momentumDir: Int
+    Field lastMove: Int = -1
+    Field moveLastBeat: Int = -1
+    Field momentumDir: Int = -1
     Field immobilized: Bool
     Field clampedEnemy: EnemyClamper
-    Field lordCrownActiveBeat: Int
-    Field lastIceSlideBeat: Int
+    Field lordCrownActiveBeat: Int = -1
+    Field lastIceSlideBeat: Int = -1
     Field readyToFamiliar: String
-    Field lambDeathBeat: Int
+    Field lambDeathBeat: Int = -1
     Field readyToThrow: Bool
     Field killCounter: Int
     Field zap: Zap
     Field bloodDrumBeats: Int
-    Field coinPickupBeat: Int
+    Field coinPickupBeat: Int = -2
     Field dugRecently: Int
     Field warDrumBeats: Int
     Field temporaryMapSight: Bool
-    Field lastKillBeat: Int
-    Field bloodCounter: Int
-    Field shieldActiveBeat: Int
+    Field lastKillBeat: Int = -1
+    Field bloodCounter: Int = 10
+    Field shieldActiveBeat: Int = -1
     Field shieldImageFront: Sprite
     Field shieldImageBack: Sprite
-    Field paceBeat: Int
-    Field lastPlayerMoveBeatIncludeShoves: Int
+    Field paceBeat: Int = -1
+    Field lastPlayerMoveBeatIncludeShoves: Int = -1
     Field lastVocalizedBeat: Int
     Field lastAttackBeat: Int
     Field attackChain: Int
     Field shovelRenderTime: Int
-    Field shovelRenderType: String
+    Field shovelRenderType: String = Item.NoItem
     Field shovelRenderX: Int
     Field shovelRenderY: Int
     Field castingFireball: Bool
-    Field lastHitBeat: Int
+    Field lastHitBeat: Int = -1
     Field dontLeap: Bool
     Field didCrownTeleport: Bool
     Field lastBeatX: Int
     Field lastBeatY: Int
     Field wasClamped: Bool
     Field helper: Player
-    Field griefVONum: Int
+    Field griefVONum: Int = 1
     Field globalIgnoreFlyToSlot: Bool
     Field hudDiamondForFlyingRender: Bool
     Field numBombs: Int
-    Field hudSlotOffFlyFromPlayer: bool[]
-    Field hideQuantity: StringMap<Bool>
-    Field holdingBagItems: List<String>
-    Field playerTempNum: Int
+    Field hudSlotOffFlyFromPlayer: Bool[]
+    Field hideQuantity: StringMap<Bool> = New StringMap<Bool>()
+    Field holdingBagItems: List<String> = New List<String>()
+    Field playerTempNum: Int = -1
     Field hudSlotInitialized: Bool
-    Field numHudSlots: Int
+    Field numHudSlots: Int = 8
     Field hudSlot: Sprite[]
-    Field numHudSlotsIncludingActionAndSpells: Int
+    Field numHudSlotsIncludingActionAndSpells: Int = 15
     Field hudSlotOff: Point2[]
-    Field shovelImages: StringMap<Sprite>
-    Field tempoHeartText: TextSprite
+    Field shovelImages: StringMap<Sprite> = New StringMap<Sprite>()
+    Field tempoHeartText: TextSprite = New TextSprite() ' TODO: Double check constructor
     Field hudSlotAction1: Sprite
     Field hudSlotAction2: Sprite
     Field hudSlotAction2Empty: Sprite
@@ -278,20 +313,20 @@ Class Player Extends MobileEntity
     Field mysteryWeaponImage: Sprite
     Field mysteryRingImage: Sprite
     Field wobbler: Bouncer
-    Field lastMoveOntoPlayerInCoopModeBeat: Int
-    Field tempoBeatsLeft: Int
-    Field queuedMoveBeat: Int
-    Field minVisibilityCachedFrame: Int
+    Field lastMoveOntoPlayerInCoopModeBeat: Int = -1
+    Field tempoBeatsLeft: Int = 16
+    Field queuedMoveBeat: Int = -1
+    Field minVisibilityCachedFrame: Int = -1
     Field minVisibilityCached: Float
-    Field lastLOSX: Int
-    Field lastLOSY: Int
+    Field lastLOSX: Int = -9999
+    Field lastLOSY: Int = -9999
     Field popUpController: ControllerPopUp
     Field warnState: Int
     Field hintsController: ControllerPopUp
     Field seedController: ControllerInputPopup
-    Field crownOfGreedBeat: Int
-    Field lastWarDrumBeat: Int
-    Field lastBloodDrumBeat: Int
+    Field crownOfGreedBeat: Int = -1
+    Field lastWarDrumBeat: Int = -1
+    Field lastBloodDrumBeat: Int = -1
     Field queuedMove: Bool
     Field queuedMoveX: Int
     Field queuedMoveY: Int
@@ -299,26 +334,26 @@ Class Player Extends MobileEntity
     Field electricityCounter: Int
     Field playedExitErrorSound: Bool
     Field lastClampedEnemy: EnemyClamper
-    Field heartTransplantTime: Int
-    Field crownText: TextSprite
-    Field quantityText: StringMap<TextSprite>
-    Field hudTextForInput: IntMap<TextSprite>
-    Field hudText2ForInput: IntMap<TextSprite>
-    Field hudSpriteForInput: IntMap<Sprite>
-    Field action1Text: TextSprite
-    Field action2Text: TextSprite
-    Field bombText: TextSprite
-    Field coinText: TextSprite
-    Field diamondText: TextSprite
+    Field heartTransplantTime: Int = -1
+    Field crownText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field quantityText: StringMap<TextSprite> = New StringMap<TextSprite>()
+    Field hudTextForInput: IntMap<TextSprite> = New IntMap<TextSprite>()
+    Field hudText2ForInput: IntMap<TextSprite> = New IntMap<TextSprite>()
+    Field hudSpriteForInput: IntMap<Sprite> = New IntMap<Sprite>()
+    Field action1Text: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field action2Text: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field bombText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field coinText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field diamondText: TextSprite = New TextSprite() ' TODO: Double check constructor
     Field hudDiamondForFlyingXOff: Float
     Field hudDiamondForFlyingYOff: Float
-    Field spell1CoolText: TextSprite
-    Field spell1CoolText2: TextSprite
-    Field spell1CoolText3: TextSprite
-    Field spell2CoolText: TextSprite
-    Field spell2CoolText2: TextSprite
-    Field spell2CoolText3: TextSprite
-    Field trapSight: Float
+    Field spell1CoolText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field spell1CoolText2: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field spell1CoolText3: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field spell2CoolText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field spell2CoolText2: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field spell2CoolText3: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field trapSight: Float = 100.0
     Field deadRenderFrames: Int
 
     Method AddFamiliarAt: Void(offsetX: Int, offsetY: Int, item: Int)
@@ -1048,6 +1083,7 @@ End Class
 
 Class Character
 
+    Const None: Int = -1
     Const Cadence: Int = 0
     Const Melody: Int = 1
     Const Aria: Int = 2
