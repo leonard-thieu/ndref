@@ -514,7 +514,7 @@ Class Item Extends Entity
                 Case "charm_nazar"
                 Case "feet_ballet_shoes"
                 Case "holster"
-                case "ring_shadows"
+                Case "ring_shadows"
                 Case "scroll_enchant_weapon"
                 Case "shovel_blood"
                     Return False
@@ -539,7 +539,7 @@ Class Item Extends Entity
                 Case "ring_phasing"
                 Case "ring_shadows"
                 Case "scroll_earthquake"
-                case "scroll_enchant_weapon"
+                Case "scroll_enchant_weapon"
                 Case "scroll_fireball"
                 Case "scroll_pulse"
                 Case "scroll_riches"
