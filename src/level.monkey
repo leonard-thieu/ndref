@@ -664,14 +664,14 @@ Class Level
         Debug.TraceNotImplemented("Level.BreakIce()")
     End Function
 
-    Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horiz: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
+    Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horizontal: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
         If Level.IsSecretRoom(roomType)
             New Tile(xVal, yVal, TileType.CorridorDirtWall, pending, -1)
         Else
             New Tile(xVal, yVal, TileType.CorridorFloor, pending, -1)
 
             If wideCorridor
-                If horiz
+                If horizontal
                     New Tile(xVal, yVal + 1, TileType.CorridorFloor, pending, -1)
                 Else
                     New Tile(xVal + 1, yVal, TileType.CorridorFloor, pending, -1)
@@ -680,7 +680,8 @@ Class Level
         End If
 
         If Not skipWalls
-            If horiz
+            ' TODO: Probably bad practice to mutate `xVal` and `yVal`. Consider alternative way of writing it.
+            If horizontal
                 If Not Level.IsFloorAt(xVal, yVal - 1)
                     New Tile(xVal, yVal - 1, TileType.CorridorDirtWall, pending, -1)
                 End If
@@ -708,7 +709,7 @@ Class Level
         End If
     End Function
 
-    Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horiz: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
+    Function CarveNewCorridor: Bool(moveX: Int, moveY: Int, horizontal: Bool, pending: Bool, secondaryCarve: Bool, roomType: Int, wideCorridor: Bool)
         Local numCarves := 2
         If Level.IsSecretRoom(roomType)
             numCarves = 1
@@ -716,17 +717,23 @@ Class Level
 
         For Local i := 0 Until numCarves
             If (i > 0) And Not secondaryCarve
-                If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY) = TileType.Empty)
+                Local x := Level.carveX
+                Local y := Level.carveY
+
+                If Not (Level.GetTileTypeAt(x, y) = TileType.Empty)
+                    Debug.WriteLine("Failed to carve new corridor. Tile at " + (New Point(x, y)).ToString() + " is not empty.")
                     Return False
                 End If
 
                 If wideCorridor
-                    If horiz
+                    If horizontal
                         If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY + 1) = TileType.Empty)
+                            Debug.WriteLine("Failed to carve new corridor. Tile at " + (New Point(x, y + 1)).ToString() + " is not empty.")
                             Return False
                         End If
                     Else
                         If Not (Level.GetTileTypeAt(Level.carveX + 1, Level.carveY) = TileType.Empty)
+                            Debug.WriteLine("Failed to carve new corridor. Tile at " + (New Point(x + 1, y)).ToString() + " is not empty.")
                             Return False
                         End If
                     End If
@@ -734,7 +741,7 @@ Class Level
             End If
 
             Local skipWalls := secondaryCarve
-            Level.CarveCorridorTile(Level.carveX, Level.carveY, horiz, pending, skipWalls, roomType, wideCorridor)
+            Level.CarveCorridorTile(Level.carveX, Level.carveY, horizontal, pending, skipWalls, roomType, wideCorridor)
 
             Level.carveX += moveX
             Level.carveY += moveY
@@ -1584,7 +1591,7 @@ Class Level
         End If
 
         Local lastCreatedRoomType := roomType
-        Local tiles: List<TileData>
+        Local tiles: List<TileData> = New List<TileData>()
         Select roomType
             Case RoomType.None
                 If controller_game.currentZone = 1
@@ -1592,45 +1599,48 @@ Class Level
                         If Not Util.RndBool(True)
                             lastCreatedRoomType = RoomType.Basic
                             tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
-                        End If
-
-                        lastCreatedRoomType = RoomType.OutsideCorners
-                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.OutsideCorners, originX, originY, originX2, originY2, wideCorridor, wallType)
-                    End If
-
-                    Select Util.RndIntRangeFromZero(2, True)
-                        Case 0
-                            lastCreatedRoomType = RoomType.Basic
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
-                        Case 1
-                            lastCreatedRoomType = RoomType.Pillar
-                            ' No room?
-                        Case 2
-                            lastCreatedRoomType = RoomType.Pillar
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
-                    End Select
-                Else
-                    If controller_game.currentZone = 4
-                        lastCreatedRoomType = RoomType.Basic
-                        If Not Util.RndIntRangeFromZero(1, True) Then lastCreatedRoomType = RoomType.None
-
-                        tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
-                    End If
-
-                    Select Util.RndIntRangeFromZero(3, True)
-                        Case 0
-                            lastCreatedRoomType = RoomType.Basic
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
-                        Case 1
+                        Else
                             lastCreatedRoomType = RoomType.OutsideCorners
                             tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.OutsideCorners, originX, originY, originX2, originY2, wideCorridor, wallType)
-                        Case 2
-                            lastCreatedRoomType = RoomType.Pillar
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
-                        Case 3
+                        End If
+                    Else
+                        Select Util.RndIntRangeFromZero(2, True)
+                            Case 0
+                                lastCreatedRoomType = RoomType.Basic
+                                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            Case 1
+                                lastCreatedRoomType = RoomType.Pillar
+                                ' No room?
+                            Case 2
+                                lastCreatedRoomType = RoomType.Pillar
+                                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
+                        End Select
+                    End If
+                Else
+                    If controller_game.currentZone = 4
+                        If Not Util.RndIntRangeFromZero(1, True)
+                            lastCreatedRoomType = RoomType.None
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
+                        Else
                             lastCreatedRoomType = RoomType.Basic
-                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Notched, originX, originY, originX2, originY2, wideCorridor, wallType)
-                    End Select
+                            tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
+                        End If
+                    Else
+                        Select Util.RndIntRangeFromZero(3, True)
+                            Case 0
+                                lastCreatedRoomType = RoomType.Basic
+                                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            Case 1
+                                lastCreatedRoomType = RoomType.OutsideCorners
+                                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.OutsideCorners, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            Case 2
+                                lastCreatedRoomType = RoomType.Pillar
+                                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
+                            Case 3
+                                lastCreatedRoomType = RoomType.Basic
+                                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Notched, originX, originY, originX2, originY2, wideCorridor, wallType)
+                        End Select
+                    End If
                 End If
             Case RoomType.Pillar
             Case RoomType.OutsideCorners
@@ -2149,6 +2159,7 @@ Class Level
 
     Function FillSecretRoomsZone1: Bool()
         Debug.TraceNotImplemented("Level.FillSecretRoomsZone1()")
+        Return True
     End Function
 
     Function FillSecretRoomsZone2: Bool()
@@ -2168,8 +2179,6 @@ Class Level
     End Function
 
     Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool)
-        Debug.TraceEntered("Level.FindTileOfType()")
-
         While True
             Local tilesOnXNode: map.Node<Int, IntMap<Tile>>
             Local i := Util.RndIntRangeFromZero(Level.tiles.Count() - 1, True)
@@ -2880,6 +2889,7 @@ Class Level
         If (controller_game.currentLevel > 4) And (wideCorridorChance <= 90) Then wideCorridor = True
 
         ' Overwrites `wideCorridor` but cannot skip the call to `RndIntRange` because it has side effects.
+        ' TODO: Windows version doesn't set `wideCorridor` to `False` for `Secret` and `Vault`.
         Select roomType
             Case RoomType.Shop
             Case RoomType.Secret
@@ -2891,85 +2901,43 @@ Class Level
         Local y: Int
 
         If roomToAttachTo
-            If roomToAttachTo.x And
-               roomToAttachTo.x + roomToAttachTo.w And
-               roomToAttachTo.y And
-               roomToAttachTo.y + roomToAttachTo.h
-                While True
-                    x = 1 + roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.w - 1, True)
-                    y = 1 + roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.h - 1, True)
+            While True
+                If roomToAttachTo.x = x Then Exit
+                If roomToAttachTo.x + roomToAttachTo.w = x Then Exit
+                If roomToAttachTo.y = y Then Exit
+                If roomToAttachTo.y + roomToAttachTo.h = y Then Exit
 
-                    If roomToAttachTo.x = x Then Exit
-                    If (roomToAttachTo.x + roomToAttachTo.w) = x Then Exit
-                    If roomToAttachTo.y = y Then Exit
-                    If (roomToAttachTo.y + roomToAttachTo.h) = y Then Exit
-                End While
-            Else
-                x = 0
-                y = 0
-            End If
+                x = 1 + roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.w - 1, True)
+                y = 1 + roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.h - 1, True)
+            End While
         Else
             Local tileLocation := Level.FindTileOfType(TileType.Unknown98, True)
             x = tileLocation.x
             y = tileLocation.y
         End If
 
-        Local dunno3 := 4
-        Local dunno2 := 3
-        Local dunno1 := 2
-        Local dunno0 := 1
+        Local numFloor: Int
 
-        Local tileRight := Level.GetTileAt(x + 1, y)
-        If tileRight And Not (tileRight.GetType() = TileType.Floor)
-            dunno3 = 3
-            dunno2 = 2
-            dunno1 = 1
-            dunno0 = 0
+        If Level.GetTileTypeAt(x + 1, y) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x, y + 1) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x - 1, y) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x, y - 1) = TileType.Floor Then numFloor += 1
+
+        If Not (numFloor = 1)
+            Debug.WriteLine("Failed to place room for zone 1. Attachment point has " + numFloor + " tiles adjacent that are Floor (expected 1).")
+            Return Null
         End If
 
-        Local tileBelow := Level.GetTileAt(x, y + 1)
-        If tileBelow And Not (tileBelow.GetType() = TileType.Floor)
-            dunno2 += 1
-            dunno1 += 1
-            dunno0 += 1
-        End If
-
-        Local tileLeft := Level.GetTileAt(x - 1, y)
-        If tileLeft And Not (tileLeft.GetType() = TileType.Floor)
-            dunno1 += 1
-            dunno0 += 1
-        End If
-
-        Local tileAbove := Level.GetTileAt(x, y - 1)
-        If tileAbove And Not (tileAbove.GetType() = TileType.Floor)
-            dunno0 += 1
-        End If
-
-        If Not (dunno0 = 1) Return Null
-
-        Local horiz := False
         Local moveX := 0 ' Possible values: -1, 0, 1
         Local moveY := 0 ' Possible values: -1, 0, 1
 
-        If tileRight And Not (tileRight.GetType() = TileType.Floor)
-            horiz = True
-            moveX = -1
-        End If
+        If Level.GetTileTypeAt(x + 1, y) = TileType.Floor Then moveX = -1
+        If Level.GetTileTypeAt(x, y + 1) = TileType.Floor Then moveY = -1
+        If Level.GetTileTypeAt(x - 1, y) = TileType.Floor Then moveX = 1
+        If Level.GetTileTypeAt(x, y - 1) = TileType.Floor Then moveY = 1
 
-        If tileBelow And Not (tileBelow.GetType() = TileType.Floor)
-            moveY = -1
-        Else
-            moveY = 0
-        End If
-
-        If tileLeft And Not (tileLeft.GetType() = TileType.Floor)
-            horiz = True
-            moveX = 1
-        End If
-
-        If tileAbove And Not (tileAbove.GetType() = TileType.Floor)
-            moveY = 1
-        End If
+        Local horizontal := True
+        If moveX = 0 Then horizontal = False
 
         Level.carveX = x
         Level.carveY = y
@@ -2977,116 +2945,113 @@ Class Level
         Local width: Int
         Local height: Int
 
-        If Not Level.CarveNewCorridor(moveX, moveY, horiz, True, False, roomType, wideCorridor) Return Null
+        If Not Level.CarveNewCorridor(moveX, moveY, horizontal, True, False, roomType, wideCorridor) Return Null
 
-        If Level.IsSecretRoom(roomType)
-            ' `width` and `height` are overwritten but `RndIntRange` has side effects. Do not remove.
-            width = Util.RndIntRange(6, 8, True, -1)
-            height = Util.RndIntRange(5, 7, True, -1)
+        For Local i := 0 Until 2
+            If Util.RndBool(True)
+                If Not (Level.IsFloorAt(Level.carveX, Level.carveY))
+                    New Tile(Level.carveX, Level.carveY, TileType.CorridorDirtWall, True, -1)
+                End If
 
-            width = 4
-            height = 3
-        Else
-            For Local i := 0 Until 2
-                If Util.RndBool(True)
-                    If Not (Level.IsFloorAt(Level.carveX, Level.carveY))
-                        New Tile(Level.carveX, Level.carveY, TileType.CorridorDirtWall, True, -1)
+                If horizontal
+                    If Not (Level.IsFloorAt(Level.carveX, Level.carveY - 1))
+                        New Tile(Level.carveX, Level.carveY - 1, TileType.CorridorDirtWall, True, -1)
                     End If
 
-                    If horiz
-                        If Not (Level.IsFloorAt(Level.carveX, Level.carveY - 1))
-                            New Tile(Level.carveX, Level.carveY - 1, TileType.CorridorDirtWall, True, -1)
-                        End If
-
-                        If Not (Level.IsFloorAt(Level.carveX, Level.carveY + 1))
-                            New Tile(Level.carveX, Level.carveY + 1, TileType.CorridorDirtWall, True, -1)
-                        End If
-
-                        Level.carveX -= moveX
-                        Level.carveY -= moveY
-
-                        moveX = 0
-                        moveY = -1
-                        If Util.RndBool(True)
-                            moveY = 1
-                        End If
-                    Else
-                        If Not (Level.IsFloorAt(Level.carveX - 1, Level.carveY))
-                            New Tile(Level.carveX - 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
-                        End If
-
-                        If Not (Level.IsFloorAt(Level.carveX + 1, Level.carveY))
-                            New Tile(Level.carveX + 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
-                        End If
-
-                        Level.carveX -= moveX
-                        Level.carveY -= moveY
-
-                        moveX = -1
-                        moveY = 0
-                        If Util.RndBool(True)
-                            moveX = 1
-                        End If
+                    If Not (Level.IsFloorAt(Level.carveX, Level.carveY + 1))
+                        New Tile(Level.carveX, Level.carveY + 1, TileType.CorridorDirtWall, True, -1)
                     End If
 
-                    If Not Level.CarveNewCorridor(moveX, moveY, Not horiz, True, True, roomType, wideCorridor)
-                        Return Null
+                    Level.carveX -= moveX
+                    Level.carveY -= moveY
+
+                    moveX = 0
+                    moveY = -1
+                    If Util.RndBool(True)
+                        moveY = 1
+                    End If
+                Else
+                    If Not (Level.IsFloorAt(Level.carveX - 1, Level.carveY))
+                        New Tile(Level.carveX - 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
+                    End If
+
+                    If Not (Level.IsFloorAt(Level.carveX + 1, Level.carveY))
+                        New Tile(Level.carveX + 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
+                    End If
+
+                    Level.carveX -= moveX
+                    Level.carveY -= moveY
+
+                    moveX = -1
+                    moveY = 0
+                    If Util.RndBool(True)
+                        moveX = 1
                     End If
                 End If
-            End For
 
-            ' `width` and `height` are overwritten if `roomType` is 3 (Shop) but `RndIntRange` has side effects.
-            width = Util.RndIntRange(6, 8, True, -1)
-            height = Util.RndIntRange(5, 7, True, -1)
+                horizontal = Not horizontal
 
-            If roomType = RoomType.Shop
-                width = 6
-                height = 8
+                If Not Level.CarveNewCorridor(moveX, moveY, horizontal, True, True, roomType, wideCorridor)
+                    Return Null
+                End If
             End If
+        End For
+
+        width = Util.RndIntRange(6, 8, True, -1)
+        height = Util.RndIntRange(5, 7, True, -1)
+
+        If roomType = RoomType.Shop
+            width = 6
+            height = 8
+        End If
+
+        If Level.IsSecretRoom(roomType)
+            width = 4
+            height = 3
         End If
 
         Local xVal: Int
         Local yVal: Int
+        Local xOff: Int
+        Local yOff: Int
         Local originX := Level.carveX
         Local originY := Level.carveY
 
         Select moveX
             Case -1
-                xVal = Level.carveX - width
-                Local yOff := Util.RndIntRangeFromZero(height - 2, True)
-
-                If wideCorridor
-                    yVal = Level.carveY - Util.RndIntRangeFromZero(height - 3, True) - 1
-                Else
-                    yVal = originY - yOff - 1
-                End If
-            Case 1
-                xVal = Level.carveX
-                Local yOff := Util.RndIntRangeFromZero(height - 2, True)
+                yOff = Util.RndIntRangeFromZero(height - 2, True)
 
                 If wideCorridor
                     yOff = Util.RndIntRangeFromZero(height - 3, True)
                 End If
 
+                xVal = originX - width
                 yVal = originY - yOff - 1
-            Default
-                ' `RndIntRange` has side effects. Must stay outside of the following If-block.
-                Local xOff := Util.RndIntRangeFromZero(width - 2, True)
-
-                yVal = Level.carveY
-                If moveY = -1 Then yVal -= height
+            Case 1
+                yOff = Util.RndIntRangeFromZero(height - 2, True)
 
                 If wideCorridor
-                    xVal = Level.carveX - Util.RndIntRangeFromZero(width - 3, True) - 1
-                Else
-                    xVal = Level.carveX - xOff - 1
+                    yOff = Util.RndIntRangeFromZero(height - 3, True)
                 End If
+
+                xVal = originX
+                yVal = originY - yOff - 1
+            Default
+                xOff = Util.RndIntRangeFromZero(width - 2, True)
+
+                If wideCorridor
+                    xOff = Util.RndIntRangeFromZero(width - 3, True)
+                End If
+
+                xVal = originX - xOff - 1
+                yVal = originY
+                If moveY = -1 Then yVal -= height
         End Select
 
         Local originX2 := originX + 1
         Local originY2 := originY
 
-        If horiz
+        If horizontal
             originX2 = originX
             originY2 = originY + 1
         End If
@@ -3097,14 +3062,14 @@ Class Level
 
         For Local pendingTilesOnXNode := EachIn Level.pendingTiles
             For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
-                Local pendingTileX := pendingTilesOnXNode.Key()
-                Local pendingTileY := pendingTileNode.Key()
+                Local tileX := pendingTilesOnXNode.Key()
+                Local tileY := pendingTileNode.Key()
 
-                Local tileAt := Level.GetTileAt(pendingTileX, pendingTileY)
-                If tileAt Then tileAt.Die()
+                Local tile := Level.GetTileAt(tileX, tileY)
+                Local tileType := pendingTileNode.Value().GetType()
+                If tile Then tile.Die()
 
-                Local pendingTileType := pendingTileNode.Value().GetType()
-                New Tile(pendingTileX, pendingTileY, pendingTileType, False, -1)
+                New Tile(tileX, tileY, tileType, False, -1)
             End For
         End For
 
@@ -3125,31 +3090,26 @@ Class Level
         If (controller_game.currentLevel = 3) And (addDoorChance <= 60) Then addDoor = True
         If (controller_game.currentLevel > 3) And (addDoorChance <= 50) Then addDoor = True
 
-        Local tileType: Int
-        If addDoor
-            If Level.isHardcoreMode
-                If Not wideCorridor
-                    If Util.RndIntRangeFromZero(8, True)
-                        New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
-                    Else
-                        New Tile(Level.carveX, Level.carveY, TileType.MetalDoor, False, -1)
-                    End If
-
-                    Return Level._PlaceRoom(xVal, yVal, width, height)
-                Else
-                    New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
-                End If
+        If addDoor And
+           Level.isHardcoreMode And
+           Not wideCorridor
+            If Util.RndIntRangeFromZero(8, True)
+                New Tile(originX, originY, TileType.Door, False, -1)
             Else
-                New Tile(Level.carveX, Level.carveY, TileType.Door, False, -1)
+                New Tile(originX, originY, TileType.MetalDoor, False, -1)
             End If
 
+            Return Level._PlaceRoom(xVal, yVal, width, height)
+        End If
+
+        Local tileType: Int
+        If addDoor
             tileType = TileType.Door
         Else
-            New Tile(Level.carveX, Level.carveY, TileType.CorridorFloor, False, -1)
-
             tileType = TileType.CorridorFloor
         End If
 
+        New Tile(originX, originY, tileType, False, -1)
         If wideCorridor
             New Tile(originX2, originY2, tileType, False, -1)
         End If
