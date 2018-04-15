@@ -219,7 +219,7 @@ Class Item Extends Entity
             End For
         End For
 
-        ' TODO: Log item to complete item pool generation.
+        ' TODO: Log time to complete item pool generation.
     End Function
 
     Function DropItem: Object(xVal: Int, yVal: Int, t: Int)
@@ -475,7 +475,6 @@ Class Item Extends Entity
 
             Select name
                 Case "blood_drum"
-                Case "charm_gluttony"
                 Case "charm_nazar"
                 Case "charm_risk"
                 Case "feet_ballet_shoes"
@@ -624,15 +623,15 @@ Class Item Extends Entity
 
         If Util.IsCharacterActive(Character.Diamond)
             If slot = "weapon"
-                If Item.IsItemOfClass(n, "isBow") Then Return False
                 If Item.IsItemOfClass(n, "isCrossbow") Then Return False
-                If Item.IsItemOfClass(n, "isCutlass") Then Return False
-                If Item.IsItemOfClass(n, "isDagger") Then Return False
-                If Item.IsItemOfClass(n, "isHarp") Then Return False
-                If Item.IsItemOfClass(n, "isLongsword") Then Return False
-                If Item.IsItemOfClass(n, "isRapier") Then Return False
-                If Item.IsItemOfClass(n, "isSpear") Then Return False
-                If Item.IsItemOfClass(n, "isStaff") Then Return False
+                If Item.IsItemOfClass(n, "isBow") Then Return True
+                If Item.IsItemOfClass(n, "isCutlass") Then Return True
+                If Item.IsItemOfClass(n, "isDagger") Then Return True
+                If Item.IsItemOfClass(n, "isHarp") Then Return True
+                If Item.IsItemOfClass(n, "isLongsword") Then Return True
+                If Item.IsItemOfClass(n, "isRapier") Then Return True
+                If Item.IsItemOfClass(n, "isSpear") Then Return True
+                If Item.IsItemOfClass(n, "isStaff") Then Return True
             End If
             If slot = "spell" Then Return False
 
@@ -690,29 +689,29 @@ Class Item Extends Entity
 
         If Item.debugTrailerMode And Item.IsItemOfClass(n, "isTemp")
             Return False
-        Else
-            If Level.isFloorIsLavaMode
-                If slot = "weapon"
-                    If Not Item.IsItemOfClass(n, "isCat") Then Return False
-                End If
+        End If
 
-                Select name
-                    Case "feet_boots_explorers"
-                    Case "feet_boots_winged"
-                    Case "feet_glass_slippers"
-                    Case "scroll_freeze_enemies"
-                    Case "spell_freeze_enemies"
-                    Case "tome_freeze"
-                        Return False
-                End Select
+        If Level.isFloorIsLavaMode
+            If slot = "weapon"
+                If Not Item.IsItemOfClass(n, "isCat") Then Return False
             End If
 
-            If Level.isPhasingMode
-                Select name
-                    Case "ring_phasing"
-                        Return False
-                End Select
-            End If
+            Select name
+                Case "feet_boots_explorers"
+                Case "feet_boots_winged"
+                Case "feet_glass_slippers"
+                Case "scroll_freeze_enemies"
+                Case "spell_freeze_enemies"
+                Case "tome_freeze"
+                    Return False
+            End Select
+        End If
+
+        If Level.isPhasingMode
+            Select name
+                Case "ring_phasing"
+                    Return False
+            End Select
         End If
 
         Return True
