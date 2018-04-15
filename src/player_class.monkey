@@ -17,6 +17,7 @@ Import player_health
 Import point
 Import sprite
 Import textsprite
+Import weapon
 'Import zap
 
 Class Player Extends MobileEntity
@@ -191,9 +192,9 @@ Class Player Extends MobileEntity
 
         ' TODO: Sprite stuff
 
-        Self.bounce = New Bouncer() ' TODO: Double check constructor
-        'Self.bounce.Disable()
-        Self.wobbler = New Bouncer() ' TODO: Double check constructor
+        Self.bounce = New Bouncer(-2.5, 0.0, 1.5, 20)
+        Self.bounce.Disable()
+        Self.wobbler = New Bouncer(-2.5, 0.0, 1.5, 13)
 
         ' TODO: More sprite stuff
 
@@ -497,7 +498,23 @@ Class Player Extends MobileEntity
     End Method
 
     Method EmptyAllSlots: Void(includeLamb: Bool)
-        Debug.TraceNotImplemented("Player.EmptyAllSlots()")
+        Self.ownedItems.Clear()
+        Self.cursedSlots.Clear()
+        Self.mysterySlots.Clear()
+        Self.ClearAllFamiliars(includeLamb)
+        Self.miscItems.Clear()
+        Self.itemQuantity.Clear()
+
+        Self.weapon = New Weapon(Item.NoItem)
+        Self.armorAmount = 0
+        Self.armorType = Item.NoItem
+        Self.torchType = Item.NoItem
+
+        Self.hasPickedUpWonderThisRun = False
+        Self.hasPickedUpBlastHelmThisRun = False
+        Self.hasPickedUpGrenadeCharmThisRun = False
+
+        Self.UpdateBonusHeart()
     End Method
 
     Method EmptySlot: Void(sl: Int)
@@ -556,8 +573,21 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.GetHUDQuantityText()")
     End Method
 
-    Method GetItemInSlot: Int(sl: Int, overrideBatForm: Bool)
-        Debug.TraceNotImplemented("Player.GetItemInSlot()")
+    Method GetItemInSlot: String(sl: String, overrideBatForm: Bool)
+        If Self.batFormActive Or Not overrideBatForm
+            Select sl
+                Case "weapon"
+                    Return "weapon_fangs"
+                Case "head"
+                    Return "head_sonar"
+            End Select
+        Else
+            If Self.ownedItems.Contains(sl)
+                Return Self.ownedItems.Get(sl)
+            End If
+        End If
+
+        Return Item.NoItem
     End Method
 
     Method GetItemQuantity: Int(item: Int)
@@ -633,7 +663,34 @@ Class Player Extends MobileEntity
     End Method
 
     Method HasItemOfType: Bool(i: String, overrideBatForm: Bool)
-        Debug.TraceNotImplemented("Player.HasItemOfType()")
+        If Not Self.batFormActive Or overrideBatForm
+            If Self.characterID = Character.Tempo
+                If i = "head_sonar" Then Return True
+            End If
+
+            Local slot := Item.GetSlot(i)
+
+            Select slot
+                Case "misc"
+                    Return Self.miscItems.Contains(i)
+                Case "action"
+                    If i = Self.GetItemInSlot("action1", False) Then Return True
+                    If i = Self.GetItemInSlot("action2", False) Then Return True
+                Case "spell"
+                    If i = Self.GetItemInSlot("spell1", False) Then Return True
+                    If i = Self.GetItemInSlot("spell2", False) Then Return True
+            End Select
+
+            Return i = Self.ownedItems.Get(slot)
+        End If
+
+        Select i
+            Case "weapon_fangs"
+            Case "head_sonar"
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method HasShovel: Bool()
@@ -830,7 +887,12 @@ Class Player Extends MobileEntity
     End Method
 
     Method SetCharacter: Void(charNum: Int)
-        Debug.TraceNotImplemented("Player.SetCharacter()")
+        If charNum >= 14 Then charNum = 0
+
+        Self.characterID = charNum
+        Self.LoadImages()
+        Self.EmptyAllSlots(True)
+        Self.GiveInitialEquipment(True)
     End Method
 
     Method SetDugRecently: Void()
@@ -890,7 +952,12 @@ Class Player Extends MobileEntity
     End Method
 
     Method UpdateBonusHeart: Void()
-        Debug.TraceNotImplemented("Player.UpdateBonusHeart()")
+        If Self.HasItemOfType("ring_wonder", False) Or
+           Self.HasItemOfType("ring_peace", False)
+            Self.health.GainBonusHeart()
+        Else
+            Self.health.LoseBonusHeart()
+        End If
     End Method
 
     Method UseBomb: Bool()

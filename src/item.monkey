@@ -956,3 +956,7 @@ Class ItemData
     Field yOff: Int
 
 End Class
+
+Class ItemList Extends List<String>
+
+End Class
