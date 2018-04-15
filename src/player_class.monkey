@@ -189,12 +189,10 @@ Class Player Extends MobileEntity
         ' TODO: Set Camera x/y
         ' TODO: Shovel
 
-        Self.tempoHeartText.zVal = 10002
-
         ' TODO: Sprite stuff
 
         Self.bounce = New Bouncer() ' TODO: Double check constructor
-        Self.bounce.Disable()
+        'Self.bounce.Disable()
         Self.wobbler = New Bouncer() ' TODO: Double check constructor
 
         ' TODO: More sprite stuff
