@@ -5,7 +5,15 @@ Import monkey.stack
 Import entity
 Import logger
 Import necrodancergame
-Import xml
+
+Function GetString: String(obj: JsonObject, key: String, defval: String)
+    If Not obj.Contains(key) Then Return defval
+
+    Local value := obj.Get(key)
+    If value = JsonNull.Instance Then Return defval
+
+    Return value.StringValue()
+End Function
 
 Class Item Extends Entity
 
@@ -17,20 +25,20 @@ Class Item Extends Entity
     Global hephItems2: Int
     Global hephItems3: Int
     Global itemImages: Int
-    Global itemPoolAnyChest: List<XMLNode>[7]
-    Global itemPoolAnyChest2: List<XMLNode>[7]
-    Global itemPoolChest: List<XMLNode>[7]
-    Global itemPoolChest2: List<XMLNode>[7]
-    Global itemPoolLockedChest: List<XMLNode>[7]
-    Global itemPoolLockedChest2: List<XMLNode>[7]
-    Global itemPoolLockedShop: List<XMLNode>[7]
-    Global itemPoolLockedShop2: List<XMLNode>[7]
-    Global itemPoolRandom: List<XMLNode> = New List<XMLNode>()
-    Global itemPoolRandom2: List<XMLNode> = New List<XMLNode>()
-    Global itemPoolShop: List<XMLNode>[7]
-    Global itemPoolShop2: List<XMLNode>[7]
-    Global itemPoolUrn: List<XMLNode>[7]
-    Global itemPoolUrn2: List<XMLNode>[7]
+    Global itemPoolAnyChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolAnyChest2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolChest2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolLockedChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolLockedChest2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolLockedShop: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolLockedShop2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolRandom: List<JsonObject> = New List<JsonObject>()
+    Global itemPoolRandom2: List<JsonObject> = New List<JsonObject>()
+    Global itemPoolShop: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolShop2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolUrn: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolUrn2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
     Global lastChestItemClass1: String
     Global lastChestItemClass2: String
     Global merlinItems1: Int
@@ -65,13 +73,12 @@ Class Item Extends Entity
     End Function
 
     Function CreateItemPools: Void()
-        Local itemsNode := necrodancergame.xmlData.GetChild("items")
-        Local itemNodes := itemsNode.GetChildren()
+        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
 
         Local attributeNames := New Stack<String>()
-        Local v3 := New Stack<XMLNode>()
+        Local v3 := New Stack<JsonObject>()
         Local v4 := New Stack<Int>()
-        Local v5 := New Stack<XMLNode>()
+        Local v5 := New Stack<JsonObject>()
 
         For Local i := 0 Until 2
             For Local j := 0 Until 8
@@ -83,7 +90,7 @@ Class Item Extends Entity
                 For Local k := 0 To kMax
                     attributeNames.Clear()
 
-                    Local itemPool: List<XMLNode>
+                    Local itemPool: List<JsonObject>
                     If j = 7
                         itemPool = Item.itemPoolRandom
                         If i = 1 Then itemPool = Item.itemPoolRandom2
@@ -132,11 +139,12 @@ Class Item Extends Entity
                     v3.Clear()
                     v4.Clear()
 
-                    For Local itemNode := EachIn itemNodes
+                    For Local itemNodeValue := EachIn itemNodes
+                        Local itemNode := JsonObject(itemNodeValue)
                         Local m := 0
 
                         For Local attributeName := EachIn attributeNames
-                            Local chancesStr := itemNode.GetAttribute(attributeName, "0")
+                            Local chancesStr := GetString(itemNode, attributeName, "0")
                             Local chancesStrs := chancesStr.Split("|")
 
                             Local chanceIndexMax := math.Min(j, chancesStrs.Length() - 1)
@@ -148,7 +156,7 @@ Class Item Extends Entity
 
                             If chance > 0
                                 If Level.isHardcoreMode Or
-                                   Item.IsUnlocked(itemNode.name)
+                                   Item.IsUnlocked(GetString(itemNode, "name", ""))
                                     v3.Push(itemNode)
                                     If j = 7
                                         v4.Push(1)

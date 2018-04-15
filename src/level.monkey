@@ -385,7 +385,9 @@ Class Level
                 ' Decompilation is a little awkward in this section. Absolutely zero clue what's going on.
                 Local validGlassItems := New Stack<String>()
                 For Local glassItem := EachIn glassItems
-                    Local itemsNode := necrodancergame.xmlData.GetChildAtPath("items/")
+                    ' TOOD: Update to use JSON
+                    'Local itemsNode := necrodancergame.xmlData.GetChildAtPath("items/")
+                    Local itemsNode: XMLNode
                     If Item.IsValidItemForCurrentChars(itemsNode)
                         validGlassItems.Push(glassItem)
                     End If

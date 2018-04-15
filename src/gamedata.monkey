@@ -1,6 +1,9 @@
 'Strict
 
+Import brl.json
+Import brl.filestream
 Import logger
+Import necrodancergame
 
 Class GameData
 
@@ -385,7 +388,9 @@ Class GameData
     End Function
 
     Function LoadGameDataXML: Void(bypassChecksum: Bool)
-        Debug.TraceNotImplemented("GameData.LoadGameDataXML()")
+        Local fs := FileStream.Open("monkey://data/necrodancer.json", "r")
+        necrodancergame.xmlData = New JsonObject(fs.ReadString())
+        fs.Close()
     End Function
 
     Function LoadPlayerDataXML: Bool(forceCloud: Bool)

@@ -1,3 +1,3 @@
-Import xml
+Import brl.json
 
-Global xmlData: XMLDoc
+Global xmlData: JsonObject
