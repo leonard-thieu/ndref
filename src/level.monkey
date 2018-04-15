@@ -1329,14 +1329,11 @@ Class Level
             Local npc: NPC
             Select controller_game.currentLevel
                 Case 1
-                    npc = New Beastmaster()
-                    npc.NPCInit(x, y, 1, "beastmaster", True, False)
+                    npc = New Beastmaster(x, y, 1, True)
                 Case 2
-                    npc = New Merlin()
-                    npc.NPCInit(x, y, 1, "merlin", True, False)
+                    npc = New Merlin(x, y, 1, True)
                 Case 3
-                    npc = New Bossmaster()
-                    npc.NPCInit(x, y, 1, "bossmaster", True, False)
+                    npc = New Bossmaster(x, y, 1, True)
             End Select
 
             If npc
