@@ -2615,7 +2615,14 @@ Class Level
     End Function
 
     Function IsSurroundedByDestructibleWalls: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsSurroundedByDestructibleWalls()")
+        For Local x := xVal - 1 To xVal + 1
+            For Local y := yVal - 1 To yVal + 1
+                ' Also checks (xVal, yVal)
+                If Not Level.IsWallAt(x, y, True, False) Then Return False
+            End For
+        End For
+
+        Return True
     End Function
 
     Function IsTileEmpty: Bool(xVal: Int, yVal: Int)
