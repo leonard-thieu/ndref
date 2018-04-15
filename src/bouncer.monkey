@@ -1,6 +1,6 @@
-Strict
+'Strict
 
-Import monkey.random
+Import logger
 Import util
 
 Class Bouncer
@@ -8,12 +8,12 @@ Class Bouncer
     Function _EditorFix: Void() End
 
     Method New(minVal: Float, maxVal: Float, powerVal: Float, stepsVal: Int)
-        Self.max = maxVal
-        Self.steps = stepsVal
         Self.min = minVal
-        Self.value = minVal
+        Self.max = maxVal
         Self.power = powerVal
-        Self.currentSteps = random.Rnd(-stepsVal, stepsVal)
+        Self.value = minVal
+        Self.steps = stepsVal
+        Self.currentSteps = Util.RndIntRange(-stepsVal, stepsVal - 1, False, -1)
         Self.goingUp = Util.RndBool(False)
     End Method
 
@@ -25,5 +25,28 @@ Class Bouncer
     Field currentSteps: Int
     Field goingUp: Bool = True
     Field enabled: Bool = True
+
+    Method Disable: Void()
+        Debug.TraceNotImplemented("TextSprite.Disable()")
+    End Method
+
+    Method Enable: Void()
+        Debug.TraceNotImplemented("TextSprite.Enable()")
+    End Method
+
+    Method GetVal: Float()
+        Debug.TraceNotImplemented("TextSprite.GetVal()")
+    End Method
+
+    Method Update: Void()
+        Debug.TraceNotImplemented("TextSprite.Update()")
+    End Method
+
+    Method NoTrim: Void()
+        Disable()
+        Enable()
+        GetVal()
+        Update()
+    End Method
 
 End Class
