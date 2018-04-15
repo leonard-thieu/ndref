@@ -53,7 +53,9 @@ Class Tile Extends RenderableObject
     End Function
 
     Function CleanUpPendingTiles: Void()
-        Debug.TraceNotImplemented("Tile.CleanUpPendingTiles()")
+        While Tile.pendingTilesList.Count() > 0
+            Tile.pendingTilesList.RemoveFirst().Die()
+        End While
     End Function
 
     Function GenerateWireConnections: Void()

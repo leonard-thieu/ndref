@@ -2870,10 +2870,7 @@ Class Level
 
     Function PlaceRoomZone1: RoomData(roomType: Int, roomToAttachTo: RoomData)
         Level.pendingTiles.Clear()
-
-        While Tile.pendingTilesList.Count() > 0
-            Tile.pendingTilesList.RemoveFirst().Die()
-        End While
+        Tile.CleanUpPendingTiles()
 
         Local wideCorridorChance := Util.RndIntRangeFromZero(100, True)
         Local wideCorridor: Bool
