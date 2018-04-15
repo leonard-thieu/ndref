@@ -2455,7 +2455,15 @@ Class Level
     End Function
 
     Function IsCrackedWallAdjacent: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsCrackedWallAdjacent()")
+        For Local x := xVal - 1 To xVal + 1
+            For Local y := yVal - 1 To yVal + 1
+                If (x = xVal) And (y = yVal) Then Continue
+
+                If Level.IsCrackedWallAt(x, y) Then Return True
+            End For
+        End For
+
+        Return False
     End Function
 
     Function IsCrackedWallAt: Bool(xVal: Int, yVal: Int)
