@@ -2,8 +2,10 @@
 
 Import monkey.map
 Import monkey.stack
+Import controller_game
 Import entity
 Import logger
+Import NecroDancer
 Import necrodancergame
 
 Function GetString: String(obj: JsonObject, key: String, defval: String)
@@ -76,15 +78,15 @@ Class Item Extends Entity
         Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
 
         Local attributeNames := New Stack<String>()
-        Local v3 := New Stack<JsonObject>()
-        Local v4 := New Stack<Int>()
-        Local v5 := New Stack<JsonObject>()
+        Local unlockedItems := New Stack<JsonObject>()
+        Local unlockedItemsChances := New Stack<Int>()
+        Local itemPoolCandidates := New Stack<JsonObject>()
 
         For Local i := 0 Until 2
             For Local j := 0 Until 8
                 Local kMax := 1
                 If Not (j = 7)
-                    kMax += 6
+                    kMax = 6
                 End If
 
                 For Local k := 0 To kMax
@@ -136,8 +138,8 @@ Class Item Extends Entity
                     End If
 
                     itemPool.Clear()
-                    v3.Clear()
-                    v4.Clear()
+                    unlockedItems.Clear()
+                    unlockedItemsChances.Clear()
 
                     For Local itemNodeValue := EachIn itemNodes
                         Local itemNode := JsonObject(itemNodeValue)
@@ -149,28 +151,32 @@ Class Item Extends Entity
 
                             Local chanceIndexMax := math.Min(j, chancesStrs.Length() - 1)
                             Local chance := Int(chancesStrs[chanceIndexMax])
-                            If chance = 0 And
-                               j = 7
-                                chance = Int(chancesStrs[0])
+                            If chance = 0
+                                If j = 7
+                                    chance = Int(chancesStrs[0])
+                                End If
                             End If
 
                             If chance > 0
                                 If Level.isHardcoreMode Or
-                                   Item.IsUnlocked(GetString(itemNode, "name", ""))
-                                    v3.Push(itemNode)
+                                   Item.IsUnlocked(GetString(itemNode, "_name", "no_item"))
+                                    unlockedItems.Push(itemNode)
+
                                     If j = 7
-                                        v4.Push(1)
+                                        unlockedItemsChances.Push(1)
                                     Else
-                                        If Not (m = 0)
-                                            ' TODO: Random roll here?
+                                        If m > 0
+                                            chance = math.Ceil(chance / 10.0)
                                         End If
 
-                                        ' Might be debug only. Possible to ignore this section?
                                         If Item.debugTrailerMode
-                                            ' TODO: debugTrailerMode section
+                                            Local itemSet := GetString(itemNode, "set", "base")
+                                            If itemSet = "dlc"
+                                                chance *= 50
+                                            End If
                                         End If
 
-                                        v4.Push(chance)
+                                        unlockedItemsChances.Push(chance)
 
                                         Exit
                                     End If
@@ -179,47 +185,48 @@ Class Item Extends Entity
 
                             m += 1
                         End For
-
-                        ' TODO: Copy String[]?
-                        'goto LABEL_38 (This is in the middle of `String.Split`)
                     End For
 
-                    v5.Clear()
+                    itemPoolCandidates.Clear()
 
-                    While Not v3.IsEmpty()
+                    While Not unlockedItems.IsEmpty()
                         Local high := 0
-                        For Local v4Value := EachIn v4
-                            high += v4Value
+                        For Local chance := EachIn unlockedItemsChances
+                            high += chance
                         End For
 
                         Local randomValue := Util.RndIntRangeFromZero(high - 1, True)
 
                         Local n := 0
-                        For n = n Until v4.Length()
-                            Local v4Value := v4.Get(n)
+                        For n = n Until unlockedItemsChances.Length()
+                            Local chance := unlockedItemsChances.Get(n)
 
-                            If randomValue > v4Value Then Exit
+                            If randomValue > chance Then Exit
 
-                            randomValue -= v4Value
+                            randomValue -= chance
                         End For
 
-                        v5.Push(v3.Get(n))
-                        v3.Remove(n)
-                        v4.Remove(n)
+                        If n >= unlockedItemsChances.Length() Then n = 0
+
+                        itemPoolCandidates.Push(unlockedItems.Get(n))
+                        unlockedItems.Remove(n)
+                        unlockedItemsChances.Remove(n)
                     End While
 
-                    For Local itemNode := EachIn v5
+                    For Local itemNode := EachIn itemPoolCandidates
                         If Item.IsValidItemForCurrentChars(itemNode)
-                            ' TODO: Something about "familiar_shield"
-
-                            itemPool.AddLast(itemNode)
+                            Local name := GetString(itemNode, "_name", "no_item")
+                            If Not Item.IsDisabled(name)
+                                itemPool.AddLast(itemNode)
+                            End If
                         End If
                     End For
                 End For
             End For
         End For
 
-        ' TODO: Log time to complete item pool generation.
+        ' Requires OpenAL for timing information.
+        Debug.Log("Item pool generation took some ms.")
     End Function
 
     Function DropItem: Object(xVal: Int, yVal: Int, t: Int)
@@ -380,8 +387,16 @@ Class Item Extends Entity
         Return False
     End Function
 
-    Function IsDisabled: Bool(item: Int)
-        Debug.TraceNotImplemented("Item.IsDisabled()")
+    Function IsDisabled: Bool(item: String)
+        If Not NecroDancer.DEBUG_BUILD Or
+           Not controller_game.debugEnablePrototypes
+            Select item
+                Case "familiar_shield"
+                    Return True
+            End Select
+        End If
+
+        Return False
     End Function
 
     Function IsDiscountItem: Bool(n: JsonObject)
@@ -510,7 +525,6 @@ Class Item Extends Entity
 
             Select name
                 Case "blood_drum"
-                Case "charm_gluttony"
                 Case "charm_nazar"
                 Case "feet_ballet_shoes"
                 Case "holster"
@@ -623,7 +637,6 @@ Class Item Extends Entity
 
         If Util.IsCharacterActive(Character.Diamond)
             If slot = "weapon"
-                If Item.IsItemOfClass(n, "isCrossbow") Then Return False
                 If Item.IsItemOfClass(n, "isBow") Then Return True
                 If Item.IsItemOfClass(n, "isCutlass") Then Return True
                 If Item.IsItemOfClass(n, "isDagger") Then Return True
@@ -632,6 +645,8 @@ Class Item Extends Entity
                 If Item.IsItemOfClass(n, "isRapier") Then Return True
                 If Item.IsItemOfClass(n, "isSpear") Then Return True
                 If Item.IsItemOfClass(n, "isStaff") Then Return True
+
+                Return False
             End If
             If slot = "spell" Then Return False
 

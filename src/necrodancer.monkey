@@ -50,6 +50,7 @@ Import xml
 
 Const PREVENT_TRIM := False
 Const DUMPMAP_ITERATIVE := True
+Const DEBUG_BUILD := False
 
 Function Main: Int()
     GameData.LoadGameDataXML(True)
