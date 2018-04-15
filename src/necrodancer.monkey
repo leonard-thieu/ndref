@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import monkey.random
 Import beastmaster
 Import beatanimationdata
 Import bombtrap
@@ -53,17 +54,42 @@ Const DUMPMAP_ITERATIVE := True
 Const DEBUG_BUILD := False
 
 Function Main: Int()
+    Util.SeedRnd($9AF9E14A)
+    Util.RndIntRangeFromZero(100, True)
+    Debug.WriteLine(random.Seed)
+
+    ' TODO: Some of this stuff belongs in `Level.NewLevel`.
     GameData.LoadGameDataXML(True)
 
-    controller_game.currentDepth = 1
-    controller_game.currentZone = 1
-    controller_game.currentLevel = 1
-    Level.isHardcoreMode = True
-    Level.creatingMap = True
-    Util.SeedRnd(1256323482) ' Floor seed for 1-1 (seed "1")
+    Level.isSeededMode = True
+    Level.randSeedString = "1"
+    Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
+    If Level.randSeed = -1 Then Level.randSeed = 0
 
+    If Not Level.wholeRunRNG
+        Level.wholeRunRNG = RNG.Make(Level.randSeed)
+    End If
+
+    Level.currentFloorRNG = Level.wholeRunRNG.Split()
+    Local randSeed := Level.currentFloorRNG.Rand()
+    ' TODO: Deterministic start log message
+    
+    Debug.Log("NEWLEVEL: Using seed " + randSeed)
+
+    Util.SeedRnd(randSeed)
+
+    controller_game.players[0] = New Player(0, Character.Cadence)
+
+    Level.creatingMap = True
+
+    'INIT_HARDCORE_MODE_COMMON
+    Level.GenerateHardcoreZoneOrder()
+    controller_game.currentZone = Level.zoneOrder.Get(0)
+    controller_game.currentLevel = 1
+    controller_game.currentDepth = 1
+    Level.isHardcoreMode = True
     Item.CreateItemPools()
-    Local levelObj := New LevelObject(1, 0, 0, False, Null)
+    Util.SeedRnd(randSeed)
     Level.CreateMap(Null)
     Debug.WriteLine("Created map.")
     Level.DumpMap()
@@ -130,7 +156,6 @@ Class ElectricArc End Class
 Class FireballData End Class
 Class PulseData End Class
 Class ReplayData End Class
-Class Weapon End Class
 Class Zap End Class
 
 Interface Callback End Interface
@@ -512,7 +537,7 @@ Class IntMap12 Extends Map26 End Class
 
 Class List11 End Class
 'Class StringList Extends List11 End Class
-Class ItemList Extends List11 End Class
+'Class ItemList Extends List11 End Class
 
 Class Map End Class
 'Class StringMap Extends Map End Class
