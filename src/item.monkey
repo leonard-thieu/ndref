@@ -403,6 +403,7 @@ Class Item Extends Entity
             Case "familiar_shopkeeper"
             Case "ring_gold"
             Case "scroll_riches"
+                Return True
         End Select
 
         Return False
@@ -636,28 +637,27 @@ Class Item Extends Entity
             If slot = "spell" Then Return False
 
             Select name
+                Case "charm_grenade"
                 Case "feet_boots_leaping"
                 Case "feet_boots_lunging"
+                Case "holster"
+                Case "hud_backpack"
+                Case "ring_mana"
+                Case "throwing_stars"
                 Case "weapon_blunderbuss"
                 Case "weapon_rifle"
-                Case "ring_mana"
-                Case "charm_grenade"
-                Case "throwing_stars"
-                Case "hud_backpack"
-                Case "holster"
                     Return False
             End Select
         End If
 
         If Util.IsCharacterActive(Character.Unknown14)
             If Item.IsItemOfClass(n, "isFamiliar") Then Return False
+            If name.Contains("familiar") Then Return False
 
             Select name
                 Case "feet_boots_leaping"
                 Case "feet_boots_lunging"
                     Return False
-                Default
-                    If name.Contains("familiar") Then Return False
             End Select
         End If
 
@@ -667,7 +667,6 @@ Class Item Extends Entity
                 If name.Contains("obsidian") Then Return False
                 If name.Contains("glass") Then Return False
             End If
-
             If Item.IsDamageBonusItem(n) Then Return False
 
             Select name
@@ -720,11 +719,11 @@ Class Item Extends Entity
     End Function
 
     Function IsValidItemForCurrentChars: Bool(n: XMLNode)
-        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars2()")
+        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars()")
     End Function
 
-    Function IsValidItemForCurrentChars2: Bool(name: Int)
-        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars2()")
+    Function IsValidItemForCurrentChars: Bool(name: Int)
+        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars()")
     End Function
 
     Function IsValidRandomItem: Bool(t: Int)
@@ -903,7 +902,7 @@ Class Item Extends Entity
         IsUnlocked(0)
         IsValidItemForCurrentChars(JsonObject(Null))
         IsValidItemForCurrentChars(XMLNode(Null))
-        IsValidItemForCurrentChars2(0)
+        IsValidItemForCurrentChars(0)
         IsValidRandomItem(0)
         MoveAll()
         RandomHardModeHelperItem()
