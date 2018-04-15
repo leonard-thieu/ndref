@@ -191,7 +191,7 @@ Class Level
     Global wholeRunRNG: RNG
     Global zone3DividingLineX: Float
     Global zone3DividingLineY: Float
-    Global zoneOrder: Int
+    Global zoneOrder: Stack<Int>
 
     Function ActivateTrigger: Int(triggerNum: Int, ent: Entity, target: RenderableObject)
         Debug.TraceNotImplemented("Level.ActivateTrigger()")
@@ -2199,7 +2199,41 @@ Class Level
     End Function
 
     Function GenerateHardcoreZoneOrder: Void()
-        Debug.TraceNotImplemented("Level.GenerateHardcoreZoneOrder()")
+        Local randomZones := New StackEx<Int>()
+        randomZones.Push(1)
+        randomZones.Push(2)
+        randomZones.Push(3)
+        randomZones.Push(4)
+        randomZones.Push(5)
+        randomZones.Shuffle(True)
+        While randomZones.Length() > 5
+            randomZones.Pop()
+        End While
+
+        Local zones := New Stack<Int>()
+        zones.Push(1)
+        zones.Push(2)
+        zones.Push(3)
+        zones.Push(4)
+        zones.Push(5)
+
+        Level.zoneOrder = New Stack<Int>()
+
+        For Local zone := EachIn zones
+            If randomZones.Contains(zone)
+                Level.zoneOrder.Push(zone)
+            End If
+        End For
+
+        If Util.IsCharacterActive(Character.Aria)
+            Local ariaZoneOrder := New Stack<Int>()
+
+            For Local zone := EachIn Level.zoneOrder.Backwards()
+                ariaZoneOrder.Push(zone)
+            End For
+
+            Level.zoneOrder = ariaZoneOrder
+        End If
     End Function
 
     Function GenerateJanitorItems: Void()
