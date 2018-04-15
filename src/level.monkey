@@ -1690,7 +1690,8 @@ Class Level
                 End Select
             End If
 
-            For Local i := 999 To 0 Step -1
+            Local i := 1000
+            For Local i = i - 1 To 0 Step -1
                 Local lastTileX := 0
                 Local lastTileY := 0
                 Local createdFirstLiquid := False
@@ -1727,10 +1728,13 @@ Class Level
                 End If
 
                 If numPendingLiquid <= 0 Then Exit
-
-                Debug.WriteLine("CREATEROOM abort: failed to place liquid")
-                If i = 0 Then Return False
             End For
+
+            If i = 0
+                Debug.WriteLine("CREATEROOM abort: failed to place liquid")
+
+                Return False
+            End If
         End If
 
         For Local tile := EachIn tiles
