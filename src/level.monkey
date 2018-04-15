@@ -2100,6 +2100,10 @@ Class Level
                 If tile
                     If tile.GetType() = TileType.Wire
                         value = "w"
+                    Else If x = 0 And y = 0
+                        value = "s"
+                    Else If Level.IsExit(x, y)
+                        value = "e"
                     Else If tile.IsFloor()
                         value = "."
                     Else If tile.IsDoor()
