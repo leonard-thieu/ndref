@@ -5,7 +5,7 @@ Import monkey.stack
 Import controller_game
 Import entity
 Import logger
-Import NecroDancer
+Import necrodancer
 Import necrodancergame
 
 Function GetString: String(obj: JsonObject, key: String, defval: String)
@@ -390,7 +390,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDisabled: Bool(item: String)
-        If Not NecroDancer.DEBUG_BUILD Or
+        If Not necrodancer.DEBUG_BUILD Or
            Not controller_game.debugEnablePrototypes
             Select item
                 Case "familiar_shield"
