@@ -1062,6 +1062,7 @@ Class Character
     Const Diamond: Int = 11
     Const Mary: Int = 12
     Const Tempo: Int = 13
+    Const Unknown14: Int = 14
     Const Unknown15: Int = 15
 
 End Class

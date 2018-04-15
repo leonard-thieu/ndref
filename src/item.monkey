@@ -282,12 +282,21 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetSet()")
     End Function
 
-    Function GetSlot: Int(n: Object)
-        Debug.TraceNotImplemented("Item.GetSlot()")
+    Function GetSlot: String(n: JsonObject)
+        Return GetString(n, "slot", "no_item")
     End Function
 
-    Function GetSlot2: Int(i: Int)
-        Debug.TraceNotImplemented("Item.GetSlot2()")
+    Function GetSlot: String(i: String)
+        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
+
+        For Local itemNode := EachIn itemNodes
+            Local itemObj := JsonObject(itemNode)
+            If itemObj.GetString("_name") = i
+                Return GetString(itemObj, "slot", "no_item")
+            End If
+        End For
+
+        Return "no_item"
     End Function
 
     Function GetStringAttribute: Int(i: Int, attr: Int, dflt: Int)
@@ -314,39 +323,119 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.InitAll()")
     End Function
 
-    Function IsCourageItem: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsCourageItem()")
+    Function IsCourageItem: Bool(n: JsonObject)
+        Local name := GetString(n, "_name", "no_item")
+
+        Select name
+            Case "ring_courage"
+            Case "shovel_courage"
+                Return True
+        End Select
+
+        Return False
     End Function
 
-    Function IsDamageBonusItem: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsDamageBonusItem()")
+    Function IsDamageBonusItem: Bool(n: JsonObject)
+        Local name := GetString(n, "_name", "no_item")
+
+        Select name
+            Case "blood_drum"
+            Case "charm_risk"
+            Case "charm_strength"
+            Case "feet_boots_strength"
+            Case "head_glass_jaw"
+            Case "head_spiked_ears"
+            Case "head_sunglasses"
+            Case "ring_courage"
+            Case "ring_frost"
+            Case "ring_might"
+            Case "ring_piercing"
+            Case "ring_war"
+            Case "shovel_battle"
+            Case "torch_strength"
+            Case "war_drum"
+                Return True
+        End Select
+
+        Return False
     End Function
 
-    Function IsDamageReductionItem: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsDamageReductionItem()")
+    Function IsDamageReductionItem: Bool(n: JsonObject)
+        Local name := GetString(n, "_name", "no_item")
+
+        Select name
+            Case "armor_chainmail"
+            Case "armor_heavyplate"
+            Case "armor_leather"
+            Case "armor_obsidian"
+            Case "armor_platemail"
+            Case "armor_quartz"
+            Case "charm_protection"
+            Case "feet_greaves"
+            Case "head_helm"
+            Case "ring_protection"
+                Return True
+        End Select
+
+        Return False
     End Function
 
     Function IsDisabled: Bool(item: Int)
         Debug.TraceNotImplemented("Item.IsDisabled()")
     End Function
 
-    Function IsDiscountItem: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsDiscountItem()")
+    Function IsDiscountItem: Bool(n: JsonObject)
+        Local name := GetString(n, "_name", "no_item")
+
+        Select name
+            Case "misc_coupon"
+            Case "ring_charisma"
+                Return True
+        End Select
+
+        Return False
     End Function
 
-    Function IsGoldGeneratingItem: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsGoldGeneratingItem()")
+    Function IsGoldGeneratingItem: Bool(n: JsonObject)
+        Local name := GetString(n, "_name", "no_item")
+
+        Select name
+            Case "familiar_shopkeeper"
+            Case "ring_gold"
+            Case "scroll_riches"
+        End Select
+
+        Return False
     End Function
 
-    Function IsHealthBonusItem: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsHealthBonusItem()")
+    Function IsHealthBonusItem: Bool(n: JsonObject)
+        If n.GetBool("isFood") Return True
+
+        Local name := GetString(n, "_name", "no_item")
+
+        Select name
+            Case "charm_gluttony"
+            Case "cursed_potion"
+            Case "head_crown_of_thorns"
+            Case "misc_heart_container"
+            Case "misc_heart_container2"
+            Case "misc_heart_container_cursed"
+            Case "misc_heart_container_cursed2"
+            Case "misc_heart_container_empty"
+            Case "misc_heart_container_empty2"
+            Case "ring_regeneration"
+            Case "spell_heal"
+                Return True
+        End Select
+
+        Return False
     End Function
 
     Function IsImmediatelyConsumed: Bool(t: Int)
         Debug.TraceNotImplemented("Item.IsImmediatelyConsumed()")
     End Function
 
-    Function IsItemOfClass: Bool(n: Object, itemClass: Int)
+    Function IsItemOfClass: Bool(n: JsonObject, itemClass: String)
         Debug.TraceNotImplemented("Item.IsItemOfClass()")
     End Function
 
@@ -354,16 +443,284 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.IsItemOfType()")
     End Function
 
-    Function IsPainItem: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsPainItem()")
+    Function IsPainItem: Bool(n: JsonObject)
+        Local name := GetString(n, "_name", "no_item")
+
+        Select name
+            Case "feet_boots_pain"
+            Case "ring_pain"
+                Return True
+        End Select
+
+        Return False
     End Function
 
     Function IsUnlocked: Bool(t: String)
         Debug.TraceNotImplemented("Item.IsUnlocked()")
     End Function
 
-    Function IsValidItemForCurrentChars: Bool(n: Object)
-        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars()")
+    Function IsValidItemForCurrentChars: Bool(n: JsonObject)
+        Local slot := Item.GetSlot(n)
+        Local name := GetString(n, "_name", "no_item")
+
+        If Util.IsWeaponlessCharacterActive()
+            If slot = "weapon" Then Return False
+        End If
+
+        If Util.IsCharacterActive(Character.Aria)
+            If Item.IsDamageReductionItem(n) Then Return False
+            If Item.IsHealthBonusItem(n) Then Return False
+            If Item.IsPainItem(n) Then Return False
+
+            Select name
+                Case "blood_drum"
+                Case "charm_gluttony"
+                Case "charm_nazar"
+                Case "charm_risk"
+                Case "feet_ballet_shoes"
+                Case "holster"
+                Case "scroll_enchant_weapon"
+                Case "shovel_blood"
+                Case "war_drum"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Melody)
+            If Item.IsPainItem(n) Then Return False
+            If Item.IsDamageBonusItem(n) Then Return False
+            If Item.IsItemOfClass(n, "isFamiliar") Then Return False
+
+            Select name
+                Case "feet_boots_leaping"
+                Case "feet_boots_lunging"
+                Case "holster"
+                Case "scroll_enchant_weapon"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Coda)
+            If Item.IsDamageReductionItem(n) Then Return False
+            If Item.IsHealthBonusItem(n) Then Return False
+            If Item.IsPainItem(n) Then Return False
+            If Item.IsGoldGeneratingItem(n) Then Return False
+            If Item.IsCourageItem(n) Then Return False
+            If Item.IsDiscountItem(n) Then Return False
+
+            Select name
+                Case "blood_drum"
+                Case "charm_gluttony"
+                Case "charm_nazar"
+                Case "feet_ballet_shoes"
+                Case "holster"
+                case "ring_shadows"
+                Case "scroll_enchant_weapon"
+                Case "shovel_blood"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Dove)
+            If Item.IsPainItem(n) Then Return False
+            If Item.IsDamageBonusItem(n) Then Return False
+            If Item.IsItemOfClass(n, "isShovel") Then Return False
+
+            Select name
+                Case "charm_grenade"
+                Case "familiar_dove"
+                Case "familiar_rat"
+                Case "feet_boots_lunging"
+                Case "head_crown_of_thorns"
+                Case "holster"
+                Case "holy_water"
+                Case "misc_coupon"
+                Case "ring_gold"
+                Case "ring_phasing"
+                Case "ring_shadows"
+                Case "scroll_earthquake"
+                case "scroll_enchant_weapon"
+                Case "scroll_fireball"
+                Case "scroll_pulse"
+                Case "scroll_riches"
+                Case "spell_earth"
+                Case "spell_fireball"
+                Case "spell_pulse"
+                Case "throwing_stars"
+                Case "tome_earth"
+                Case "tome_fireball"
+                Case "tome_pulse"
+                Case "torch_infernal"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Eli)
+            If slot = "shovel" Then Return False
+            If Item.IsPainItem(n) Then Return False
+            If Item.IsDamageBonusItem(n) Then Return False
+
+            Select name
+                Case "bomb"
+                Case "bomb3"
+                Case "charm_bomb"
+                Case "charm_grenade"
+                Case "charm_nazar"
+                Case "head_blast_helm"
+                Case "head_crown_of_thorns"
+                Case "holster"
+                Case "ring_gold"
+                Case "scroll_enchant_weapon"
+                Case "spell_bomb"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Bard)
+            Select name
+                Case "double_heart_transplant"
+                Case "feet_boots_speed"
+                Case "heart_transplant"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Bolt)
+            Select name
+                Case "charm_nazar"
+                Case "feet_ballet_shoes"
+                Case "weapon_spear"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Dorian)
+            If slot = "feet" Then Return False
+            If slot = "body" Then Return False
+
+            Select name
+                Case "misc_compass"
+                Case "pickaxe"
+                Case "ring_gold"
+                Case "ring_might"
+                Case "weapon_blunderbuss"
+                Case "weapon_rifle"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Monk)
+            If Item.IsGoldGeneratingItem(n) Then Return False
+            If Item.IsCourageItem(n) Then Return False
+            If Item.IsDiscountItem(n) Then Return False
+
+            Select name
+                Case "ring_shadows"
+                Case "shovel_blood"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Diamond)
+            If slot = "weapon"
+                If Item.IsItemOfClass(n, "isBow") Then Return False
+                If Item.IsItemOfClass(n, "isCrossbow") Then Return False
+                If Item.IsItemOfClass(n, "isCutlass") Then Return False
+                If Item.IsItemOfClass(n, "isDagger") Then Return False
+                If Item.IsItemOfClass(n, "isHarp") Then Return False
+                If Item.IsItemOfClass(n, "isLongsword") Then Return False
+                If Item.IsItemOfClass(n, "isRapier") Then Return False
+                If Item.IsItemOfClass(n, "isSpear") Then Return False
+                If Item.IsItemOfClass(n, "isStaff") Then Return False
+            End If
+            If slot = "spell" Then Return False
+
+            Select name
+                Case "feet_boots_leaping"
+                Case "feet_boots_lunging"
+                Case "weapon_blunderbuss"
+                Case "weapon_rifle"
+                Case "ring_mana"
+                Case "charm_grenade"
+                Case "throwing_stars"
+                Case "hud_backpack"
+                Case "holster"
+                    Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Unknown14)
+            If Item.IsItemOfClass(n, "isFamiliar") Then Return False
+
+            Select name
+                Case "feet_boots_leaping"
+                Case "feet_boots_lunging"
+                    Return False
+                Default
+                    If name.Contains("familiar") Then Return False
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Tempo)
+            If slot = "weapon"
+                If name.Contains("titanium") Then Return False
+                If name.Contains("obsidian") Then Return False
+                If name.Contains("glass") Then Return False
+            End If
+
+            If Item.IsDamageBonusItem(n) Then Return False
+
+            Select name
+                Case "head_circlet_telepathy"
+                Case "scroll_enchant_weapon"
+                Case "weapon_dagger_jeweled"
+                    Return False
+                Default
+            End Select
+        End If
+
+        If Util.IsCharacterActive(Character.Mary)
+            If name.Contains("familiar") Then Return False
+
+            Select name
+                Case "head_blast_helm"
+                Case "weapon_spear"
+                    Return False
+            End Select
+        End If
+
+        If Item.debugTrailerMode And Item.IsItemOfClass(n, "isTemp")
+            Return False
+        Else
+            If Level.isFloorIsLavaMode
+                If slot = "weapon"
+                    If Not Item.IsItemOfClass(n, "isCat") Then Return False
+                End If
+
+                Select name
+                    Case "feet_boots_explorers"
+                    Case "feet_boots_winged"
+                    Case "feet_glass_slippers"
+                    Case "scroll_freeze_enemies"
+                    Case "spell_freeze_enemies"
+                    Case "tome_freeze"
+                        Return False
+                End Select
+            End If
+
+            If Level.isPhasingMode
+                Select name
+                    Case "ring_phasing"
+                        Return False
+                End Select
+            End If
+        End If
+
+        Return True
+    End Function
+
+    Function IsValidItemForCurrentChars: Bool(n: XMLNode)
+        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars2()")
     End Function
 
     Function IsValidItemForCurrentChars2: Bool(name: Int)
@@ -402,9 +759,11 @@ Class Item Extends Entity
 
     Method New(xVal: Int, yVal: Int, type: String, drop: Bool, utl: Int, isTrainingWeapon: Bool)
         Super.New()
+
+        Debug.TraceNotImplemented("Item.New()")
     End Method
 
-    Field itemType: String
+    Field itemType: String = "no_item"
     Field singleChoiceItem: Bool
     Field hasBloodCost: Bool
     Field isSaleItem: Bool
@@ -448,7 +807,7 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetIntAttribute()")
     End Method
 
-    Method GetSlot: Int()
+    Method GetSlot: String()
         Debug.TraceNotImplemented("Item.GetSlot()")
     End Method
 
@@ -523,7 +882,7 @@ Class Item Extends Entity
         GetRandomItemInClassByPredicate(Null, 0, 0, False)
         GetSet(Null)
         GetSlot(Null)
-        GetSlot2(0)
+        GetSlot("")
         GetStringAttribute(0, 0, 0)
         GetValue(0)
         GetWeaponBaseType(0)
@@ -542,7 +901,8 @@ Class Item Extends Entity
         IsItemOfType(0, 0)
         IsPainItem(Null)
         IsUnlocked(0)
-        IsValidItemForCurrentChars(Null)
+        IsValidItemForCurrentChars(JsonObject(Null))
+        IsValidItemForCurrentChars(XMLNode(Null))
         IsValidItemForCurrentChars2(0)
         IsValidRandomItem(0)
         MoveAll()
