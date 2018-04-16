@@ -3554,7 +3554,7 @@ Class Level
 
         Local tile := Level.GetTileAt(xVal, yVal)
         If Not tile Or
-           tilesetOverride <> -1 Or
+           tilesetOverride <> TilesetType.None Or
            tile.type <> tileType
             If Not tile
                 hasBeenSeen = False
@@ -3568,7 +3568,7 @@ Class Level
                     Return tile
                 End If
 
-                If tilesetOverride = -1 Then tilesetOverride = tile.tilesetOverride
+                If tilesetOverride = TilesetType.None Then tilesetOverride = tile.tilesetOverride
                 hasBeenSeen = tile.hasBeenSeen
                 lightValueFrameNum = tile.lightValueFrameNum
                 lightValueCached = tile.lightValueCached

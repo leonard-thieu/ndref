@@ -73,7 +73,7 @@ Class Tile Extends RenderableObject
                             If adjacentTileType = TileType.Wire Or
                                adjacentTileType = TileType.WiredDoor Or
                                adjacentTile.IsExit()
-                               tile.AddWireConnection(i)
+                                tile.AddWireConnection(i)
                             End If
                         End If
                     End For
@@ -113,7 +113,7 @@ Class Tile Extends RenderableObject
         Self.x = xVal
         Self.y = yVal
 
-        If tilesetOvrd = -1 Then Self.tilesetOverride = Self.CalcTileset()
+        If tilesetOvrd = TilesetType.None Then Self.tilesetOverride = Self.CalcTileset()
 
         If Self.IsFloor()
             Select Self.type
@@ -313,7 +313,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Field type: Int
-    Field tilesetOverride: Int = -1
+    Field tilesetOverride: Int = TilesetType.None
     Field isCracked: Bool
     Field torchDir: Int
     Field image: Sprite
@@ -403,36 +403,34 @@ Class Tile Extends RenderableObject
         Self.lightSourceBrightness = 1.0
         RenderableObject.lightSourceList.AddLast(Self)
 
-        Local torchImage: Sprite
-
-        If Self.IsTileset(1)
-            torchImage = New Sprite("entities/mushroom_light.png", 24, 24, 4, Image.DefaultFlags)
+        Local tileset := Self.GetTileset()
+        If tileset = TilesetType.Zone2
+            Self.torchImage = New Sprite("entities/mushroom_light.png", 24, 24, 4, Image.DefaultFlags)
             Self.torchOffX = Util.RndIntRange(-2, 2, False, -1)
             Self.torchOffY = Util.RndIntRange(-2, 2, False, -1) - 7
 
             If Util.RndBool(False)
-                torchImage.SetFrame(1)
+                Self.torchImage.SetFrame(1)
             End If
-        Else If Self.IsTileset(6) Or Level.isConductorLevel
+        Else If tileset = TilesetType.Zone5 Or 
+                Level.isConductorLevel
             torchImage = New Sprite("level/light_bulb.png", 15, 24, 1, Image.DefaultFlags)
             Self.torchOffX = 4
             Self.torchOffY = -8
             Self.animateTorch = False
         Else
-            torchImage = New Sprite("level/wall_torch.png", 0, 0, 4, Image.DefaultFlags)
+            Self.torchImage = New Sprite("level/wall_torch.png", 0, 0, 4, Image.DefaultFlags)
             Self.torchOffX = 5
             Self.torchOffY = -12
             Self.animateTorch = True
         End If
 
         If Util.RndBool(False)
-            torchImage.FlipX(True, True)
+            Self.torchImage.FlipX(True, True)
         End If
 
-        torchImage.SetAlphaValue(0.0)
-        torchImage.SetZOff(24.0)
-
-        Self.torchImage = torchImage
+        Self.torchImage.SetAlphaValue(0.0)
+        Self.torchImage.SetZOff(24.0)
     End Method
 
     Method AddTorch2: Void()
@@ -620,32 +618,32 @@ Class Tile Extends RenderableObject
     End Method
 
     Method CalcTileset: Int()
-        If Self.type = TileType.BossFloor Then Return 5
+        If Self.type = TileType.BossFloor Then Return TilesetType.Boss
 
         If controller_game.currentLevel = 4 Or
            controller_game.currentLevel = 5 Or
            (controller_game.currentLevel >= -500 And controller_game.currentLevel <= -490)
-            If Level.bossNumber = 9 Then Return 0
+            If Level.bossNumber = 9 Then Return TilesetType.Zone1
 
-            Return 5
+            Return TilesetType.Boss
         End If
 
         Select controller_game.currentZone
             Case 2
-                Return controller_game.currentZone - 1
+                Return TilesetType.Zone2
             Case 3
                 If ((Self.x * Level.zone3DividingLineX) - (Self.y * Level.zone3DividingLineY) > 0)
-                    Return 3
+                    Return TilesetType.Zone3Cold
                 End If
 
-                Return 2
+                Return TilesetType.Zone3Hot
             Case 4
-                Return 4
+                Return TilesetType.Zone4
             Case 5
-                Return 6
+                Return TilesetType.Zone5
         End Select
 
-        Return 0
+        Return TilesetType.Zone1
     End Method
 
     Method CalculateTileAlpha: Float()
@@ -938,25 +936,25 @@ Class Tile Extends RenderableObject
         Self.image1HasBeenLoadedWithFloor = True
 
         Select Self.GetTileset()
-            Case 1
+            Case TilesetType.Zone2
                 If Util.RndBool(False)
                     Return New Sprite("level/zone2_floorA.png", 26, 26, 12, Image.XYPadding)
                 Else
                     Return New Sprite("level/zone2_floorB.png", 26, 26, 12, Image.XYPadding)
                 End If
-            Case 2
+            Case TilesetType.Zone3Hot
                 Return New Sprite("level/zone3_floor.png", 26, 26, 6, Image.XYPadding)
-            Case 3
+            Case TilesetType.Zone3Cold
                 Return New Sprite("level/zone3_floorB.png", 26, 26, 6, Image.XYPadding)
-            Case 4
+            Case TilesetType.Zone4
                 Return New Sprite("level/zone4_floor.png", 26, 26, 6, Image.XYPadding)
-            Case 5
+            Case TilesetType.Boss
                 If Level.isConductorLevel
                     Return New Sprite("level/boss_floor_conductor.png", 26, 26, 6, Image.XYPadding)
                 Else
                     Return New Sprite("level/boss_floor_A.png", 26, 26, 6, Image.XYPadding)
                 End If
-            Case 6
+            Case TilesetType.Zone5
                 Return New Sprite("level/zone5_floor.png", 26, 26, 6, Image.XYPadding)
             Default
                 If Util.RndBool(False)
@@ -1141,6 +1139,7 @@ End Class
 
 Class TilesetType
 
+    Const None: Int = -1
     Const Zone1: Int = 0
     Const Zone2: Int = 1
     Const Zone3Hot: Int = 2
