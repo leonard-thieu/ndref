@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import monkey.list
 Import monkey.random
@@ -48,50 +48,15 @@ Import travelrune
 Import util
 Import xml
 
-Const PREVENT_TRIM := False
-Const DUMPMAP_ITERATIVE := True
 Const DEBUG_BUILD := False
 
-Function Main: Int()
-    Util.SeedRnd($9AF9E14A)
-    Util.RndIntRangeFromZero(100, True)
-    Debug.WriteLine(random.Seed)
+Const PREVENT_TRIM := False
+Const DUMPMAP_ITERATIVE := True
 
-    ' TODO: Some of this stuff belongs in `Level.NewLevel`.
+Function Main: Int()
     GameData.LoadGameDataXML(True)
 
-    Level.isSeededMode = True
-    Level.randSeedString = "1"
-    Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
-    If Level.randSeed = -1 Then Level.randSeed = 0
-
-    If Not Level.wholeRunRNG
-        Level.wholeRunRNG = RNG.Make(Level.randSeed)
-    End If
-
-    Level.currentFloorRNG = Level.wholeRunRNG.Split()
-    Local randSeed := Level.currentFloorRNG.Rand()
-    ' TODO: Deterministic start log message
-    
-    Debug.Log("NEWLEVEL: Using seed " + randSeed)
-
-    Util.SeedRnd(randSeed)
-
-    controller_game.players[0] = New Player(0, Character.Cadence)
-
-    Level.creatingMap = True
-
-    'INIT_HARDCORE_MODE_COMMON
-    Level.GenerateHardcoreZoneOrder()
-    controller_game.currentZone = Level.zoneOrder.Get(0)
-    controller_game.currentLevel = 1
-    controller_game.currentDepth = 1
-    Level.isHardcoreMode = True
-    Item.CreateItemPools()
-    Util.SeedRnd(randSeed)
-    Level.CreateMap(Null)
-    Debug.WriteLine("Created map.")
-    Level.DumpMap()
+    Level.NewLevel(1, 1, 0, False, Null, False)
 
     If necrodancer.PREVENT_TRIM
         NoTrim()

@@ -1750,6 +1750,8 @@ Class Level
 
         Level.lastCreatedRoomType = lastCreatedRoomType
 
+        Debug.WriteLine("Created room (" + xVal + ", " +  yVal + ", " +  wVal + ", " +  hVal + ", " +  originX + ", " +  originY + ")")
+
         If necrodancer.DUMPMAP_ITERATIVE
             Level.DumpMap()
         End If
@@ -2700,6 +2702,45 @@ Class Level
     End Function
 
     Function NewLevel: Void(level: Int, zone: Int, playerID: Int, inEditor: Bool, levelObj: LevelObject, continuedRun: Bool)
+        Level.isSeededMode = True
+        Level.randSeedString = "1"
+        Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
+        If Level.randSeed = -1 Then Level.randSeed = 0
+
+        If Not Level.wholeRunRNG
+            Level.wholeRunRNG = RNG.Make(Level.randSeed)
+        End If
+
+        Level.currentFloorRNG = Level.wholeRunRNG.Split()
+        Local randSeed := Level.currentFloorRNG.Rand()
+        ' TODO: Deterministic start log message
+        
+        Debug.Log("NEWLEVEL: Using seed " + randSeed)
+
+        Util.SeedRnd(randSeed)
+
+        controller_game.players[0] = New Player(0, Character.Cadence)
+        controller_game.numPlayers = 1
+
+        Level.creatingMap = True
+
+        'INIT_HARDCORE_MODE_COMMON
+        Level.GenerateHardcoreZoneOrder()
+        controller_game.currentZone = Level.zoneOrder.Get(0)
+        controller_game.currentLevel = 1
+        controller_game.currentDepth = 1
+        Level.isHardcoreMode = True
+        Item.CreateItemPools()
+        Util.SeedRnd(randSeed)
+
+        If Level.CreateMap(Null)
+            Debug.WriteLine("Created map.")
+        Else
+            Debug.WriteLine("Failed to create map.")
+        End If
+        
+        Level.DumpMap()
+        
         Debug.TraceNotImplemented("Level.NewLevel()")
     End Function
 
