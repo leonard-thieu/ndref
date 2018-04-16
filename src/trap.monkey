@@ -33,6 +33,8 @@ Class Trap Extends Entity Abstract
     Method New()
         Super.New()
 
+        Self.isTrap = True
+
         Trap.trapList.AddLast(Self)
     End Method
 
@@ -48,7 +50,11 @@ Class Trap Extends Entity Abstract
     Field playerWasClose: Bool
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Trap.Die()")
+        If Not Self.dead
+            Trap.trapList.RemoveEach(Self)
+
+            Super.Die()
+        End If
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
