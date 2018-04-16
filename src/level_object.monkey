@@ -184,7 +184,7 @@ Class LevelObject
             End If
 
             If enemy.isMiniboss
-                enemy.isMiniboss = True
+                enemy.isStairLockingMiniboss = True
             End If
         End For
 
