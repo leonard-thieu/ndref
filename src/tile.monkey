@@ -710,7 +710,7 @@ Class Tile Extends RenderableObject
             Case TileType.Floor,
                  TileType.CorridorFloor,
                  TileType.BossFloor,
-                 TileType.Floor4,
+                 TileType.SecretFloor,
                  TileType.ShopFloor
                 Return True
             Case TileType.MetalDoor
@@ -986,7 +986,7 @@ Class TileType
     Const LockedStairs9Diamonds: Int = 16
     Const Ooze: Int = 17
     Const Lava: Int = 18
-    Const Floor4: Int = 19
+    Const SecretFloor: Int = 19
     Const Wire: Int = 20
     Const RisingFloor: Int = 21
     Const RecededFloor: Int = 22

@@ -1846,7 +1846,7 @@ Class Level
                 Level.shopW = wVal
                 Level.shopH = hVal
             Case RoomType.Secret
-                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.SecretFloor)
             Case RoomType.Boss
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, TileType.BossWall)
                 Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.BossFloor)
@@ -1876,7 +1876,7 @@ Class Level
                     End If
                 End For
 
-                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.Floor4)
+                Level._CreateFloor(tiles, xVal, yVal, xMax, yMax, TileType.SecretFloor)
             Case RoomType.Notched
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
