@@ -2801,6 +2801,7 @@ Class Level
         controller_game.currentDepth = 1
         Level.isHardcoreMode = True
         Item.CreateItemPools()
+        
         Util.SeedRnd(randSeed)
 
         If Level.CreateMap(Null)

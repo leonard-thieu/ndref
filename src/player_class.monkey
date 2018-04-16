@@ -412,7 +412,18 @@ Class Player Extends MobileEntity
     End Method
 
     Method CheckFloating: Void()
-        Debug.TraceNotImplemented("Player.CheckFloating()")
+        Self.floating = Self.HasItemOfType("feet_boots_winged", False) Or
+                        Self.batFormActive
+
+        If Self.floating
+            Self.moveShadowTween = 3
+            Self.moveTween = 3
+        Else
+            Self.moveShadowTween = 2
+            Self.moveTween = 1
+        End If
+
+        Self.CheckConductorWire()
     End Method
 
     Method CheckVowOfPoverty: Void()
@@ -884,8 +895,9 @@ Class Player Extends MobileEntity
         Self.confusedUntil = -1
 
         If Self.characterID = Character.Mary And
-           Not Self.lambFamiliar
-            ' TODO Implement respawning Marv.
+           Self.lambFamiliar = Null
+            ' Bring Marv back to life.
+            Self.lambFamiliar = New Familiar(Self)
         End If
 
         Self.CheckFloating()
@@ -896,7 +908,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method SetCharacter: Void(charNum: Int)
-        If charNum >= 14 Then charNum = 0
+        If charNum > 13 Then charNum = Character.Cadence
 
         Self.characterID = charNum
         Self.LoadImages()
@@ -921,7 +933,15 @@ Class Player Extends MobileEntity
     End Method
 
     Method StopFalling: Void()
-        Debug.TraceNotImplemented("Player.StopFalling()")
+        If Self.falling
+            Self.falling = False
+
+            Self.image.UnsetCutoffY()
+            Self.headImage.UnsetCutoffY()
+            Self.shadow.UnsetCutoffY()
+            Self.shieldImageFront.UnsetCutoffY()
+            Self.shieldImageBack.UnsetCutoffY()
+        End If
     End Method
 
     Method SubtractItemOfType: Bool(i: Int)
