@@ -7,7 +7,7 @@ Class StackEx<T> Extends Stack<T>
 
     Function _EditorFix: Void() End
 
-    Method ChooseRandom: Int(useSeed: Bool)
+    Method ChooseRandom: T(useSeed: Bool)
         Debug.TraceNotImplemented("StackEx.ChooseRandom()")
     End Method
 
