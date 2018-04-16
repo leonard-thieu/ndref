@@ -431,7 +431,17 @@ Class Player Extends MobileEntity
     End Method
 
     Method ClearAllFamiliars: Void(includeLamb: Bool)
-        Debug.TraceNotImplemented("Player.ClearAllFamiliars()")
+        For Local familiar := EachIn Self.familiars
+            familiar.Die()
+        End For
+        
+        Self.familiars.Clear()
+
+        If includeLamb
+            If Self.lambFamiliar <> Null
+                Self.lambFamiliar.Die()
+            End If
+        End If
     End Method
 
     Method ClearFamiliarAt: Void(offsetX: Int, offsetY: Int)
