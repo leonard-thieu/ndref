@@ -3,6 +3,7 @@
 Import monkey.stack
 Import logger
 Import point
+Import util
 
 Class Rect
 
@@ -83,7 +84,10 @@ Class Rect
     End Method
 
     Method RandomPoint: Point()
-        Debug.TraceNotImplemented("Rect.RandomPoint()")
+        Local x := Util.RndIntRange(Self.x, Self.x + Self.w, False, -1)
+        Local y := Util.RndIntRange(Self.y, Self.y + Self.h, False, -1)
+
+        Return New Point(x, y)
     End Method
 
     Method ToString: Int()
