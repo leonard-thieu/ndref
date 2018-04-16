@@ -762,7 +762,16 @@ Class Player Extends MobileEntity
     End Method
 
     Method IsWeaponlessCharacter: Bool()
-        Debug.TraceNotImplemented("Player.IsWeaponlessCharacter()")
+        Select Self.characterID
+            Case Character.Melody,
+                 Character.Aria,
+                 Character.Eli,
+                 Character.Dove,
+                 Character.Coda
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method KnockSelfBack: Void(xVal: Int, yVal: Int)
