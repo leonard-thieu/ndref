@@ -204,7 +204,68 @@ Class Level
     End Function
 
     Function AddCrackedWall: Void(roomType: Int)
-        Debug.TraceNotImplemented("Level.AddCrackedWall()")
+        Debug.Log("Adding cracked wall...")
+
+        Local lowHealthWallLocations := New IntPointList()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+
+                If tile.IsWall(False, True, False, False)
+                    If tile.health <= 1
+                        lowHealthWallLocations.AddLast(New Point(tile.x, tile.y))
+                    End If
+                End If
+            End For
+        End For
+
+        Local lowHealthWallLocationsArray := lowHealthWallLocations.ToArray()
+        Local lowHealthWallLocationsCount := lowHealthWallLocations.Count()
+        Local lowHealthWallLocation: Point
+
+        ' WARN: Potential infinite loop.
+        While True
+            Local i := Util.RndIntRangeFromZero(lowHealthWallLocationsCount - 1, True)
+            lowHealthWallLocation = lowHealthWallLocationsArray[i]
+
+            If Level.IsFloorAdjacent(lowHealthWallLocation.x, lowHealthWallLocation.y)
+                Exit
+            End If
+        End While
+
+        Local lowHealthWall := Level.GetTileAt(lowHealthWallLocation.x, lowHealthWallLocation.y)
+
+        Select roomType
+            Case RoomType.Pillar
+                lowHealthWall.SetDigTrigger(10)
+                lowHealthWall.BecomeStone()
+            Case RoomType.OutsideCorners
+                lowHealthWall.SetDigTrigger(19)
+            Case RoomType.Shop
+                lowHealthWall.SetDigTrigger(21)
+                lowHealthWall.BecomeStone()
+            Case RoomType.Start
+                lowHealthWall.SetDigTrigger(22)
+                lowHealthWall.BecomeStone()
+            Case RoomType.Secret
+                lowHealthWall.SetDigTrigger(23)
+                lowHealthWall.BecomeHarderStone()
+            Case RoomType.Boss
+                lowHealthWall.SetDigTrigger(35)
+            Case RoomType.Vault
+                lowHealthWall.SetDigTrigger(36)
+            Case RoomType.Notched
+                lowHealthWall.SetDigTrigger(37)
+                lowHealthWall.BecomeHarderStone()
+        End Select
+
+        lowHealthWall.BecomeCracked()
+
+        Level.secretAtX = lowHealthWallLocation.x
+        Level.secretAtY = lowHealthWallLocation.y
+
+        Debug.Log("Finished adding cracked wall")
     End Function
 
     Function AddExit: Void(xVal: Int, yVal: Int, levelPointer: Int, zonePointer: Int)
@@ -2499,6 +2560,15 @@ Class Level
         Debug.TraceNotImplemented("Level.IsFinalBossZone()")
     End Function
 
+    Function IsFloorAdjacent: Bool(xVal: Int, yVal: Int)
+        If Level.IsFloorAt(xVal - 1, yVal) Then Return True
+        If Level.IsFloorAt(xVal + 1, yVal) Then Return True
+        If Level.IsFloorAt(xVal, yVal - 1) Then Return True
+        If Level.IsFloorAt(xVal, yVal + 1) Then Return True
+
+        Return False
+    End Function
+
     Function IsFloorAt: Bool(xVal: Int, yVal: Int)
         Local tile := Level.GetTileAt(xVal, yVal)
 
@@ -2740,7 +2810,7 @@ Class Level
         End If
         
         Level.DumpMap()
-        
+
         Debug.TraceNotImplemented("Level.NewLevel()")
     End Function
 
@@ -3899,6 +3969,7 @@ Class Level
         IsExitAt(0, 0)
         IsFinalBoss()
         IsFinalBossZone()
+        Level.IsFloorAdjacent(0, 0)
         IsFloorAt(0, 0)
         IsFreeLevelForSpecialRoom(0, 0)
         IsHotCoalAt(0, 0)

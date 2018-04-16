@@ -448,7 +448,59 @@ Class Tile Extends RenderableObject
     End Method
 
     Method BecomeCracked: Void()
-        Debug.TraceNotImplemented("Tile.BecomeCracked()")
+        Local alpha := Self.GetCurrentAlpha()
+
+        Select Self.type
+            Case TileType.DirtWall,
+                 TileType.CorridorDirtWall,
+                 TileType.Earth
+                Select Self.GetTileset()
+                    Case TilesetType.Zone1
+                        Self.image = New Sprite("level/zone1_wall_dirt_cracked.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone2
+                        Self.image = New Sprite("level/zone2_wall_dirt_crack.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone3Hot
+                        Self.image = New Sprite("level/zone3_wall_dirt_hot_crack.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone3Cold
+                        Self.image = New Sprite("level/zone3_wall_dirt_cold_crack.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone4
+                        Self.image = New Sprite("level/zone4_wall_dirt_crack.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone5
+                        Self.image = New Sprite("level/zone5_wall_dirt_crack.png", 1, Image.DefaultFlags)
+                End Select
+            Case TileType.ShopWall
+                Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 1, Image.DefaultFlags)
+            Case TileType.StoneWall
+                Select Self.GetTileset()
+                    Case TilesetType.Zone1
+                        Self.image = New Sprite("level/zone1_wall_stone_cracked.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone2
+                        Self.image = New Sprite("level/zone2_wall_stone_crack.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone3Hot
+                        Self.image = New Sprite("level/zone3_wall_stone_hot_cracked.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone3Cold
+                        Self.image = New Sprite("level/zone3_wall_stone_cold_cracked.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone4
+                        Self.image = New Sprite("level/zone4_wall_rock_A_crack.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone5
+                        Self.image = New Sprite("level/zone5_wall_stone_crack.png", 1, Image.DefaultFlags)
+                End Select
+            Case TileType.CatacombWall
+                Select Self.GetTileset()
+                    Case TilesetType.Zone4
+                        Self.image = New Sprite("level/zone4_wall_catacomb_A_crack.png", 1, Image.DefaultFlags)
+                    Case TilesetType.Zone5
+                        Self.image = New Sprite("level/zone5_wall_catacomb_crack.png", 1, Image.DefaultFlags)
+                    Default
+                        Self.image = New Sprite("level/zone1_catacomb_cracked.png", 1, Image.DefaultFlags)
+                End Select
+        End Select
+
+        Self.image.SetAlphaValue(alpha)
+
+        If Self.IsWall() Then Self.image.SetZOff(8.0)
+
+        Self.isCracked = True
     End Method
 
     Method BecomeDarkShopWall: Void(spritePath: Int)
@@ -464,15 +516,15 @@ Class Tile Extends RenderableObject
 
         Local wall: Sprite
         Select Self.GetTileset()
-            Case 1
-                Self.image = Self.GetZone2Wall()
-            Case 2,
-                 3
-                Self.image = Self.GetZone3Wall()
-            Case 4
-                Self.image = Self.GetZone4Wall()
-            Case 6
+            Case TilesetType.Zone5
                 Self.image = Self.GetZone5Wall()
+            Case TilesetType.Zone4
+                Self.image = Self.GetZone4Wall()
+            Case TilesetType.Zone3Cold,
+                 TilesetType.Zone3Hot
+                Self.image = Self.GetZone3Wall()
+            Case TilesetType.Zone2
+                Self.image = Self.GetZone2Wall()
             Default
                 Self.image = Self.GetZone1Wall()
         End Select
@@ -489,11 +541,78 @@ Class Tile Extends RenderableObject
     End Method
 
     Method BecomeHarderStone: Void()
-        Debug.TraceNotImplemented("Tile.BecomeHarderStone()")
+        Self.hasResource = False
+
+        Select Self.GetTileset()
+            Case TilesetType.Zone4
+                If Util.RndBool(False)
+                    Self.image = New Sprite("level/zone4_wall_catacomb_A.png", 1, Image.DefaultFlags)
+                Else
+                    Self.image = New Sprite("level/zone4_wall_catacomb_B.png", 1, Image.DefaultFlags)
+                End If
+            Case TilesetType.Zone5
+                Self.image = New Sprite("level/zone5_wall_catacomb.png", 4, Image.DefaultFlags)
+            Default
+                If Util.RndBool(False)
+                    Self.image = New Sprite("level/wall_catacomb_crypt1.png", 1, Image.DefaultFlags)
+                Else
+                    Self.image = New Sprite("level/wall_catacomb_crypt2.png", 1, Image.DefaultFlags)
+                End If
+        End Select
+
+        Self.image.SetAlphaValue(0.0)
+
+        Self.health = 3
+        Self.isStone = True
+        Self.type = TileType.CatacombWall
+
+        If Self.IsWall() Then Self.image.SetZOff(8.0)
     End Method
 
     Method BecomeStone: Void()
-        Debug.TraceNotImplemented("Tile.BecomeStone()")
+        Self.hasResource = False
+
+        Select Self.GetTileset()
+            Case TilesetType.Zone5
+                If Util.RndBool(False)
+                    Self.image = New Sprite("level/zone5_wall_stone_A.png", 1, Image.DefaultFlags)
+                Else
+                    Self.image = New Sprite("level/zone5_wall_stone_B.png", 1, Image.DefaultFlags)
+                End If
+            Case TilesetType.Boss
+                Select controller_game.currentLevel
+                    Case -494,
+                         -493,
+                         -492,
+                         -490,
+                            5
+                        Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
+                    Default
+                        Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
+                End Select
+
+                Local frame := Util.RndIntRangeFromZero(4, False)
+                Self.image.SetFrame(frame)
+                Self.unbreakable = True
+            Case TilesetType.Zone4
+                Self.image = New Sprite("level/zone4_wall_rock_A.png", 1, Image.DefaultFlags)
+            Case TilesetType.Zone3Cold
+                Self.image = New Sprite("level/zone3_wall_stone_cold.png", 1, Image.DefaultFlags)
+            Case TilesetType.Zone3Hot
+                Self.image = New Sprite("level/zone3_wall_stone_hot.png", 1, Image.DefaultFlags)
+            Case TilesetType.Zone2
+                Self.image = New Sprite("level/zone2_wall_stone.png", 1, Image.DefaultFlags)
+            Default
+                Self.image = New Sprite("level/wall_stone_crypt.png", 1, Image.DefaultFlags)
+        End Select
+
+        Self.image.SetAlphaValue(0.0)
+
+        Self.health = 2
+        Self.isStone = True
+        Self.type = TileType.StoneWall
+
+        If Self.IsWall() Then Self.image.SetZOff(8.0)
     End Method
 
     Method BecomeUnbreakable: Void()
@@ -569,7 +688,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetCurrentAlpha: Float()
-        Debug.TraceNotImplemented("Tile.GetCurrentAlpha()")
+        Return Self.image.GetAlphaValue()
     End Method
 
     Method GetNumWireConnections: Int()
@@ -869,7 +988,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method SetDigTrigger: Void(triggerVal: Int)
-        Debug.TraceNotImplemented("Tile.SetDigTrigger()")
+        Self.triggerDig = triggerVal
     End Method
 
     Method SetDoorTrigger: Void(triggerVal: Int)
@@ -1017,5 +1136,17 @@ Class TileType
     Const ConductorWallPipe2: Int = 121
     Const ConductorWallPipe3: Int = 122
     Const ConductorWallPipe4: Int = 123
+
+End Class
+
+Class TilesetType
+
+    Const Zone1: Int = 0
+    Const Zone2: Int = 1
+    Const Zone3Hot: Int = 2
+    Const Zone3Cold: Int = 3
+    Const Zone4: Int = 4
+    Const Boss: Int = 5
+    Const Zone5: Int = 6
 
 End Class

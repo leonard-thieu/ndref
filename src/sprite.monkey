@@ -57,7 +57,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method New(p: String, frames: Int, flags: Int)
-        Debug.TraceNotImplemented("Sprite.New()")
+        'Self.InitSprite(p, 0, 0, frames, flags)
     End Method
 
     Field path: String
@@ -110,7 +110,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method GetAlphaValue: Float()
-        Debug.TraceNotImplemented("Sprite.GetAlphaValue()")
+        Return Self.alpha
     End Method
 
     Method GetFrame: Int()
