@@ -355,7 +355,7 @@ Class Set3 End Class
 
 Class Stack2 End Class
 Class StackEx2 Extends Stack2 End Class
-Class IntPointStack Extends StackEx2 End Class
+'Class IntPointStack Extends StackEx2 End Class
 
 Class Set End Class
 Class IntSet Extends Set End Class
