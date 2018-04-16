@@ -1,8 +1,8 @@
 'Strict
 
 Import monkey.list
+Import mojo.graphics
 Import controller_game
-Import image
 Import level_object
 Import renderable_object
 Import tile
@@ -97,15 +97,13 @@ Class Tile Extends RenderableObject
 
         Tile.totalTilesCreatedOrDestroyed += 1
 
-        If typeVal = TileType.Tar
-            Level.isAnyTar = True
-        End If
+        If typeVal = TileType.Tar Then Level.isAnyTar = True
 
-        Local type := -1
+        Local existingTileType := TileType.Empty
         If Not pending
             Local existingTile := Level.GetTileAt(xVal, yVal)
             If existingTile
-                type = existingTile.GetType()
+                existingTileType = existingTile.GetType()
                 existingTile.Die()
             End If
         End If
@@ -115,221 +113,192 @@ Class Tile Extends RenderableObject
         Self.x = xVal
         Self.y = yVal
 
-        If tilesetOvrd = -1
-            Self.tilesetOverride = Self.CalcTileset()
-        End If
+        If tilesetOvrd = -1 Then Self.tilesetOverride = Self.CalcTileset()
 
-        Local image := New Sprite()
-        Local image2: Sprite
+        If Self.IsFloor()
+            Select Self.type
+                Case TileType.Stairs
+                    Self.image = New Sprite("level/stairs.png", 0, 0, 1, Image.DefaultFlags)
+                Case TileType.LockedStairs
+                    Self.image = New Sprite("level/stairs_locked.png", 0, 0, 1, Image.DefaultFlags)
+                Case TileType.LockedStairs3Diamonds
+                    Self.image = New Sprite("level/stairs_locked_diamond3.png", 0, 0, 1, Image.DefaultFlags)
+                Case TileType.LockedStairs9Diamonds
+                    Self.image = New Sprite("level/stairs_locked_diamond9.png", 0, 0, 1, Image.DefaultFlags)
+                Case TileType.LockedStairsMiniboss
+                    Self.image = New Sprite("level/stairs_locked_miniboss.png", 0, 0, 1, Image.DefaultFlags)
+                Case TileType.ShopFloor
+                    Self.image = New Sprite("level/TEMP_shop_floor.png", 0, 0, 3, Image.XYPadding)
+                Case TileType.Water,
+                     TileType.DeepWater
+                    Self.image = New Sprite("level/TEMP_floor_water.png", 0, 0, 3, Image.XYPadding)
+                Case TileType.HotCoal
+                    Self.image = New Sprite("level/TEMP_floor_hotcoal.png", 0, 0, 3, Image.XYPadding)
+                Case TileType.Ice
+                    Self.image = New Sprite("level/TEMP_floor_ice.png", 0, 0, 3, Image.XYPadding)
+                Case TileType.Crystal
+                    Self.image = New Sprite("level/TEMP_floor_crystal.png", 26, 26, 6, Image.XYPadding)
+                Case TileType.Ooze
+                    Self.image = New Sprite("level/TEMP_floor_magnetic.png", 26, 26, 3, Image.XYPadding)
+                Case TileType.Lava
+                    Self.image = New Sprite("level/floor_lava.png", 26, 26, 15, Image.XYPadding)
+                    Self.tarAnimCounter = Util.RndIntRangeFromZero(10000, False)
+                    Self.tarAnimDelay = Util.RndIntRangeFromZero(200, False)
+                Case TileType.Geyser
+                    Self.image = New Sprite("level/TEMP_floor_geyser.png", 0, 0, 3, Image.XYPadding)
+                Case TileType.Tar
+                    Self.image = New Sprite("level/floor_tar.png", 26, 26, 18, Image.XYPadding)
+                    Self.tarAnimCounter = Util.RndIntRangeFromZero(10000, False)
+                    Self.tarAnimDelay = Util.RndIntRangeFromZero(200, False)
+                Case TileType.LobbyUpgradesFloor
+                    Self.image = New Sprite("level/TEMP_npc_floor.png", 0, 0, 3, Image.XYPadding)
+                Case TileType.RisingFloor
+                    Self.image = New Sprite("level/floor_rising.png", 0, 0, 3, Image.XYPadding)
+                    Tile.floorRisingList.AddLast(Self)
+                Case TileType.RecededFloor
+                    Self.image = New Sprite("level/floor_receded.png", 0, 0, 3, Image.XYPadding)
+                    Tile.floorRecededList.AddLast(Self)
+                Default
+                    Self.image = Self.LoadFloor()
+            End Select
 
-        If Not Self.IsWall(False, False, False, False)
-            If Self.IsFloor()
-                Select Self.type
-                    Case TileType.Stairs
-                        image.InitSprite("level/stairs.png", 0, 0, 1, Image.DefaultFlags)
-                    Case TileType.LockedStairs
-                        image.InitSprite("level/stairs_locked.png", 0, 0, 1, Image.DefaultFlags)
-                    Case TileType.LockedStairs3Diamonds
-                        image.InitSprite("level/stairs_locked_diamond3.png", 0, 0, 1, Image.DefaultFlags)
-                    Case TileType.LockedStairs9Diamonds
-                        image.InitSprite("level/stairs_locked_diamond9.png", 0, 0, 1, Image.DefaultFlags)
-                    Case TileType.LockedStairsMiniboss
-                        image.InitSprite("level/stairs_locked_miniboss.png", 0, 0, 1, Image.DefaultFlags)
-                    Case TileType.ShopFloor
-                        image.InitSprite("level/TEMP_shop_floor.png", 0, 0, 3, 6)
-                    Default
-                        If Self.type <= 5
-                            image.InitSprite("level/TEMP_floor_water.png", 0, 0, 3, 6)
-                        Else
-                            Select Self.type
-                                Case TileType.HotCoal
-                                    image.InitSprite("level/TEMP_floor_hotcoal.png", 0, 0, 3, 6)
-                                Case TileType.Ice
-                                    image.InitSprite("level/TEMP_floor_ice.png", 0, 0, 3, 6)
-                                Case TileType.Crystal
-                                    image.InitSprite("level/TEMP_floor_crystal.png", 26, 26, 6, 6)
-                                Case TileType.Ooze
-                                    image.InitSprite("level/TEMP_floor_magnetic.png", 26, 26, 3, 6)
-                                Case TileType.Lava
-                                    image.InitSprite("level/floor_lava.png", 26, 26, 15, 6)
-                                    Self.tarAnimCounter = Util.RndIntRange(0, 10000, False, -1)
-                                    Self.tarAnimDelay = Util.RndIntRange(0, 200, False, -1)
-                                Case TileType.Geyser
-                                    image.InitSprite("level/TEMP_floor_geyser.png", 0, 0, 3, 6)
-                                Case TileType.Tar
-                                    image.InitSprite("level/floor_tar.png", 26, 26, 18, 6)
-                                    Self.tarAnimCounter = Util.RndIntRange(0, 10000, False, -1)
-                                    Self.tarAnimDelay = Util.RndIntRange(0, 200, False, -1)
-                                Default
-                                    Select Self.type
-                                        Case TileType.LobbyUpgradesFloor
-                                            image.InitSprite("level/TEMP_npc_floor.png", 0, 0, 3, 6)
-                                        Case TileType.RisingFloor
-                                            image.InitSprite("level/floor_rising.png", 0, 0, 3, 6)
-                                            Tile.floorRisingList.AddLast(Self)
-                                        Case TileType.RecededFloor
-                                            image.InitSprite("level/floor_receded.png", 0, 0, 3, 6)
-                                            Tile.floorRecededList.AddLast(Self)
-                                        Default
-                                            image = Self.LoadFloor()
-                                    End Select
-                            End Select
-                        End If
-                End Select
+            Self.image.SetZ(-1001.0)
+        Else If Self.IsWall()
+            Select Self.type
+                Case TileType.ShopWall
+                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.health = 4
+                Case TileType.CrackedShopWall
+                    Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.health = 4
+                Case TileType.BossWall
+                    Select currentLevel
+                        Case -490,
+                             -492,
+                             -493,
+                             -494,
+                             5
+                            If Level.isConductorLevel
+                                Self.image = New Sprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
+                            Else
+                                Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
+                            End If
+                        Default
+                            Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
+                    End Select
 
-                image.SetZ(-1001.0)
-            Else
-                'Goto LABEL_29
+                    Local frame := Util.RndIntRangeFromZero(4, False)
+                    Self.image.SetFrame(frame)
+                    Self.unbreakable = True
+                Case TileType.UnbreakableWall
+                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.unbreakable = True
+                Case TileType.IndestructibleBorder
+                    Self.image = New Sprite("level/end_of_world.png", 24, 48, 8, Image.DefaultFlags)
+                    Local frame := Util.RndIntRangeFromZero(7, False)
+                    Self.image.SetFrame(frame)
+                    Self.unbreakable = True
+                Case TileType.ConductorWallPipe1
+                    Self.image = New Sprite("level/conductor_wall_pipe1.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.unbreakable = True
+                Case TileType.ConductorWallPipe2
+                    Self.image = New Sprite("level/conductor_wall_pipe2.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.unbreakable = True
+                Case TileType.ConductorWallPipe3
+                    Self.image = New Sprite("level/conductor_wall_pipe3.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.unbreakable = True
+                Case TileType.ConductorWallPipe4
+                    Self.image = New Sprite("level/conductor_wall_pipe4.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.unbreakable = True
+                Case TileType.Door,
+                     TileType.WiredDoor
+                    Self.image = Self.LoadFloor()
+
+                    If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
+                       Level.IsWallAt(Self.x + 1, Self.y, False, False)
+                        Self.image2 = New Sprite("level/door_front.png", 0, 0, 1, Image.DefaultFlags)
+                    Else
+                        Self.image2 = New Sprite("level/door_side.png", 0, 0, 1, Image.DefaultFlags)
+                    End If
+
+                    Self.health = 0
+                Case TileType.LockedDoor
+                    Self.image = Self.LoadFloor()
+
+                    If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
+                       Level.IsWallAt(Self.x + 1, Self.y, False, False)
+                        Self.image2 = New Sprite("level/door_locked_front.png", 0, 0, 1, Image.DefaultFlags)
+                    Else
+                        Self.image2 = New Sprite("level/door_locked_side.png", 0, 0, 1, Image.DefaultFlags)
+                    End If
+
+                    Self.health = 100
+                Case TileType.MetalDoor
+                    Self.image = Self.LoadFloor()
+
+                    If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
+                       Level.IsWallAt(Self.x + 1, Self.y, False, False)
+                        Self.image2 = New Sprite("level/door_metal_front.png", 24, 29, 4, Image.DefaultFlags)
+                    Else
+                        Self.image2 = New Sprite("level/door_metal_side.png", 11, 39, 2, Image.DefaultFlags)
+                    End If
+
+                    Self.health = 0
+                Case TileType.StoneWall
+                    Self.BecomeStone()
+                Case TileType.CatacombWall
+                    Self.BecomeHarderStone()
+                Case TileType.Earth
+                    Self.BecomeDirt()
+
+                    Self.health = 0
+                Case TileType.CorridorDirtWall
+                    Self.BecomeDirt()
+
+                    Select existingTileType
+                        Case TileType.StoneWall
+                            Self.BecomeStone()
+                        Case TileType.CatacombWall
+                            Self.BecomeHarderStone()
+                    End Select
+                Default
+                    Self.BecomeDirt()
+
+                    If Self.IsNecrodancerPlatform()
+                        Self.image = New Sprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
+                        image.SetFrame(Self.type - 112)
+                        Self.health = 4
+                    End If
+            End Select
+
+            If Not pending
+                Self.collides = True
             End If
         End If
 
-        Select Self.type
-            Case TileType.ShopWall
-                image.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
-                Self.health = 4
-            Case TileType.CrackedShopWall
-                image.InitSprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
-                Self.health = 4
-            Case TileType.BossWall
-                Select currentLevel
-                    Case -490
-                    Case -492
-                    Case -493
-                    Case -494
-                    Case 5
-                        If Level.isConductorLevel
-                            image.InitSprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
-                        Else
-                            image.InitSprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
-                        End If
-                    Default
-                        image.InitSprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
-                End Select
+        If Self.image Then Self.image.SetAlphaValue(0.0)
+        If Self.image2 Then Self.image2.SetAlphaValue(0.0)
 
-                Local frame := Util.RndIntRange(0, 4, False, -1)
-                image.SetFrame(frame)
-                Self.unbreakable = True
-            Case TileType.UnbreakableWall
-                image.InitSprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
-                Self.unbreakable = True
-            Case TileType.IndestructibleBorder
-                image.InitSprite("level/end_of_world.png", 24, 48, 8, Image.DefaultFlags)
-                Local frame := Util.RndIntRange(0, 7, False, -1)
-                image.SetFrame(frame)
-                Self.unbreakable = True
-            ' All of these goto LABEL_87
-        End Select
-
-        If Self.IsNecrodancerPlatform()
-            image.InitSprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
-            image.SetFrame(Self.type - 112)
-            Self.health = 4
-            ' goto LABEL_87
+        If Self.IsWire()
+            Self.LoadWireImages("level/wire.png", 0)
+        Else
+            Select Self.type
+                Case TileType.ConductorWirePhase1
+                    Self.LoadWireImages("level/wire_phase1_conductor.png", 1)
+                Case TileType.ConductorWirePhase2
+                    Self.LoadWireImages("level/wire_phase2_conductor.png", 2)
+            End Select
         End If
 
-        Select Self.type
-            Case TileType.ConductorWallPipe1
-                image.InitSprite("level/conductor_wall_pipe1.png", 24, 79, 1, Image.DefaultFlags)
-                Self.unbreakable = True
-            Case TileType.ConductorWallPipe2
-                image.InitSprite("level/conductor_wall_pipe2.png", 24, 79, 1, Image.DefaultFlags)
-                Self.unbreakable = True
-            Case TileType.ConductorWallPipe3
-                image.InitSprite("level/conductor_wall_pipe3.png", 24, 79, 1, Image.DefaultFlags)
-                Self.unbreakable = True
-            Case TileType.ConductorWallPipe4
-                image.InitSprite("level/conductor_wall_pipe4.png", 24, 79, 1, Image.DefaultFlags)
-                Self.unbreakable = True
-            ' All of these goto LABEL_87
-        End Select
-
-        Select Self.type
-            Case TileType.MetalDoor
-                image2 = image
-                image = Self.LoadFloor()
-
-                Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
-                Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
-                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
-                   (tileRight And tileRight.IsWall(False, False, False, False))
-                    image2.InitSprite("level/door_metal_front.png", 24, 29, 4, Image.DefaultFlags)
-                Else
-                    image2.InitSprite("level/door_metal_side.png", 11, 39, 2, Image.DefaultFlags)
-                End If
-            Case TileType.WiredDoor
-            Case TileType.Door
-                image2 = image
-                image = Self.LoadFloor()
-
-                Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
-                Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
-                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
-                   (tileRight And tileRight.IsWall(False, False, False, False))
-                    image2.InitSprite("level/door_front.png", 0, 0, 1, Image.DefaultFlags)
-                Else
-                    image2.InitSprite("level/door_side.png", 0, 0, 1, Image.DefaultFlags)
-                End If
-            Case TileType.LockedDoor
-                Self.health = 100
-
-                image2 = image
-                image = Self.LoadFloor()
-
-                Local tileLeft := Level.GetTileAt(Self.x - 1, Self.y)
-                Local tileRight := Level.GetTileAt(Self.x + 1, Self.y)
-                If (tileLeft And tileLeft.IsWall(False, False, False, False)) Or
-                   (tileRight And tileRight.IsWall(False, False, False, False))
-                    image2.InitSprite("level/door_locked_front.png", 0, 0, 1, Image.DefaultFlags)
-                Else
-                    image2.InitSprite("level/door_locked_side.png", 0, 0, 1, Image.DefaultFlags)
-                End If
-            Case TileType.StoneWall
-                Self.BecomeStone()
-            Case TileType.CatacombWall
-                Self.BecomeHarderStone()
-            Default
-                Self.BecomeDirt()
-                ' TODO: Missing stuff here
-        End Select
-
-        Self.image = image
-        Self.image2 = image2
-
-        ' TODO: Missing stuff here
-
-        'LABEL_118
-        Self.health = False
-
-        'LABEL_87
-        If Not pending Then Self.collides = True
-
-        'LABEL_29
-        If image Then image.SetAlphaValue(0.0)
-        If image2 Then image2.SetAlphaValue(0.0)
-
-        ' TODO: Missing stuff here
-
-        If Self.type = TileType.ConductorWirePhase1
-            Self.LoadWireImages("level/wire_phase1_conductor.png", 1)
-        End If
-
-        'LABEL_35
-        If Self.type = TileType.ConductorWirePhase2
-            Self.LoadWireImages("level/wire_phase2_conductor.png", 2)
-        End If
-
-        'LABEL_37
         If Self.IsDoor()
             Self.image.SetZ(-1001.0)
             Self.image2.SetZOff(8.0)
-        Else
+        Else If Self.IsWall()
             Self.image.SetZOff(8.0)
         End If
 
-        Local xImage := New Sprite()
-        xImage.InitSprite("level/floor_x.png", 0, 0, 1, Image.DefaultFlags)
-        xImage.SetZ(-901.0)
-        Self.xImage = image
+        Self.xImage = New Sprite("level/floor_x.png", 0, 0, 1, Image.DefaultFlags)
+        Self.xImage.SetZ(-901.0)
 
         Local tiles := Level.tiles
         If pending
@@ -455,7 +424,7 @@ Class Tile Extends RenderableObject
             Self.torchOffY = -12
             Self.animateTorch = True
         End If
-        
+
         If Util.RndBool(False)
             torchImage.FlipX(True, True)
         End If
@@ -497,8 +466,8 @@ Class Tile Extends RenderableObject
         Select Self.GetTileset()
             Case 1
                 Self.image = Self.GetZone2Wall()
-            Case 2
-            Case 3
+            Case 2,
+                 3
                 Self.image = Self.GetZone3Wall()
             Case 4
                 Self.image = Self.GetZone4Wall()
@@ -616,7 +585,18 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone1Wall: Sprite()
-        Debug.TraceNotImplemented("Tile.GetZone1Wall()")
+        Local image := New Sprite("level/wall_dirt_crypt.png", 24, 48, 16, Image.DefaultFlags)
+        Local frame := Util.RndIntRangeFromZero(15, False)
+        image.SetFrame(frame)
+
+        Local randomValue := Util.RndIntRangeFromZero(10, False)
+        ' TODO: Not sure on comparison.
+        If randomValue > 7
+            frame = Util.RndIntRangeFromZero(1, False)
+            image.SetFrame(frame)
+        End If
+
+        Return image
     End Method
 
     Method GetZone2Wall: Sprite()
@@ -659,9 +639,9 @@ Class Tile Extends RenderableObject
 
     Method IsDoor: Bool()
         Select Self.type
-            Case TileType.WiredDoor
-            Case TileType.Door
-            Case TileType.LockedDoor
+            Case TileType.WiredDoor,
+                 TileType.Door,
+                 TileType.LockedDoor
                 Return True
             Case TileType.MetalDoor
                 Return Not Self.IsMetalDoorOpen()
@@ -676,11 +656,11 @@ Class Tile Extends RenderableObject
 
     Method IsExit: Bool()
         Select Self.type
-            Case TileType.LockedStairs
-            Case TileType.Stairs
-            Case TileType.LockedStairsMiniboss
-            Case TileType.LockedStairs3Diamonds
-            Case TileType.LockedStairs9Diamonds
+            Case TileType.LockedStairs,
+                 TileType.Stairs,
+                 TileType.LockedStairsMiniboss,
+                 TileType.LockedStairs3Diamonds,
+                 TileType.LockedStairs9Diamonds
                 Return True
         End Select
 
@@ -713,12 +693,12 @@ Class Tile Extends RenderableObject
 
     Method IsNecrodancerPlatform: Bool()
         Select Self.type
-            Case TileType.NecroDancerStageGreen
-            Case TileType.NecroDancerStageTurquoise
-            Case TileType.NecroDancerStageCyan
-            Case TileType.NecroDancerSpeaker1
-            Case TileType.NecroDancerSpeaker2
-            Case TileType.NecroDancerSpeaker3
+            Case TileType.NecroDancerStageGreen,
+                 TileType.NecroDancerStageTurquoise,
+                 TileType.NecroDancerStageCyan,
+                 TileType.NecroDancerSpeaker1,
+                 TileType.NecroDancerSpeaker2,
+                 TileType.NecroDancerSpeaker3
                 Return True
         End Select
 
@@ -727,11 +707,11 @@ Class Tile Extends RenderableObject
 
     Method IsNormalFloor: Bool()
         Select Self.type
-            Case TileType.Floor
-            Case TileType.CorridorFloor
-            Case TileType.BossFloor
-            Case TileType.Floor4
-            Case TileType.ShopFloor
+            Case TileType.Floor,
+                 TileType.CorridorFloor,
+                 TileType.BossFloor,
+                 TileType.Floor4,
+                 TileType.ShopFloor
                 Return True
             Case TileType.MetalDoor
                 Return Self.IsMetalDoorOpen()
@@ -742,8 +722,8 @@ Class Tile Extends RenderableObject
 
     Method IsShopWall: Bool()
         Select Self.type
-            Case TileType.CrackedShopWall
-            Case TileType.ShopWall
+            Case TileType.CrackedShopWall,
+                 TileType.ShopWall
                 Return True
         End Select
 
@@ -752,11 +732,11 @@ Class Tile Extends RenderableObject
 
     Method IsStairs: Bool()
         Select Self.type
-            Case TileType.LockedStairs
-            Case TileType.Stairs
-            Case TileType.LockedStairsMiniboss
-            Case TileType.LockedStairs3Diamonds
-            Case TileType.LockedStairs9Diamonds
+            Case TileType.LockedStairs,
+                 TileType.Stairs,
+                 TileType.LockedStairsMiniboss,
+                 TileType.LockedStairs3Diamonds,
+                 TileType.LockedStairs9Diamonds
                 Return True
         End Select
 
@@ -778,11 +758,11 @@ Class Tile Extends RenderableObject
     Method IsWall: Bool(nonCorridor: Bool, destructibleOnly: Bool, forVision: Bool, torchlessOnly: Bool)
         If destructibleOnly
             Select Self.type
-                Case TileType.IndestructibleBorder
-                Case TileType.Door
-                Case TileType.WiredDoor
-                Case TileType.LockedDoor
-                Case TileType.MetalDoor
+                Case TileType.IndestructibleBorder,
+                     TileType.Door,
+                     TileType.WiredDoor,
+                     TileType.LockedDoor,
+                     TileType.MetalDoor
                     Return False
                 Default
                     If Self.IsShopWall() Then Return False
@@ -803,9 +783,9 @@ Class Tile Extends RenderableObject
 
         If forVision
             Select Self.type
-                Case TileType.NecroDancerStageGreen
-                Case TileType.NecroDancerStageTurquoise
-                Case TileType.NecroDancerStageCyan
+                Case TileType.NecroDancerStageGreen,
+                     TileType.NecroDancerStageTurquoise,
+                     TileType.NecroDancerStageCyan
                     Return False
             End Select
         End If
@@ -819,8 +799,8 @@ Class Tile Extends RenderableObject
 
     Method IsWire: Bool()
         Select Self.type
-            Case TileType.Wire
-            Case TileType.WiredDoor
+            Case TileType.Wire,
+                 TileType.WiredDoor
                 Return True
         End Select
 
@@ -836,7 +816,36 @@ Class Tile Extends RenderableObject
     End Method
 
     Method LoadFloor: Sprite()
-        Debug.TraceNotImplemented("Tile.LoadFloor()")
+        Self.image1HasBeenLoadedWithFloor = True
+
+        Select Self.GetTileset()
+            Case 1
+                If Util.RndBool(False)
+                    Return New Sprite("level/zone2_floorA.png", 26, 26, 12, Image.XYPadding)
+                Else
+                    Return New Sprite("level/zone2_floorB.png", 26, 26, 12, Image.XYPadding)
+                End If
+            Case 2
+                Return New Sprite("level/zone3_floor.png", 26, 26, 6, Image.XYPadding)
+            Case 3
+                Return New Sprite("level/zone3_floorB.png", 26, 26, 6, Image.XYPadding)
+            Case 4
+                Return New Sprite("level/zone4_floor.png", 26, 26, 6, Image.XYPadding)
+            Case 5
+                If Level.isConductorLevel
+                    Return New Sprite("level/boss_floor_conductor.png", 26, 26, 6, Image.XYPadding)
+                Else
+                    Return New Sprite("level/boss_floor_A.png", 26, 26, 6, Image.XYPadding)
+                End If
+            Case 6
+                Return New Sprite("level/zone5_floor.png", 26, 26, 6, Image.XYPadding)
+            Default
+                If Util.RndBool(False)
+                    Return New Sprite("level/floor_dirt1.png", 26, 26, 12, Image.XYPadding)
+                Else
+                    Return New Sprite("level/floor_dirt2.png", 26, 26, 12, Image.XYPadding)
+                End If
+        End Select
     End Method
 
     Method LoadWireImages: Void(mainImage: String, conductorPhase: Int)
