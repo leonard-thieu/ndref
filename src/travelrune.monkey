@@ -1,6 +1,6 @@
 Strict
 
-Import image
+Import mojo.graphics
 Import trap
 
 Class TravelRune Extends Trap
@@ -19,9 +19,8 @@ Class TravelRune Extends Trap
         Self.travelToX = toX
         Self.travelToY = toY
         
-        Local image := New Sprite("traps/travelrune.png", 24, 24, 4, Image.DefaultFlags)
-        image.SetZ(-995.0)
-        Self.image = image
+        Self.image = New Sprite("traps/travelrune.png", 24, 24, 4, Image.DefaultFlags)
+        Self.image.SetZ(-995.0)
     End Method
 
     Field runeType: Int = 1

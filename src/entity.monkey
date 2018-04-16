@@ -1,7 +1,6 @@
 'Strict
 
 Import monkey.list
-Import image
 Import logger
 Import particles
 Import renderableobject

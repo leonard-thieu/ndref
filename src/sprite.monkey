@@ -2,7 +2,7 @@
 
 Import monkey.map
 Import monkey.math
-Import image
+Import mojo.graphics
 Import level
 Import logger
 Import spriteinitdata
@@ -53,7 +53,7 @@ Class Sprite Extends Tweenable
     Function _EditorFix: Void() End
 
     Method New(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int)
-        Self.InitSprite(p, frameWidth, frameHeight, frameCount, flags)
+        'Self.InitSprite(p, frameWidth, frameHeight, frameCount, flags)
     End Method
 
     Method New(p: String, frames: Int, flags: Int)
@@ -189,7 +189,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetFrame: Void(f: Int)
-        Debug.TraceNotImplemented("Sprite.SetFrame()")
+        'Debug.TraceNotImplemented("Sprite.SetFrame()")
     End Method
 
     Method SetHandle: Void(xVal: Int, yVal: Int)

@@ -17,7 +17,6 @@ Import familiar
 Import firetrap
 Import gamedata
 Import gargoyle
-Import image
 Import item
 Import level
 Import level_object
@@ -115,7 +114,6 @@ Function NoTrim: Void()
     (New FireTrap(0, 0, 0, False)).NoTrim()
     (New GameData()).NoTrim()
     (New Gargoyle())
-    (New Image())
     (New Item(0, 0, "", False, 0, False)).NoTrim()
     (New Level()).NoTrim()
     (New LevelObject(0, 0, 0, False, Null)).NoTrim()

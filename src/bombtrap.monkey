@@ -1,6 +1,6 @@
 Strict
 
-Import image
+Import mojo.graphics
 Import sprite
 Import trap
 
@@ -18,10 +18,8 @@ Class BombTrap Extends Trap
         Self.x = xVal
         Self.y = yVal
 
-        Local image := new Sprite()
-        image.InitSprite("traps/bombtrap.png", 14, 16, 4, Image.DefaultFlags)
-        image.SetZ(-995.0)
-        Self.image = image
+        Self.image = new Sprite("traps/bombtrap.png", 14, 16, 4, Image.DefaultFlags)
+        Self.image.SetZ(-995.0)
     End Method
 
     Field triggeredFrames: Int
