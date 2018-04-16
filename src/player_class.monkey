@@ -685,8 +685,8 @@ Class Player Extends MobileEntity
         End If
 
         Select i
-            Case "weapon_fangs"
-            Case "head_sonar"
+            Case "weapon_fangs",
+                 "head_sonar"
                 Return True
         End Select
 

@@ -18,9 +18,9 @@ Class Conjurer Extends NPC
             Local player := controller_game.players[i]
 
             Select player.characterID
-                Case Character.Monk
-                Case Character.Dove
-                Case Character.Coda
+                Case Character.Monk,
+                     Character.Dove,
+                     Character.Coda
                     Self.actionCost = 0
                     Exit
             End Select

@@ -336,8 +336,8 @@ Class Item Extends Entity
         Local name := GetString(n, "_name", "no_item")
 
         Select name
-            Case "ring_courage"
-            Case "shovel_courage"
+            Case "ring_courage",
+                 "shovel_courage"
                 Return True
         End Select
 
@@ -348,21 +348,21 @@ Class Item Extends Entity
         Local name := GetString(n, "_name", "no_item")
 
         Select name
-            Case "blood_drum"
-            Case "charm_risk"
-            Case "charm_strength"
-            Case "feet_boots_strength"
-            Case "head_glass_jaw"
-            Case "head_spiked_ears"
-            Case "head_sunglasses"
-            Case "ring_courage"
-            Case "ring_frost"
-            Case "ring_might"
-            Case "ring_piercing"
-            Case "ring_war"
-            Case "shovel_battle"
-            Case "torch_strength"
-            Case "war_drum"
+            Case "blood_drum",
+                 "charm_risk",
+                 "charm_strength",
+                 "feet_boots_strength",
+                 "head_glass_jaw",
+                 "head_spiked_ears",
+                 "head_sunglasses",
+                 "ring_courage",
+                 "ring_frost",
+                 "ring_might",
+                 "ring_piercing",
+                 "ring_war",
+                 "shovel_battle",
+                 "torch_strength",
+                 "war_drum"
                 Return True
         End Select
 
@@ -373,16 +373,16 @@ Class Item Extends Entity
         Local name := GetString(n, "_name", "no_item")
 
         Select name
-            Case "armor_chainmail"
-            Case "armor_heavyplate"
-            Case "armor_leather"
-            Case "armor_obsidian"
-            Case "armor_platemail"
-            Case "armor_quartz"
-            Case "charm_protection"
-            Case "feet_greaves"
-            Case "head_helm"
-            Case "ring_protection"
+            Case "armor_chainmail",
+                 "armor_heavyplate",
+                 "armor_leather",
+                 "armor_obsidian",
+                 "armor_platemail",
+                 "armor_quartz",
+                 "charm_protection",
+                 "feet_greaves",
+                 "head_helm",
+                 "ring_protection"
                 Return True
         End Select
 
@@ -405,8 +405,8 @@ Class Item Extends Entity
         Local name := GetString(n, "_name", "no_item")
 
         Select name
-            Case "misc_coupon"
-            Case "ring_charisma"
+            Case "misc_coupon",
+                 "ring_charisma"
                 Return True
         End Select
 
@@ -417,9 +417,9 @@ Class Item Extends Entity
         Local name := GetString(n, "_name", "no_item")
 
         Select name
-            Case "familiar_shopkeeper"
-            Case "ring_gold"
-            Case "scroll_riches"
+            Case "familiar_shopkeeper",
+                 "ring_gold",
+                 "scroll_riches"
                 Return True
         End Select
 
@@ -432,17 +432,17 @@ Class Item Extends Entity
         Local name := GetString(n, "_name", "no_item")
 
         Select name
-            Case "charm_gluttony"
-            Case "cursed_potion"
-            Case "head_crown_of_thorns"
-            Case "misc_heart_container"
-            Case "misc_heart_container2"
-            Case "misc_heart_container_cursed"
-            Case "misc_heart_container_cursed2"
-            Case "misc_heart_container_empty"
-            Case "misc_heart_container_empty2"
-            Case "ring_regeneration"
-            Case "spell_heal"
+            Case "charm_gluttony",
+                 "cursed_potion",
+                 "head_crown_of_thorns",
+                 "misc_heart_container",
+                 "misc_heart_container2",
+                 "misc_heart_container_cursed",
+                 "misc_heart_container_cursed2",
+                 "misc_heart_container_empty",
+                 "misc_heart_container_empty2",
+                 "ring_regeneration",
+                 "spell_heal"
                 Return True
         End Select
 
@@ -465,8 +465,8 @@ Class Item Extends Entity
         Local name := GetString(n, "_name", "no_item")
 
         Select name
-            Case "feet_boots_pain"
-            Case "ring_pain"
+            Case "feet_boots_pain",
+                 "ring_pain"
                 Return True
         End Select
 
@@ -491,14 +491,14 @@ Class Item Extends Entity
             If Item.IsPainItem(n) Then Return False
 
             Select name
-                Case "blood_drum"
-                Case "charm_nazar"
-                Case "charm_risk"
-                Case "feet_ballet_shoes"
-                Case "holster"
-                Case "scroll_enchant_weapon"
-                Case "shovel_blood"
-                Case "war_drum"
+                Case "blood_drum",
+                     "charm_nazar",
+                     "charm_risk",
+                     "feet_ballet_shoes",
+                     "holster",
+                     "scroll_enchant_weapon",
+                     "shovel_blood",
+                     "war_drum"
                     Return False
             End Select
         End If
@@ -509,10 +509,10 @@ Class Item Extends Entity
             If Item.IsItemOfClass(n, "isFamiliar") Then Return False
 
             Select name
-                Case "feet_boots_leaping"
-                Case "feet_boots_lunging"
-                Case "holster"
-                Case "scroll_enchant_weapon"
+                Case "feet_boots_leaping",
+                     "feet_boots_lunging",
+                     "holster",
+                     "scroll_enchant_weapon"
                     Return False
             End Select
         End If
@@ -526,13 +526,13 @@ Class Item Extends Entity
             If Item.IsDiscountItem(n) Then Return False
 
             Select name
-                Case "blood_drum"
-                Case "charm_nazar"
-                Case "feet_ballet_shoes"
-                Case "holster"
-                Case "ring_shadows"
-                Case "scroll_enchant_weapon"
-                Case "shovel_blood"
+                Case "blood_drum",
+                     "charm_nazar",
+                     "feet_ballet_shoes",
+                     "holster",
+                     "ring_shadows",
+                     "scroll_enchant_weapon",
+                     "shovel_blood"
                     Return False
             End Select
         End If
@@ -543,30 +543,30 @@ Class Item Extends Entity
             If Item.IsItemOfClass(n, "isShovel") Then Return False
 
             Select name
-                Case "charm_grenade"
-                Case "familiar_dove"
-                Case "familiar_rat"
-                Case "feet_boots_lunging"
-                Case "head_crown_of_thorns"
-                Case "holster"
-                Case "holy_water"
-                Case "misc_coupon"
-                Case "ring_gold"
-                Case "ring_phasing"
-                Case "ring_shadows"
-                Case "scroll_earthquake"
-                Case "scroll_enchant_weapon"
-                Case "scroll_fireball"
-                Case "scroll_pulse"
-                Case "scroll_riches"
-                Case "spell_earth"
-                Case "spell_fireball"
-                Case "spell_pulse"
-                Case "throwing_stars"
-                Case "tome_earth"
-                Case "tome_fireball"
-                Case "tome_pulse"
-                Case "torch_infernal"
+                Case "charm_grenade",
+                     "familiar_dove",
+                     "familiar_rat",
+                     "feet_boots_lunging",
+                     "head_crown_of_thorns",
+                     "holster",
+                     "holy_water",
+                     "misc_coupon",
+                     "ring_gold",
+                     "ring_phasing",
+                     "ring_shadows",
+                     "scroll_earthquake",
+                     "scroll_enchant_weapon",
+                     "scroll_fireball",
+                     "scroll_pulse",
+                     "scroll_riches",
+                     "spell_earth",
+                     "spell_fireball",
+                     "spell_pulse",
+                     "throwing_stars",
+                     "tome_earth",
+                     "tome_fireball",
+                     "tome_pulse",
+                     "torch_infernal"
                     Return False
             End Select
         End If
@@ -577,35 +577,35 @@ Class Item Extends Entity
             If Item.IsDamageBonusItem(n) Then Return False
 
             Select name
-                Case "bomb"
-                Case "bomb3"
-                Case "charm_bomb"
-                Case "charm_grenade"
-                Case "charm_nazar"
-                Case "head_blast_helm"
-                Case "head_crown_of_thorns"
-                Case "holster"
-                Case "ring_gold"
-                Case "scroll_enchant_weapon"
-                Case "spell_bomb"
+                Case "bomb",
+                     "bomb3",
+                     "charm_bomb",
+                     "charm_grenade",
+                     "charm_nazar",
+                     "head_blast_helm",
+                     "head_crown_of_thorns",
+                     "holster",
+                     "ring_gold",
+                     "scroll_enchant_weapon",
+                     "spell_bomb"
                     Return False
             End Select
         End If
 
         If Util.IsCharacterActive(Character.Bard)
             Select name
-                Case "double_heart_transplant"
-                Case "feet_boots_speed"
-                Case "heart_transplant"
+                Case "double_heart_transplant",
+                     "feet_boots_speed",
+                     "heart_transplant"
                     Return False
             End Select
         End If
 
         If Util.IsCharacterActive(Character.Bolt)
             Select name
-                Case "charm_nazar"
-                Case "feet_ballet_shoes"
-                Case "weapon_spear"
+                Case "charm_nazar",
+                     "feet_ballet_shoes",
+                     "weapon_spear"
                     Return False
             End Select
         End If
@@ -615,12 +615,12 @@ Class Item Extends Entity
             If slot = "body" Then Return False
 
             Select name
-                Case "misc_compass"
-                Case "pickaxe"
-                Case "ring_gold"
-                Case "ring_might"
-                Case "weapon_blunderbuss"
-                Case "weapon_rifle"
+                Case "misc_compass",
+                     "pickaxe",
+                     "ring_gold",
+                     "ring_might",
+                     "weapon_blunderbuss",
+                     "weapon_rifle"
                     Return False
             End Select
         End If
@@ -631,8 +631,8 @@ Class Item Extends Entity
             If Item.IsDiscountItem(n) Then Return False
 
             Select name
-                Case "ring_shadows"
-                Case "shovel_blood"
+                Case "ring_shadows",
+                     "shovel_blood"
                     Return False
             End Select
         End If
@@ -653,15 +653,15 @@ Class Item Extends Entity
             If slot = "spell" Then Return False
 
             Select name
-                Case "charm_grenade"
-                Case "feet_boots_leaping"
-                Case "feet_boots_lunging"
-                Case "holster"
-                Case "hud_backpack"
-                Case "ring_mana"
-                Case "throwing_stars"
-                Case "weapon_blunderbuss"
-                Case "weapon_rifle"
+                Case "charm_grenade",
+                     "feet_boots_leaping",
+                     "feet_boots_lunging",
+                     "holster",
+                     "hud_backpack",
+                     "ring_mana",
+                     "throwing_stars",
+                     "weapon_blunderbuss",
+                     "weapon_rifle"
                     Return False
             End Select
         End If
@@ -671,8 +671,8 @@ Class Item Extends Entity
             If name.Contains("familiar") Then Return False
 
             Select name
-                Case "feet_boots_leaping"
-                Case "feet_boots_lunging"
+                Case "feet_boots_leaping",
+                     "feet_boots_lunging"
                     Return False
             End Select
         End If
@@ -686,9 +686,9 @@ Class Item Extends Entity
             If Item.IsDamageBonusItem(n) Then Return False
 
             Select name
-                Case "head_circlet_telepathy"
-                Case "scroll_enchant_weapon"
-                Case "weapon_dagger_jeweled"
+                Case "head_circlet_telepathy",
+                     "scroll_enchant_weapon",
+                     "weapon_dagger_jeweled"
                     Return False
                 Default
             End Select
@@ -698,8 +698,8 @@ Class Item Extends Entity
             If name.Contains("familiar") Then Return False
 
             Select name
-                Case "head_blast_helm"
-                Case "weapon_spear"
+                Case "head_blast_helm",
+                     "weapon_spear"
                     Return False
             End Select
         End If
@@ -714,12 +714,12 @@ Class Item Extends Entity
             End If
 
             Select name
-                Case "feet_boots_explorers"
-                Case "feet_boots_winged"
-                Case "feet_glass_slippers"
-                Case "scroll_freeze_enemies"
-                Case "spell_freeze_enemies"
-                Case "tome_freeze"
+                Case "feet_boots_explorers",
+                     "feet_boots_winged",
+                     "feet_glass_slippers",
+                     "scroll_freeze_enemies",
+                     "spell_freeze_enemies",
+                     "tome_freeze"
                     Return False
             End Select
         End If

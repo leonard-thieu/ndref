@@ -1295,12 +1295,9 @@ Class Level
         Debug.Log("CREATEMAP ZONE1: Deploying NPCs if necessary")
         Local deployNPC: Bool = False
         Select controller_game.currentLevel
-            Case 1
-                If Not GameData.GetNPCUnlock("beastmaster") Then deployNPC = True
-            Case 2
-                If Not GameData.GetNPCUnlock("merlin") Then deployNPC = True
-            Case 3
-                If Not GameData.GetNPCUnlock("bossmaster") Then deployNPC = True
+            Case 1 If Not GameData.GetNPCUnlock("beastmaster") Then deployNPC = True
+            Case 2 If Not GameData.GetNPCUnlock("merlin") Then deployNPC = True
+            Case 3 If Not GameData.GetNPCUnlock("bossmaster") Then deployNPC = True
         End Select
 
         If Not Level.isHardcoreMode And
@@ -1328,12 +1325,9 @@ Class Level
 
             Local npc: NPC
             Select controller_game.currentLevel
-                Case 1
-                    npc = New Beastmaster(x, y, 1, True)
-                Case 2
-                    npc = New Merlin(x, y, 1, True)
-                Case 3
-                    npc = New Bossmaster(x, y, 1, True)
+                Case 1 npc = New Beastmaster(x, y, 1, True)
+                Case 2 npc = New Merlin(x, y, 1, True)
+                Case 3 npc = New Bossmaster(x, y, 1, True)
             End Select
 
             If npc
@@ -1455,12 +1449,9 @@ Class Level
         Debug.Log("CREATEMAP ZONE1: Placing torches")
         Local torchChanceLow := 4
         Select controller_game.currentLevel
-            Case 2
-                torchChanceLow = 3
-            Case 3
-                torchChanceLow = 2
-            Case 4
-                torchChanceLow = 1
+            Case 2 torchChanceLow = 3
+            Case 3 torchChanceLow = 2
+            Case 4 torchChanceLow = 1
             Default
                 If controller_game.currentLevel > 4
                     torchChanceLow = 0
@@ -1567,17 +1558,13 @@ Class Level
 
         Local catacombWallChance: Float
         Select controller_game.currentLevel
-            Case 1
-                catacombWallChance = 0.0
-            Case 2
-                catacombWallChance = 0.1
-            Case 3
-                catacombWallChance = 0.13
-            Case 4
-                catacombWallChance = 0.16
+            Case 1 catacombWallChance = 0.00
+            Case 2 catacombWallChance = 0.10
+            Case 3 catacombWallChance = 0.13
+            Case 4 catacombWallChance = 0.16
             Default
                 If currentLevel > 4
-                    catacombWallChance = math.Max(controller_game.currentLevel * 0.04, 0.4)
+                    catacombWallChance = math.Max(controller_game.currentLevel * 0.04, 0.40)
                 End If
         End Select
 
@@ -1639,14 +1626,14 @@ Class Level
                         End Select
                     End If
                 End If
-            Case RoomType.Pillar
-            Case RoomType.OutsideCorners
-            Case RoomType.Shop
-            Case RoomType.Secret
-            Case RoomType.Boss
-            Case RoomType.Vault
-            Case RoomType.Notched
-            Case RoomType.Special
+            Case RoomType.Pillar,
+                 RoomType.OutsideCorners,
+                 RoomType.Shop,
+                 RoomType.Secret,
+                 RoomType.Boss,
+                 RoomType.Vault,
+                 RoomType.Notched,
+                 RoomType.Special
                 tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, roomType, originX, originY, originX2, originY2, wideCorridor, wallType)
             Default
                 tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
@@ -1684,9 +1671,9 @@ Class Level
             Local minFloorCount: Int
             If placeLiquid
                 Select lastCreatedRoomType
-                    Case 0
-                    Case 1
-                    Case 2
+                    Case 0,
+                         1,
+                         2
                         For Local tile := EachIn tiles
                             ' Can be simplified to `tile.type = TileType.Floor` if `tile.type` can be guaranteed to be non-negative.
                             If tile.type < 1 Then numPendingLiquid += 1
@@ -2145,10 +2132,8 @@ Class Level
 
     Function FillSecretRooms: Bool()
         Select controller_game.currentZone
-            Case 4
-                Return Level.FillSecretRoomsZone4()
-            Case 2
-                Return Level.FillSecretRoomsZone2()
+            Case 4 Return Level.FillSecretRoomsZone4()
+            Case 2 Return Level.FillSecretRoomsZone2()
         End Select
 
         Return Level.FillSecretRoomsZone1()
@@ -2612,8 +2597,8 @@ Class Level
 
     Function IsSecretRoom: Bool(rmType: Int)
         Select rmType
-            Case RoomType.Secret
-            Case RoomType.Vault
+            Case RoomType.Secret,
+                 RoomType.Vault
                 Return True
         End Select
 
@@ -2888,9 +2873,9 @@ Class Level
         ' Overwrites `wideCorridor` but cannot skip the call to `RndIntRange` because it has side effects.
         ' TODO: Windows version doesn't set `wideCorridor` to `False` for `Secret` and `Vault`.
         Select roomType
-            Case RoomType.Shop
-            Case RoomType.Secret
-            Case RoomType.Vault
+            Case RoomType.Shop,
+                 RoomType.Secret,
+                 RoomType.Vault
                 wideCorridor = False
         End Select
 
