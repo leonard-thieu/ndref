@@ -278,17 +278,12 @@ Class Util
     End Function
 
     Function RndFloatRange: Float(low: Float, high: Float, useSeed: Bool)
-        Local seed: Int
-
         If useSeed
-            If Util.storedSeed = -1
-                seed = random.Seed
-            Else
-                seed = Util.storedSeed
+            If Util.storedSeed <> -1
+                random.Seed = Util.storedSeed
                 Util.storedSeed = -1
             End If
         Else
-            seed = random.Seed
             Util.storedSeed = random.Seed
         End If
 
