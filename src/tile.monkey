@@ -620,7 +620,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method HasTorch: Bool()
-        Return Not (Self.torchDir = 0)
+        Return Self.torchDir <> 0
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)

@@ -331,23 +331,23 @@ Class Level
 
                     ' Left item
                     Local randomItem1 := Item.GetRandomItemInClass(itemClass, requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                    If Not (randomItem1 = "no_item") Or
-                       Not (randomItem1 = "resource_hoard_gold")
+                    If randomItem1 <> "no_item" Or
+                       randomItem1 <> "resource_hoard_gold"
                         New SaleItem(entranceX - 1, entranceY - 2, randomItem1, True, Null, -1.0, Null)
                     End If
                 End If
 
                 ' Center item (left item if a weaponless character is active)
                 Local randomItem2 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                If Not (randomItem2 = "no_item") Or
-                   Not (randomItem2 = "resource_hoard_gold")
+                If randomItem2 <> "no_item" Or
+                   randomItem2 <> "resource_hoard_gold"
                     New SaleItem(entranceX + saleItemXOff, entranceY - 2, randomItem2, True, Null, -1.0, Null)
                 End If
 
                 ' Right item
                 Local randomItem3 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                If Not (randomItem3 = "no_item") Or
-                   Not (randomItem3 = "resource_hoard_gold")
+                If randomItem3 <> "no_item" Or
+                   randomItem3 <> "resource_hoard_gold"
                     New SaleItem(entranceX + 1, entranceY - 2, randomItem3, True, Null, -1.0, Null)
                 End If
 
@@ -421,8 +421,8 @@ Class Level
                 Local i := 0
                 Repeat
                     Local anotherItem := anotherItems.Get(i)
-                    If Not (anotherItem = "no_item") And
-                       Not (anotherItem = "resource_hoard_gold")
+                    If anotherItem <> "no_item" And
+                       anotherItem <> "resource_hoard_gold"
                         Local glassItem := New SaleItem(entranceX + glassItemXOff, entranceY - 2, anotherItem, False, shopkeeper, -1.0, Null)
                         glassItem.ApplyDiscount(0.5)
                     End If
@@ -720,19 +720,19 @@ Class Level
                 Local x := Level.carveX
                 Local y := Level.carveY
 
-                If Not (Level.GetTileTypeAt(x, y) = TileType.Empty)
+                If Level.GetTileTypeAt(x, y) <> TileType.Empty
                     Debug.WriteLine("Failed to carve new corridor. Tile at " + (New Point(x, y)).ToString() + " is not empty.")
                     Return False
                 End If
 
                 If wideCorridor
                     If horizontal
-                        If Not (Level.GetTileTypeAt(Level.carveX, Level.carveY + 1) = TileType.Empty)
+                        If Level.GetTileTypeAt(Level.carveX, Level.carveY + 1) <> TileType.Empty
                             Debug.WriteLine("Failed to carve new corridor. Tile at " + (New Point(x, y + 1)).ToString() + " is not empty.")
                             Return False
                         End If
                     Else
-                        If Not (Level.GetTileTypeAt(Level.carveX + 1, Level.carveY) = TileType.Empty)
+                        If Level.GetTileTypeAt(Level.carveX + 1, Level.carveY) <> TileType.Empty
                             Debug.WriteLine("Failed to carve new corridor. Tile at " + (New Point(x + 1, y)).ToString() + " is not empty.")
                             Return False
                         End If
@@ -1313,7 +1313,7 @@ Class Level
 
                 Local tile := Level.GetTileAt(x, y)
                 If tile
-                    If Not (tile.GetType() = TileType.Floor) And
+                    If tile.GetType() <> TileType.Floor And
                        Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
                         tile = GetTileAt(x, y + 1)
                         If tile And Not tile.IsWall(False, False, False, False) Then Exit
@@ -1736,7 +1736,7 @@ Class Level
             Local tileY := tile.y
             Local tileType := tile.type
 
-            If pending And Not (Level.GetTileTypeAt(tileX, tileY) = TileType.Empty)
+            If pending And Level.GetTileTypeAt(tileX, tileY) <> TileType.Empty
                 If Not allowWallOverlap Then Return False
                 If Not Level.IsWallAt(tileX, tileY, False, False) Then Return False
 
@@ -1858,20 +1858,20 @@ Class Level
 
                 ' Horizontal walls and corners
                 For Local x := xVal To xMax
-                    If Not (Level.GetTileTypeAt(x, yVal) = TileType.CatacombWall)
+                    If Level.GetTileTypeAt(x, yVal) <> TileType.CatacombWall
                         Level.PlaceTileRemovingExistingTiles(x, yVal, tileType, False, -1, False) ' Top wall
                     End If
-                    If Not (Level.GetTileTypeAt(x, yMax) = TileType.CatacombWall)
+                    If Level.GetTileTypeAt(x, yMax) <> TileType.CatacombWall
                         Level.PlaceTileRemovingExistingTiles(x, yMax, tileType, False, -1, False) ' Bottom wall
                     End If
                 End For
 
                 ' Vertical walls
                 For Local y := yVal + 1 Until yMax
-                    If Not (Level.GetTileTypeAt(xVal, y) = TileType.CatacombWall)
+                    If Level.GetTileTypeAt(xVal, y) <> TileType.CatacombWall
                         Level.PlaceTileRemovingExistingTiles(xVal, y, tileType, False, -1, False) ' Left wall
                     End If
-                    If Not (Level.GetTileTypeAt(xVal, y) = TileType.CatacombWall)
+                    If Level.GetTileTypeAt(xVal, y) <> TileType.CatacombWall
                         Level.PlaceTileRemovingExistingTiles(xVal, y, tileType, False, -1, False) ' Right wall
                     End If
                 End For
@@ -1881,9 +1881,9 @@ Class Level
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
                 Local xDiffMin := 2
-                If Not (originX = xVal) Then xDiffMin = (originX = xMax) + 1
+                If originX <> xVal Then xDiffMin = (originX = xMax) + 1
                 Local yDiffMin := 2
-                If Not (originY = yVal) Then yDiffMin = (originY = yMax) + 1
+                If originY <> yVal Then yDiffMin = (originY = yMax) + 1
 
                 For Local x := xVal + 1 Until xMax
                     For Local y := yVal + 1 Until yMax
@@ -2478,7 +2478,7 @@ Class Level
     End Function
 
     Function IsExit: Bool(xVal: Int, yVal: Int)
-        Return Not (Level.GetExitValue(xVal, yVal).x = -4)
+        Return Level.GetExitValue(xVal, yVal).x <> -4
     End Function
 
     Function IsExitAt: Bool(x: Int, y: Int)
@@ -2785,7 +2785,7 @@ Class Level
         For Local i := 499 Until 0 Step -1
             Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.w - 1, True)
             Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.h - 1, True)
-            If Not (Level.GetTileTypeAt(x, y) = TileType.Floor) And
+            If Level.GetTileTypeAt(x, y) <> TileType.Floor And
                Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
                 If Level.IsWallAt(x, y + 1, False, False)
                     Level.CreateExit(x, y)
@@ -2905,7 +2905,7 @@ Class Level
         If Level.GetTileTypeAt(x - 1, y) = TileType.Floor Then numFloor += 1
         If Level.GetTileTypeAt(x, y - 1) = TileType.Floor Then numFloor += 1
 
-        If Not (numFloor = 1)
+        If numFloor <> 1
             Debug.WriteLine("Failed to place room for zone 1. Attachment point has " + numFloor + " tiles adjacent that are Floor (expected 1).")
             Return Null
         End If
@@ -2931,16 +2931,16 @@ Class Level
 
         For Local i := 0 Until 2
             If Util.RndBool(True)
-                If Not (Level.IsFloorAt(Level.carveX, Level.carveY))
+                If Not Level.IsFloorAt(Level.carveX, Level.carveY)
                     New Tile(Level.carveX, Level.carveY, TileType.CorridorDirtWall, True, -1)
                 End If
 
                 If horizontal
-                    If Not (Level.IsFloorAt(Level.carveX, Level.carveY - 1))
+                    If Not Level.IsFloorAt(Level.carveX, Level.carveY - 1)
                         New Tile(Level.carveX, Level.carveY - 1, TileType.CorridorDirtWall, True, -1)
                     End If
 
-                    If Not (Level.IsFloorAt(Level.carveX, Level.carveY + 1))
+                    If Not Level.IsFloorAt(Level.carveX, Level.carveY + 1)
                         New Tile(Level.carveX, Level.carveY + 1, TileType.CorridorDirtWall, True, -1)
                     End If
 
@@ -2953,11 +2953,11 @@ Class Level
                         moveY = 1
                     End If
                 Else
-                    If Not (Level.IsFloorAt(Level.carveX - 1, Level.carveY))
+                    If Not Level.IsFloorAt(Level.carveX - 1, Level.carveY)
                         New Tile(Level.carveX - 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
                     End If
 
-                    If Not (Level.IsFloorAt(Level.carveX + 1, Level.carveY))
+                    If Not Level.IsFloorAt(Level.carveX + 1, Level.carveY)
                         New Tile(Level.carveX + 1, Level.carveY, TileType.CorridorDirtWall, True, -1)
                     End If
 
@@ -3213,7 +3213,7 @@ Class Level
         If Util.IsCharacterActive(Character.Unknown15)
             'LABEL_13
             v8 = False
-            If Not (controller_game.currentLevel = 1)
+            If controller_game.currentLevel <> 1
                 'goto LABEL_14
             End If
             'goto LABEL_81
@@ -3230,12 +3230,12 @@ Class Level
 
             New Shopkeeper(tmpX + 3, tmpY + 3, 5, False)
 
-            If Not (controller_game.currentLevel = 1)
+            If controller_game.currentLevel <> 1
                 'goto LABEL_14
             End If
 
             'LABEL_81
-            If Not (controller_game.currentZone = 1)
+            If controller_game.currentZone <> 1
                 'goto LABEL_17
             End If
 
@@ -3244,12 +3244,12 @@ Class Level
                 v8 = Not Level.isLevelEditor
             End If
 
-            If Not (controller_game.currentLevel = 3)
+            If controller_game.currentLevel <> 3
                 'goto LABEL_144
             End If
 
             'LABEL_14
-            If Not (controller_game.currentLevel = 1)
+            If controller_game.currentLevel <> 1
                 'goto LABEL_17
             End If
 
@@ -3260,12 +3260,12 @@ Class Level
 
             If v49
                 v8 = True
-                If Not (controller_game.currentLevel = 2)
+                If controller_game.currentLevel <> 2
                     'goto LABEL_17
                 End If
             Else
                 'LABEL_144
-                If Not (controller_game.currentLevel = 2)
+                If controller_game.currentLevel <> 2
                     'goto LABEL_17
                 End If
             End If
@@ -3299,12 +3299,9 @@ Class Level
                         Local key: String
 
                         Select controller_game.currentLevel
-                            Case 1
-                                key = "misc_golden_key"
-                            Case 2
-                                key = "misc_golden_key3"
-                            Default
-                                key = "misc_golden_key2"
+                            Case 1 key = "misc_golden_key"
+                            Case 2 key = "misc_golden_key3"
+                            Default key = "misc_golden_key2"
                         End Select
 
                         New SaleItem(tmpX + 2, tmpY + 5, key, False, Null, -1.0, Null)
@@ -3395,8 +3392,8 @@ Class Level
 
         Local tile := Level.GetTileAt(xVal, yVal)
         If Not tile Or
-           Not (tilesetOverride = -1) Or
-           Not (tile.type = tileType)
+           tilesetOverride <> -1 Or
+           tile.type <> tileType
             If Not tile
                 hasBeenSeen = False
                 lightValueFrameNum = -1
@@ -3404,8 +3401,8 @@ Class Level
                 alpha = 0.0
             Else
                 If fromEarthSpell And
-                   Not (tile.trigger = 0) And
-                   Not (tile.trigger = 1)
+                   tile.trigger <> 0 And
+                   tile.trigger <> 1
                     Return tile
                 End If
 

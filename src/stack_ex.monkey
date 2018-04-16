@@ -18,7 +18,7 @@ Class StackEx<T> Extends Stack<T>
     Method Shuffle: Void(useSeed: Bool)
         For Local i := 1 Until Self.Length()
             Local randomValue := Util.RndIntRangeFromZero(i, useSeed)
-            If Not (i = randomValue)
+            If i <> randomValue
                 Local value_at_i := Self.Get(i)
                 Local value_at_randomValue := Self.Get(randomValue)
 

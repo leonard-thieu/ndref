@@ -87,7 +87,7 @@ Class Item Extends Entity
         For Local i := 0 Until 2
             For Local j := 0 Until 8
                 Local kMax := 1
-                If Not (j = 7)
+                If j <> 7
                     kMax = 6
                 End If
 
