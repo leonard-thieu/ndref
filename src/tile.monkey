@@ -873,7 +873,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method SetDoorTrigger: Void(triggerVal: Int)
-        Debug.TraceNotImplemented("Tile.SetDoorTrigger()")
+        Self.triggerDoor = triggerVal
     End Method
 
     Method SetTrigger: Void(triggerVal: Int)
