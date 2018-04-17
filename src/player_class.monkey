@@ -4,6 +4,7 @@ Import monkey.list
 Import monkey.map
 Import monkey.set
 Import bouncer
+Import controller_game
 'Import controller_input_popup
 'Import controller_popup
 'Import enemyclamper
@@ -76,8 +77,13 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.ChooseNewPlayer1()")
     End Function
 
-    Function DoesAnyPlayerHaveItemOfType: Bool(it: Int, overrideBatForm: Bool)
-        Debug.TraceNotImplemented("Player.DoesAnyPlayerHaveItemOfType()")
+    Function DoesAnyPlayerHaveItemOfType: Bool(it: String, overrideBatForm: Bool)
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If player.HasItemOfType(it, overrideBatForm) Then Return True
+        End For
+
+        Return False
     End Function
 
     Function DoesPlayer1HaveItemOfType: Bool(i: Int)

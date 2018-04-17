@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import controller_game
 Import item
 Import logger
 Import medic
@@ -24,8 +25,65 @@ Class SaleItem Extends Item
         Debug.TraceNotImplemented("SaleItem.GetMinCost()")
     End Function
 
-    Function GetRandomItem: Int(level: Int, randType: String)
-        Debug.TraceNotImplemented("SaleItem.GetRandomItem()")
+    Function GetRandomItem: String(level: Int, randType: String)
+        Local randomItem: String
+        Local itemClass: String
+
+        Local i := 0
+        For i = i Until 500
+            randomItem = Item.GetRandomItemInClass("", level, randType, Chest.CHEST_COLOR_NONE, True, "", False)
+            itemClass = Item.GetSlot(randomItem)
+
+            Local isValid := True
+            For Local j := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[j]
+
+                If Level.randSeed = -1
+                    If player.HasItemOfType(itemClass, False)
+                        isValid = False
+                        Exit
+                    End If
+
+                    Local itemInSlot := player.GetItemInSlot(itemClass, False)
+                    If itemInSlot <> Item.NoItem
+                        If Item.GetIntAttribute(itemInSlot, "slotPriority", -1) >
+                           Item.GetIntAttribute(randomItem, "slotPriority", -1)
+                            isValid = False
+                            Exit
+                        End If
+                    End If
+                End If
+
+                If itemClass = "weapon" And
+                   player.IsWeaponlessCharacter()
+                    isValid = False
+                    Exit
+                End If
+
+                If itemClass = "shovel" And
+                   player.characterID = Character.Eli
+                    isValid = False
+                    Exit
+                End If
+            End For
+
+            If isValid
+                If itemClass <> SaleItem.lastSaleItemClass1 And
+                   itemClass <> SaleItem.lastSaleItemClass2
+                    If SaleItem.randomSaleItemList.Contains(randomItem) Then Exit
+                End If
+            End If
+        End For
+
+        If i = 500
+            ' Doesn't set item class?
+            randomItem = "armor_heavyplate"
+        End If
+
+        SaleItem.randomSaleItemList.AddLast(randomItem)
+
+        SaleItem.lastSaleItemClass2 = SaleItem.lastSaleItemClass1
+        SaleItem.lastSaleItemClass1 = itemClass
     End Function
 
     Function ResetCosts: Void()

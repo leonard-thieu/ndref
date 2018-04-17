@@ -302,7 +302,7 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetHeavyGlassFrame()")
     End Function
 
-    Function GetIntAttribute: Int(i: Int, attr: Int, dflt: Int)
+    Function GetIntAttribute: Int(i: String, attr: String, dflt: Int)
         Debug.TraceNotImplemented("Item.GetIntAttribute()")
     End Function
 
@@ -315,15 +315,93 @@ Class Item Extends Entity
     End Function
 
     Function GetPickupsAt: List<Item>(xVal: Int, yVal: Int, slf: Item)
-        Debug.TraceNotImplemented("Item.GetPickupsAt()")
+        Local pickups := New List<Item>()
+
+        For Local pickup := EachIn Item.pickupList
+            If pickup <> slf And
+               Not pickup.flaggedForDeath And
+               Not pickup.dead And
+               pickup.pickupable And
+               (pickup.x = xVal And pickup.y = yVal) And
+               (pickup.dropX <> xVal Or pickup.dropY <> yVal)
+               pickups.AddLast(pickup)
+            End If
+        End For
+
+        Return pickups
     End Function
 
     Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String, chestColor: Int, ignorePendingMetaGameItems: Bool, itemSlot: String, nonDeterministic: Bool)
-        Debug.TraceNotImplemented("Item.GetRandomItemInClass()")
+        If Not ignorePendingMetaGameItems And
+           Not Level.isHardcoreMode
+            For Local i := 0 Until GameData.GetNumPendingSpawnItems()
+                ' TODO: Pending metagame items
+            End For
+        End If
+
+        Local predicate := New StandardItemPredicate(itemClass, chestColor, itemSlot)
+
+        Return Item.GetRandomItemInClassByPredicate(predicate, requestedLevel, randomType, nonDeterministic)
     End Function
 
-    Function GetRandomItemInClassByPredicate: String(predicate: Object, requestedLevel: Int, randomType: String, nonDeterministic: Bool)
-        Debug.TraceNotImplemented("Item.GetRandomItemInClassByPredicate()")
+    Function GetRandomItemInClassByPredicate: String(predicate: IItemPredicate, requestedLevel: Int, randomType: String, nonDeterministic: Bool)
+        Local i := requestedLevel
+        If requestedLevel > 0 And
+           controller_game.currentDepth > 1
+            i += 1
+        End If
+
+        i = math.Min(i, 7)
+
+        Local itemPool: List<JsonObject>
+        If i <= 0
+            itemPool = Item.itemPoolRandom
+            If nonDeterministic Then itemPool = Item.itemPoolRandom2
+        Else
+            Select randomType
+                Case "chestChance"
+                    itemPool = Item.itemPoolChest[i]
+                    If nonDeterministic Then itemPool = Item.itemPoolChest2[i]
+                Case "lockedChestChance"
+                    itemPool = Item.itemPoolLockedChest[i]
+                    If nonDeterministic Then itemPool = Item.itemPoolLockedChest2[i]
+                Case "anyChest"
+                    itemPool = Item.itemPoolAnyChest[i]
+                    If nonDeterministic Then itemPool = Item.itemPoolAnyChest2[i]
+                Case "shopChance"
+                    itemPool = Item.itemPoolShop[i]
+                    If nonDeterministic Then itemPool = Item.itemPoolShop2[i]
+                Case "lockedShopChance"
+                    itemPool = Item.itemPoolLockedShop[i]
+                    If nonDeterministic Then itemPool = Item.itemPoolLockedShop2[i]
+                Default
+                    itemPool = Item.itemPoolUrn[i]
+                    If nonDeterministic Then itemPool = Item.itemPoolUrn2[i]
+            End Select
+        End If
+
+        For Local j := 1 Until 10
+            For Local itemNode := EachIn itemPool
+                If predicate.Call(itemNode)
+                    Local seenCount: Int
+                    Local name := GetString(itemNode, "_name", "")
+
+                    If Item.seenItems.Contains(name)
+                        seenCount = Item.seenItems.Get(name)
+                    End If
+
+                    If seenCount = 0
+                        Item.AddToSeenItems(name)
+
+                        Return name
+                    End If
+                End If
+            End For
+        End For
+
+        Debug.Log("GetRandomItemInClassByPredicate: NO VALID ITEM!  Spawning coins")
+
+        Return "resource_hoard_gold"
     End Function
 
     Function GetSet: Int(n: Object)
@@ -1173,5 +1251,52 @@ Class ItemData
 End Class
 
 Class ItemList Extends List<String>
+
+End Class
+
+Interface IItemPredicate
+
+    Method Call: Bool(n: JsonObject)
+
+End Interface
+
+Class StandardItemPredicate Implements IItemPredicate
+
+    Function _EditorFix: Void() End
+
+    Method New(itemClass_: String, chestColor_: Int, itemSlot_: String)
+        Self.itemClass = itemClass_
+        Self.chestColor = chestColor_
+        Self.itemSlot = itemSlot_
+    End Method
+
+    Field itemClass: String
+    Field chestColor: Int
+    Field itemSlot: String
+
+    Method Call: Bool(n: JsonObject)
+        If Self.itemClass = "" Or
+           Not Item.IsItemOfClass(n, Self.itemClass)
+            Return False
+        End If
+
+        Local name := GetString(n, "_name", "")
+        If Self.chestColor = Chest.CHEST_COLOR_NONE Or
+           Not Chest.IsItemAppropriateForChestColor(name, Self.chestColor)
+            Return False
+        End If
+
+        Local slot := GetString(n, "slot", "")
+        If Self.itemSlot = "" Or
+           Self.itemSlot <> slot
+            Return False
+        End If
+
+        Return True
+    End Method
+
+    Method NoTrim: Void()
+        Call(Null)
+    End Method
 
 End Class

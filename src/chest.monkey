@@ -40,8 +40,22 @@ Class Chest Extends Entity
         Debug.TraceNotImplemented("Chest.GetNumEmptySecretChests()")
     End Function
 
-    Function IsItemAppropriateForChestColor: Bool(cont: Int, tmpColor: Int)
-        Debug.TraceNotImplemented("Chest.IsItemAppropriateForChestColor()")
+    Function IsItemAppropriateForChestColor: Bool(cont: String, tmpColor: Int)
+        Local slot := Item.GetSlot(cont)
+
+        If slot = "body" Or
+           slot = "weapon" Or
+           slot = "feet"
+            Return tmpColor = Chest.CHEST_COLOR_BLACK
+        End If
+
+        If slot = "spell" Or
+           slot = "ring" Or
+           Item.IsItemOfType(cont, "isScroll")
+            Return tmpColor = Chest.CHEST_COLOR_WHITE
+        End If
+
+        Return tmpColor = Chest.CHEST_COLOR_RED
     End Function
 
     Function _EditorFix: Void() End
