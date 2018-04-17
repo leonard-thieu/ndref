@@ -61,7 +61,7 @@ Class Chest Extends Entity
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, cont: String, invis: Bool, isLocked: Bool, isSecret: Bool, tmpColor: Int)
-        Debug.TraceNotImplemented("Chest.New(xVal()")
+        Debug.TraceNotImplemented("Chest.New()")
     End Method
 
     Field chestColor: Int
