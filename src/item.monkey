@@ -2,11 +2,14 @@
 
 Import monkey.map
 Import monkey.stack
+Import bomb
 Import controller_game
 Import entity
 Import logger
 Import necrodancer
 Import necrodancergame
+
+' TODO: Write a wrapper for the JSON API and pull these helper functions in.
 
 Function GetString: String(obj: JsonObject, key: String, defval: String)
     If Not obj.Contains(key) Then Return defval
@@ -15,6 +18,42 @@ Function GetString: String(obj: JsonObject, key: String, defval: String)
     If value = JsonNull.Instance Then Return defval
 
     Return value.StringValue()
+End Function
+
+Function GetInt: Int(obj: JsonObject, key: String, defval: Int)
+    If Not obj.Contains(key) Then Return defval
+
+    Local value := obj.Get(key)
+    If value = JsonNull.Instance Then Return defval
+
+    Return value.IntValue()
+End Function
+
+Function GetBool: Bool(obj: JsonObject, key: String, defval: Bool)
+    If Not obj.Contains(key) Then Return defval
+
+    Local value := obj.Get(key)
+    If value = JsonNull.Instance Then Return defval
+
+    Return value.BoolValue()
+End Function
+
+Function GetItem: JsonObject(name: String)
+    Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
+
+    For Local itemNode := EachIn itemNodes
+        Local itemNodeObj := JsonObject(itemNode)
+        If itemNodeObj <> Null And
+           GetString(itemNodeObj, "_name", Item.NoItem) = name
+            Return itemNodeObj
+        End If
+    End For
+
+    Return Null
+End Function
+
+Function GetResourceCoinType: String(amount: Int)
+    Return "resource_coin" + math.Clamp(amount, 1, 10)
 End Function
 
 Class Item Extends Entity
@@ -275,7 +314,7 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetPickupAt()")
     End Function
 
-    Function GetPickupsAt: Object(xVal: Int, yVal: Int, slf: Object)
+    Function GetPickupsAt: List<Item>(xVal: Int, yVal: Int, slf: Item)
         Debug.TraceNotImplemented("Item.GetPickupsAt()")
     End Function
 
@@ -457,8 +496,10 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.IsItemOfClass()")
     End Function
 
-    Function IsItemOfType: Bool(i: Int, query: Int)
-        Debug.TraceNotImplemented("Item.IsItemOfType()")
+    Function IsItemOfType: Bool(i: String, query: String)
+        Local itemObj := GetItem(i)
+
+        Return GetBool(itemObj, query, False)
     End Function
 
     Function IsPainItem: Bool(n: JsonObject)
@@ -775,7 +816,169 @@ Class Item Extends Entity
     Method New(xVal: Int, yVal: Int, type: String, drop: Bool, utl: Int, isTrainingWeapon: Bool)
         Super.New()
 
-        Debug.TraceNotImplemented("Item.New()")
+        If necrodancer.DEBUG_BUILD
+            Debug.Log("ITEM NEW: " + xVal + ", " + yVal + " itemType: " + type + " entityNum: " + Self.entityNum)
+        End If
+
+        Local itemObj := GetItem(type)
+
+        If itemObj = Null
+            Debug.Log("ERROR: Unrecognized item type " + type)
+
+            type = "food_1"
+            itemObj = GetItem(type)
+        End If
+
+        If utl <> -1
+            Self.utility = utl
+        Else
+            Self.utility = GetInt(itemObj, "data", 0)
+        End If
+
+        Self.stackQuantity = GetInt(itemObj, "quantity", 1)
+        Self.hideQuantity = GetBool(itemObj, "hideQuantity", False)
+        Self.diamondCost = GetInt(itemObj, "diamondCost", 0)
+        Self.diamondDealerPrice = GetInt(itemObj, "diamondDealable", 1)
+        Self.coinCost = GetInt(itemObj, "coinCost", 0)
+        Self.quantityYOff = GetInt(itemObj, "quantityYOff", 0)
+
+        Self.isItem = True
+        Self.x = xVal
+        Self.y = yVal
+        Self.trainingWeapon = isTrainingWeapon
+        Self.itemType = type
+
+        If drop
+            Self.dropX = xVal
+            Self.dropY = yVal
+            Self.droppedByPlayer = True
+        End If
+
+        Local itemData := New ItemData(itemObj)
+        Self.xOff = itemData.xOff
+        Self.yOff = itemData.yOff
+        Self.imageFrames = itemData.numFrames
+
+        If Self.IsItemOfType("isCoin")
+            Local resourceCoinType: String
+            Local resourceCoinObj: JsonObject
+            Local resourceCoinPath: String
+
+            Local frameWidth := itemData.imageWidth
+            Local frameHeight := itemData.imageHeight
+            Local frameCount := itemData.numFrames
+
+            resourceCoinType = GetResourceCoinType(Self.utility)
+            resourceCoinObj = GetItem(resourceCoinType)
+            resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+            Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
+
+            Self.yOff += 5.0
+
+            If Not Level.IsWallAt(Self.x, Self.y + 1, False, False)
+                Self.yOff += 5.0
+            End If
+
+            For Local pickup := EachIn Item.GetPickupsAt(Self.x, Self.y, Self)
+                If Not pickup.IsItemOfType("isCoin") Then Continue
+
+                Self.utility += pickup.GetValue()
+                pickup.FlagForDeath(0)
+
+                resourceCoinType = GetResourceCoinType(Self.utility)
+                resourceCoinObj = GetItem(resourceCoinType)
+                resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+            Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
+
+                Self.itemType = resourceCoinType
+            End For
+
+            If Self.utility >= 50
+                resourceCoinObj = GetItem("resource_hoard_gold")
+                resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+                Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
+            Else If Self.utility >= 25
+                resourceCoinObj = GetItem("resource_hoard_gold_small")
+                resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+                Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
+            End If
+
+            Self.image.SetZOff(-18.0)
+        Else
+            Local bomb := Bomb(Self)
+            If Level.isMysteryMode And Not bomb
+                Self.image = New Sprite("entities/mystery_item.png", 18, 21, 2, Image.DefaultFlags)
+
+                Self.isMysteried = True
+                Self.xOff = 3.0
+                Self.yOff = 1.0
+            Else
+                Local path := "items/" + GetString(itemObj, "_content", "")
+                Self.image = New Sprite(path, 18, 21, 2, Image.DefaultFlags)
+            End If
+
+            Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1, Image.DefaultFlags)
+
+            If Self.itemType = "weapon_golden_lute"
+                Self.bounce = New Bouncer(-2.5, 0.0, 1.5, 40)
+                Self.yOff -= 18.0
+                Self.shadowYOff = -8
+                Self.shadow.UnSetZ()
+                Self.shadow.SetZOff(Self.image.zOff + 24.0)
+                Self.image.SetZOff(Self.image.zOff + 124.0)
+            Else If itemData.bouncer
+                Self.bounce = New Bouncer(-2.5, 0.0, 1.5, 40)
+                Self.image.SetZOff(Self.yOff)
+                Self.yOff -= 2.0
+            Else
+                Self.shadowYOff = 4
+                Self.yOff += 11.0
+                Self.image.SetZOff(-13.0)
+            End If
+        End If
+
+        Local hint := GetString(itemObj, "hint", "")
+        If hint <> ""
+            If Level.isMysteryMode
+                If Self.itemType <> "bomb" And
+                   Not Self.IsItemOfType("isCoin")
+                    hint = "?"
+                End If
+            End If
+
+            Self.hintText = New TextSprite(2)
+            Self.hintText.SetText(hint, False)
+            Self.hintText.InWorld(True)
+        End If
+
+        Local flyaway := Self.GetFlyawayText()
+        If flyaway <> ""
+            Self.nameText = New TextSprite(2)
+            Self.nameText.SetText(flyaway, False)
+            Self.nameText.InWorld(True)
+        End If
+
+        If Self.IsItemOfType("isStackable") And
+           Not Self.hideQuantity
+            Self.quantityText = New TextSprite(1)
+        End If
+
+        If Self.itemType = "weapon_golden_lute"
+            Self.image = New Sprite("items/golden_lute_magic.png", 32, 33, 8, Image.DefaultFlags)
+            Self.image.SetZOff(124.0)
+        End If
+
+        If Self.IsItemOfType("isTorch") Or
+           Self.itemType = "weapon_golden_lute"
+            Local lMax := Self.GetValue() + 0.5
+            Self.ActivateLight(1.0, lMax)
+        End If
+
+        Item.AddToSeenItems(Self.itemType)
+        Item.pickupList.AddLast(Self)
+
+        Local familiar := FamiliarFixed.GetFamiliarAt(Self.x, Self.y)
+        If familiar <> Null Then familiar.TryPickup()
     End Method
 
     Field itemType: String = "no_item"
@@ -842,8 +1045,8 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.IsItemOfClass()")
     End Method
 
-    Method IsItemOfType: Bool(query: Int)
-        Debug.TraceNotImplemented("Item.IsItemOfType()")
+    Method IsItemOfType: Bool(query: String)
+        Return Item.IsItemOfType(Self.itemType, query)
     End Method
 
     Method IsVisible: Bool()
@@ -947,6 +1150,18 @@ Class Item Extends Entity
 End Class
 
 Class ItemData
+
+    Method New(itemXML: JsonObject)
+        Self.numFrames = 2 * GetInt(itemXML, "numFrames", 1)
+        Self.imageWidth = GetInt(itemXML, "imageW", 24)
+        Self.imageHeight = GetInt(itemXML, "imageH", 24)
+        Self.bouncer = GetBool(itemXML, "bouncer", True)
+
+        Self.xOff = (24 - Self.imageWidth) / 2
+        If Self.bouncer
+            Self.yOff = (24 - Self.imageHeight) / 2
+        End If
+    End Method
 
     Field numFrames: Int
     Field imageWidth: Int

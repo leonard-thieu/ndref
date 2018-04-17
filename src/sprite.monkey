@@ -169,7 +169,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method InWorld: Void(world: Bool)
-        Debug.TraceNotImplemented("Sprite.InWorld()")
+        Self.inWorld = world
     End Method
 
     Method SetAlphaTweenFromCurrent: Void(finalVal: Float, duration: Int)
