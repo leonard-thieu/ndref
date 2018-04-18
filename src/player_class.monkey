@@ -135,12 +135,14 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.IsUnpreventableDamage()")
     End Function
 
-    Function MakeBodyImage: Object(characterID: Int, idSuffix: Int, altSkin: Int)
+    Function MakeBodyImage: Sprite(characterID: Int, idSuffix: String, altSkin: Int)
         Debug.TraceNotImplemented("Player.MakeBodyImage()")
     End Function
 
-    Function MakeHeadImage: Object(characterID: Int, idSuffix: Int, altSkin: Int)
+    Function MakeHeadImage: Sprite(characterID: Int, idSuffix: String, altSkin: Int)
         Debug.TraceNotImplemented("Player.MakeHeadImage()")
+
+        Return New Sprite()
     End Function
 
     Function NumEnabledCharacters: Int()
@@ -937,7 +939,43 @@ Class Player Extends MobileEntity
     End Method
 
     Method LoadImages: Void()
-        Debug.TraceNotImplemented("Player.LoadImages()")
+        ' TODO: Determine how `idSuffix` is determined.
+        Local idSuffix := ""
+        Local alternateSkin := GameData.GetAlternateSkin(Self.characterID)
+        If GameData.GetUseChoral()
+            ' TODO: ???
+        End If
+
+        Self.UsingDorianAltSkin = False
+        Self.UsingMelodyAltSkin = False
+        Self.UsingDoveAltSkin = False
+        Self.UsingCodaAltSkin = False
+        Self.UsingEliAltSkin = False
+        Self.UsingAltSkin = alternateSkin <> 0
+
+        If alternateSkin = 3
+            Self.UsingDorianAltSkin = True
+        Else If alternateSkin <> 0
+            Select Self.characterID
+                Case Character.Melody
+                    Self.UsingMelodyAltSkin = True
+                Case Character.Dove
+                    Self.UsingDoveAltSkin = True
+                Case Character.Coda
+                    Self.UsingCodaAltSkin = True
+                Case Character.Eli
+                    Self.UsingEliAltSkin = True
+            End Select
+        End If
+
+        Self.image = Player.MakeBodyImage(Self.characterID, idSuffix, alternateSkin)
+        Self.headImage = Player.MakeHeadImage(Self.characterID, idSuffix, alternateSkin)
+        Self.headImageForHUD = Player.MakeHeadImage(Self.characterID, idSuffix, alternateSkin)
+        Self.headImageForHUD.InWorld(False)
+        Self.headImageForHUD.SetZ(10000.0)
+        Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1, Image.DefaultFlags)
+        Self.xOff = 0.0
+        Self.yOff = 3.0
     End Method
 
     Method MaybeOpenZap: Void(playerX: Int, playerY: Int, electricStrength: Int)
