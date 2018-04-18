@@ -707,8 +707,7 @@ Class Tile Extends RenderableObject
         image.SetFrame(frame)
 
         Local randomValue := Util.RndIntRangeFromZero(10, False)
-        ' TODO: Not sure on comparison.
-        If randomValue > 7
+        If randomValue <= 7
             frame = Util.RndIntRangeFromZero(1, False)
             image.SetFrame(frame)
         End If
