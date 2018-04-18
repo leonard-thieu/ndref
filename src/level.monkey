@@ -2789,9 +2789,6 @@ Class Level
 
         Util.SeedRnd(randSeed)
 
-        controller_game.players[0] = New Player(0, Character.Cadence)
-        controller_game.numPlayers = 1
-
         Level.creatingMap = True
 
         'INIT_HARDCORE_MODE_COMMON
@@ -2804,6 +2801,18 @@ Class Level
         
         Util.SeedRnd(randSeed)
 
+        For Local i := 0 Until controller_game.numPlayers
+            Local characterID: Int
+            Local player := controller_game.players[i]
+            If player <> Null
+                characterID = player.characterID
+                player.Die()
+            End If
+
+            controller_game.players[i] = New Player(i, characterID)
+        End For
+
+        'Util.storedSeed = 2919055755
         If Level.CreateMap(Null)
             Debug.WriteLine("Created map.")
         Else
