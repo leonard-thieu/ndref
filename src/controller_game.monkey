@@ -1,12 +1,16 @@
-Strict
+'Strict
 
+Import bouncer
+Import controller
+Import logger
 Import player_class
+Import textsprite
 
 Global beatData: Int
 Global bpmCalculatorBeats: Int
 Global bpmCalculatorStart: Int
 Global bpmStorage: Int
-Global controllerGamePointer: Int
+Global controllerGamePointer: ControllerGame
 Global currentDepth: Int = 1
 Global currentLevel: Int = 1
 Global currentZone: Int = 1
@@ -36,3 +40,85 @@ Global speedrunSuccessScore: Int = -1
 Global subRunPlaytimeMilliseconds: Int
 Global totalPlaytimeLastAdded: Int
 Global totalPlaytimeMilliseconds: Int
+
+Class ControllerGame Extends Controller
+
+    Field specialScoreSubmit: Bool
+    Field postDeathReplay: Bool[]
+    Field postDeathFrame: Int
+    Field postDeathCounter: Int
+    Field coinVal: Int
+    Field timeVal: Int
+    Field restartImage: TextSprite
+    Field scoresImage: TextSprite
+    Field scoresImage2: TextSprite
+    Field songEndedImage: TextSprite
+    Field songEndedImage2: TextSprite
+    Field restartBounce: Bouncer
+    Field replayInstructions: TextSprite
+    Field viewingLeaderboard: Bool
+    Field ignoreInput: Bool
+    Field movementBufferFrame: Int
+    Field movementBuffer: Int
+    Field pendingScores: Int
+    Field originalNumScores: Int
+    Field score: Int
+    Field originalFailures: Int
+    Field scoreSubmitTime: Int
+    Field speedrunImage: TextSprite
+    Field lastSpeedrunString: String
+    Field heartTransplantTimerImage: TextSprite
+    Field fpsImage: TextSprite
+    Field levelImage: TextSprite
+
+    Function _EditorFix: Void() End
+
+    Method Destructor: Void()
+        Debug.TraceNotImplemented("ControllerGame.Destructor()")
+    End Method
+
+    Method PrepareToSubmitScores: Void(numScores: Int)
+        Debug.TraceNotImplemented("ControllerGame.PrepareToSubmitScores()")
+    End Method
+
+    Method RegainFocus: Void()
+        Debug.TraceNotImplemented("ControllerGame.RegainFocus()")
+    End Method
+
+    Method Render: Void()
+        Debug.TraceNotImplemented("ControllerGame.Render()")
+    End Method
+
+    Method RenderPostGameReplay: Void()
+        Debug.TraceNotImplemented("ControllerGame.RenderPostGameReplay()")
+    End Method
+
+    Method ResetPostDeathReplay: Void()
+        Debug.TraceNotImplemented("ControllerGame.ResetPostDeathReplay()")
+    End Method
+
+    Method ScoreSubmitFailed: Bool()
+        Debug.TraceNotImplemented("ControllerGame.ScoreSubmitFailed()")
+    End Method
+
+    Method Suspend: Void()
+        Debug.TraceNotImplemented("ControllerGame.Suspend()")
+    End Method
+
+    Method Update: Void()
+        Debug.TraceNotImplemented("ControllerGame.Update()")
+    End Method
+
+    Method NoTrim: Void()
+        Destructor()
+        PrepareToSubmitScores(0)
+        RegainFocus()
+        Render()
+        RenderPostGameReplay()
+        ResetPostDeathReplay()
+        ScoreSubmitFailed()
+        Suspend()
+        Update()
+    End Method
+
+End Class

@@ -2486,7 +2486,12 @@ Class Level
         End For
 
         Input.ResetMovementCounters()
+
+        If controller_game.controllerGamePointer Then controller_game.controllerGamePointer.ResetPostDeathReplay()
+
+        Debug.Log("INITNEWMAP: Deleting previous map")
         Level.DeleteMap()
+
         Level.isAnyTar = False
         Level.isConductorLevel = False
         Level.levelJustStarted = True
