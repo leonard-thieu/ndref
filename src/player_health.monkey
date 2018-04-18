@@ -9,9 +9,9 @@ Class PlayerHealth
     Field fragile: Bool
     Field bonusMax: Int
     Field cursedMax: Int
-    Field baseMax: Int
+    Field baseMax: Int = 4
     Field cursedCurrent: Int
-    Field current: Int
+    Field current: Int = 4
 
     Method ApplyMax: Int()
         Debug.TraceNotImplemented("TextSprite.ApplyMax()")

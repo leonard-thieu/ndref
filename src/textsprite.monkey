@@ -34,6 +34,11 @@ Class TextSprite
         Self.zVal = z
     End Method
 
+    Method New(j: Int, sc: Float)
+        Self.justification = j
+        Self.scaleVal = sc
+    End Method
+
     Method New(j: Int)
         Self.justification = j
     End Method

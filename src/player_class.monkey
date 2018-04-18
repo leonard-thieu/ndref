@@ -367,7 +367,7 @@ Class Player Extends MobileEntity
     Field hasPickedUpBlastHelmThisRun: Bool
     Field hasPickedUpGrenadeCharmThisRun: Bool
     Field batFormActive: Bool
-    Field health: PlayerHealth = New PlayerHealth() ' TODO: Double check constructor
+    Field health: PlayerHealth = New PlayerHealth()
     Field courageShovelBeat: Int = -1
     Field courageRingBeat: Int = -1
     Field cutlassParry: Bool
@@ -426,7 +426,7 @@ Class Player Extends MobileEntity
     Field numHudSlotsIncludingActionAndSpells: Int = 15
     Field hudSlotOff: Point2[]
     Field shovelImages: StringMap<Sprite> = New StringMap<Sprite>()
-    Field tempoHeartText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field tempoHeartText: TextSprite = New TextSprite(2, 2.0)
     Field hudSlotAction1: Sprite
     Field hudSlotAction2: Sprite
     Field hudSlotAction2Empty: Sprite
@@ -467,24 +467,24 @@ Class Player Extends MobileEntity
     Field playedExitErrorSound: Bool
     Field lastClampedEnemy: EnemyClamper
     Field heartTransplantTime: Int = -1
-    Field crownText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field crownText: TextSprite = New TextSprite(2, 1.5)
     Field quantityText: StringMap<TextSprite> = New StringMap<TextSprite>()
     Field hudTextForInput: IntMap<TextSprite> = New IntMap<TextSprite>()
     Field hudText2ForInput: IntMap<TextSprite> = New IntMap<TextSprite>()
     Field hudSpriteForInput: IntMap<Sprite> = New IntMap<Sprite>()
-    Field action1Text: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field action2Text: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field bombText: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field coinText: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field diamondText: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field action1Text: TextSprite = New TextSprite(0, 1.5)
+    Field action2Text: TextSprite = New TextSprite(0, 1.5)
+    Field bombText: TextSprite = New TextSprite(0, 1.5)
+    Field coinText: TextSprite = New TextSprite(0, 1.5)
+    Field diamondText: TextSprite = New TextSprite(0, 1.5)
     Field hudDiamondForFlyingXOff: Float
     Field hudDiamondForFlyingYOff: Float
-    Field spell1CoolText: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field spell1CoolText2: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field spell1CoolText3: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field spell2CoolText: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field spell2CoolText2: TextSprite = New TextSprite() ' TODO: Double check constructor
-    Field spell2CoolText3: TextSprite = New TextSprite() ' TODO: Double check constructor
+    Field spell1CoolText: TextSprite = New TextSprite(2, 1.0, -1, 10002)
+    Field spell1CoolText2: TextSprite = New TextSprite(2, 1.0, -1, 10002)
+    Field spell1CoolText3: TextSprite = New TextSprite(2, 1.0, -1, 10002)
+    Field spell2CoolText: TextSprite = New TextSprite(2, 1.0, -1, 10002)
+    Field spell2CoolText2: TextSprite = New TextSprite(2, 1.0, -1, 10002)
+    Field spell2CoolText3: TextSprite = New TextSprite(2, 1.0, -1, 10002)
     Field trapSight: Float = 100.0
     Field deadRenderFrames: Int
 
