@@ -1000,7 +1000,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While Level.IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 level = Util.RndIntRange(1, 3, True, -1)
                 depth = Util.RndIntRange(1, 5, True, -1)
             End While
@@ -1015,7 +1015,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While Level.IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 If Level.isHardcoreMode
                     level = Util.RndIntRange(1, 2, True, -1)
                     depth = 1
@@ -1035,7 +1035,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While Level.IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 level = Util.RndIntRange(1, 3, True, -1)
                 depth = Util.RndIntRange(1, 5, True, -1)
             End While
@@ -1050,7 +1050,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While Level.IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 level = Util.RndIntRange(1, 3, True, -1)
                 depth = Util.RndIntRange(1, 5, True, -1)
             End While
@@ -1065,7 +1065,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While Level.IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 level = Util.RndIntRange(1, 3, True, -1)
                 depth = Util.RndIntRange(1, 5, True, -1)
             End While
@@ -1081,7 +1081,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 level = Util.RndIntRange(1, 3, True, -1)
                 depth = Util.RndIntRange(1, 5, True, -1)
             End While
@@ -1096,7 +1096,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 level = Util.RndIntRange(1, 3, True, -1)
                 depth = Util.RndIntRange(1, 5, True, -1)
             End While
@@ -1111,7 +1111,7 @@ Class Level
             Local level: Int = -1
             Local depth: Int = -1
 
-            While Level.IsFreeLevelForSpecialRoom(level, depth)
+            While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 level = Util.RndIntRange(1, 3, True, -1)
                 depth = Util.RndIntRange(1, 5, True, -1)
             End While
@@ -2576,15 +2576,15 @@ Class Level
     End Function
 
     Function IsFreeLevelForSpecialRoom: Bool(tempLevel: Int, tempDepth: Int)
-        Return (tempLevel = -1 Or tempDepth = -1) Or
-               (tempLevel = Level.placeBloodShopOnLevel And tempDepth = Level.placeBloodShopOnDepth) Or
-               (tempLevel = Level.placeFoodShopOnLevel And tempDepth = Level.placeFoodShopOnDepth) Or
-               (tempLevel = Level.placeGlassShopOnLevel And tempDepth = Level.placeGlassShopOnDepth) Or
-               (tempLevel = Level.placeArenaOnLevel And tempDepth = Level.placeArenaOnDepth) Or
-               (tempLevel = Level.placeTransmogrifierOnLevel And tempDepth = Level.placeTransmogrifierOnDepth) Or
-               (tempLevel = Level.placeConjurerOnLevel And tempDepth = Level.placeConjurerOnDepth) Or
-               (tempLevel = Level.placeShrinerOnLevel And tempDepth = Level.placeShrinerOnDepth) Or
-               (tempLevel = Level.placePawnbrokerOnLevel And tempDepth = Level.placePawnbrokerOnDepth)
+        Return Not ((tempLevel = -1 Or tempDepth = -1) Or
+                    (tempLevel = Level.placeBloodShopOnLevel And tempDepth = Level.placeBloodShopOnDepth) Or
+                    (tempLevel = Level.placeFoodShopOnLevel And tempDepth = Level.placeFoodShopOnDepth) Or
+                    (tempLevel = Level.placeGlassShopOnLevel And tempDepth = Level.placeGlassShopOnDepth) Or
+                    (tempLevel = Level.placeArenaOnLevel And tempDepth = Level.placeArenaOnDepth) Or
+                    (tempLevel = Level.placeTransmogrifierOnLevel And tempDepth = Level.placeTransmogrifierOnDepth) Or
+                    (tempLevel = Level.placeConjurerOnLevel And tempDepth = Level.placeConjurerOnDepth) Or
+                    (tempLevel = Level.placeShrinerOnLevel And tempDepth = Level.placeShrinerOnDepth) Or
+                    (tempLevel = Level.placePawnbrokerOnLevel And tempDepth = Level.placePawnbrokerOnDepth))
     End Function
 
     Function IsHotCoalAt: Bool(xVal: Int, yVal: Int)
