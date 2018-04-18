@@ -1,6 +1,7 @@
-Strict
+'Strict
 
 Import entity
+Import logger
 
 Class MobileEntity Extends Entity Abstract
 
@@ -23,5 +24,33 @@ Class MobileEntity Extends Entity Abstract
     Field wasInDeepWater: Bool
     Field wasInTar: Bool
     Field distancePerMovement: Int = 1
+
+    Method IsSlidingOnIce: Bool()
+        Debug.TraceNotImplemented("TextSprite.IsSlidingOnIce()")
+    End Method
+
+    Method IsStandingStill: Bool()
+        Debug.TraceNotImplemented("TextSprite.IsStandingStill()")
+    End Method
+
+    Method IsStuckInLiquid: Bool()
+        Debug.TraceNotImplemented("TextSprite.IsStuckInLiquid()")
+    End Method
+
+    Method Splash: Void(destroyWater: Bool)
+        Debug.TraceNotImplemented("TextSprite.Splash()")
+    End Method
+
+    Method Update: Void()
+        Debug.TraceNotImplemented("TextSprite.Update()")
+    End Method
+
+    Method NoTrim: Void()
+        IsSlidingOnIce()
+        IsStandingStill()
+        IsStuckInLiquid()
+        Splash(False)
+        Update()
+    End Method
 
 End Class

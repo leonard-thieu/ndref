@@ -282,8 +282,17 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.FindAllGoldPiles()")
     End Function
 
-    Function GetAllItemsInClass: Object(itemClass: Int)
-        Debug.TraceNotImplemented("Item.GetAllItemsInClass()")
+    Function GetAllItemsInClass: List<JsonObject>(itemClass: String)
+        Local items := New List<JsonObject>()
+        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
+        
+        For Local itemNodeValue := EachIn itemNodes
+            Local itemNode := JsonObject(itemNodeValue)
+            Local isInClass := GetBool(itemNode, itemClass, False)
+            If isInClass Then items.AddLast(itemNode)
+        End For
+
+        Return items
     End Function
 
     Function GetAppropriateCoinItemForQuantity: Int(quantity: Int)
