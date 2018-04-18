@@ -6,6 +6,7 @@ Class Camera
 
     Global fadeInCallback: Int
     Global fadeInCurrent: Int
+    Global fadeInDuration: Int
     Global fadeOutCallback: Int
     Global fadeOutCurrent: Int
     Global fadeOutDuration: Int

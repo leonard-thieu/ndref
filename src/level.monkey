@@ -14,6 +14,7 @@ Import entity
 Import exitmap
 Import fakewall
 import gamedata
+Import input2
 Import intpointlist
 Import intpointset
 Import intpointstack
@@ -2469,11 +2470,22 @@ Class Level
     Function InitNewMap: Void(saveGameData: Bool)
         Debug.TraceEntered("Level.InitNewMap()")
 
+        If saveGameData Then GameData.Save()
+
+        Camera.x = 0.0
+        Camera.y = 0.0
+        Camera.seekX = 0.0
+        Camera.seekY = 0.0
+        Camera.fadeInDuration = necrodancergame.FRAMES_PER_SEC
+        Camera.fadeInCurrent = necrodancergame.FRAMES_PER_SEC
+        Camera.fixed = False
+
         For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
             player.ResetStateAfterLevel()
         End For
 
+        Input.ResetMovementCounters()
         Level.DeleteMap()
         Level.isAnyTar = False
         Level.isConductorLevel = False
