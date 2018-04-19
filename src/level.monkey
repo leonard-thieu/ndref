@@ -709,7 +709,49 @@ Class Level
     End Function
 
     Function AddStone: Void()
-        Debug.TraceNotImplemented("Level.AddStone()")
+        Debug.Log("Adding stone")
+
+        Local stoneCountMultiplier: Float
+
+        Select controller_game.currentLevel
+            Case 1 stoneCountMultiplier = 0.08
+            Case 2 stoneCountMultiplier = 0.14
+            Default stoneCountMultiplier = 0.20
+        End Select
+
+        If Level.isHardcoreMode Then stoneCountMultiplier += 0.13
+
+        Local stoneCandidateLocations := New List<Point>()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsWall(False, True, False, False) And
+                   tile.health <= 1 And
+                   Not tile.isCracked
+                    stoneCandidateLocations.AddLast(New Point(tile.x, tile.y))
+                End If
+            End For
+        End For
+
+        Local i := 5000
+        Local numTilesToConvert: Int = stoneCandidateLocations.Count() * stoneCountMultiplier
+
+        For i = i - 1 Until 0 Step -1
+            If numTilesToConvert = 0 Then Exit
+            
+            Local randomIndex := Util.RndIntRangeFromZero(stoneCandidateLocations.Count() - 1, True)
+            Local stoneCandidateLocationsArray := stoneCandidateLocations.ToArray()
+            Local randomPoint := stoneCandidateLocationsArray[randomIndex]
+            Level.GetTileAt(randomPoint.x, randomPoint.y).BecomeStone()
+            stoneCandidateLocations.RemoveEach(randomPoint)
+
+            numTilesToConvert -= 1
+        End For
+
+        If i = 0
+            Debug.Log("****************** ADDSTONE: Unable to place the desired amount of stone! ******************")
+        End If
     End Function
 
     Function AdvanceLevel: Void()
