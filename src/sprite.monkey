@@ -102,7 +102,8 @@ Class Sprite Extends Tweenable
     End Method
 
     Method FlipX: Void(f: Bool, withOffset: Bool)
-        Debug.TraceNotImplemented("Sprite.FlipX()")
+        Self.flipX = f
+        Self.flipXWithOffset = withOffset
     End Method
 
     Method FlipY: Void(f: Bool, withOffset: Bool)
