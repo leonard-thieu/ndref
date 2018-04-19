@@ -3670,7 +3670,15 @@ Class Level
     End Function
 
     Function PlaceTraps: Void()
-        Debug.TraceNotImplemented("Level.PlaceTraps()")
+        Debug.Log("PLACETRAPS")
+
+        Select controller_game.currentZone
+            Case 5 Level.PlaceTrapsZone5()
+            Case 4 Level.PlaceTrapsZone4()
+            Case 3 Level.PlaceTrapsZone3()
+            Case 2 Level.PlaceTrapsZone2()
+            Default Level.PlaceTrapsZone1()
+        End Select
     End Function
 
     Function PlaceTrapsZone1: Void()
