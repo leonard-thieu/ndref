@@ -347,12 +347,12 @@ Class Level
                 Local food := Level.RandomFood()
                 New SaleItem(entranceX - 1, entranceY - 2, food, False, shopkeeper, -1.0, Null)
 
-                Local heartContainerChance := Util.RndIntRangeFromZero(100, True)
+                Local heartContainerRoll := Util.RndIntRangeFromZero(100, True)
                 Local heartContainer: String
-                If heartContainerChance <= 20 Then heartContainer = "misc_heart_container"
-                If heartContainerChance <= 25 Then heartContainer = "misc_heart_container2"
-                If heartContainerChance <= 50 Then heartContainer = "misc_heart_container_empty2"
-                If heartContainerChance >  50 Then heartContainer = "misc_heart_container_empty"
+                If heartContainerRoll <= 20 Then heartContainer = "misc_heart_container"
+                If heartContainerRoll <= 25 Then heartContainer = "misc_heart_container2"
+                If heartContainerRoll <= 50 Then heartContainer = "misc_heart_container_empty2"
+                If heartContainerRoll >  50 Then heartContainer = "misc_heart_container_empty"
                 New SaleItem(entranceX + 1, entranceY - 2, heartContainer, False, shopkeeper, -1.0, Null)
 
                 If Not Util.RndIntRangeFromZero(9, True)
@@ -739,7 +739,7 @@ Class Level
 
         For i = i - 1 Until 0 Step -1
             If numTilesToConvert = 0 Then Exit
-            
+
             Local randomIndex := Util.RndIntRangeFromZero(stoneCandidateLocations.Count() - 1, True)
             Local stoneCandidateLocationsArray := stoneCandidateLocations.ToArray()
             Local randomPoint := stoneCandidateLocationsArray[randomIndex]
@@ -1555,17 +1555,17 @@ Class Level
         End If
 
         Debug.Log("CREATEMAP ZONE1: Placing torches")
-        Local torchChanceLow := 4
+        Local minTorch := 4
         Select controller_game.currentLevel
-            Case 2 torchChanceLow = 3
-            Case 3 torchChanceLow = 2
-            Case 4 torchChanceLow = 1
+            Case 2 minTorch = 3
+            Case 3 minTorch = 2
+            Case 4 minTorch = 1
             Default
                 If controller_game.currentLevel > 4
-                    torchChanceLow = 0
+                    minTorch = 0
                 End If
         End Select
-        Local torchChanceHigh := torchChanceLow + 1
+        Local maxTorch := minTorch + 1
 
         Local rooms := New List<RoomData>()
         For Local room := EachIn Level.rooms
@@ -1573,7 +1573,7 @@ Class Level
         End For
 
         For Local room := EachIn rooms
-            Local numTorch := Util.RndIntRange(torchChanceLow, torchChanceHigh, True, -1)
+            Local numTorch := Util.RndIntRange(minTorch, maxTorch, True, -1)
             Local i: Int
             Local minTorchDistance: Float
             If room.type = RoomType.Shop
@@ -1664,19 +1664,19 @@ Class Level
             End If
         End If
 
-        Local catacombWallChance: Float
+        Local catacombWallRoll: Float
         Select controller_game.currentLevel
-            Case 1 catacombWallChance = 0.00
-            Case 2 catacombWallChance = 0.10
-            Case 3 catacombWallChance = 0.13
-            Case 4 catacombWallChance = 0.16
+            Case 1 catacombWallRoll = 0.00
+            Case 2 catacombWallRoll = 0.10
+            Case 3 catacombWallRoll = 0.13
+            Case 4 catacombWallRoll = 0.16
             Default
                 If currentLevel > 4
-                    catacombWallChance = math.Max(controller_game.currentLevel * 0.04, 0.40)
+                    catacombWallRoll = math.Max(controller_game.currentLevel * 0.04, 0.40)
                 End If
         End Select
 
-        If catacombWallChance > Util.RndIntRangeFromZero(1, True) And
+        If catacombWallRoll > Util.RndIntRangeFromZero(1, True) And
            roomType = RoomType.None And
            controller_game.currentZone = 1
             wallType = TileType.CatacombWall
@@ -1748,7 +1748,7 @@ Class Level
         End Select
 
         If allowWaterTarOoze
-            Local liquidChance := Util.RndIntRangeFromZero(100, True)
+            Local liquidRoll := Util.RndIntRangeFromZero(100, True)
 
             Local numPendingLiquidMaxPart1 := math.Max(controller_game.currentLevel - 1, 5)
             Local numPendingLiquidMaxPart2 := Util.RndIntRange(2, 7, True, -1)
@@ -1770,10 +1770,10 @@ Class Level
             End Select
 
             Local placeLiquid := False
-            If (controller_game.currentLevel = 1) And (liquidChance <=  5) Then placeLiquid = True
-            If (controller_game.currentLevel = 2) And (liquidChance <= 25) Then placeLiquid = True
-            If (controller_game.currentLevel = 3) And (liquidChance <= 45) Then placeLiquid = True
-            If (controller_game.currentLevel > 3) And (liquidChance <= 65) Then placeLiquid = True
+            If (controller_game.currentLevel = 1) And (liquidRoll <=  5) Then placeLiquid = True
+            If (controller_game.currentLevel = 2) And (liquidRoll <= 25) Then placeLiquid = True
+            If (controller_game.currentLevel = 3) And (liquidRoll <= 45) Then placeLiquid = True
+            If (controller_game.currentLevel > 3) And (liquidRoll <= 65) Then placeLiquid = True
 
             Local numPendingLiquid := 0
             Local minFloorCount: Int
@@ -1877,14 +1877,14 @@ Class Level
             Case RoomType.Pillar
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
-                Local wallChance := Util.RndIntRangeFromZero(6, True)
+                Local wallRoll := Util.RndIntRangeFromZero(6, True)
 
                 For Local x := xVal + 1 Until xMax
                     For Local y := yVal + 1 Until yMax
                         ' If 2 units away (horizontally and veritcally) from the walls
                         If ((x - xVal = 2) Or (xMax - x - 2 = 2)) And
                            ((y - yVal = 2) Or (yMax - y - 2 = 2))
-                            If wallChance
+                            If wallRoll
                                 tiles.AddLast(New TileData(x, y, wallType))
                             Else
                                 tiles.AddLast(New TileData(x, y, TileType.CatacombWall))
@@ -2844,7 +2844,7 @@ Class Level
         Level.currentFloorRNG = Level.wholeRunRNG.Split()
         Local randSeed := Level.currentFloorRNG.Rand()
         ' TODO: Deterministic start log message
-        
+
         Debug.Log("NEWLEVEL: Using seed " + randSeed)
 
         Util.SeedRnd(randSeed)
@@ -2858,7 +2858,7 @@ Class Level
         controller_game.currentDepth = 1
         Level.isHardcoreMode = True
         Item.CreateItemPools()
-        
+
         Util.SeedRnd(randSeed)
 
         For Local i := 0 Until controller_game.numPlayers
@@ -2878,7 +2878,7 @@ Class Level
         Else
             Debug.WriteLine("Failed to create map.")
         End If
-        
+
         Level.DumpMap()
 
         Debug.TraceNotImplemented("Level.NewLevel()")
@@ -3046,12 +3046,12 @@ Class Level
         Level.pendingTiles.Clear()
         Tile.CleanUpPendingTiles()
 
-        Local wideCorridorChance := Util.RndIntRangeFromZero(100, True)
+        Local wideCorridorRoll := Util.RndIntRangeFromZero(100, True)
         Local wideCorridor: Bool
-        If (controller_game.currentLevel = 2) And (wideCorridorChance <= 30) Then wideCorridor = True
-        If (controller_game.currentLevel = 3) And (wideCorridorChance <= 60) Then wideCorridor = True
-        If (controller_game.currentLevel = 4) And (wideCorridorChance <= 80) Then wideCorridor = True
-        If (controller_game.currentLevel > 4) And (wideCorridorChance <= 90) Then wideCorridor = True
+        If (controller_game.currentLevel = 2) And (wideCorridorRoll <= 30) Then wideCorridor = True
+        If (controller_game.currentLevel = 3) And (wideCorridorRoll <= 60) Then wideCorridor = True
+        If (controller_game.currentLevel = 4) And (wideCorridorRoll <= 80) Then wideCorridor = True
+        If (controller_game.currentLevel > 4) And (wideCorridorRoll <= 90) Then wideCorridor = True
 
         ' Overwrites `wideCorridor` but cannot skip the call to `RndIntRange` because it has side effects.
         ' TODO: Windows version doesn't set `wideCorridor` to `False` for `Secret` and `Vault`.
@@ -3110,7 +3110,7 @@ Class Level
         Local width: Int
         Local height: Int
 
-        If Not Level.CarveNewCorridor(moveX, moveY, horizontal, True, False, roomType, wideCorridor) Return Null
+        If Not Level.CarveNewCorridor(moveX, moveY, horizontal, True, False, roomType, wideCorridor) Then Return Null
 
         For Local i := 0 Until 2
             If Util.RndBool(True)
@@ -3248,12 +3248,12 @@ Class Level
             Return Level._PlaceRoom(xVal, yVal, width, height)
         End If
 
-        Local addDoorChance := Util.RndIntRangeFromZero(100, True)
+        Local addDoorRoll := Util.RndIntRangeFromZero(100, True)
         Local addDoor: Bool
-        If (controller_game.currentLevel = 1) And (addDoorChance <= 80) Then addDoor = True
-        If (controller_game.currentLevel = 2) And (addDoorChance <= 70) Then addDoor = True
-        If (controller_game.currentLevel = 3) And (addDoorChance <= 60) Then addDoor = True
-        If (controller_game.currentLevel > 3) And (addDoorChance <= 50) Then addDoor = True
+        If (controller_game.currentLevel = 1) And (addDoorRoll <= 80) Then addDoor = True
+        If (controller_game.currentLevel = 2) And (addDoorRoll <= 70) Then addDoor = True
+        If (controller_game.currentLevel = 3) And (addDoorRoll <= 60) Then addDoor = True
+        If (controller_game.currentLevel > 3) And (addDoorRoll <= 50) Then addDoor = True
 
         If addDoor And
            Level.isHardcoreMode And
@@ -3424,8 +3424,8 @@ Class Level
         End If
 
         ' Locked shop
-        Local lockedShopChance := Util.RndIntRangeFromZero(3, True)
-        If lockedShopChance = 0 And
+        Local lockedShopRoll := Util.RndIntRangeFromZero(3, True)
+        If lockedShopRoll = 0 And
            controller_game.currentLevel > 1 And
            Not Level.lockedShopPlaced
             Local randomPoint := door.RandomPoint()
