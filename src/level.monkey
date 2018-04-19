@@ -1739,59 +1739,58 @@ Class Level
                          1,
                          2
                         For Local tile := EachIn tiles
-                            ' Can be simplified to `tile.type = TileType.Floor` if `tile.type` can be guaranteed to be non-negative.
-                            If tile.type < 1 Then numPendingLiquid += 1
+                            If tile.type = TileType.Floor Then numPendingLiquid += 1
                         End For
 
                         numPendingLiquid = math.Max(numPendingLiquid, numPendingLiquidMax)
                         minFloorCount = Util.RndIntRangeFromZero(numPendingLiquid - 1, True)
                 End Select
-            End If
 
-            Local i := 1000
-            For Local i = i - 1 To 0 Step -1
-                Local lastTileX := 0
-                Local lastTileY := 0
-                Local createdFirstLiquid := False
+                Local i := 1000
+                For Local i = i - 1 To 0 Step -1
+                    Local lastTileX := 0
+                    Local lastTileY := 0
+                    Local createdFirstLiquid := False
 
-                If Not createdFirstLiquid
-                    For Local tile := EachIn tiles
-                        If tile.type = TileType.Floor
-                            minFloorCount -= 1
-                            If minFloorCount < 0
+                    If Not createdFirstLiquid
+                        For Local tile := EachIn tiles
+                            If tile.type = TileType.Floor
+                                minFloorCount -= 1
+                                If minFloorCount < 0
+                                    lastTileX = tile.x
+                                    lastTileY = tile.y
+                                    tile.type = liquidTileType
+                                    numPendingLiquid -= 1
+
+                                    createdFirstLiquid = True
+
+                                    Exit
+                                End If
+                            End If
+                        End For
+                    Else
+                        For Local tile := EachIn tiles
+                            If tile.type = TileType.Floor And
+                               Util.GetDist(lastTileX, lastTileY, tile.x, tile.y) <= 1.01 And
+                               Not Util.RndIntRangeFromZero(3, True)
                                 lastTileX = tile.x
                                 lastTileY = tile.y
                                 tile.type = liquidTileType
                                 numPendingLiquid -= 1
 
-                                createdFirstLiquid = True
-
                                 Exit
-                            End If
-                        End If
-                    End For
-                Else
-                    For Local tile := EachIn tiles
-                        If tile.type = TileType.Floor And
-                           Util.GetDist(lastTileX, lastTileY, tile.x, tile.y) <= 1.01 And
-                           Not Util.RndIntRangeFromZero(3, True)
-                            lastTileX = tile.x
-                            lastTileY = tile.y
-                            tile.type = liquidTileType
-                            numPendingLiquid -= 1
+                           End If
+                        End For
+                    End If
 
-                            Exit
-                       End If
-                    End For
+                    If numPendingLiquid <= 0 Then Exit
+                End For
+
+                If i = 0
+                    Debug.WriteLine("CREATEROOM abort: failed to place liquid")
+
+                    Return False
                 End If
-
-                If numPendingLiquid <= 0 Then Exit
-            End For
-
-            If i = 0
-                Debug.WriteLine("CREATEROOM abort: failed to place liquid")
-
-                Return False
             End If
         End If
 
