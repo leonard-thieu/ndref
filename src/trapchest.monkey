@@ -36,7 +36,11 @@ Class TrapChest Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("TrapChest.Die()")
+        If Not Self.dead
+            Self.DropItem2()
+
+            Super.Die()
+        End If
     End Method
 
     Method DropItem2: Void()
