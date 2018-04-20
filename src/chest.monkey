@@ -91,7 +91,11 @@ Class Chest Extends Entity
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Chest.Die()")
+        If Not Self.dead
+            Chest.chestList.RemoveEach(Self)
+
+            Super.Die()
+        End If
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
