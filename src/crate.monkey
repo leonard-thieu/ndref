@@ -73,7 +73,16 @@ Class Crate Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Crate.Die()")
+        If Not Self.dead
+            If Crate.fallenCrates.Contains(Self)
+                Self.x = -9999
+                Self.y = -9999
+            Else
+                Crate.crateList.RemoveEach(Self)
+
+                Super.Die()
+            End If
+        End If
     End Method
 
     Method GetMovementDirection: Object()
