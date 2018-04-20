@@ -506,7 +506,32 @@ Class Tile Extends RenderableObject
     End Method
 
     Method BecomeDiamond: Void()
-        Debug.TraceNotImplemented("Tile.BecomeDiamond()")
+        Self.image = Self.LoadDiamond()
+        Self.image.SetAlphaValue(0.0)
+
+        If Level.isHardcoreMode
+            Self.image2 = New Sprite("items/resource_hoard_gold.png", 24, 24, 2, Image.DefaultFlags)
+        Else
+            Select controller_game.currentZone
+                Case 1
+                    Self.image2 = New Sprite("items/resource_diamond.png", 24, 24, 2, Image.DefaultFlags)
+                Case 2
+                    Self.image2 = New Sprite("items/resource_diamond2.png", 24, 24, 2, Image.DefaultFlags)
+                Case 3
+                    Self.image2 = New Sprite("items/resource_diamond3.png", 24, 24, 2, Image.DefaultFlags)
+                Default
+                    Self.image2 = New Sprite("items/resource_diamond4.png", 24, 24, 2, Image.DefaultFlags)
+            End Select
+        End If
+
+        Self.image2.SetZOff(24.0)
+
+        Self.health = 1
+        Self.isStone = False
+
+        If Self.IsWall()
+            Self.image.SetZOff(8.0)
+        End If
     End Method
 
     Method BecomeDirt: Void()
@@ -924,11 +949,44 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsZone4Dirt: Bool()
-        Return Self.IsTileset(4) And Self.IsDirt()
+        Return Self.IsTileset(TilesetType.Zone4) And Self.IsDirt()
     End Method
 
-    Method LoadDiamond: Object()
-        Debug.TraceNotImplemented("Tile.LoadDiamond()")
+    Method LoadDiamond: Sprite()
+        Self.hasResource = True
+
+        Select Self.GetTileset()
+            Case TilesetType.Zone2
+                Const frameCount := 3
+                Local index := Util.RndIntRangeFromZero(frameCount, False)
+
+                Return New Sprite("level/wall_dirt_zone2_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+            Case TilesetType.Zone3Hot
+                Const frameCount := 3
+                Local index := Util.RndIntRangeFromZero(frameCount, False)
+
+                Return New Sprite("level/wall_dirt_zone3HOT_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+            Case TilesetType.Zone3Cold
+                Const frameCount := 3
+                Local index := Util.RndIntRangeFromZero(frameCount, False)
+
+                Return New Sprite("level/wall_dirt_zone3cold_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+            Case TilesetType.Zone4
+                Const frameCount := 3
+                Local index := Util.RndIntRangeFromZero(frameCount, False)
+
+                Return New Sprite("level/wall_dirt_zone4_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+            Case TilesetType.Zone5
+                Const frameCount := 3
+                Local index := Util.RndIntRangeFromZero(frameCount, False)
+
+                Return New Sprite("level/wall_dirt_zone5_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+        End Select
+
+        Const frameCount := 3
+        Local index := Util.RndIntRangeFromZero(frameCount, False)
+
+        Return New Sprite("level/wall_dirt_crypt_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
     End Method
 
     Method LoadFloor: Sprite()

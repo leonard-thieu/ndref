@@ -2269,6 +2269,10 @@ Class Level
         Debug.TraceNotImplemented("Level.FillVault()")
     End Function
 
+    Function FindTileOfType: Point(tileType: Int)
+        Return Level.FindTileOfType(tileType, True)
+    End Function
+
     Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool)
         While True
             Local tilesOnXNode: map.Node<Int, IntMap<Tile>>
@@ -3035,7 +3039,24 @@ Class Level
     End Function
 
     Function PlaceResourceWall: Void()
-        Debug.TraceNotImplemented("Level.PlaceResourceWall()")
+        Debug.Log("PLACERESOURCEWALL: Placing diamond or gold in wall")
+
+        If Level.isHardcoreMode
+            If Util.IsCharacterActive(Character.Monk) Or
+               Util.IsCharacterActive(Character.Coda)
+                Debug.Log("Skipping wall gold for Monk/Coda")
+
+                Return
+            End If
+        End If
+
+        Local dirtWallLocation := Level.FindTileOfType(TileType.DirtWall)
+        If dirtWallLocation <> Null
+            Local dirtWall := Level.GetTileAt(dirtWallLocation.x, dirtWallLocation.y)
+            If dirtWall <> Null
+                dirtWall.BecomeDiamond()
+            End If
+        End If
     End Function
 
     Function PlaceRoomZone1: RoomData(roomToAttachTo: RoomData)
