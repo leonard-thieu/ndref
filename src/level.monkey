@@ -2876,7 +2876,6 @@ Class Level
             controller_game.players[i] = New Player(i, characterID)
         End For
 
-        'Util.storedSeed = 2919055755
         If Level.CreateMap(Null)
             Debug.WriteLine("Created map.")
         Else
