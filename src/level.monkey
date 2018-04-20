@@ -3823,8 +3823,16 @@ Class Level
         Debug.TraceNotImplemented("Level.QueryHarderBosses()")
     End Function
 
-    Function RandomFood: Int()
-        Debug.TraceNotImplemented("Level.RandomFood()")
+    Function RandomFood: String()
+        Select Util.RndIntRangeFromZero(5, True)
+            Case 0 Return "food_1"
+            Case 1 Return "food_2"
+            Case 2 Return "food_3"
+            Case 3 Return "food_4"
+            Case 4 Return "food_carrot"
+        End Select
+
+        Return "food_cookies"
     End Function
 
     Function RandomWalkOfTempTiles: Void(xVal: Int, yVal: Int, distCounter: Int)
