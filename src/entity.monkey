@@ -149,9 +149,9 @@ Class Entity Extends RenderableObject Abstract
 
     Method Die: Void()
         If Not Self.dead
-            Local confusedParticles := Self.confusedParticles
-            If confusedParticles
-                ' TODO: this section
+            If Self.confusedParticles
+                Self.confusedParticles.visible = False
+                Self.confusedParticles.active = False
             End If
 
             Entity.RemoveFromList(Self)
