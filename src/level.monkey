@@ -821,8 +821,9 @@ Class Level
             numCarves = 1
         End If
 
+        Local carveAgain := True
         For Local i := 0 Until numCarves
-            If (i > 0) And Not secondaryCarve
+            If Not carveAgain
                 Local x := Level.carveX
                 Local y := Level.carveY
 
@@ -852,6 +853,7 @@ Class Level
             Level.carveX += moveX
             Level.carveY += moveY
 
+            If Not secondaryCarve Then carveAgain = False
             secondaryCarve = False
         End For
 
