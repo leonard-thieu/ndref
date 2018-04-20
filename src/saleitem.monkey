@@ -138,7 +138,9 @@ Class SaleItem Extends Item
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("SaleItem.Die()")
+        SaleItem.currentSaleItems.RemoveEach(Self)
+
+        Super.Die()
     End Method
 
     Method GetCost: Float()
