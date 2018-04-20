@@ -49,7 +49,23 @@ Class NPC Extends Enemy Abstract
     End Method
 
     Method NPCInit: Void(xVal: Int, yVal: Int, l: Int, name: String, captv: Bool, glCage: Bool)
-        Debug.TraceNotImplemented("NPC.NPCInit()")
+        Self.captive = captv
+        Self.wasCaptive = captv
+        Self.glassCage = glCage
+
+        If captv
+            If glCage
+                Self.cageFrontImage = New Sprite("level/cage_glass_front.png", 1, Image.DefaultFlags)
+            Else
+                Self.cageFrontImage = New Sprite("level/cage_front.png", 1, Image.DefaultFlags)
+            End If
+
+            Self.cageBackImage = New Sprite("level/cage_back.png", 1, Image.DefaultFlags)
+        End If
+
+        Self.Init(xVal, yVal, l, name, "", -1, -1)
+
+        NPC.npcList.AddLast(Self)
     End Method
 
     Method ReleaseFromCage: Void()
