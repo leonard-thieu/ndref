@@ -1101,7 +1101,12 @@ Class Item Extends Entity
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Item.Die()")
+        Item.pickupList.RemoveEach(Self)
+        If Self.hintText <> Null Then Self.hintText.Discard()
+        If Self.nameText <> Null Then Self.nameText.Discard()
+        If Self.quantityText <> Null Then Self.quantityText.Discard()
+
+        Super.Die()
     End Method
 
     Method GetFlyawayText: Int()
