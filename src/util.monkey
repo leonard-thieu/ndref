@@ -84,7 +84,7 @@ Class Util
         Return math.Sqrt(Util.GetDistSq(x, y, x2, y2))
     End Function
 
-    Function GetDistSq: Float(x: Int, y: Int, x2: Int, y2: Int)
+    Function GetDistSq: Int(x: Int, y: Int, x2: Int, y2: Int)
         Return ((x2 - x) * (x2 - x)) +
                ((y2 - y) * (y2 - y))
     End Function

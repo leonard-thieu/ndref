@@ -1792,12 +1792,11 @@ Class Level
                         minFloorCount = Util.RndIntRangeFromZero(numPendingLiquid, True)
                 End Select
 
+                Local createdFirstLiquid := False
+                Local lastTileX := 0
+                Local lastTileY := 0
                 Local i := 1000
                 For Local i = i - 1 To 0 Step -1
-                    Local lastTileX := 0
-                    Local lastTileY := 0
-                    Local createdFirstLiquid := False
-
                     If Not createdFirstLiquid
                         For Local tile := EachIn tiles
                             If tile.type = TileType.Floor
@@ -1816,15 +1815,19 @@ Class Level
                         End For
                     Else
                         For Local tile := EachIn tiles
-                            If tile.type = TileType.Floor And
-                               Util.GetDist(lastTileX, lastTileY, tile.x, tile.y) <= 1.01 And
-                               Not Util.RndIntRangeFromZero(3, True)
-                                lastTileX = tile.x
-                                lastTileY = tile.y
-                                tile.type = liquidTileType
-                                numPendingLiquid -= 1
+                            If tile.type = TileType.Floor
+                                Local distanceToLastTile := Util.GetDist(lastTileX, lastTileY, tile.x, tile.y)
+                                If distanceToLastTile <= 1.01
+                                    Local convertToLiquidChance := Util.RndIntRangeFromZero(3, True)
+                                    If convertToLiquidChance = 0
+                                        lastTileX = tile.x
+                                        lastTileY = tile.y
+                                        tile.type = liquidTileType
+                                        numPendingLiquid -= 1
 
-                                Exit
+                                        Exit
+                                    End If
+                                End If
                            End If
                         End For
                     End If
