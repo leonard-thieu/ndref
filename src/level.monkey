@@ -1343,23 +1343,23 @@ Class Level
 
         Debug.Log("CREATEMAP ZONE1: Trying to place room 6")
         For limit = limit - 1 Until 0 Step -1
-            If Util.RndIntRangeFromZero(50, True)
+            If Util.RndIntRangeFromZero(50, True) <> 0
                 room6 = Level.PlaceRoomZone1(room1)
-            Else If Util.RndIntRangeFromZero(10, True)
+            Else If Util.RndIntRangeFromZero(10, True) <> 0
                 room6 = Level.PlaceRoomZone1(room4)
 
-                If room6 And lastRoomIndex = 3
+                If room6 <> Null And lastRoomIndex = 3
                     lastRoomIndex = 5
                 End If
             Else
                 room6 = Level.PlaceRoomZone1(room5)
 
-                If room6 And lastRoomIndex = 4
+                If room6 <> Null And lastRoomIndex = 4
                     lastRoomIndex = 5
                 End If
             End If
 
-            If room6 Then Exit
+            If room6 <> Null Then Exit
         End For
 
         If limit <= 0 Then Return Level._FailMap()
