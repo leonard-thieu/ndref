@@ -42,7 +42,7 @@ Class Rect
     End Method
 
     Method GetBottom: Int()
-        Debug.TraceNotImplemented("Rect.GetBottom()")
+        Return Self.y + Self.h
     End Method
 
     Method GetCenter: Point()
@@ -76,7 +76,7 @@ Class Rect
     End Method
 
     Method GetRight: Int()
-        Debug.TraceNotImplemented("Rect.GetRight()")
+        Return Self.x + Self.w
     End Method
 
     Method OnBorder: Bool(px: Int, py: Int)
@@ -90,8 +90,9 @@ Class Rect
         Return New Point(x, y)
     End Method
 
-    Method ToString: Int()
-        Debug.TraceNotImplemented("Rect.ToString()")
+    Method ToString: String()
+        Return "[" + Self.x + ", " + Self.GetRight() + "]" + " x " + 
+               "[" + Self.y + ", " + Self.GetBottom() + "]"
     End Method
 
     Method NoTrim: Void()

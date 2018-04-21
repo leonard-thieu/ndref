@@ -1,6 +1,7 @@
 'Strict
 
 Import logger
+Import rect
 
 Class RoomData
 
@@ -35,7 +36,9 @@ Class RoomData
     End Method
 
     Method ToString: String()
-        Debug.TraceNotImplemented("RoomData.ToString()")
+        Local rect := New Rect(Self.x, Self.y, Self.w, Self.h)
+
+        Return rect.ToString()
     End Method
 
     Method NoTrim: Void()

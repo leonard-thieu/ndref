@@ -2972,20 +2972,26 @@ Class Level
     End Function
 
     Function PlaceExit: Bool(rdExit: RoomData)
-        Debug.TraceEntered("Level.PlaceExit()")
+        If necrodancer.DEBUG_BUILD
+            Debug.Log("PLACEEXIT: Placing exit in room " + rdExit.ToString())
+        End If
 
-        For Local i := 499 Until 0 Step -1
-            Local x := rdExit.x + Util.RndIntRangeFromZero(rdExit.w - 1, True)
-            Local y := rdExit.y + Util.RndIntRangeFromZero(rdExit.h - 1, True)
-            If Level.GetTileTypeAt(x, y) <> TileType.Floor And
-               Not Level.IsCorridorFloorOrDoorAdjacent(x, y)
-                If Level.IsWallAt(x, y + 1, False, False)
-                    Level.CreateExit(x, y)
+        Local i := 500
+        For i = i - 1 Until 0 Step -1
+            Local xOff := Util.RndIntRangeFromZero(rdExit.w - 1, True)
+            Local x := rdExit.x + xOff
+            Local yOff := Util.RndIntRangeFromZero(rdExit.h - 1, True)
+            Local y := rdExit.y + yOff
+            If Level.GetTileTypeAt(x, y) = TileType.Floor And
+               Not Level.IsCorridorFloorOrDoorAdjacent(x, y) And
+               Not Level.IsWallAt(x, y + 1, False, False)
+                Level.CreateExit(x, y)
 
-                    Return True
-                End If
+                Return True
             End If
         End For
+
+        Debug.Log("PLACEEXIT: Unable to place exit")
 
         Return Level._FailMap()
     End Function
