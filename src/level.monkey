@@ -1752,17 +1752,17 @@ Class Level
         If allowWaterTarOoze
             Local liquidRoll := Util.RndIntRangeFromZero(100, True)
 
-            Local numPendingLiquidMaxPart1 := math.Max(controller_game.currentLevel - 1, 5)
-            Local numPendingLiquidMaxPart2 := Util.RndIntRange(2, 7, True, -1)
-            Local numPendingLiquidMaxPart3 := Util.RndIntRangeFromZero(numPendingLiquidMaxPart1, True)
-            Local numPendingLiquidMax := numPendingLiquidMaxPart2 + numPendingLiquidMaxPart3
+            Local numLiquidMaxPart1 := math.Min(controller_game.currentLevel - 1, 5)
+            Local numLiquidMaxPart2 := Util.RndIntRange(2, 7, True, -1)
+            Local numLiquidMaxPart3 := Util.RndIntRangeFromZero(numLiquidMaxPart1, True)
+            Local numLiquidMax := numLiquidMaxPart2 + numLiquidMaxPart3
 
             Local liquidTileType: Int
             Select controller_game.currentZone
                 Case 2
-                    numPendingLiquidMaxPart2 = Util.RndIntRange(2, 7, True, -1)
-                    numPendingLiquidMaxPart3 = Util.RndIntRangeFromZero(numPendingLiquidMaxPart1, True)
-                    numPendingLiquidMax = numPendingLiquidMaxPart2 + numPendingLiquidMaxPart3
+                    numLiquidMaxPart2 = Util.RndIntRange(2, 7, True, -1)
+                    numLiquidMaxPart3 = Util.RndIntRangeFromZero(numLiquidMaxPart1, True)
+                    numLiquidMax = numLiquidMaxPart2 + numLiquidMaxPart3
 
                     liquidTileType = TileType.Tar
                 Case 4
@@ -1772,71 +1772,72 @@ Class Level
             End Select
 
             Local placeLiquid := False
+            
             If (controller_game.currentLevel = 1) And (liquidRoll <=  5) Then placeLiquid = True
             If (controller_game.currentLevel = 2) And (liquidRoll <= 25) Then placeLiquid = True
             If (controller_game.currentLevel = 3) And (liquidRoll <= 45) Then placeLiquid = True
             If (controller_game.currentLevel > 3) And (liquidRoll <= 65) Then placeLiquid = True
 
-            Local numPendingLiquid := 0
-            Local minFloorCount: Int
-            If placeLiquid
-                Select lastCreatedRoomType
-                    Case 0,
-                         1,
-                         2
-                        For Local tile := EachIn tiles
-                            If tile.type = TileType.Floor Then numPendingLiquid += 1
-                        End For
+            Select lastCreatedRoomType
+                Case RoomType.Basic,
+                     RoomType.Pillar,
+                     RoomType.OutsideCorners
+                    ' Do nothing
+                Default
+                    placeLiquid = False
+            End Select
 
-                        numPendingLiquid = math.Max(numPendingLiquid, numPendingLiquidMax) - 1
-                        minFloorCount = Util.RndIntRangeFromZero(numPendingLiquid, True)
-                End Select
+            If placeLiquid
+                Local numLiquid := 0
+
+                For Local tile := EachIn tiles
+                    If tile.type = TileType.Floor Then numLiquid += 1
+                End For
+
+                Local numFloorToConvert = math.Min(numLiquid, numLiquidMax)
+                Local numFloorToSkip := Util.RndIntRangeFromZero(numLiquid - 1, True)
 
                 Local createdFirstLiquid := False
-                Local lastTileX := 0
-                Local lastTileY := 0
+                Local lastLiquidX := 0
+                Local lastLiquidY := 0
                 Local i := 1000
-                For Local i = i - 1 To 0 Step -1
-                    If Not createdFirstLiquid
-                        For Local tile := EachIn tiles
-                            If tile.type = TileType.Floor
-                                minFloorCount -= 1
-                                If minFloorCount < 0
-                                    lastTileX = tile.x
-                                    lastTileY = tile.y
+                For i = i - 1 Until 0 Step -1
+                    For Local tile := EachIn tiles
+                        If tile.type = TileType.Floor
+                            If Not createdFirstLiquid
+                                numFloorToSkip -= 1
+                                If numFloorToSkip < 0
+                                    lastLiquidX = tile.x
+                                    lastLiquidY = tile.y
                                     tile.type = liquidTileType
-                                    numPendingLiquid -= 1
+                                    numFloorToConvert -= 1
 
                                     createdFirstLiquid = True
 
                                     Exit
                                 End If
-                            End If
-                        End For
-                    Else
-                        For Local tile := EachIn tiles
-                            If tile.type = TileType.Floor
-                                Local distanceToLastTile := Util.GetDist(lastTileX, lastTileY, tile.x, tile.y)
-                                If distanceToLastTile <= 1.01
+                            Else
+                                Local distanceToLastLiquid := Util.GetDist(lastLiquidX, lastLiquidY, tile.x, tile.y)
+                                If distanceToLastLiquid <= 1.01
                                     Local convertToLiquidChance := Util.RndIntRangeFromZero(3, True)
                                     If convertToLiquidChance = 0
-                                        lastTileX = tile.x
-                                        lastTileY = tile.y
+                                        lastLiquidX = tile.x
+                                        lastLiquidY = tile.y
                                         tile.type = liquidTileType
-                                        numPendingLiquid -= 1
+                                        numFloorToConvert -= 1
 
                                         Exit
                                     End If
                                 End If
-                           End If
-                        End For
-                    End If
+                            End If
+                        End If
+                    End For
 
-                    If numPendingLiquid <= 0 Then Exit
+                    If numFloorToConvert <= 0 Then Exit
                 End For
 
                 If i = 0
-                    Debug.WriteLine("CREATEROOM abort: failed to place liquid")
+                    Debug.Log("CREATEROOM abort: failed to place liquid")
 
                     Return False
                 End If
