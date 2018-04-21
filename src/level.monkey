@@ -1788,8 +1788,8 @@ Class Level
                             If tile.type = TileType.Floor Then numPendingLiquid += 1
                         End For
 
-                        numPendingLiquid = math.Max(numPendingLiquid, numPendingLiquidMax)
-                        minFloorCount = Util.RndIntRangeFromZero(numPendingLiquid - 1, True)
+                        numPendingLiquid = math.Max(numPendingLiquid, numPendingLiquidMax) - 1
+                        minFloorCount = Util.RndIntRangeFromZero(numPendingLiquid, True)
                 End Select
 
                 Local i := 1000
