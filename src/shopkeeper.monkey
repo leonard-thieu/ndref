@@ -1,8 +1,10 @@
 'Strict
 
+Import entity
 Import gamedata
 Import logger
 Import npc
+Import point
 
 Class Shopkeeper Extends NPC
 
@@ -47,19 +49,19 @@ Class Shopkeeper Extends NPC
     Field lastBeatSFX: Int = -1
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
-        Debug.TraceNotImplemented("Shopkeeper.CanBeDamaged()")
+        Debug.TraceNotImplemented("Shopkeeper.CanBeDamaged(Bool, Bool)")
     End Method
 
     Method Die: Void()
         Debug.TraceNotImplemented("Shopkeeper.Die()")
     End Method
 
-    Method GetMovementDirection: Object()
+    Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Shopkeeper.GetMovementDirection()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("Shopkeeper.Hit()")
+        Debug.TraceNotImplemented("Shopkeeper.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method IsSinging: Bool()
@@ -67,21 +69,11 @@ Class Shopkeeper Extends NPC
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Shopkeeper.MoveSucceed()")
+        Debug.TraceNotImplemented("Shopkeeper.MoveSucceed(Bool, Bool)")
     End Method
 
     Method Update: Void()
         Debug.TraceNotImplemented("Shopkeeper.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        CanBeDamaged(False, False)
-        Die()
-        GetMovementDirection()
-        Hit(0, 0, 0, Null, False, 0)
-        IsSinging()
-        MoveSucceed(False, False)
-        Update()
     End Method
 
 End Class

@@ -5,7 +5,7 @@ Import logger
 Class Input
 
     Global lastBeatSkippedFlyaway: Int
-    Global popUpController: Int
+    Global popUpController: Object
     Global popupFrame: Int
 
     Function GameUpdate: Bool()
@@ -13,19 +13,19 @@ Class Input
     End Function
 
     Function GetDefaultHUDText: Int(moveDir: Int, num: Int)
-        Debug.TraceNotImplemented("Input.GetDefaultHUDText()")
+        Debug.TraceNotImplemented("Input.GetDefaultHUDText(Int, Int)")
     End Function
 
     Function GetDirectionsHit: Object(playerNum: Int, takeReplayIntoAccount: Bool)
-        Debug.TraceNotImplemented("Input.GetDirectionsHit()")
+        Debug.TraceNotImplemented("Input.GetDirectionsHit(Int, Bool)")
     End Function
 
     Function GetKeyName: Int(val: Int, forHud: Bool, num: Int, moveDir: Int)
-        Debug.TraceNotImplemented("Input.GetKeyName()")
+        Debug.TraceNotImplemented("Input.GetKeyName(Int, Bool, Int, Int)")
     End Function
 
-    Function GetKeyName: Int(val: Int)
-        Debug.TraceNotImplemented("Input.GetKeyName()")
+    Function GetKeyName_BigText: Int(val: Int)
+        Debug.TraceNotImplemented("Input.GetKeyName_BigText(Int)")
     End Function
 
     Function GetRedefineKeyText: Int()
@@ -33,7 +33,7 @@ Class Input
     End Function
 
     Function GetTextForHUD: Int(playerNum: Int, moveDir: Int, num: Int)
-        Debug.TraceNotImplemented("Input.GetTextForHUD()")
+        Debug.TraceNotImplemented("Input.GetTextForHUD(Int, Int, Int)")
     End Function
 
     Function GetUpDownText: Int()
@@ -49,11 +49,11 @@ Class Input
     End Function
 
     Function IsRedefined: Bool(key: Int)
-        Debug.TraceNotImplemented("Input.IsRedefined()")
+        Debug.TraceNotImplemented("Input.IsRedefined(Int)")
     End Function
 
     Function KeyWasHit: Int(keyID: Int)
-        Debug.TraceNotImplemented("Input.KeyWasHit()")
+        Debug.TraceNotImplemented("Input.KeyWasHit(Int)")
     End Function
 
     Function ResetMovementCounters: Void()
@@ -61,7 +61,7 @@ Class Input
     End Function
 
     Function SpawnDebugItem: Void(type: Int)
-        Debug.TraceNotImplemented("Input.SpawnDebugItem()")
+        Debug.TraceNotImplemented("Input.SpawnDebugItem(Int)")
     End Function
 
     Function Update: Void()
@@ -72,23 +72,6 @@ Class Input
         Debug.TraceNotImplemented("Input.UpdateKeysHit()")
     End Function
 
-    Method NoTrim: Void()
-        GameUpdate()
-        GetDefaultHUDText(0, 0)
-        GetDirectionsHit(0, False)
-        GetKeyName(0, False, 0, 0)
-        GetKeyName(0)
-        GetRedefineKeyText()
-        GetTextForHUD(0, 0, 0)
-        GetUpDownText()
-        HandleMovementKeys()
-        Init()
-        IsRedefined(0)
-        KeyWasHit(0)
-        ResetMovementCounters()
-        SpawnDebugItem(0)
-        Update()
-        UpdateKeysHit()
-    End Method
+    Function _EditorFix: Void() End
 
 End Class

@@ -123,7 +123,7 @@ Class LevelObject
     Method CreateMap: Void()
         For Local tileObj := EachIn tiles
             Local tile := Level.PlaceTileRemovingExistingTiles(tileObj.x, tileObj.y, tileObj.type, False, tileObj.zone, False)
-            
+
             If tileObj.cracked Then tile.BecomeCracked()
             If tileObj.torch Then tile.AddTorch()
 
@@ -178,7 +178,7 @@ Class LevelObject
             If enemyObj.beatDelay <> -1
                 enemy.currentMoveDelay = enemyObj.beatDelay
             End If
-            
+
             If enemyObj.lord
                 enemy.MakeLord()
             End If
@@ -213,7 +213,7 @@ Class LevelObject
                 chest = New SaleChest(chestObj.x, chestObj.y, chestObj.contents, chestObj.hidden, False, chestObj.hidden, chestObj.color)
             End If
 
-            chest.singleChoice_ = chestObj.singleChoice
+            chest.singleChoiceChest = chestObj.singleChoice
         End For
 
         For Local crateObj := EachIn crates
@@ -229,14 +229,11 @@ Class LevelObject
         Debug.TraceNotImplemented("LevelObject.ToXML()")
     End Method
 
-    Method NoTrim: Void()
-        CreateMap()
-        ToXML()
-    End Method
-
 End Class
 
 Class TileObject
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: Int, zone: Int, cracked: Bool, torch: Bool)
         Self.x = xVal
@@ -247,6 +244,10 @@ Class TileObject
         Self.torch = torch
     End Method
 
+    Method New(fromXML: Object)
+        Debug.TraceNotImplemented("TileObject.New(Object)")
+    End Method
+
     Field x: Int
     Field y: Int
     Field type: Int
@@ -254,9 +255,15 @@ Class TileObject
     Field cracked: Bool
     Field torch: Bool
 
+    Method AddToXML: Void(xml: Object)
+        Debug.TraceNotImplemented("TileObject.AddToXML(Object)")
+    End Method
+
 End Class
 
 Class TrapObject
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: Int)
         Self.x = xVal
@@ -264,14 +271,24 @@ Class TrapObject
         Self.type = type
     End Method
 
+    Method New(fromXML: Object)
+        Debug.TraceNotImplemented("TrapObject.New(Object)")
+    End Method
+
     Field x: Int
     Field y: Int
     Field type: Int
     Field subtype: Int = -1
 
+    Method AddToXML: Void(xml: Object)
+        Debug.TraceNotImplemented("TrapObject.AddToXML(Object)")
+    End Method
+
 End Class
 
 Class EnemyObject
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: Int, beatDelay: Int, lord: Bool)
         Self.x = xVal
@@ -281,17 +298,27 @@ Class EnemyObject
         Self.lord = lord
     End Method
 
-    Field x: int
-    Field y: int
-    Field type: int
-    Field beatDelay: int = -1
-    Field lord: bool
+    Method New(fromXML: Object)
+        Debug.TraceNotImplemented("EnemyObject.New(Object)")
+    End Method
+
+    Field x: Int
+    Field y: Int
+    Field type: Int
+    Field beatDelay: Int = -1
+    Field lord: Bool
+
+    Method AddToXML: Void(xml: Object)
+        Debug.TraceNotImplemented("EnemyObject.AddToXML(Object)")
+    End Method
 
 End Class
 
 Class ItemObject
 
-    Method New(xVal: Int, yVal: Int, type: String, singleChoice: Bool, saleCost: Int, bloodCost: Int)
+    Function _EditorFix: Void() End
+
+    Method New(xVal: Int, yVal: Int, type: String, singleChoice: Bool, saleCost: Int, bloodCost: Float)
         Self.x = xVal
         Self.y = yVal
         Self.type = type
@@ -300,16 +327,26 @@ Class ItemObject
         Self.bloodCost = bloodCost
     End Method
 
+    Method New(fromXML: Object)
+        Debug.TraceNotImplemented("ItemObject.New(Object)")
+    End Method
+
     Field x: Int
     Field y: Int
     Field type: String
     Field singleChoice: Bool
     Field saleCost: Int
-    Field bloodCost: Int
+    Field bloodCost: Float
+
+    Method AddToXML: Void(xml: Object)
+        Debug.TraceNotImplemented("ItemObject.AddToXML(Object)")
+    End Method
 
 End Class
 
 Class ChestObject
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, color: Int, contents: String, singleChoice: Bool, hidden: Bool, saleCost: Int)
         Self.x = xVal
@@ -321,6 +358,10 @@ Class ChestObject
         Self.saleCost = saleCost
     End Method
 
+    Method New(fromXML: Object)
+        Debug.TraceNotImplemented("ChestObject.New(Object)")
+    End Method
+
     Field x: Int
     Field y: Int
     Field color: Int
@@ -329,9 +370,15 @@ Class ChestObject
     Field hidden: Bool
     Field saleCost: Int
 
+    Method AddToXML: Void(xml: Object)
+        Debug.TraceNotImplemented("ChestObject.AddToXML(Object)")
+    End Method
+
 End Class
 
 Class CrateObject
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: Int, contents: String)
         Self.x = xVal
@@ -340,14 +387,24 @@ Class CrateObject
         Self.contents = contents
     End Method
 
+    Method New(fromXML: Object)
+        Debug.TraceNotImplemented("CrateObject.New(Object)")
+    End Method
+
     Field x: Int
     Field y: Int
     Field type: Int
     Field contents: String
 
+    Method AddToXML: Void(xml: Object)
+        Debug.TraceNotImplemented("CrateObject.AddToXML(Object)")
+    End Method
+
 End Class
 
 Class ShrineObject
+
+    Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: Int)
         Self.x = xVal
@@ -355,8 +412,16 @@ Class ShrineObject
         Self.type = type
     End Method
 
+    Method New(fromXML: Object)
+        Debug.TraceNotImplemented("ShrineObject.New(Object)")
+    End Method
+
     Field x: Int
     Field y: Int
     Field type: Int
+
+    Method AddToXML: Void(xml: Object)
+        Debug.TraceNotImplemented("ShrineObject.AddToXML(Object)")
+    End Method
 
 End Class

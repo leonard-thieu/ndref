@@ -1,6 +1,7 @@
 'Strict
 
 Import mojo.graphics
+Import entity
 Import logger
 Import trap
 
@@ -25,16 +26,11 @@ Class SlowDownTrap Extends Trap
     Field currentMusicSpeed: Float = 1.0
 
     Method Trigger: Void(ent: Entity)
-        Debug.TraceNotImplemented("SlowDownTrap.Trigger()")
+        Debug.TraceNotImplemented("SlowDownTrap.Trigger(Entity)")
     End Method
 
     Method Update: Void()
         Debug.TraceNotImplemented("SlowDownTrap.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Trigger(Null)
-        Update()
     End Method
 
 End Class

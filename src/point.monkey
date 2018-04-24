@@ -3,9 +3,9 @@
 Import logger
 
 Class Point
-    
+
     Function Add: Point(a: Point, b: Point)
-        Debug.TraceNotImplemented("Point.Add()")
+        Debug.TraceNotImplemented("Point.Add(Point, Point)")
     End Function
 
     Function _EditorFix: Void() End
@@ -26,42 +26,36 @@ Class Point
     End Method
 
     Method Add: Point(dx: Int, dy: Int)
-        Debug.TraceNotImplemented("Point.Add()")
+        Debug.TraceNotImplemented("Point.Add(Int, Int)")
     End Method
 
     Method Compare: Int(other: Point)
-        Debug.TraceNotImplemented("Point.Compare()")
+        Debug.TraceNotImplemented("Point.Compare(Point)")
     End Method
 
     Method Equals: Bool(other: Point)
-        Debug.TraceNotImplemented("Point.Equals()")
+        Debug.TraceNotImplemented("Point.Equals(Point)")
     End Method
 
     Method RotateCWAbout: Point(origin: Point)
-        Debug.TraceNotImplemented("Point.RotateCWAbout()")
+        Debug.TraceNotImplemented("Point.RotateCWAbout(Point)")
     End Method
 
     Method Scale: Point(scalar: Int)
-        Debug.TraceNotImplemented("Point.Scale()")
+        Debug.TraceNotImplemented("Point.Scale(Int)")
     End Method
 
     Method ToString: String()
         Return "(" + Self.x + ", " + Self.y + ")"
     End Method
 
-    Method NoTrim: Void()
-        Add(Null, Null)
-        Add(Null)
-        Add(0, 0)
-        Compare(Null)
-        Equals(Null)
-        RotateCWAbout(Null)
-        Scale(0)
-        ToString()
-    End Method
-
 End Class
 
 Class Point2
+
+    Function _EditorFix: Void() End
+
+    Field x: Float
+    Field y: Float
 
 End Class

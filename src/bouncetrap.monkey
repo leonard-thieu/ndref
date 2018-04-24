@@ -1,6 +1,7 @@
 'Strict
 
 Import mojo.graphics
+Import entity
 Import logger
 Import trap
 Import util
@@ -59,7 +60,7 @@ Class BounceTrap Extends Trap
             Default
                 Self.image = New Sprite("traps/bouncetrap.png", 14, 16, 12, Image.MidHandle)
         End Select
-        
+
         Self.image.SetZ(-995.0)
 
         Self.originalDir = Self.bounceDir
@@ -81,24 +82,15 @@ Class BounceTrap Extends Trap
     End Method
 
     Method RotateDir: Int(dir: Int, cw: Bool)
-        Debug.TraceNotImplemented("BounceTrap.RotateDir()")
+        Debug.TraceNotImplemented("BounceTrap.RotateDir(Int, Bool)")
     End Method
 
     Method Trigger: Void(ent: Entity)
-        Debug.TraceNotImplemented("BounceTrap.Trigger()")
+        Debug.TraceNotImplemented("BounceTrap.Trigger(Entity)")
     End Method
 
     Method Update: Void()
         Debug.TraceNotImplemented("BounceTrap.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Super.NoTrim()
-        GetFrameToShow()
-        Rotate()
-        RotateDir(0, False)
-        Trigger(Null)
-        Update()
     End Method
 
 End Class

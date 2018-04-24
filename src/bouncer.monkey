@@ -27,26 +27,19 @@ Class Bouncer
     Field enabled: Bool = True
 
     Method Disable: Void()
-        Debug.TraceNotImplemented("TextSprite.Disable()")
+        Debug.TraceNotImplemented("Bouncer.Disable()")
     End Method
 
     Method Enable: Void()
-        Debug.TraceNotImplemented("TextSprite.Enable()")
+        Debug.TraceNotImplemented("Bouncer.Enable()")
     End Method
 
     Method GetVal: Float()
-        Debug.TraceNotImplemented("TextSprite.GetVal()")
+        Debug.TraceNotImplemented("Bouncer.GetVal()")
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("TextSprite.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Disable()
-        Enable()
-        GetVal()
-        Update()
+        Debug.TraceNotImplemented("Bouncer.Update()")
     End Method
 
 End Class

@@ -1,7 +1,10 @@
 'Strict
 
 Import enemy
+Import entity
+Import item
 Import logger
+Import point
 
 Class TrapChest Extends Enemy
 
@@ -23,12 +26,12 @@ Class TrapChest Extends Enemy
         End If
     End Method
 
-    Field contents: String = "no_item"
+    Field contents: String = Item.NoItem
     Field hasMoved: Bool
     Field itemDropped: Bool
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
-        Debug.TraceNotImplemented("TrapChest.CanBeDamaged()")
+        Debug.TraceNotImplemented("TrapChest.CanBeDamaged(Bool, Bool)")
     End Method
 
     Method DetermineContents: Void()
@@ -47,26 +50,16 @@ Class TrapChest Extends Enemy
         Debug.TraceNotImplemented("TrapChest.DropItem2()")
     End Method
 
-    Method GetMovementDirection: Object()
+    Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("TrapChest.GetMovementDirection()")
     End Method
 
-    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entiy, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("TrapChest.Hit()")
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Debug.TraceNotImplemented("TrapChest.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method Update: Void()
         Debug.TraceNotImplemented("TrapChest.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        CanBeDamaged(False, False)
-        DetermineContents()
-        Die()
-        DropItem2()
-        GetMovementDirection()
-        Hit(0, 0, 0, Null, False, 0)
-        Update()
     End Method
 
 End Class

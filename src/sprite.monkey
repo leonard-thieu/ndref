@@ -23,7 +23,7 @@ Class Sprite Extends Tweenable
     Global textMap: Object
 
     Function DrawSpriteText: Void(str: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Sprite.DrawSpriteText()")
+        Debug.TraceNotImplemented("Sprite.DrawSpriteText(Int, Int, Int)")
     End Function
 
     Function GetNextTempImageName: Int()
@@ -31,7 +31,7 @@ Class Sprite Extends Tweenable
     End Function
 
     Function LoadImageFromPath: Image(p: String, allowMod: Bool)
-        Debug.TraceNotImplemented("Sprite.LoadImageFromPath()")
+        Debug.TraceNotImplemented("Sprite.LoadImageFromPath(String, Bool)")
     End Function
 
     Function ReloadAllSprites: Bool()
@@ -39,15 +39,15 @@ Class Sprite Extends Tweenable
     End Function
 
     Function RenderAll: Void(captureFrame: Bool, frameNum: Int)
-        Debug.TraceNotImplemented("Sprite.RenderAll()")
+        Debug.TraceNotImplemented("Sprite.RenderAll(Bool, Int)")
     End Function
 
     Function RenderFrameCapture: Void(frameNum: Int, isReplay: Bool)
-        Debug.TraceNotImplemented("Sprite.RenderFrameCapture()")
+        Debug.TraceNotImplemented("Sprite.RenderFrameCapture(Int, Bool)")
     End Function
 
     Function UpdateImageMap: Bool(path: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int, checkDimensions: Bool)
-        Debug.TraceNotImplemented("Sprite.UpdateImageMap()")
+        Debug.TraceNotImplemented("Sprite.UpdateImageMap(String, Int, Int, Int, Int, Bool)")
     End Function
 
     Function _EditorFix: Void() End
@@ -98,7 +98,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method Draw: Void(x: Float, y: Float, frameOverride: Int, sX: Int, sY: Int, sW: Int, sH: Int)
-        Debug.TraceNotImplemented("Sprite.Draw()")
+        Debug.TraceNotImplemented("Sprite.Draw(Float, Float, Int, Int, Int, Int, Int)")
     End Method
 
     Method FlipX: Void(f: Bool, withOffset: Bool)
@@ -107,7 +107,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method FlipY: Void(f: Bool, withOffset: Bool)
-        Debug.TraceNotImplemented("Sprite.FlipY()")
+        Debug.TraceNotImplemented("Sprite.FlipY(Bool, Bool)")
     End Method
 
     Method GetAlphaValue: Float()
@@ -135,11 +135,11 @@ Class Sprite Extends Tweenable
     End Method
 
     Method InitSprite: Void(p: Int)
-        Debug.TraceNotImplemented("Sprite.InitSprite()")
+        Debug.TraceNotImplemented("Sprite.InitSprite(Int)")
     End Method
 
     Method InitSprite: Void(img: Object)
-        Debug.TraceNotImplemented("Sprite.InitSprite()")
+        Debug.TraceNotImplemented("Sprite.InitSprite(Object)")
     End Method
 
     Method InitSprite: Void(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int)
@@ -174,7 +174,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetAlphaTweenFromCurrent: Void(finalVal: Float, duration: Int)
-        Debug.TraceNotImplemented("Sprite.SetAlphaTweenFromCurrent()")
+        Debug.TraceNotImplemented("Sprite.SetAlphaTweenFromCurrent(Float, Int)")
     End Method
 
     Method SetAlphaValue: Void(a: Float)
@@ -182,11 +182,11 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetCutoffY: Void(cY: Int)
-        Debug.TraceNotImplemented("Sprite.SetCutoffY()")
+        Debug.TraceNotImplemented("Sprite.SetCutoffY(Int)")
     End Method
 
     Method SetFlipXOff: Void(x: Int)
-        Debug.TraceNotImplemented("Sprite.SetFlipXOff()")
+        Debug.TraceNotImplemented("Sprite.SetFlipXOff(Int)")
     End Method
 
     Method SetFrame: Void(f: Int)
@@ -194,23 +194,23 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetHandle: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Sprite.SetHandle()")
+        Debug.TraceNotImplemented("Sprite.SetHandle(Int, Int)")
     End Method
 
     Method SetRotation: Void(r: Float)
-        Debug.TraceNotImplemented("Sprite.SetRotation()")
+        Debug.TraceNotImplemented("Sprite.SetRotation(Float)")
     End Method
 
     Method SetScale: Void(scaleVal: Float)
-        Debug.TraceNotImplemented("Sprite.SetScale()")
+        Debug.TraceNotImplemented("Sprite.SetScale(Float)")
     End Method
 
     Method SetScaleX: Void(sX: Float)
-        Debug.TraceNotImplemented("Sprite.SetScaleX()")
+        Debug.TraceNotImplemented("Sprite.SetScaleX(Float)")
     End Method
 
     Method SetScaleY: Void(sY: Float)
-        Debug.TraceNotImplemented("Sprite.SetScaleY()")
+        Debug.TraceNotImplemented("Sprite.SetScaleY(Float)")
     End Method
 
     Method SetZ: Void(zVal: Float)
@@ -240,48 +240,6 @@ Class Sprite Extends Tweenable
 
     Method Width: Int()
         Debug.TraceNotImplemented("Sprite.Width()")
-    End Method
-
-    Method NoTrim: Void()
-        Super.NoTrim()
-        DrawSpriteText(0, 0, 0)
-        GetNextTempImageName()
-        LoadImageFromPath(0, False)
-        ReloadAllSprites()
-        RenderAll(False, 0)
-        RenderFrameCapture(0, False)
-        UpdateImageMap(0, 0, 0, 0, 0, False)
-        DiscardTempImage()
-        Draw(0, 0, 0, 0, 0, 0, 0)
-        FlipX(False, False)
-        FlipY(False, False)
-        GetAlphaValue()
-        GetFrame()
-        GetImage()
-        GetNumFrames()
-        GetZOff()
-        Height()
-        InitSprite(0)
-        InitSprite(Null)
-        InitSprite(0, 0, 0, 0, 0)
-        InWorld(False)
-        SetAlphaTweenFromCurrent(0, 0)
-        SetAlphaValue(0)
-        SetCutoffY(0)
-        SetFlipXOff(0)
-        SetFrame(0)
-        SetHandle(0, 0)
-        SetRotation(0)
-        SetScale(0)
-        SetScaleX(0)
-        SetScaleY(0)
-        SetZ(0)
-        SetZOff(0)
-        SkipNextDraw()
-        ToggleFlipY()
-        UnsetCutoffY()
-        UnSetZ()
-        Width()
     End Method
 
 End Class

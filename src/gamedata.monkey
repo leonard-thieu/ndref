@@ -20,11 +20,11 @@ Class GameData
     Global xmlSaveData: Object
 
     Function AddDiamondDealerItem: Void(itemName: Int)
-        Debug.TraceNotImplemented("GameData.AddDiamondDealerItem()")
+        Debug.TraceNotImplemented("GameData.AddDiamondDealerItem(Int)")
     End Function
 
     Function AddPendingSpawnItem: Void(i: Int)
-        Debug.TraceNotImplemented("GameData.AddPendingSpawnItem()")
+        Debug.TraceNotImplemented("GameData.AddPendingSpawnItem(Int)")
     End Function
 
     Function CanDoDailyRun: Bool()
@@ -36,7 +36,7 @@ Class GameData
     End Function
 
     Function GetAlternateSkin: Int(charID: Int)
-        Debug.TraceNotImplemented("GameData.GetAlternateSkin()")
+        Debug.TraceNotImplemented("GameData.GetAlternateSkin(Int)")
     End Function
 
     Function GetAudioLatency: Int()
@@ -48,7 +48,7 @@ Class GameData
     End Function
 
     Function GetBossTraining: Bool(bossName: Int)
-        Debug.TraceNotImplemented("GameData.GetBossTraining()")
+        Debug.TraceNotImplemented("GameData.GetBossTraining(Int)")
     End Function
 
     Function GetChangeLogShownForCurrentVersion: Bool()
@@ -56,7 +56,7 @@ Class GameData
     End Function
 
     Function GetCustomMusic: Int(index: Int, num: Int, fromList: Bool)
-        Debug.TraceNotImplemented("GameData.GetCustomMusic()")
+        Debug.TraceNotImplemented("GameData.GetCustomMusic(Int, Int, Bool)")
     End Function
 
     Function GetDaoustVocals: Bool()
@@ -84,7 +84,7 @@ Class GameData
     End Function
 
     Function GetDiamondDealerSoldItem: Int(num: Int)
-        Debug.TraceNotImplemented("GameData.GetDiamondDealerSoldItem()")
+        Debug.TraceNotImplemented("GameData.GetDiamondDealerSoldItem(Int)")
     End Function
 
     Function GetDiscoFloor: Bool()
@@ -96,7 +96,7 @@ Class GameData
     End Function
 
     Function GetDoubleSpeed: Bool(index: Int)
-        Debug.TraceNotImplemented("GameData.GetDoubleSpeed()")
+        Debug.TraceNotImplemented("GameData.GetDoubleSpeed(Int)")
     End Function
 
     Function GetEnableBossIntros: Bool()
@@ -120,7 +120,7 @@ Class GameData
     End Function
 
     Function GetHalfSpeed: Bool(index: Int)
-        Debug.TraceNotImplemented("GameData.GetHalfSpeed()")
+        Debug.TraceNotImplemented("GameData.GetHalfSpeed(Int)")
     End Function
 
     Function GetHardModeComplete: Bool()
@@ -144,11 +144,11 @@ Class GameData
     End Function
 
     Function GetItemUnlocked: Bool(itemName: Int, includeClean: Bool)
-        Debug.TraceNotImplemented("GameData.GetItemUnlocked()")
+        Debug.TraceNotImplemented("GameData.GetItemUnlocked(Int, Bool)")
     End Function
 
     Function GetKeyBinding: Int(player: Int, index: Int)
-        Debug.TraceNotImplemented("GameData.GetKeyBinding()")
+        Debug.TraceNotImplemented("GameData.GetKeyBinding(Int, Int)")
     End Function
 
     Function GetLanguage: Int()
@@ -164,7 +164,7 @@ Class GameData
     End Function
 
     Function GetMentorLevelClear: Bool(num: Int)
-        Debug.TraceNotImplemented("GameData.GetMentorLevelClear()")
+        Debug.TraceNotImplemented("GameData.GetMentorLevelClear(Int)")
     End Function
 
     Function GetMusicMode: Int()
@@ -188,11 +188,11 @@ Class GameData
     End Function
 
     Function GetNPCUnlock: Bool(npcName: String)
-        Debug.TraceNotImplemented("GameData.GetNPCUnlock()")
+        Debug.TraceNotImplemented("GameData.GetNPCUnlock(String)")
     End Function
 
     Function GetNPCVisited: Bool(npcName: String)
-        Debug.TraceNotImplemented("GameData.GetNPCVisited()")
+        Debug.TraceNotImplemented("GameData.GetNPCVisited(String)")
     End Function
 
     Function GetNumPendingSpawnItems: Int()
@@ -208,7 +208,7 @@ Class GameData
     End Function
 
     Function GetPendingSpawnItem: Int(num: Int)
-        Debug.TraceNotImplemented("GameData.GetPendingSpawnItem()")
+        Debug.TraceNotImplemented("GameData.GetPendingSpawnItem(Int)")
     End Function
 
     Function GetPhasingModeComplete: Bool()
@@ -272,11 +272,11 @@ Class GameData
     End Function
 
     Function GetSoundtrackId: Int(i: Int)
-        Debug.TraceNotImplemented("GameData.GetSoundtrackId()")
+        Debug.TraceNotImplemented("GameData.GetSoundtrackId(Int)")
     End Function
 
     Function GetSoundtrackSuffix: Int(charID: Int)
-        Debug.TraceNotImplemented("GameData.GetSoundtrackSuffix()")
+        Debug.TraceNotImplemented("GameData.GetSoundtrackSuffix(Int)")
     End Function
 
     Function GetSoundVolume: Float()
@@ -316,7 +316,7 @@ Class GameData
     End Function
 
     Function GetZone2Unlocked: Bool(characterID: Int)
-        Debug.TraceNotImplemented("GameData.GetZone2Unlocked()")
+        Debug.TraceNotImplemented("GameData.GetZone2Unlocked(Int)")
     End Function
 
     Function GetZone2UnlockedCurrentCharacters: Bool()
@@ -324,7 +324,7 @@ Class GameData
     End Function
 
     Function GetZone3Unlocked: Bool(characterID: Int)
-        Debug.TraceNotImplemented("GameData.GetZone3Unlocked()")
+        Debug.TraceNotImplemented("GameData.GetZone3Unlocked(Int)")
     End Function
 
     Function GetZone3UnlockedCurrentCharacters: Bool()
@@ -332,7 +332,7 @@ Class GameData
     End Function
 
     Function GetZone4Unlocked: Bool(characterID: Int)
-        Debug.TraceNotImplemented("GameData.GetZone4Unlocked()")
+        Debug.TraceNotImplemented("GameData.GetZone4Unlocked(Int)")
     End Function
 
     Function GetZone4UnlockedCurrentCharacters: Bool()
@@ -344,7 +344,7 @@ Class GameData
     End Function
 
     Function GetZoneHoardCollected: Bool(zone: Int)
-        Debug.TraceNotImplemented("GameData.GetZoneHoardCollected()")
+        Debug.TraceNotImplemented("GameData.GetZoneHoardCollected(Int)")
     End Function
 
     Function HasAskedLobbyMove: Bool()
@@ -376,15 +376,15 @@ Class GameData
     End Function
 
     Function HasItemBeenUsed: Bool(itemName: Int)
-        Debug.TraceNotImplemented("GameData.HasItemBeenUsed()")
+        Debug.TraceNotImplemented("GameData.HasItemBeenUsed(Int)")
     End Function
 
     Function HasKilledEnemy: Bool(enemyName: Int, type: Int)
-        Debug.TraceNotImplemented("GameData.HasKilledEnemy()")
+        Debug.TraceNotImplemented("GameData.HasKilledEnemy(Int, Int)")
     End Function
 
     Function IsCharUnlocked: Bool(charNum: Int)
-        Debug.TraceNotImplemented("GameData.IsCharUnlocked()")
+        Debug.TraceNotImplemented("GameData.IsCharUnlocked(Int)")
     End Function
 
     Function LoadGameDataXML: Void(bypassChecksum: Bool)
@@ -394,23 +394,23 @@ Class GameData
     End Function
 
     Function LoadPlayerDataXML: Bool(forceCloud: Bool)
-        Debug.TraceNotImplemented("GameData.LoadPlayerDataXML()")
+        Debug.TraceNotImplemented("GameData.LoadPlayerDataXML(Bool)")
     End Function
 
     Function LoadReplayPlayerDataXML: Void(data: Int)
-        Debug.TraceNotImplemented("GameData.LoadReplayPlayerDataXML()")
+        Debug.TraceNotImplemented("GameData.LoadReplayPlayerDataXML(Int)")
     End Function
 
     Function LookupSoundtrackId: Int(name: Int)
-        Debug.TraceNotImplemented("GameData.LookupSoundtrackId()")
+        Debug.TraceNotImplemented("GameData.LookupSoundtrackId(Int)")
     End Function
 
     Function LookupSoundtrackName: Int(id: Int)
-        Debug.TraceNotImplemented("GameData.LookupSoundtrackName()")
+        Debug.TraceNotImplemented("GameData.LookupSoundtrackName(Int)")
     End Function
 
     Function RemovePendingSpawnItem: Void(item: Int)
-        Debug.TraceNotImplemented("GameData.RemovePendingSpawnItem()")
+        Debug.TraceNotImplemented("GameData.RemovePendingSpawnItem(Int)")
     End Function
 
     Function Save: Void()
@@ -418,19 +418,19 @@ Class GameData
     End Function
 
     Function SetAlternateSkin: Void(charID: Int, skinNum: Int)
-        Debug.TraceNotImplemented("GameData.SetAlternateSkin()")
+        Debug.TraceNotImplemented("GameData.SetAlternateSkin(Int, Int)")
     End Function
 
     Function SetAskedLobbyMove: Void(a: Bool)
-        Debug.TraceNotImplemented("GameData.SetAskedLobbyMove()")
+        Debug.TraceNotImplemented("GameData.SetAskedLobbyMove(Bool)")
     End Function
 
     Function SetAutocalibration: Void(val: Int)
-        Debug.TraceNotImplemented("GameData.SetAutocalibration()")
+        Debug.TraceNotImplemented("GameData.SetAutocalibration(Int)")
     End Function
 
     Function SetBossTraining: Void(bossName: Int, val: Bool)
-        Debug.TraceNotImplemented("GameData.SetBossTraining()")
+        Debug.TraceNotImplemented("GameData.SetBossTraining(Int, Bool)")
     End Function
 
     Function SetChangeLogShownForCurrentVersion: Void()
@@ -438,39 +438,39 @@ Class GameData
     End Function
 
     Function SetCharUnlocked: Void(charNum: Int, val: Bool)
-        Debug.TraceNotImplemented("GameData.SetCharUnlocked()")
+        Debug.TraceNotImplemented("GameData.SetCharUnlocked(Int, Bool)")
     End Function
 
     Function SetCustomMusic: Int(index: Int, filename: Int, addToPlaylist: Bool)
-        Debug.TraceNotImplemented("GameData.SetCustomMusic()")
+        Debug.TraceNotImplemented("GameData.SetCustomMusic(Int, Int, Bool)")
     End Function
 
     Function SetDaoustVocals: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetDaoustVocals()")
+        Debug.TraceNotImplemented("GameData.SetDaoustVocals(Bool)")
     End Function
 
     Function SetDebugLogging: Void(m: Bool)
-        Debug.TraceNotImplemented("GameData.SetDebugLogging()")
+        Debug.TraceNotImplemented("GameData.SetDebugLogging(Bool)")
     End Function
 
     Function SetDefaultCharacter: Void(c: Int)
-        Debug.TraceNotImplemented("GameData.SetDefaultCharacter()")
+        Debug.TraceNotImplemented("GameData.SetDefaultCharacter(Int)")
     End Function
 
     Function SetDefaultHUDKeys: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetDefaultHUDKeys()")
+        Debug.TraceNotImplemented("GameData.SetDefaultHUDKeys(Bool)")
     End Function
 
     Function SetDefaultMod: Void(m: Int)
-        Debug.TraceNotImplemented("GameData.SetDefaultMod()")
+        Debug.TraceNotImplemented("GameData.SetDefaultMod(Int)")
     End Function
 
     Function SetDiamondDealerSoldItem: Void(num: Int, itemName: Int)
-        Debug.TraceNotImplemented("GameData.SetDiamondDealerSoldItem()")
+        Debug.TraceNotImplemented("GameData.SetDiamondDealerSoldItem(Int, Int)")
     End Function
 
     Function SetDiscoFloor: Void(val: Bool)
-        Debug.TraceNotImplemented("GameData.SetDiscoFloor()")
+        Debug.TraceNotImplemented("GameData.SetDiscoFloor(Bool)")
     End Function
 
     Function SetDLCPlayed: Void()
@@ -478,19 +478,19 @@ Class GameData
     End Function
 
     Function SetDoubleSpeed: Void(index: Int, d: Bool)
-        Debug.TraceNotImplemented("GameData.SetDoubleSpeed()")
+        Debug.TraceNotImplemented("GameData.SetDoubleSpeed(Int, Bool)")
     End Function
 
     Function SetEnableBossIntros: Void(e: Bool)
-        Debug.TraceNotImplemented("GameData.SetEnableBossIntros()")
+        Debug.TraceNotImplemented("GameData.SetEnableBossIntros(Bool)")
     End Function
 
     Function SetEnableCutscenes: Void(e: Bool)
-        Debug.TraceNotImplemented("GameData.SetEnableCutscenes()")
+        Debug.TraceNotImplemented("GameData.SetEnableCutscenes(Bool)")
     End Function
 
     Function SetEnableSubtitles: Void(e: Bool)
-        Debug.TraceNotImplemented("GameData.SetEnableSubtitles()")
+        Debug.TraceNotImplemented("GameData.SetEnableSubtitles(Bool)")
     End Function
 
     Function SetFoughtConductor: Void()
@@ -518,11 +518,11 @@ Class GameData
     End Function
 
     Function SetFullscreen: Void(val: Bool)
-        Debug.TraceNotImplemented("GameData.SetFullscreen()")
+        Debug.TraceNotImplemented("GameData.SetFullscreen(Bool)")
     End Function
 
     Function SetHalfSpeed: Void(index: Int, d: Bool)
-        Debug.TraceNotImplemented("GameData.SetHalfSpeed()")
+        Debug.TraceNotImplemented("GameData.SetHalfSpeed(Int, Bool)")
     End Function
 
     Function SetHardModeComplete: Void()
@@ -530,71 +530,71 @@ Class GameData
     End Function
 
     Function SetHavePlayedHardcore: Void(val: Bool)
-        Debug.TraceNotImplemented("GameData.SetHavePlayedHardcore()")
+        Debug.TraceNotImplemented("GameData.SetHavePlayedHardcore(Bool)")
     End Function
 
     Function SetHUDBeatBars: Void(val: Bool)
-        Debug.TraceNotImplemented("GameData.SetHUDBeatBars()")
+        Debug.TraceNotImplemented("GameData.SetHUDBeatBars(Bool)")
     End Function
 
     Function SetHUDHeart: Void(val: Bool)
-        Debug.TraceNotImplemented("GameData.SetHUDHeart()")
+        Debug.TraceNotImplemented("GameData.SetHUDHeart(Bool)")
     End Function
 
     Function SetIgnoreMultipress: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetIgnoreMultipress()")
+        Debug.TraceNotImplemented("GameData.SetIgnoreMultipress(Bool)")
     End Function
 
     Function SetItemCleaned: Void(itemName: Int, clean: Bool)
-        Debug.TraceNotImplemented("GameData.SetItemCleaned()")
+        Debug.TraceNotImplemented("GameData.SetItemCleaned(Int, Bool)")
     End Function
 
     Function SetItemUnlocked: Void(itemName: Int)
-        Debug.TraceNotImplemented("GameData.SetItemUnlocked()")
+        Debug.TraceNotImplemented("GameData.SetItemUnlocked(Int)")
     End Function
 
     Function SetItemUsed: Void(itemName: Int)
-        Debug.TraceNotImplemented("GameData.SetItemUsed()")
+        Debug.TraceNotImplemented("GameData.SetItemUsed(Int)")
     End Function
 
     Function SetKeyBinding: Void(player: Int, index: Int, key: Int)
-        Debug.TraceNotImplemented("GameData.SetKeyBinding()")
+        Debug.TraceNotImplemented("GameData.SetKeyBinding(Int, Int, Int)")
     End Function
 
     Function SetKilledEnemy: Void(enemyName: Int, type: Int, val: Bool)
-        Debug.TraceNotImplemented("GameData.SetKilledEnemy()")
+        Debug.TraceNotImplemented("GameData.SetKilledEnemy(Int, Int, Bool)")
     End Function
 
     Function SetLanguage: Void(l: Int)
-        Debug.TraceNotImplemented("GameData.SetLanguage()")
+        Debug.TraceNotImplemented("GameData.SetLanguage(Int)")
     End Function
 
     Function SetLastDailyRunNum: Void(val: Int)
-        Debug.TraceNotImplemented("GameData.SetLastDailyRunNum()")
+        Debug.TraceNotImplemented("GameData.SetLastDailyRunNum(Int)")
     End Function
 
     Function SetLatencyValues: Void(audioLatency: Int, videoLatency: Int)
-        Debug.TraceNotImplemented("GameData.SetLatencyValues()")
+        Debug.TraceNotImplemented("GameData.SetLatencyValues(Int, Int)")
     End Function
 
     Function SetLobbyMove: Void(m: Bool)
-        Debug.TraceNotImplemented("GameData.SetLobbyMove()")
+        Debug.TraceNotImplemented("GameData.SetLobbyMove(Bool)")
     End Function
 
     Function SetMentorLevelClear: Void(num: Int)
-        Debug.TraceNotImplemented("GameData.SetMentorLevelClear()")
+        Debug.TraceNotImplemented("GameData.SetMentorLevelClear(Int)")
     End Function
 
     Function SetMusicMode: Void(m: Int)
-        Debug.TraceNotImplemented("GameData.SetMusicMode()")
+        Debug.TraceNotImplemented("GameData.SetMusicMode(Int)")
     End Function
 
     Function SetMusicPath: Void(path: Int)
-        Debug.TraceNotImplemented("GameData.SetMusicPath()")
+        Debug.TraceNotImplemented("GameData.SetMusicPath(Int)")
     End Function
 
     Function SetMusicVolume: Void(val: Float)
-        Debug.TraceNotImplemented("GameData.SetMusicVolume()")
+        Debug.TraceNotImplemented("GameData.SetMusicVolume(Float)")
     End Function
 
     Function SetMysteryModeComplete: Void()
@@ -606,27 +606,27 @@ Class GameData
     End Function
 
     Function SetNPCUnlock: Void(npcName: Int, unlock: Bool)
-        Debug.TraceNotImplemented("GameData.SetNPCUnlock()")
+        Debug.TraceNotImplemented("GameData.SetNPCUnlock(Int, Bool)")
     End Function
 
     Function SetNPCVisited: Void(npcName: Int, visited: Bool)
-        Debug.TraceNotImplemented("GameData.SetNPCVisited()")
+        Debug.TraceNotImplemented("GameData.SetNPCVisited(Int, Bool)")
     End Function
 
     Function SetNumPendingSpawnItems: Void(num: Int)
-        Debug.TraceNotImplemented("GameData.SetNumPendingSpawnItems()")
+        Debug.TraceNotImplemented("GameData.SetNumPendingSpawnItems(Int)")
     End Function
 
     Function SetParticles: Void(p: Bool)
-        Debug.TraceNotImplemented("GameData.SetParticles()")
+        Debug.TraceNotImplemented("GameData.SetParticles(Bool)")
     End Function
 
     Function SetPauseOnMinimize: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetPauseOnMinimize()")
+        Debug.TraceNotImplemented("GameData.SetPauseOnMinimize(Bool)")
     End Function
 
     Function SetPendingSpawnItem: Void(num: Int, i: Int)
-        Debug.TraceNotImplemented("GameData.SetPendingSpawnItem()")
+        Debug.TraceNotImplemented("GameData.SetPendingSpawnItem(Int, Int)")
     End Function
 
     Function SetPhasingModeComplete: Void()
@@ -634,23 +634,23 @@ Class GameData
     End Function
 
     Function SetPlayerCoins: Void(val: Int)
-        Debug.TraceNotImplemented("GameData.SetPlayerCoins()")
+        Debug.TraceNotImplemented("GameData.SetPlayerCoins(Int)")
     End Function
 
     Function SetPlayerDiamonds: Void(val: Int)
-        Debug.TraceNotImplemented("GameData.SetPlayerDiamonds()")
+        Debug.TraceNotImplemented("GameData.SetPlayerDiamonds(Int)")
     End Function
 
     Function SetPlayerHealthMax: Void(val: Int)
-        Debug.TraceNotImplemented("GameData.SetPlayerHealthMax()")
+        Debug.TraceNotImplemented("GameData.SetPlayerHealthMax(Int)")
     End Function
 
     Function SetPostDeathReplay: Void(p: Bool)
-        Debug.TraceNotImplemented("GameData.SetPostDeathReplay()")
+        Debug.TraceNotImplemented("GameData.SetPostDeathReplay(Bool)")
     End Function
 
     Function SetPreBossAudio: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetPreBossAudio()")
+        Debug.TraceNotImplemented("GameData.SetPreBossAudio(Bool)")
     End Function
 
     Function SetRandomizerModeComplete: Void()
@@ -658,47 +658,47 @@ Class GameData
     End Function
 
     Function SetResolution: Void(w: Int, h: Int)
-        Debug.TraceNotImplemented("GameData.SetResolution()")
+        Debug.TraceNotImplemented("GameData.SetResolution(Int, Int)")
     End Function
 
     Function SetScreenShake: Void(val: Bool)
-        Debug.TraceNotImplemented("GameData.SetScreenShake()")
+        Debug.TraceNotImplemented("GameData.SetScreenShake(Bool)")
     End Function
 
     Function SetShowDiamondReminder: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetShowDiamondReminder()")
+        Debug.TraceNotImplemented("GameData.SetShowDiamondReminder(Bool)")
     End Function
 
     Function SetShowEnemyHearts: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetShowEnemyHearts()")
+        Debug.TraceNotImplemented("GameData.SetShowEnemyHearts(Bool)")
     End Function
 
     Function SetShowHints: Void(h: Int)
-        Debug.TraceNotImplemented("GameData.SetShowHints()")
+        Debug.TraceNotImplemented("GameData.SetShowHints(Int)")
     End Function
 
     Function SetShowItemNames: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetShowItemNames()")
+        Debug.TraceNotImplemented("GameData.SetShowItemNames(Bool)")
     End Function
 
     Function SetShownNocturnaIntro: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetShownNocturnaIntro()")
+        Debug.TraceNotImplemented("GameData.SetShownNocturnaIntro(Bool)")
     End Function
 
     Function SetShownSeizureWarning: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetShownSeizureWarning()")
+        Debug.TraceNotImplemented("GameData.SetShownSeizureWarning(Bool)")
     End Function
 
     Function SetSoundtrackId: Void(i: Int, id: Int)
-        Debug.TraceNotImplemented("GameData.SetSoundtrackId()")
+        Debug.TraceNotImplemented("GameData.SetSoundtrackId(Int, Int)")
     End Function
 
     Function SetSoundVolume: Void(val: Float)
-        Debug.TraceNotImplemented("GameData.SetSoundVolume()")
+        Debug.TraceNotImplemented("GameData.SetSoundVolume(Float)")
     End Function
 
     Function SetSpeedrunTimer: Void(val: Bool)
-        Debug.TraceNotImplemented("GameData.SetSpeedrunTimer()")
+        Debug.TraceNotImplemented("GameData.SetSpeedrunTimer(Bool)")
     End Function
 
     Function SetStoryModeComplete: Void()
@@ -710,15 +710,15 @@ Class GameData
     End Function
 
     Function SetUseChoral: Void(b: Bool)
-        Debug.TraceNotImplemented("GameData.SetUseChoral()")
+        Debug.TraceNotImplemented("GameData.SetUseChoral(Bool)")
     End Function
 
     Function SetViewMultiplier: Void(mult: Int)
-        Debug.TraceNotImplemented("GameData.SetViewMultiplier()")
+        Debug.TraceNotImplemented("GameData.SetViewMultiplier(Int)")
     End Function
 
     Function SetVSync: Void(v: Bool)
-        Debug.TraceNotImplemented("GameData.SetVSync()")
+        Debug.TraceNotImplemented("GameData.SetVSync(Bool)")
     End Function
 
     Function SetZone1UnlockedCurrentCharacters: Void()
@@ -726,7 +726,7 @@ Class GameData
     End Function
 
     Function SetZone2Unlocked: Void(characterID: Int)
-        Debug.TraceNotImplemented("GameData.SetZone2Unlocked()")
+        Debug.TraceNotImplemented("GameData.SetZone2Unlocked(Int)")
     End Function
 
     Function SetZone2UnlockedCurrentCharacters: Void()
@@ -734,7 +734,7 @@ Class GameData
     End Function
 
     Function SetZone3Unlocked: Void(characterID: Int)
-        Debug.TraceNotImplemented("GameData.SetZone3Unlocked()")
+        Debug.TraceNotImplemented("GameData.SetZone3Unlocked(Int)")
     End Function
 
     Function SetZone3UnlockedCurrentCharacters: Void()
@@ -750,15 +750,15 @@ Class GameData
     End Function
 
     Function SetZoneHoardCollected: Void(zone: Int)
-        Debug.TraceNotImplemented("GameData.SetZoneHoardCollected()")
+        Debug.TraceNotImplemented("GameData.SetZoneHoardCollected(Int)")
     End Function
 
     Function SoundtrackNameAttr: Int(charID: Int)
-        Debug.TraceNotImplemented("GameData.SoundtrackNameAttr()")
+        Debug.TraceNotImplemented("GameData.SoundtrackNameAttr(Int)")
     End Function
 
     Function SoundtrackNumAttr: Int(charID: Int)
-        Debug.TraceNotImplemented("GameData.SoundtrackNumAttr()")
+        Debug.TraceNotImplemented("GameData.SoundtrackNumAttr(Int)")
     End Function
 
     Function WipeProgress: Void()
@@ -766,194 +766,5 @@ Class GameData
     End Function
 
     Function _EditorFix: Void() End
-
-    Method NoTrim: Void()
-        AddDiamondDealerItem(0)
-        AddPendingSpawnItem(0)
-        CanDoDailyRun()
-        EraseDiamondDealerItems()
-        GetAlternateSkin(0)
-        GetAudioLatency()
-        GetAutocalibration()
-        GetBossTraining(0)
-        GetChangeLogShownForCurrentVersion()
-        GetCustomMusic(0, 0, False)
-        GetDaoustVocals()
-        GetDebugLogging()
-        GetDefaultCharacter()
-        GetDefaultHUDKeys()
-        GetDefaultMod()
-        GetDiamondDealerItems()
-        GetDiamondDealerSoldItem(0)
-        GetDiscoFloor()
-        GetDLCPlayed()
-        GetDoubleSpeed(0)
-        GetEnableBossIntros()
-        GetEnableCutscenes()
-        GetEnableSubtitles()
-        GetFreshString()
-        GetFullscreen()
-        GetHalfSpeed(0)
-        GetHardModeComplete()
-        GetHavePlayedHardcore()
-        GetHUDBeatBars()
-        GetHUDHeart()
-        GetIgnoreMultipress()
-        GetItemUnlocked(0, False)
-        GetKeyBinding(0, 0)
-        GetLanguage()
-        GetLatencyCalibrated()
-        GetLobbyMove()
-        GetMentorLevelClear(0)
-        GetMusicMode()
-        GetMusicPath()
-        GetMusicVolume()
-        GetMysteryModeComplete()
-        GetNoReturnModeComplete()
-        GetNPCUnlock(0)
-        GetNPCVisited(0)
-        GetNumPendingSpawnItems()
-        GetParticles()
-        GetPauseOnMinimize()
-        GetPendingSpawnItem(0)
-        GetPhasingModeComplete()
-        GetPlayerDiamonds()
-        GetPlayerHealthMax()
-        GetPostDeathReplay()
-        GetPrebossAudio()
-        GetRandomizerModeComplete()
-        GetResolutionH()
-        GetResolutionW()
-        GetScreenShake()
-        GetShowDiamondReminder()
-        GetShowEnemyHearts()
-        GetShowHints()
-        GetShowItemNames()
-        GetShownNocturnaIntro()
-        GetShownSeizureWarning()
-        GetSoundtrackId(0)
-        GetSoundtrackSuffix(0)
-        GetSoundVolume()
-        GetSpeedrunTimer()
-        GetStoryModeComplete()
-        GetTutorialComplete()
-        GetUseChoral()
-        GetVideoLatency()
-        GetViewMultiplier()
-        GetVSync()
-        GetZone1UnlockedCurrentCharacters()
-        GetZone2Unlocked(0)
-        GetZone2UnlockedCurrentCharacters()
-        GetZone3Unlocked(0)
-        GetZone3UnlockedCurrentCharacters()
-        GetZone4Unlocked(0)
-        GetZone4UnlockedCurrentCharacters()
-        GetZone5Visited()
-        GetZoneHoardCollected(0)
-        HasAskedLobbyMove()
-        HasFoughtConductor()
-        HasFoughtDeadRinger()
-        HasFoughtFrankensteinway()
-        HasFoughtLuteDragon()
-        HasFoughtNecrodancer()
-        HasFoughtNecrodancer2()
-        HasItemBeenUsed(0)
-        HasKilledEnemy(0, 0)
-        IsCharUnlocked(0)
-        LoadGameDataXML(False)
-        LoadPlayerDataXML(False)
-        LoadReplayPlayerDataXML(0)
-        LookupSoundtrackId(0)
-        LookupSoundtrackName(0)
-        RemovePendingSpawnItem(0)
-        Save()
-        SetAlternateSkin(0, 0)
-        SetAskedLobbyMove(False)
-        SetAutocalibration(0)
-        SetBossTraining(0, False)
-        SetChangeLogShownForCurrentVersion()
-        SetCharUnlocked(0, False)
-        SetCustomMusic(0, 0, False)
-        SetDaoustVocals(False)
-        SetDebugLogging(False)
-        SetDefaultCharacter(0)
-        SetDefaultHUDKeys(False)
-        SetDefaultMod(0)
-        SetDiamondDealerSoldItem(0, 0)
-        SetDiscoFloor(False)
-        SetDLCPlayed()
-        SetDoubleSpeed(0, False)
-        SetEnableBossIntros(False)
-        SetEnableCutscenes(False)
-        SetEnableSubtitles(False)
-        SetFoughtConductor()
-        SetFoughtDeadRinger()
-        SetFoughtFrankensteinway()
-        SetFoughtLuteDragon()
-        SetFoughtNecrodancer()
-        SetFoughtNecrodancer2()
-        SetFullscreen(False)
-        SetHalfSpeed(0, False)
-        SetHardModeComplete()
-        SetHavePlayedHardcore(False)
-        SetHUDBeatBars(False)
-        SetHUDHeart(False)
-        SetIgnoreMultipress(False)
-        SetItemCleaned(0, False)
-        SetItemUnlocked(0)
-        SetItemUsed(0)
-        SetKeyBinding(0, 0, 0)
-        SetKilledEnemy(0, 0, False)
-        SetLanguage(0)
-        SetLastDailyRunNum(0)
-        SetLatencyValues(0, 0)
-        SetLobbyMove(False)
-        SetMentorLevelClear(0)
-        SetMusicMode(0)
-        SetMusicPath(0)
-        SetMusicVolume(0)
-        SetMysteryModeComplete()
-        SetNoReturnModeComplete()
-        SetNPCUnlock(0, False)
-        SetNPCVisited(0, False)
-        SetNumPendingSpawnItems(0)
-        SetParticles(False)
-        SetPauseOnMinimize(False)
-        SetPendingSpawnItem(0, 0)
-        SetPhasingModeComplete()
-        SetPlayerCoins(0)
-        SetPlayerDiamonds(0)
-        SetPlayerHealthMax(0)
-        SetPostDeathReplay(False)
-        SetPreBossAudio(False)
-        SetRandomizerModeComplete()
-        SetResolution(0, 0)
-        SetScreenShake(False)
-        SetShowDiamondReminder(False)
-        SetShowEnemyHearts(False)
-        SetShowHints(0)
-        SetShowItemNames(False)
-        SetShownNocturnaIntro(False)
-        SetShownSeizureWarning(False)
-        SetSoundtrackId(0, 0)
-        SetSoundVolume(0)
-        SetSpeedrunTimer(False)
-        SetStoryModeComplete()
-        SetTutorialComplete()
-        SetUseChoral(False)
-        SetViewMultiplier(0)
-        SetVSync(False)
-        SetZone1UnlockedCurrentCharacters()
-        SetZone2Unlocked(0)
-        SetZone2UnlockedCurrentCharacters()
-        SetZone3Unlocked(0)
-        SetZone3UnlockedCurrentCharacters()
-        SetZone4UnlockedCurrentCharacters()
-        SetZone5Visited()
-        SetZoneHoardCollected(0)
-        SoundtrackNameAttr(0)
-        SoundtrackNumAttr(0)
-        WipeProgress()
-    End Method
 
 End Class

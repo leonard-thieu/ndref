@@ -8,7 +8,7 @@ Class Controller Extends GuiContainer
     Global currentController: Object
 
     Function GiveFocus: Void(c: Object)
-        Debug.TraceNotImplemented("Controller.GiveFocus()")
+        Debug.TraceNotImplemented("Controller.GiveFocus(Object)")
     End Function
 
     Function _EditorFix: Void() End
@@ -21,12 +21,6 @@ Class Controller Extends GuiContainer
 
     Method ReleaseFocus: Void()
         Debug.TraceNotImplemented("Controller.ReleaseFocus()")
-    End Method
-
-    Method NoTrim: Void()
-        GiveFocus(Null)
-        HasFocus()
-        ReleaseFocus()
     End Method
 
 End Class

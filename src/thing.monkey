@@ -8,16 +8,11 @@ Class Thing Extends Entity
     Function _EditorFix: Void() End
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("Thing.Hit()")
+        Debug.TraceNotImplemented("Thing.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method Update: Void()
         Debug.TraceNotImplemented("Thing.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Hit(0, 0, 0, Null, False, 0)
-        Update()
     End Method
 
 End Class

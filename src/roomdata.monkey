@@ -41,11 +41,4 @@ Class RoomData
         Return rect.ToString()
     End Method
 
-    Method NoTrim: Void()
-        GetBounds()
-        GetLocation()
-        GetSize()
-        ToString()
-    End Method
-
 End Class

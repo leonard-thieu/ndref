@@ -3,13 +3,18 @@
 Import monkey.list
 Import monkey.map
 Import logger
+Import player_class
+Import point
 Import sprite
+Import textsprite
 Import weaponpoint
 
 Class Weapon
 
+    Global swipingWeapons: Object
+
     Function IsObstructed: Bool(x: Int, y: Int, isPhasing: Bool)
-        Debug.TraceNotImplemented("Weapon.IsObstructed()")
+        Debug.TraceNotImplemented("Weapon.IsObstructed(Int, Int, Bool)")
     End Function
 
     Function RenderAll: Void()
@@ -19,7 +24,7 @@ Class Weapon
     Function _EditorFix: Void() End
 
     Method New(t: String)
-        Debug.TraceNotImplemented("Weapon.New()")
+        Debug.TraceNotImplemented("Weapon.New(String)")
     End Method
 
     Field type: String = "weapon_dagger"
@@ -60,19 +65,19 @@ Class Weapon
     Field numSwipeFramesPerImage2: Int = 2
 
     Method Attack: Bool(player: Object, dir: Int, isThrow: Bool)
-        Debug.TraceNotImplemented("Weapon.Attack()")
+        Debug.TraceNotImplemented("Weapon.Attack(Object, Int, Bool)")
     End Method
 
     Method AttackPoints: Bool(player: Object, dir: Int, isThrow: Bool, attPoints: Object)
-        Debug.TraceNotImplemented("Weapon.AttackPoints()")
+        Debug.TraceNotImplemented("Weapon.AttackPoints(Object, Int, Bool, Object)")
     End Method
 
     Method CanHitEnemyInDirection: Bool(player: Object, dir: Int, isThrow: Bool, attPoints: Object)
-        Debug.TraceNotImplemented("Weapon.CanHitEnemyInDirection()")
+        Debug.TraceNotImplemented("Weapon.CanHitEnemyInDirection(Object, Int, Bool, Object)")
     End Method
 
     Method DecrementStrikesForChildren: Void(attPoints: Object)
-        Debug.TraceNotImplemented("Weapon.DecrementStrikesForChildren()")
+        Debug.TraceNotImplemented("Weapon.DecrementStrikesForChildren(Object)")
     End Method
 
     Method GetDamage: Int()
@@ -84,11 +89,11 @@ Class Weapon
     End Method
 
     Method HasAura: Bool(a: Int)
-        Debug.TraceNotImplemented("Weapon.HasAura()")
+        Debug.TraceNotImplemented("Weapon.HasAura(Int)")
     End Method
 
     Method HitCoord: Bool(x: Int, y: Int, damage: Int, dir: Int, player: Object, isThrow: Bool)
-        Debug.TraceNotImplemented("Weapon.HitCoord()")
+        Debug.TraceNotImplemented("Weapon.HitCoord(Int, Int, Int, Int, Object, Bool)")
     End Method
 
     Method IsAxe: Bool()
@@ -148,7 +153,7 @@ Class Weapon
     End Method
 
     Method IsObstructed: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("Weapon.IsObstructed()")
+        Debug.TraceNotImplemented("Weapon.IsObstructed(Int, Int)")
     End Method
 
     Method IsRapier: Bool()
@@ -180,7 +185,7 @@ Class Weapon
     End Method
 
     Method IsWeaponCurrentlyPiercing: Bool(player: Object)
-        Debug.TraceNotImplemented("Weapon.IsWeaponCurrentlyPiercing()")
+        Debug.TraceNotImplemented("Weapon.IsWeaponCurrentlyPiercing(Object)")
     End Method
 
     Method IsWeaponMultiHit: Bool()
@@ -200,58 +205,15 @@ Class Weapon
     End Method
 
     Method RenderOnHUD: Void(player: Object, xVal: Int, yVal: Int, zVal: Int, scale: Float, alpha: Float)
-        Debug.TraceNotImplemented("Weapon.RenderOnHUD()")
+        Debug.TraceNotImplemented("Weapon.RenderOnHUD(Object, Int, Int, Int, Float, Float)")
     End Method
 
     Method ResetStrikes: Void(attPoints: Object)
-        Debug.TraceNotImplemented("Weapon.ResetStrikes()")
+        Debug.TraceNotImplemented("Weapon.ResetStrikes(Object)")
     End Method
 
     Method StartSwipe: Void(tmpRenderTime: Int, player: Object)
-        Debug.TraceNotImplemented("Weapon.StartSwipe()")
-    End Method
-
-    Method NoTrim: Void()
-        IsObstructed(0, 0, False)
-        RenderAll()
-        Attack(Null, 0, False)
-        AttackPoints(Null, 0, False, Null)
-        CanHitEnemyInDirection(Null, 0, False, Null)
-        DecrementStrikesForChildren(Null)
-        GetDamage()
-        GetTextHUD()
-        HasAura(0)
-        HitCoord(0, 0, 0, 0, Null, False)
-        IsAxe()
-        IsBlunderbuss()
-        IsBow()
-        IsBroadsword()
-        IsCat()
-        IsCrossbow()
-        IsCutlass()
-        IsDagger()
-        IsFlail()
-        IsHarp()
-        IsHealing()
-        IsKeepable()
-        IsLongsword()
-        IsLute()
-        IsObstructed(0, 0)
-        IsRapier()
-        IsRifle()
-        IsSpear()
-        IsStaff()
-        IsThrowable()
-        IsWarhammer()
-        IsWeaponCurrentlyPhasing()
-        IsWeaponCurrentlyPiercing(Null)
-        IsWeaponMultiHit()
-        IsWhip()
-        KnockPlayerBack()
-        Render()
-        RenderOnHUD(Null, 0, 0, 0, 0, 0)
-        ResetStrikes(Null)
-        StartSwipe(0, Null)
+        Debug.TraceNotImplemented("Weapon.StartSwipe(Int, Object)")
     End Method
 
 End Class

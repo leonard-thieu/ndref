@@ -14,131 +14,103 @@ Class PlayerHealth
     Field current: Int = 4
 
     Method ApplyMax: Int()
-        Debug.TraceNotImplemented("TextSprite.ApplyMax()")
+        Debug.TraceNotImplemented("PlayerHealth.ApplyMax()")
     End Method
 
     Method CurseAllHearts: Void()
-        Debug.TraceNotImplemented("TextSprite.CurseAllHearts()")
+        Debug.TraceNotImplemented("PlayerHealth.CurseAllHearts()")
     End Method
 
     Method Damage: Void(damage: Int)
-        Debug.TraceNotImplemented("TextSprite.Damage()")
+        Debug.TraceNotImplemented("PlayerHealth.Damage(Int)")
     End Method
 
     Method GainBonusHeart: Void()
-        Debug.TraceNotImplemented("TextSprite.GainBonusHeart()")
+        Debug.TraceNotImplemented("PlayerHealth.GainBonusHeart()")
     End Method
 
     Method GainCursedHearts: Void(hearts: Int)
-        Debug.TraceNotImplemented("TextSprite.GainCursedHearts()")
+        Debug.TraceNotImplemented("PlayerHealth.GainCursedHearts(Int)")
     End Method
 
     Method GainHearts: Void(hearts: Int, full: Bool)
-        Debug.TraceNotImplemented("TextSprite.GainHearts()")
+        Debug.TraceNotImplemented("PlayerHealth.GainHearts(Int, Bool)")
     End Method
 
     Method Get: Int()
-        Debug.TraceNotImplemented("TextSprite.Get3()")
+        Debug.TraceNotImplemented("PlayerHealth.Get()")
     End Method
 
     Method GetHearts: Int()
-        Debug.TraceNotImplemented("TextSprite.GetHearts()")
+        Debug.TraceNotImplemented("PlayerHealth.GetHearts()")
     End Method
 
     Method GetHeartValue: Int(offset: Int)
-        Debug.TraceNotImplemented("TextSprite.GetHeartValue()")
+        Debug.TraceNotImplemented("PlayerHealth.GetHeartValue(Int)")
     End Method
 
     Method GetMax: Int()
-        Debug.TraceNotImplemented("TextSprite.GetMax()")
+        Debug.TraceNotImplemented("PlayerHealth.GetMax()")
     End Method
 
     Method GetNormal: Int()
-        Debug.TraceNotImplemented("TextSprite.GetNormal()")
+        Debug.TraceNotImplemented("PlayerHealth.GetNormal()")
     End Method
 
     Method GetNormalMax: Int()
-        Debug.TraceNotImplemented("TextSprite.GetNormalMax()")
+        Debug.TraceNotImplemented("PlayerHealth.GetNormalMax()")
     End Method
 
     Method Heal: Bool(amount: Int, allowGluttony: Bool)
-        Debug.TraceNotImplemented("TextSprite.Heal2()")
+        Debug.TraceNotImplemented("PlayerHealth.Heal(Int, Bool)")
     End Method
 
     Method IsCursedHeart: Bool(offset: Int)
-        Debug.TraceNotImplemented("TextSprite.IsCursedHeart()")
+        Debug.TraceNotImplemented("PlayerHealth.IsCursedHeart(Int)")
     End Method
 
     Method IsEmptyHeart: Bool(offset: Int)
-        Debug.TraceNotImplemented("TextSprite.IsEmptyHeart()")
+        Debug.TraceNotImplemented("PlayerHealth.IsEmptyHeart(Int)")
     End Method
 
     Method IsFullHeart: Bool(offset: Int)
-        Debug.TraceNotImplemented("TextSprite.IsFullHeart()")
+        Debug.TraceNotImplemented("PlayerHealth.IsFullHeart(Int)")
     End Method
 
     Method IsHalfHeart: Bool(offset: Int)
-        Debug.TraceNotImplemented("TextSprite.IsHalfHeart()")
+        Debug.TraceNotImplemented("PlayerHealth.IsHalfHeart(Int)")
     End Method
 
     Method LoseBonusHeart: Void()
-        Debug.TraceNotImplemented("TextSprite.LoseBonusHeart()")
+        Debug.TraceNotImplemented("PlayerHealth.LoseBonusHeart()")
     End Method
 
     Method ProcessCurse: Void()
-        Debug.TraceNotImplemented("TextSprite.ProcessCurse()")
+        Debug.TraceNotImplemented("PlayerHealth.ProcessCurse()")
     End Method
 
     Method Refill: Void()
-        Debug.TraceNotImplemented("TextSprite.Refill()")
+        Debug.TraceNotImplemented("PlayerHealth.Refill()")
     End Method
 
     Method RefillAsCursed: Void()
-        Debug.TraceNotImplemented("TextSprite.RefillAsCursed()")
+        Debug.TraceNotImplemented("PlayerHealth.RefillAsCursed()")
     End Method
 
     Method RefillTo: Void(amount: Int)
-        Debug.TraceNotImplemented("TextSprite.RefillTo()")
+        Debug.TraceNotImplemented("PlayerHealth.RefillTo(Int)")
     End Method
 
     Method Reset: Void(newMax: Int)
-        Debug.TraceNotImplemented("TextSprite.Reset2()")
+        Debug.TraceNotImplemented("PlayerHealth.Reset(Int)")
     End Method
 
     Method ResetFragile: Void()
-        Debug.TraceNotImplemented("TextSprite.ResetFragile()")
+        Debug.TraceNotImplemented("PlayerHealth.ResetFragile()")
     End Method
 
     Method Revive: Void()
-        Debug.TraceNotImplemented("TextSprite.Revive()")
-    End Method
-
-    Method NoTrim: Void()
-        ApplyMax()
-        CurseAllHearts()
-        Damage(0)
-        GainBonusHeart()
-        GainCursedHearts(0)
-        GainHearts(0, False)
-        Get()
-        GetHearts()
-        GetHeartValue(0)
-        GetMax()
-        GetNormal()
-        GetNormalMax()
-        Heal(0, False)
-        IsCursedHeart(0)
-        IsEmptyHeart(0)
-        IsFullHeart(0)
-        IsHalfHeart(0)
-        LoseBonusHeart()
-        ProcessCurse()
-        Refill()
-        RefillAsCursed()
-        RefillTo(0)
-        Reset(0)
-        ResetFragile()
-        Revive()
+        Debug.TraceNotImplemented("PlayerHealth.Revive()")
     End Method
 
 End Class

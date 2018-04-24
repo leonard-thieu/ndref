@@ -10,10 +10,18 @@ Import point
 
 Class Util
 
+    Global delayedStatIncrements: Object
+    Global delayedStatSets: Object
+    Global dirRotationOrder: Object
+    Global numSubmissionAttempts: Int
+    Global pendingScoreRetrieval: Bool
+    Global pendingScoreRetrievalEnd: Int
+    Global pendingScoreRetrievalStart: Int
+    Global pendingScoreSubmission: Object
     Global storedSeed: Int
 
     Function AddMetric: Void(key: Int, value: Int, send: Bool, blocking: Bool, isNumber: Bool)
-        Debug.TraceNotImplemented("Util.AddMetric()")
+        Debug.TraceNotImplemented("Util.AddMetric(Int, Int, Bool, Bool, Bool)")
     End Function
 
     Function AreAriaOrCodaActive: Bool()
@@ -21,11 +29,11 @@ Class Util
     End Function
 
     Function CreateScaledTextSprite: Object(str: Int, color: Int, scale: Int)
-        Debug.TraceNotImplemented("Util.CreateScaledTextSprite()")
+        Debug.TraceNotImplemented("Util.CreateScaledTextSprite(Int, Int, Int)")
     End Function
 
     Function CreateTextSprite: Object(str: Int, color: Int, addShadow: Bool)
-        Debug.TraceNotImplemented("Util.CreateTextSprite()")
+        Debug.TraceNotImplemented("Util.CreateTextSprite(Int, Int, Bool)")
     End Function
 
     Function CustomMusicInUse: Bool()
@@ -33,19 +41,19 @@ Class Util
     End Function
 
     Function DirToString: Int(dir: Int)
-        Debug.TraceNotImplemented("Util.DirToString()")
+        Debug.TraceNotImplemented("Util.DirToString(Int)")
     End Function
 
     Function FindClosestTrulyUnoccupiedSpace: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
-        Debug.TraceNotImplemented("Util.FindClosestTrulyUnoccupiedSpace()")
+        Debug.TraceNotImplemented("Util.FindClosestTrulyUnoccupiedSpace(Int, Int, Bool)")
     End Function
 
     Function FindClosestTrulyUnoccupiedSpaceNotAdjacentToEnemy: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
-        Debug.TraceNotImplemented("Util.FindClosestTrulyUnoccupiedSpaceNotAdjacentToEnemy()")
+        Debug.TraceNotImplemented("Util.FindClosestTrulyUnoccupiedSpaceNotAdjacentToEnemy(Int, Int, Bool)")
     End Function
 
     Function FindClosestUnoccupiedSpace: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
-        Debug.TraceNotImplemented("Util.FindClosestUnoccupiedSpace()")
+        Debug.TraceNotImplemented("Util.FindClosestUnoccupiedSpace(Int, Int, Bool)")
     End Function
 
     Function GetActiveLanguagesFolderPath: Int()
@@ -53,27 +61,27 @@ Class Util
     End Function
 
     Function GetAngleBetweenDirections: Int(dir1: Int, dir2: Int)
-        Debug.TraceNotImplemented("Util.GetAngleBetweenDirections()")
+        Debug.TraceNotImplemented("Util.GetAngleBetweenDirections(Int, Int)")
     End Function
 
     Function GetAnyPlayerAt: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.GetAnyPlayerAt()")
+        Debug.TraceNotImplemented("Util.GetAnyPlayerAt(Int, Int)")
     End Function
 
     Function GetClosestPlayer: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.GetClosestPlayer()")
+        Debug.TraceNotImplemented("Util.GetClosestPlayer(Int, Int)")
     End Function
 
     Function GetClosestPlayerIncludeItemEffects: Object(xVal: Int, yVal: Int, ignorePhasing: Bool)
-        Debug.TraceNotImplemented("Util.GetClosestPlayerIncludeItemEffects()")
+        Debug.TraceNotImplemented("Util.GetClosestPlayerIncludeItemEffects(Int, Int, Bool)")
     End Function
 
     Function GetDirAfterRotation: Int(dir: Int, rotation: Int, includeDiagonals: Bool)
-        Debug.TraceNotImplemented("Util.GetDirAfterRotation()")
+        Debug.TraceNotImplemented("Util.GetDirAfterRotation(Int, Int, Bool)")
     End Function
 
     Function GetDirFromDiff: Int(xDiff: Int, yDiff: Int)
-        Debug.TraceNotImplemented("Util.GetDirFromDiff()")
+        Debug.TraceNotImplemented("Util.GetDirFromDiff(Int, Int)")
     End Function
 
     Function GetDirRotationOrder: Object()
@@ -90,11 +98,11 @@ Class Util
     End Function
 
     Function GetDistFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool)
-        Debug.TraceNotImplemented("Util.GetDistFromClosestPlayer()")
+        Debug.TraceNotImplemented("Util.GetDistFromClosestPlayer(Int, Int, Bool)")
     End Function
 
     Function GetDistSqFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool, includeLambs: Bool)
-        Debug.TraceNotImplemented("Util.GetDistSqFromClosestPlayer()")
+        Debug.TraceNotImplemented("Util.GetDistSqFromClosestPlayer(Int, Int, Bool, Bool)")
     End Function
 
     Function GetLanguagesFolderPath: Int()
@@ -102,7 +110,7 @@ Class Util
     End Function
 
     Function GetLeaderboardScores: Void(rangeStart: Int, rangeEnd: Int, dayOffset: Int, specificLeaderboard: Int, useTodaysSeed: Bool, friendsOnly: Bool, playerOnly: Bool)
-        Debug.TraceNotImplemented("Util.GetLeaderboardScores()")
+        Debug.TraceNotImplemented("Util.GetLeaderboardScores(Int, Int, Int, Int, Bool, Bool, Bool)")
     End Function
 
     Function GetLeaderboardSetPrefix: Int()
@@ -114,19 +122,19 @@ Class Util
     End Function
 
     Function GetLeaderboardSuffixForCharacterAndCoopAndDeathlessState: Int(includeCadence: Bool, includeCustomMusic: Bool, includeExtraMode: Bool, includeChar: Bool, includeAllChars: Bool, includeTags: Bool)
-        Debug.TraceNotImplemented("Util.GetLeaderboardSuffixForCharacterAndCoopAndDeathlessState()")
+        Debug.TraceNotImplemented("Util.GetLeaderboardSuffixForCharacterAndCoopAndDeathlessState(Bool, Bool, Bool, Bool, Bool, Bool)")
     End Function
 
     Function GetPlayerLocation: Object(playerNum: Int)
-        Debug.TraceNotImplemented("Util.GetPlayerLocation()")
+        Debug.TraceNotImplemented("Util.GetPlayerLocation(Int)")
     End Function
 
     Function GetPlayersAt: Object(where: Object)
-        Debug.TraceNotImplemented("Util.GetPlayersAt()")
+        Debug.TraceNotImplemented("Util.GetPlayersAt(Object)")
     End Function
 
     Function GetPlayersAt: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.GetPlayersAt()")
+        Debug.TraceNotImplemented("Util.GetPlayersAt(Int, Int)")
     End Function
 
     Function GetPointFromDir: Point(dir: Int)
@@ -167,22 +175,11 @@ Class Util
     End Function
 
     Function GetSteamStat: Int(statName: Int)
-        Debug.TraceNotImplemented("Util.GetSteamStat()")
-    End Function
-
-    Function GetTileAt: Tile(xVal: Int, yVal: Int)
-        If Level.tiles.Contains(xVal)
-            Local tilesAtX := Level.tiles.Get(xVal)
-            If tilesAtX.Contains(yVal)
-                Return tilesAtX.Get(xVal)
-            End If
-        End If
-
-        Return Null
+        Debug.TraceNotImplemented("Util.GetSteamStat(Int)")
     End Function
 
     Function GetTimeStringFromMilliseconds: Int(msecs: Int, secondsOnly: Bool, padSeconds: Bool)
-        Debug.TraceNotImplemented("Util.GetTimeStringFromMilliseconds()")
+        Debug.TraceNotImplemented("Util.GetTimeStringFromMilliseconds(Int, Bool, Bool)")
     End Function
 
     Function GetVersionString: Int()
@@ -194,15 +191,15 @@ Class Util
     End Function
 
     Function IncrementSteamStat: Bool(statName: Int, inGameplayOnly: Bool, allowCoop: Bool, allowSeeded: Bool, delayUntilLevelLoad: Bool)
-        Debug.TraceNotImplemented("Util.IncrementSteamStat()")
+        Debug.TraceNotImplemented("Util.IncrementSteamStat(Int, Bool, Bool, Bool, Bool)")
     End Function
 
     Function InvertDir: Int(dir: Int)
-        Debug.TraceNotImplemented("Util.InvertDir()")
+        Debug.TraceNotImplemented("Util.InvertDir(Int)")
     End Function
 
     Function IsAnyPlayerAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.IsAnyPlayerAt()")
+        Debug.TraceNotImplemented("Util.IsAnyPlayerAt(Int, Int)")
     End Function
 
     Function IsBomblessCharacterActive: Bool()
@@ -219,19 +216,19 @@ Class Util
     End Function
 
     Function IsEnemyAdjacent: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.IsEnemyAdjacent()")
+        Debug.TraceNotImplemented("Util.IsEnemyAdjacent(Int, Int)")
     End Function
 
     Function IsGlobalCollisionAt: Bool(xVal: Int, yVal: Int, isPlayer: Bool, ignoreWalls: Bool, includeTheNothing: Bool, includeShopWallsDespiteIgnoringWalls: Bool, skipIgnoreWalls: Bool)
-        Debug.TraceNotImplemented("Util.IsGlobalCollisionAt()")
+        Debug.TraceNotImplemented("Util.IsGlobalCollisionAt(Int, Int, Bool, Bool, Bool, Bool, Bool)")
     End Function
 
     Function IsNonMobileCollisionAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.IsNonMobileCollisionAt()")
+        Debug.TraceNotImplemented("Util.IsNonMobileCollisionAt(Int, Int)")
     End Function
 
     Function IsOnScreen: Bool(xVal: Int, yVal: Int, cameraSeekX: Float, cameraSeekY: Float)
-        Debug.TraceNotImplemented("Util.IsOnScreen()")
+        Debug.TraceNotImplemented("Util.IsOnScreen(Int, Int, Float, Float)")
     End Function
 
     Function IsWeaponlessCharacterActive: Bool()
@@ -319,19 +316,19 @@ Class Util
     End Function
 
     Function RotateDirInDirection: Int(original: Int, dir: Int)
-        Debug.TraceNotImplemented("Util.RotateDirInDirection()")
+        Debug.TraceNotImplemented("Util.RotateDirInDirection(Int, Int)")
     End Function
 
     Function RotatePoint45DegreesClockwise: Object(p: Object)
-        Debug.TraceNotImplemented("Util.RotatePoint45DegreesClockwise()")
+        Debug.TraceNotImplemented("Util.RotatePoint45DegreesClockwise(Object)")
     End Function
 
     Function RotatePointInDirection: Object(original: Object, dir: Int)
-        Debug.TraceNotImplemented("Util.RotatePointInDirection()")
+        Debug.TraceNotImplemented("Util.RotatePointInDirection(Object, Int)")
     End Function
 
     Function RotatePointInGeneralDirection: Object(p: Object, dir: Int)
-        Debug.TraceNotImplemented("Util.RotatePointInGeneralDirection()")
+        Debug.TraceNotImplemented("Util.RotatePointInGeneralDirection(Object, Int)")
     End Function
 
     Function SeedRnd(seed: Int)
@@ -340,11 +337,11 @@ Class Util
     End Function
 
     Function SegmentSegmentIntersection: Object(p0_x: Float, p0_y: Float, p1_x: Float, p1_y: Float, p2_x: Float, p2_y: Float, p3_x: Float, p3_y: Float)
-        Debug.TraceNotImplemented("Util.SegmentSegmentIntersection()")
+        Debug.TraceNotImplemented("Util.SegmentSegmentIntersection(Float, Float, Float, Float, Float, Float, Float, Float)")
     End Function
 
     Function SendEntityTo: Void(ent: Object, xVal: Int, yVal: Int, triggerBossStart: Bool)
-        Debug.TraceNotImplemented("Util.SendEntityTo()")
+        Debug.TraceNotImplemented("Util.SendEntityTo(Object, Int, Int, Bool)")
     End Function
 
     Function SetAppFolder: Void()
@@ -352,118 +349,66 @@ Class Util
     End Function
 
     Function SetSteamIntStat: Bool(statName: Int, val: Int, inGameplayOnly: Bool, allowCoop: Bool, delayUntilLevelLoad: Bool)
-        Debug.TraceNotImplemented("Util.SetSteamIntStat()")
+        Debug.TraceNotImplemented("Util.SetSteamIntStat(Int, Int, Bool, Bool, Bool)")
     End Function
 
     Function SongNameSoundtrackId: Int(songName: Int)
-        Debug.TraceNotImplemented("Util.SongNameSoundtrackId()")
+        Debug.TraceNotImplemented("Util.SongNameSoundtrackId(Int)")
     End Function
 
     Function StringLeft: Int(str: Int, n: Int)
-        Debug.TraceNotImplemented("Util.StringLeft()")
+        Debug.TraceNotImplemented("Util.StringLeft(Int, Int)")
     End Function
 
     Function SubmitDailyHardcoreScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
-        Debug.TraceNotImplemented("Util.SubmitDailyHardcoreScore()")
+        Debug.TraceNotImplemented("Util.SubmitDailyHardcoreScore(Int, Int, Int, Int, Int, Int)")
     End Function
 
     Function SubmitHardcoreScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
-        Debug.TraceNotImplemented("Util.SubmitHardcoreScore()")
+        Debug.TraceNotImplemented("Util.SubmitHardcoreScore(Int, Int, Int, Int, Int, Int)")
     End Function
 
     Function SubmitModeScore: Void(mode: Int, score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
-        Debug.TraceNotImplemented("Util.SubmitModeScore()")
+        Debug.TraceNotImplemented("Util.SubmitModeScore(Int, Int, Int, Int, Int, Int, Int)")
     End Function
 
     Function SubmitSeededScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
-        Debug.TraceNotImplemented("Util.SubmitSeededScore()")
+        Debug.TraceNotImplemented("Util.SubmitSeededScore(Int, Int, Int, Int, Int, Int)")
     End Function
 
     Function SubmitSeededSpeedrunScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
-        Debug.TraceNotImplemented("Util.SubmitSeededSpeedrunScore()")
+        Debug.TraceNotImplemented("Util.SubmitSeededSpeedrunScore(Int, Int, Int, Int, Int, Int)")
     End Function
 
     Function SubmitSpeedrunScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
-        Debug.TraceNotImplemented("Util.SubmitSpeedrunScore()")
+        Debug.TraceNotImplemented("Util.SubmitSpeedrunScore(Int, Int, Int, Int, Int, Int)")
     End Function
 
     Function TeleportEntity: Bool(ent: Object, minDist: Float, oldX: Int, oldY: Int, anyFloor: Bool)
-        Debug.TraceNotImplemented("Util.TeleportEntity()")
+        Debug.TraceNotImplemented("Util.TeleportEntity(Object, Float, Int, Int, Bool)")
     End Function
 
     Function _EditorFix: Void() End
 
-    Method NoTrim: Void()
-        AddMetric(0, 0, False, False, False)
-        AreAriaOrCodaActive()
-        CreateScaledTextSprite(0, 0, 0)
-        CreateTextSprite(0, 0, False)
-        CustomMusicInUse()
-        DirToString(0)
-        FindClosestTrulyUnoccupiedSpace(0, 0, False)
-        FindClosestTrulyUnoccupiedSpaceNotAdjacentToEnemy(0, 0, False)
-        FindClosestUnoccupiedSpace(0, 0, False)
-        GetActiveLanguagesFolderPath()
-        GetAngleBetweenDirections(0, 0)
-        GetAnyPlayerAt(0, 0)
-        GetClosestPlayer(0, 0)
-        GetClosestPlayerIncludeItemEffects(0, 0, False)
-        GetDirAfterRotation(0, 0, False)
-        GetDirFromDiff(0, 0)
-        GetDirRotationOrder()
-        GetDist(0, 0, 0, 0)
-        GetDistSq(0, 0, 0, 0)
-        GetDistFromClosestPlayer(0, 0, False)
-        GetDistSqFromClosestPlayer(0, 0, False, False)
-        GetLanguagesFolderPath()
-        GetLeaderboardScores(0, 0, 0, 0, False, False, False)
-        GetLeaderboardSetPrefix()
-        GetLeaderboardSuffix()
-        GetLeaderboardSuffixForCharacterAndCoopAndDeathlessState(False, False, False, False, False, False)
-        GetPlayerLocation(0)
-        GetPlayersAt(Null)
-        GetPlayersAt(0, 0)
-        GetPointFromDir(0)
-        GetSteamStat(0)
-        GetTimeStringFromMilliseconds(0, False, False)
-        GetVersionString()
-        HasLeaderboardDownloaded()
-        IncrementSteamStat(0, False, False, False, False)
-        InvertDir(0)
-        IsAnyPlayerAt(0, 0)
-        IsBomblessCharacterActive()
-        IsCharacterActive(0)
-        IsEnemyAdjacent(0, 0)
-        IsGlobalCollisionAt(0, 0, False, False, False, False, False)
-        IsNonMobileCollisionAt(0, 0)
-        IsOnScreen(0, 0, 0, 0)
-        IsWeaponlessCharacterActive()
-        ParseTextSeed("")
-        ProcessDelayedStats()
-        Pump()
-        RndBool(False)
-        RndIntRange(0, 0, False, 0)
-        RndIntRangeFromZero(0, False)
-        RotateDirInDirection(0, 0)
-        RotatePoint45DegreesClockwise(Null)
-        RotatePointInDirection(Null, 0)
-        RotatePointInGeneralDirection(Null, 0)
-        SegmentSegmentIntersection(0, 0, 0, 0, 0, 0, 0, 0)
-        SendEntityTo(Null, 0, 0, False)
-        SetAppFolder()
-        SetSteamIntStat(0, 0, False, False, False)
-        SongNameSoundtrackId(0)
-        StringLeft(0, 0)
-        SubmitDailyHardcoreScore(0, 0, 0, 0, 0, 0)
-        SubmitHardcoreScore(0, 0, 0, 0, 0, 0)
-        SubmitModeScore(0, 0, 0, 0, 0, 0, 0)
-        SubmitSeededScore(0, 0, 0, 0, 0, 0)
-        SubmitSeededSpeedrunScore(0, 0, 0, 0, 0, 0)
-        SubmitSpeedrunScore(0, 0, 0, 0, 0, 0)
-        TeleportEntity(Null, 0, 0, 0, False)
+End Class
+
+Class HighScoreSubmission
+
+    Function _EditorFix: Void() End
+
+    Method New(s: Int, z: Int, l: Int, lb: Int, sa: Int, dt: Int)
+        Debug.TraceNotImplemented("HighScoreSubmission.New(Int, Int, Int, Int, Int, Int)")
     End Method
 
-End
+    Field pendingSubmitLeaderboard: String
+    Field submissionAttemptNumber: Int
+    Field submitted: Bool
+    Field pendingSubmitScore: Int
+    Field pendingSubmitZone: Int
+    Field pendingSubmitLevel: Int
+    Field data: String
+
+End Class
 
 Class Direction
 

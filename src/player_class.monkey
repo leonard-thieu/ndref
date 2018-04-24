@@ -6,9 +6,10 @@ Import monkey.set
 Import bouncer
 Import camera
 Import controller_game
-'Import controller_input_popup
-'Import controller_popup
-'Import enemyclamper
+Import controller_input_popup
+Import controller_popup
+Import enemyclamper
+Import entity
 Import familiar
 Import familiar_fixed
 Import gamedata
@@ -20,7 +21,7 @@ Import point
 Import sprite
 Import textsprite
 Import weapon
-'Import zap
+Import zap
 
 Class Player Extends MobileEntity
 
@@ -47,11 +48,11 @@ Class Player Extends MobileEntity
     Global sessionMaxCoins: Int
 
     Function ActuallyPlayVO: Void(voSound: Int, player: Object)
-        Debug.TraceNotImplemented("Player.ActuallyPlayVO()")
+        Debug.TraceNotImplemented("Player.ActuallyPlayVO(Int, Object)")
     End Function
 
     Function AddCoins: Void(tmpNum: Int)
-        Debug.TraceNotImplemented("Player.AddCoins()")
+        Debug.TraceNotImplemented("Player.AddCoins(Int)")
     End Function
 
     Function AllPlayersPerished: Bool()
@@ -88,11 +89,11 @@ Class Player Extends MobileEntity
     End Function
 
     Function DoesPlayer1HaveItemOfType: Bool(i: Int)
-        Debug.TraceNotImplemented("Player.DoesPlayer1HaveItemOfType()")
+        Debug.TraceNotImplemented("Player.DoesPlayer1HaveItemOfType(Int)")
     End Function
 
     Function GetCharacterName: Int(charNum: Int, tagType: Int)
-        Debug.TraceNotImplemented("Player.GetCharacterName()")
+        Debug.TraceNotImplemented("Player.GetCharacterName(Int, Int)")
     End Function
 
     Function GetGreedMultiplier: Int()
@@ -100,11 +101,11 @@ Class Player Extends MobileEntity
     End Function
 
     Function GetSlotFromNum: Int(num: Int)
-        Debug.TraceNotImplemented("Player.GetSlotFromNum()")
+        Debug.TraceNotImplemented("Player.GetSlotFromNum(Int)")
     End Function
 
     Function GetSlotNum: Int(sl: Int)
-        Debug.TraceNotImplemented("Player.GetSlotNum()")
+        Debug.TraceNotImplemented("Player.GetSlotNum(Int)")
     End Function
 
     Function GetTransplantDisplayTime: Int()
@@ -112,15 +113,15 @@ Class Player Extends MobileEntity
     End Function
 
     Function IsBloodDamage: Bool(damageSource: Int)
-        Debug.TraceNotImplemented("Player.IsBloodDamage()")
+        Debug.TraceNotImplemented("Player.IsBloodDamage(Int)")
     End Function
 
     Function IsIntentionalDamage: Bool(damageSource: Int)
-        Debug.TraceNotImplemented("Player.IsIntentionalDamage()")
+        Debug.TraceNotImplemented("Player.IsIntentionalDamage(Int)")
     End Function
 
     Function IsInternalDamage: Bool(damageSource: Int)
-        Debug.TraceNotImplemented("Player.IsInternalDamage()")
+        Debug.TraceNotImplemented("Player.IsInternalDamage(Int)")
     End Function
 
     Function IsLastLevel: Bool()
@@ -132,15 +133,15 @@ Class Player Extends MobileEntity
     End Function
 
     Function IsUnpreventableDamage: Bool(damageSource: Int)
-        Debug.TraceNotImplemented("Player.IsUnpreventableDamage()")
+        Debug.TraceNotImplemented("Player.IsUnpreventableDamage(Int)")
     End Function
 
     Function MakeBodyImage: Sprite(characterID: Int, idSuffix: String, altSkin: Int)
-        Debug.TraceNotImplemented("Player.MakeBodyImage()")
+        Debug.TraceNotImplemented("Player.MakeBodyImage(Int, String, Int)")
     End Function
 
     Function MakeHeadImage: Sprite(characterID: Int, idSuffix: String, altSkin: Int)
-        Debug.TraceNotImplemented("Player.MakeHeadImage()")
+        Debug.TraceNotImplemented("Player.MakeHeadImage(Int, String, Int)")
 
         Return New Sprite()
     End Function
@@ -150,7 +151,7 @@ Class Player Extends MobileEntity
     End Function
 
     Function OffsetCoins: Void(tmpNum: Int)
-        Debug.TraceNotImplemented("Player.OffsetCoins()")
+        Debug.TraceNotImplemented("Player.OffsetCoins(Int)")
     End Function
 
     Function PlayersHaveMovedThisBeat: Bool()
@@ -158,11 +159,11 @@ Class Player Extends MobileEntity
     End Function
 
     Function PlayVOPlayer1: Void(voSound: Int)
-        Debug.TraceNotImplemented("Player.PlayVOPlayer1()")
+        Debug.TraceNotImplemented("Player.PlayVOPlayer1(Int)")
     End Function
 
     Function SetCoins: Void(tmpNum: Int, allowAchievement: Bool)
-        Debug.TraceNotImplemented("Player.SetCoins()")
+        Debug.TraceNotImplemented("Player.SetCoins(Int, Bool)")
     End Function
 
     Function UpdateAll: Void()
@@ -239,7 +240,7 @@ Class Player Extends MobileEntity
             Local itemData := New ItemData(shovel)
             Local name := GetString(shovel, "_name", "")
             Local path := GetString(shovel, "_content", "")
-            Local image := New Sprite("items/" + path, itemData.imageWidth, itemData.imageHeight, itemData.numFrames, Image.DefaultFlags)
+            Local image := New Sprite("items/" + path, itemData.imageW, itemData.imageH, itemData.imageFrames, Image.DefaultFlags)
             image.SetZ(10000.0)
             Self.shovelImages.Set(name, image)
         End For
@@ -491,19 +492,19 @@ Class Player Extends MobileEntity
     Field deadRenderFrames: Int
 
     Method AddFamiliarAt: Void(offsetX: Int, offsetY: Int, item: Int)
-        Debug.TraceNotImplemented("Player.AddFamiliarAt()")
+        Debug.TraceNotImplemented("Player.AddFamiliarAt(Int, Int, Int)")
     End Method
 
     Method AddGeneralMetrics: Void(sendIt: Bool)
-        Debug.TraceNotImplemented("Player.AddGeneralMetrics()")
+        Debug.TraceNotImplemented("Player.AddGeneralMetrics(Bool)")
     End Method
 
     Method AddItemOfType: Void(item: String, itemObj: Item, ignoreFlyTo: Bool, isInitialEquip: Bool)
-        Debug.TraceNotImplemented("Player.AddItemOfType()")
+        Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool)")
     End Method
 
     Method AddItemOfType_PreProcess: Bool(i: String, itemObj: Item)
-        Debug.TraceNotImplemented("Player.AddItemOfType_PreProcess()")
+        Debug.TraceNotImplemented("Player.AddItemOfType_PreProcess(String, Item)")
     End Method
 
     Method AfterEnemyMovement: Void()
@@ -511,15 +512,15 @@ Class Player Extends MobileEntity
     End Method
 
     Method AfterHitHook: Void(nme: Object, hitX: Int, hitY: Int, dir: Int)
-        Debug.TraceNotImplemented("Player.AfterHitHook()")
+        Debug.TraceNotImplemented("Player.AfterHitHook(Object, Int, Int, Int)")
     End Method
 
     Method AttackDirection: Bool(dir: Int, isThrow: Bool)
-        Debug.TraceNotImplemented("Player.AttackDirection()")
+        Debug.TraceNotImplemented("Player.AttackDirection(Int, Bool)")
     End Method
 
     Method AttemptOffbeatMove: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Player.AttemptOffbeatMove()")
+        Debug.TraceNotImplemented("Player.AttemptOffbeatMove(Int, Int)")
     End Method
 
     Method BreakGlassShovel: Void()
@@ -569,7 +570,7 @@ Class Player Extends MobileEntity
         For Local familiar := EachIn Self.familiars
             familiar.Die()
         End For
-        
+
         Self.familiars.Clear()
 
         If includeLamb
@@ -580,7 +581,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method ClearFamiliarAt: Void(offsetX: Int, offsetY: Int)
-        Debug.TraceNotImplemented("Player.ClearFamiliarAt()")
+        Debug.TraceNotImplemented("Player.ClearFamiliarAt(Int, Int)")
     End Method
 
     Method CommitZap: Void()
@@ -588,11 +589,11 @@ Class Player Extends MobileEntity
     End Method
 
     Method ConsumeItemSlot: Bool(sl: Int)
-        Debug.TraceNotImplemented("Player.ConsumeItemSlot()")
+        Debug.TraceNotImplemented("Player.ConsumeItemSlot(Int)")
     End Method
 
     Method ConsumeOne: Bool(item: Int)
-        Debug.TraceNotImplemented("Player.ConsumeOne()")
+        Debug.TraceNotImplemented("Player.ConsumeOne(Int)")
     End Method
 
     Method Die: Void()
@@ -602,7 +603,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method DoBigDig: Bool(x0: Int, y0: Int, shovelDamage: Int, dir: Int, allowNoShovel: Bool)
-        Debug.TraceNotImplemented("Player.DoBigDig()")
+        Debug.TraceNotImplemented("Player.DoBigDig(Int, Int, Int, Int, Bool)")
     End Method
 
     Method DoComboLeftDown: Bool()
@@ -638,7 +639,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method DoHitEffects: Void(dir: Int, hitter: Object, tempDam: Int)
-        Debug.TraceNotImplemented("Player.DoHitEffects()")
+        Debug.TraceNotImplemented("Player.DoHitEffects(Int, Object, Int)")
     End Method
 
     Method DoNeed: Void()
@@ -650,7 +651,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method DropItem: Object(i: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Player.DropItem()")
+        Debug.TraceNotImplemented("Player.DropItem(Int, Int, Int)")
     End Method
 
     Method EmptyAllSlots: Void(includeLamb: Bool)
@@ -674,7 +675,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method EmptySlot: Void(sl: Int)
-        Debug.TraceNotImplemented("Player.EmptySlot()")
+        Debug.TraceNotImplemented("Player.EmptySlot(Int)")
     End Method
 
     Method EnterBatForm: Void()
@@ -686,7 +687,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method Fall: Void(keepMultiplier: Bool)
-        Debug.TraceNotImplemented("Player.Fall()")
+        Debug.TraceNotImplemented("Player.Fall(Bool)")
     End Method
 
     Method FeetIgnoreCoals: Bool()
@@ -714,7 +715,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetBonusDamage: Int(baseDamage: Int)
-        Debug.TraceNotImplemented("Player.GetBonusDamage()")
+        Debug.TraceNotImplemented("Player.GetBonusDamage(Int)")
     End Method
 
     Method GetDamage: Int()
@@ -726,7 +727,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetHUDQuantityText: Object(slot: Int)
-        Debug.TraceNotImplemented("Player.GetHUDQuantityText()")
+        Debug.TraceNotImplemented("Player.GetHUDQuantityText(Int)")
     End Method
 
     Method GetItemInSlot: String(sl: String, overrideBatForm: Bool)
@@ -747,7 +748,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetItemQuantity: Int(item: Int)
-        Debug.TraceNotImplemented("Player.GetItemQuantity()")
+        Debug.TraceNotImplemented("Player.GetItemQuantity(Int)")
     End Method
 
     Method GetKillsUntilHealingString: Int()
@@ -771,7 +772,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetNewWeapon: Void(w: Int)
-        Debug.TraceNotImplemented("Player.GetNewWeapon()")
+        Debug.TraceNotImplemented("Player.GetNewWeapon(Int)")
     End Method
 
     Method GetPositionLastBeat: Object()
@@ -779,7 +780,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetShovelDamage: Int(fromMinersCap: Bool)
-        Debug.TraceNotImplemented("Player.GetShovelDamage()")
+        Debug.TraceNotImplemented("Player.GetShovelDamage(Bool)")
     End Method
 
     Method GetShovelDamageHelper: Int()
@@ -791,15 +792,15 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetWeapon: Object(overrideBatForm: Bool)
-        Debug.TraceNotImplemented("Player.GetWeapon()")
+        Debug.TraceNotImplemented("Player.GetWeapon(Bool)")
     End Method
 
     Method GiveInitialEquipment: Void(resetHealth: Bool)
-        Debug.TraceNotImplemented("Player.GiveInitialEquipment()")
+        Debug.TraceNotImplemented("Player.GiveInitialEquipment(Bool)")
     End Method
 
     Method GotBlood: Void(amount: Int)
-        Debug.TraceNotImplemented("Player.GotBlood()")
+        Debug.TraceNotImplemented("Player.GotBlood(Int)")
     End Method
 
     Method GotKill: Void()
@@ -807,7 +808,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method GrantIBeats: Void(num: Int)
-        Debug.TraceNotImplemented("Player.GrantIBeats()")
+        Debug.TraceNotImplemented("Player.GrantIBeats(Int)")
     End Method
 
     Method HandleIceAndCoals: Void()
@@ -858,19 +859,19 @@ Class Player Extends MobileEntity
     End Method
 
     Method Heal: Void(amt: Int, fromFood: Bool, playVO: Bool, fromMagicFood: Bool)
-        Debug.TraceNotImplemented("Player.Heal()")
+        Debug.TraceNotImplemented("Player.Heal(Int, Bool, Bool, Bool)")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("Player.Hit()")
+        Debug.TraceNotImplemented("Player.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method ImmediatelyMoveTo: Void(xVal: Int, yVal: Int, fromKeyboard: Bool, fromClampedEnemy: Bool, fromBounceTrap: Bool, fromCourage: Bool, overrideStairs: Bool)
-        Debug.TraceNotImplemented("Player.ImmediatelyMoveTo()")
+        Debug.TraceNotImplemented("Player.ImmediatelyMoveTo(Int, Int, Bool, Bool, Bool, Bool, Bool)")
     End Method
 
     Method IsAnythingInSlot: Bool(sl: Int)
-        Debug.TraceNotImplemented("Player.IsAnythingInSlot()")
+        Debug.TraceNotImplemented("Player.IsAnythingInSlot(Int)")
     End Method
 
     Method IsBomblessCharacter: Bool()
@@ -906,11 +907,11 @@ Class Player Extends MobileEntity
     End Method
 
     Method IsShrunk: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Player.IsShrunk()")
+        Debug.TraceNotImplemented("Player.IsShrunk(Int, Int)")
     End Method
 
     Method IsSlotCursed: Bool(sl: Int)
-        Debug.TraceNotImplemented("Player.IsSlotCursed()")
+        Debug.TraceNotImplemented("Player.IsSlotCursed(Int)")
     End Method
 
     Method IsVisible: Bool()
@@ -931,7 +932,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method KnockSelfBack: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Player.KnockSelfBack()")
+        Debug.TraceNotImplemented("Player.KnockSelfBack(Int, Int)")
     End Method
 
     Method LambDeath: Void()
@@ -979,7 +980,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method MaybeOpenZap: Void(playerX: Int, playerY: Int, electricStrength: Int)
-        Debug.TraceNotImplemented("Player.MaybeOpenZap()")
+        Debug.TraceNotImplemented("Player.MaybeOpenZap(Int, Int, Int)")
     End Method
 
     Method MomentumDir: Int()
@@ -987,15 +988,15 @@ Class Player Extends MobileEntity
     End Method
 
     Method MoveFamiliars: Void(deltaX: Int, deltaY: Int)
-        Debug.TraceNotImplemented("Player.MoveFamiliars()")
+        Debug.TraceNotImplemented("Player.MoveFamiliars(Int, Int)")
     End Method
 
     Method MoveSoulFamiliars: Void(moveDir: Int)
-        Debug.TraceNotImplemented("Player.MoveSoulFamiliars()")
+        Debug.TraceNotImplemented("Player.MoveSoulFamiliars(Int)")
     End Method
 
     Method MoveTo: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Player.MoveTo()")
+        Debug.TraceNotImplemented("Player.MoveTo(Int, Int)")
     End Method
 
     Method PainFlyaway: Void()
@@ -1003,7 +1004,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method PerformTween: Void(xVal: Int, yVal: Int, oldX: Int, oldY: Int, tweenType: Int, shadowTweenType: Int, bufferTween: Bool)
-        Debug.TraceNotImplemented("Player.PerformTween()")
+        Debug.TraceNotImplemented("Player.PerformTween(Int, Int, Int, Int, Int, Int, Bool)")
     End Method
 
     Method Perished: Bool()
@@ -1015,11 +1016,11 @@ Class Player Extends MobileEntity
     End Method
 
     Method PlayVO: Void(voSound: Int)
-        Debug.TraceNotImplemented("Player.PlayVO()")
+        Debug.TraceNotImplemented("Player.PlayVO(Int)")
     End Method
 
     Method ProcessDropMystery: Void(item: Object, slot: Int)
-        Debug.TraceNotImplemented("Player.ProcessDropMystery()")
+        Debug.TraceNotImplemented("Player.ProcessDropMystery(Object, Int)")
     End Method
 
     Method ProcessMoveQueue: Void()
@@ -1027,23 +1028,23 @@ Class Player Extends MobileEntity
     End Method
 
     Method ProcessSlotOffsets: Object(tmpSlotNum: Int, tmpX: Int, tmpY: Int)
-        Debug.TraceNotImplemented("Player.ProcessSlotOffsets()")
+        Debug.TraceNotImplemented("Player.ProcessSlotOffsets(Int, Int, Int)")
     End Method
 
     Method ProcessSlotOffsets2: Object(tmpSlot: Int, tmpX: Int, tmpY: Int)
-        Debug.TraceNotImplemented("Player.ProcessSlotOffsets2()")
+        Debug.TraceNotImplemented("Player.ProcessSlotOffsets2(Int, Int, Int)")
     End Method
 
     Method ProcessTheResultsOfEquippingItem: Void(item: Int)
-        Debug.TraceNotImplemented("Player.ProcessTheResultsOfEquippingItem()")
+        Debug.TraceNotImplemented("Player.ProcessTheResultsOfEquippingItem(Int)")
     End Method
 
     Method ProcessTheResultsOfLosingItem: Void(i: Int)
-        Debug.TraceNotImplemented("Player.ProcessTheResultsOfLosingItem()")
+        Debug.TraceNotImplemented("Player.ProcessTheResultsOfLosingItem(Int)")
     End Method
 
     Method PutItemInSlot: Void(sl: Int, i: Int, ignoreFlyTo: Bool)
-        Debug.TraceNotImplemented("Player.PutItemInSlot()")
+        Debug.TraceNotImplemented("Player.PutItemInSlot(Int, Int, Bool)")
     End Method
 
     Method Render: Void()
@@ -1051,19 +1052,19 @@ Class Player Extends MobileEntity
     End Method
 
     Method RenderHUD: Void(position: Int, small: Bool)
-        Debug.TraceNotImplemented("Player.RenderHUD()")
+        Debug.TraceNotImplemented("Player.RenderHUD(Int, Bool)")
     End Method
 
     Method RenderHUDSlotHotkey: Void(inputMove: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, overrideBatForm: Bool)
-        Debug.TraceNotImplemented("Player.RenderHUDSlotHotkey()")
+        Debug.TraceNotImplemented("Player.RenderHUDSlotHotkey(Int, Int, Int, Int, Float, Bool)")
     End Method
 
     Method RenderHUDSlotQuantity: Void(textSprite: Object, num: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, alpha: Float)
-        Debug.TraceNotImplemented("Player.RenderHUDSlotQuantity()")
+        Debug.TraceNotImplemented("Player.RenderHUDSlotQuantity(Object, Int, Int, Int, Int, Float, Float)")
     End Method
 
     Method RenderHUDSlotQuantity2: Void(textSprite: Object, item: Int, slotX: Int, slotY: Int, slotSize: Int, scale: Float, alpha: Float)
-        Debug.TraceNotImplemented("Player.RenderHUDSlotQuantity2()")
+        Debug.TraceNotImplemented("Player.RenderHUDSlotQuantity2(Object, Int, Int, Int, Int, Float, Float)")
     End Method
 
     Method ResetStateAfterLevel: Void()
@@ -1102,11 +1103,11 @@ Class Player Extends MobileEntity
     End Method
 
     Method SetSlotCursed: Void(sl: Int, b: Bool)
-        Debug.TraceNotImplemented("Player.SetSlotCursed()")
+        Debug.TraceNotImplemented("Player.SetSlotCursed(Int, Bool)")
     End Method
 
     Method SetSlotMystery: Void(sl: Int, b: Bool)
-        Debug.TraceNotImplemented("Player.SetSlotMystery()")
+        Debug.TraceNotImplemented("Player.SetSlotMystery(Int, Bool)")
     End Method
 
     Method SetTotallyBlank: Void()
@@ -1126,7 +1127,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method SubtractItemOfType: Bool(i: Int)
-        Debug.TraceNotImplemented("Player.SubtractItemOfType()")
+        Debug.TraceNotImplemented("Player.SubtractItemOfType(Int)")
     End Method
 
     Method SubtractKey: Bool()
@@ -1138,7 +1139,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method TestCourage: Bool(beat: Int)
-        Debug.TraceNotImplemented("Player.TestCourage()")
+        Debug.TraceNotImplemented("Player.TestCourage(Int)")
     End Method
 
     Method ToggleBatForm: Void()
@@ -1154,7 +1155,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method TurnSlotInto: Void(slot: Int, newItem: Int)
-        Debug.TraceNotImplemented("Player.TurnSlotInto()")
+        Debug.TraceNotImplemented("Player.TurnSlotInto(Int, Int)")
     End Method
 
     Method Update: Void()
@@ -1183,175 +1184,24 @@ Class Player Extends MobileEntity
     End Method
 
     Method WarpTo: Void(newX: Int, newY: Int)
-        Debug.TraceNotImplemented("Player.WarpTo()")
+        Debug.TraceNotImplemented("Player.WarpTo(Int, Int)")
     End Method
 
-    Method NoTrim: Void()
-        Super.NoTrim()
-        ActuallyPlayVO(0, Null)
-        AddCoins(0)
-        AllPlayersPerished()
-        AnyPlayerInSpecialRoom()
-        AnyPlayerPeace()
-        AnyPlayerTemporaryMapSight()
-        CheckAllModeCompletion()
-        ChooseNewPlayer1()
-        DoesAnyPlayerHaveItemOfType(0, False)
-        DoesPlayer1HaveItemOfType(0)
-        GetCharacterName(0, 0)
-        GetGreedMultiplier()
-        GetSlotFromNum(0)
-        GetSlotNum(0)
-        GetTransplantDisplayTime()
-        IsBloodDamage(0)
-        IsIntentionalDamage(0)
-        IsInternalDamage(0)
-        IsLastLevel()
-        IsSolo()
-        IsUnpreventableDamage(0)
-        MakeBodyImage(0, 0, 0)
-        MakeHeadImage(0, 0, 0)
-        NumEnabledCharacters()
-        OffsetCoins(0)
-        PlayersHaveMovedThisBeat()
-        PlayVOPlayer1(0)
-        SetCoins(0, False)
-        UpdateAll()
-        AddFamiliarAt(0, 0, 0)
-        AddGeneralMetrics(False)
-        AddItemOfType(0, Null, False, False)
-        AddItemOfType_PreProcess(0, Null)
-        AfterEnemyMovement()
-        AfterHitHook(Null, 0, 0, 0)
-        AttackDirection(0, False)
-        AttemptOffbeatMove(0, 0)
-        BreakGlassShovel()
-        BreakGlassStuff()
-        BreakSpikedEars()
-        CalcMinVisibility()
-        CancelTween()
-        CheckConductorWire()
-        CheckFloating()
-        CheckVowOfPoverty()
-        ClearAllFamiliars(False)
-        ClearFamiliarAt(0, 0)
-        CommitZap()
-        ConsumeItemSlot(0)
-        ConsumeOne(0)
-        Die()
-        DoBigDig(0, 0, 0, 0, False)
-        DoComboLeftDown()
-        DoComboLeftRight()
-        DoComboLeftUp()
-        DoComboRightDown()
-        DoComboRightUp()
-        DoComboUpDown()
-        DoCrownTeleport()
-        DoEnchantWeapon()
-        DoHitEffects(0, Null, 0)
-        DoNeed()
-        DropBomb()
-        DropItem(0, 0, 0)
-        EmptyAllSlots(False)
-        EmptySlot(0)
-        EnterBatForm()
-        ExitBatForm()
-        Fall(False)
-        FeetIgnoreCoals()
-        FeetIgnoreIce()
-        FeetIgnoreOoze()
-        FeetIgnoreWaterAndTar()
-        FrostItemCount()
-        GetArmorAmount()
-        GetBonusDamage(0)
-        GetDamage()
-        GetElectricStrength()
-        GetHUDQuantityText(0)
-        GetItemInSlot(0, False)
-        GetItemQuantity(0)
-        GetKillsUntilHealingString()
-        GetLightSourceMax()
-        GetLightSourceMin()
-        GetMinVisibility()
-        GetMoveLastBeat()
-        GetNewWeapon(0)
-        GetPositionLastBeat()
-        GetShovelDamage(False)
-        GetShovelDamageHelper()
-        GetTorchLevel()
-        GetWeapon(False)
-        GiveInitialEquipment(False)
-        GotBlood(0)
-        GotKill()
-        GrantIBeats(0)
-        HandleIceAndCoals()
-        HasCouponLike()
-        HasItemOfType(0, False)
-        HasShovel()
-        HaveSecondActionSlot()
-        Heal(0, False, False, False)
-        Hit(0, 0, 0, Null, False, 0)
-        ImmediatelyMoveTo(0, 0, False, False, False, False, False)
-        IsAnythingInSlot(0)
-        IsBomblessCharacter()
-        IsHeavy()
-        IsLordCrownActive()
-        IsLordCrownActive_Flicker()
-        IsNecroDancer1Alive()
-        IsPhasing()
-        IsShieldActive()
-        IsShieldActive_Flicker()
-        IsShrunk(0, 0)
-        IsSlotCursed(0)
-        IsVisible()
-        IsWeaponlessCharacter()
-        KnockSelfBack(0, 0)
-        LambDeath()
-        LoadImages()
-        MaybeOpenZap(0, 0, 0)
-        MomentumDir()
-        MoveFamiliars(0, 0)
-        MoveSoulFamiliars(0)
-        MoveTo(0, 0)
-        PainFlyaway()
-        PerformTween(0, 0, 0, 0, 0, 0, False)
-        Perished()
-        PermitMoveFail()
-        PlayVO(0)
-        ProcessDropMystery(Null, 0)
-        ProcessMoveQueue()
-        ProcessSlotOffsets(0, 0, 0)
-        ProcessSlotOffsets2(0, 0, 0)
-        ProcessTheResultsOfEquippingItem(0)
-        ProcessTheResultsOfLosingItem(0)
-        PutItemInSlot(0, 0, False)
-        Render()
-        RenderHUD(0, False)
-        RenderHUDSlotHotkey(0, 0, 0, 0, 0, False)
-        RenderHUDSlotQuantity(Null, 0, 0, 0, 0, 0, 0)
-        RenderHUDSlotQuantity2(Null, 0, 0, 0, 0, 0, 0)
-        ResetStateAfterLevel()
-        ScatterItems()
-        SetCharacter(0)
-        SetDugRecently()
-        SetSlotCursed(0, False)
-        SetSlotMystery(0, False)
-        SetTotallyBlank()
-        StopFalling()
-        SubtractItemOfType(0)
-        SubtractKey()
-        SwapWeapons()
-        TestCourage(0)
-        ToggleBatForm()
-        TurnAllItemsToGlass()
-        TurnAllItemsToObsidian()
-        TurnSlotInto(0, 0)
-        Update()
-        UpdateBonusHeart()
-        UseBomb()
-        VocalizeAttack()
-        WarpFamiliars()
-        WarpTo(0, 0)
+End Class
+
+Class EnchantWeaponPredicate Implements IItemPredicate
+
+    Function _EditorFix: Void() End
+
+    Method New(oldItem_: Int, shapeClass_: Int)
+        Debug.TraceNotImplemented("EnchantWeaponPredicate.New(Int, Int)")
+    End Method
+
+    Field oldItem: String
+    Field shapeClass: String
+
+    Method Call: Bool(n: Object)
+        Debug.TraceNotImplemented("EnchantWeaponPredicate.Call(Object)")
     End Method
 
 End Class

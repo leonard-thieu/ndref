@@ -1,6 +1,8 @@
-Strict
+'Strict
 
+Import entity
 Import level
+Import logger
 Import npc
 Import shrine
 
@@ -27,5 +29,25 @@ Class Shriner Extends NPC
     Field shrine2: Shrine
     Field shrine3: Shrine
     Field hasSummoned: Bool
+
+    Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
+        Debug.TraceNotImplemented("Shriner.CanBeDamaged(Bool, Bool)")
+    End Method
+
+    Method Die: Void()
+        Debug.TraceNotImplemented("Shriner.Die()")
+    End Method
+
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Debug.TraceNotImplemented("Shriner.Hit(String, Int, Int, Entity, Bool, Int)")
+    End Method
+
+    Method SummonDragons: Void()
+        Debug.TraceNotImplemented("Shriner.SummonDragons()")
+    End Method
+
+    Method Update: Void()
+        Debug.TraceNotImplemented("Shriner.Update()")
+    End Method
 
 End Class

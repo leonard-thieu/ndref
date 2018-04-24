@@ -34,7 +34,7 @@ Class Conjurer Extends NPC
 
         Self.DisplayCost()
 
-        ' TOdO: Args for `Thing`.
+        ' TODO: Args for `Thing`.
         Self.box = New Thing()
     End Method
 
@@ -53,12 +53,6 @@ Class Conjurer Extends NPC
 
     Method IncreaseCost: Void()
         Debug.TraceNotImplemented("Conjurer.IncreaseCost()")
-    End Method
-
-    Method NoTrim: Void()
-        Die()
-        DisplayCost()
-        IncreaseCost()
     End Method
 
 End Class

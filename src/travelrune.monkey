@@ -1,9 +1,15 @@
-Strict
+'Strict
 
 Import mojo.graphics
+Import entity
+Import logger
 Import trap
 
 Class TravelRune Extends Trap
+
+    Function TravelTo: Void(ent: Object, toX: Int, toY: Int)
+        Debug.TraceNotImplemented("TravelRune.TravelTo(Object, Int, Int)")
+    End Function
 
     Function _EditorFix: Void() End
 
@@ -18,7 +24,7 @@ Class TravelRune Extends Trap
         Self.yOff = 12.0
         Self.travelToX = toX
         Self.travelToY = toY
-        
+
         Self.image = New Sprite("traps/travelrune.png", 24, 24, 4, Image.DefaultFlags)
         Self.image.SetZ(-995.0)
     End Method
@@ -27,6 +33,14 @@ Class TravelRune Extends Trap
     Field travelToX: Int
     Field travelToY: Int
     Field retractCounter: Int
+
+    Method Trigger: Void(ent: Entity)
+        Debug.TraceNotImplemented("TravelRune.Trigger(Entity)")
+    End Method
+
+    Method Update: Void()
+        Debug.TraceNotImplemented("TravelRune.Update()")
+    End Method
 
 End Class
 

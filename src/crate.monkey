@@ -1,10 +1,14 @@
 'Strict
 
 Import monkey.list
+Import bouncer
 Import enemy
+Import entity
 Import gargoyle
 Import level
 Import logger
+Import point
+Import sprite
 
 Class Crate Extends Enemy
 
@@ -13,16 +17,16 @@ Class Crate Extends Enemy
     Const TYPE_GREEN_GORGON_STATUE: Int = 3
     Const TYPE_GOLD_GORGON_STATUE: Int = 4
 
+    Global crateList: List<Crate> = New List<Crate>()
     Global fallenCrates: List<Crate> = New List<Crate>()
     Global fallenGargoyles: List<Gargoyle> = New List<Gargoyle>()
-    Global crateList: List<Crate> = New List<Crate>()
 
     Function ProcessFallenCrates: Void()
         Debug.TraceNotImplemented("Crate.ProcessFallenCrates()")
     End Function
 
     Function SelectItem: Int(itemLevel: Int)
-        Debug.TraceNotImplemented("Crate.SelectItem()")
+        Debug.TraceNotImplemented("Crate.SelectItem(Int)")
     End Function
 
     Function _EditorFix: Void() End
@@ -37,7 +41,7 @@ Class Crate Extends Enemy
 
         Self.initialYOff = Self.yOff
         Self.crateType = type
-        
+
         Self.contents = cont
         If Self.contents = "no_item" And Level.randSeed <> -1
             Self.DetermineContents()
@@ -85,12 +89,12 @@ Class Crate Extends Enemy
         End If
     End Method
 
-    Method GetMovementDirection: Object()
+    Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Crate.GetMovementDirection()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("Crate.Hit()")
+        Debug.TraceNotImplemented("Crate.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method IsGorgonStatue: Bool()
@@ -98,7 +102,7 @@ Class Crate Extends Enemy
     End Method
 
     Method Knockback: Void(dir: Int)
-        Debug.TraceNotImplemented("Crate.Knockback()")
+        Debug.TraceNotImplemented("Crate.Knockback(Int)")
     End Method
 
     Method MoveFail: Void()
@@ -106,15 +110,15 @@ Class Crate Extends Enemy
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
-        Debug.TraceNotImplemented("Crate.MoveImmediate()")
+        Debug.TraceNotImplemented("Crate.MoveImmediate(Int, Int, String)")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Crate.MoveSucceed()")
+        Debug.TraceNotImplemented("Crate.MoveSucceed(Bool, Bool)")
     End Method
 
     Method Open: Bool(playSound: Bool)
-        Debug.TraceNotImplemented("Crate.Open()")
+        Debug.TraceNotImplemented("Crate.Open(Bool)")
     End Method
 
     Method Render: Void()
@@ -123,26 +127,6 @@ Class Crate Extends Enemy
 
     Method Update: Void()
         Debug.TraceNotImplemented("Crate.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Super.NoTrim()
-        ProcessFallenCrates()
-        SelectItem(0)
-        DecideIfStayingEmpty()
-        DetermineContents()
-        DetermineContentsNow_PlayerDoesntOwn()
-        Die()
-        GetMovementDirection()
-        Hit(0, 0, 0, Null, False, 0)
-        IsGorgonStatue()
-        Knockback(0)
-        MoveFail()
-        MoveImmediate(0, 0, 0)
-        MoveSucceed(False, False)
-        Open(False)
-        Render()
-        Update()
     End Method
 
 End Class

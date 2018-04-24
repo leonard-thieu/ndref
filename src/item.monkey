@@ -61,13 +61,13 @@ Class Item Extends Entity
     Const NoItem: String = "no_item"
 
     Global debugTrailerMode: Bool
-    Global diamondDealerItems1: Int
-    Global diamondDealerItems2: Int
-    Global diamondDealerItems3: Int
-    Global hephItems1: Int
-    Global hephItems2: Int
-    Global hephItems3: Int
-    Global itemImages: Int
+    Global diamondDealerItems1: Object
+    Global diamondDealerItems2: Object
+    Global diamondDealerItems3: Object
+    Global hephItems1: Object
+    Global hephItems2: Object
+    Global hephItems3: Object
+    Global itemImages: Object
     Global itemPoolAnyChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
     Global itemPoolAnyChest2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
     Global itemPoolChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
@@ -84,9 +84,9 @@ Class Item Extends Entity
     Global itemPoolUrn2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
     Global lastChestItemClass1: String
     Global lastChestItemClass2: String
-    Global merlinItems1: Int
-    Global merlinItems2: Int
-    Global merlinItems3: Int
+    Global merlinItems1: Object
+    Global merlinItems2: Object
+    Global merlinItems3: Object
     Global pickupList: List<Item> = New List<Item>()
     Global seenItems: StringMap<Int> = New StringMap<Int>()
 
@@ -100,11 +100,11 @@ Class Item Extends Entity
     End Function
 
     Function ChangeWeaponMaterial: Int(t: Int, materialClass: Int)
-        Debug.TraceNotImplemented("Item.ChangeWeaponMaterial()")
+        Debug.TraceNotImplemented("Item.ChangeWeaponMaterial(Int, Int)")
     End Function
 
     Function ClearAllSingleChoiceItems: Void(takenItem: Object)
-        Debug.TraceNotImplemented("Item.ClearAllSingleChoiceItems()")
+        Debug.TraceNotImplemented("Item.ClearAllSingleChoiceItems(Object)")
     End Function
 
     Function ConsumeCoinsRemainingOnLevel: Int()
@@ -112,7 +112,7 @@ Class Item Extends Entity
     End Function
 
     Function CreateAmountOfCoins: Void(xVal: Int, yVal: Int, amt: Int)
-        Debug.TraceNotImplemented("Item.CreateAmountOfCoins()")
+        Debug.TraceNotImplemented("Item.CreateAmountOfCoins(Int, Int, Int)")
     End Function
 
     Function CreateItemPools: Void()
@@ -271,11 +271,11 @@ Class Item Extends Entity
     End Function
 
     Function DropItem: Object(xVal: Int, yVal: Int, t: Int)
-        Debug.TraceNotImplemented("Item.DropItem()")
+        Debug.TraceNotImplemented("Item.DropItem(Int, Int, Int)")
     End Function
 
     Function FilterDisabledItems: Void(list: Object)
-        Debug.TraceNotImplemented("Item.FilterDisabledItems()")
+        Debug.TraceNotImplemented("Item.FilterDisabledItems(Object)")
     End Function
 
     Function FindAllGoldPiles: Object()
@@ -285,7 +285,7 @@ Class Item Extends Entity
     Function GetAllItemsInClass: List<JsonObject>(itemClass: String)
         Local items := New List<JsonObject>()
         Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
-        
+
         For Local itemNodeValue := EachIn itemNodes
             Local itemNode := JsonObject(itemNodeValue)
             Local isInClass := GetBool(itemNode, itemClass, False)
@@ -296,31 +296,31 @@ Class Item Extends Entity
     End Function
 
     Function GetAppropriateCoinItemForQuantity: Int(quantity: Int)
-        Debug.TraceNotImplemented("Item.GetAppropriateCoinItemForQuantity()")
+        Debug.TraceNotImplemented("Item.GetAppropriateCoinItemForQuantity(Int)")
     End Function
 
     Function GetCost: Int(i: Int)
-        Debug.TraceNotImplemented("Item.GetCost()")
+        Debug.TraceNotImplemented("Item.GetCost(Int)")
     End Function
 
     Function GetFlyawayText: Int(i: Int)
-        Debug.TraceNotImplemented("Item.GetFlyawayText()")
+        Debug.TraceNotImplemented("Item.GetFlyawayText(Int)")
     End Function
 
     Function GetHeavyGlassFrame: Int(quantity: Int)
-        Debug.TraceNotImplemented("Item.GetHeavyGlassFrame()")
+        Debug.TraceNotImplemented("Item.GetHeavyGlassFrame(Int)")
     End Function
 
     Function GetIntAttribute: Int(i: String, attr: String, dflt: Int)
-        Debug.TraceNotImplemented("Item.GetIntAttribute()")
+        Debug.TraceNotImplemented("Item.GetIntAttribute(String, String, Int)")
     End Function
 
     Function GetItemXML: Object(i: Int)
-        Debug.TraceNotImplemented("Item.GetItemXML()")
+        Debug.TraceNotImplemented("Item.GetItemXML(Int)")
     End Function
 
     Function GetPickupAt: Item(xVal: Int, yVal: Int, slf: Item)
-        Debug.TraceNotImplemented("Item.GetPickupAt()")
+        Debug.TraceNotImplemented("Item.GetPickupAt(Int, Int, Item)")
     End Function
 
     Function GetPickupsAt: List<Item>(xVal: Int, yVal: Int, slf: Item)
@@ -414,7 +414,7 @@ Class Item Extends Entity
     End Function
 
     Function GetSet: Int(n: Object)
-        Debug.TraceNotImplemented("Item.GetSet()")
+        Debug.TraceNotImplemented("Item.GetSet(Object)")
     End Function
 
     Function GetSlot: String(n: JsonObject)
@@ -435,23 +435,23 @@ Class Item Extends Entity
     End Function
 
     Function GetStringAttribute: Int(i: Int, attr: Int, dflt: Int)
-        Debug.TraceNotImplemented("Item.GetStringAttribute()")
+        Debug.TraceNotImplemented("Item.GetStringAttribute(Int, Int, Int)")
     End Function
 
     Function GetValue: Int(t: Int)
-        Debug.TraceNotImplemented("Item.GetValue()")
+        Debug.TraceNotImplemented("Item.GetValue(Int)")
     End Function
 
     Function GetWeaponBaseType: Int(t: Int)
-        Debug.TraceNotImplemented("Item.GetWeaponBaseType()")
+        Debug.TraceNotImplemented("Item.GetWeaponBaseType(Int)")
     End Function
 
     Function GetWeaponShapeClass: Int(t: Int)
-        Debug.TraceNotImplemented("Item.GetWeaponShapeClass()")
+        Debug.TraceNotImplemented("Item.GetWeaponShapeClass(Int)")
     End Function
 
     Function HasSeenItemXTimes: Bool(itemName: Int, x: Int)
-        Debug.TraceNotImplemented("Item.HasSeenItemXTimes()")
+        Debug.TraceNotImplemented("Item.HasSeenItemXTimes(Int, Int)")
     End Function
 
     Function InitAll: Void()
@@ -576,11 +576,11 @@ Class Item Extends Entity
     End Function
 
     Function IsImmediatelyConsumed: Bool(t: Int)
-        Debug.TraceNotImplemented("Item.IsImmediatelyConsumed()")
+        Debug.TraceNotImplemented("Item.IsImmediatelyConsumed(Int)")
     End Function
 
     Function IsItemOfClass: Bool(n: JsonObject, itemClass: String)
-        Debug.TraceNotImplemented("Item.IsItemOfClass()")
+        Debug.TraceNotImplemented("Item.IsItemOfClass(JsonObject, String)")
     End Function
 
     Function IsItemOfType: Bool(i: String, query: String)
@@ -602,7 +602,7 @@ Class Item Extends Entity
     End Function
 
     Function IsUnlocked: Bool(t: String)
-        Debug.TraceNotImplemented("Item.IsUnlocked()")
+        Debug.TraceNotImplemented("Item.IsUnlocked(String)")
     End Function
 
     Function IsValidItemForCurrentChars: Bool(n: JsonObject)
@@ -863,15 +863,15 @@ Class Item Extends Entity
     End Function
 
     Function IsValidItemForCurrentChars: Bool(n: XMLNode)
-        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars()")
+        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars(XMLNode)")
     End Function
 
-    Function IsValidItemForCurrentChars: Bool(name: Int)
-        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars()")
+    Function IsValidItemForCurrentChars: Bool(name: String)
+        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars(String)")
     End Function
 
     Function IsValidRandomItem: Bool(t: Int)
-        Debug.TraceNotImplemented("Item.IsValidRandomItem()")
+        Debug.TraceNotImplemented("Item.IsValidRandomItem(Int)")
     End Function
 
     Function MoveAll: Void()
@@ -883,11 +883,11 @@ Class Item Extends Entity
     End Function
 
     Function RenderItemAt: Void(iType: Int, xVal: Int, yVal: Int, zVal: Int, inWorld: Bool, scale: Float, alpha: Float, frame: Int)
-        Debug.TraceNotImplemented("Item.RenderItemAt()")
+        Debug.TraceNotImplemented("Item.RenderItemAt(Int, Int, Int, Int, Bool, Float, Float, Int)")
     End Function
 
     Function RenderItemImageAt: Void(img: Object, xVal: Int, yVal: Int, zVal: Int, inWorld: Bool, scale: Float, alpha: Float, frame: Int)
-        Debug.TraceNotImplemented("Item.RenderItemImageAt()")
+        Debug.TraceNotImplemented("Item.RenderItemImageAt(Object, Int, Int, Int, Bool, Float, Float, Int)")
     End Function
 
     Function TransmuteAllItems: Void()
@@ -895,7 +895,7 @@ Class Item Extends Entity
     End Function
 
     Function TransmuteNearbyItems: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Item.TransmuteNearbyItems()")
+        Debug.TraceNotImplemented("Item.TransmuteNearbyItems(Int, Int)")
     End Function
 
     Function _EditorFix: Void() End
@@ -944,16 +944,16 @@ Class Item Extends Entity
         Local itemData := New ItemData(itemObj)
         Self.xOff = itemData.xOff
         Self.yOff = itemData.yOff
-        Self.imageFrames = itemData.numFrames
+        Self.imageFrames = itemData.imageFrames
 
         If Self.IsItemOfType("isCoin")
             Local resourceCoinType: String
             Local resourceCoinObj: JsonObject
             Local resourceCoinPath: String
 
-            Local frameWidth := itemData.imageWidth
-            Local frameHeight := itemData.imageHeight
-            Local frameCount := itemData.numFrames
+            Local frameWidth := itemData.imageW
+            Local frameHeight := itemData.imageH
+            Local frameCount := itemData.imageFrames
 
             resourceCoinType = GetResourceCoinType(Self.utility)
             resourceCoinObj = GetItem(resourceCoinType)
@@ -1114,7 +1114,7 @@ Class Item Extends Entity
     End Method
 
     Method GetIntAttribute: Int(attr: Int, dflt: Int)
-        Debug.TraceNotImplemented("Item.GetIntAttribute()")
+        Debug.TraceNotImplemented("Item.GetIntAttribute(Int, Int)")
     End Method
 
     Method GetSlot: String()
@@ -1122,7 +1122,7 @@ Class Item Extends Entity
     End Method
 
     Method GetStringAttribute: Int(attr: Int, dflt: Int)
-        Debug.TraceNotImplemented("Item.GetStringAttribute()")
+        Debug.TraceNotImplemented("Item.GetStringAttribute(Int, Int)")
     End Method
 
     Method GetValue: Int()
@@ -1134,7 +1134,7 @@ Class Item Extends Entity
     End Method
 
     Method IsItemOfClass: Bool(itemClass: Int)
-        Debug.TraceNotImplemented("Item.IsItemOfClass()")
+        Debug.TraceNotImplemented("Item.IsItemOfClass(Int)")
     End Method
 
     Method IsItemOfType: Bool(query: String)
@@ -1150,7 +1150,7 @@ Class Item Extends Entity
     End Method
 
     Method Pickup: Int(player: Object)
-        Debug.TraceNotImplemented("Item.Pickup()")
+        Debug.TraceNotImplemented("Item.Pickup(Object)")
     End Method
 
     Method Render: Void()
@@ -1169,102 +1169,40 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.Update()")
     End Method
 
-    Method NoTrim: Void()
-        AddToSeenItems(0)
-        ChangeWeaponMaterial(0, 0)
-        ClearAllSingleChoiceItems(Null)
-        ConsumeCoinsRemainingOnLevel()
-        CreateAmountOfCoins(0, 0, 0)
-        CreateItemPools()
-        DropItem(0, 0, 0)
-        FilterDisabledItems(Null)
-        FindAllGoldPiles()
-        GetAllItemsInClass(0)
-        GetAppropriateCoinItemForQuantity(0)
-        GetCost(0)
-        GetFlyawayText(0)
-        GetHeavyGlassFrame(0)
-        GetIntAttribute(0, 0, 0)
-        GetItemXML(0)
-        GetPickupAt(0, 0, Null)
-        GetPickupsAt(0, 0, Null)
-        GetRandomItemInClass(0, 0, 0, 0, False, 0, False)
-        GetRandomItemInClassByPredicate(Null, 0, 0, False)
-        GetSet(Null)
-        GetSlot(Null)
-        GetSlot("")
-        GetStringAttribute(0, 0, 0)
-        GetValue(0)
-        GetWeaponBaseType(0)
-        GetWeaponShapeClass(0)
-        HasSeenItemXTimes(0, 0)
-        InitAll()
-        IsCourageItem(Null)
-        IsDamageBonusItem(Null)
-        IsDamageReductionItem(Null)
-        IsDisabled(0)
-        IsDiscountItem(Null)
-        IsGoldGeneratingItem(Null)
-        IsHealthBonusItem(Null)
-        IsImmediatelyConsumed(0)
-        IsItemOfClass(Null, 0)
-        IsItemOfType(0, 0)
-        IsPainItem(Null)
-        IsUnlocked(0)
-        IsValidItemForCurrentChars(JsonObject(Null))
-        IsValidItemForCurrentChars(XMLNode(Null))
-        IsValidItemForCurrentChars(0)
-        IsValidRandomItem(0)
-        MoveAll()
-        RandomHardModeHelperItem()
-        RenderItemAt(0, 0, 0, 0, False, 0, 0, 0)
-        RenderItemImageAt(Null, 0, 0, 0, False, 0, 0, 0)
-        TransmuteAllItems()
-        TransmuteNearbyItems(0, 0)
-        CheckAdjacentItems()
-        Die()
-        GetFlyawayText()
-        GetIntAttribute(0, 0)
-        GetSlot()
-        GetStringAttribute(0, 0)
-        GetValue()
-        IsItemOfClass(0)
-        IsItemOfType(0)
-        IsVisible()
-        Move()
-        Pickup(Null)
-        Render()
-        SetMystery()
-        Transmute()
-        Update()
+End Class
+
+Class ItemList Extends List<String>
+
+    Function _EditorFix: Void() End
+
+    Method Compare: Int(a: Int, b: Int)
+        Debug.TraceNotImplemented("ItemList.Compare(Int, Int)")
     End Method
 
 End Class
 
 Class ItemData
 
+    Function _EditorFix: Void() End
+
     Method New(itemXML: JsonObject)
-        Self.numFrames = 2 * GetInt(itemXML, "numFrames", 1)
-        Self.imageWidth = GetInt(itemXML, "imageW", 24)
-        Self.imageHeight = GetInt(itemXML, "imageH", 24)
+        Self.imageFrames = 2 * GetInt(itemXML, "numFrames", 1)
+        Self.imageW = GetInt(itemXML, "imageW", 24)
+        Self.imageH = GetInt(itemXML, "imageH", 24)
         Self.bouncer = GetBool(itemXML, "bouncer", True)
 
-        Self.xOff = (24 - Self.imageWidth) / 2
+        Self.xOff = (24 - Self.imageW) / 2
         If Self.bouncer
-            Self.yOff = (24 - Self.imageHeight) / 2
+            Self.yOff = (24 - Self.imageH) / 2
         End If
     End Method
 
-    Field numFrames: Int
-    Field imageWidth: Int
-    Field imageHeight: Int
+    Field imageFrames: Int
+    Field imageW: Int
+    Field imageH: Int
     Field bouncer: Bool = True
     Field xOff: Int
     Field yOff: Int
-
-End Class
-
-Class ItemList Extends List<String>
 
 End Class
 
@@ -1309,8 +1247,14 @@ Class StandardItemPredicate Implements IItemPredicate
         Return True
     End Method
 
-    Method NoTrim: Void()
-        Call(Null)
+End Class
+
+Class TransmutePredicate Implements IItemPredicate
+
+    Function _EditorFix: Void() End
+
+    Method Call: Bool(n: JsonObject)
+        Debug.TraceNotImplemented("TransmutePredicate.Call(JsonObject)")
     End Method
 
 End Class

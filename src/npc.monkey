@@ -10,11 +10,11 @@ Class NPC Extends Enemy Abstract
     Global npcList: List<NPC> = New List<NPC>()
 
     Function GetCaptiveNPCAt: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("NPC.GetCaptiveNPCAt()")
+        Debug.TraceNotImplemented("NPC.GetCaptiveNPCAt(Int, Int)")
     End Function
 
     Function GetDistFromClosestNPC: Float(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("NPC.GetDistFromClosestNPC()")
+        Debug.TraceNotImplemented("NPC.GetDistFromClosestNPC(Int, Int)")
     End Function
 
     Function _EditorFix: Void() End
@@ -43,7 +43,7 @@ Class NPC Extends Enemy Abstract
     Method Die: Void()
         If Not Self.dead
             NPC.npcList.RemoveEach(Self)
-            
+
             Super.Die()
         End If
     End Method
@@ -78,17 +78,6 @@ Class NPC Extends Enemy Abstract
 
     Method Update: Void()
         Debug.TraceNotImplemented("NPC.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        GetCaptiveNPCAt(0, 0)
-        GetDistFromClosestNPC(0, 0)
-        Delete()
-        Die()
-        NPCInit(0, 0, 0, "", False, False)
-        ReleaseFromCage()
-        Render()
-        Update()
     End Method
 
 End Class

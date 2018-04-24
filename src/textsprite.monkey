@@ -6,6 +6,12 @@ Import sprite
 
 Class TextSprite
 
+    Global localizationXML: Object
+
+    Function Init: Void()
+        Debug.TraceNotImplemented("TextSprite.Init()")
+    End Function
+
     Function _EditorFix: Void() End
 
     Method New(j: Int, sc: Float, c: Int, z: Int, shad: Bool, shadC: Int, sOffX: Int, sOffY: Int)
@@ -66,15 +72,15 @@ Class TextSprite
     End Method
 
     Method Draw: Void(x: Float, y: Float, frameOverride: Int)
-        Debug.TraceNotImplemented("TextSprite.Draw()")
+        Debug.TraceNotImplemented("TextSprite.Draw(Float, Float, Int)")
     End Method
 
     Method DrawSprites: Float(sprites: Object, x: Float, y: Float, frameOverride: Int, dryRun: Bool)
-        Debug.TraceNotImplemented("TextSprite.DrawSprites()")
+        Debug.TraceNotImplemented("TextSprite.DrawSprites(Object, Float, Float, Int, Bool)")
     End Method
 
     Method DrawText: Void(t: Int, x: Float, y: Float, force: Bool, hideInReplays: Bool)
-        Debug.TraceNotImplemented("TextSprite.DrawText()")
+        Debug.TraceNotImplemented("TextSprite.DrawText(Int, Float, Float, Bool, Bool)")
     End Method
 
     Method GetText: Int()
@@ -108,36 +114,19 @@ Class TextSprite
     End Method
 
     Method SetAlphaTweenFromCurrent: Void(finalVal: Float, duration: Int)
-        Debug.TraceNotImplemented("TextSprite.SetAlphaTweenFromCurrent()")
+        Debug.TraceNotImplemented("TextSprite.SetAlphaTweenFromCurrent(Float, Int)")
     End Method
 
     Method SetAlphaValue: Void(a: Float)
-        Debug.TraceNotImplemented("TextSprite.SetAlphaValue()")
+        Debug.TraceNotImplemented("TextSprite.SetAlphaValue(Float)")
     End Method
 
     Method SetText: Void(t: String, force: Bool)
-        Debug.TraceNotImplemented("TextSprite.SetText()")
+        Debug.TraceNotImplemented("TextSprite.SetText(String, Bool)")
     End Method
 
     Method SetZOff: Void(zOff: Int)
-        Debug.TraceNotImplemented("TextSprite.SetZOff()")
-    End Method
-
-    Method NoTrim: Void()
-        Discard()
-        Draw2(0, 0, 0)
-        DrawSprites(Null, 0, 0, 0, False)
-        DrawText(0, 0, 0, False, False)
-        GetText()
-        GetWidthOffset()
-        Height()
-        HideInReplays()
-        InWorld(False)
-        ScaledWidth()
-        SetAlphaTweenFromCurrent(0, 0)
-        SetAlphaValue(0)
-        SetText(0, False)
-        SetZOff2(0)
+        Debug.TraceNotImplemented("TextSprite.SetZOff(Int)")
     End Method
 
 End Class

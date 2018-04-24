@@ -26,31 +26,23 @@ Class MobileEntity Extends Entity Abstract
     Field distancePerMovement: Int = 1
 
     Method IsSlidingOnIce: Bool()
-        Debug.TraceNotImplemented("TextSprite.IsSlidingOnIce()")
+        Debug.TraceNotImplemented("MobileEntity.IsSlidingOnIce()")
     End Method
 
     Method IsStandingStill: Bool()
-        Debug.TraceNotImplemented("TextSprite.IsStandingStill()")
+        Debug.TraceNotImplemented("MobileEntity.IsStandingStill()")
     End Method
 
     Method IsStuckInLiquid: Bool()
-        Debug.TraceNotImplemented("TextSprite.IsStuckInLiquid()")
+        Debug.TraceNotImplemented("MobileEntity.IsStuckInLiquid()")
     End Method
 
     Method Splash: Void(destroyWater: Bool)
-        Debug.TraceNotImplemented("TextSprite.Splash()")
+        Debug.TraceNotImplemented("MobileEntity.Splash(Bool)")
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("TextSprite.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        IsSlidingOnIce()
-        IsStandingStill()
-        IsStuckInLiquid()
-        Splash(False)
-        Update()
+        Debug.TraceNotImplemented("MobileEntity.Update()")
     End Method
 
 End Class

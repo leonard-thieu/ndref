@@ -1,8 +1,10 @@
 'Strict
 
 Import controller_game
+Import entity
 Import logger
 Import npc
+Import point
 
 Class Transmogrifier Extends NPC
 
@@ -39,7 +41,7 @@ Class Transmogrifier Extends NPC
     Field speechY: Int
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
-        Debug.TraceNotImplemented("Transmogrifier.CanBeDamaged()")
+        Debug.TraceNotImplemented("Transmogrifier.CanBeDamaged(Bool, Bool)")
     End Method
 
     Method Die: Void()
@@ -54,26 +56,16 @@ Class Transmogrifier Extends NPC
         Debug.TraceNotImplemented("Transmogrifier.GetCost()")
     End Method
 
-    Method GetMovementDirection: Object()
+    Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Transmogrifier.GetMovementDirection()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("Transmogrifier.Hit()")
+        Debug.TraceNotImplemented("Transmogrifier.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method IncreaseCost: Void()
         Debug.TraceNotImplemented("Transmogrifier.IncreaseCost()")
-    End Method
-
-    Method NoTrim: Void()
-        CanBeDamaged(False, False)
-        Die()
-        DisplayCost()
-        GetCost()
-        GetMovementDirection()
-        Hit(0, 0, 0, Null, False, 0)
-        IncreaseCost()
     End Method
 
 End Class

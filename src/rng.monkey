@@ -10,7 +10,7 @@ Class RNG
         If x >= $7FFFFFFF
             x += -2147483646 * ((x - 1) / $7FFFFFFE)
         End If
-        
+
         Local rng: RNG = new RNG()
         rng.SetSeed(x)
 
@@ -18,6 +18,8 @@ Class RNG
     End Function
 
     Function _EditorFix: Void() End
+
+    Field seed: Int = 1
 
     Method Rand: Int()
         Local seed: Int = 48271 * (Self.seed Mod 44488) - 3399 * (Self.seed / 44488)
@@ -37,7 +39,7 @@ Class RNG
         If Not (1 <= Self.seed And Self.seed < 2147483647)
             ' AssertImpl("Assertion failed: 1<=m_seed && m_seed<2147483647")
         End If
-        
+
         Self.seed = seed_
     End Method
 
@@ -50,20 +52,8 @@ Class RNG
 
         Local rng: RNG = new RNG()
         rng.SetSeed(rnd)
-        
+
         Return rng
     End Method
 
-    Method NoTrim: Void()
-        Make(0)
-        Rand()
-        RndIntRange(0, 0)
-        SetSeed(0)
-        Split()
-    End Method
-
-Private
-
-    Field seed: Int = 1
-
-End class
+End Class

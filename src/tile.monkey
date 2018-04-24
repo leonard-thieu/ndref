@@ -3,8 +3,13 @@
 Import monkey.list
 Import mojo.graphics
 Import controller_game
+Import entity
 Import level_object
-Import renderable_object
+Import logger
+Import player_class
+Import renderableobject
+Import sprite
+Import textsprite
 Import tile
 
 Class Tile Extends RenderableObject
@@ -83,7 +88,7 @@ Class Tile Extends RenderableObject
     End Function
 
     Function IsNearNightmare: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Tile.IsNearNightmare()")
+        Debug.TraceNotImplemented("Tile.IsNearNightmare(Int, Int)")
     End Function
 
     Function MoveAll: Void()
@@ -385,14 +390,12 @@ Class Tile Extends RenderableObject
     Field torchFlickerNext: Int
     Field constLightValueCached: Float = -1.0
 
-    Field hasTorch: Bool
-
     Method AddFloorOverlayImage: Void(imageName: String)
-        Debug.TraceNotImplemented("Tile.AddFloorOverlayImage()")
+        Debug.TraceNotImplemented("Tile.AddFloorOverlayImage(String)")
     End Method
 
     Method AddTextLabel: Void(filename: String, tmpXOff: Int, tmpYOff: Int, displayD: Float, flash: Bool, textString: Bool)
-        Debug.TraceNotImplemented("Tile.AddTextLabel()")
+        Debug.TraceNotImplemented("Tile.AddTextLabel(String, Int, Int, Float, Bool, Bool)")
     End Method
 
     Method AddTorch: Void()
@@ -412,7 +415,7 @@ Class Tile Extends RenderableObject
             If Util.RndBool(False)
                 Self.torchImage.SetFrame(1)
             End If
-        Else If tileset = TilesetType.Zone5 Or 
+        Else If tileset = TilesetType.Zone5 Or
                 Level.isConductorLevel
             torchImage = New Sprite("level/light_bulb.png", 15, 24, 1, Image.DefaultFlags)
             Self.torchOffX = 4
@@ -438,7 +441,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method AddWireConnection: Void(dir: Int)
-        Debug.TraceNotImplemented("Tile.AddWireConnection()")
+        Debug.TraceNotImplemented("Tile.AddWireConnection(Int)")
     End Method
 
     Method BecomeBombWall: Void()
@@ -502,7 +505,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method BecomeDarkShopWall: Void(spritePath: Int)
-        Debug.TraceNotImplemented("Tile.BecomeDarkShopWall()")
+        Debug.TraceNotImplemented("Tile.BecomeDarkShopWall(Int)")
     End Method
 
     Method BecomeDiamond: Void()
@@ -676,7 +679,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method CalculateTileLightValue: Float(forVision: Bool)
-        Debug.TraceNotImplemented("Tile.CalculateTileLightValue()")
+        Debug.TraceNotImplemented("Tile.CalculateTileLightValue(Bool)")
     End Method
 
     Method ClearTextLabel: Void()
@@ -765,7 +768,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("Tile.Hit()")
+        Debug.TraceNotImplemented("Tile.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method IsConductorWall: Bool()
@@ -1023,7 +1026,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method LoadWireImages: Void(mainImage: String, conductorPhase: Int)
-        Debug.TraceNotImplemented("Tile.LoadWireImages()")
+        Debug.TraceNotImplemented("Tile.LoadWireImages(String, Int)")
     End Method
 
     Method Render: Void()
@@ -1031,7 +1034,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method RenderImageAs: Void(img: Object, renderAsWall: Bool, extraXOff: Int, extraYOff: Int)
-        Debug.TraceNotImplemented("Tile.RenderImageAs()")
+        Debug.TraceNotImplemented("Tile.RenderImageAs(Object, Bool, Int, Int)")
     End Method
 
     Method SelectWireFlip: Bool()
@@ -1060,80 +1063,6 @@ Class Tile Extends RenderableObject
 
     Method Update: Void()
         Debug.TraceNotImplemented("Tile.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Super.NoTrim()
-        AnyPlayerHaveCompass()
-        AnyPlayerHaveMonocle()
-        AnyPlayerHaveRingOfLuck()
-        AnyPlayerHaveSunglasses()
-        AnyPlayerHaveZoneMap()
-        CheckRingOfShadows()
-        CleanUpPendingTiles()
-        GenerateWireConnections()
-        IsNearNightmare(0, 0)
-        MoveAll()
-        AddFloorOverlayImage(0)
-        AddTextLabel(0, 0, 0, 0, False, False)
-        AddTorch()
-        AddTorch2()
-        AddWireConnection(0)
-        BecomeBombWall()
-        BecomeCracked()
-        BecomeDarkShopWall(0)
-        BecomeDiamond()
-        BecomeDirt()
-        BecomeHarderStone()
-        BecomeStone()
-        BecomeUnbreakable()
-        CalcTileset()
-        CalculateTileAlpha()
-        CalculateTileLightValue(False)
-        ClearTextLabel()
-        DarkenShopWall()
-        Die()
-        GetCurrentAlpha()
-        GetNumWireConnections()
-        GetTileset()
-        GetType()
-        GetZone2Wall()
-        GetZone3Wall()
-        GetZone4Wall()
-        GetZone5Wall()
-        HasTileBeenSeen()
-        HasTorch()
-        Hit(0, 0, 0, Null, False, 0)
-        IsConductorWall()
-        IsDirt()
-        IsDoor()
-        IsEarth()
-        IsFloor()
-        IsInAnyPlayerLineOfSight()
-        IsInAnyPlayerTrueLineOfSight()
-        IsMetalDoorOpen()
-        IsNearNightmare()
-        IsNecrodancerPlatform()
-        IsNormalFloor()
-        IsShopWall()
-        IsStairs()
-        IsTileset(0)
-        IsVisible()
-        IsWall(False, False, False, False)
-        IsWire()
-        IsZone4Dirt()
-        LoadDiamond()
-        LoadFloor()
-        LoadWireImages(0, 0)
-        Render()
-        RenderImageAs(Null, False, 0, 0)
-        SelectWireFlip()
-        SelectWireFrame()
-        SetDigTrigger(0)
-        SetDoorTrigger(0)
-        SetTrigger(0)
-        ToggleDoor()
-        Update()
     End Method
 
 End Class

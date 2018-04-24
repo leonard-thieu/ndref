@@ -1,6 +1,8 @@
-Strict
+'Strict
 
 Import mojo.graphics
+Import entity
+Import logger
 Import sprite
 Import trap
 
@@ -23,5 +25,9 @@ Class BombTrap Extends Trap
     End Method
 
     Field triggeredFrames: Int
+
+    Method Trigger: Void(ent: Entity)
+        Debug.TraceNotImplemented("BombTrap.Trigger(Entity)")
+    End Method
 
 End Class

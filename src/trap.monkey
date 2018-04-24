@@ -21,7 +21,7 @@ Class Trap Extends Entity Abstract
     End Function
 
     Function IsLiveTrapAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Trap.IsLiveTrapAt()")
+        Debug.TraceNotImplemented("Trap.IsLiveTrapAt(Int, Int)")
     End Function
 
     Function RemoveAll: Void()
@@ -58,7 +58,7 @@ Class Trap Extends Entity Abstract
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("Trap.Hit()")
+        Debug.TraceNotImplemented("Trap.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method IsLive: Bool()
@@ -79,17 +79,14 @@ Class Trap Extends Entity Abstract
         Debug.TraceNotImplemented("Trap.Update()")
     End Method
 
-    Method NoTrim: Void()
-        FindRandomTrap()
-        GetTrapAt(0, 0)
-        IsLiveTrapAt(0, 0)
-        RemoveAll()
-        Die()
-        Hit("", 0, 0, Null, False, 0)
-        IsLive()
-        Move()
-        Trigger(Null)
-        Update()
+End Class
+
+Class TrapList Extends List<Trap>
+
+    Function _EditorFix: Void() End
+
+    Method Compare: Int(a: Object, b: Object)
+        Debug.TraceNotImplemented("TrapList.Compare(Object, Object)")
     End Method
 
 End Class
@@ -107,9 +104,5 @@ Class TrapType
     Const BombTrap: Int = 9
     Const FireTrap: Int = 10
     Const ScatterTrap: Int = 14
-
-End Class
-
-Class TrapList Extends List<Trap>
 
 End Class

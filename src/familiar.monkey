@@ -1,18 +1,20 @@
 'Strict
 
+Import entity
 Import logger
 Import mobileentity
+Import player_class
 
 Class Familiar Extends MobileEntity
 
     Global familiarList: List<Familiar> = New List<Familiar>()
 
     Function GetFamiliarAt: Object(x: Int, y: Int)
-        Debug.TraceNotImplemented("TextSprite.GetFamiliarAt()")
+        Debug.TraceNotImplemented("Familiar.GetFamiliarAt(Int, Int)")
     End Function
 
     Function IsAnyAt: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("TextSprite.IsAnyAt()")
+        Debug.TraceNotImplemented("Familiar.IsAnyAt(Int, Int)")
     End Function
 
     Function _EditorFix: Void() End
@@ -27,7 +29,7 @@ Class Familiar Extends MobileEntity
         Familiar.familiarList.AddLast(Self)
         Self.isFamiliar = True
 
-        Self._owner = owner_
+        Self.owner = owner_
         Self.x = owner_.x
         Self.y = owner_.y
         Self.lastX = owner_.x
@@ -38,53 +40,40 @@ Class Familiar Extends MobileEntity
         Self.image.SetZOff(-5.0)
     End Method
 
-    Field _owner: Player
+    Field owner: Player
     Field squishParticle: String = "particles/TEMP_particle_blood.png"
     Field recalled: Bool
 
     Method Die: Void()
-        Debug.TraceNotImplemented("TextSprite.Die()")
+        Debug.TraceNotImplemented("Familiar.Die()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
-        Debug.TraceNotImplemented("TextSprite.Hit()")
+        Debug.TraceNotImplemented("Familiar.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method IsObstructedAt: Bool(targetX: Int, targetY: Int)
-        Debug.TraceNotImplemented("TextSprite.IsObstructedAt()")
+        Debug.TraceNotImplemented("Familiar.IsObstructedAt(Int, Int)")
     End Method
 
     Method MaybeBaa: Void()
-        Debug.TraceNotImplemented("TextSprite.MaybeBaa()")
+        Debug.TraceNotImplemented("Familiar.MaybeBaa()")
     End Method
 
     Method Move: Void()
-        Debug.TraceNotImplemented("TextSprite.Move()")
+        Debug.TraceNotImplemented("Familiar.Move()")
     End Method
 
     Method Recall: Void()
-        Debug.TraceNotImplemented("TextSprite.Recall()")
+        Debug.TraceNotImplemented("Familiar.Recall()")
     End Method
 
     Method Squish: Void()
-        Debug.TraceNotImplemented("TextSprite.Squish()")
+        Debug.TraceNotImplemented("Familiar.Squish()")
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("TextSprite.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        GetFamiliarAt(0, 0)
-        IsAnyAt(0, 0)
-        Die()
-        Hit(0, 0, 0, Null, False, 0)
-        IsObstructedAt(0, 0)
-        MaybeBaa()
-        Move()
-        Recall()
-        Squish()
-        Update()
+        Debug.TraceNotImplemented("Familiar.Update()")
     End Method
 
 End Class

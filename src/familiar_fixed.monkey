@@ -3,6 +3,7 @@
 Import monkey.list
 Import entity
 Import logger
+Import player_class
 
 Class FamiliarFixed Extends Entity Abstract
 
@@ -22,16 +23,23 @@ Class FamiliarFixed Extends Entity Abstract
 
     Function _EditorFix: Void() End
 
+    Field offsetX: Int
+    Field offsetY: Int
+    Field type: Int
+    Field enableAutoFlip: Bool
+    Field owner: Player
+    Field hasMovedThisFrame: Bool
+
     Method Die: Void()
         Debug.TraceNotImplemented("FamiliarFixed.Die()")
     End Method
 
     Method Init2: Void(x_: Int, y_: Int, type_: Int)
-        Debug.TraceNotImplemented("FamiliarFixed.Init2()")
+        Debug.TraceNotImplemented("FamiliarFixed.Init2(Int, Int, Int)")
     End Method
 
     Method MoveTo: Void(x_: Int, y_: Int)
-        Debug.TraceNotImplemented("FamiliarFixed.MoveTo()")
+        Debug.TraceNotImplemented("FamiliarFixed.MoveTo(Int, Int)")
     End Method
 
     Method TryPickup: Void() Abstract
@@ -41,16 +49,7 @@ Class FamiliarFixed Extends Entity Abstract
     End Method
 
     Method WarpTo: Void(x_: Int, y_: Int)
-        Debug.TraceNotImplemented("FamiliarFixed.WarpTo()")
-    End Method
-
-    Method NoTrim: Void()
-        GetFamiliarAt(0, 0)
-        Die()
-        Init2(0, 0, 0)
-        MoveTo(0, 0)
-        Update()
-        WarpTo(0, 0)
+        Debug.TraceNotImplemented("FamiliarFixed.WarpTo(Int, Int)")
     End Method
 
 End Class

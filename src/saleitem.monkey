@@ -113,12 +113,12 @@ Class SaleItem Extends Item
     Field miniDiamond: Sprite
     Field miniHeart: Sprite
     Field digits: Sprite[]
-    Field digitVal: int[]
+    Field digitVal: Int[]
     Field shopkeeper: Shopkeeper
     Field medic: Medic
 
     Method ApplyDiscount: Void(val: Float)
-        Debug.TraceNotImplemented("SaleItem.ApplyDiscount()")
+        Debug.TraceNotImplemented("SaleItem.ApplyDiscount(Float)")
     End Method
 
     Method CanSeeShopkeeper: Bool()
@@ -148,7 +148,7 @@ Class SaleItem Extends Item
     End Method
 
     Method Pickup: Int(player: Object)
-        Debug.TraceNotImplemented("SaleItem.Pickup()")
+        Debug.TraceNotImplemented("SaleItem.Pickup(Object)")
     End Method
 
     Method Render: Void()
@@ -169,26 +169,6 @@ Class SaleItem Extends Item
 
     Method SkipNextDraw: Void()
         Debug.TraceNotImplemented("SaleItem.SkipNextDraw()")
-    End Method
-
-    Method NoTrim: Void()
-        GetCostMultiplier()
-        GetMinCost()
-        GetRandomItem(0, 0)
-        ResetCosts()
-        ApplyDiscount(0)
-        CanSeeShopkeeper()
-        CanSteal()
-        CostsBlood()
-        CostsDiamonds()
-        Die()
-        GetCost()
-        Pickup(Null)
-        Render()
-        SetBloodCost()
-        SetCost()
-        SetCostHelper()
-        SkipNextDraw()
     End Method
 
 End Class

@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import bouncer
 Import logger
 Import particles
 Import renderableobject
@@ -47,7 +48,7 @@ Class Entity Extends RenderableObject Abstract
     End Function
 
     Function GetEntityAt: Entity(x: Int, y: Int, includePlayer: Bool)
-        Debug.TraceNotImplemented("Entity.GetEntityAt()")
+        Debug.TraceNotImplemented("Entity.GetEntityAt(Int, Int, Bool)")
     End Function
 
     Function RemoveAnyPerishedEntities: Void()
@@ -132,11 +133,11 @@ Class Entity Extends RenderableObject Abstract
     Field showConfuseOverride: Bool
 
     Method BounceInPlace: Void(bufferTween: Bool)
-        Debug.TraceNotImplemented("Entity.BounceInPlace()")
+        Debug.TraceNotImplemented("Entity.BounceInPlace(Bool)")
     End Method
 
     Method BounceToward: Void(p: Point, bufferTween: Bool)
-        Debug.TraceNotImplemented("Entity.BounceToward()")
+        Debug.TraceNotImplemented("Entity.BounceToward(Point, Bool)")
     End Method
 
     Method CancelTween: Void()
@@ -161,19 +162,19 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method Fall: Void(keepMultiplier: Bool)
-        Debug.TraceNotImplemented("Entity.Fall()")
+        Debug.TraceNotImplemented("Entity.Fall(Bool)")
     End Method
 
     Method FlagForDeath: Void(numFrames: Int)
-        Debug.TraceNotImplemented("Entity.FlagForDeath()")
+        Debug.TraceNotImplemented("Entity.FlagForDeath(Int)")
     End Method
 
     Method Flicker: Void(duration: Int)
-        Debug.TraceNotImplemented("Entity.Flicker()")
+        Debug.TraceNotImplemented("Entity.Flicker(Int)")
     End Method
 
     Method Freeze: Bool(duration: Int, stone: Bool)
-        Debug.TraceNotImplemented("Entity.Freeze()")
+        Debug.TraceNotImplemented("Entity.Freeze(Int, Bool)")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
@@ -183,7 +184,7 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method IsFrozen: Bool(ignoreLastBeat: Bool)
-        Debug.TraceNotImplemented("Entity.IsFrozen()")
+        Debug.TraceNotImplemented("Entity.IsFrozen(Bool)")
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
@@ -195,11 +196,11 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
-        Debug.TraceNotImplemented("Entity.MoveImmediate()")
+        Debug.TraceNotImplemented("Entity.MoveImmediate(Int, Int, String)")
     End Method
 
     Method PerformMovement: Int(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Entity.PerformMovement()")
+        Debug.TraceNotImplemented("Entity.PerformMovement(Int, Int)")
     End Method
 
     Method PerformMovement: Int(p: Point)
@@ -207,7 +208,7 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method PerformTween: Void(xVal: Int, yVal: Int, oldX: Int, oldY: Int, tweenType: Int, shadowTweenType: Int, bufferTween: Bool)
-        Debug.TraceNotImplemented("Entity.PerformTween()")
+        Debug.TraceNotImplemented("Entity.PerformTween(Int, Int, Int, Int, Int, Int, Bool)")
     End Method
 
     Method Render: Void()
@@ -215,7 +216,7 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method RenderSprite: Void(img: Sprite)
-        Debug.TraceNotImplemented("Entity.RenderSprite()")
+        Debug.TraceNotImplemented("Entity.RenderSprite(Sprite)")
     End Method
 
     Method SkipNextDraw: Void()
@@ -224,42 +225,6 @@ Class Entity Extends RenderableObject Abstract
 
     Method Update: Void()
         Debug.TraceNotImplemented("Entity.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Super.NoTrim()
-        AnyPlayerHaveCirclet()
-        AnyPlayerHaveCircletOrGlassTorch()
-        AnyPlayerHaveForesightTorch()
-        AnyPlayerHaveGlassTorch()
-        AnyPlayerHaveNazarCharm()
-        AnyPlayerHaveWallsTorch()
-        GetEntityAt(0, 0, False)
-        RemoveAnyPerishedEntities()
-        RemoveFromList(Null)
-        RenderAll()
-        UpdateVisibility()
-        BounceInPlace(False)
-        BounceToward(Null, False)
-        CancelTween()
-        CheckRingOfShadows()
-        Die()
-        Fall(False)
-        FlagForDeath(0)
-        Flicker(0)
-        Freeze(0, False)
-        IsConfused()
-        IsFrozen(False)
-        IsInAnyPlayerLineOfSight()
-        IsVisible()
-        MoveImmediate(0, 0, 0)
-        PerformMovement(0, 0)
-        PerformMovement(Null)
-        PerformTween(0, 0, 0, 0, 0, 0, False)
-        Render()
-        RenderSprite(Null)
-        SkipNextDraw()
-        Update()
     End Method
 
 End Class

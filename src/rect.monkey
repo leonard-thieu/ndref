@@ -8,7 +8,7 @@ Import util
 Class Rect
 
     Function MakeBounds: Rect(minX: Int, minY: Int, maxX: Int, maxY: Int)
-        Debug.TraceNotImplemented("Rect.MakeBounds()")
+        Debug.TraceNotImplemented("Rect.MakeBounds(Int, Int, Int, Int)")
     End Function
 
     Function _EditorFix: Void() End
@@ -26,19 +26,19 @@ Class Rect
     Field h: Int
 
     Method Contains: Bool(other: Point)
-        Debug.TraceNotImplemented("Rect.Contains()")
+        Debug.TraceNotImplemented("Rect.Contains(Point)")
     End Method
 
     Method Contains: Bool(other: Rect)
-        Debug.TraceNotImplemented("Rect.Contains()")
+        Debug.TraceNotImplemented("Rect.Contains(Rect)")
     End Method
 
     Method Contains: Bool(px: Int, py: Int)
-        Debug.TraceNotImplemented("Rect.Contains()")
+        Debug.TraceNotImplemented("Rect.Contains(Int, Int)")
     End Method
 
     Method ContainsNoCorners: Bool(other: Rect)
-        Debug.TraceNotImplemented("Rect.ContainsNoCorners()")
+        Debug.TraceNotImplemented("Rect.ContainsNoCorners(Rect)")
     End Method
 
     Method GetBottom: Int()
@@ -54,11 +54,11 @@ Class Rect
     End Method
 
     Method GetL1Dist: Int(other: Point)
-        Debug.TraceNotImplemented("Rect.GetL1Dist()")
+        Debug.TraceNotImplemented("Rect.GetL1Dist(Point)")
     End Method
 
     Method GetL1Dist: Int(other: Rect)
-        Debug.TraceNotImplemented("Rect.GetL1Dist()")
+        Debug.TraceNotImplemented("Rect.GetL1Dist2(Rect)")
     End Method
 
     Method GetPoints: Stack<Point>()
@@ -80,7 +80,7 @@ Class Rect
     End Method
 
     Method OnBorder: Bool(px: Int, py: Int)
-        Debug.TraceNotImplemented("Rect.OnBorder()")
+        Debug.TraceNotImplemented("Rect.OnBorder(Int, Int)")
     End Method
 
     Method RandomPoint: Point()
@@ -91,26 +91,8 @@ Class Rect
     End Method
 
     Method ToString: String()
-        Return "[" + Self.x + ", " + Self.GetRight() + "]" + " x " + 
+        Return "[" + Self.x + ", " + Self.GetRight() + "]" + " x " +
                "[" + Self.y + ", " + Self.GetBottom() + "]"
     End Method
 
-    Method NoTrim: Void()
-        MakeBounds(0, 0, 0, 0)
-        Contains(New Point())
-        Contains(New Rect())
-        Contains(0, 0)
-        ContainsNoCorners(Null)
-        GetBottom()
-        GetCenter()
-        GetCorners()
-        GetL1Dist(New Point())
-        GetL1Dist(New Rect())
-        GetPoints()
-        GetRight()
-        OnBorder(0, 0)
-        RandomPoint()
-        ToString()
-    End Method
-    
-End
+End Class

@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import monkey.map
 Import logger
 
 Class Replay
@@ -8,19 +9,19 @@ Class Replay
     Global lastSavedReplayFile: String
 
     Function LoadReplayFromFile: Void(filename: Int, replay: Object)
-        Debug.TraceNotImplemented("Replay.LoadReplayFromFile()")
+        Debug.TraceNotImplemented("Replay.LoadReplayFromFile(Int, Object)")
     End Function
 
     Function LoadReplayFromString: Void(data: Int, replay: Object)
-        Debug.TraceNotImplemented("Replay.LoadReplayFromString()")
+        Debug.TraceNotImplemented("Replay.LoadReplayFromString(Int, Object)")
     End Function
 
     Function SaveReplayToFile: Void(replay: Object)
-        Debug.TraceNotImplemented("Replay.SaveReplayToFile()")
+        Debug.TraceNotImplemented("Replay.SaveReplayToFile(Object)")
     End Function
 
     Function SaveReplayToString: Int(replay: Object)
-        Debug.TraceNotImplemented("Replay.SaveReplayToString()")
+        Debug.TraceNotImplemented("Replay.SaveReplayToString(Object)")
     End Function
 
     Function _EditorFix: Void() End
@@ -40,7 +41,7 @@ Class Replay
     Field saveData: String
 
     Method GetDirectionsHitForBeat: Object(playerNum: Int, closestBeat: Int, percentDist: Float)
-        Debug.TraceNotImplemented("Replay.GetDirectionsHitForBeat()")
+        Debug.TraceNotImplemented("Replay.GetDirectionsHitForBeat(Int, Int, Float)")
     End Method
 
     Method GetNumBeats: Int()
@@ -48,15 +49,15 @@ Class Replay
     End Method
 
     Method GetRand: Int(channel: Int)
-        Debug.TraceNotImplemented("Replay.GetRand()")
+        Debug.TraceNotImplemented("Replay.GetRand(Int)")
     End Method
 
     Method Load: Void(filename: Int)
-        Debug.TraceNotImplemented("Replay.Load()")
+        Debug.TraceNotImplemented("Replay.Load(Int)")
     End Method
 
     Method NewLevel: Void(randSeed: Int)
-        Debug.TraceNotImplemented("Replay.NewLevel()")
+        Debug.TraceNotImplemented("Replay.NewLevel(Int)")
     End Method
 
     Method NextLevel: Void()
@@ -64,19 +65,19 @@ Class Replay
     End Method
 
     Method RecordBeat: Void(beatNum: Int)
-        Debug.TraceNotImplemented("Replay.RecordBeat()")
+        Debug.TraceNotImplemented("Replay.RecordBeat(Int)")
     End Method
 
     Method RecordMissedBeat: Void(playerNum: Int, beatNum: Int)
-        Debug.TraceNotImplemented("Replay.RecordMissedBeat()")
+        Debug.TraceNotImplemented("Replay.RecordMissedBeat(Int, Int)")
     End Method
 
     Method RecordMove: Void(playerNum: Int, move: Int, beatNum: Int, isOffbeat: Bool)
-        Debug.TraceNotImplemented("Replay.RecordMove()")
+        Debug.TraceNotImplemented("Replay.RecordMove(Int, Int, Int, Bool)")
     End Method
 
     Method RecordRand: Void(channel: Int, num: Int)
-        Debug.TraceNotImplemented("Replay.RecordRand()")
+        Debug.TraceNotImplemented("Replay.RecordRand(Int, Int)")
     End Method
 
     Method Reset: Void()
@@ -87,29 +88,21 @@ Class Replay
         Debug.TraceNotImplemented("Replay.Save()")
     End Method
 
-    Method NoTrim: Void()
-        LoadReplayFromFile(0, Null)
-        LoadReplayFromString(0, Null)
-        SaveReplayToFile(Null)
-        SaveReplayToString(Null)
-        GetDirectionsHitForBeat(0, 0, 0)
-        GetNumBeats()
-        GetRand(0)
-        Load(0)
-        NewLevel(0)
-        NextLevel()
-        RecordBeat(0)
-        RecordMissedBeat(0, 0)
-        RecordMove(0, 0, 0, False)
-        RecordRand(0, 0)
-        Reset()
-        Save()
-    End Method
-
 End Class
 
 Class ReplayData
 
     Function _EditorFix: Void() End
+
+    Field randList1: List<Int>
+    Field randList2: List<Int>
+    Field cameraWidth: Int
+    Field cameraHeight: Int
+    Field randSeed: Int
+    Field numPlayers: Int
+    Field lastBeat: Int
+    Field charID: Int[]
+    Field playerInputs: IntMap<Object>[]
+    Field missedBeats: List<Int>[]
 
 End Class

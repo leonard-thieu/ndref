@@ -4,22 +4,22 @@ Import logger
 
 Class Camera
 
-    Global fadeInCallback: Int
+    Global fadeInCallback: Object
     Global fadeInCurrent: Int
     Global fadeInDuration: Int
-    Global fadeOutCallback: Int
+    Global fadeOutCallback: Object
     Global fadeOutCurrent: Int
     Global fadeOutDuration: Int
     Global fixed: Bool
     Global freezeFrameDelay: Int
     Global freezeFrameNum: Int
-    Global freezeImage: Int
+    Global freezeImage: Object
     Global lastFreezeFrameH: Int
     Global lastFreezeFrameW: Int
-    Global overlayBlack: Int
-    Global overlayRed: Int
+    Global overlayBlack: Object
+    Global overlayRed: Object
     Global overlayRedDuration: Int
-    Global overlayWhite: Int
+    Global overlayWhite: Object
     Global overlayWhiteDuration: Int
     Global seekX: Float
     Global seekY: Float
@@ -36,7 +36,7 @@ Class Camera
     End Function
 
     Function FadeOutThenExecute: Void(dur: Int, cBack: Object)
-        Debug.TraceNotImplemented("Camera.FadeOutThenExecute()")
+        Debug.TraceNotImplemented("Camera.FadeOutThenExecute(Int, Object)")
     End Function
 
     Function Init: Void()
@@ -44,23 +44,23 @@ Class Camera
     End Function
 
     Function IsOnScreen: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Camera.IsOnScreen()")
+        Debug.TraceNotImplemented("Camera.IsOnScreen(Int, Int)")
     End Function
 
     Function IsOnScreenStandardized: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Camera.IsOnScreenStandardized()")
+        Debug.TraceNotImplemented("Camera.IsOnScreenStandardized(Int, Int)")
     End Function
 
     Function IsOnScreenStandardizedRelativeToPoint: Bool(xVal: Int, yVal: Int, pointX: Int, pointY: Int)
-        Debug.TraceNotImplemented("Camera.IsOnScreenStandardizedRelativeToPoint()")
+        Debug.TraceNotImplemented("Camera.IsOnScreenStandardizedRelativeToPoint(Int, Int, Int, Int)")
     End Function
 
     Function SetFreezeFrames: Void(num: Int, delay: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Camera.SetFreezeFrames()")
+        Debug.TraceNotImplemented("Camera.SetFreezeFrames(Int, Int, Int, Int)")
     End Function
 
     Function Shake2: Void(type: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Camera.Shake2()")
+        Debug.TraceNotImplemented("Camera.Shake2(Int, Int, Int)")
     End Function
 
     Function Update: Void()
@@ -68,17 +68,5 @@ Class Camera
     End Function
 
     Function _EditorFix: Void() End
-
-    Method NoTrim: Void()
-        CaptureFreezeFrame()
-        FadeOutThenExecute(0, Null)
-        Init()
-        IsOnScreen(0, 0)
-        IsOnScreenStandardized(0, 0)
-        IsOnScreenStandardizedRelativeToPoint(0, 0, 0, 0)
-        SetFreezeFrames(0, 0, 0, 0)
-        Shake2(0, 0, 0)
-        Update()
-    End Method
 
 End Class

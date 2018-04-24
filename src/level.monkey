@@ -70,14 +70,14 @@ Class Level
     Global deathlessWinCount: Int
     Global debugForceMonstrousShop: Bool
     Global enemiesDropSingleCoinForThisLevel: Bool
-    Global exitArrow: Int
+    Global exitArrow: Object
     Global exitArrowX: Float
     Global exitArrowY: Float
     Global exits: ExitMap = New ExitMap()
     Global firstRoom: RoomData
-    Global flawlessVictory: Int = True
+    Global flawlessVictory: Bool = True
     Global forceBoss: Int = -1
-    Global hallwayZone5: Int
+    Global hallwayZone5: Object
     Global isAllCharactersDLCMode: Bool
     Global isAllCharactersMode: Bool
     Global isAllCharsRunNoItemsNoShrines: Bool = True
@@ -112,10 +112,10 @@ Class Level
     Global levelConstraintX: Int
     Global levelConstraintY: Int
     Global levelJustStarted: Bool
-    Global lockedShopPlaced: Int
+    Global lockedShopPlaced: Bool
     Global mapLightValues: Float[]
     Global mapLightValuesCachedFrame: Int = -1
-    Global mapLightValuesInitialized: Int
+    Global mapLightValuesInitialized: Bool
     Global maxLevelMinimapX: Int
     Global maxLevelMinimapY: Int
     Global maxLevelX: Int
@@ -126,11 +126,11 @@ Class Level
     Global minLevelX: Int
     Global minLevelY: Int
     Global minibossFormerWall: List<MinibossTileData> = New List<MinibossTileData>()
-    Global minimap: Int
+    Global minimap: Object
     Global nonDeterministicMSStart: Int = -1
     Global outsideBossChamber: Int
-    Global pacifismModeOn: Int
-    Global pawnbroker: Pawnbroker
+    Global pacifismModeOn: Bool
+    Global pawnbroker: Object
     Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global placeArenaOnDepth: Int = -1
     Global placeArenaOnLevel: Int = -1
@@ -145,35 +145,35 @@ Class Level
     Global placeLordOnLevel: Int = -1
     Global placePawnbrokerOnDepth: Int = -1
     Global placePawnbrokerOnLevel: Int = -1
-    Global placeShrineOnLevel: Int
+    Global placeShrineOnLevel: Object
     Global placeShrinerOnDepth: Int = -1
     Global placeShrinerOnLevel: Int = -1
     Global placeTransmogrifierOnDepth: Int = -1
     Global placeTransmogrifierOnLevel: Int = -1
     Global placedAdditionalBlackChest: Int
     Global placedAdditionalRedChest: Int
-    Global placedAdditionalWhiteChest: Int
-    Global placedArena: Int
-    Global placedUrnThisRun: Int
-    Global playedVictoryCutscene: Int
-    Global popUpController: Int
+    Global placedAdditionalWhiteChest: Bool
+    Global placedArena: Bool
+    Global placedUrnThisRun: Bool
+    Global playedVictoryCutscene: Bool
+    Global popUpController: Object
     Global popUpType: Int = -1
     Global practiceEnemyNum: Int = -1
     Global previousLevelMinibosses: StackEx<Int> = New StackEx<Int>()
     Global previousLevelUnkilledStairLockingMinibosses: StackEx<Int> = New StackEx<Int>()
-    Global quickRestart: Int
+    Global quickRestart: Bool
     Global randSeed: Int = -1
     Global randSeedString: String
     Global replay: Replay
     Global rooms: List<RoomData> = New List<RoomData>()
     Global secretAtX: Int
     Global secretAtY: Int
-    Global secretRockRoomPlaced: Int
+    Global secretRockRoomPlaced: Bool
+    Global shopH: Int
+    Global shopW: Int
     Global shopX: Int
     Global shopY: Int
-    Global shopW: Int
-    Global shopH: Int
-    Global shopkeeperDead: Int
+    Global shopkeeperDead: Bool
     Global shopkeeperFell: Bool
     Global shopkeeperGhostDepth: Int = -1
     Global shopkeeperGhostLevel: Int = -1
@@ -197,11 +197,11 @@ Class Level
     Global zoneOrder: Stack<Int>
 
     Function ActivateTrigger: Int(triggerNum: Int, ent: Entity, target: RenderableObject)
-        Debug.TraceNotImplemented("Level.ActivateTrigger()")
+        Debug.TraceNotImplemented("Level.ActivateTrigger(Int, Entity, RenderableObject)")
     End Function
 
     Function ActuallyGetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Debug.TraceNotImplemented("Level.ActuallyGetMapTileLightValue()")
+        Debug.TraceNotImplemented("Level.ActuallyGetMapTileLightValue(Int, Int, Bool)")
     End Function
 
     Function AddCrackedWall: Void(roomType: Int)
@@ -763,11 +763,11 @@ Class Level
     End Function
 
     Function BossMaybeMinibossesAt: Void(x1: Int, y1: Int, x2: Int, y2: Int)
-        Debug.TraceNotImplemented("Level.BossMaybeMinibossesAt()")
+        Debug.TraceNotImplemented("Level.BossMaybeMinibossesAt(Int, Int, Int, Int)")
     End Function
 
     Function BreakIce: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.BreakIce()")
+        Debug.TraceNotImplemented("Level.BreakIce(Int, Int)")
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horizontal: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
@@ -861,7 +861,7 @@ Class Level
     End Function
 
     Function CheckLOS: Bool(x1: Int, y1: Int, x2: Int, y2: Int, includeOffscreen: Bool)
-        Debug.TraceNotImplemented("Level.CheckLOS()")
+        Debug.TraceNotImplemented("Level.CheckLOS(Int, Int, Int, Int, Bool)")
     End Function
 
     Function CheckMapConsistency: Void()
@@ -873,7 +873,7 @@ Class Level
     End Function
 
     Function ClearTextLabelAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.ClearTextLabelAt()")
+        Debug.TraceNotImplemented("Level.ClearTextLabelAt(Int, Int)")
     End Function
 
     Function CloseInOuterWalls: Void()
@@ -881,7 +881,7 @@ Class Level
     End Function
 
     Function ConjureSlot: Void(slotName: String, ent: Entity)
-        Debug.TraceNotImplemented("Level.ConjureSlot()")
+        Debug.TraceNotImplemented("Level.ConjureSlot(String, Entity)")
     End Function
 
     Function CreateAllCharsDLCSelect: Void()
@@ -1634,11 +1634,11 @@ Class Level
     End Function
 
     Function CreateMapZone4: Bool(recursive: Bool)
-        Debug.TraceNotImplemented("Level.CreateMapZone4()")
+        Debug.TraceNotImplemented("Level.CreateMapZone4(Bool)")
     End Function
 
     Function CreateMapZone5: Bool(recursive: Bool)
-        Debug.TraceNotImplemented("Level.CreateMapZone5()")
+        Debug.TraceNotImplemented("Level.CreateMapZone5(Bool)")
     End Function
 
     Function CreateMerlin: Void()
@@ -1772,7 +1772,7 @@ Class Level
             End Select
 
             Local placeLiquid := False
-            
+
             If (controller_game.currentLevel = 1) And (liquidRoll <=  5) Then placeLiquid = True
             If (controller_game.currentLevel = 2) And (liquidRoll <= 25) Then placeLiquid = True
             If (controller_game.currentLevel = 3) And (liquidRoll <= 45) Then placeLiquid = True
@@ -2041,7 +2041,7 @@ Class Level
     End Function
 
     Function CreateRoomZone5: Void(rm: RoomWithDoor, roomType: Int)
-        Debug.TraceNotImplemented("Level.CreateRoomZone5()")
+        Debug.TraceNotImplemented("Level.CreateRoomZone5(RoomWithDoor, Int)")
     End Function
 
     Function CreateSwarmMap: Void()
@@ -2153,19 +2153,19 @@ Class Level
     End Function
 
     Function DistanceFromZone3DividingLine: Float(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.DistanceFromZone3DividingLine()")
+        Debug.TraceNotImplemented("Level.DistanceFromZone3DividingLine(Int, Int)")
     End Function
 
     Function DoQuickRestart: Void(continuedRun: Bool, showPopups: Bool, playIntroCutscene: Bool)
-        Debug.TraceNotImplemented("Level.DoQuickRestart()")
+        Debug.TraceNotImplemented("Level.DoQuickRestart(Bool, Bool, Bool)")
     End Function
 
     Function DoRestart: Void()
         Debug.TraceNotImplemented("Level.DoRestart()")
     End Function
 
-    Function DoRestart: Void(continuedRun: Bool, cancelFade: Bool)
-        Debug.TraceNotImplemented("Level.DoRestart()")
+    Function DoRestart_Common: Void(continuedRun: Bool, cancelFade: Bool)
+        Debug.TraceNotImplemented("Level.DoRestart_Common(Bool, Bool)")
     End Function
 
     Function DoWePlaceAdditionalChestThisLevel: Bool()
@@ -2173,7 +2173,7 @@ Class Level
     End Function
 
     Function DryUpAllWater: Void(replacementFloor: Int)
-        Debug.TraceNotImplemented("Level.DryUpAllWater()")
+        Debug.TraceNotImplemented("Level.DryUpAllWater(Int)")
     End Function
 
     Function DumpMap: Void()
@@ -2238,11 +2238,11 @@ Class Level
     End Function
 
     Function Earthquake: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.Earthquake()")
+        Debug.TraceNotImplemented("Level.Earthquake(Int, Int)")
     End Function
 
     Function EnsureBossTraining: Void(name: String)
-        Debug.TraceNotImplemented("Level.EnsureBossTraining()")
+        Debug.TraceNotImplemented("Level.EnsureBossTraining(String)")
     End Function
 
     Function FillSecretRooms: Bool()
@@ -2268,11 +2268,11 @@ Class Level
     End Function
 
     Function FillTiles: Void(rect: Rect, tileType: Int, tileTypeEdge: Int)
-        Debug.TraceNotImplemented("Level.FillTiles()")
+        Debug.TraceNotImplemented("Level.FillTiles(Rect, Int, Int)")
     End Function
 
     Function FillVault: Void(tmpRoom: RoomData)
-        Debug.TraceNotImplemented("Level.FillVault()")
+        Debug.TraceNotImplemented("Level.FillVault(RoomData)")
     End Function
 
     Function FindTileOfType: Point(tileType: Int)
@@ -2313,7 +2313,7 @@ Class Level
     End Function
 
     Function FreezeTilesNear: Void(xVal: Int, yVal: Int, allTiles: Bool)
-        Debug.TraceNotImplemented("Level.FreezeTilesNear()")
+        Debug.TraceNotImplemented("Level.FreezeTilesNear(Int, Int, Bool)")
     End Function
 
     Function GenerateHardcoreZoneOrder: Void()
@@ -2418,7 +2418,7 @@ Class Level
     End Function
 
     Function GetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Debug.TraceNotImplemented("Level.GetMapTileLightValue()")
+        Debug.TraceNotImplemented("Level.GetMapTileLightValue(Int, Int, Bool)")
     End Function
 
     Function GetMaxDepth: Int()
@@ -2426,7 +2426,7 @@ Class Level
     End Function
 
     Function GetNPCSaleItem: Int(npcNum: Int, slotNum: Int, exclude1: String, exclude2: String)
-        Debug.TraceNotImplemented("Level.GetNPCSaleItem()")
+        Debug.TraceNotImplemented("Level.GetNPCSaleItem(Int, Int, String, String)")
     End Function
 
     Function GetRandomOffsetPoint: Point()
@@ -2463,19 +2463,19 @@ Class Level
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(room: RoomBase, tileType: Int, skipCollisions: Bool)
-        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType()")
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType(RoomBase, Int, Bool)")
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, tileType: Int, skipCollisions: Bool)
-        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType()")
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType(Int, Int, Int, Int, Int, Bool)")
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(room: RoomBase, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions()")
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions(RoomBase, Bool, Bool, Bool, Bool, Bool, Bool)")
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions()")
+        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions(Int, Int, Int, Int, Bool, Bool, Bool, Bool, Bool, Bool)")
     End Function
 
     Function GetShrinePoint: Point()
@@ -2502,11 +2502,11 @@ Class Level
     End Function
 
     Function GetTileFlyawayAt: Int(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.GetTileFlyawayAt()")
+        Debug.TraceNotImplemented("Level.GetTileFlyawayAt(Int, Int)")
     End Function
 
     Function GetTileObstructionList: Object(includeOffscreen: Bool)
-        Debug.TraceNotImplemented("Level.GetTileObstructionList()")
+        Debug.TraceNotImplemented("Level.GetTileObstructionList(Bool)")
     End Function
 
     Function GetTileTypeAt: Int(xVal: Int, yVal: Int)
@@ -2555,11 +2555,11 @@ Class Level
     End Function
 
     Function IsAnyWallAt: Bool(r: Rect)
-        Debug.TraceNotImplemented("Level.IsAnyWallAt()")
+        Debug.TraceNotImplemented("Level.IsAnyWallAt(Rect)")
     End Function
 
     Function IsAnyWaterAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsAnyWaterAt()")
+        Debug.TraceNotImplemented("Level.IsAnyWaterAt(Int, Int)")
     End Function
 
     Function IsBossLevel: Bool()
@@ -2567,7 +2567,7 @@ Class Level
     End Function
 
     Function IsCorridorFloorAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsCorridorFloorAt()")
+        Debug.TraceNotImplemented("Level.IsCorridorFloorAt(Int, Int)")
     End Function
 
     Function IsCorridorFloorOrDoorAdjacent: Bool(xVal: Int, yVal: Int)
@@ -2603,7 +2603,7 @@ Class Level
     End Function
 
     Function IsDoorAdjacent: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.IsDoorAdjacent()")
+        Debug.TraceNotImplemented("Level.IsDoorAdjacent(Int, Int)")
     End Function
 
     Function IsDoorAt: Bool(xVal: Int, yVal: Int)
@@ -2666,11 +2666,11 @@ Class Level
     End Function
 
     Function IsIcePartOfLevel: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsIcePartOfLevel()")
+        Debug.TraceNotImplemented("Level.IsIcePartOfLevel(Int, Int)")
     End Function
 
     Function IsLockedExit: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsLockedExit()")
+        Debug.TraceNotImplemented("Level.IsLockedExit(Int, Int)")
     End Function
 
     Function IsNormalFloorAt: Bool(xVal: Int, yVal: Int)
@@ -2750,7 +2750,7 @@ Class Level
     End Function
 
     Function IsSeededMode: Bool(mode: Int)
-        Debug.TraceNotImplemented("Level.IsSeededMode()")
+        Debug.TraceNotImplemented("Level.IsSeededMode(Int)")
     End Function
 
     Function IsSurroundedByDestructibleWalls: Bool(xVal: Int, yVal: Int)
@@ -2776,23 +2776,23 @@ Class Level
     End Function
 
     Function IsTrapAdjacent: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsTrapAdjacent()")
+        Debug.TraceNotImplemented("Level.IsTrapAdjacent(Int, Int)")
     End Function
 
     Function IsTrapOrExitAbove: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsTrapOrExitAbove()")
+        Debug.TraceNotImplemented("Level.IsTrapOrExitAbove(Int, Int)")
     End Function
 
     Function IsVisibleTileAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsVisibleTileAt()")
+        Debug.TraceNotImplemented("Level.IsVisibleTileAt(Int, Int)")
     End Function
 
     Function IsWallAdjacent: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsWallAdjacent()")
+        Debug.TraceNotImplemented("Level.IsWallAdjacent(Int, Int)")
     End Function
 
     Function IsWallAdjacent8: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsWallAdjacent8()")
+        Debug.TraceNotImplemented("Level.IsWallAdjacent8(Int, Int)")
     End Function
 
     Function IsWallAt: Bool(xVal: Int, yVal: Int, destructibleOnly: Bool, torchlessOnly: Bool)
@@ -2802,15 +2802,15 @@ Class Level
     End Function
 
     Function IsWaterOrTarAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsWaterOrTarAt()")
+        Debug.TraceNotImplemented("Level.IsWaterOrTarAt(Int, Int)")
     End Function
 
     Function IsWireLikeAt: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.IsWireLikeAt()")
+        Debug.TraceNotImplemented("Level.IsWireLikeAt(Int, Int)")
     End Function
 
     Function IsZone5RoomLegal: Bool(loc: Rect)
-        Debug.TraceNotImplemented("Level.IsZone5RoomLegal()")
+        Debug.TraceNotImplemented("Level.IsZone5RoomLegal(Rect)")
     End Function
 
     Function JanitorReset: Void()
@@ -2818,7 +2818,7 @@ Class Level
     End Function
 
     Function LoadLevelSong: Void(levelObj: LevelObject)
-        Debug.TraceNotImplemented("Level.LoadLevelSong()")
+        Debug.TraceNotImplemented("Level.LoadLevelSong(LevelObject)")
     End Function
 
     Function MakeAllWallsUnbreakable: Void()
@@ -2830,7 +2830,7 @@ Class Level
     End Function
 
     Function MakeInvisibleChestAt: Void(tmpX: Int, tmpY: Int)
-        Debug.TraceNotImplemented("Level.MakeInvisibleChestAt()")
+        Debug.TraceNotImplemented("Level.MakeInvisibleChestAt(Int, Int)")
     End Function
 
     Function MarkAllTilesAsSeen: Void()
@@ -2890,7 +2890,7 @@ Class Level
 
         Level.DumpMap()
 
-        Debug.TraceNotImplemented("Level.NewLevel()")
+        Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, Object, Bool)")
     End Function
 
     Function PadWalls: Void()
@@ -2920,27 +2920,27 @@ Class Level
     End Function
 
     Function PaintTriggerInterior: Void(x: Int, y: Int, w: Int, h: Int, trigger: Int)
-        Debug.TraceNotImplemented("Level.PaintTriggerInterior()")
+        Debug.TraceNotImplemented("Level.PaintTriggerInterior(Int, Int, Int, Int, Int)")
     End Function
 
     Function PawnSlot: Void(slotName: String, ent: Entity)
-        Debug.TraceNotImplemented("Level.PawnSlot()")
+        Debug.TraceNotImplemented("Level.PawnSlot(String, Entity)")
     End Function
 
     Function PlaceAdditionalChestAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceAdditionalChestAt()")
+        Debug.TraceNotImplemented("Level.PlaceAdditionalChestAt(Int, Int)")
     End Function
 
     Function PlaceAppropriateMinibosses: Void(room: RoomBase)
-        Debug.TraceNotImplemented("Level.PlaceAppropriateMinibosses()")
+        Debug.TraceNotImplemented("Level.PlaceAppropriateMinibosses(RoomBase)")
     End Function
 
     Function PlaceChests: Void(freeBroadSword: Bool)
-        Debug.TraceNotImplemented("Level.PlaceChests()")
+        Debug.TraceNotImplemented("Level.PlaceChests(Bool)")
     End Function
 
     Function PlaceConnectedWireDoor: Void(p: Point)
-        Debug.TraceNotImplemented("Level.PlaceConnectedWireDoor()")
+        Debug.TraceNotImplemented("Level.PlaceConnectedWireDoor(Point)")
     End Function
 
     Function PlaceCrateOrBarrel: Void()
@@ -3014,15 +3014,15 @@ Class Level
     End Function
 
     Function PlaceGargoyle: Object(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Level.PlaceGargoyle()")
+        Debug.TraceNotImplemented("Level.PlaceGargoyle(Int, Int, Int)")
     End Function
 
     Function PlaceHotCoalTileAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceHotCoalTileAt()")
+        Debug.TraceNotImplemented("Level.PlaceHotCoalTileAt(Int, Int)")
     End Function
 
     Function PlaceIceTileAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceIceTileAt()")
+        Debug.TraceNotImplemented("Level.PlaceIceTileAt(Int, Int)")
     End Function
 
     Function PlaceLockedChests: Void()
@@ -3030,7 +3030,7 @@ Class Level
     End Function
 
     Function PlaceMinibossOfShapeAt: Object(newMiniboss: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceMinibossOfShapeAt()")
+        Debug.TraceNotImplemented("Level.PlaceMinibossOfShapeAt(Int, Int, Int)")
     End Function
 
     Function PlaceNocturnaArea: Void()
@@ -3042,11 +3042,11 @@ Class Level
     End Function
 
     Function PlaceRandomEnemyForTempo: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceRandomEnemyForTempo()")
+        Debug.TraceNotImplemented("Level.PlaceRandomEnemyForTempo(Int, Int)")
     End Function
 
     Function PlaceRareEnemies: Void(room: RoomBase, hasExit: Bool)
-        Debug.TraceNotImplemented("Level.PlaceRareEnemies()")
+        Debug.TraceNotImplemented("Level.PlaceRareEnemies(RoomBase, Bool)")
     End Function
 
     Function PlaceResourceWall: Void()
@@ -3322,27 +3322,27 @@ Class Level
     End Function
 
     Function PlaceRoomZone2: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone2()")
+        Debug.TraceNotImplemented("Level.PlaceRoomZone2(Int, RoomData)")
     End Function
 
     Function PlaceRoomZone3: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone3()")
+        Debug.TraceNotImplemented("Level.PlaceRoomZone3(Int, RoomData)")
     End Function
 
     Function PlaceRoomZone4: RoomData(roomType: Int)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone4()")
+        Debug.TraceNotImplemented("Level.PlaceRoomZone4(Int)")
     End Function
 
     Function PlaceRoomZone5: RoomData(pseg: PortalSeg, width: Int, height: Int, minEntryDist: Int)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone5()")
+        Debug.TraceNotImplemented("Level.PlaceRoomZone5(PortalSeg, Int, Int, Int)")
     End Function
 
     Function PlaceRoomZone5: RoomData(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone5()")
+        Debug.TraceNotImplemented("Level.PlaceRoomZone52(StackEx<PortalSeg>, Int, Int, Int, Int)")
     End Function
 
     Function PlaceSecondarySpecialShop: Void(useBloodCost: Bool, isFoodShop: Bool)
-        Debug.TraceNotImplemented("Level.PlaceSecondarySpecialShop()")
+        Debug.TraceNotImplemented("Level.PlaceSecondarySpecialShop(Bool, Bool)")
     End Function
 
     Function PlaceSecretRooms: Void(numRooms: Int)
@@ -3641,7 +3641,7 @@ Class Level
     End Function
 
     Function PlaceShopkeeperGhostIfNeededAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceShopkeeperGhostIfNeededAt()")
+        Debug.TraceNotImplemented("Level.PlaceShopkeeperGhostIfNeededAt(Int, Int)")
     End Function
 
     Function PlaceShrine: Void()
@@ -3690,7 +3690,7 @@ Class Level
     End Function
 
     Function PlaceTileTypeAt: Void(xVal: Int, yVal: Int, tileType: Int)
-        Debug.TraceNotImplemented("Level.PlaceTileTypeAt()")
+        Debug.TraceNotImplemented("Level.PlaceTileTypeAt(Int, Int, Int)")
     End Function
 
     Function PlaceTorchesAnywhere: Void()
@@ -3698,7 +3698,7 @@ Class Level
     End Function
 
     Function PlaceTrapInRoom: Object(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap)
-        Debug.TraceNotImplemented("Level.PlaceTrapInRoom()")
+        Debug.TraceNotImplemented("Level.PlaceTrapInRoom(Int, Int, Int, Int, Int, Int, Trap)")
     End Function
 
     Function PlaceTraps: Void()
@@ -3734,43 +3734,43 @@ Class Level
     End Function
 
     Function PlaceTrapZone3: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceTrapZone3()")
+        Debug.TraceNotImplemented("Level.PlaceTrapZone3(Int, Int, Int, Int)")
     End Function
 
     Function PlaceTrapZone4: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceTrapZone4()")
+        Debug.TraceNotImplemented("Level.PlaceTrapZone4(Int, Int, Int, Int)")
     End Function
 
     Function PlaceTrapZone5: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceTrapZone5()")
+        Debug.TraceNotImplemented("Level.PlaceTrapZone5(Int, Int, Int, Int)")
     End Function
 
     Function PlaceWire: Bool(src: Point, dst: Point)
-        Debug.TraceNotImplemented("Level.PlaceWire()")
+        Debug.TraceNotImplemented("Level.PlaceWire(Point, Point)")
     End Function
 
     Function PlaceZone3Beetle: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Beetle()")
+        Debug.TraceNotImplemented("Level.PlaceZone3Beetle(Int, Int)")
     End Function
 
     Function PlaceZone3Cauldron: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Cauldron()")
+        Debug.TraceNotImplemented("Level.PlaceZone3Cauldron(Int, Int)")
     End Function
 
     Function PlaceZone3Elemental: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Elemental()")
+        Debug.TraceNotImplemented("Level.PlaceZone3Elemental(Int, Int)")
     End Function
 
     Function PlaceZone3Slime: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Slime()")
+        Debug.TraceNotImplemented("Level.PlaceZone3Slime(Int, Int)")
     End Function
 
     Function PlaceZone3YetiHellhound: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3YetiHellhound()")
+        Debug.TraceNotImplemented("Level.PlaceZone3YetiHellhound(Int, Int)")
     End Function
 
     Function PlaceZoneAppropriateNumberOfDiamondsAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZoneAppropriateNumberOfDiamondsAt()")
+        Debug.TraceNotImplemented("Level.PlaceZoneAppropriateNumberOfDiamondsAt(Int, Int)")
     End Function
 
     Function ProcessSpecialRoom: Void()
@@ -3788,7 +3788,7 @@ Class Level
             Level.AddSpecialRoom(SpecialRoomType.FoodShop, True)
         Else If controller_game.currentDepth = Level.placeConjurerOnDepth And controller_game.currentLevel = Level.placeConjurerOnLevel
             Level.AddSpecialRoom(SpecialRoomType.Conjurer, True)
-        Else If controller_game.currentDepth = Level.placeShrinerOnDepth And controller_game.currentLevel = Level.placeShrineOnLevel
+        Else If controller_game.currentDepth = Level.placeShrinerOnDepth And controller_game.currentLevel = Level.placeShrinerOnLevel
             Level.AddSpecialRoom(SpecialRoomType.Shriner, True)
         Else If controller_game.currentDepth = Level.placePawnbrokerOnDepth And controller_game.currentLevel = Level.placePawnbrokerOnLevel
             Level.AddSpecialRoom(SpecialRoomType.Pawnbroker, True)
@@ -3798,35 +3798,35 @@ Class Level
     End Function
 
     Function PutBeastmasterStairs: Void(x: Int, y: Int, stairName: String, enemyName: String, enemyType: Int, enemyId: Int, stairNamePrefix: String)
-        Debug.TraceNotImplemented("Level.PutBeastmasterStairs()")
+        Debug.TraceNotImplemented("Level.PutBeastmasterStairs(Int, Int, String, String, Int, Int, Int)")
     End Function
 
     Function PutBossStair: Void(x: Int, y: Int, bossName: String, enemyType: Int, zone: Int, label: String, labelXOff: Int)
-        Debug.TraceNotImplemented("Level.PutBossStair()")
+        Debug.TraceNotImplemented("Level.PutBossStair(Int, Int, String, Int, Int, String, Int)")
     End Function
 
     Function PutCrateOrBarrel: Void(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.PutCrateOrBarrel()")
+        Debug.TraceNotImplemented("Level.PutCrateOrBarrel(Int, Int)")
     End Function
 
     Function PutEnemyZone5: Void(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.PutEnemyZone5()")
+        Debug.TraceNotImplemented("Level.PutEnemyZone5(Int, Int)")
     End Function
 
     Function PutFutureStair: Void(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.PutFutureStair()")
+        Debug.TraceNotImplemented("Level.PutFutureStair(Int, Int)")
     End Function
 
     Function PutMinibossStair: Void(x: Int, y: Int, minibossName: String, enemyType: Int, label: String, labelXOff: Int)
-        Debug.TraceNotImplemented("Level.PutMinibossStair()")
+        Debug.TraceNotImplemented("Level.PutMinibossStair(Int, Int, String, Int, String, Int)")
     End Function
 
     Function PutRoomEnemiesZone5: Void(room: RoomBase, hasExit: Bool)
-        Debug.TraceNotImplemented("Level.PutRoomEnemiesZone5()")
+        Debug.TraceNotImplemented("Level.PutRoomEnemiesZone5(RoomBase, Bool)")
     End Function
 
     Function PutVariedEnemiesZone5: Void(pts: StackEx<Point>)
-        Debug.TraceNotImplemented("Level.PutVariedEnemiesZone5()")
+        Debug.TraceNotImplemented("Level.PutVariedEnemiesZone5(StackEx<Point>)")
     End Function
 
     Function QueryHarderBosses: Bool()
@@ -3876,15 +3876,15 @@ Class Level
     End Function
 
     Function RemoveExit: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.RemoveExit()")
+        Debug.TraceNotImplemented("Level.RemoveExit(Int, Int)")
     End Function
 
     Function RemoveSomeWallsAwayFromCorridors: Void(percentToRemove: Float, includeCorridors: Bool, maxHealth: Int)
-        Debug.TraceNotImplemented("Level.RemoveSomeWallsAwayFromCorridors()")
+        Debug.TraceNotImplemented("Level.RemoveSomeWallsAwayFromCorridors(Float, Bool, Int)")
     End Function
 
     Function RemoveTileAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.RemoveTileAt()")
+        Debug.TraceNotImplemented("Level.RemoveTileAt(Int, Int)")
     End Function
 
     Function RenderAll: Void()
@@ -3904,7 +3904,7 @@ Class Level
     End Function
 
     Function SetMagicBarrier: Void(on: Bool)
-        Debug.TraceNotImplemented("Level.SetMagicBarrier()")
+        Debug.TraceNotImplemented("Level.SetMagicBarrier(Bool)")
     End Function
 
     Function ShopkeeperMissing: Bool()
@@ -3912,11 +3912,11 @@ Class Level
     End Function
 
     Function ShowModPopup: Void(imageName: String)
-        Debug.TraceNotImplemented("Level.ShowModPopup()")
+        Debug.TraceNotImplemented("Level.ShowModPopup(String)")
     End Function
 
     Function SplashWater: Void(xVal: Int, yVal: Int, destroyWater: Bool)
-        Debug.TraceNotImplemented("Level.SplashWater()")
+        Debug.TraceNotImplemented("Level.SplashWater(Int, Int, Bool)")
     End Function
 
     Function StartReplayPlayback: Void()
@@ -3928,19 +3928,19 @@ Class Level
     End Function
 
     Function TransmogrifySlot: Void(slotName: String, ent: Entity)
-        Debug.TraceNotImplemented("Level.TransmogrifySlot()")
+        Debug.TraceNotImplemented("Level.TransmogrifySlot(String, Entity)")
     End Function
 
     Function TransmogrifyWeaponToType: Void(ent: Entity, type: Int)
-        Debug.TraceNotImplemented("Level.TransmogrifyWeaponToType()")
+        Debug.TraceNotImplemented("Level.TransmogrifyWeaponToType(Entity, Int)")
     End Function
 
     Function TrySpawnBossMinibossAt: Void(x: Int, y: Int, etype: Int)
-        Debug.TraceNotImplemented("Level.TrySpawnBossMinibossAt()")
+        Debug.TraceNotImplemented("Level.TrySpawnBossMinibossAt(Int, Int, Int)")
     End Function
 
     Function UnlockChar: Void(characterID: Int)
-        Debug.TraceNotImplemented("Level.UnlockChar()")
+        Debug.TraceNotImplemented("Level.UnlockChar(Int)")
     End Function
 
     Function Update: Void()
@@ -3957,264 +3957,11 @@ Class Level
 
     Function _EditorFix: Void() End
 
-    Method NoTrim: Void()
-        ActivateTrigger(0, Null, Null)
-        ActuallyGetMapTileLightValue(0, 0, False)
-        AddCrackedWall(0)
-        AddExit(0, 0, 0, 0)
-        AddHarderStone()
-        AddMinibossWall(0, 0, 0)
-        AddSomePillarsInOpenSpace()
-        AddSpecialRoom(0, False)
-        AddStone()
-        AdvanceLevel()
-        AllowSpirit()
-        BossMaybeMinibossesAt(0, 0, 0, 0)
-        BreakIce(0, 0)
-        CarveCorridorTile(0, 0, False, False, False, 0, False)
-        CarveNewCorridor(0, 0, False, False, False, 0, False)
-        CheckLOS(0, 0, 0, 0, False)
-        CheckMapConsistency()
-        ClearMinibossWall()
-        ClearTextLabelAt(0, 0)
-        CloseInOuterWalls()
-        ConjureSlot("", Null)
-        CreateAllCharsDLCSelect()
-        CreateAllCharsSelect()
-        CreateBeastmaster()
-        CreateBeastmasterZone1()
-        CreateBeastmasterZone2()
-        CreateBeastmasterZone3()
-        CreateBeastmasterZone4()
-        CreateBeastmasterZone5()
-        CreateBossBattle()
-        CreateBossBattle1()
-        CreateBossBattle2()
-        CreateBossBattle3()
-        CreateBossBattle4()
-        CreateBossBattle5()
-        CreateBossBattle9()
-        CreateBossBattleFrankensteinway()
-        CreateBossmaster()
-        CreateBossmasterBosses()
-        CreateBossmasterMinibosses()
-        CreateCharSelect()
-        CreateDiamondDealer()
-        CreateDungeonMaster()
-        CreateExit(0, 0)
-        CreateExtraModesSelect()
-        CreateFinalBossBattle()
-        CreateFinalBossBattle2()
-        CreateFinalBossBattle3()
-        CreateFinalBossBattleConductor()
-        CreateHephaestus()
-        CreateIndestructibleBorder()
-        CreateJanitor()
-        CreateLobby()
-        CreateMap(Null)
-        CreateMapZone1()
-        CreateMapZone2()
-        CreateMapZone3()
-        CreateMapZone4(False)
-        CreateMapZone5(False)
-        CreateMerlin()
-        CreateRoom(0, 0, 0, 0, False, 0, 0, 0, 0, 0, False, 0, False, False)
-        CreateRoomZone5(Null, 0)
-        CreateSwarmMap()
-        CreateTestMap()
-        CreateTrainer()
-        CreateTrainingMap()
-        CreateTutorialMap()
-        CreateWeaponmaster()
-        DeleteMap()
-        DistanceFromZone3DividingLine(0, 0)
-        DoQuickRestart(False, False, False)
-        DoRestart()
-        DoRestart(False, False)
-        DoWePlaceAdditionalChestThisLevel()
-        DryUpAllWater(0)
-        DumpMap()
-        Earthquake(0, 0)
-        EnsureBossTraining("")
-        FillSecretRooms()
-        FillSecretRoomsZone1()
-        FillSecretRoomsZone2()
-        FillSecretRoomsZone4()
-        FillTiles(Null, 0, 0)
-        FillVault(Null)
-        FindTileOfType(0, False)
-        FreezeTilesNear(0, 0, False)
-        GenerateHardcoreZoneOrder()
-        GenerateJanitorItems()
-        GetAdjustedZoneForAllChars()
-        GetAdjustedZoneForAllCharsDLC()
-        GetAdjustedZoneForStoryMode()
-        GetDistanceToNearestTorch(Null)
-        GetExitValue(0, 0)
-        GetExtraEnemiesBase()
-        GetHardModeExtraEnemies()
-        GetHardModeXML()
-        GetInitialZone()
-        GetMapTileLightValue(0, 0, False)
-        GetNPCSaleItem(0, 0, "", "")
-        GetRandomOffsetPoint()
-        GetRandomWallInRoom(0, 0, 0, 0)
-        GetRandPointInRoomOfTileType(Null, 0, False)
-        GetRandPointInRoomOfTileType(0, 0, 0, 0, 0, False)
-        GetRandPointInRoomWithOptions(Null, False, False, False, False, False, False)
-        GetRandPointInRoomWithOptions(0, 0, 0, 0, False, False, False, False, False, False)
-        GetShrinePoint()
-        GetSingleZoneModeFinalBossZone()
-        GetStandardExitCoords()
-        GetTileAt(0, 0)
-        GetTileFlyawayAt(0, 0)
-        GetTileObstructionList(False)
-        GetTileTypeAt(0, 0)
-        HaveFinalBoss()
-        InitNewMap(False)
-        IsAnyPlayerWithinShop()
-        IsAnyWallAt(Null)
-        IsAnyWaterAt(0, 0)
-        IsBossLevel()
-        IsCorridorFloorAt(0, 0)
-        IsCorridorFloorOrDoorAdjacent(0, 0)
-        IsCorridorOrRoomWallAt(0, 0)
-        IsCrackedWallAdjacent(0, 0)
-        IsCrackedWallAt(0, 0)
-        IsDoorAdjacent(0, 0)
-        IsDoorAt(0, 0)
-        IsExit(0, 0)
-        IsExitAt(0, 0)
-        IsFinalBoss()
-        IsFinalBossZone()
-        Level.IsFloorAdjacent(0, 0)
-        IsFloorAt(0, 0)
-        IsFreeLevelForSpecialRoom(0, 0)
-        IsHotCoalAt(0, 0)
-        IsIceAt(0, 0)
-        IsIcePartOfLevel(0, 0)
-        IsLockedExit(0, 0)
-        IsNormalFloorAt(0, 0)
-        IsPassable()
-        IsPeaceful()
-        IsSecretRoom(0)
-        IsSeededMode(0)
-        IsSurroundedByDestructibleWalls(0, 0)
-        IsTileEmpty(0, 0)
-        IsTileTypeAdjacent(0, 0, 0)
-        IsTrapAdjacent(0, 0)
-        IsTrapOrExitAbove(0, 0)
-        IsVisibleTileAt(0, 0)
-        IsWallAdjacent(0, 0)
-        IsWallAdjacent8(0, 0)
-        IsWallAt(0, 0, False, False)
-        IsWaterOrTarAt(0, 0)
-        IsWireLikeAt(0, 0)
-        IsZone5RoomLegal(Null)
-        JanitorReset()
-        LoadLevelSong(Null)
-        MakeAllWallsUnbreakable()
-        MakeHelper()
-        MakeInvisibleChestAt(0, 0)
-        MarkAllTilesAsSeen()
-        MaybeForbidTrapdoor()
-        NewLevel(0, 0, 0, False, Null, False)
-        PadWalls()
-        PaintTriggerInterior(0, 0, 0, 0, 0)
-        PawnSlot("", Null)
-        PlaceAdditionalChestAt(0, 0)
-        PlaceAppropriateMinibosses(Null)
-        PlaceChests(False)
-        PlaceConnectedWireDoor(Null)
-        PlaceCrateOrBarrel()
-        PlaceEnemies()
-        PlaceEnemiesZone1()
-        PlaceEnemiesZone2()
-        PlaceEnemiesZone3()
-        PlaceEnemiesZone4()
-        PlaceEnemiesZone5()
-        PlaceExit(Null)
-        PlaceFirstRoom()
-        PlaceGargoyle(0, 0, 0)
-        PlaceHotCoalTileAt(0, 0)
-        PlaceIceTileAt(0, 0)
-        PlaceLockedChests()
-        PlaceMinibossOfShapeAt(0, 0, 0)
-        PlaceNocturnaArea()
-        PlacePenaltyBoxEnemies()
-        PlaceRandomEnemyForTempo(0, 0)
-        PlaceRareEnemies(Null, False)
-        PlaceResourceWall()
-        PlaceRoomZone1(0, Null)
-        PlaceRoomZone2(0, Null)
-        PlaceRoomZone3(0, Null)
-        PlaceRoomZone4(0)
-        PlaceRoomZone5(Null, 0, 0, 0)
-        PlaceRoomZone5(Null, 0, 0, 0, 0)
-        PlaceSecondarySpecialShop(False, False)
-        PlaceSecretRooms(0)
-        PlaceShopItemsAt(0, 0, Null)
-        PlaceShopkeeperGhostIfNeededAt(0, 0)
-        PlaceShrine()
-        PlaceTileRemovingExistingTiles(0, 0, 0, False, 0, False)
-        PlaceTileTypeAt(0, 0, 0)
-        PlaceTorchesAnywhere()
-        PlaceTrapInRoom(0, 0, 0, 0, 0, 0, Null)
-        PlaceTraps()
-        PlaceTrapsZone1()
-        PlaceTrapsZone2()
-        PlaceTrapsZone3()
-        PlaceTrapsZone4()
-        PlaceTrapsZone5()
-        PlaceTrapZone3(0, 0, 0, 0)
-        PlaceTrapZone4(0, 0, 0, 0)
-        PlaceTrapZone5(0, 0, 0, 0)
-        PlaceWire(Null, Null)
-        PlaceZone3Beetle(0, 0)
-        PlaceZone3Cauldron(0, 0)
-        PlaceZone3Elemental(0, 0)
-        PlaceZone3Slime(0, 0)
-        PlaceZone3YetiHellhound(0, 0)
-        PlaceZoneAppropriateNumberOfDiamondsAt(0, 0)
-        ProcessSpecialRoom()
-        PutBeastmasterStairs(0, 0, "", "", 0, 0, "")
-        PutBossStair(0, 0, "", 0, 0, "", 0)
-        PutCrateOrBarrel(0, 0)
-        PutEnemyZone5(0, 0)
-        PutFutureStair(0, 0)
-        PutMinibossStair(0, 0, "", 0, "", 0)
-        PutRoomEnemiesZone5(Null, False)
-        PutVariedEnemiesZone5(Null)
-        QueryHarderBosses()
-        RandomFood()
-        RandomWalkOfTempTiles(0, 0, 0)
-        RecalcLevelBoundaries()
-        RefreshLineOfSightTiles()
-        RemoveExit(0, 0)
-        RemoveSomeWallsAwayFromCorridors(0, False, 0)
-        RemoveTileAt(0, 0)
-        RenderAll()
-        RenderExitArrow()
-        ResetCosts()
-        ResetSpecialRoomVariables()
-        SetMagicBarrier(False)
-        ShopkeeperMissing()
-        ShowModPopup("")
-        SplashWater(0, 0, False)
-        StartReplayPlayback()
-        TakeActionAfterAllCharsScoreSubmit()
-        TransmogrifySlot("", Null)
-        TransmogrifyWeaponToType(Null, 0)
-        TrySpawnBossMinibossAt(0, 0, 0)
-        UnlockChar(0)
-        Update()
-        WantPenaltyBox()
-        WidenCorridors()
-    End Method
-
-End
+End Class
 
 Class MinibossTileData
+
+    Function _EditorFix: Void() End
 
     Field x: Int
     Field y: Int

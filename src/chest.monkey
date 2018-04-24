@@ -1,8 +1,10 @@
 'Strict
 
 Import monkey.list
+Import bouncer
 Import entity
 Import logger
+Import sprite
 
 Class Chest Extends Entity
 
@@ -17,11 +19,11 @@ Class Chest Extends Entity
     Global lastChestColor2: Int
 
     Function ClearAllSingleChoiceChests: Void(except: Object)
-        Debug.TraceNotImplemented("Chest.ClearAllSingleChoiceChests()")
+        Debug.TraceNotImplemented("Chest.ClearAllSingleChoiceChests(Object)")
     End Function
 
     Function GetChestAt: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Chest.GetChestAt()")
+        Debug.TraceNotImplemented("Chest.GetChestAt(Int, Int)")
     End Function
 
     Function GetEmptyNonSecretChest: Object()
@@ -61,7 +63,7 @@ Class Chest Extends Entity
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, cont: String, invis: Bool, isLocked: Bool, isSecret: Bool, tmpColor: Int)
-        Debug.TraceNotImplemented("Chest.New()")
+        Debug.TraceNotImplemented("Chest.New(Int, Int, String, Bool, Bool, Bool, Int)")
     End Method
 
     Field chestColor: Int
@@ -75,8 +77,6 @@ Class Chest Extends Entity
     Field image2XOff: Int
     Field image2YOff: Int
     Field bounce2: Bouncer
-    
-    Field singleChoice_: Bool
 
     Method AddKeyToContents: Void()
         Debug.TraceNotImplemented("Chest.AddKeyToContents()")
@@ -103,7 +103,7 @@ Class Chest Extends Entity
     End Method
 
     Method Open: Bool(player: Object)
-        Debug.TraceNotImplemented("Chest.Open()")
+        Debug.TraceNotImplemented("Chest.Open(Object)")
     End Method
 
     Method Render: Void()
@@ -112,24 +112,6 @@ Class Chest Extends Entity
 
     Method Update: Void()
         Debug.TraceNotImplemented("Chest.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Super.NoTrim()
-        ClearAllSingleChoiceChests(Null)
-        GetChestAt(0, 0)
-        GetEmptyNonSecretChest()
-        GetEmptySecretChest()
-        GetNumEmptyNonSecretChests()
-        GetNumEmptySecretChests()
-        IsItemAppropriateForChestColor(0, 0)
-        AddKeyToContents()
-        BecomeLocked()
-        DetermineContentsNow_PlayerDoesntOwn()
-        Die()
-        Open(Null)
-        Render()
-        Update()
     End Method
 
 End Class

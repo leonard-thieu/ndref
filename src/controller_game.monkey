@@ -43,6 +43,8 @@ Global totalPlaytimeMilliseconds: Int
 
 Class ControllerGame Extends Controller
 
+    Function _EditorFix: Void() End
+
     Field specialScoreSubmit: Bool
     Field postDeathReplay: Bool[]
     Field postDeathFrame: Int
@@ -71,14 +73,12 @@ Class ControllerGame Extends Controller
     Field fpsImage: TextSprite
     Field levelImage: TextSprite
 
-    Function _EditorFix: Void() End
-
     Method Destructor: Void()
         Debug.TraceNotImplemented("ControllerGame.Destructor()")
     End Method
 
     Method PrepareToSubmitScores: Void(numScores: Int)
-        Debug.TraceNotImplemented("ControllerGame.PrepareToSubmitScores()")
+        Debug.TraceNotImplemented("ControllerGame.PrepareToSubmitScores(Int)")
     End Method
 
     Method RegainFocus: Void()
@@ -107,18 +107,6 @@ Class ControllerGame Extends Controller
 
     Method Update: Void()
         Debug.TraceNotImplemented("ControllerGame.Update()")
-    End Method
-
-    Method NoTrim: Void()
-        Destructor()
-        PrepareToSubmitScores(0)
-        RegainFocus()
-        Render()
-        RenderPostGameReplay()
-        ResetPostDeathReplay()
-        ScoreSubmitFailed()
-        Suspend()
-        Update()
     End Method
 
 End Class
