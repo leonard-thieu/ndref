@@ -441,8 +441,12 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetWeaponShapeClass(Int)")
     End Function
 
-    Function HasSeenItemXTimes: Bool(itemName: Int, x: Int)
-        Debug.TraceNotImplemented("Item.HasSeenItemXTimes(Int, Int)")
+    Function HasSeenItemXTimes: Bool(itemName: String, x: Int)
+        If Item.seenItems.Contains(itemName)
+            Return Item.seenItems.Get(itemName) = x
+        End If
+
+        Return False
     End Function
 
     Function InitAll: Void()
