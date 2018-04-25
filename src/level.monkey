@@ -1546,7 +1546,10 @@ Class Level
         End If
 
         Debug.Log("CREATEMAP ZONE1: Placing secret rooms")
-        Level.PlaceSecretRooms(-1) ' Decompiler showing wrong value for t_numRooms
+        ' TODO: Decompiler shows -1 for t_numRooms. However, hardcoding 4 creates the correct number of secret rooms and
+        '       sets RNG state to expected values (for seed "1", floor 1-1).
+        '       It's possible that 4 is the correct hardcoded value but why doesn't the decompiler show this?
+        Level.PlaceSecretRooms(4)
 
         Debug.Log("CREATEMAP ZONE1: Filling secret rooms.  Chests remaining: " + Level.chestsStillToPlace)
         If Not Level.FillSecretRooms() Then Return Level._FailMap()
