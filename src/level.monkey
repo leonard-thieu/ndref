@@ -1008,7 +1008,72 @@ Class Level
     End Function
 
     Function CreateIndestructibleBorder: Void()
-        Debug.TraceNotImplemented("Level.CreateIndestructibleBorder()")
+        Debug.Log("CREATEINDESTRUCTIBLEBORDER: Creating indestructible outer wall")
+
+        Local borderTiles := New List<TileData>()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local x0 := tilesOnXNode.Key()
+                Local y0 := tileNode.Key()
+
+                For Local y := y0 - 1 To y0 + 1
+                    For Local x := x0 - 1 To x0 + 1
+                        If x = x0 And
+                           y = y0
+                            Continue
+                        End If
+
+                        If Level.GetTileAt(x, y) = Null
+                            borderTiles.AddLast(New TileData(x, y, TileType.IndestructibleBorder))
+                        End If
+                    End For
+                End For
+            End For
+        End For
+
+        For Local borderTile := EachIn borderTiles
+            New Tile(borderTile.x, borderTile.y, borderTile.type, False, -1)
+        End For
+
+        Debug.Log("CREATEINDESTRUCTIBLEBORDER: Replacing indestructible orphans")
+
+        While Not Level._ReplaceIndestructibleOrphans()
+        End While
+    End Function
+
+    Function _ReplaceIndestructibleOrphans: Bool()
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local x0 := tilesOnXNode.Key()
+                Local y0 := tileNode.Key()
+
+                If Level.GetTileTypeAt(x0, y0) = TileType.IndestructibleBorder
+                    Local i := 0
+
+                    For Local y := y0 - 1 To y0 + 1
+                        For Local x := x0 - 1 To x0 + 1
+                            If x = x0 And
+                               y = y0
+                                Continue
+                            End If
+
+                            If Level.GetTileAt(x, y)
+                                i += 1
+                            End If
+                        End For
+                    End For
+
+                    If i = 8
+                        Level.PlaceTileRemovingExistingTiles(x0, y0, TileType.DirtWall, False, -1, False)
+
+                        Return False
+                    End If
+                End If
+            End For
+        End For
+
+        Return True
     End Function
 
     Function CreateJanitor: Void()
@@ -2222,7 +2287,11 @@ Class Level
                     Else If tile.IsDoor()
                         value = "\"
                     Else If tile.IsWall()
-                        value = "#"
+                        If tile.GetType() <> TileType.IndestructibleBorder
+                            value = "#"
+                        Else
+                            value = "X"
+                        End If
                     Else
                         value = "?"
                     End If
