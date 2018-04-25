@@ -38,20 +38,6 @@ Function GetBool: Bool(obj: JsonObject, key: String, defval: Bool)
     Return value.BoolValue()
 End Function
 
-Function GetItem: JsonObject(name: String)
-    Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
-
-    For Local itemNode := EachIn itemNodes
-        Local itemNodeObj := JsonObject(itemNode)
-        If itemNodeObj <> Null And
-           GetString(itemNodeObj, "_name", Item.NoItem) = name
-            Return itemNodeObj
-        End If
-    End For
-
-    Return Null
-End Function
-
 Function GetResourceCoinType: String(amount: Int)
     Return "resource_coin" + math.Clamp(amount, 1, 10)
 End Function
@@ -315,8 +301,18 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetIntAttribute(String, String, Int)")
     End Function
 
-    Function GetItemXML: Object(i: Int)
-        Debug.TraceNotImplemented("Item.GetItemXML(Int)")
+    Function GetItemXML: JsonObject(i: String)
+        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
+
+        For Local itemNode := EachIn itemNodes
+            Local itemNodeObj := JsonObject(itemNode)
+            If itemNodeObj <> Null And
+               GetString(itemNodeObj, "_name", Item.NoItem) = i
+                Return itemNodeObj
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function GetPickupAt: Item(xVal: Int, yVal: Int, slf: Item)
@@ -392,14 +388,9 @@ Class Item Extends Entity
         For Local j := 1 Until 10
             For Local itemNode := EachIn itemPool
                 If predicate.Call(itemNode)
-                    Local seenCount: Int
                     Local name := GetString(itemNode, "_name", "")
 
-                    If Item.seenItems.Contains(name)
-                        seenCount = Item.seenItems.Get(name)
-                    End If
-
-                    If seenCount = 0
+                    If Item.HasSeenItemXTimes(name, 0)
                         Item.AddToSeenItems(name)
 
                         Return name
@@ -584,7 +575,7 @@ Class Item Extends Entity
     End Function
 
     Function IsItemOfType: Bool(i: String, query: String)
-        Local itemObj := GetItem(i)
+        Local itemObj := Item.GetItemXML(i)
 
         Return GetBool(itemObj, query, False)
     End Function
@@ -907,13 +898,13 @@ Class Item Extends Entity
             Debug.Log("ITEM NEW: " + xVal + ", " + yVal + " itemType: " + type + " entityNum: " + Self.entityNum)
         End If
 
-        Local itemObj := GetItem(type)
+        Local itemObj := Item.GetItemXML(type)
 
         If itemObj = Null
             Debug.Log("ERROR: Unrecognized item type " + type)
 
             type = "food_1"
-            itemObj = GetItem(type)
+            itemObj = Item.GetItemXML(type)
         End If
 
         If utl <> -1
@@ -956,7 +947,7 @@ Class Item Extends Entity
             Local frameCount := itemData.imageFrames
 
             resourceCoinType = GetResourceCoinType(Self.utility)
-            resourceCoinObj = GetItem(resourceCoinType)
+            resourceCoinObj = Item.GetItemXML(resourceCoinType)
             resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
             Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
 
@@ -973,19 +964,19 @@ Class Item Extends Entity
                 pickup.FlagForDeath(0)
 
                 resourceCoinType = GetResourceCoinType(Self.utility)
-                resourceCoinObj = GetItem(resourceCoinType)
+                resourceCoinObj = Item.GetItemXML(resourceCoinType)
                 resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
-            Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
+                Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
 
                 Self.itemType = resourceCoinType
             End For
 
             If Self.utility >= 50
-                resourceCoinObj = GetItem("resource_hoard_gold")
+                resourceCoinObj = Item.GetItemXML("resource_hoard_gold")
                 resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             Else If Self.utility >= 25
-                resourceCoinObj = GetItem("resource_hoard_gold_small")
+                resourceCoinObj = Item.GetItemXML("resource_hoard_gold_small")
                 resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             End If
