@@ -812,11 +812,12 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsFloor: Bool()
-        If Self.type = TileType.MetalDoor And Self.IsMetalDoorOpen()
+        If Self.type = TileType.MetalDoor And
+           Self.IsMetalDoorOpen()
             Return True
         End If
 
-        Return Self.type <= 24 ' Max index of floor tiles
+        Return 0 <= Self.type And Self.type <= 24
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
@@ -913,7 +914,8 @@ Class Tile Extends RenderableObject
             End Select
         End If
 
-        If nonCorridor And Self.type = TileType.CorridorDirtWall
+        If nonCorridor And
+           Self.type = TileType.CorridorDirtWall
             Return False
         End If
 
@@ -934,7 +936,8 @@ Class Tile Extends RenderableObject
             End Select
         End If
 
-        If Self.type = TileType.MetalDoor And Self.IsMetalDoorOpen()
+        If Self.type = TileType.MetalDoor And
+           Self.IsMetalDoorOpen()
             Return False
         End If
 

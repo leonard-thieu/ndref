@@ -14,7 +14,10 @@ Class Trap Extends Entity Abstract
 
     Function GetTrapAt: Trap(xVal: Int, yVal: Int)
         For Local trap := EachIn trapList
-            If trap.x = xVal And trap.y = yVal Then Return trap
+            If trap.x = xVal And
+               trap.y = yVal
+                Return trap
+            End If
         End For
 
         Return Null
