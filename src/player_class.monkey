@@ -875,7 +875,12 @@ Class Player Extends MobileEntity
     End Method
 
     Method IsBomblessCharacter: Bool()
-        Debug.TraceNotImplemented("Player.IsBomblessCharacter()")
+        Select Self.characterID
+            Case Character.Eli
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method IsHeavy: Bool()

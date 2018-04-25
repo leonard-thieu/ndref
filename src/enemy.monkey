@@ -75,8 +75,18 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.GetDamagableEnemiesAt(Int, Int, Bool, Bool, Int, Int, Int)")
     End Function
 
-    Function GetEnemyAt: Object(xVal: Int, yVal: Int, includeFalling: Bool)
-        Debug.TraceNotImplemented("Enemy.GetEnemyAt(Int, Int, Bool)")
+    Function GetEnemyAt: Enemy(xVal: Int, yVal: Int, includeFalling: Bool)
+        For Local enemy := EachIn Enemy.enemyList
+            If (enemy.x <= xVal And xVal < enemy.x + enemy.width) And
+               (enemy.y <= yVal And yVal < enemy.y + enemy.height)
+                If includeFalling Or
+                   Not enemy.falling
+                    Return enemy
+                End If
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function GetEnemyName: Int(type: Int)

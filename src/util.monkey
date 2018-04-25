@@ -206,7 +206,15 @@ Class Util
     End Function
 
     Function IsBomblessCharacterActive: Bool()
-        Debug.TraceNotImplemented("Util.IsBomblessCharacterActive()")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If player <> Null And
+               player.IsBomblessCharacter()
+                Return True
+            End If
+        End For
+
+        Return False
     End Function
 
     Function IsCharacterActive: Bool(charID: Int)
@@ -223,7 +231,43 @@ Class Util
     End Function
 
     Function IsGlobalCollisionAt: Bool(xVal: Int, yVal: Int, isPlayer: Bool, ignoreWalls: Bool, includeTheNothing: Bool, includeShopWallsDespiteIgnoringWalls: Bool, skipIgnoreWalls: Bool)
-        Debug.TraceNotImplemented("Util.IsGlobalCollisionAt(Int, Int, Bool, Bool, Bool, Bool, Bool)")
+        If includeTheNothing And
+           Level.GetTileAt(xVal, yVal) = Null
+            Return True
+        End If
+
+        If includeShopWallsDespiteIgnoringWalls
+            Select Level.GetTileTypeAt(xVal, yVal)
+                Case TileType.ShopWall,
+                     TileType.UnbreakableWall,
+                     TileType.BossWall
+                    Return True
+            End Select
+        End If
+
+        For Local renderableObj := EachIn RenderableObject.renderableObjectList
+            If renderableObj.collides
+                If renderableObj.isPlayer And Player(renderableObj).Perished() Then Continue
+                If isPlayer And renderableObj.playerOverrideCollide Then Continue
+
+                If ignoreWalls
+                    Local tile := Tile(renderableObj)
+                    If tile <> Null And tile.GetType() = TileType.IndestructibleBorder Then Continue
+                End If
+
+                If skipIgnoreWalls
+                    Local entity := Entity(renderableObj)
+                    If entity <> Null And entity.ignoreWalls Then Continue
+                End If
+
+                If (renderableObj.x <= xVal And xVal < renderableObj.x + renderableObj.width) And
+                   (renderableObj.y <= yVal And yVal < renderableObj.y + renderableObj.height)
+                    Return True
+                End If
+            End If
+        End For
+
+        Return False
     End Function
 
     Function IsNonMobileCollisionAt: Bool(xVal: Int, yVal: Int)

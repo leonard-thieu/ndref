@@ -4,6 +4,7 @@ Import monkey.map
 Import monkey.math
 Import monkey.random
 Import monkey.set
+Import bat
 Import beastmaster
 Import bossmaster
 Import chest
@@ -14,6 +15,7 @@ Import entity
 Import exitmap
 Import fakewall
 import gamedata
+Import ghast
 Import input2
 Import intpointlist
 Import intpointset
@@ -27,6 +29,7 @@ Import npc
 Import particles
 Import pawnbroker
 Import player_class
+Import poltergeist
 Import portal_seg
 Import rect
 Import renderable_object
@@ -36,6 +39,7 @@ Import room_with_door
 Import roomdata
 Import saleitem
 Import shriner
+Import skeleton
 Import slowdowntrap
 Import speeduptrap
 Import spells
@@ -46,7 +50,9 @@ Import tile
 Import tiledata
 Import transmogrifier
 Import trap
+Import trapchest
 Import util
+Import wraith
 Import xml
 
 Class Level
@@ -759,7 +765,8 @@ Class Level
     End Function
 
     Function AllowSpirit: Bool()
-        Debug.TraceNotImplemented("Level.AllowSpirit()")
+        Return Poltergeist.theGhoul = Null And
+               Wraith.theCursedWraith = Null
     End Function
 
     Function BossMaybeMinibossesAt: Void(x1: Int, y1: Int, x2: Int, y2: Int)
@@ -2301,7 +2308,330 @@ Class Level
     End Function
 
     Function FillSecretRoomsZone1: Bool()
-        Debug.TraceNotImplemented("Level.FillSecretRoomsZone1()")
+        Local placeGoldenKey: Bool
+
+        If controller_game.currentZone = 1 And
+           controller_game.currentLevel = 2
+            If Not GameData.GetNPCUnlock("merlin")
+                placeGoldenKey = Not Level.isLevelEditor
+            End If
+        End If
+
+        If Level.isHardcoreMode Or
+           Level.isDDRMode
+            placeGoldenKey = False
+        End If
+
+        For Local room := EachIn Level.rooms
+            If Not Level.IsSecretRoom(room.type) Then Continue
+
+            Local secretRoomVariantRoll := Util.RndIntRangeFromZero(100, True)
+
+            If room.type = RoomType.Vault
+                If controller_game.currentLevel = 3
+                    Local vaultRoll := Util.RndIntRangeFromZero(5, True)
+                    If vaultRoll = 0
+                        Level.FillVault(room)
+                    End If
+
+                    Continue
+                End If
+
+                New Item(room.x + 2, room.y + 2, "misc_potion", False, -1, False)
+
+                Continue
+            End If
+
+            If Level.addKeyInSecretChest
+                Local point := Level.GetRandPointInRoomWithOptions(room)
+                If point <> Null
+                    If Util.IsBomblessCharacterActive()
+                        Local numCoinBonusFactor := math.Min(controller_game.currentDepth, 3)
+                        Local numCoins := (numCoinBonusFactor * 10) + 15
+                        New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+
+                        Level.addKeyInSecretChest = False
+                    Else
+                        Local bombRoll := Util.RndIntRangeFromZero(100, True)
+                        If bombRoll < 45
+                            New Item(point.x, point.y, "bomb_3", False, -1, False)
+                        Else
+                            New Item(point.x, point.y, "bomb", False, -1, False)
+                        End If
+                    End If
+
+                    Level.addKeyInSecretChest = False
+                End If
+
+                Continue
+            End If
+
+            If placeGoldenKey
+                If Not Level.isHardcoreMode And
+                   Not Level.isDDRMode
+                    New Item(room.x + 1, room.y + 1, "misc_golden_key", False, -1, False)
+                End If
+
+                placeGoldenKey = False
+
+                Continue
+            End If
+
+            If secretRoomVariantRoll <= 4 And
+               room.w <= 3 And
+               room.h <= 3
+                Level.PutCrateOrBarrel(room.x + 1, room.y + 1)
+                Level.PutCrateOrBarrel(room.x + 2, room.y + 1)
+                Level.PutCrateOrBarrel(room.x + 1, room.y + 2)
+                Level.PutCrateOrBarrel(room.x + 2, room.y + 2)
+
+                Continue
+            End If
+
+            If secretRoomVariantRoll <= 5 And
+               room.w >= 4 And
+               room.h >= 4
+                Local trapTypeLimitRoll := 2
+                If Level.MaybeForbidTrapdoor()
+                    trapTypeLimitRoll = 1
+                End If
+
+                Local trapTypeRoll := Util.RndIntRangeFromZero(trapTypeLimitRoll, True)
+                Select trapTypeRoll
+                    Case 0
+                        Local bounceTrap1 := New BounceTrap(room.x + 1, room.y + 2, BounceTrapDirection.Right)
+                        Local bounceTrap2 := New BounceTrap(room.x + 3, room.y + 2, BounceTrapDirection.Left)
+                        Local bounceTrap3 := New BounceTrap(room.x + 2, room.y + 1, BounceTrapDirection.Down)
+                        Local bounceTrap4 := New BounceTrap(room.x + 2, room.y + 3, BounceTrapDirection.Up)
+                        bounceTrap1.canBeReplacedByTempoTrap = False
+                        bounceTrap2.canBeReplacedByTempoTrap = False
+                        bounceTrap3.canBeReplacedByTempoTrap = False
+                        bounceTrap4.canBeReplacedByTempoTrap = False
+                    Case 1
+                        New SpikeTrap(room.x + 1, room.y + 2)
+                        New SpikeTrap(room.x + 3, room.y + 2)
+                        New SpikeTrap(room.x + 2, room.y + 1)
+                        New SpikeTrap(room.x + 2, room.y + 3)
+                    Default
+                        New TrapDoor(room.x + 1, room.y + 2)
+                        New TrapDoor(room.x + 3, room.y + 2)
+                        New TrapDoor(room.x + 2, room.y + 1)
+                        New TrapDoor(room.x + 2, room.y + 3)
+                End Select
+
+                Local itemName: String
+                If Util.RndIntRangeFromZero(1, True) <> 0
+                    Local requestedLevel := controller_game.currentLevel + 1
+                    itemName = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", False)
+                Else
+                    itemName = Level.RandomFood()
+                End If
+
+                New Item(room.x + 2, room.y + 2, itemName, False, -1, False)
+
+                Continue
+            End If
+
+            If (secretRoomVariantRoll > 50 Or Level.isHardcoreMode) And
+               secretRoomVariantRoll > 25
+                If (secretRoomVariantRoll <= 60 And Not Level.isHardcoreMode) Or
+                   secretRoomVariantRoll <= 45
+                    ' TODO: Give a more appropriate name to `i`.
+                    Local i := (room.w - 1) * (room.h - 1) - 2
+
+                    ' Place Bounce Traps in 2 corners.
+                    If Util.RndBool(True)
+                        ' Top left
+                        New BounceTrap(room.x + 1, room.y + 1, BounceTrapDirection.None)
+                        ' Bottom right
+                        New BounceTrap(room.x + room.w - 1, room.y + room.h - 1, BounceTrapDirection.None)
+                    Else
+                        ' Top right
+                        New BounceTrap(room.x + room.w - 1, room.y + 1, BounceTrapDirection.None)
+                        ' Bottom left
+                        New BounceTrap(room.x + 1, room.y + room.h - 1, BounceTrapDirection.None)
+                    End If
+
+                    ' Fill the rest of the room with a variety of Spike Traps, Trap Doors, or Bomb Traps.
+                    For i = i - 1 Until 0 Step -1
+                        Local point := Level.GetRandPointInRoomWithOptions(room)
+                        If point <> Null
+                            Local bombTrapRoll := Util.RndIntRangeFromZero(10, True)
+                            If bombTrapRoll <> 0
+                                If Util.RndBool(True)
+                                    New SpikeTrap(point.x, point.y)
+                                Else
+                                    If Util.RndBool(True) Or
+                                       Level.MaybeForbidTrapdoor()
+                                        New SpikeTrap(point.x, point.y)
+                                    Else
+                                        New TrapDoor(point.x, point.y)
+                                    End If
+                                End If
+                            Else
+                                New BombTrap(point.x, point.y)
+                            End If
+                        End If
+                    End For
+
+                    Continue
+                End If
+
+                If secretRoomVariantRoll <= 80 And
+                   controller_game.currentLevel > 2 And
+                   Level.AllowSpirit()
+                    Local point := Level.GetRandPointInRoomWithOptions(room)
+                    If point <> Null
+                        Local wraith: Enemy
+
+                        Select controller_game.currentZone
+                            Case 5 wraith = New Wraith(point.x, point.y, 2)
+                            Case 3 wraith = New Ghast(point.x, point.y, 1)
+                            Default wraith = New Wraith(point.x, point.y, 1)
+                        End Select
+
+                        wraith.inSecretRoom = True
+                    End If
+
+                    Continue
+                End If
+
+                Local secretRoomVariantVariantRoll := Util.RndIntRangeFromZero(100, True)
+                If secretRoomVariantVariantRoll <= 30
+                    Local batLevel := 1
+
+                    Local redBatCaveRoll := Util.RndIntRangeFromZero(4, True)
+                    If redBatCaveRoll = 0
+                        batLevel = 2
+
+                        Local point := Level.GetRandPointInRoomWithOptions(room)
+                        If point <> Null
+                            If Not Level.isHardcoreMode Or
+                               Level.chestsStillToPlace > 0
+                                Level.MakeInvisibleChestAt(point.x, point.y)
+                                Level.chestsStillToPlace -= 1
+                            End If
+                        End If
+                    End If
+
+                    Local roomInnerArea := (room.w - 1) * (room.h - 1)
+                    For Local i := roomInnerArea Until 0 Step -1
+                        Local point := Level.GetRandPointInRoomWithOptions(room)
+                        If point <> Null
+                            Local bat := New Bat(point.x, point.y, batLevel)
+                            bat.inSecretRoom = True
+                        End If
+                    End For
+
+                    Continue
+                End If
+
+                If secretRoomVariantVariantRoll <= 35
+                    Local skeletonLevel := 1
+                    Local skeletonLevel2Roll := Util.RndIntRangeFromZero(2, True)
+                    If skeletonLevel2Roll = 0 Then skeletonLevel = 2
+                    Local skeletonLevel3Roll := Util.RndIntRangeFromZero(3, True)
+                    If skeletonLevel3Roll = 0 Then skeletonLevel = 3
+
+                    Local roomInnerArea := (room.w - 1) * (room.h - 1)
+                    For Local i := roomInnerArea Until 0 Step -1
+                        Local point := Level.GetRandPointInRoomWithOptions(room)
+                        If point <> Null
+                            Local skeleton := New Skeleton(point.x, point.y, skeletonLevel)
+                            skeleton.inSecretRoom = True
+                        End If
+                    End For
+
+                    Continue
+                End If
+
+                If secretRoomVariantVariantRoll <= 75
+                    Local point := Level.GetRandPointInRoomWithOptions(room)
+                    If point <> Null
+                        Local secretRoomVariantVariantVariantRoll := Util.RndIntRangeFromZero(100, True)
+                        If secretRoomVariantVariantVariantRoll <= 34
+                            If Not Util.IsBomblessCharacterActive()
+                                New Item(point.x, point.y, "bomb_3", False, -1, False)
+
+                                Continue
+                            End If
+                        End If
+
+                        If secretRoomVariantVariantVariantRoll >= 80 Or
+                           Util.IsBomblessCharacterActive()
+                            Local coinBonusFactor := math.Min(controller_game.currentDepth, 3)
+                            Local numCoins := (10 * coinBonusFactor) + 15
+                            New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+
+                            Continue
+                        End If
+
+                        New Item(point.x, point.y, "bomb", False, -1, False)
+                    End If
+                End If
+            Else
+                Local point := Level.GetRandPointInRoomWithOptions(room)
+                If point <> Null
+                    Local urnRoll := Util.RndIntRangeFromZero(40, True)
+                    If urnRoll = 0 And
+                       Not Level.placedUrnThisRun
+                        New Crate(point.x, point.y, Crate.TYPE_URN, "no_item")
+                        Level.placedUrnThisRun = True
+
+                        Continue
+                    End If
+
+                    Local chestRoll := Util.RndIntRangeFromZero(4, True)
+                    If chestRoll = 0
+                        If Level.chestsStillToPlace > 0
+                            Level.MakeInvisibleChestAt(point.x, point.y)
+                            Level.chestsStillToPlace -= 1
+                        End If
+
+                        Continue
+                    End If
+
+                    Local placeTrapChestRoll := Util.RndIntRangeFromZero(99, True)
+                    Local placeTrapChest := False
+
+                    If (controller_game.currentLevel = 1) And (placeTrapChestRoll <=  3) Then placeTrapChest = True
+                    If (controller_game.currentLevel = 2) And (placeTrapChestRoll <=  9) Then placeTrapChest = True
+                    If (controller_game.currentLevel = 3) And (placeTrapChestRoll <= 12) Then placeTrapChest = True
+                    If (controller_game.currentLevel = 4) And (placeTrapChestRoll <= 15) Then placeTrapChest = True
+                    If (controller_game.currentLevel > 4) And (placeTrapChestRoll <= 18) Then placeTrapChest = True
+
+                    If Level.chestsStillToPlace > 0
+                        If placeTrapChest
+                            Local trapChestLevelRoll := Util.RndIntRangeFromZero(9, True)
+                            Local trapChestLevel: Int
+
+                            Select trapChestLevelRoll
+                                Case 0  trapChestLevel = 3
+                                Case 1  trapChestLevel = 2
+                                Default trapChestLevel = 1
+                            End Select
+
+                            New TrapChest(point.x, point.y, trapChestLevel)
+                        Else
+                            New Chest(point.x, point.y, "no_item", False, False, True, Chest.CHEST_COLOR_NONE)
+                        End If
+
+                        Level.chestsStillToPlace -= 1
+                    End If
+                End If
+            End If
+        End For
+
+        If Level.addKeyInSecretChest
+            Debug.Log("FILLSECRETROOMS: Utterly failed to place bomb for locked shop!")
+            Return False
+        End If
+
+        If placeGoldenKey
+            Debug.Log("FILLSECRETROOMS: Failed to place golden key!")
+            Return False
+        End If
+
         Return True
     End Function
 
@@ -2516,12 +2846,66 @@ Class Level
         Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType(Int, Int, Int, Int, Int, Bool)")
     End Function
 
+    Function GetRandPointInRoomWithOptions: Point(room: RoomData)
+        Return Level.GetRandPointInRoomWithOptions(room.x, room.y, room.w, room.h, True, True, True)
+    End Function
+
     Function GetRandPointInRoomWithOptions: Point(room: RoomBase, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions(RoomBase, Bool, Bool, Bool, Bool, Bool, Bool)")
+        Local pointsTested := New IntPointSet()
+
+        Local i := 1000
+        For i = i - 1 Until 0 Step -1
+            Local point := room.GetRandPoint()
+            If pointsTested.Contains(point) Then Continue
+
+            pointsTested.Insert(point)
+
+            Local x := point.x
+            Local y := point.y
+
+            If skipCollisions
+                If Util.IsGlobalCollisionAt(x, y, False, False, False, False, False) Then Continue
+                If Enemy.GetEnemyAt(x, y, True) <> Null Then Continue
+            End If
+
+            If skipExit
+                If Level.GetExitValue(x, y).x <> -4 Then Continue
+            End If
+
+            If skipTraps
+                If Trap.GetTrapAt(x, y) <> Null Then Continue
+            End If
+
+            If skipWater
+                Select Level.GetTileTypeAt(x, y)
+                    Case TileType.Water,
+                         TileType.Tar,
+                         TileType.DeepWater
+                        Continue
+                End Select
+            End If
+
+            If Not nearWallIsOk
+                If Level._IsWallAdjacent(x, y) Then Continue
+            End If
+
+            If Not secretRoomOK
+                If Level.GetTileTypeAt(x, y) = TileType.SecretFloor Then Continue
+            End If
+
+            Return point
+        End For
+    End Function
+
+    Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
+        Return Level.GetRandPointInRoomWithOptions(xVal, yVal, wVal, hVal, True, True, True, skipWater, nearWallIsOk, secretRoomOK)
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Debug.TraceNotImplemented("Level.GetRandPointInRoomWithOptions(Int, Int, Int, Int, Bool, Bool, Bool, Bool, Bool, Bool)")
+        Local body := New Rect(xVal, yVal, wVal, hVal)
+        Local room := New RectRoom(body)
+
+        Return Level.GetRandPointInRoomWithOptions(room, skipCollisions, skipExit, skipTraps, skipWater, nearWallIsOk, secretRoomOK)
     End Function
 
     Function GetShrinePoint: Point()
@@ -2841,6 +3225,21 @@ Class Level
         Debug.TraceNotImplemented("Level.IsWallAdjacent8(Int, Int)")
     End Function
 
+    Function _IsWallAdjacent: Bool(xVal: Int, yVal: Int)
+        For Local y := yVal - 1 To yVal + 1
+            For Local x := xVal - 1 To xVal + 1
+                If x = xVal And
+                   y = yVal
+                    Continue
+                End If
+
+                If Level.IsWallAt(x, y, False, False) Then Return True
+            End For
+        End For
+
+        Return False
+    End Function
+
     Function IsWallAt: Bool(xVal: Int, yVal: Int, destructibleOnly: Bool, torchlessOnly: Bool)
         Local tile := Level.GetTileAt(xVal, yVal)
 
@@ -2876,7 +3275,10 @@ Class Level
     End Function
 
     Function MakeInvisibleChestAt: Void(tmpX: Int, tmpY: Int)
-        Debug.TraceNotImplemented("Level.MakeInvisibleChestAt(Int, Int)")
+        Local requestedLevel := controller_game.currentLevel + 3
+        Local itemName := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", False)
+
+        New Chest(tmpX, tmpY, itemName, True, False, True, Chest.CHEST_COLOR_NONE)
     End Function
 
     Function MarkAllTilesAsSeen: Void()
@@ -2884,7 +3286,10 @@ Class Level
     End Function
 
     Function MaybeForbidTrapdoor: Bool()
-        Debug.TraceNotImplemented("Level.MaybeForbidTrapdoor()")
+        If controller_game.currentZone <> 5 Then Return False
+        If controller_game.currentLevel = 3 Then Return True
+
+        Return Util.RndBool(True)
     End Function
 
     Function NewLevel: Void(level: Int, zone: Int, playerID: Int, inEditor: Bool, levelObj: LevelObject, continuedRun: Bool)
@@ -3413,7 +3818,7 @@ Class Level
             forceCost = coinCost / 10
         End If
 
-        New SaleItem(-197, -203, randomItemName, useBloodCost, Null, forceCost, medic)
+        New SaleItem(-197, -203, itemName, useBloodCost, Null, forceCost, medic)
 
         Debug.Log("Done Placing Secondary Special Shop")
     End Function
@@ -3879,7 +4284,19 @@ Class Level
     End Function
 
     Function PutCrateOrBarrel: Void(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.PutCrateOrBarrel(Int, Int)")
+        If Level.isHardcoreMode Or
+           controller_game.currentDepth > 1
+            Local trapChestRoll := Util.RndIntRange(1, 100, True, -1)
+            If trapChestRoll <= 3
+                Local trapChestBaseLevel := Util.RndIntRangeFromZero(1, True)
+                New TrapChest(x, y, trapChestBaseLevel + 4)
+
+                Return
+            End If
+        End If
+
+        Local crateType := Util.RndIntRangeFromZero(1, True)
+        New Crate(x, y, crateType, "no_item")
     End Function
 
     Function PutEnemyZone5: Void(x: Int, y: Int)
