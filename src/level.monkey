@@ -3388,7 +3388,34 @@ Class Level
     End Function
 
     Function PlaceSecondarySpecialShop: Void(useBloodCost: Bool, isFoodShop: Bool)
-        Debug.TraceNotImplemented("Level.PlaceSecondarySpecialShop(Bool, Bool)")
+        Debug.Log("Placing Secondary Special Shop")
+
+        If isFoodShop
+            Level.CreateRoom(-200, -207, 8, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+        Else
+            Level.CreateRoom(-200, -207, 6, 8, False, RoomType.Special, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+        End If
+
+        Level.GetTileAt(-197, -207).AddTorch()
+
+        Local medic := New Medic(-197, -205, 1, False)
+
+        Local itemName := Item.GetRandomItemInClass("", controller_game.currentLevel + 3, "shopChance", Chest.CHEST_COLOR_NONE, True, "", False)
+
+        ' TODO: Fix `Item.GetRandomItemInClass`.
+        itemName = "ring_regeneration"
+
+        Local itemNode := Item.GetItemXML(itemName)
+        Local coinCost := item.GetInt(itemNode, "coinCost", 0)
+
+        Local forceCost := 0.5
+        If Not useBloodCost
+            forceCost = coinCost / 10
+        End If
+
+        New SaleItem(-197, -203, randomItemName, useBloodCost, Null, forceCost, medic)
+
+        Debug.Log("Done Placing Secondary Special Shop")
     End Function
 
     Function PlaceSecretRooms: Void(numRooms: Int)
