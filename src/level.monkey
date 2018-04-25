@@ -130,7 +130,7 @@ Class Level
     Global nonDeterministicMSStart: Int = -1
     Global outsideBossChamber: Int
     Global pacifismModeOn: Bool
-    Global pawnbroker: Object
+    Global pawnbroker: Pawnbroker
     Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global placeArenaOnDepth: Int = -1
     Global placeArenaOnLevel: Int = -1
@@ -1523,39 +1523,13 @@ Class Level
             For Local tileNode := EachIn tilesOnXNode.Value()
                 Local tile := tileNode.Value()
                 If tile.IsFloor()
-                    Local x := tilesOnXNode.Key()
-                    Local xLeft := x - 1
-                    Local xRight := x + 1
-                    Local y := tileNode.Key()
-                    Local yAbove := y - 1
-                    Local yBelow := y + 1
-
-                    If Not Level.GetTileAt(xRight, yAbove)
-                        New Tile(xRight, yAbove, TileType.CorridorDirtWall, False, -1)
-                    End If
-                    If Not Level.GetTileAt(x, yAbove)
-                        New Tile(x, yAbove, TileType.CorridorDirtWall, False, -1)
-                    End If
-                    If Not Level.GetTileAt(xLeft, yAbove)
-                        New Tile(xLeft, yAbove, TileType.CorridorDirtWall, False, -1)
-                    End If
-
-                    If Not Level.GetTileAt(xRight, y)
-                        New Tile(xRight, y, TileType.CorridorDirtWall, False, -1)
-                    End If
-                    If Not Level.GetTileAt(xLeft, y)
-                        New Tile(xLeft, y, TileType.CorridorDirtWall, False, -1)
-                    End If
-
-                    If Not Level.GetTileAt(xRight, yBelow)
-                        New Tile(xRight, yBelow, TileType.CorridorDirtWall, False, -1)
-                    End If
-                    If Not Level.GetTileAt(x, yBelow)
-                        New Tile(x, yBelow, TileType.CorridorDirtWall, False, -1)
-                    End If
-                    If Not Level.GetTileAt(xLeft, yBelow)
-                        New Tile(xLeft, yBelow, TileType.CorridorDirtWall, False, -1)
-                    End If
+                    For Local y := tile.y - 1 To tile.y + 1
+                        For Local x := tile.x - 1 To tile.x + 1
+                            If Not Level.GetTileAt(x, y)
+                                New Tile(x, y, TileType.CorridorDirtWall, False, -1)
+                            End If
+                        End For
+                    End For
                 End If
             End For
         End For
