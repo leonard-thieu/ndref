@@ -1,12 +1,14 @@
 'Strict
 
+Import intpointstack
 Import logger
+Import point
 
 Class RoomBase Abstract
 
     Function _EditorFix: Void() End
 
-    Method GetFloor: Object()
+    Method GetFloor: IntPointStack()
         Debug.TraceNotImplemented("RoomBase.GetFloor()")
     End Method
 
@@ -14,7 +16,7 @@ Class RoomBase Abstract
         Debug.TraceNotImplemented("RoomBase.GetPortalSegs()")
     End Method
 
-    Method GetRandPoint: Object()
+    Method GetRandPoint: Point()
         Debug.TraceNotImplemented("RoomBase.GetRandPoint()")
     End Method
 

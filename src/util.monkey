@@ -1,5 +1,7 @@
 'Strict
 
+Import monkey.list
+Import monkey.map
 Import monkey.math
 Import monkey.random
 Import controller_game
@@ -7,17 +9,18 @@ Import level
 Import logger
 Import player_class
 Import point
+Import stack_ex
 
 Class Util
 
-    Global delayedStatIncrements: Object
-    Global delayedStatSets: Object
-    Global dirRotationOrder: Object
+    Global delayedStatIncrements: List<String> = New List<String>()
+    Global delayedStatSets: StringMap<Int> = New StringMap<Int>()
+    Global dirRotationOrder: StackEx<Int> = New StackEx<Int>()
     Global numSubmissionAttempts: Int
     Global pendingScoreRetrieval: Bool
     Global pendingScoreRetrievalEnd: Int
     Global pendingScoreRetrievalStart: Int
-    Global pendingScoreSubmission: Object
+    Global pendingScoreSubmission: List<Object>
     Global storedSeed: Int
 
     Function AddMetric: Void(key: Int, value: Int, send: Bool, blocking: Bool, isNumber: Bool)
