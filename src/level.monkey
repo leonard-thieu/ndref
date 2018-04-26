@@ -4,6 +4,7 @@ Import monkey.map
 Import monkey.math
 Import monkey.random
 Import monkey.set
+Import abteleporttrap
 Import bat
 Import beastmaster
 Import bossmaster
@@ -4175,8 +4176,68 @@ Class Level
         Debug.TraceNotImplemented("Level.PlaceTorchesAnywhere()")
     End Function
 
-    Function PlaceTrapInRoom: Object(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap)
-        Debug.TraceNotImplemented("Level.PlaceTrapInRoom(Int, Int, Int, Int, Int, Int, Trap)")
+    Function PlaceTrapInRoom: Trap(room: RoomData, trapType: Int)
+        Return Level.PlaceTrapInRoom(room.x, room.y, room.w, room.h, trapType, -1, Null)
+    End Function
+
+    Function PlaceTrapInRoom: Trap(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap)
+        For Local i := 200 Until 0 Step -1
+            Local point: Point
+
+            ' Diagonal Bounce Traps
+            If trapType = TrapType.BounceTrap And
+               (4 <= bounceDir And bounceDir <= 7)
+                point = Level.GetRandPointInRoomWithOptions(xVal + 1, yVal + 1, wVal - 2, hVal - 2, True, True, False)
+            Else
+                point = Level.GetRandPointInRoomWithOptions(xVal, yVal, wVal, hVal, True, True, False)
+            End If
+
+            If point = Null Then Continue
+
+            ' TODO: `twoAwayTrap` logic.
+            '       Windows version doesn't have this at all. Might always be called with `twoAwayTrap` = Null?
+
+            If Level.IsWallAt(point.x, point.y + 1, False, False) Then Continue
+            If Level.IsCorridorFloorOrDoorAdjacent(point.x, point.y) Then Continue
+            If Level.GetTileTypeAt(point.x, point.y) = TileType.Wire Then Continue
+            If Level.GetTileTypeAt(point.x, point.y) = TileType.WiredDoor Then Continue
+
+            Select trapType
+                Case TrapType.BounceTrap
+                    If Trap.GetTrapTypeAt(point.x + 1, point.y) = TrapType.BounceTrap Then Continue
+                    If Trap.GetTrapTypeAt(point.x, point.y - 1) = TrapType.BounceTrap Then Continue
+                    If Trap.GetTrapTypeAt(point.x - 1, point.y) = TrapType.BounceTrap Then Continue
+                    If Trap.GetTrapTypeAt(point.x, point.y - 1) = TrapType.BounceTrap Then Continue
+
+                    ' Diagonal Bounce Traps
+                    If 4 <= bounceDir And bounceDir <= 7
+                        If Trap.GetTrapTypeAt(point.x + 1, point.y + 1) = TrapType.BounceTrap Then Continue
+                        If Trap.GetTrapTypeAt(point.x + 1, point.y - 1) = TrapType.BounceTrap Then Continue
+                        If Trap.GetTrapTypeAt(point.x - 1, point.y + 1) = TrapType.BounceTrap Then Continue
+                        If Trap.GetTrapTypeAt(point.x - 1, point.y - 1) = TrapType.BounceTrap Then Continue
+                    End If
+
+                    Return New BounceTrap(point.x, point.y, bounceDir)
+                Case TrapType.SpikeTrap
+                    Return New SpikeTrap(point.x, point.y)
+                Case TrapType.TrapDoor
+                    Return New TrapDoor(point.x, point.y)
+                Case TrapType.ConfuseTrap
+                    Return New ConfuseTrap(point.x, point.y)
+                Case TrapType.TeleportTrap
+                    Return New TeleportTrap(point.x, point.y)
+                Case TrapType.ABTeleportTrap
+                    Return New ABTeleportTrap(point.x, point.y)
+                Case TrapType.BombTrap
+                    Return New BombTrap(point.x, point.y)
+                Case TrapType.ScatterTrap
+                    Return New ScatterTrap(point.x, point.y)
+            End Select
+        End For
+
+        Debug.Log("FAILED TO PLACE TRAP AT ROOM: " + xVal + ", " + yVal + ", " + wVal + ", " + hVal + " type: " + trapType)
+
+        Return Null
     End Function
 
     Function PlaceTraps: Void()
@@ -4192,7 +4253,102 @@ Class Level
     End Function
 
     Function PlaceTrapsZone1: Void()
-        Debug.TraceNotImplemented("Level.PlaceTrapsZone1()")
+        For Local room := EachIn Level.rooms
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit Then Continue
+
+            Select controller_game.currentLevel
+                Case 1
+                    If Util.RndBool(True)
+                        Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
+                    End If
+
+                    Local bounceTrapRoll := Util.RndIntRangeFromZero(2, True)
+                    If bounceTrapRoll = 0
+                        Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
+                    Else
+                        Local bombTrapRoll := Util.RndIntRangeFromZero(3, True)
+                        If bombTrapRoll = 0
+                            Level.PlaceTrapInRoom(room, TrapType.BombTrap)
+                        End If
+                    End If
+                Case 2
+                    Local trapDoorRoll := Util.RndIntRangeFromZero(4, True)
+                    If trapDoorRoll = 0
+                        Level.PlaceTrapInRoom(room, TrapType.TrapDoor)
+                    Else
+                        Local bombTrapRoll := Util.RndIntRangeFromZero(3, True)
+                        If bombTrapRoll = 0
+                            Level.PlaceTrapInRoom(room, TrapType.BombTrap)
+                        End If
+                    End If
+
+                    Local spikeTrapRoll := Util.RndIntRangeFromZero(3, True)
+                    If spikeTrapRoll = 0
+                        Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
+                    End If
+
+                    Local bounceTrapRoll := Util.RndIntRangeFromZero(3, True)
+                    If bounceTrapRoll = 0
+                        Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
+                    End If
+
+                    If Util.RndBool(True)
+                        Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
+                    End If
+                Case 3
+                    Local trapDoorRoll := Util.RndIntRangeFromZero(2, True)
+                    If trapDoorRoll = 0
+                        Level.PlaceTrapInRoom(room, TrapType.TrapDoor)
+                    Else
+                        Local bombTrapRoll := Util.RndIntRangeFromZero(3, True)
+                        If bombTrapRoll = 0
+                            Level.PlaceTrapInRoom(room, TrapType.BombTrap)
+                        End If
+                    End If
+
+                    If Util.RndBool(True)
+                        Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
+                    End If
+
+                    Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
+                    For Local i := 0 Until numBounceTraps
+                        Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
+                    End For
+                Default
+                    If controller_game.currentLevel <= 0 Then Continue
+
+                    Local trapDoorRoll := Util.RndIntRangeFromZero(2, True)
+                    If trapDoorRoll = 0
+                        Level.PlaceTrapInRoom(room, TrapType.TrapDoor)
+                    Else
+                        Local bombTrapRoll := Util.RndIntRangeFromZero(3, True)
+                        If bombTrapRoll = 0
+                            Level.PlaceTrapInRoom(room, TrapType.BombTrap)
+                        End If
+                    End If
+
+                    If Util.RndBool(True)
+                        Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
+                    End If
+
+                    Local spikeTrapRoll := Util.RndIntRangeFromZero(4, True)
+                    If spikeTrapRoll = 0
+                        Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
+                    End If
+
+                    Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
+                    For Local i := 0 Until numBounceTraps
+                        Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
+                    End For
+            End Select
+        End For
     End Function
 
     Function PlaceTrapsZone2: Void()

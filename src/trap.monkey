@@ -23,6 +23,13 @@ Class Trap Extends Entity Abstract
         Return Null
     End Function
 
+    Function GetTrapTypeAt: Int(xVal: Int, yVal: Int)
+        Local trap := Trap.GetTrapAt(xVal, yVal)
+        If trap <> Null Then Return trap.trapType
+
+        Return TrapType.None
+    End Function
+
     Function IsLiveTrapAt: Bool(xVal: Int, yVal: Int)
         Debug.TraceNotImplemented("Trap.IsLiveTrapAt(Int, Int)")
     End Function
@@ -96,6 +103,7 @@ End Class
 
 Class TrapType
 
+    Const None: Int = 0
     Const BounceTrap: Int = 1
     Const SpikeTrap: Int = 2
     Const TrapDoor: Int = 3
@@ -106,6 +114,7 @@ Class TrapType
     Const TravelRune: Int = 8
     Const BombTrap: Int = 9
     Const FireTrap: Int = 10
+    Const ABTeleportTrap: Int = 11
     Const ScatterTrap: Int = 14
 
 End Class
