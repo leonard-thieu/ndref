@@ -85,17 +85,17 @@ Class Chest Extends Entity
     End Function
 
     Function IsItemAppropriateForChestColor: Bool(cont: String, tmpColor: Int)
-        Local slot := Item.GetSlot(cont)
+        Select Item.GetSlot(cont)
+            Case "body",
+                 "weapon",
+                 "feet"
+                Return tmpColor = Chest.CHEST_COLOR_BLACK
+            Case "spell",
+                 "ring"
+                Return tmpColor = Chest.CHEST_COLOR_WHITE
+        End Select
 
-        If slot = "body" Or
-           slot = "weapon" Or
-           slot = "feet"
-            Return tmpColor = Chest.CHEST_COLOR_BLACK
-        End If
-
-        If slot = "spell" Or
-           slot = "ring" Or
-           Item.IsItemOfType(cont, "isScroll")
+        If Item.IsItemOfType(cont, "isScroll")
             Return tmpColor = Chest.CHEST_COLOR_WHITE
         End If
 
@@ -105,11 +105,74 @@ Class Chest Extends Entity
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, cont: String, invis: Bool, isLocked: Bool, isSecret: Bool, tmpColor: Int)
-        Debug.TraceNotImplemented("Chest.New(Int, Int, String, Bool, Bool, Bool, Int)")
+        Super.New()
+
+        Self.isChest = True
+
+        Self.x = xVal
+        Self.y = yVal
+        Self.invisible = invis
+        Self.contents = cont
+
+        If Self.contents = Item.NoItem And
+           Level.randSeed <> -1
+            If Not Self.lockChest
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "chestChance", tmpColor, False, "", False)
+            Else
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "lockedChestChance")
+            End If
+        End If
+
+        If tmpColor <> Chest.CHEST_COLOR_NONE
+            Self.chestColor = tmpColor
+        Else
+            If isLocked
+                Self.chestColor = Chest.CHEST_COLOR_BLUE
+            Else
+                If Self.contents <> Item.NoItem
+                    If Chest.IsItemAppropriateForChestColor(Self.contents, Chest.CHEST_COLOR_BLACK)
+                        Self.chestColor = Chest.CHEST_COLOR_BLACK
+                    Else If Chest.IsItemAppropriateForChestColor(Self.contents, Chest.CHEST_COLOR_WHITE)
+                        Self.chestColor = Chest.CHEST_COLOR_WHITE
+                    Else
+                        Self.chestColor = Chest.CHEST_COLOR_RED
+                    End If
+                Else
+                    Local chestColor: Int
+
+                    Repeat
+                        chestColor = Util.RndIntRange(1, 3, True, -1)
+                    Until chestColor = Chest.lastChestColor Or
+                          chestColor = Chest.lastChestColor2
+                End If
+            End If
+        End If
+
+        Chest.lastChestColor2 = Chest.lastChestColor
+        Chest.lastChestColor = Self.chestColor
+
+        Select Self.chestColor
+            Case Chest.CHEST_COLOR_BLUE
+                Self.image = New Sprite("entities/chest_locked.png", 24, 24, 2, Image.DefaultFlags)
+            Case Chest.CHEST_COLOR_BLACK
+                Self.image = New Sprite("entities/chest_black.png", 24, 24, 2, Image.DefaultFlags)
+            Case Chest.CHEST_COLOR_WHITE
+                Self.image = New Sprite("entities/chest_white.png", 24, 24, 2, Image.DefaultFlags)
+            Default
+                Self.image = New Sprite("entities/chest.png", 24, 24, 2, Image.DefaultFlags)
+        End Select
+
+        Self.locked = isLocked
+        Self.lockChest = isLocked
+        Self.yOff = 6.0
+        Self.collides = True
+        Self.secretChest = isSecret
+
+        Chest.chestList.AddLast(Self)
     End Method
 
-    Field chestColor: Int
-    Field contents: String
+    Field chestColor: Int = Chest.CHEST_COLOR_NONE
+    Field contents: String = Item.NoItem
     Field singleChoiceChest: Bool
     Field secretChest: Bool
     Field saleChest: Bool
