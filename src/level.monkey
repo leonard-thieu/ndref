@@ -294,8 +294,6 @@ Class Level
     End Function
 
     Function AddExit: Void(xVal: Int, yVal: Int, levelPointer: Int, zonePointer: Int)
-        Debug.TraceEntered("Level.AddExit()")
-
         Local location := New Point(xVal, yVal)
         Local floor := New Point(levelPointer, zonePointer)
         Level.exits.Set(location, floor)
@@ -306,8 +304,6 @@ Class Level
     End Function
 
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
-        Debug.TraceEntered("Level.AddMinibossWall()")
-
         Local tile := Level.GetTileAt(xVal, yVal)
         If tile
             If tile.triggerDig Then Return
@@ -330,8 +326,6 @@ Class Level
     End Function
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
-        Debug.TraceEntered("Level.AddSpecialRoom()")
-
         Debug.Log("Adding special room")
 
         If addCrack
@@ -998,8 +992,6 @@ Class Level
     End Function
 
     Function CreateExit: Void(exitX: Int, exitY: Int)
-        Debug.TraceEntered("Level.CreateExit()")
-
         Level.GetTileAt(exitX, exitY).Die()
 
         Local exitTile := New Tile(exitX, exitY, TileType.LockedStairsMiniboss, False, -1)
@@ -1110,8 +1102,6 @@ Class Level
     End Function
 
     Function CreateMap: Bool(levelObj: LevelObject)
-        Debug.TraceEntered("Level.CreateMap()")
-
         If controller_game.currentLevel = 1
             Level.previousLevelMinibosses.Clear()
             Level.previousLevelUnkilledStairLockingMinibosses.Clear()
@@ -1358,8 +1348,6 @@ Class Level
     End Function
 
     Function CreateMapZone1: Bool()
-        Debug.TraceEntered("Level.CreateMapZone1()")
-
         Local room1: RoomData
         Local room2: RoomData
         Local room3: RoomData
@@ -1685,8 +1673,6 @@ Class Level
     End Function
 
     Function _FailMap: Bool()
-        Debug.TraceEntered("Level._FailMap()")
-
         Level.CreateMap(Null)
 
         Return False
@@ -2155,8 +2141,6 @@ Class Level
     End Function
 
     Function DeleteMap: Void()
-        Debug.TraceEntered("Level.DeleteMap()")
-
         For Local tilesOnXNode := EachIn Level.tiles
             For Local tileNode := EachIn tilesOnXNode.Value()
                 tileNode.Value().Die()
@@ -3023,8 +3007,6 @@ Class Level
     End Function
 
     Function InitNewMap: Void(saveGameData: Bool)
-        Debug.TraceEntered("Level.InitNewMap()")
-
         If saveGameData Then GameData.Save()
 
         Camera.x = 0.0
@@ -3182,8 +3164,6 @@ Class Level
     End Function
 
     Function IsPassable: Bool()
-        Debug.TraceEntered("Level.IsPassable()")
-
         Local points := New List<Point>()
         Local intPointSet := New IntPointSet()
         Local point := New Point(0, 0)
@@ -4105,8 +4085,6 @@ Class Level
     End Function
 
     Function PlaceFirstRoom: RoomData()
-        Debug.TraceEntered("Level.PlaceFirstRoom()")
-
         Const xVal := -3
         Const yVal := -3
         Const width := 6
