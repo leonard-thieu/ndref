@@ -1526,7 +1526,7 @@ Class Level
         Debug.Log("CREATEMAP ZONE1: Placing shop")
         For limit = limit - 1 Until 0 Step -1
             Local shop := Level.PlaceRoomZone1(RoomType.Shop, Null)
-            If shop Then Exit
+            If shop <> Null Then Exit
         End For
 
         If limit <= 0 Then Return Level._FailMap()
@@ -3087,7 +3087,16 @@ Class Level
     End Function
 
     Function IsDoorAdjacent: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.IsDoorAdjacent(Int, Int)")
+        Local center := New Point(x, y)
+
+        For Local i := 0 To 3
+            Local offset := Util.GetPointFromDir(i)
+            Local adjacent := center.Add(offset)
+
+            If Level.IsDoorAt(adjacent.x, adjacent.y) Then Return True
+        End For
+
+        Return False
     End Function
 
     Function IsDoorAt: Bool(xVal: Int, yVal: Int)
@@ -3566,7 +3575,45 @@ Class Level
     End Function
 
     Function PlaceCrateOrBarrel: Void()
-        Debug.TraceNotImplemented("Level.PlaceCrateOrBarrel()")
+        Debug.Log("CREATEMAP: Placing crate or barrel")
+
+        Local failedRooms := New IntMap<Int>()
+
+        Local i := 100
+        For i = i - 1 Until 0 Step -1
+            Local roomIndex := Util.RndIntRangeFromZero(Level.rooms.Count() - 1, True)
+            If Not failedRooms.Contains(roomIndex)
+                Local roomsArray := Level.rooms.ToArray()
+                Local room := roomsArray[roomIndex]
+
+                Select room.type
+                    Case RoomType.Shop,
+                         RoomType.Secret,
+                         RoomType.Vault
+                        Continue
+                    Default
+                        If room.hasExit Then Continue
+
+                        failedRooms.Add(roomIndex, 1)
+
+                        For Local j := 40 Until 0 Step -1
+                            Local point := Level.GetRandPointInRoomWithOptions(room, True, True, False)
+                            If point = Null Then Continue
+
+                            ' This is not equivalent to `Level.IsCorridorFloorOrDoorAdjacent`.
+                            ' `Level.IsDoorAdjacent` does not count open Metal Doors.
+                            If Not Level.IsTileTypeAdjacent(point.x, point.y, TileType.CorridorFloor) And
+                               Not Level.IsDoorAdjacent(point.x, point.y)
+                                Level.PutCrateOrBarrel(point.x, point.y)
+
+                                Return
+                            End If
+                        End For
+                End Select
+            End If
+        End For
+
+        Debug.Log("CREATEMAP: ********* Failed to place a crate or barrel")
     End Function
 
     Function PlaceEnemies: Void()
@@ -4813,7 +4860,7 @@ Class Level
         Local itemsXMid := tmpX + 3
         Local itemsY := tmpY + 5
 
-        If Not door
+        If door = Null
             door = New Rect(Level.carveX, Level.carveY, 0, 0)
         End If
 
