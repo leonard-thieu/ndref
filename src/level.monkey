@@ -1628,6 +1628,7 @@ Class Level
         For Local room := EachIn Level.rooms
             rooms.AddLast(room)
         End For
+        rooms.AddLast(room1)
 
         For Local room := EachIn rooms
             Local numTorch := Util.RndIntRange(minTorch, maxTorch, True, -1)
