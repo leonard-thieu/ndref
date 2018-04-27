@@ -3,8 +3,10 @@
 Import monkey.map
 Import monkey.stack
 Import bomb
+Import chest
 Import controller_game
 Import entity
+Import gamedata
 Import logger
 Import necrodancer
 Import necrodancergame
@@ -343,6 +345,10 @@ Class Item Extends Entity
         End For
 
         Return pickups
+    End Function
+
+    Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String)
+        Return Item.GetRandomItemInClass(itemClass, requestedLevel, randomType, Chest.CHEST_COLOR_NONE, False, "", False)
     End Function
 
     Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String, chestColor: Int, ignorePendingMetaGameItems: Bool, itemSlot: String, nonDeterministic: Bool)

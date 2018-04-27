@@ -2,9 +2,12 @@
 
 Import monkey.list
 Import bouncer
+Import chest
+Import controller_game
 Import enemy
 Import entity
 Import gargoyle
+Import item
 Import level
 Import logger
 Import point
@@ -51,10 +54,10 @@ Class Crate Extends Enemy
     End Method
 
     Field crateType: Int
-    Field contents: String = "no_item"
+    Field contents: String = Item.NoItem
     Field initialYOff: Int
-    Field contents2: String = "no_item"
-    Field contents3: String = "no_item"
+    Field contents2: String = Item.NoItem
+    Field contents3: String = Item.NoItem
     Field beEmpty: Bool
     Field emptyCoins: Int
     Field determinedContents: Bool
@@ -69,7 +72,28 @@ Class Crate Extends Enemy
     End Method
 
     Method DetermineContents: Void()
-        Debug.TraceNotImplemented("Crate.DetermineContents()")
+        Select Self.crateType
+            Case Crate.TYPE_GOLD_GORGON_STATUE
+                Self.beEmpty = True
+                Self.emptyCoins = 30
+            Case Crate.TYPE_GREEN_GORGON_STATUE
+                Self.beEmpty = True
+                Self.emptyCoins = -4
+            Case Crate.TYPE_URN
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "urnChance")
+
+                For Local requestedLevel := controller_game.currentLevel Until 0 Step -1
+                    If Self.contents2 <> Item.NoItem Then Exit
+
+                    Self.contents2 = Item.GetRandomItemInClass("isSpell", requestedLevel, "chestChance")
+                End For
+
+                Self.contents3 = Item.GetRandomItemInClass("isFood", controller_game.currentLevel + 2, "chestChance")
+            Default
+                Self.DecideIfStayingEmpty()
+        End Select
+
+        Self.determinedContents = True
     End Method
 
     Method DetermineContentsNow_PlayerDoesntOwn: Int()
