@@ -6,6 +6,7 @@ Class Audio
 
     Global BEAT_TARGET_X: Int
     Global BEAT_TARGET_Y: Int
+
     Global bansheeEffectEnabled: Bool
     Global beatDataString: Int
     Global beatMarker: Object
@@ -15,6 +16,7 @@ Class Audio
     Global cachedSongPosition: Int
     Global cachedSongPositionFrame: Int
     Global curSubtitle: Object
+    Global debugEnablePlaceholders: Bool = True
     Global delayList: Object
     Global fadeFactor: Float
     Global fadeFrames: Int

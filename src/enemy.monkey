@@ -2,10 +2,13 @@
 
 Import monkey.list
 Import monkey.map
+Import mojo.graphics
+Import brl.json
 Import beatanimationdata
 Import entity
 Import logger
 Import mobileentity
+Import necrodancergame
 Import player_class
 Import point
 Import sprite
@@ -97,8 +100,25 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.GetEnemyNameHelper(Int)")
     End Function
 
-    Function GetEnemyXML: Object(name: Int, level: Int)
-        Debug.TraceNotImplemented("Enemy.GetEnemyXML(Int, Int)")
+    Function GetEnemyXML: JsonObject(name: String, level: Int)
+        If Level.isRandomizerMode And
+           Enemy.randomizerXML <> Null
+            ' TODO: Implement when Randomizer Mode
+            Debug.TraceNotImplemented("Enemy.GetEnemyXML(String, Int) (Randomizer Mode)")
+        Else
+            Local enemyNodes := JsonArray(necrodancergame.xmlData.Get("enemies")).GetData()
+
+            For Local enemyNode := EachIn enemyNodes
+                Local enemyNodeObj := JsonObject(enemyNode)
+                If enemyNodeObj <> Null And
+                   item.GetString(enemyNodeObj, "_name", "") = name And
+                   item.GetInt(enemyNodeObj, "type", 0) = 1
+                    Return enemyNodeObj
+                End If
+            End For
+        End If
+
+        Return Null
     End Function
 
     Function GetNumArenaEnemiesRemaining: Int()
@@ -311,7 +331,11 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method ApplyMonkeyPaw: Void()
-        Debug.TraceNotImplemented("Enemy.ApplyMonkeyPaw()")
+        If Self.isMonkeyLike
+            If Player.DoesAnyPlayerHaveItemOfType("misc_monkey_paw")
+                Self.frozenPermanently = True
+            End If
+        End If
     End Method
 
     Method AttemptMove: Int(xVal: Int, yVal: Int)
@@ -427,15 +451,160 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
-        Debug.TraceNotImplemented("Enemy.Init(Int, Int, Int, String, String, Int, Int)")
+        Self.x = xVal
+        Self.y = yVal
+        Self.lastX = xVal
+        Self.lastY = yVal
+        Self.level = l
+
+        Self.xmlName = name
+
+        For Local i := 0 Until Self.lastPlayerHitFrame.Length()
+            Self.lastPlayerHitFrame[i] = -1
+        End For
+
+        For Local i := 0 Until Self.lastPlayerHitSource.Length()
+            Self.lastPlayerHitSource[i] = ""
+        End For
+
+        Local enemyNode := Enemy.GetEnemyXML(name, l)
+        ' TODO: Need `nullNode` behavior?
+        If enemyNode = Null
+            Debug.Log("ERROR: No enemy with name '" + name + "'")
+        End If
+
+        Self.enemyType = item.GetInt(enemyNode, "id", 0)
+        Self.friendlyName = item.GetString(enemyNode, "friendlyName", Self.xmlName)
+
+        Self.InitImage(enemyNode, name, overrideFrameW, overrideFrameH)
+
+        Local statsNode := JsonObject(enemyNode.Get("stats"))
+        Self.beatsPerMove = item.GetInt(statsNode, "beatsPerMove", 1)
+        Self.coinsToDrop = item.GetInt(statsNode, "coinsToDrop", 1)
+        Self.damagePerHit = item.GetInt(statsNode, "damagePerHit", 1)
+        Self.movePriority = item.GetInt(statsNode, "priority", 0)
+        Self.health = item.GetInt(statsNode, "health", 1)
+
+        Local optionalStatsNode := JsonObject(enemyNode.Get("optionalStats"))
+        Self.floating = item.GetBool(optionalStatsNode, "floating", False)
+        Self.isMassive = item.GetBool(optionalStatsNode, "massive", False)
+        Self.ignoreLiquids = item.GetBool(optionalStatsNode, "ignoreLiquids", False)
+        Self.isMiniboss = item.GetBool(optionalStatsNode, "miniboss", False)
+        Self.isBoss = item.GetBool(optionalStatsNode, "boss", False)
+        Self.ignoreWalls = item.GetBool(optionalStatsNode, "ignoreWalls", False)
+        Self.isMonkeyLike = item.GetBool(optionalStatsNode, "isMonkeyLike", False)
+
+        If Self.isMassive
+            Self.frozenImage = New Sprite("entities/frozen_feet_large.png", 31, 24, 2, Image.DefaultFlags)
+        Else
+            Self.frozenImage = New Sprite("entities/frozen_feet_medium.png", 31, 24, 2, Image.DefaultFlags)
+        End If
+
+        Local particleNode := JsonObject(enemyNode.Get("particle"))
+        Self.hitParticle = item.GetString(particleNode, "hit", "")
+
+        Self.animNormal.Clear()
+        Self.animNormal2.Clear()
+        Self.animNormal3.Clear()
+        Self.animBlink.Clear()
+        Self.animTell.Clear()
+        Self.animTellBlink.Clear()
+
+        Local frameNodes := JsonArray(enemyNode.Get("frame")).GetData()
+        For Local frameNodeValue := EachIn frameNodes
+            Local frameNode := JsonObject(frameNodeValue)
+
+            Local inSheet := item.GetInt(frameNode, "inSheet", 1)
+            Local onFraction := item.GetFloat(frameNode, "onFraction", 1.0)
+            Local offFraction := item.GetFloat(frameNode, "offFraction", 1.0)
+            Local singleFrame := item.GetBool(frameNode, "singleFrame", False)
+
+            Local beatAnimationData := New BeatAnimationData(inSheet - 1, onFraction, offFraction, singleFrame)
+
+            Local animType := item.GetString(frameNode, "animType", "normal")
+            Local inAnim := item.GetInt(frameNode, "inAnim", 1)
+
+            Select animType
+                Case "normal" Self.animNormal.Set(inAnim - 1, beatAnimationData)
+                Case "normal2" Self.animNormal2.Set(inAnim - 1, beatAnimationData)
+                Case "normal3" Self.animNormal3.Set(inAnim - 1, beatAnimationData)
+                Case "blink" Self.animBlink.Set(inAnim - 1, beatAnimationData)
+                Case "tell" Self.animTell.Set(inAnim - 1, beatAnimationData)
+                Case "tellBlink" Self.animTellBlink.Set(inAnim - 1, beatAnimationData)
+            End Select
+        End For
+
+        Local bouncerNode := JsonObject(enemyNode.Get("bouncer"))
+        If bouncerNode <> Null
+            Local min := item.GetFloat(bouncerNode, "min", 1.0)
+            Local max := item.GetFloat(bouncerNode, "max", 1.0)
+            Local power := item.GetFloat(bouncerNode, "power", 1.0)
+            Local steps := item.GetInt(bouncerNode, "steps", 10)
+
+            Self.bounce = New Bouncer(min, max, power, steps)
+        End If
+
+        Local tweensNode := JsonObject(enemyNode.Get("tweens"))
+        If tweensNode <> Null
+            ' TODO: Double check args.
+
+            Local move := item.GetString(tweensNode, "move", "slide")
+            If move = "slide" Then Self.moveTween = 3
+
+            Local moveShadow := item.GetString(tweensNode, "moveShadow", "slide")
+            If moveShadow = "slide" Then Self.moveShadowTween = 3
+
+            Local hit := item.GetString(tweensNode, "hit", "slide")
+            If hit = "slide" Then Self.hitTween = 3
+
+            Local hitShadow := item.GetString(tweensNode, "hitShadow", "slide")
+            If hitShadow = "slide" Then Self.hitShadowTween = 3
+        End If
+
+        Local movement := item.GetString(statsNode, "movement", "custom")
+        Select movement
+            Case "random" Self.movementType = 1
+            Case "basicSeek" Self.movementType = 2
+            Case "basicSeekNoTraps" Self.movementType = 3
+            Case "seekWithDiagonals" Self.movementType = 4
+            Case "randomWithDiagonals" Self.movementType = 5
+            Default Self.movementType = 0
+        End Select
+
+        Self.attackSwipeImage = New Sprite("swipes/swipe_enemy.png", 5, Image.MidHandle)
+        Self.attackSwipeImage.SetZOff(1000.0)
+        
+        Self.jumpDirt = New Sprite("particles/jump_dirt.png", 5, Image.MidHandle)
+        Self.jumpDirt.SetZOff(-940.0)
+        Self.jumpDirtTimer = -1
+
+        If Enemy.heartSmall = Null
+            Enemy.heartSmall = New Sprite("gui/TEMP_heart_small.png", 1, Image.MidHandle)
+            Enemy.heartSmall.SetZ(900.0)
+        End If
+
+        If Enemy.heartEmptySmall = Null
+            Enemy.heartEmptySmall = New Sprite("gui/TEMP_heart_empty_small.png", 1, Image.MidHandle)
+            Enemy.heartEmptySmall.SetZ(900.0)
+        End If
+
+        If Self.isMiniboss
+            Self.ActivateLight(0.01, 0.02)
+        End If
+
+        Self.ApplyMonkeyPaw()
+
+        Debug.WriteLine("Spawning " + Self.friendlyName + " at " + (New Point(xVal, yVal)).ToString())
     End Method
 
     Method InitDirtJump: Void(xVal: Int, yVal: Int)
         Debug.TraceNotImplemented("Enemy.InitDirtJump(Int, Int)")
     End Method
 
-    Method InitImage: Void(enemyXML: Object, overrideSpriteName: Int, overrideFrameW: Int, overrideFrameH: Int)
-        Debug.TraceNotImplemented("Enemy.InitImage(Object, Int, Int, Int)")
+    Method InitImage: Void(enemyXML: JsonObject, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
+        Self.image = New Sprite("", 1, Image.DefaultFlags)
+        
+        Debug.TraceNotImplemented("Enemy.InitImage(JsonObject, String, Int, Int)")
     End Method
 
     Method IsAt: Bool(xVal: Int, yVal: Int)
@@ -516,8 +685,8 @@ Class EnemyList Extends List<Enemy>
 
     Function _EditorFix: Void() End
 
-    Method Compare4: Int(a: Object, b: Object)
-        Debug.TraceNotImplemented("EnemyList.Compare4(Object, Object)")
+    Method Compare: Int(a: Enemy, b: Enemy)
+        Debug.TraceNotImplemented("EnemyList.Compare(Enemy, Enemy)")
     End Method
 
 End Class

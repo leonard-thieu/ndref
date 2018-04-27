@@ -3,16 +3,47 @@
 Import enemy
 Import entity
 Import logger
+Import player_class
 Import point
+Import util
 
 Class Wraith Extends Enemy
 
-    Global theCursedWraith: Object
+    Global theCursedWraith: Wraith
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Wraith.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "wraith", "", -1, -1)
+
+        If l = 2 Then Self.isGentle = True
+        Self.invisible = True
+        Self.collides = False
+        Self.blink_MIN = 120
+        Self.blink_MAX = 240
+        Self.blink_DUR = 10
+
+        Select l
+            Case 1
+                Self.overrideAttackSound = "wraithAttack"
+                Self.overrideDeathSound = "wraithDeath"
+                Self.crySound = "wraithCry"
+            Default
+                Self.overrideDeathSound = "cursewraithDeath"
+                Self.crySound = "cursewraithCry"
+        End Select
+
+        Self.image.SetZOff(18.0)
+        Self.isWraithLike = True
+
+        If l = 2 Then Wraith.theCursedWraith = Self
+
+        If Util.IsCharacterActive(Character.Eli)
+            Self.coinsToDrop = 0
+            Self.Die()
+        End If
     End Method
 
     Field crySound: String

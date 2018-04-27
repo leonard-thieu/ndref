@@ -3,8 +3,10 @@
 Import enemy
 Import logger
 
-Class EnemyClamper Extends Enemy
+Class EnemyClamper Extends Enemy Abstract
 
     Function _EditorFix: Void() End
+
+    Method AttemptClamp: Void() Abstract
 
 End Class

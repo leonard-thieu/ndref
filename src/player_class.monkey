@@ -79,6 +79,10 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.ChooseNewPlayer1()")
     End Function
 
+    Function DoesAnyPlayerHaveItemOfType: Bool(it: String)
+        Return Player.DoesAnyPlayerHaveItemOfType(it, False)
+    End Function
+
     Function DoesAnyPlayerHaveItemOfType: Bool(it: String, overrideBatForm: Bool)
         For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]

@@ -9,10 +9,21 @@ Class Ghost Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Ghost.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "ghost", "", -1, -1)
+
+        Self.image.SetAlphaTweenFromCurrent(0.4, 5)
+
+        For Local i := 0 Until Self.lastDist.Length()
+            Self.lastDist[i] = 9999.0
+        End For
+
+        Self.overrideAttackSound = "ghostAttack"
+        Self.overrideDeathSound = "ghostDeath"
     End Method
 
-    Field lastDist: Float[]
+    Field lastDist: Float[4]
     Field movingAway: Bool
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)

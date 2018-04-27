@@ -174,7 +174,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetAlphaTweenFromCurrent: Void(finalVal: Float, duration: Int)
-        Debug.TraceNotImplemented("Sprite.SetAlphaTweenFromCurrent(Float, Int)")
+        Self.SetAlphaTween(Self.alpha, finalVal, duration)
     End Method
 
     Method SetAlphaValue: Void(a: Float)

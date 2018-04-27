@@ -29,6 +29,15 @@ Function GetInt: Int(obj: JsonObject, key: String, defval: Int)
     Return value.IntValue()
 End Function
 
+Function GetFloat: Float(obj: JsonObject, key: String, defval: Float)
+    If Not obj.Contains(key) Then Return defval
+
+    Local value := obj.Get(key)
+    If value = JsonNull.Instance Then Return defval
+
+    Return value.FloatValue()
+End Function
+
 Function GetBool: Bool(obj: JsonObject, key: String, defval: Bool)
     If Not obj.Contains(key) Then Return defval
 

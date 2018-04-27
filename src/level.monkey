@@ -5,18 +5,22 @@ Import monkey.math
 Import monkey.random
 Import monkey.set
 Import abteleporttrap
+Import banshee
 Import bat
+Import bat_miniboss
 Import beastmaster
 Import bossmaster
 Import chest
 Import conjurer
 Import controller_game
 Import crate
+Import dragon
 Import entity
 Import exitmap
 Import fakewall
 import gamedata
 Import ghast
+Import ghost
 Import input2
 Import intpointlist
 Import intpointset
@@ -24,9 +28,15 @@ Import intpointstack
 Import level_object
 Import logger
 Import merlin
+Import metrognome
+Import minotaur
+Import mommy
+Import monkey_enemy
 Import necrodancer
 Import necrodancergame
+Import nightmare
 Import npc
+Import ogre
 Import particles
 Import pawnbroker
 Import player_class
@@ -39,8 +49,13 @@ Import rng
 Import room_with_door
 Import roomdata
 Import saleitem
+Import sarcophagus
+Import sarcophagus_tough
+Import shopkeeper_ghost
+Import shrine
 Import shriner
 Import skeleton
+Import slime
 Import slowdowntrap
 Import speeduptrap
 Import spells
@@ -53,8 +68,10 @@ Import transmogrifier
 Import trap
 Import trapchest
 Import util
+Import weighted_picker
 Import wraith
 Import xml
+Import zombie
 
 Class Level
 
@@ -1277,7 +1294,7 @@ Class Level
             Return Level._FailMap()
         End If
 
-        If Level.pacifismModeOn Or (Level.isHardMode And Level.GetHardModeXML().GetAttribute("disableTrapdoors", False))
+        If Level.pacifismModeOn Or (Level.isHardMode And item.GetBool(Level.GetHardModeXML(), "disableTrapdoors", False))
             For Local trap := EachIn Trap.trapList
                 If trap.trapType = TrapType.TrapDoor
                     New SpikeTrap(trap.x, trap.y)
@@ -2779,14 +2796,31 @@ Class Level
     End Function
 
     Function GetExtraEnemiesBase: Int()
-        Debug.TraceNotImplemented("Level.GetExtraEnemiesBase()")
+        Local extraEnemies := 0
+
+        If Player.DoesAnyPlayerHaveItemOfType("ring_war", False) And Level.randSeed = -1
+            extraEnemies = 1
+        End If
+
+        If Level.isHardcoreMode
+            extraEnemies += 1
+        End If
+
+        Return extraEnemies + Level.GetHardModeExtraEnemies()
     End Function
 
     Function GetHardModeExtraEnemies: Int()
-        Debug.TraceNotImplemented("Level.GetHardModeExtraEnemies()")
+        If Level.isHardMode Or
+           Util.IsCharacterActive(Character.Tempo)
+            Local hardModeXML := Level.GetHardModeXML()
+
+            Return item.GetInt(hardModeXML, "extraEnemiesPerRoom", 0)
+        End If
+
+        Return 
     End Function
 
-    Function GetHardModeXML: XMLNode()
+    Function GetHardModeXML: JsonObject()
         Debug.TraceNotImplemented("Level.GetHardModeXML()")
     End Function
 
@@ -2848,7 +2882,11 @@ Class Level
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(room: RoomData)
-        Return Level.GetRandPointInRoomWithOptions(room.x, room.y, room.w, room.h, True, True, True)
+        Return Level.GetRandPointInRoomWithOptions(room, True, True, True)
+    End Function
+
+    Function GetRandPointInRoomWithOptions: Point(room: RoomData, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
+        Return Level.GetRandPointInRoomWithOptions(room.x, room.y, room.w, room.h, skipWater, nearWallIsOk, secretRoomOK)
     End Function
 
     Function GetRandPointInRoomWithOptions: Point(room: RoomBase, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
@@ -2917,8 +2955,17 @@ Class Level
         Debug.TraceNotImplemented("Level.GetSingleZoneModeFinalBossZone()")
     End Function
 
-    Function GetStandardExitCoords: Object()
-        Debug.TraceNotImplemented("Level.GetStandardExitCoords()")
+    Function GetStandardExitCoords: Point()
+        For Local ex := EachIn Level.exits
+            Local exitValue := ex.Value()
+            Select exitValue.x
+                Case -3,
+                     -6
+                    Return ex.Key()
+            End Select
+        End For
+
+        Return Null
     End Function
 
     Function GetTileAt: Tile(xVal: Int, yVal: Int)
@@ -2945,6 +2992,30 @@ Class Level
         If tile Then Return tile.GetType()
 
         Return -1
+    End Function
+
+    Function GetZone3BeetleType: Int(xVal: Int, yVal: Int)
+        If ((yVal * Level.zone3DividingLineX) - (xVal * Level.zone3DividingLineY)) > 0.0
+            Return 210
+        End If
+
+        Return 209
+    End Function
+
+    Function GetZone3ElementalType: Int(xVal: Int, yVal: Int)
+        If ((yVal * Level.zone3DividingLineX) - (xVal * Level.zone3DividingLineY)) > 0.0
+            Return 206
+        End If
+
+        Return 205
+    End Function
+
+    Function GetZone3YetiHellhoundType: Int(xVal: Int, yVal: Int)
+        If ((yVal * Level.zone3DividingLineX) - (xVal * Level.zone3DividingLineY)) > 0.0
+            Return 213
+        End If
+
+        Return 211
     End Function
 
     Function HaveFinalBoss: Bool()
@@ -3241,6 +3312,10 @@ Class Level
         Return False
     End Function
 
+    Function IsWallAt: Bool(xVal: Int, yVal: Int)
+        Return Level.IsWallAt(xVal, yVal, False, False)
+    End Function
+
     Function IsWallAt: Bool(xVal: Int, yVal: Int, destructibleOnly: Bool, torchlessOnly: Bool)
         Local tile := Level.GetTileAt(xVal, yVal)
 
@@ -3384,7 +3459,122 @@ Class Level
     End Function
 
     Function PlaceAppropriateMinibosses: Void(room: RoomBase)
-        Debug.TraceNotImplemented("Level.PlaceAppropriateMinibosses(RoomBase)")
+        Local weights := New WeightedPicker()
+        Local types := New IntStack()
+
+        Select controller_game.currentZone
+            Case 1
+                weights.Push(1)
+                types.Push(402)
+                weights.Push(1)
+                types.Push(407)
+
+                If controller_game.currentLevel <= 2
+                    weights.Push(1)
+                    types.Push(400)
+                End If
+            Case 4
+                weights.Push(20)
+                types.Push(402)
+                weights.Push(15)
+                types.Push(405)
+                weights.Push(15)
+                types.Push(409)
+                weights.Push(25)
+                types.Push(412)
+                weights.Push(25)
+                types.Push(411)
+            Case 5
+                weights.Push(2)
+                types.Push(402)
+                weights.Push(1)
+                types.Push(407)
+                weights.Push(1)
+                types.Push(413)
+            Default
+                weights.Push(25)
+                types.Push(402)
+                weights.Push(15)
+                types.Push(400)
+                weights.Push(20)
+                types.Push(405)
+                weights.Push(15)
+                types.Push(409)
+                weights.Push(25)
+                types.Push(407)
+        End Select
+
+        'AssertImpl(weights.Length() = types.Length())
+
+        Local numMinibosses := 1
+
+        If Shrine.bossShrineActive Then numMinibosses += 1
+
+        If Level.isHardMode Or
+           Util.IsCharacterActive(Character.Tempo)
+            Local hardModeNode := Level.GetHardModeXML()
+            Local extraMinibossesPerExit := item.GetInt(hardModeNode, "extraMinibossesPerExit", 0)
+
+            numMinibosses += extraMinibossesPerExit
+        End If
+
+        Local types2 := New IntStack()
+        Local minibossPoint := Level.GetStandardExitCoords()
+
+        For Local i := 0 Until numMinibosses
+            Local v56 := New IntStack()
+            Local dunno := 999999
+
+            For Local type := EachIn types
+                Local j := 0
+
+                For Local previousLevelMiniboss := EachIn Level.previousLevelMinibosses
+                    If type = Enemy.GetBaseType(previousLevelMiniboss) Then j += 1
+                End For
+
+                For Local type2 := EachIn types2
+                    If type = type2 Then j += 2
+                End For
+
+                v56.Push(j)
+
+                If dunno <= j Then j = dunno
+                dunno = j
+            End For
+
+            For Local k := 0 Until weights.Length()
+                Local v26 := v56.Get(k)
+
+                Local enabled := False
+                If v26 = dunno Then enabled = True
+
+                weights.SetEnabled(k + 1, enabled)
+            End For
+
+            Local typesIndex := weights.PickRandom(True)
+            Local type := types.Get(typesIndex)
+            types2.Push(type)
+
+            Local miniboss := Level.PlaceMinibossOfShapeAt(type, minibossPoint.x, minibossPoint.y)
+            miniboss.isStairLockingMiniboss = True
+
+            Local dragon := Dragon(miniboss)
+            If dragon <> Null
+                dragon.seekDistance = 0
+                If dragon.level = 2 Then dragon.seekDistance = 10
+
+                dragon.dontMove = True
+            End If
+
+            Local metrognome := MetroGnome(miniboss)
+            If metrognome <> Null
+                metrognome.originX = minibossPoint.x
+                metrognome.originY = minibossPoint.y
+            End If
+
+            minibossPoint = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, True, False)
+            If minibossPoint = Null Then Exit
+        End For
     End Function
 
     Function PlaceChests: Void(freeBroadSword: Bool)
@@ -3400,11 +3590,477 @@ Class Level
     End Function
 
     Function PlaceEnemies: Void()
-        Debug.TraceNotImplemented("Level.PlaceEnemies()")
+        Debug.Log("PLACEENEMIES")
+
+        Select controller_game.currentZone
+            Case 5 Level.PlaceEnemiesZone5()
+            Case 4 Level.PlaceEnemiesZone4()
+            Case 3 Level.PlaceEnemiesZone3()
+            Case 2 Level.PlaceEnemiesZone2()
+            Default Level.PlaceEnemiesZone1()
+        End Select
+
+        If Util.IsCharacterActive(Character.Aria) Or
+           Util.IsCharacterActive(Character.Coda) Or
+           Util.IsCharacterActive(Character.Dove) Or
+           Util.IsCharacterActive(Character.Bolt)
+            Local maxEnemies := 0
+            
+            If Player.DoesAnyPlayerHaveItemOfType("ring_war", False)
+                maxEnemies = 5
+            End If
+
+            maxEnemies += 5 * Level.GetHardModeExtraEnemies()
+
+            maxEnemies += controller_game.currentLevel
+
+            Select controller_game.currentZone
+                Case 1,
+                     4
+                    maxEnemies += 24
+                Case 3
+                    maxEnemies += 17
+                Default
+                    maxEnemies += 20
+            End Select
+
+            If Level.isHardcoreMode
+                maxEnemies += 3
+
+                If controller_game.currentZone = 3
+                    maxEnemies -= 1
+                End If
+            End If
+
+            Enemy.CullEnemiesDownTo(maxEnemies)
+        End If
+
+        If Level.placeLordOnLevel = -1
+            Level.placeLordOnLevel = Util.RndIntRangeFromZero(11, True)
+        End If
+
+        If controller_game.currentLevel <= 3 And
+           (controller_game.currentDepth * controller_game.currentLevel) = Level.placeLordOnLevel
+            Enemy.CreateLord()
+        End If
+
+        If Player.DoesAnyPlayerHaveItemOfType("ring_peace", False) Or
+           Level.isDDRMode
+            Local i := 500
+            Local numEnemiesToCull := 8
+
+            For i = i - 1 Until 0 Step -1
+                Local enemyIndex := Util.RndIntRangeFromZero(Enemy.enemyList.Count() - 1, False)
+                Local enemies := Enemy.enemyList.ToArray()
+                Local enemy := enemies[enemyIndex]
+
+                If Not enemy.isNPC And
+                   Not enemy.isSarcophagus And
+                   Not enemy.containsItem And
+                   enemy.level <= 1 And
+                   Not enemy.isMiniboss And
+                   Not enemy.dead And
+                   Not enemy.isLord
+                    numEnemiesToCull -= 1
+                    enemy.Cull()
+                End If
+
+                If numEnemiesToCull <= 0 Then Exit
+            End For
+        End If
     End Function
 
     Function PlaceEnemiesZone1: Void()
-        Debug.TraceNotImplemented("Level.PlaceEnemiesZone1()")
+        Debug.Log("PLACEENEMIES: Placing zone 1 enemies")
+
+        For Local room := EachIn Level.rooms
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit
+                Level.PlaceAppropriateMinibosses(New RectRoom(room))
+                
+                Local exitCoords := Level.GetStandardExitCoords()
+                Level.PlaceShopkeeperGhostIfNeededAt(exitCoords.x, exitCoords.y)
+            End If
+
+            If Level.GetRandPointInRoomWithOptions(room, False, True, False) = Null Then Continue
+
+            Level.PlaceRareEnemies(New RectRoom(room), room.hasExit)
+
+            Local extraEnemies := Level.GetExtraEnemiesBase()
+            
+            If Util.IsCharacterActive(Character.Aria)
+                extraEnemies += 2
+            End If
+
+            Local point: Point
+
+            If extraEnemies > 0
+                Local i := 500
+                For i = i - 1 Until 0 Step -1
+                    point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                    If point = Null Then Continue
+
+                    Local enemyRoll := Util.RndIntRangeFromZero(3, True)
+                    Select enemyRoll
+                        Case 0
+                            New Wraith(point.x, point.y, 1)
+                        Case 1
+                            point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                            If point = Null Then Continue
+
+                            Local batLevel := Util.RndIntRange(1, 2, True, -1)
+                            New Bat(point.x, point.y, batLevel)
+                        Case 2
+                            Local skeletonLevel := Util.RndIntRange(2, 3, True, -1)
+                            New Skeleton(point.x, point.y, skeletonLevel)
+                        Default
+                            New Ghost(point.x, point.y, 1)
+                    End Select
+
+                    extraEnemies -= 1
+                    If extraEnemies <= 0 Then Exit  
+                End For
+            End If
+
+            Select controller_game.currentLevel
+                Case 1
+                    Local batRoll := Util.RndIntRangeFromZero(5, True)
+                    If batRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Bat(point.x, point.y, 1)
+                    End If
+
+                    Local monkeyRoll := Util.RndIntRangeFromZero(4, True)
+                    If monkeyRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Monkey(point.x, point.y, 1)
+                    End If
+
+                    Local zombieRoll := Util.RndIntRangeFromZero(4, True)
+                    If zombieRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Monkey(point.x, point.y, 1)
+                    End If
+
+                    If room.hasExit
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 1)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Monkey(point.x, point.y, 1)
+
+                        If Util.IsCharacterActive(Character.Aria)
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Sarcophagus(point.x, point.y, 1)
+                        End If
+                    End If
+
+                    point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                    If point = Null Then Continue
+
+                    New Slime(point.x, point.y, 2)
+
+                    Local skeletonRoll := Util.RndIntRangeFromZero(4, True)
+                    If skeletonRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 1)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 1)
+                    End If
+
+                    Local slimeRoll := Util.RndBool(True)
+                    If slimeRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 1)
+                    End If
+
+                    point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                    If point = Null Then Continue
+
+                    New Skeleton(point.x, point.y, 1)
+                Case 2
+                    Local batRoll := Util.RndBool(True)
+                    If batRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Bat(point.x, point.y, 1)
+                    End If
+
+                    Local wraithRoll := Util.RndIntRangeFromZero(5, True)
+                    If wraithRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Wraith(point.x, point.y, 1)
+                    End If
+
+                    Local zombieRoll := Util.RndIntRangeFromZero(3, True)
+                    If zombieRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Zombie(point.x, point.y, 1)
+                    End If
+
+                    Local ghostRoll := Util.RndIntRangeFromZero(2, True)
+                    If ghostRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Ghost(point.x, point.y, 1)
+                    Else
+                        Local monkeyRoll := Util.RndIntRangeFromZero(4, True)
+                        If monkeyRoll = 0
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Monkey(point.x, point.y, 1)
+                        Else
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            Local skeletonLevelRoll := Util.RndBool(True)
+                            If skeletonLevelRoll
+                                New Skeleton(point.x, point.y, 1)
+                            Else
+                                New Skeleton(point.x, point.y, 2)
+                            End If
+                        End If
+                    End If
+
+                    Local monkeyRoll := Util.RndIntRangeFromZero(7, True)
+                    If monkeyRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Monkey(point.x, point.y, 1)
+                    End If
+
+                    If room.hasExit
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 2)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 3)
+
+                        If Util.IsCharacterActive(Character.Aria)
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Sarcophagus(point.x, point.y, 2)
+                        End If
+                    End If
+
+                    point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                    If point = Null Then Continue
+
+                    New Slime(point.x, point.y, 2)
+
+                    Local slimeRoll := Util.RndIntRangeFromZero(4, True)
+                    If slimeRoll <> 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 3)
+                    End If
+
+                    Local slimeRoll2 := Util.RndBool(True)
+                    If slimeRoll2
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 3)
+                    End If
+                Default
+                    Local ghostRoll := Util.RndIntRangeFromZero(6, True)
+                    If ghostRoll <> 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Ghost(point.x, point.y, 1)
+                    End If
+
+                    Local wraithRoll := Util.RndBool(True)
+                    If wraithRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Wraith(point.x, point.y, 1)
+                    End If
+
+                    Local wraithRoll2 := Util.RndIntRangeFromZero(4, True)
+                    If wraithRoll2 = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Wraith(point.x, point.y, 1)
+                    End If
+
+                    Local skeletonRoll := Util.RndIntRangeFromZero(2, True)
+                    If skeletonRoll <> 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 2)
+                    End If
+
+                    Local skeletonRoll2 := Util.RndBool(True)
+                    If skeletonRoll2
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 2)
+                    End If
+
+                    Local skeletonRoll3 := Util.RndIntRangeFromZero(5, True)
+                    If skeletonRoll3 = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 3)
+                    End If
+
+                    Local skeletonRoll4 := Util.RndIntRangeFromZero(2, True)
+                    If skeletonRoll4 = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null
+                            'goto NEXT_ROOM
+                        End If
+
+                        New Skeleton(point.x, point.y, 3)
+                    End If
+
+                    Local batRoll := Util.RndIntRangeFromZero(3, True)
+                    If batRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 2)
+                    End If
+
+                    Local batRoll2 := Util.RndIntRangeFromZero(2, True)
+                    If batRoll2 = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 1)
+                    End If
+
+                    Local zombieRoll := Util.RndBool(True)
+                    If zombieRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Zombie(point.x, point.y, 1)
+                    End If
+
+                    Local monkeyRoll := Util.RndIntRangeFromZero(3, True)
+                    If monkeyRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Monkey(point.x, point.y, 1)
+                    End If
+
+                    Local monkeyRoll2 := Util.RndIntRangeFromZero(3, True)
+                    If monkeyRoll2 = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Monkey(point.x, point.y, 2)
+                    End If
+
+                    If room.hasExit
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 3)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Monkey(point.x, point.y, 2)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 1)
+
+                        If Util.IsCharacterActive(Character.Aria)
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Sarcophagus(point.x, point.y, 3)
+                        End If
+                    End If
+
+                    Local numEnemies := math.Floor((controller_game.currentLevel - 3) * 0.5)
+                    Local i := 500
+
+                    For i = i - 1 Until 0 Step -1
+                        If numEnemies <= 0 Then Exit
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        Local enemyRoll := Util.RndIntRangeFromZero(3, True)
+                        Select enemyRoll
+                            Case 0
+                                New Wraith(point.x, point.y, 1)
+                            Case 1
+                                point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                                If point = Null Then Continue
+
+                                New Slime(point.x, point.y, 3)
+                            Case 2
+                                New Skeleton(point.x, point.y, 3)
+                            Default
+                                New Monkey(point.x, point.y, 2)
+                        End Select
+                    End For
+
+                    Local slimeRoll := Util.RndIntRangeFromZero(3, True)
+                    If slimeRoll <> 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 3)
+                    End If
+            End Select
+
+            ' TODO: Aria section
+            ' TODO: Tempo section
+        End For
     End Function
 
     Function PlaceEnemiesZone2: Void()
@@ -3481,8 +4137,69 @@ Class Level
         Debug.TraceNotImplemented("Level.PlaceLockedChests()")
     End Function
 
-    Function PlaceMinibossOfShapeAt: Object(newMiniboss: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceMinibossOfShapeAt(Int, Int, Int)")
+    Function PlaceMinibossOfShapeAt: Enemy(newMiniboss: Int, xVal: Int, yVal: Int)
+        Local level := 1
+
+        If controller_game.currentLevel >= 3 Then level = 2
+
+        If Level.isHardcoreMode And
+           controller_game.currentLevel >= 2
+            level = 2
+        End If
+
+        If controller_game.currentDepth >= 2 And
+           level = 1
+            Select newMiniboss
+                Case 402,
+                     400,
+                     407
+                    level = 2
+            End Select
+        End If
+
+        If controller_game.currentZone = 3 And
+           level = 2 And
+           newMiniboss = 402
+            level = 3
+        End If
+
+        If controller_game.currentDepth >= 4
+            Select newMiniboss
+                Case 405,
+                     409
+                    level = 2
+                Case 402
+                    level = Util.RndIntRange(2, 3, True, -1)
+            End Select
+        End If
+
+        If controller_game.currentZone = 5 And
+           newMiniboss = 402
+            If Util.RndBool(True) Then level = 4
+        End If
+
+        If Player.DoesAnyPlayerHaveItemOfType("ring_peace") Then level = 1
+        If Player.DoesAnyPlayerHaveItemOfType("ring_war") Then level = 2
+
+        If Level.isHardMode
+            ' TODO: Hard Mode
+            Debug.TraceNotImplemented("Level.PlaceMinibossOfShapeAt(Int, Int, Int) (Hard Mode)")
+        End If
+
+        Local miniboss: Enemy
+
+        Select newMiniboss
+            Case 402 miniboss = New Dragon(xVal, yVal, level)
+            Case 400 miniboss = New BatMiniboss(xVal, yVal, level)
+            Case 405 miniboss = New Banshee(xVal, yVal, level)
+            Case 409 miniboss = New Nightmare(xVal, yVal, level)
+            Case 407 miniboss = New Minotaur(xVal, yVal, level)
+            Case 412 miniboss = New Ogre(xVal, yVal, level)
+            Case 411 miniboss = New Mommy(xVal, yVal, level)
+            Default  miniboss = New MetroGnome(xVal, yVal, level)
+        End Select
+
+        Return miniboss
     End Function
 
     Function PlaceNocturnaArea: Void()
@@ -3498,7 +4215,231 @@ Class Level
     End Function
 
     Function PlaceRareEnemies: Void(room: RoomBase, hasExit: Bool)
-        Debug.TraceNotImplemented("Level.PlaceRareEnemies(RoomBase, Bool)")
+        Local point: Point
+
+        If Level.isHardcoreMode
+            Local greenBatRoll := Util.RndIntRangeFromZero(5000, True)
+            If greenBatRoll = 0
+                point = Level.GetRandPointInRoomWithOptions(room, True, True, True, False, True, False)
+                If point = Null Then Return
+
+                New Bat(point.x, point.y, 3)
+            End If
+
+            Local purpleSlimeRoll := Util.RndIntRangeFromZero(1000, True)
+            If purpleSlimeRoll = 0
+                point = Level.GetRandPointInRoomWithOptions(room, True, True, True, False, True, False)
+                If point = Null Then Return
+
+                New Slime(point.x, point.y, 6)
+            End If
+        End If
+
+        If Not Level.isHardMode Or hasExit Then Return
+
+        Local hardModeXML := Level.GetHardModeXML()
+        Local minibossesPerNonExit := item.GetInt(hardModeXML, "minibossesPerNonExit", 0)
+
+        Local weightedPicker := New WeightedPicker()
+        Local types := New IntStack()
+
+        weightedPicker.Push(1)
+        types.Push(402)
+
+        Select controller_game.currentZone
+            Case 1,
+                 2,
+                 3,
+                 5
+                weightedPicker.Push(1)
+                types.Push(407)
+        End Select
+
+        Select controller_game.currentZone
+            Case 1,
+                 2,
+                 3
+                weightedPicker.Push(1)
+                types.Push(400)
+        End Select
+
+        Select controller_game.currentZone
+            Case 2,
+                 3,
+                 4
+                weightedPicker.Push(1)
+                types.Push(405)
+
+                weightedPicker.Push(1)
+                types.Push(409)
+        End Select
+
+        Select controller_game.currentZone
+            Case 5
+                weightedPicker.Push(1)
+                types.Push(413)
+        End Select
+
+        If minibossesPerNonExit > 0
+            For Local i := 0 Until minibossesPerNonExit
+                point = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, True, False)
+                If point = Null Then Exit
+
+                Local enemyTypeIndex := weightedPicker.PickRandom(True)
+                Local enemyType := types.Get(enemyTypeIndex)
+
+                Enemy.MakeEnemy(point.x, point.y, enemyType)
+            End For
+        End If
+
+        Local sarcsPerRoom := ToughSarcophagus.GetPerRoomCount()
+        If sarcsPerRoom > 0
+            Local toughSarcophagusEnemyTypes := New StackEx<Int>()
+
+            Select controller_game.currentZone
+                Case 1
+                    Select controller_game.currentLevel
+                        Case 1  toughSarcophagusEnemyTypes.Push(3)
+                        Case 2  toughSarcophagusEnemyTypes.Push(4)
+                        Default toughSarcophagusEnemyTypes.Push(5)
+                    End Select
+
+                    If controller_game.currentLevel <= 2
+                        toughSarcophagusEnemyTypes.Push(9)
+                    Else
+                        toughSarcophagusEnemyTypes.Push(10)
+                    End If
+
+                    toughSarcophagusEnemyTypes.Push(11)
+                Case 2
+                    Select controller_game.currentLevel
+                        Case 1
+                            toughSarcophagusEnemyTypes.Push(100)
+                            toughSarcophagusEnemyTypes.Push(103)
+                        Case 2
+                            toughSarcophagusEnemyTypes.Push(101)
+                            toughSarcophagusEnemyTypes.Push(104)
+                        Default
+                            toughSarcophagusEnemyTypes.Push(102)
+                            toughSarcophagusEnemyTypes.Push(105)
+                    End Select
+
+                    If controller_game.currentLevel <= 2
+                        toughSarcophagusEnemyTypes.Push(108)
+                        toughSarcophagusEnemyTypes.Push(110)
+                    Else
+                        toughSarcophagusEnemyTypes.Push(109)
+                        toughSarcophagusEnemyTypes.Push(111)
+                    End If
+
+                    toughSarcophagusEnemyTypes.Push(114)
+                Case 3
+                    Select controller_game.currentLevel
+                        Case 1  toughSarcophagusEnemyTypes.Push(202)
+                        Case 2  toughSarcophagusEnemyTypes.Push(203)
+                        Default toughSarcophagusEnemyTypes.Push(204)
+                    End Select
+
+                    If controller_game.currentLevel <= 2
+                        toughSarcophagusEnemyTypes.Push(207)
+                    Else
+                        toughSarcophagusEnemyTypes.Push(208)
+                    End If
+
+                    If controller_game.currentLevel = 1
+                        toughSarcophagusEnemyTypes.Push(212)
+                    Else
+                        toughSarcophagusEnemyTypes.Push(219)
+                    End If
+
+                    toughSarcophagusEnemyTypes.Push(205)
+                    toughSarcophagusEnemyTypes.Push(211)
+                    toughSarcophagusEnemyTypes.Push(209)
+                Case 4
+                    Select controller_game.currentLevel
+                        Case 1  toughSarcophagusEnemyTypes.Push(309)
+                        Case 2  toughSarcophagusEnemyTypes.Push(310)
+                        Default toughSarcophagusEnemyTypes.Push(311)
+                    End Select
+
+                    If Not Util.IsCharacterActive(Character.Dorian)
+                        If controller_game.currentLevel <= 2
+                            toughSarcophagusEnemyTypes.Push(304)
+                        Else
+                            toughSarcophagusEnemyTypes.Push(305)
+                        End If
+                    End If
+
+                    If controller_game.currentLevel = 1
+                        toughSarcophagusEnemyTypes.Push(319)
+                    Else
+                        toughSarcophagusEnemyTypes.Push(320)
+                    End If
+
+                    toughSarcophagusEnemyTypes.Push(300)
+                    toughSarcophagusEnemyTypes.Push(303)
+                    toughSarcophagusEnemyTypes.Push(307)
+                    toughSarcophagusEnemyTypes.Push(308)
+                    toughSarcophagusEnemyTypes.Push(312)
+                    toughSarcophagusEnemyTypes.Push(313)
+                Default
+                    Select controller_game.currentLevel
+                        Case 1
+                            toughSarcophagusEnemyTypes.Push(701)
+                            toughSarcophagusEnemyTypes.Push(704)
+                            toughSarcophagusEnemyTypes.Push(720)
+                        Case 2
+                            toughSarcophagusEnemyTypes.Push(712)
+                            toughSarcophagusEnemyTypes.Push(705)
+                            toughSarcophagusEnemyTypes.Push(721)
+                        Default
+                            toughSarcophagusEnemyTypes.Push(713)
+                            toughSarcophagusEnemyTypes.Push(706)
+                            toughSarcophagusEnemyTypes.Push(722)
+                    End Select
+
+                    If controller_game.currentLevel = 1
+                        toughSarcophagusEnemyTypes.Push(717)
+                    Else
+                        toughSarcophagusEnemyTypes.Push(719)
+                    End If
+
+                    If controller_game.currentLevel <= 2
+                        toughSarcophagusEnemyTypes.Push(723)
+                    Else
+                        toughSarcophagusEnemyTypes.Push(724)
+                    End If
+
+                    toughSarcophagusEnemyTypes.Push(702)
+            End Select
+
+            'AssertImpl(toughSarcophagusEnemyTypes.Length() > 0)
+
+            toughSarcophagusEnemyTypes.Shuffle(True)
+
+            For Local i := 0 Until sarcsPerRoom
+                Local nearWallIsOk: Bool
+                Select controller_game.currentZone
+                    Case 1,
+                         4
+                        nearWallIsOk = False
+                    Default
+                        nearWallIsOk = True
+                End Select
+
+                point = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, nearWallIsOk, False)
+                If point = Null Then Exit
+
+                Local enemyType := toughSarcophagusEnemyTypes.Get(i Mod toughSarcophagusEnemyTypes.Length())
+                Select enemyType
+                    Case 205 enemyType = Level.GetZone3ElementalType(point.x, point.y)
+                    Case 211 enemyType = Level.GetZone3YetiHellhoundType(point.x, point.y)
+                    Case 209 enemyType = Level.GetZone3BeetleType(point.x, point.y)
+                End Select
+
+                New ToughSarcophagus(point.x, point.y, enemyType)
+            End For
+        End If
     End Function
 
     Function PlaceResourceWall: Void()
@@ -4120,7 +5061,10 @@ Class Level
     End Function
 
     Function PlaceShopkeeperGhostIfNeededAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceShopkeeperGhostIfNeededAt(Int, Int)")
+        If Level.shopkeeperGhostLevel = controller_game.currentLevel And
+           Level.shopkeeperGhostDepth = controller_game.currentDepth
+            New ShopkeeperGhost(xVal, yVal, 1)
+        End If
     End Function
 
     Function PlaceShrine: Void()

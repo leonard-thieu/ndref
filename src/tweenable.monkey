@@ -40,7 +40,10 @@ Class Tweenable Abstract
     End Method
 
     Method SetAlphaTween: Void(initialVal: Float, finalVal: Float, duration: Int)
-        Debug.TraceNotImplemented("Tweenable.SetAlphaTween(Float, Float, Int)")
+        Self.alphaTweenCurrentStep = 0.0
+        Self.alphaTweenDuration = duration
+        Self.alphaTweenInitial = initialVal
+        Self.alphaTweenFinal = finalVal
     End Method
 
     Method SetCutoffY: Void(cY: Int)
