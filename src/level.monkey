@@ -3850,16 +3850,24 @@ Class Level
 
                     Local slimeRoll := Util.RndBool(True)
                     If slimeRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                        If point = Null Then Continue
+
+                        New Slime(point.x, point.y, 2)
+                    End If
+
+                    Local slimeRoll2 := Util.RndBool(True)
+                    If slimeRoll2
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
                         New Slime(point.x, point.y, 1)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Skeleton(point.x, point.y, 1)
                     End If
-
-                    point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
-                    If point = Null Then Continue
-
-                    New Skeleton(point.x, point.y, 1)
                 Case 2
                     Local batRoll := Util.RndBool(True)
                     If batRoll
