@@ -3,10 +3,13 @@
 Import monkey.list
 Import controller_game
 Import item
+Import level
 Import logger
 Import medic
+Import player_class
 Import shopkeeper
 Import sprite
+Import util
 
 Class SaleItem Extends Item
 
@@ -18,7 +21,18 @@ Class SaleItem Extends Item
     Global lastSaleItemClass2: String
 
     Function GetCostMultiplier: Float()
-        Debug.TraceNotImplemented("SaleItem.GetCostMultiplier()")
+        Local costMultiplier := 1.0
+
+        If Player.DoesAnyPlayerHaveItemOfType("ring_charisma") Or
+           Player.DoesAnyPlayerHaveItemOfType("ring_wonder")
+            costMultiplier = SaleItem.CHARISMA_DISCOUNT
+        End If
+
+        If Level.isHardcoreMode
+            costMultiplier *= (controller_game.currentDepth * 0.5) + 2.0
+        End If
+
+        Return costMultiplier
     End Function
 
     Function GetMinCost: Int()
@@ -130,11 +144,12 @@ Class SaleItem Extends Item
     End Method
 
     Method CostsBlood: Bool()
-        Debug.TraceNotImplemented("SaleItem.CostsBlood()")
+        Return Self.bloodCost > 0.0
     End Method
 
     Method CostsDiamonds: Bool()
-        Debug.TraceNotImplemented("SaleItem.CostsDiamonds()")
+        Return Self.diamondCost > 0 And
+               controller_game.currentLevel = -2
     End Method
 
     Method Die: Void()
@@ -156,14 +171,67 @@ Class SaleItem Extends Item
     End Method
 
     Method SetBloodCost: Void()
-        Debug.TraceNotImplemented("SaleItem.SetBloodCost()")
+        Self.bloodCost = 0.0
+
+        If Self.hasBloodCost
+            Self.bloodCost = 0.5
+            If Self.coinCost >=  25 Then Self.bloodCost = 1.0
+            If Self.coinCost >= 120 Then Self.bloodCost = 1.5
+            If Self.coinCost >  400 Then Self.bloodCost = 2.0
+
+            If Player.DoesAnyPlayerHaveItemOfType("ring_charisma") Or
+               Player.DoesAnyPlayerHaveItemOfType("ring_wonder")
+                Self.bloodCost -= 1.0
+            End If
+
+            If Not Level.isHardcoreMode And
+               Not Level.isLevelEditor
+                Self.bloodCost *= 2
+            End If
+
+            If Self.bloodCost <= 0.0 Then Self.bloodCost = 0.5
+            If Self.forceCost Then Self.bloodCost = Self.forceCost
+        End If
     End Method
 
     Method SetCost: Void()
-        Debug.TraceNotImplemented("SaleItem.SetCost()")
+        Self.SetCostHelper()
+        Self.SetBloodCost()
+        Self.SetCostHelper()
     End Method
 
     Method SetCostHelper: Void()
+        Self.cost = Self.coinCost
+
+        If Util.IsCharacterActive(Character.Monk) Or
+           Util.IsCharacterActive(Character.Dove) Or
+           Util.IsCharacterActive(Character.Coda)
+            Self.cost = 0.0
+        End If
+
+        Local baseCost: Float
+        If Self.CostsBlood()
+            baseCost = Self.bloodCost
+        Else If Self.CostsDiamonds()
+            baseCost = Self.diamondCost
+        Else
+            baseCost = SaleItem.GetCostMultiplier() * Self.cost
+        End If
+
+        Self.cost = baseCost * Self.discount
+
+        If Self.forceCost > 0.0
+            Self.cost = Self.forceCost
+        End If
+
+        Self.saleItem = True
+
+        Self.miniDiamond = New Sprite("gui/TEMP_mini_diamond.png", 1, Image.DefaultFlags)
+        Self.miniDiamond.SetZ(-980.0)
+        Self.miniHeart = New Sprite("gui/TEMP_mini_heart.png", 1, Image.DefaultFlags)
+        Self.miniHeart.SetZ(-980.0)
+
+        ' TODO: Set digits sprites
         Debug.TraceNotImplemented("SaleItem.SetCostHelper()")
     End Method
 
