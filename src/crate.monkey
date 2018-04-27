@@ -10,8 +10,10 @@ Import gargoyle
 Import item
 Import level
 Import logger
+Import player_class
 Import point
 Import sprite
+Import util
 
 Class Crate Extends Enemy
 
@@ -28,8 +30,57 @@ Class Crate Extends Enemy
         Debug.TraceNotImplemented("Crate.ProcessFallenCrates()")
     End Function
 
-    Function SelectItem: Int(itemLevel: Int)
-        Debug.TraceNotImplemented("Crate.SelectItem(Int)")
+    Function SelectItem: String(itemLevel: Int)
+        Local replayConsistencyChannel := 1
+        If Level.creatingMap Then replayConsistencyChannel = -1
+
+        Local lockedChestItemRoll := Util.RndIntRange(0, 100, False, replayConsistencyChannel)
+        If lockedChestItemRoll > 45
+            Return Item.GetRandomItemInClass("", itemLevel, "lockedChestChance")
+        End If
+
+        Local foodRoll := Util.RndIntRange(0, 150, False, replayConsistencyChannel)
+        If foodRoll <= 40
+            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+                Return "food_4"
+            End If
+
+            If Player.DoesAnyPlayerHaveItemOfType("charm_luck")
+                Return "food_2"
+            End If
+
+            Return "food_1"
+        End If
+
+        If foodRoll <= 70
+            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+                Return "food_4"
+            End If
+
+            If Player.DoesAnyPlayerHaveItemOfType("charm_luck")
+                Return "food_3"
+            End If
+
+            Return "food_2"
+        End If
+
+        If foodRoll <= 90
+            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+                Return "food_4"
+            End If
+
+            Return "food_3"
+        End If
+
+        If foodRoll <= 100
+            Return "food_4"
+        End If
+
+        If foodRoll <= 130
+            Return "food_carrot"
+        End If
+
+        Return "food_cookies"
     End Function
 
     Function _EditorFix: Void() End
@@ -68,7 +119,67 @@ Class Crate Extends Enemy
     Field gorgonFlashFrames: Int
 
     Method DecideIfStayingEmpty: Void()
-        Debug.TraceNotImplemented("Crate.DecideIfStayingEmpty()")
+        If Self.beEmpty Then Return
+        If Self.contents <> Item.NoItem Then Return
+
+        Local replayConsistencyChannel := 1
+        If Level.creatingMap Then replayConsistencyChannel = -1
+
+        Local itemRoll := Util.RndIntRange(0, 100, False, replayConsistencyChannel)
+        If (Self.crateType = Crate.TYPE_BARREL And itemRoll <= 30) Or
+           itemRoll <= 40
+            Self.beEmpty = True
+        Else If Not Self.beEmpty
+            Self.contents = Crate.SelectItem(controller_game.currentLevel)
+
+            Return
+        End If
+
+        Local coinsRoll := Util.RndIntRange(0, 100, False, replayConsistencyChannel)
+
+        If coinsRoll <= 10
+            Self.emptyCoins = -3
+            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+                Self.emptyCoins = -2
+            End If
+
+            Return
+        End If
+
+        If coinsRoll <= 15
+            Self.emptyCoins = -2
+
+            Return
+        End If
+
+        If coinsRoll <= 45
+            Self.emptyCoins = -1
+            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+                Self.emptyCoins = -2
+            End If
+
+            Return
+        End If
+
+        If coinsRoll <= 75
+            Self.emptyCoins = 10
+            If Player.DoesAnyPlayerHaveItemOfType("charm_luck")
+                Self.emptyCoins = 30
+            End If
+
+            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+                Self.emptyCoins = 50
+            End If
+
+            Return
+        End If
+
+        If coinsRoll > 98
+            Self.emptyCoins = 30
+            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+                Self.emptyCoins = 50
+            End If
+        End If
     End Method
 
     Method DetermineContents: Void()
