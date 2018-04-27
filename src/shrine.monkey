@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import monkey.set
 Import bouncer
 Import entity
 Import item
@@ -34,11 +35,13 @@ Class Shrine Extends Entity
     Global shrineList: List<Shrine> = New List<Shrine>()
     Global spaceShrineActive: Bool
     Global usedShrinerInZone: Int
-    Global usedShrines: Object
+    Global usedShrines: IntSet = New IntSet()
     Global warShrineActive: Bool
 
     Function AddPendingShrinesToUsedList: Void()
-        Debug.TraceNotImplemented("Shrine.AddPendingShrinesToUsedList()")
+        For Local shrine := EachIn Shrine.shrineList
+            Shrine.usedShrines.Insert(shrine.type)
+        End For
     End Function
 
     Function GetAdjacentShrine: Object(x: Int, y: Int)

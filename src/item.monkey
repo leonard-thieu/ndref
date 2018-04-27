@@ -327,7 +327,28 @@ Class Item Extends Entity
     End Function
 
     Function GetPickupAt: Item(xVal: Int, yVal: Int, slf: Item)
-        Debug.TraceNotImplemented("Item.GetPickupAt(Int, Int, Item)")
+        For Local pickup := EachIn Item.pickupList
+            If pickup.x = xVal And
+               pickup.y = yVal
+                If pickup.IsItemOfType("isCoin") Then Return pickup
+            End If
+        End For
+
+        For Local pickup := EachIn Item.pickupList
+            If pickup = slf Then Continue
+
+            If pickup.x = xVal And
+               pickup.y = yVal
+                If pickup.pickupable
+                    If pickup.dropX <> xVal Or
+                       pickup.dropY <> yVal
+                        Return pickup
+                    End If
+                End If
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function GetPickupsAt: List<Item>(xVal: Int, yVal: Int, slf: Item)

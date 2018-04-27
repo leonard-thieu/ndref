@@ -169,7 +169,7 @@ Class Level
     Global placeLordOnLevel: Int = -1
     Global placePawnbrokerOnDepth: Int = -1
     Global placePawnbrokerOnLevel: Int = -1
-    Global placeShrineOnLevel: Object
+    Global placeShrineOnLevel: IntMap<Int> = New IntMap<Int>()
     Global placeShrinerOnDepth: Int = -1
     Global placeShrinerOnLevel: Int = -1
     Global placeTransmogrifierOnDepth: Int = -1
@@ -2932,7 +2932,37 @@ Class Level
     End Function
 
     Function GetShrinePoint: Point()
-        Debug.TraceNotImplemented("Level.GetShrinePoint()")
+        For Local i := 50 Until 0 Step -1
+            Local roomIndex := Util.RndIntRangeFromZero(Level.rooms.Count() - 1, True)
+            Local roomsArray := Level.rooms.ToArray()
+            Local room := roomsArray[roomIndex]
+
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Start,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit Then Continue
+
+            Local point := Level.GetRandPointInRoomWithOptions(room.x + 1, room.y + 1, room.w -2, room.h - 2, True, True, False)
+            If point = Null Then Continue
+
+            If Item.GetPickupAt(point.x, point.y, Null) <> Null Then Continue
+
+            If Not Level.IsFloorAt(point.x - 1, point.y + 1) Then Continue
+            If ToughSarcophagus(Enemy.GetEnemyAt(point.x - 1, point.y + 1, True)) <> Null Then Continue
+            If Not Level.IsFloorAt(point.x + 0, point.y + 1) Then Continue
+            If ToughSarcophagus(Enemy.GetEnemyAt(point.x + 0, point.y + 1, True)) <> Null Then Continue
+            If Not Level.IsFloorAt(point.x + 1, point.y + 1) Then Continue
+            If ToughSarcophagus(Enemy.GetEnemyAt(point.x + 1, point.y + 1, True)) <> Null Then Continue
+
+            Return point
+        End For
+
+        Return Null
     End Function
 
     Function GetSingleZoneModeFinalBossZone: Int()
@@ -5106,7 +5136,43 @@ Class Level
     End Function
 
     Function PlaceShrine: Void()
-        Debug.TraceNotImplemented("Level.PlaceShrine()")
+        Shrine.AddPendingShrinesToUsedList()
+
+        If Not Level.placeShrineOnLevel.Contains(controller_game.currentZone)
+            Local level: Int
+
+            If controller_game.currentDepth <> 1 Or
+               Not Level.isHardcoreMode Or
+               Level.isDailyChallenge
+                level = Util.RndIntRange(1, 3, True, -1)
+            Else
+                level = Util.RndIntRange(2, 3, True, -1)
+            End If
+
+            Level.placeShrineOnLevel.Set(controller_game.currentZone, level)
+        End If
+
+        If Level.placeShrineOnLevel.Get(controller_game.currentZone) = controller_game.currentLevel
+            Local point := Level.GetShrinePoint()
+            If point <> Null
+                Local shrineInt: Int
+                Repeat
+                    shrineInt = Shrine.GetRandomShrineInt(False, -1, -2)
+                Until shrineInt <> -1
+
+                Local shrineRNG := Level.currentFloorRNG.Split()
+
+                New Shrine(point.x, point.y, shrineInt, shrineRNG, False, False)
+            End If
+        Else
+            Local trapChestRoll := Util.RndIntRange(1, 50, True, -1)
+            If trapChestRoll = 1
+                Local point := Level.GetShrinePoint()
+                If point <> Null
+                    New TrapChest(point.x, point.y, 6)
+                End If
+            End If
+        End If
     End Function
 
     Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
