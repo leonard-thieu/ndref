@@ -3622,25 +3622,25 @@ Class Level
                          RoomType.Secret,
                          RoomType.Vault
                         Continue
-                    Default
-                        If room.hasExit Then Continue
-
-                        failedRooms.Add(roomIndex, 1)
-
-                        For Local j := 40 Until 0 Step -1
-                            Local point := Level.GetRandPointInRoomWithOptions(room, True, True, False)
-                            If point = Null Then Continue
-
-                            ' This is not equivalent to `Level.IsCorridorFloorOrDoorAdjacent`.
-                            ' `Level.IsDoorAdjacent` does not count open Metal Doors.
-                            If Not Level.IsTileTypeAdjacent(point.x, point.y, TileType.CorridorFloor) And
-                               Not Level.IsDoorAdjacent(point.x, point.y)
-                                Level.PutCrateOrBarrel(point.x, point.y)
-
-                                Return
-                            End If
-                        End For
                 End Select
+
+                If room.hasExit Then Continue
+
+                failedRooms.Add(roomIndex, 1)
+
+                For Local j := 40 Until 0 Step -1
+                    Local point := Level.GetRandPointInRoomWithOptions(room, True, True, False)
+                    If point = Null Then Continue
+
+                    ' This is not equivalent to `Level.IsCorridorFloorOrDoorAdjacent`.
+                    ' `Level.IsDoorAdjacent` does not count open Metal Doors.
+                    If Not Level.IsTileTypeAdjacent(point.x, point.y, TileType.CorridorFloor) And
+                       Not Level.IsDoorAdjacent(point.x, point.y)
+                        Level.PutCrateOrBarrel(point.x, point.y)
+
+                        Return
+                    End If
+                End For
             End If
         End For
 
