@@ -4159,7 +4159,20 @@ Class Level
     End Function
 
     Function PlaceLockedChests: Void()
-        Debug.TraceNotImplemented("Level.PlaceLockedChests()")
+        Debug.Log("PLACELOCKEDCHESTS: Deciding on locked chests")
+
+        Local lockedChestsChance := Util.RndIntRangeFromZero(99, True)
+        If lockedChestsChance <= 15 And
+           Chest.GetNumEmptySecretChests() > 0 And
+           Chest.GetNumEmptyNonSecretChests() > 0
+            Debug.Log("PLACELOCKEDCHESTS: Placing locked chest and key")
+
+            Local emptySecretChest := Chest.GetEmptySecretChest()
+            emptySecretChest.AddKeyToContents()
+
+            Local emptyNonSecretChest := Chest.GetEmptyNonSecretChest()
+            emptyNonSecretChest.BecomeLocked()
+        End If
     End Function
 
     Function PlaceMinibossOfShapeAt: Enemy(newMiniboss: Int, xVal: Int, yVal: Int)

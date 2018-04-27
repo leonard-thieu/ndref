@@ -1,8 +1,10 @@
 'Strict
 
 Import monkey.list
+Import mojo.graphics
 Import bouncer
 Import entity
+Import item
 Import logger
 Import sprite
 
@@ -26,20 +28,60 @@ Class Chest Extends Entity
         Debug.TraceNotImplemented("Chest.GetChestAt(Int, Int)")
     End Function
 
-    Function GetEmptyNonSecretChest: Object()
-        Debug.TraceNotImplemented("Chest.GetEmptyNonSecretChest()")
+    Function GetEmptyNonSecretChest: Chest()
+        For Local chest := EachIn Chest.chestList
+            If Not chest.saleChest And
+               Not chest.secretChest And
+               chest.contents = "no_item" And 
+               Not chest.invisible
+                Return chest
+            End If
+        End For
+
+        Return Null
     End Function
 
-    Function GetEmptySecretChest: Object()
-        Debug.TraceNotImplemented("Chest.GetEmptySecretChest()")
+    Function GetEmptySecretChest: Chest()
+        For Local chest := EachIn Chest.chestList
+            If Not chest.saleChest And
+               chest.secretChest And
+               chest.contents = "no_item" And 
+               Not chest.invisible
+                Return chest
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function GetNumEmptyNonSecretChests: Int()
-        Debug.TraceNotImplemented("Chest.GetNumEmptyNonSecretChests()")
+        Local numEmptyNonSecretChests := 0
+
+        For Local chest := EachIn Chest.chestList
+            If Not chest.saleChest And
+               Not chest.secretChest And
+               chest.contents = "no_item" And 
+               Not chest.invisible
+                numEmptyNonSecretChests += 1
+            End If
+        End For
+
+        Return numEmptyNonSecretChests
     End Function
 
     Function GetNumEmptySecretChests: Int()
-        Debug.TraceNotImplemented("Chest.GetNumEmptySecretChests()")
+        Local numEmptySecretChests := 0
+
+        For Local chest := EachIn Chest.chestList
+            If Not chest.saleChest And
+               chest.secretChest And
+               chest.contents = "no_item" And 
+               Not chest.invisible
+                numEmptySecretChests += 1
+            End If
+        End For
+
+        Return numEmptySecretChests
     End Function
 
     Function IsItemAppropriateForChestColor: Bool(cont: String, tmpColor: Int)
@@ -79,11 +121,15 @@ Class Chest Extends Entity
     Field bounce2: Bouncer
 
     Method AddKeyToContents: Void()
-        Debug.TraceNotImplemented("Chest.AddKeyToContents()")
+        New Item(Self.x, Self.y, "misc_key", False, -1, False)
+
+        Self.Die()
     End Method
 
     Method BecomeLocked: Void()
-        Debug.TraceNotImplemented("Chest.BecomeLocked()")
+        Self.image = New Sprite("entities/chest_locked.png", 24, 24, 2, Image.DefaultFlags)
+        Self.locked = True
+        Self.lockChest = True
     End Method
 
     Method DetermineContentsNow_PlayerDoesntOwn: Int()
