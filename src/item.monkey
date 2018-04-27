@@ -197,7 +197,7 @@ Class Item Extends Entity
 
                             If chance > 0
                                 If Level.isHardcoreMode Or
-                                   Item.IsUnlocked(GetString(itemNode, "_name", "no_item"))
+                                   Item.IsUnlocked(GetString(itemNode, "name", "no_item"))
                                     unlockedItems.Push(itemNode)
 
                                     If j = 7
@@ -253,7 +253,7 @@ Class Item Extends Entity
 
                     For Local itemNode := EachIn itemPoolCandidates
                         If Item.IsValidItemForCurrentChars(itemNode)
-                            Local name := GetString(itemNode, "_name", "no_item")
+                            Local name := GetString(itemNode, "name", "no_item")
                             If Not Item.IsDisabled(name)
                                 itemPool.AddLast(itemNode)
                             End If
@@ -318,7 +318,7 @@ Class Item Extends Entity
         For Local itemNode := EachIn itemNodes
             Local itemNodeObj := JsonObject(itemNode)
             If itemNodeObj <> Null And
-               GetString(itemNodeObj, "_name", Item.NoItem) = i
+               GetString(itemNodeObj, "name", Item.NoItem) = i
                 Return itemNodeObj
             End If
         End For
@@ -424,7 +424,7 @@ Class Item Extends Entity
         For Local j := 1 Until 10
             For Local itemNode := EachIn itemPool
                 If predicate.Call(itemNode)
-                    Local name := GetString(itemNode, "_name", "")
+                    Local name := GetString(itemNode, "name", "")
 
                     If Item.HasSeenItemXTimes(name, 0)
                         Item.AddToSeenItems(name)
@@ -453,7 +453,7 @@ Class Item Extends Entity
 
         For Local itemNode := EachIn itemNodes
             Local itemObj := JsonObject(itemNode)
-            If itemObj.GetString("_name") = i
+            If itemObj.GetString("name") = i
                 Return GetString(itemObj, "slot", "no_item")
             End If
         End For
@@ -490,7 +490,7 @@ Class Item Extends Entity
     End Function
 
     Function IsCourageItem: Bool(n: JsonObject)
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         Select name
             Case "ring_courage",
@@ -502,7 +502,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDamageBonusItem: Bool(n: JsonObject)
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         Select name
             Case "blood_drum",
@@ -527,7 +527,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDamageReductionItem: Bool(n: JsonObject)
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         Select name
             Case "armor_chainmail",
@@ -559,7 +559,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDiscountItem: Bool(n: JsonObject)
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         Select name
             Case "misc_coupon",
@@ -571,7 +571,7 @@ Class Item Extends Entity
     End Function
 
     Function IsGoldGeneratingItem: Bool(n: JsonObject)
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         Select name
             Case "familiar_shopkeeper",
@@ -586,7 +586,7 @@ Class Item Extends Entity
     Function IsHealthBonusItem: Bool(n: JsonObject)
         If n.GetBool("isFood") Return True
 
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         Select name
             Case "charm_gluttony",
@@ -621,7 +621,7 @@ Class Item Extends Entity
     End Function
 
     Function IsPainItem: Bool(n: JsonObject)
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         Select name
             Case "feet_boots_pain",
@@ -638,7 +638,7 @@ Class Item Extends Entity
 
     Function IsValidItemForCurrentChars: Bool(n: JsonObject)
         Local slot := Item.GetSlot(n)
-        Local name := GetString(n, "_name", "no_item")
+        Local name := GetString(n, "name", "no_item")
 
         If Util.IsWeaponlessCharacterActive()
             If slot = "weapon" Then Return False
@@ -988,7 +988,7 @@ Class Item Extends Entity
 
             resourceCoinType = GetResourceCoinType(Self.utility)
             resourceCoinObj = Item.GetItemXML(resourceCoinType)
-            resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+            resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
             Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
 
             Self.yOff += 5.0
@@ -1005,7 +1005,7 @@ Class Item Extends Entity
 
                 resourceCoinType = GetResourceCoinType(Self.utility)
                 resourceCoinObj = Item.GetItemXML(resourceCoinType)
-                resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+                resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
                 Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
 
                 Self.itemType = resourceCoinType
@@ -1013,11 +1013,11 @@ Class Item Extends Entity
 
             If Self.utility >= 50
                 resourceCoinObj = Item.GetItemXML("resource_hoard_gold")
-                resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+                resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             Else If Self.utility >= 25
                 resourceCoinObj = Item.GetItemXML("resource_hoard_gold_small")
-                resourceCoinPath = "items/" + GetString(resourceCoinObj, "_content", "")
+                resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             End If
 
@@ -1031,7 +1031,7 @@ Class Item Extends Entity
                 Self.xOff = 3.0
                 Self.yOff = 1.0
             Else
-                Local path := "items/" + GetString(itemObj, "_content", "")
+                Local path := "items/" + GetString(itemObj, "path", "")
                 Self.image = New Sprite(path, 18, 21, 2, Image.DefaultFlags)
             End If
 
@@ -1263,7 +1263,7 @@ Class StandardItemPredicate Implements IItemPredicate
             Return False
         End If
 
-        Local name := GetString(n, "_name", "")
+        Local name := GetString(n, "name", "")
         If Self.chestColor = Chest.CHEST_COLOR_NONE Or
            Not Chest.IsItemAppropriateForChestColor(name, Self.chestColor)
             Return False

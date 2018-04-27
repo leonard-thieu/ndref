@@ -111,8 +111,8 @@ Class Enemy Extends MobileEntity Abstract
             For Local enemyNode := EachIn enemyNodes
                 Local enemyNodeObj := JsonObject(enemyNode)
                 If enemyNodeObj <> Null And
-                   item.GetString(enemyNodeObj, "_name", "") = name And
-                   item.GetInt(enemyNodeObj, "type", 0) = 1
+                   item.GetString(enemyNodeObj, "name", "") = name And
+                   item.GetInt(enemyNodeObj, "type", 0) = level
                     Return enemyNodeObj
                 End If
             End For
@@ -501,7 +501,9 @@ Class Enemy Extends MobileEntity Abstract
         End If
 
         Local particleNode := JsonObject(enemyNode.Get("particle"))
-        Self.hitParticle = item.GetString(particleNode, "hit", "")
+        If particleNode <> Null
+            Self.hitParticle = item.GetString(particleNode, "hit", "")
+        End If
 
         Self.animNormal.Clear()
         Self.animNormal2.Clear()
@@ -510,7 +512,7 @@ Class Enemy Extends MobileEntity Abstract
         Self.animTell.Clear()
         Self.animTellBlink.Clear()
 
-        Local frameNodes := JsonArray(enemyNode.Get("frame")).GetData()
+        Local frameNodes := JsonArray(enemyNode.Get("frames")).GetData()
         For Local frameNodeValue := EachIn frameNodes
             Local frameNode := JsonObject(frameNodeValue)
 
