@@ -573,7 +573,7 @@ Class Enemy Extends MobileEntity Abstract
 
         Self.attackSwipeImage = New Sprite("swipes/swipe_enemy.png", 5, Image.MidHandle)
         Self.attackSwipeImage.SetZOff(1000.0)
-        
+
         Self.jumpDirt = New Sprite("particles/jump_dirt.png", 5, Image.MidHandle)
         Self.jumpDirt.SetZOff(-940.0)
         Self.jumpDirtTimer = -1
@@ -603,7 +603,7 @@ Class Enemy Extends MobileEntity Abstract
 
     Method InitImage: Void(enemyXML: JsonObject, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
         Self.image = New Sprite("", 1, Image.DefaultFlags)
-        
+
         Debug.TraceNotImplemented("Enemy.InitImage(JsonObject, String, Int, Int)")
     End Method
 

@@ -2801,7 +2801,7 @@ Class Level
             Return item.GetInt(hardModeXML, "extraEnemiesPerRoom", 0)
         End If
 
-        Return 
+        Return
     End Function
 
     Function GetHardModeXML: JsonObject()
@@ -3662,7 +3662,7 @@ Class Level
            Util.IsCharacterActive(Character.Dove) Or
            Util.IsCharacterActive(Character.Bolt)
             Local maxEnemies := 0
-            
+
             If Player.DoesAnyPlayerHaveItemOfType("ring_war", False)
                 maxEnemies = 5
             End If
@@ -3740,7 +3740,7 @@ Class Level
 
             If room.hasExit
                 Level.PlaceAppropriateMinibosses(New RectRoom(room))
-                
+
                 Local exitCoords := Level.GetStandardExitCoords()
                 Level.PlaceShopkeeperGhostIfNeededAt(exitCoords.x, exitCoords.y)
             End If
@@ -3750,7 +3750,7 @@ Class Level
             Level.PlaceRareEnemies(New RectRoom(room), room.hasExit)
 
             Local extraEnemies := Level.GetExtraEnemiesBase()
-            
+
             If Util.IsCharacterActive(Character.Aria)
                 extraEnemies += 2
             End If
@@ -3781,7 +3781,7 @@ Class Level
                     End Select
 
                     extraEnemies -= 1
-                    If extraEnemies <= 0 Then Exit  
+                    If extraEnemies <= 0 Then Exit
                 End For
             End If
 
