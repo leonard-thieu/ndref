@@ -13,7 +13,7 @@ Class TrapChest Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         Super.New()
 
-        Self.Init(xVal, yVal, l, "trap", "", -1, -1)
+        Self.Init(xVal, yVal, l, "trapchest", "", -1, -1)
 
         Self.stealth = True
         Self.containsItem = True
@@ -40,14 +40,14 @@ Class TrapChest Extends Enemy
 
     Method Die: Void()
         If Not Self.dead
-            Self.DropItem2()
+            Self.DropItem()
 
             Super.Die()
         End If
     End Method
 
-    Method DropItem2: Void()
-        Debug.TraceNotImplemented("TrapChest.DropItem2()")
+    Method DropItem: Void()
+        Debug.TraceNotImplemented("TrapChest.DropItem()")
     End Method
 
     Method GetMovementDirection: Point()
