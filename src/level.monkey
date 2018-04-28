@@ -3491,51 +3491,51 @@ Class Level
 
     Function PlaceAppropriateMinibosses: Void(room: RoomBase)
         Local weights := New WeightedPicker()
-        Local types := New IntStack()
+        Local enemyIds := New IntStack()
 
         Select controller_game.currentZone
             Case 1
                 weights.Push(1)
-                types.Push(402)
+                enemyIds.Push(EnemyId.GreenDragon)
                 weights.Push(1)
-                types.Push(407)
+                enemyIds.Push(EnemyId.LightMinotaur)
 
                 If controller_game.currentLevel <= 2
                     weights.Push(1)
-                    types.Push(400)
+                    enemyIds.Push(EnemyId.YellowDireBat)
                 End If
             Case 4
                 weights.Push(20)
-                types.Push(402)
+                enemyIds.Push(EnemyId.GreenDragon)
                 weights.Push(15)
-                types.Push(405)
+                enemyIds.Push(EnemyId.BlueBanshee)
                 weights.Push(15)
-                types.Push(409)
+                enemyIds.Push(EnemyId.DarkNightmare)
                 weights.Push(25)
-                types.Push(412)
+                enemyIds.Push(EnemyId.Ogre)
                 weights.Push(25)
-                types.Push(411)
+                enemyIds.Push(EnemyId.TheMommy)
             Case 5
                 weights.Push(2)
-                types.Push(402)
+                enemyIds.Push(EnemyId.GreenDragon)
                 weights.Push(1)
-                types.Push(407)
+                enemyIds.Push(EnemyId.LightMinotaur)
                 weights.Push(1)
-                types.Push(413)
+                enemyIds.Push(EnemyId.GoldMetroGnome)
             Default
                 weights.Push(25)
-                types.Push(402)
+                enemyIds.Push(EnemyId.GreenDragon)
                 weights.Push(15)
-                types.Push(400)
+                enemyIds.Push(EnemyId.YellowDireBat)
                 weights.Push(20)
-                types.Push(405)
+                enemyIds.Push(EnemyId.BlueBanshee)
                 weights.Push(15)
-                types.Push(409)
+                enemyIds.Push(EnemyId.DarkNightmare)
                 weights.Push(25)
-                types.Push(407)
+                enemyIds.Push(EnemyId.LightMinotaur)
         End Select
 
-        'AssertImpl(weights.Length() = types.Length())
+        'AssertImpl(weights.Length() = enemyIds.Length())
 
         Local numMinibosses := 1
 
@@ -3549,22 +3549,22 @@ Class Level
             numMinibosses += extraMinibossesPerExit
         End If
 
-        Local types2 := New IntStack()
+        Local enemyIds2 := New IntStack()
         Local minibossPoint := Level.GetStandardExitCoords()
 
         For Local i := 0 Until numMinibosses
             Local v56 := New IntStack()
             Local dunno := 999999
 
-            For Local type := EachIn types
+            For Local enemyId := EachIn enemyIds
                 Local j := 0
 
                 For Local previousLevelMiniboss := EachIn Level.previousLevelMinibosses
-                    If type = Enemy.GetBaseType(previousLevelMiniboss) Then j += 1
+                    If enemyId = Enemy.GetBaseType(previousLevelMiniboss) Then j += 1
                 End For
 
-                For Local type2 := EachIn types2
-                    If type = type2 Then j += 2
+                For Local enemyId2 := EachIn enemyIds2
+                    If enemyId = enemyId2 Then j += 2
                 End For
 
                 v56.Push(j)
@@ -3582,11 +3582,11 @@ Class Level
                 weights.SetEnabled(k + 1, enabled)
             End For
 
-            Local typesIndex := weights.PickRandom(True)
-            Local type := types.Get(typesIndex)
-            types2.Push(type)
+            Local enemyIdIndex := weights.PickRandom(True)
+            Local enemyId := enemyIds.Get(enemyIdIndex)
+            enemyIds2.Push(enemyId)
 
-            Local miniboss := Level.PlaceMinibossOfShapeAt(type, minibossPoint.x, minibossPoint.y)
+            Local miniboss := Level.PlaceMinibossOfShapeAt(enemyId, minibossPoint.x, minibossPoint.y)
             miniboss.isStairLockingMiniboss = True
 
             Local dragon := Dragon(miniboss)
@@ -4486,10 +4486,10 @@ Class Level
         Local minibossesPerNonExit := item.GetInt(hardModeXML, "minibossesPerNonExit", 0)
 
         Local weightedPicker := New WeightedPicker()
-        Local types := New IntStack()
+        Local enemyIds := New IntStack()
 
         weightedPicker.Push(1)
-        types.Push(402)
+        enemyIds.Push(EnemyId.GreenDragon)
 
         Select controller_game.currentZone
             Case 1,
@@ -4497,7 +4497,7 @@ Class Level
                  3,
                  5
                 weightedPicker.Push(1)
-                types.Push(407)
+                enemyIds.Push(EnemyId.LightMinotaur)
         End Select
 
         Select controller_game.currentZone
@@ -4505,7 +4505,7 @@ Class Level
                  2,
                  3
                 weightedPicker.Push(1)
-                types.Push(400)
+                enemyIds.Push(EnemyId.YellowDireBat)
         End Select
 
         Select controller_game.currentZone
@@ -4513,16 +4513,16 @@ Class Level
                  3,
                  4
                 weightedPicker.Push(1)
-                types.Push(405)
+                enemyIds.Push(EnemyId.BlueBanshee)
 
                 weightedPicker.Push(1)
-                types.Push(409)
+                enemyIds.Push(EnemyId.DarkNightmare)
         End Select
 
         Select controller_game.currentZone
             Case 5
                 weightedPicker.Push(1)
-                types.Push(413)
+                enemyIds.Push(EnemyId.GoldMetroGnome)
         End Select
 
         If minibossesPerNonExit > 0
@@ -4530,137 +4530,137 @@ Class Level
                 point = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, True, False)
                 If point = Null Then Exit
 
-                Local enemyTypeIndex := weightedPicker.PickRandom(True)
-                Local enemyType := types.Get(enemyTypeIndex)
+                Local enemyIdIndex := weightedPicker.PickRandom(True)
+                Local enemyId := enemyIds.Get(enemyIdIndex)
 
-                Enemy.MakeEnemy(point.x, point.y, enemyType)
+                Enemy.MakeEnemy(point.x, point.y, enemyId)
             End For
         End If
 
         Local sarcsPerRoom := ToughSarcophagus.GetPerRoomCount()
         If sarcsPerRoom > 0
-            Local toughSarcophagusEnemyTypes := New StackEx<Int>()
+            Local toughSarcophagusEnemyIds := New StackEx<Int>()
 
             Select controller_game.currentZone
                 Case 1
                     Select controller_game.currentLevel
-                        Case 1  toughSarcophagusEnemyTypes.Push(3)
-                        Case 2  toughSarcophagusEnemyTypes.Push(4)
-                        Default toughSarcophagusEnemyTypes.Push(5)
+                        Case 1  toughSarcophagusEnemyIds.Push(EnemyId.WhiteSkeleton)
+                        Case 2  toughSarcophagusEnemyIds.Push(EnemyId.YellowSkeleton)
+                        Default toughSarcophagusEnemyIds.Push(EnemyId.BlackSkeleton)
                     End Select
 
                     If controller_game.currentLevel <= 2
-                        toughSarcophagusEnemyTypes.Push(9)
+                        toughSarcophagusEnemyIds.Push(EnemyId.PurpleMonkey)
                     Else
-                        toughSarcophagusEnemyTypes.Push(10)
+                        toughSarcophagusEnemyIds.Push(EnemyId.WhiteMonkey)
                     End If
 
-                    toughSarcophagusEnemyTypes.Push(11)
+                    toughSarcophagusEnemyIds.Push(EnemyId.Ghost)
                 Case 2
                     Select controller_game.currentLevel
                         Case 1
-                            toughSarcophagusEnemyTypes.Push(100)
-                            toughSarcophagusEnemyTypes.Push(103)
+                            toughSarcophagusEnemyIds.Push(EnemyId.WhiteArmoredSkeleton)
+                            toughSarcophagusEnemyIds.Push(EnemyId.WhiteSkeletonMage)
                         Case 2
-                            toughSarcophagusEnemyTypes.Push(101)
-                            toughSarcophagusEnemyTypes.Push(104)
+                            toughSarcophagusEnemyIds.Push(EnemyId.YellowArmoredSkeleton)
+                            toughSarcophagusEnemyIds.Push(EnemyId.YellowSkeletonMage)
                         Default
-                            toughSarcophagusEnemyTypes.Push(102)
-                            toughSarcophagusEnemyTypes.Push(105)
+                            toughSarcophagusEnemyIds.Push(EnemyId.BlackArmoredSkeleton)
+                            toughSarcophagusEnemyIds.Push(EnemyId.BlackSkeletonMage)
                     End Select
 
                     If controller_game.currentLevel <= 2
-                        toughSarcophagusEnemyTypes.Push(108)
-                        toughSarcophagusEnemyTypes.Push(110)
+                        toughSarcophagusEnemyIds.Push(EnemyId.LightGolem)
+                        toughSarcophagusEnemyIds.Push(EnemyId.WhiteArmadillo)
                     Else
-                        toughSarcophagusEnemyTypes.Push(109)
-                        toughSarcophagusEnemyTypes.Push(111)
+                        toughSarcophagusEnemyIds.Push(EnemyId.DarkGolem)
+                        toughSarcophagusEnemyIds.Push(EnemyId.YellowArmadillo)
                     End If
 
-                    toughSarcophagusEnemyTypes.Push(114)
+                    toughSarcophagusEnemyIds.Push(EnemyId.Mole)
                 Case 3
                     Select controller_game.currentLevel
-                        Case 1  toughSarcophagusEnemyTypes.Push(202)
-                        Case 2  toughSarcophagusEnemyTypes.Push(203)
-                        Default toughSarcophagusEnemyTypes.Push(204)
+                        Case 1  toughSarcophagusEnemyIds.Push(EnemyId.WhiteSkeletonKnight)
+                        Case 2  toughSarcophagusEnemyIds.Push(EnemyId.YellowSkeletonKnight)
+                        Default toughSarcophagusEnemyIds.Push(EnemyId.BlackSkeletonKnight)
                     End Select
 
                     If controller_game.currentLevel <= 2
-                        toughSarcophagusEnemyTypes.Push(207)
+                        toughSarcophagusEnemyIds.Push(EnemyId.PurpleGoblin)
                     Else
-                        toughSarcophagusEnemyTypes.Push(208)
+                        toughSarcophagusEnemyIds.Push(EnemyId.GrayGoblin)
                     End If
 
                     If controller_game.currentLevel = 1
-                        toughSarcophagusEnemyTypes.Push(212)
+                        toughSarcophagusEnemyIds.Push(EnemyId.ShoveMonster)
                     Else
-                        toughSarcophagusEnemyTypes.Push(219)
+                        toughSarcophagusEnemyIds.Push(EnemyId.GrayShoveMonster)
                     End If
 
-                    toughSarcophagusEnemyTypes.Push(205)
-                    toughSarcophagusEnemyTypes.Push(211)
-                    toughSarcophagusEnemyTypes.Push(209)
+                    toughSarcophagusEnemyIds.Push(EnemyId.FireElemental)
+                    toughSarcophagusEnemyIds.Push(EnemyId.Hellhound)
+                    toughSarcophagusEnemyIds.Push(EnemyId.FireBeetle)
                 Case 4
                     Select controller_game.currentLevel
-                        Case 1  toughSarcophagusEnemyTypes.Push(309)
-                        Case 2  toughSarcophagusEnemyTypes.Push(310)
-                        Default toughSarcophagusEnemyTypes.Push(311)
+                        Case 1  toughSarcophagusEnemyIds.Push(EnemyId.Lich)
+                        Case 2  toughSarcophagusEnemyIds.Push(EnemyId.RedLich)
+                        Default toughSarcophagusEnemyIds.Push(EnemyId.BlackLich)
                     End Select
 
                     If Not Util.IsCharacterActive(Character.Dorian)
                         If controller_game.currentLevel <= 2
-                            toughSarcophagusEnemyTypes.Push(304)
+                            toughSarcophagusEnemyIds.Push(EnemyId.ApprenticeBlademaster)
                         Else
-                            toughSarcophagusEnemyTypes.Push(305)
+                            toughSarcophagusEnemyIds.Push(EnemyId.Blademaster)
                         End If
                     End If
 
                     If controller_game.currentLevel = 1
-                        toughSarcophagusEnemyTypes.Push(319)
+                        toughSarcophagusEnemyIds.Push(EnemyId.Warlock)
                     Else
-                        toughSarcophagusEnemyTypes.Push(320)
+                        toughSarcophagusEnemyIds.Push(EnemyId.NeonWarlock)
                     End If
 
-                    toughSarcophagusEnemyTypes.Push(300)
-                    toughSarcophagusEnemyTypes.Push(303)
-                    toughSarcophagusEnemyTypes.Push(307)
-                    toughSarcophagusEnemyTypes.Push(308)
-                    toughSarcophagusEnemyTypes.Push(312)
-                    toughSarcophagusEnemyTypes.Push(313)
+                    toughSarcophagusEnemyIds.Push(EnemyId.GoblinBomber)
+                    toughSarcophagusEnemyIds.Push(EnemyId.OrangeArmadillo)
+                    toughSarcophagusEnemyIds.Push(EnemyId.OozeGolem)
+                    toughSarcophagusEnemyIds.Push(EnemyId.Harpy)
+                    toughSarcophagusEnemyIds.Push(EnemyId.GreenMonkey)
+                    toughSarcophagusEnemyIds.Push(EnemyId.MagicMonkey)
                 Default
                     Select controller_game.currentLevel
                         Case 1
-                            toughSarcophagusEnemyTypes.Push(701)
-                            toughSarcophagusEnemyTypes.Push(704)
-                            toughSarcophagusEnemyTypes.Push(720)
+                            toughSarcophagusEnemyIds.Push(EnemyId.WhiteSkull)
+                            toughSarcophagusEnemyIds.Push(EnemyId.PurpleElectricMage)
+                            toughSarcophagusEnemyIds.Push(EnemyId.GreenOrc)
                         Case 2
-                            toughSarcophagusEnemyTypes.Push(712)
-                            toughSarcophagusEnemyTypes.Push(705)
-                            toughSarcophagusEnemyTypes.Push(721)
+                            toughSarcophagusEnemyIds.Push(EnemyId.YellowSkull)
+                            toughSarcophagusEnemyIds.Push(EnemyId.RedElectricMage)
+                            toughSarcophagusEnemyIds.Push(EnemyId.PinkOrc)
                         Default
-                            toughSarcophagusEnemyTypes.Push(713)
-                            toughSarcophagusEnemyTypes.Push(706)
-                            toughSarcophagusEnemyTypes.Push(722)
+                            toughSarcophagusEnemyIds.Push(EnemyId.BlackSkull)
+                            toughSarcophagusEnemyIds.Push(EnemyId.GoldElectricMage)
+                            toughSarcophagusEnemyIds.Push(EnemyId.PurpleOrc)
                     End Select
 
                     If controller_game.currentLevel = 1
-                        toughSarcophagusEnemyTypes.Push(717)
+                        toughSarcophagusEnemyIds.Push(EnemyId.GreenEvilEye)
                     Else
-                        toughSarcophagusEnemyTypes.Push(719)
+                        toughSarcophagusEnemyIds.Push(EnemyId.PinkEvilEye)
                     End If
 
                     If controller_game.currentLevel <= 2
-                        toughSarcophagusEnemyTypes.Push(723)
+                        toughSarcophagusEnemyIds.Push(EnemyId.RedDevil)
                     Else
-                        toughSarcophagusEnemyTypes.Push(724)
+                        toughSarcophagusEnemyIds.Push(EnemyId.GreenDevil)
                     End If
 
-                    toughSarcophagusEnemyTypes.Push(702)
+                    toughSarcophagusEnemyIds.Push(EnemyId.WaterBall)
             End Select
 
-            'AssertImpl(toughSarcophagusEnemyTypes.Length() > 0)
+            'AssertImpl(toughSarcophagusEnemyIds.Length() > 0)
 
-            toughSarcophagusEnemyTypes.Shuffle(True)
+            toughSarcophagusEnemyIds.Shuffle(True)
 
             For Local i := 0 Until sarcsPerRoom
                 Local nearWallIsOk: Bool
@@ -4675,11 +4675,11 @@ Class Level
                 point = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, nearWallIsOk, False)
                 If point = Null Then Exit
 
-                Local enemyType := toughSarcophagusEnemyTypes.Get(i Mod toughSarcophagusEnemyTypes.Length())
+                Local enemyType := toughSarcophagusEnemyIds.Get(i Mod toughSarcophagusEnemyIds.Length())
                 Select enemyType
-                    Case 205 enemyType = Level.GetZone3ElementalType(point.x, point.y)
-                    Case 211 enemyType = Level.GetZone3YetiHellhoundType(point.x, point.y)
-                    Case 209 enemyType = Level.GetZone3BeetleType(point.x, point.y)
+                    Case EnemyId.FireElemental enemyType = Level.GetZone3ElementalType(point.x, point.y)
+                    Case EnemyId.Hellhound enemyType = Level.GetZone3YetiHellhoundType(point.x, point.y)
+                    Case EnemyId.FireBeetle enemyType = Level.GetZone3BeetleType(point.x, point.y)
                 End Select
 
                 New ToughSarcophagus(point.x, point.y, enemyType)
