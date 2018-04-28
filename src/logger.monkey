@@ -1,6 +1,7 @@
 Strict
 
 Import brl.filestream
+Import necrodancer
 
 Global Debug: Logger = New Logger()
 
@@ -32,7 +33,9 @@ Class Logger
     End Method
 
     Method TraceNotImplemented: Void(name: String)
-        Self.WriteLine("[NI] " + name, LogLevel.Trace)
+        If necrodancer.TRACE_NOT_IMPLEMENTED
+            Self.WriteLine("[NI] " + name, LogLevel.Trace)
+        End If
     End Method
 
     Method TraceEntered: Void(name: String)

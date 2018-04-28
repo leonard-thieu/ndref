@@ -8,6 +8,7 @@ Import player_class
 Const DEBUG_BUILD := False
 
 Const DUMPMAP_ITERATIVE := True
+Const TRACE_NOT_IMPLEMENTED := True
 
 Function Main: Int()
     GameData.LoadGameDataXML(True)
