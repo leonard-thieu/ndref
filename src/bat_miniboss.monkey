@@ -3,13 +3,22 @@
 Import enemy
 Import logger
 Import point
+Import shrine
 
 Class BatMiniboss Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("BatMiniboss.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive Then l = 2
+
+        Self.Init(xVal, yVal, l, "bat_miniboss", "", -1, -1)
+
+        Self.overrideAttackSound = "vampbatAttack"
+        Self.overrideHitSound = "vampbatHit"
+        Self.overrideDeathSound = "vampbatDeath"
     End Method
 
     Field hasRoared: Bool
