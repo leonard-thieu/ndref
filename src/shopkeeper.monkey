@@ -17,18 +17,20 @@ Class Shopkeeper Extends NPC
     Method New(xVal: Int, yVal: Int, l: Int, captv: Bool)
         Super.New()
 
-        If l <= 4 And GameData.GetDaoustVocals()
-            Self.NPCInit(x, y, l + 5, "shopkeeper", captv, False)
+        If l <= 4 And
+           GameData.GetDaoustVocals()
+            Self.NPCInit(xVal, yVal, l + 5, "shopkeeper", captv, False)
         Else
-            Self.NPCInit(x, y, l, "shopkeeper", captv, False)
+            Self.NPCInit(xVal, yVal, l, "shopkeeper", captv, False)
         End If
 
         Self.level = l
 
-        If l = 5 Or l = 1
+        If l = 1 Or
+           l = 5
             Self.isMainShopkeeper = True
-            Shopkeeper.shopkeeperStartX = x
-            Shopkeeper.shopkeeperStartY = y
+            Shopkeeper.shopkeeperStartX = xVal
+            Shopkeeper.shopkeeperStartY = yVal
         End If
 
         Self.overrideHitSound = "shopkeeperHit"
