@@ -3979,7 +3979,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        New Monkey(point.x, point.y, 1)
+                        New Zombie(point.x, point.y, 1)
                     End If
 
                     If room.hasExit
