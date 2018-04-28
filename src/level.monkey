@@ -3553,6 +3553,11 @@ Class Level
         Local minibossPoint := Level.GetStandardExitCoords()
 
         For Local i := 0 Until numMinibosses
+            If i > 0
+                minibossPoint = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, True, False)
+                If minibossPoint = Null Then Exit
+            End If
+
             Local v56 := New IntStack()
             Local dunno := 999999
 
@@ -3602,9 +3607,6 @@ Class Level
                 metrognome.originX = minibossPoint.x
                 metrognome.originY = minibossPoint.y
             End If
-
-            minibossPoint = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, True, False)
-            If minibossPoint = Null Then Exit
         End For
     End Function
 
