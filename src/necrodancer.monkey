@@ -20,3 +20,9 @@ Function Main: Int()
 
     Return 0
 End Function
+
+Function Assert: Void(assertion: Bool)
+    If Not assertion
+        Error("Assertion failed!")
+    End If
+End Function

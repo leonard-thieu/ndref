@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.stack
+Import necrodancer
 Import logger
 Import util
 
@@ -16,7 +17,7 @@ Class WeightedPicker
     End Method
 
     Method PickRandom: Int(useSeed: Bool)
-        'AssertImpl(Self.weights.Length() = Self.enabled.Length())
+        Assert(Self.weights.Length() = Self.enabled.Length())
 
         Local totalWeight := 0
         For Local i := 0 Until Self.weights.Length()
@@ -25,27 +26,32 @@ Class WeightedPicker
             End If
         End For
 
-        'AssertImpl(totalWeight > 0)
+        Assert(totalWeight > 0)
 
         Local rnd := Util.RndIntRangeFromZero(totalWeight - 1, useSeed)
-        Local rndIndex := 0
-        
-        Repeat
-            For Local en := EachIn Self.enabled
-                rndIndex += 1
+        Local rndIndex := Self._IndexOfEnabled(-1)
 
-                'AssertImpl(rndIndex < Self.weights.Length())
-            End For
+        While rnd >= Self.weights.Get(rndIndex)
+            rnd -= Self.weights.Get(rndIndex)
 
-            Local weight := Self.weights.Get(rndIndex)
-            If rnd < weight Then Exit
+            rndIndex = Self._IndexOfEnabled(rndIndex)
+        End While
 
-            rnd -= weight
-        Forever
-
-        'AssertImpl(rnd < Self.weights.Get(rndIndex))
+        Assert(rnd < Self.weights.Get(rndIndex))
 
         Return rndIndex
+    End Method
+
+    Method _IndexOfEnabled: Int(startIndex: Int)
+        Local i := startIndex
+        
+        Repeat
+            i += 1
+
+            Assert(i < Self.weights.Length())
+        Until Self.enabled.Get(i)
+
+        Return i
     End Method
 
     Method Push: Void(weight: Int)
