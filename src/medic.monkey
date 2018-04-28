@@ -8,7 +8,9 @@ Class Medic Extends NPC
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int, captv: Bool)
-        Debug.TraceNotImplemented("Medic.New(Int, Int, Int, Bool)")
+        Super.New()
+
+        Self.NPCInit(xVal, yVal, l, "medic", captv, False)
     End Method
 
     Method Update: Void()
