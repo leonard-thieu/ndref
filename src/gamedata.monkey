@@ -143,8 +143,8 @@ Class GameData
         Debug.TraceNotImplemented("GameData.GetIgnoreMultipress()")
     End Function
 
-    Function GetItemUnlocked: Bool(itemName: Int, includeClean: Bool)
-        Debug.TraceNotImplemented("GameData.GetItemUnlocked(Int, Bool)")
+    Function GetItemUnlocked: Bool(itemName: String, includeClean: Bool)
+        Debug.TraceNotImplemented("GameData.GetItemUnlocked(String, Bool)")
     End Function
 
     Function GetKeyBinding: Int(player: Int, index: Int)
@@ -409,8 +409,8 @@ Class GameData
         Debug.TraceNotImplemented("GameData.LookupSoundtrackName(Int)")
     End Function
 
-    Function RemovePendingSpawnItem: Void(item: Int)
-        Debug.TraceNotImplemented("GameData.RemovePendingSpawnItem(Int)")
+    Function RemovePendingSpawnItem: Void(item: String)
+        Debug.TraceNotImplemented("GameData.RemovePendingSpawnItem(String)")
     End Function
 
     Function Save: Void()

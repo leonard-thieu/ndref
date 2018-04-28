@@ -92,8 +92,10 @@ Class Player Extends MobileEntity
         Return False
     End Function
 
-    Function DoesPlayer1HaveItemOfType: Bool(i: Int)
-        Debug.TraceNotImplemented("Player.DoesPlayer1HaveItemOfType(Int)")
+    Function DoesPlayer1HaveItemOfType: Bool(i: String)
+        Local player1 := controller_game.players[controller_game.player1]
+
+        Return player1.HasItemOfType(i, False)
     End Function
 
     Function GetCharacterName: Int(charNum: Int, tagType: Int)

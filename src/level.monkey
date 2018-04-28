@@ -1661,13 +1661,19 @@ Class Level
         End For
 
         Level.PlaceCrateOrBarrel()
-        Level.PlaceChests(currentLevel = 1)
+
+        Local freeBroadSword := controller_game.currentLevel = 1
+        Level.PlaceChests(freeBroadSword)
+
         Level.PlaceResourceWall()
         Level.PlaceLockedChests()
         Level.PlaceShrine()
+
         Debug.Log("CREATEMAP ZONE1: Cleaning up pending tiles")
         Tile.CleanUpPendingTiles()
+
         Level.PlaceNocturnaArea()
+
         Debug.Log("CREATEMAP ZONE1: Finished!")
 
         Return True
@@ -2221,7 +2227,15 @@ Class Level
     End Function
 
     Function DoWePlaceAdditionalChestThisLevel: Bool()
-        Debug.TraceNotImplemented("Level.DoWePlaceAdditionalChestThisLevel()")
+        If Level.isHardcoreMode Then Return False
+
+        Select controller_game.currentLevel
+            Case 1 Return GameData.GetItemUnlocked("addchest_red",   True) And Not Level.placedAdditionalRedChest
+            Case 2 Return GameData.GetItemUnlocked("addchest_white", True) And Not Level.placedAdditionalWhiteChest
+            Case 3 Return GameData.GetItemUnlocked("addchest_black", True) And Not Level.placedAdditionalBlackChest
+        End Select
+
+        Return False
     End Function
 
     Function DryUpAllWater: Void(replacementFloor: Int)
@@ -3598,7 +3612,164 @@ Class Level
     End Function
 
     Function PlaceChests: Void(freeBroadSword: Bool)
-        Debug.TraceNotImplemented("Level.PlaceChests(Bool)")
+        Local trapChestRoll := Util.RndIntRangeFromZero(99, True)
+        Local placeTrapChest := False
+
+        Select controller_game.currentLevel
+            Case 1 If trapChestRoll <=  0 Then placeTrapChest = True
+            Case 2 If trapChestRoll <=  3 Then placeTrapChest = True
+            Case 3 If trapChestRoll <=  7 Then placeTrapChest = True
+            Case 4 If trapChestRoll <= 10 Then placeTrapChest = True
+            Default
+                If controller_game.currentLevel >= 5
+                    If trapChestRoll <= 13 Then placeTrapChest = True
+                End If
+        End Select
+
+        If Player.DoesPlayer1HaveItemOfType("weapon_broadsword") Then freeBroadSword = False
+        If Util.IsCharacterActive(Character.Diamond) Then freeBroadSword = False
+        If Level.isHardcoreMode Then freeBroadSword = False
+
+        Debug.Log("PLACECHESTS: Placing chests: " + Level.chestsStillToPlace)
+
+        Local usedRooms := New IntSet()
+        Local placedDiamonds := False
+
+        Local i := 100
+        While Level.chestsStillToPlace > 0 Or
+              Level.DoWePlaceAdditionalChestThisLevel()
+            i -= 1
+            If i <= 0 Then Exit
+
+            Local roomIndex := Util.RndIntRangeFromZero(Level.rooms.Count() - 1, True)
+
+            If usedRooms.Contains(roomIndex) Then Continue
+
+            Local roomsArray := Level.rooms.ToArray()
+            Local room := roomsArray[roomIndex]
+
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit Then Continue
+
+            usedRooms.Insert(roomIndex)
+
+            Local point: Point
+
+            For Local j := 0 Until 40
+                If Level.chestsStillToPlace <= 0 And
+                   Not Level.DoWePlaceAdditionalChestThisLevel()
+                    Exit
+                End If
+
+                point = Level.GetRandPointInRoomWithOptions(room, True, True, False)
+                If point = Null Then Continue
+
+                If Not Level.IsTileTypeAdjacent(point.x, point.y, TileType.CorridorFloor) And
+                   Not Level.IsDoorAdjacent(point.x, point.y)
+                    Exit
+                End If
+            End For
+
+            If point = Null Then Continue
+
+            If Level.DoWePlaceAdditionalChestThisLevel()
+                Level.PlaceAdditionalChestAt(point.x, point.y)
+
+                Continue
+            End If
+
+            If placeTrapChest And
+               (placedDiamonds Or Level.isHardcoreMode)
+                Local trapChestLevelRoll := Util.RndIntRangeFromZero(9, True)
+                If Level.chestsStillToPlace > 0
+                    Select trapChestLevelRoll
+                        Case 0  New TrapChest(point.x, point.y, 3)
+                        Case 1  New TrapChest(point.x, point.y, 2)
+                        Default New TrapChest(point.x, point.y, 1)
+                    End Select
+                End If
+
+                Level.chestsStillToPlace -= 1
+                placeTrapChest = False
+
+                Continue
+            End If
+
+            If freeBroadSword
+                Debug.TraceNotImplemented("Level.PlaceChests(Bool) (Free BroadSword section)")
+
+                Local itemName: String
+
+                For Local k := 0 Until GameData.GetNumPendingSpawnItems()
+                    itemName = GameData.GetPendingSpawnItem(k)
+                    Local itemSlot := Item.GetSlot(itemName)
+                    
+                    If itemSlot = "weapon"
+                        GameData.RemovePendingSpawnItem(itemName)
+                    End If
+                End For
+
+                If itemName <> ""
+                    New Chest(point.x, point.y, itemName, False, False, False, Chest.CHEST_COLOR_NONE)
+                    Level.chestsStillToPlace -= 1
+                    freeBroadSword = False
+
+                    Continue
+                End If
+
+                Local weaponQualityRoll := Util.RndIntRangeFromZero(99, True)
+                Local weaponQuality := 0
+                If weaponQualityRoll < 10 Then weaponQuality = 1
+                If weaponQualityRoll < 20 Then weaponQuality = 2
+                If weaponQualityRoll < 25 Then weaponQuality = 3
+                If weaponQualityRoll = 25 Then weaponQuality = 4
+
+                Local contents: String
+
+                Local weaponTypeRoll := Util.RndIntRangeFromZero(99, True)
+                If weaponTypeRoll <= 40
+                    Select weaponQuality
+                        Case 1  contents = "weapon_golden_broadsword"
+                        Case 2  contents = "weapon_blood_broadsword"
+                        Case 3  contents = "weapon_titanium_broadsword"
+                        Case 4  contents = "weapon_obsidian_broadsword"
+                        Default contents = "weapon_broadsword"
+                    End Select
+                Else If weaponTypeRoll <= 55
+                    Select weaponQuality
+                        Case 1  contents = "weapon_golden_rapier"
+                        Case 2  contents = "weapon_blood_rapier"
+                        Case 3  contents = "weapon_titanium_rapier"
+                        Case 4  contents = "weapon_obsidian_rapier"
+                        Default contents = "weapon_rapier"
+                    End Select
+                End If
+
+                Continue
+            End If
+
+            If placedDiamonds Or Level.isHardcoreMode
+                If Level.chestsStillToPlace > 0
+                    New Chest(point.x, point.y, Item.NoItem, False, False, False, Chest.CHEST_COLOR_NONE)
+                End If
+
+                Level.chestsStillToPlace -= 1
+            Else
+                Level.PlaceZoneAppropriateNumberOfDiamondsAt(point.x, point.y)
+                Level.chestsStillToPlace -= 1
+                placedDiamonds = True
+            End If
+        End While
+
+        If Level.chestsStillToPlace > 0
+            Debug.Log("PLACECHESTS: ********* Failed to place all the chests!: " + Level.chestsStillToPlace)
+        End If
     End Function
 
     Function PlaceConnectedWireDoor: Void(p: Point)
