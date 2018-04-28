@@ -3,16 +3,25 @@
 Import enemy
 Import logger
 Import point
+Import util
 
 Class Zombie Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Zombie.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "zombie", "", -1, -1)
+
+        Self.movesRegardlessOfDistance = True
+        Self.facing = Util.RndIntRangeFromZero(3, True)
+
+        Self.overrideAttackSound = "zombieAttack"
+        Self.overrideDeathSound = "zombieDeath"
     End Method
 
-    Field facing: Int
+    Field facing: Int = -1
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Zombie.GetMovementDirection()")
