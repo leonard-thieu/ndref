@@ -332,12 +332,7 @@ Class Level
             Level.AddCrackedWall(roomType)
         End If
 
-        ' Probably an inlined function
-        Level.levelConstraintX = -1000
-        Level.levelConstraintY = -1000
-        Level.levelConstraintW = 2000
-        Level.levelConstraintH = 2000
-        Level.levelConstraintNum = 0
+        Level.DisableLevelConstraints()
 
         Select roomType
             Case SpecialRoomType.FoodShop
@@ -2106,13 +2101,7 @@ Class Level
 
     Function CreateSwarmMap: Void()
         Level.InitNewMap(True)
-
-        ' Probably an inlined function
-        Level.levelConstraintX = -1000
-        Level.levelConstraintY = -1000
-        Level.levelConstraintW = 2000
-        Level.levelConstraintH = 2000
-        Level.levelConstraintNum = 0
+        Level.DisableLevelConstraints()
 
         Level.CreateRoom(-9, -5, 18, 10, False, RoomType.Start, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
         New SwarmSarcophagus(-7, -3)
@@ -2208,6 +2197,14 @@ Class Level
         Level.levelConstraintH = 30
         Level.levelConstraintNum = 0
         Level.exits.Clear()
+    End Function
+
+    Function DisableLevelConstraints: Void()
+        Level.levelConstraintX = -1000
+        Level.levelConstraintY = -1000
+        Level.levelConstraintW = 2000
+        Level.levelConstraintH = 2000
+        Level.levelConstraintNum = 0
     End Function
 
     Function DistanceFromZone3DividingLine: Float(xVal: Int, yVal: Int)
