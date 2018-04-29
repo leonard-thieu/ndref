@@ -486,7 +486,7 @@ Class Item Extends Entity
 
     Function HasSeenItemXTimes: Bool(itemName: String, x: Int)
         If Item.seenItems.Contains(itemName)
-            Return Item.seenItems.Get(itemName) = x
+            Return Item.seenItems.Get(itemName) >= x
         End If
 
         Return False
