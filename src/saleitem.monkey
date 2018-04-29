@@ -40,13 +40,13 @@ Class SaleItem Extends Item
     End Function
 
     Function GetRandomItem: String(level: Int, randType: String)
-        Local randomItem: String
+        Local itemName: String
         Local itemClass: String
 
         Local i := 0
         For i = i Until 500
-            randomItem = Item.GetRandomItemInClass("", level, randType, Chest.CHEST_COLOR_NONE, True, "", False)
-            itemClass = Item.GetSlot(randomItem)
+            itemName = Item.GetRandomItemInClass("", level, randType, Chest.CHEST_COLOR_NONE, True, "", False)
+            itemClass = Item.GetSlot(itemName)
 
             Local isValid := True
             For Local j := 0 Until controller_game.numPlayers
@@ -61,7 +61,7 @@ Class SaleItem Extends Item
                     Local itemInSlot := player.GetItemInSlot(itemClass, False)
                     If itemInSlot <> Item.NoItem
                         If Item.GetIntAttribute(itemInSlot, "slotPriority", -1) >
-                           Item.GetIntAttribute(randomItem, "slotPriority", -1)
+                           Item.GetIntAttribute(itemName, "slotPriority", -1)
                             isValid = False
                             Exit
                         End If
@@ -84,17 +84,17 @@ Class SaleItem Extends Item
             If isValid
                 If itemClass <> SaleItem.lastSaleItemClass1 And
                    itemClass <> SaleItem.lastSaleItemClass2
-                    If SaleItem.randomSaleItemList.Contains(randomItem) Then Exit
+                    If SaleItem.randomSaleItemList.Contains(itemName) Then Exit
                 End If
             End If
         End For
 
         If i = 500
             ' Doesn't set item class?
-            randomItem = "armor_heavyplate"
+            itemName = "armor_heavyplate"
         End If
 
-        SaleItem.randomSaleItemList.AddLast(randomItem)
+        SaleItem.randomSaleItemList.AddLast(itemName)
 
         SaleItem.lastSaleItemClass2 = SaleItem.lastSaleItemClass1
         SaleItem.lastSaleItemClass1 = itemClass
