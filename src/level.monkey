@@ -1578,21 +1578,16 @@ Class Level
         Debug.Log("CREATEMAP ZONE1: Placing one speedup or slowdown trap")
         Local trap: Trap
         For Local i := 500 Until 0 Step -1
-            Local numTraps := Trap.trapList.Count()
-            If numTraps > 0
-                Local trapIndex := Util.RndIntRangeFromZero(numTraps - 1, True)
-                Local traps := Trap.trapList.ToArray()
-                trap = traps[trapIndex]
-                If trap
-                    If trap.canBeReplacedByTempoTrap And
-                       trap.trapType = TrapType.BounceTrap
-                        Exit
-                    End If
+            Local trap := Trap.FindRandomTrap()
+            If trap <> Null
+                If trap.canBeReplacedByTempoTrap And
+                   trap.trapType = TrapType.BounceTrap
+                    Exit
                 End If
             End If
         End For
 
-        If trap
+        If trap <> Null
             Local trapX := trap.x
             Local trapY := trap.y
             trap.Die()
@@ -4995,10 +4990,6 @@ Class Level
         Local medic := New Medic(-197, -205, 1, False)
 
         Local itemName := Item.GetRandomItemInClass("", controller_game.currentLevel + 3, "shopChance", Chest.CHEST_COLOR_NONE, True, "", False)
-
-        ' TODO: Fix `Item.GetRandomItemInClass`.
-        itemName = "ring_regeneration"
-
         Local itemNode := Item.GetItemXML(itemName)
         Local coinCost := item.GetInt(itemNode, "coinCost", 0)
 

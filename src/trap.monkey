@@ -3,13 +3,19 @@
 Import monkey.list
 Import entity
 Import logger
+Import util
 
 Class Trap Extends Entity Abstract
 
     Global trapList: TrapList = New TrapList()
 
     Function FindRandomTrap: Trap()
-        Debug.TraceNotImplemented("Trap.FindRandomTrap()")
+        If Trap.trapList.Count() < 1 Then Return Null
+
+        Local trapIndex := Util.RndIntRangeFromZero(Trap.trapList.Count() - 1, True)
+        Local trapArray := Trap.trapList.ToArray()
+
+        Return trapArray[trapIndex]
     End Function
 
     Function GetTrapAt: Trap(xVal: Int, yVal: Int)
