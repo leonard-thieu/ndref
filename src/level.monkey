@@ -362,10 +362,15 @@ Class Level
 
                 Local heartContainerRoll := Util.RndIntRangeFromZero(100, True)
                 Local heartContainer: String
-                If heartContainerRoll <= 20 Then heartContainer = "misc_heart_container"
-                If heartContainerRoll <= 25 Then heartContainer = "misc_heart_container2"
-                If heartContainerRoll <= 50 Then heartContainer = "misc_heart_container_empty2"
-                If heartContainerRoll >  50 Then heartContainer = "misc_heart_container_empty"
+                If heartContainerRoll <= 20
+                    heartContainer = "misc_heart_container"
+                Else If heartContainerRoll <= 25
+                    heartContainer = "misc_heart_container2"
+                Else If heartContainerRoll <= 50 
+                    heartContainer = "misc_heart_container_empty2"
+                Else
+                    heartContainer = "misc_heart_container_empty"
+                End If
                 New SaleItem(entranceX + 1, entranceY - 2, heartContainer, False, shopkeeper, -1.0, Null)
 
                 If Not Util.RndIntRangeFromZero(9, True)
