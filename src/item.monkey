@@ -938,27 +938,27 @@ Class Item Extends Entity
             Debug.Log("ITEM NEW: " + xVal + ", " + yVal + " itemType: " + type + " entityNum: " + Self.entityNum)
         End If
 
-        Local itemObj := Item.GetItemXML(type)
+        Local itemNode := Item.GetItemXML(type)
 
-        If itemObj = Null
+        If itemNode = Null
             Debug.Log("ERROR: Unrecognized item type " + type)
 
             type = "food_1"
-            itemObj = Item.GetItemXML(type)
+            itemNode = Item.GetItemXML(type)
         End If
 
         If utl <> -1
             Self.utility = utl
         Else
-            Self.utility = GetInt(itemObj, "data", 0)
+            Self.utility = GetInt(itemNode, "data", 0)
         End If
 
-        Self.stackQuantity = GetInt(itemObj, "quantity", 1)
-        Self.hideQuantity = GetBool(itemObj, "hideQuantity", False)
-        Self.diamondCost = GetInt(itemObj, "diamondCost", 0)
-        Self.diamondDealerPrice = GetInt(itemObj, "diamondDealable", 1)
-        Self.coinCost = GetInt(itemObj, "coinCost", 0)
-        Self.quantityYOff = GetInt(itemObj, "quantityYOff", 0)
+        Self.stackQuantity = GetInt(itemNode, "quantity", 1)
+        Self.hideQuantity = GetBool(itemNode, "hideQuantity", False)
+        Self.diamondCost = GetInt(itemNode, "diamondCost", 0)
+        Self.diamondDealerPrice = GetInt(itemNode, "diamondDealable", 1)
+        Self.coinCost = GetInt(itemNode, "coinCost", 0)
+        Self.quantityYOff = GetInt(itemNode, "quantityYOff", 0)
 
         Self.isItem = True
         Self.x = xVal
@@ -972,7 +972,7 @@ Class Item Extends Entity
             Self.droppedByPlayer = True
         End If
 
-        Local itemData := New ItemData(itemObj)
+        Local itemData := New ItemData(itemNode)
         Self.xOff = itemData.xOff
         Self.yOff = itemData.yOff
         Self.imageFrames = itemData.imageFrames
@@ -1031,7 +1031,7 @@ Class Item Extends Entity
                 Self.xOff = 3.0
                 Self.yOff = 1.0
             Else
-                Local path := "items/" + GetString(itemObj, "path", "")
+                Local path := "items/" + GetString(itemNode, "path", "")
                 Self.image = New Sprite(path, 18, 21, 2, Image.DefaultFlags)
             End If
 
@@ -1055,7 +1055,7 @@ Class Item Extends Entity
             End If
         End If
 
-        Local hint := GetString(itemObj, "hint", "")
+        Local hint := GetString(itemNode, "hint", "")
         If hint <> ""
             If Level.isMysteryMode
                 If Self.itemType <> "bomb" And
