@@ -150,8 +150,8 @@ Class Item Extends Entity
 
                                 attributeNames.Push("chestChance")
                             Case 1
-                                itemPool = Item.itemPoolAnyChest[j]
-                                If i = 1 Then itemPool = Item.itemPoolAnyChest2[j]
+                                itemPool = Item.itemPoolLockedChest[j]
+                                If i = 1 Then itemPool = Item.itemPoolLockedChest2[j]
 
                                 attributeNames.Push("lockedChestChance")
                             Case 2
