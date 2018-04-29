@@ -3443,7 +3443,7 @@ Class Level
 
         Level.DumpMap()
 
-        Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, Object, Bool)")
+        Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool)")
     End Function
 
     Function PadWalls: Void()
@@ -4973,7 +4973,7 @@ Class Level
     End Function
 
     Function PlaceRoomZone5: RoomData(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone52(StackEx<PortalSeg>, Int, Int, Int, Int)")
+        Debug.TraceNotImplemented("Level.PlaceRoomZone5(StackEx<PortalSeg>, Int, Int, Int, Int)")
     End Function
 
     Function PlaceSecondarySpecialShop: Void(useBloodCost: Bool, isFoodShop: Bool)
