@@ -1232,10 +1232,12 @@ Class ItemData
         Self.imageH = GetInt(itemXML, "imageH", 24)
         Self.bouncer = GetBool(itemXML, "bouncer", True)
 
-        Self.xOff = (24 - Self.imageW) / 2
-        If Self.bouncer
-            Self.yOff = (24 - Self.imageH) / 2
-        End If
+        Local xOffDefault := (24 - Self.imageW) / 2
+        Self.xOff = GetInt(itemXML, "xOff", xOffDefault)
+
+        Local yOffDefault := 0
+        If Self.bouncer Then yOffDefault = (24 - Self.imageH) / 2
+        Self.yOff = GetInt(itemXML, "yOff", yOffDefault)
     End Method
 
     Field imageFrames: Int
