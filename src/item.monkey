@@ -115,9 +115,9 @@ Class Item Extends Entity
     Function CreateItemPools: Void()
         Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
 
-        Local attributeNames := New Stack<String>()
+        Local attributeNames := New StringStack()
         Local unlockedItems := New Stack<JsonObject>()
-        Local unlockedItemsChances := New Stack<Int>()
+        Local unlockedItemsChances := New IntStack()
         Local itemPoolCandidates := New Stack<JsonObject>()
 
         For Local i := 0 Until 2
