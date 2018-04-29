@@ -1104,6 +1104,9 @@ Class Item Extends Entity
 
         Local familiar := FamiliarFixed.GetFamiliarAt(Self.x, Self.y)
         If familiar <> Null Then familiar.TryPickup()
+
+        Local displayName := GetString(itemNode, "displayName", Self.itemType)
+        Debug.WriteLine("Placed " + displayName + " at " + (New Point(Self.x, Self.y)).ToString())
     End Method
 
     Field itemType: String = Item.NoItem
