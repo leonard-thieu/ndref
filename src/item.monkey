@@ -1216,8 +1216,8 @@ Class ItemList Extends List<String>
 
     Function _EditorFix: Void() End
 
-    Method Compare: Int(a: Int, b: Int)
-        Debug.TraceNotImplemented("ItemList.Compare(Int, Int)")
+    Method Compare: Int(a: String, b: String)
+        Debug.TraceNotImplemented("ItemList.Compare(String, String)")
     End Method
 
 End Class
