@@ -219,9 +219,9 @@ Class Item Extends Entity
                                         End If
 
                                         unlockedItemsChances.Push(chance)
-
-                                        Exit
                                     End If
+
+                                    Exit
                                 End If
                             End If
 
