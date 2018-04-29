@@ -249,18 +249,19 @@ Class Item Extends Entity
 
                         If n >= unlockedItemsChances.Length() Then n = 0
 
-                        itemPoolCandidates.Push(unlockedItems.Get(n))
+                        Local itemPoolCandidate := unlockedItems.Get(n)
+                        itemPoolCandidates.Push(itemPoolCandidate)
                         unlockedItems.Remove(n)
                         unlockedItemsChances.Remove(n)
                     End While
 
-                    For Local itemNode := EachIn itemPoolCandidates
-                        If Item.IsValidItemForCurrentChars(itemNode)
-                            Local name := GetString(itemNode, "name", "")
-                            If Not Item.IsDisabled(name)
-                                itemPool.AddLast(itemNode)
-                            End If
-                        End If
+                    For Local itemPoolCandidate := EachIn itemPoolCandidates
+                        If Not Item.IsValidItemForCurrentChars(itemPoolCandidate) Then Continue
+
+                        Local name := GetString(itemPoolCandidate, "name", "")
+                        If Item.IsDisabled(name) Then Continue
+
+                        itemPool.AddLast(itemPoolCandidate)
                     End For
                 End For
             End For
