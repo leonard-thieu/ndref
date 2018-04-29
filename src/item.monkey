@@ -124,7 +124,7 @@ Class Item Extends Entity
         Local itemPoolCandidates := New Stack<JsonObject>()
 
         For Local i := 0 Until 2
-            For Local j := 0 Until 8
+            For Local j := 0 To 7
                 Local kMax := 1
                 If j <> 7
                     kMax = 6
