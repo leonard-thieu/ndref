@@ -1583,7 +1583,7 @@ Class Level
         Debug.Log("CREATEMAP ZONE1: Placing one speedup or slowdown trap")
         Local trap: Trap
         For Local i := 500 Until 0 Step -1
-            Local trap := Trap.FindRandomTrap()
+            trap = Trap.FindRandomTrap()
             If trap <> Null
                 If trap.canBeReplacedByTempoTrap And
                    trap.trapType = TrapType.BounceTrap
@@ -1593,16 +1593,14 @@ Class Level
         End For
 
         If trap <> Null
-            Local trapX := trap.x
-            Local trapY := trap.y
             trap.Die()
 
             If Util.RndBool(True)
-                New SpeedUpTrap(trapX, trapY)
-                Debug.Log("CREATEMAP ZONE1: Speedup trap placed at " + trapX + ", " + trapY)
+                New SpeedUpTrap(trap.x, trap.y)
+                Debug.Log("CREATEMAP ZONE1: Speedup trap placed at " + trap.x + ", " + trap.y)
             Else
-                New SlowDownTrap(trapX, trapY)
-                Debug.Log("CREATEMAP ZONE1: Slowdown trap placed at " + trapX + ", " + trapY)
+                New SlowDownTrap(trap.x, trap.y)
+                Debug.Log("CREATEMAP ZONE1: Slowdown trap placed at " + trap.x + ", " + trap.y)
             End If
         End If
 
