@@ -435,7 +435,7 @@ Class Item Extends Entity
                 If predicate.Call(itemNode)
                     Local name := GetString(itemNode, "name", "")
 
-                    If Item.HasSeenItemXTimes(name, 0)
+                    If Not Item.HasSeenItemXTimes(name, j)
                         Item.AddToSeenItems(name)
 
                         Return name
