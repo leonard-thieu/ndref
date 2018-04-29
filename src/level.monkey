@@ -4990,12 +4990,11 @@ Class Level
         Local medic := New Medic(-197, -205, 1, False)
 
         Local itemName := Item.GetRandomItemInClass("", controller_game.currentLevel + 3, "shopChance", Chest.CHEST_COLOR_NONE, True, "", False)
-        Local itemNode := Item.GetItemXML(itemName)
-        Local coinCost := item.GetInt(itemNode, "coinCost", 0)
+        Local coinCost := Item.GetCost(itemName)
 
-        Local forceCost := 0.5
-        If Not useBloodCost
-            forceCost = coinCost / 10
+        Local forceCost := coinCost / 10
+        If useBloodCost
+            forceCost = 0.5
         End If
 
         New SaleItem(-197, -203, itemName, useBloodCost, Null, forceCost, medic)

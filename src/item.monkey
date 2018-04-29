@@ -296,8 +296,10 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetAppropriateCoinItemForQuantity(Int)")
     End Function
 
-    Function GetCost: Int(i: Int)
-        Debug.TraceNotImplemented("Item.GetCost(Int)")
+    Function GetCost: Int(i: String)
+        Local itemNode := Item.GetItemXML(i)
+
+        Return item.GetInt(itemNode, "coinCost", 0)
     End Function
 
     Function GetFlyawayText: Int(i: Int)
