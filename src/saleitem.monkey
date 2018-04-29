@@ -98,6 +98,8 @@ Class SaleItem Extends Item
 
         SaleItem.lastSaleItemClass2 = SaleItem.lastSaleItemClass1
         SaleItem.lastSaleItemClass1 = itemClass
+
+        Return itemName
     End Function
 
     Function ResetCosts: Void()
