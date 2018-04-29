@@ -243,7 +243,7 @@ Class Item Extends Entity
                         For n = n Until unlockedItemsChances.Length()
                             Local chance := unlockedItemsChances.Get(n)
 
-                            If randomValue > chance Then Exit
+                            If randomValue < chance Then Exit
 
                             randomValue -= chance
                         End For
