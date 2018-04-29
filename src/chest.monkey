@@ -32,7 +32,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                Not chest.secretChest And
-               chest.contents = "no_item" And
+               chest.contents = Item.NoItem And
                Not chest.invisible
                 Return chest
             End If
@@ -45,7 +45,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                chest.secretChest And
-               chest.contents = "no_item" And
+               chest.contents = Item.NoItem And
                Not chest.invisible
                 Return chest
             End If
@@ -60,7 +60,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                Not chest.secretChest And
-               chest.contents = "no_item" And
+               chest.contents = Item.NoItem And
                Not chest.invisible
                 numEmptyNonSecretChests += 1
             End If
@@ -75,7 +75,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                chest.secretChest And
-               chest.contents = "no_item" And
+               chest.contents = Item.NoItem And
                Not chest.invisible
                 numEmptySecretChests += 1
             End If

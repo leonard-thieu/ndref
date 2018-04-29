@@ -445,7 +445,7 @@ Class Item Extends Entity
     End Function
 
     Function GetSlot: String(n: JsonObject)
-        Return GetString(n, "slot", "no_item")
+        Return GetString(n, "slot", Item.NoItem)
     End Function
 
     Function GetSlot: String(i: String)
@@ -454,11 +454,11 @@ Class Item Extends Entity
         For Local itemNode := EachIn itemNodes
             Local itemObj := JsonObject(itemNode)
             If itemObj.GetString("name") = i
-                Return GetString(itemObj, "slot", "no_item")
+                Return GetString(itemObj, "slot", Item.NoItem)
             End If
         End For
 
-        Return "no_item"
+        Return Item.NoItem
     End Function
 
     Function GetStringAttribute: Int(i: Int, attr: Int, dflt: Int)
@@ -490,7 +490,7 @@ Class Item Extends Entity
     End Function
 
     Function IsCourageItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         Select name
             Case "ring_courage",
@@ -502,7 +502,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDamageBonusItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         Select name
             Case "blood_drum",
@@ -527,7 +527,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDamageReductionItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         Select name
             Case "armor_chainmail",
@@ -559,7 +559,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDiscountItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         Select name
             Case "misc_coupon",
@@ -571,7 +571,7 @@ Class Item Extends Entity
     End Function
 
     Function IsGoldGeneratingItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         Select name
             Case "familiar_shopkeeper",
@@ -586,7 +586,7 @@ Class Item Extends Entity
     Function IsHealthBonusItem: Bool(n: JsonObject)
         If n.GetBool("isFood") Return True
 
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         Select name
             Case "charm_gluttony",
@@ -621,7 +621,7 @@ Class Item Extends Entity
     End Function
 
     Function IsPainItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         Select name
             Case "feet_boots_pain",
@@ -638,7 +638,7 @@ Class Item Extends Entity
 
     Function IsValidItemForCurrentChars: Bool(n: JsonObject)
         Local slot := Item.GetSlot(n)
-        Local name := GetString(n, "name", "no_item")
+        Local name := GetString(n, "name", Item.NoItem)
 
         If Util.IsWeaponlessCharacterActive()
             If slot = "weapon" Then Return False
@@ -1099,7 +1099,7 @@ Class Item Extends Entity
         If familiar <> Null Then familiar.TryPickup()
     End Method
 
-    Field itemType: String = "no_item"
+    Field itemType: String = Item.NoItem
     Field singleChoiceItem: Bool
     Field hasBloodCost: Bool
     Field isSaleItem: Bool

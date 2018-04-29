@@ -408,7 +408,7 @@ Class Level
 
                     ' Left item
                     Local randomItem1 := Item.GetRandomItemInClass(itemClass, requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                    If randomItem1 <> "no_item" Or
+                    If randomItem1 <> Item.NoItem Or
                        randomItem1 <> "resource_hoard_gold"
                         New SaleItem(entranceX - 1, entranceY - 2, randomItem1, True, Null, -1.0, Null)
                     End If
@@ -416,14 +416,14 @@ Class Level
 
                 ' Center item (left item if a weaponless character is active)
                 Local randomItem2 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                If randomItem2 <> "no_item" Or
+                If randomItem2 <> Item.NoItem Or
                    randomItem2 <> "resource_hoard_gold"
                     New SaleItem(entranceX + saleItemXOff, entranceY - 2, randomItem2, True, Null, -1.0, Null)
                 End If
 
                 ' Right item
                 Local randomItem3 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                If randomItem3 <> "no_item" Or
+                If randomItem3 <> Item.NoItem Or
                    randomItem3 <> "resource_hoard_gold"
                     New SaleItem(entranceX + 1, entranceY - 2, randomItem3, True, Null, -1.0, Null)
                 End If
@@ -498,7 +498,7 @@ Class Level
                 Local i := 0
                 Repeat
                     Local anotherItem := anotherItems.Get(i)
-                    If anotherItem <> "no_item" And
+                    If anotherItem <> Item.NoItem And
                        anotherItem <> "resource_hoard_gold"
                         Local glassItem := New SaleItem(entranceX + glassItemXOff, entranceY - 2, anotherItem, False, shopkeeper, -1.0, Null)
                         glassItem.ApplyDiscount(0.5)
@@ -2584,7 +2584,7 @@ Class Level
                     Local urnRoll := Util.RndIntRangeFromZero(40, True)
                     If urnRoll = 0 And
                        Not Level.placedUrnThisRun
-                        New Crate(point.x, point.y, Crate.TYPE_URN, "no_item")
+                        New Crate(point.x, point.y, Crate.TYPE_URN, Item.NoItem)
                         Level.placedUrnThisRun = True
 
                         Continue
@@ -2622,7 +2622,7 @@ Class Level
 
                             New TrapChest(point.x, point.y, trapChestLevel)
                         Else
-                            New Chest(point.x, point.y, "no_item", False, False, True, Chest.CHEST_COLOR_NONE)
+                            New Chest(point.x, point.y, Item.NoItem, False, False, True, Chest.CHEST_COLOR_NONE)
                         End If
 
                         Level.chestsStillToPlace -= 1
@@ -5222,7 +5222,7 @@ Class Level
                     item1 = New SaleItem(itemsXMid - 1, itemsY, key, False, Null, -1.0, Null)
                 Else
                     If replaceWithChestPosition = 1
-                        item1 = New SaleChest(itemsXMid - 1, itemsY, "no_item", False, False, False, chestColor)
+                        item1 = New SaleChest(itemsXMid - 1, itemsY, Item.NoItem, False, False, False, chestColor)
                     Else
                         Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "shopChance")
                         item1 = New SaleItem(itemsXMid - 1, itemsY, randomItemName, False, Null, -1.0, Null)
@@ -5237,7 +5237,7 @@ Class Level
                     Local item2: Entity
 
                     If replaceWithChestPosition = 2
-                        item2 = New SaleChest(itemsXMid + 0, itemsY, "no_item", False, False, False, chestColor)
+                        item2 = New SaleChest(itemsXMid + 0, itemsY, Item.NoItem, False, False, False, chestColor)
                     Else
                         Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "shopChance")
                         item2 = New SaleItem(itemsXMid + 0, itemsY, randomItemName, False, Null, -1.0, Null)
@@ -5251,7 +5251,7 @@ Class Level
                 Local item3: Entity
 
                 If replaceWithChestPosition = 3
-                    item3 = New SaleChest(itemsXMid + 1, itemsY, "no_item", False, False, False, chestColor)
+                    item3 = New SaleChest(itemsXMid + 1, itemsY, Item.NoItem, False, False, False, chestColor)
                 Else
                     Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "shopChance")
                     item3 = New SaleItem(itemsXMid + 1, itemsY, randomItemName, False, Null, -1.0, Null)
@@ -5670,7 +5670,7 @@ Class Level
         End If
 
         Local crateType := Util.RndIntRangeFromZero(1, True)
-        New Crate(x, y, crateType, "no_item")
+        New Crate(x, y, crateType, Item.NoItem)
     End Function
 
     Function PutEnemyZone5: Void(x: Int, y: Int)

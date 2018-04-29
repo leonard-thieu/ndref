@@ -97,7 +97,7 @@ Class Crate Extends Enemy
         Self.crateType = type
 
         Self.contents = cont
-        If Self.contents = "no_item" And Level.randSeed <> -1
+        If Self.contents = Item.NoItem And Level.randSeed <> -1
             Self.DetermineContents()
         End If
 
