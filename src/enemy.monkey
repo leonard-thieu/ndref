@@ -597,7 +597,7 @@ Class Enemy Extends MobileEntity Abstract
         Self.ApplyMonkeyPaw()
 
         Local displayName := item.GetString(enemyNode, "displayName", Self.friendlyName)
-        Debug.WriteLine("Spawning " + displayName + " at " + (New Point(xVal, yVal)).ToString())
+        Debug.WriteLine("Placed " + displayName + " at " + (New Point(xVal, yVal)).ToString())
     End Method
 
     Method InitDirtJump: Void(xVal: Int, yVal: Int)

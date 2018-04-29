@@ -1911,7 +1911,7 @@ Class Level
 
         Level.lastCreatedRoomType = lastCreatedRoomType
 
-        Debug.WriteLine("Created room (" + xVal + ", " +  yVal + ", " +  wVal + ", " +  hVal + ", " +  originX + ", " +  originY + ")")
+        Debug.WriteLine("Placed room (" + xVal + ", " +  yVal + ", " +  wVal + ", " +  hVal + ", " +  originX + ", " +  originY + ")")
 
         If necrodancer.DUMPMAP_ITERATIVE
             Level.DumpMap()
