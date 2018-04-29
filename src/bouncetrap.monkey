@@ -11,11 +11,8 @@ Class BounceTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, d: Int)
-        Super.New()
-
-        Self.trapType = TrapType.BounceTrap
-        Self.x = xVal
-        Self.y = yVal
+        Super.New(xVal, yVal, TrapType.BounceTrap)
+        
         Self.xOff = 12.0
         Self.yOff = 18.0
 

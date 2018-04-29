@@ -10,11 +10,8 @@ Class SlowDownTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Super.New()
-
-        Self.trapType = TrapType.SlowDownTrap
-        Self.x = xVal
-        Self.y = yVal
+        Super.New(xVal, yVal, TrapType.SlowDownTrap)
+        
         Self.xOff = 5.0
         Self.yOff = 15.0
 

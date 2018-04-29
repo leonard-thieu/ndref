@@ -8,13 +8,9 @@ Class ABTeleportTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Super.New()
-
         ' NOTE: Doesn't set itself to `TrapType.ABTeleportTrap` even though it exists.
-        Self.trapType = TrapType.TeleportTrap
-
-        Self.x = xVal
-        Self.y = yVal
+        Super.New(xVal, yVal, TrapType.TeleportTrap)
+        
         Self.xOff = 5.0
         Self.yOff = 15.0
 

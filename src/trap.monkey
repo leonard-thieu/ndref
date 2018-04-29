@@ -46,12 +46,19 @@ Class Trap Extends Entity Abstract
 
     Function _EditorFix: Void() End
 
-    Method New()
+    Method New(xVal: Int, yVal: Int, type: Int)
         Super.New()
+
+        Self.x = xVal
+        Self.y = yVal
+        Self.trapType = type
 
         Self.isTrap = True
 
         Trap.trapList.AddLast(Self)
+
+        Local displayName := TrapType.ToDisplayName(Self.trapType)
+        Debug.WriteLine("Placed " + displayName + " at " + (New Point(Self.x, Self.y)).ToString())
     End Method
 
     Field trapType: Int
@@ -101,8 +108,8 @@ Class TrapList Extends List<Trap>
 
     Function _EditorFix: Void() End
 
-    Method Compare: Int(a: Object, b: Object)
-        Debug.TraceNotImplemented("TrapList.Compare(Object, Object)")
+    Method Compare: Int(a: Trap, b: Trap)
+        Debug.TraceNotImplemented("TrapList.Compare(Trap, Trap)")
     End Method
 
 End Class
@@ -122,5 +129,23 @@ Class TrapType
     Const FireTrap: Int = 10
     Const ABTeleportTrap: Int = 11
     Const ScatterTrap: Int = 14
+
+    Function ToDisplayName: String(type: Int)
+        Select type
+            Case  1 Return "Bounce Trap"
+            Case  2 Return "Spike Trap"
+            Case  3 Return "Trap Door"
+            Case  4 Return "Confuse Trap"
+            Case  5 Return "Teleport Trap"
+            Case  6 Return "Slow Down Trap"
+            Case  7 Return "Speed Up Trap"
+            Case  8 Return "Travel Rune"
+            Case  9 Return "Bomb Trap"
+            Case 10 Return "Fire Trap"
+            Case 14 Return "Scatter Trap"
+        End Select
+
+        Return "Unknown trap (" + type + ")"
+    End Function
 
 End Class

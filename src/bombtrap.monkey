@@ -11,14 +11,10 @@ Class BombTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Super.New()
+        Super.New(xVal, yVal, TrapType.BombTrap)
 
-        Self.trapType = TrapType.BombTrap
         Self.xOff = 5.0
         Self.yOff = 15.0
-
-        Self.x = xVal
-        Self.y = yVal
 
         Self.image = new Sprite("traps/bombtrap.png", 14, 16, 4, Image.DefaultFlags)
         Self.image.SetZ(-995.0)

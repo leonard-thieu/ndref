@@ -10,12 +10,8 @@ Class SpeedUpTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Super.New()
+        Super.New(xVal, yVal, TrapType.SpeedUpTrap)
 
-        Self.trapType = TrapType.SpeedUpTrap
-
-        Self.x = xVal
-        Self.y = yVal
         Self.xOff = 5.0
         Self.yOff = 15.0
         Self.image = New Sprite("traps/speeduptrap.png", 14, 16, 4, Image.DefaultFlags)
