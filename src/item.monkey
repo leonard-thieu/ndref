@@ -133,16 +133,9 @@ Class Item Extends Entity
                 For Local k := 0 To kMax
                     attributeNames.Clear()
 
+                    ' Select the pool to fill.
                     Local itemPool: List<JsonObject>
-                    If j = 7
-                        itemPool = Item.itemPoolRandom
-                        If i = 1 Then itemPool = Item.itemPoolRandom2
-
-                        attributeNames.Push("chestChance")
-                        attributeNames.Push("lockedChestChance")
-                        attributeNames.Push("shopChance")
-                        attributeNames.Push("lockedShopChance")
-                    Else
+                    If j <> 7
                         Select k
                             Case 0
                                 itemPool = Item.itemPoolChest[j]
@@ -176,6 +169,14 @@ Class Item Extends Entity
 
                                 attributeNames.Push("urnChance")
                         End Select
+                    Else
+                        itemPool = Item.itemPoolRandom
+                        If i = 1 Then itemPool = Item.itemPoolRandom2
+
+                        attributeNames.Push("chestChance")
+                        attributeNames.Push("lockedChestChance")
+                        attributeNames.Push("shopChance")
+                        attributeNames.Push("lockedShopChance")
                     End If
 
                     itemPool.Clear()
