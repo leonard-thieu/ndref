@@ -264,9 +264,22 @@ Class Item Extends Entity
 
                         itemPool.AddLast(itemPoolCandidate)
                     End For
+
+                    If necrodancer.DUMP_ITEM_POOLS
+                        Debug.WriteLine()
+                        Debug.WriteLine("i = " + i + ", j = " + j + ", k = " + k)
+                        For Local itemNode := EachIn itemPool
+                            Local name := item.GetString(itemNode, "name", "")
+                            Debug.WriteLine(name)
+                        End For
+                    End If
                 End For
             End For
         End For
+
+        If necrodancer.DUMP_ITEM_POOLS
+            Debug.WriteLine()
+        End If
 
         Local endTime := app.Millisecs()
         Local totalTime := endTime - startTime
