@@ -200,7 +200,7 @@ Class Item Extends Entity
 
                             If chance > 0
                                 If Level.isHardcoreMode Or
-                                   Item.IsUnlocked(GetString(itemNode, "name", "no_item"))
+                                   Item.IsUnlocked(GetString(itemNode, "name", ""))
                                     unlockedItems.Push(itemNode)
 
                                     If j = 7
@@ -256,7 +256,7 @@ Class Item Extends Entity
 
                     For Local itemNode := EachIn itemPoolCandidates
                         If Item.IsValidItemForCurrentChars(itemNode)
-                            Local name := GetString(itemNode, "name", "no_item")
+                            Local name := GetString(itemNode, "name", "")
                             If Not Item.IsDisabled(name)
                                 itemPool.AddLast(itemNode)
                             End If
