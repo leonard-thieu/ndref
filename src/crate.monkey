@@ -101,6 +101,13 @@ Class Crate Extends Enemy
             Self.DetermineContents()
         End If
 
+        Local itemNode := Item.GetItemXML(Self.contents)
+        Local itemName := Self.contents
+        If itemNode <> Null
+            itemName = item.GetString(itemNode, "displayName", Self.contents)
+        End If
+        Debug.WriteLine("  with " + itemName)
+
         Crate.crateList.AddLast(Self)
     End Method
 
