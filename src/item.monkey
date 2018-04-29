@@ -2,6 +2,7 @@
 
 Import monkey.map
 Import monkey.stack
+Import mojo.app
 Import bomb
 Import chest
 Import controller_game
@@ -113,6 +114,8 @@ Class Item Extends Entity
     End Function
 
     Function CreateItemPools: Void()
+        Local startTime := app.Millisecs()
+
         Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
 
         Local attributeNames := New StringStack()
@@ -263,8 +266,10 @@ Class Item Extends Entity
             End For
         End For
 
-        ' Requires OpenAL for timing information.
-        Debug.Log("Item pool generation took some ms.")
+        Local endTime := app.Millisecs()
+        Local totalTime := endTime - startTime
+
+        Debug.Log("Item pool generation took " + totalTime + " ms.")
     End Function
 
     Function DropItem: Object(xVal: Int, yVal: Int, t: Int)
