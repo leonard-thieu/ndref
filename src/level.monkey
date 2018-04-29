@@ -1133,7 +1133,7 @@ Class Level
             Level.placeShrinerOnLevel = level
             Level.placeShrinerOnDepth = depth
 
-            Debug.WriteLine("Placed shriner on " + depth + "-" + level)
+            Debug.WriteLine("Placed Shriner on " + depth + "-" + level)
         End If
 
         If Level.placeBloodShopOnLevel = -1 And Not Util.AreAriaOrCodaActive()
@@ -1153,7 +1153,7 @@ Class Level
             Level.placeBloodShopOnLevel = level
             Level.placeBloodShopOnDepth = depth
 
-            Debug.WriteLine("Placed blood shop on " + depth + "-" + level)
+            Debug.WriteLine("Placed Blood Shop on " + depth + "-" + level)
         End If
 
         If Level.placeGlassShopOnLevel = -1
@@ -1168,7 +1168,7 @@ Class Level
             Level.placeGlassShopOnLevel = level
             Level.placeGlassShopOnDepth = depth
 
-            Debug.WriteLine("Placed glass shop on " + depth + "-" + level)
+            Debug.WriteLine("Placed Glass Shop on " + depth + "-" + level)
         End If
 
         If Level.placeFoodShopOnLevel = -1 And Not Util.AreAriaOrCodaActive()
@@ -1183,7 +1183,7 @@ Class Level
             Level.placeFoodShopOnLevel = level
             Level.placeFoodShopOnDepth = depth
 
-            Debug.WriteLine("Placed food shop on " + depth + "-" + level)
+            Debug.WriteLine("Placed Food Shop on " + depth + "-" + level)
         End If
 
         If Level.placeArenaOnLevel = -1 And Not Util.IsCharacterActive(Character.Dove)
@@ -1199,7 +1199,7 @@ Class Level
             Level.placeArenaOnDepth = depth
             Level.arenaNum = Util.RndIntRangeFromZero(2, True)
 
-            Debug.WriteLine("Placed arena on " + depth + "-" + level)
+            Debug.WriteLine("Placed Arena on " + depth + "-" + level)
         End If
 
         If Level.placeTransmogrifierOnLevel = -1 And Level.isHardcoreMode
@@ -1214,7 +1214,7 @@ Class Level
             Level.placeTransmogrifierOnLevel = level
             Level.placeTransmogrifierOnDepth = depth
 
-            Debug.WriteLine("Placed transmogrifier on " + depth + "-" + level)
+            Debug.WriteLine("Placed Transmogrifier on " + depth + "-" + level)
         End If
 
         If Level.placeConjurerOnLevel = -1
@@ -1229,7 +1229,7 @@ Class Level
             Level.placeConjurerOnLevel = level
             Level.placeConjurerOnDepth = depth
 
-            Debug.WriteLine("Placed conjurer on " + depth + "-" + level)
+            Debug.WriteLine("Placed Conjurer on " + depth + "-" + level)
         End If
 
         If Level.placePawnbrokerOnLevel = -1 And Not Util.IsCharacterActive(Character.Monk)
@@ -1244,7 +1244,7 @@ Class Level
             Level.placePawnbrokerOnLevel = level
             Level.placePawnbrokerOnDepth = depth
 
-            Debug.WriteLine("Placed pawnbroker on " + depth + "-" + level)
+            Debug.WriteLine("Placed Pawnbroker on " + depth + "-" + level)
         End If
 
         If levelObj
