@@ -84,7 +84,7 @@ Class SaleItem Extends Item
             If isValid
                 If itemClass <> SaleItem.lastSaleItemClass1 And
                    itemClass <> SaleItem.lastSaleItemClass2
-                    If SaleItem.randomSaleItemList.Contains(itemName) Then Exit
+                    If Not SaleItem.randomSaleItemList.Contains(itemName) Then Exit
                 End If
             End If
         End For
