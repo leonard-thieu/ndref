@@ -1271,21 +1271,24 @@ Class StandardItemPredicate Implements IItemPredicate
     Field itemSlot: String
 
     Method Call: Bool(n: JsonObject)
-        If Self.itemClass = "" Or
-           Not Item.IsItemOfClass(n, Self.itemClass)
-            Return False
+        If Self.itemClass <> ""
+            If Not Item.IsItemOfClass(n, Self.itemClass)
+                Return False
+            End If
         End If
 
-        Local name := GetString(n, "name", "")
-        If Self.chestColor = Chest.CHEST_COLOR_NONE Or
-           Not Chest.IsItemAppropriateForChestColor(name, Self.chestColor)
-            Return False
+        If Self.itemSlot <> ""
+            Local slot := GetString(n, "slot", "")
+            If slot.ToUpper() <> Self.itemSlot.ToUpper()
+                Return False
+            End If
         End If
 
-        Local slot := GetString(n, "slot", "")
-        If Self.itemSlot = "" Or
-           Self.itemSlot <> slot
-            Return False
+        If Self.chestColor <> Chest.CHEST_COLOR_NONE
+            Local name := GetString(n, "name", "")
+            If Not Chest.IsItemAppropriateForChestColor(name, Self.chestColor)
+                Return False
+            End If
         End If
 
         Return True
