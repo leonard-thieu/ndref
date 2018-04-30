@@ -14,7 +14,7 @@ Class TravelRune Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, toX: Int, toY: Int, runeNum: Int)
-        Super.New(xVal, yVal, TrapType.BounceTrap)
+        Super.New(xVal, yVal, TrapType.TravelRune)
 
         Self.xOff = -1.0
         Self.yOff = 12.0
