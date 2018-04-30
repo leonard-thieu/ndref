@@ -649,7 +649,8 @@ Class Item Extends Entity
     End Function
 
     Function IsItemOfClass: Bool(n: JsonObject, itemClass: String)
-        Debug.TraceNotImplemented("Item.IsItemOfClass(JsonObject, String)")
+        ' NOTE: If this gets converted back to use XML, the value of `itemClass` should be retrieved as a String.
+        Return item.GetBool(n, itemClass, False)
     End Function
 
     Function IsItemOfType: Bool(i: String, query: String)
