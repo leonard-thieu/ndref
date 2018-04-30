@@ -130,7 +130,7 @@ Class Item Extends Entity
                     kMax = 6
                 End If
 
-                For Local k := 0 To kMax
+                For Local k := 0 Until kMax
                     attributeNames.Clear()
 
                     ' Select the pool to fill.
