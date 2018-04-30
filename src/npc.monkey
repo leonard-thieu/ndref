@@ -37,7 +37,11 @@ Class NPC Extends Enemy Abstract
     Field saidHi: Bool
 
     Method Delete: Void()
-        Debug.TraceNotImplemented("NPC.Delete()")
+        If Not Self.dead
+            NPC.npcList.RemoveEach(Self)
+
+            Super.Delete()
+        End If
     End Method
 
     Method Die: Void()
