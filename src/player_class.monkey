@@ -164,8 +164,8 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.PlayersHaveMovedThisBeat()")
     End Function
 
-    Function PlayVOPlayer1: Void(voSound: Int)
-        Debug.TraceNotImplemented("Player.PlayVOPlayer1(Int)")
+    Function PlayVOPlayer1: Void(voSound: String)
+        Debug.TraceNotImplemented("Player.PlayVOPlayer1(String)")
     End Function
 
     Function SetCoins: Void(tmpNum: Int, allowAchievement: Bool)
