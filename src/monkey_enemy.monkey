@@ -48,7 +48,12 @@ Class Monkey Extends EnemyClamper
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Monkey.Die()")
+        If Self.clampedOnto <> Null And
+           Self.clampedOnto.clampedEnemy = Self
+            Self.clampedOnto.clampedEnemy = Null
+        End If
+
+        Super.Die()
     End Method
 
     Method DislodgeAttempt: Bool()
