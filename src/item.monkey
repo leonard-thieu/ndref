@@ -267,7 +267,24 @@ Class Item Extends Entity
 
                     If necrodancer.DUMP_ITEM_POOLS
                         Debug.WriteLine()
-                        Debug.WriteLine("i = " + i + ", j = " + j + ", k = " + k)
+                        Local itemPoolName: String
+                        If j <> 7
+                            Select k
+                                Case 0  itemPoolName = "itemPoolChest"
+                                Case 1  itemPoolName = "itemPoolLockedChest"
+                                Case 2  itemPoolName = "itemPoolAnyChest"
+                                Case 3  itemPoolName = "itemPoolShop"
+                                Case 4  itemPoolName = "itemPoolLockedShop"
+                                Default itemPoolName = "itemPoolUrn"
+                            End Select
+                        Else
+                            itemPoolName = "itemPoolRandom"
+                        End If
+
+                        If i = 1 Then itemPoolName += "2"
+                        If j <> 7 Then itemPoolName += "[" + j + "]"
+                        
+                        Debug.WriteLine(itemPoolName)
                         For Local itemNode := EachIn itemPool
                             Local name := item.GetString(itemNode, "name", "")
                             Debug.WriteLine(name)
