@@ -72,7 +72,18 @@ Class Slime Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Slime.Die()")
+        If Self.enableDeathEffects
+            If Not Self.falling
+                Select Self.level
+                    Case 4
+                        Level.PlaceIceTileAt(Self.x, Self.y)
+                    Case 5
+                        Level.PlaceHotCoalTileAt(Self.x, Self.y)
+                End Select
+            End If
+        End If
+
+        Super.Die()
     End Method
 
     Method GetMovementDirection: Point()
