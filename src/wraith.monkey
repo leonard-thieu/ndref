@@ -67,7 +67,11 @@ Class Wraith Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Wraith.Die()")
+        If Wraith.theCursedWraith = Self
+            Wraith.theCursedWraith = Null
+        End If
+
+        Super.Die()
     End Method
 
     Method GetMovementDirection: Point()
