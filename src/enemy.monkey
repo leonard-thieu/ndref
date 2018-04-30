@@ -395,7 +395,11 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method Delete: Void()
-        Debug.TraceNotImplemented("Enemy.Delete()")
+        If Not Self.dead
+            Enemy.enemyList.RemoveEach(Self)
+
+            Super.Die()
+        End If
     End Method
 
     Method DiagonalsOnlySeekTarget: Object(targetX: Int, targetY: Int, bounceOnFail: Bool)
