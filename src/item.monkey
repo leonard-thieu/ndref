@@ -283,7 +283,7 @@ Class Item Extends Entity
 
                         If i = 1 Then itemPoolName += "2"
                         If j <> 7 Then itemPoolName += "[" + j + "]"
-                        
+
                         Debug.WriteLine(itemPoolName)
                         For Local itemNode := EachIn itemPool
                             Local name := item.GetString(itemNode, "name", "")
@@ -425,19 +425,18 @@ Class Item Extends Entity
     End Function
 
     Function GetRandomItemInClassByPredicate: String(predicate: IItemPredicate, requestedLevel: Int, randomType: String, nonDeterministic: Bool)
-        Local i := requestedLevel
-        If requestedLevel > 0 And
-           controller_game.currentDepth > 1
-            i += 1
-        End If
-
-        i = math.Min(i, 7)
-
         Local itemPool: List<JsonObject>
-        If i <= 0
+        If requestedLevel <= 0
             itemPool = Item.itemPoolRandom
             If nonDeterministic Then itemPool = Item.itemPoolRandom2
         Else
+            Local i := requestedLevel - 1
+            If controller_game.currentDepth > 1
+                i += 1
+            End If
+
+            i = math.Min(i, 6)
+
             Select randomType
                 Case "chestChance"
                     itemPool = Item.itemPoolChest[i]
