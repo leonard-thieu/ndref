@@ -1191,7 +1191,16 @@ Class Player Extends MobileEntity
     End Method
 
     Method WarpFamiliars: Void()
-        Debug.TraceNotImplemented("Player.WarpFamiliars()")
+        Local location := Self.GetLocation()
+
+        For Local familiar := EachIn Self.familiars
+            familiar.WarpTo(location.x + familiar.offsetX, location.y + familiar.offsetY)
+        End For
+
+        Local marv := Self.lambFamiliar
+        If marv <> Null
+            marv.Recall()
+        End If
     End Method
 
     Method WarpTo: Void(newX: Int, newY: Int)
