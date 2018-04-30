@@ -403,7 +403,67 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Enemy.Die()")
+        If Self.isStairLockingMiniboss And
+           Self.health <= 0
+            If Enemy.GetNumStairLockingMinibosses() = 1
+                Player.PlayVOPlayer1("Yeah")
+            End If
+        Else
+            If Util.IsCharacterActive(Character.Dove)
+                If Not Enemy.killingAllEnemies And
+                   Self.health <= 0
+                    If Audio.GetClosestBeatNum(True) > 5
+                        Local dist := Util.GetDistFromClosestPlayer(Self.x, Self.y, False)
+                        If dist <= 8.0
+                            'Audio.PlayGameSound("doveOhNo")
+                        End If
+                    End If
+                End If
+            End If
+        End If
+
+        If Self.inPenaltyBox And
+           Self.isMiniboss And
+           Enemy.GetNumPenaltyBoxMinibosses() = 1
+            Level.ClearMinibossWall()
+        End If
+
+        Local location := Self.GetLocation()
+
+        If Self.isLord And
+           Self.coinsToDrop > 0
+            If Self.dropLordScroll
+                New Item(location.x, location.y, "scroll_gigantism", False, -1, False)
+            Else
+                Local numCoins := Self.killCoinMultiplier * 24.0
+                New Item(location.x, location.y, "resource_coin0", False, numCoins, False)
+            End If
+        Else
+            If Self.coinsToDrop
+                Local numCoins := Self.coinsToDrop
+                numCoins += Self.bonusCoinsToDrop
+                numCoins *= controller_game.numPlayers
+                numCoins *= Self.killCoinMultiplier
+                numCoins += Self.ringOfGoldCoinsToDrop
+
+                If Level.enemiesDropSingleCoinForThisLevel
+                    numCoins = 1
+                End If
+
+                If numCoins > 0 And
+                   (Not Self.dropNoCoinsOverride Or
+                    Util.IsCharacterActive(Character.Monk) Or
+                    Util.IsCharacterActive(Character.Coda))
+                    Item.CreateAmountOfCoins(location.x, location.y, numCoins)
+                End If
+            End If
+        End If
+
+        If Self.deathTrigger <> 0
+            Level.ActivateTrigger(Self.deathTrigger, Null, Null)
+        End If
+
+        Self.Delete()
     End Method
 
     Method ExemptFromMysteryMode: Bool()
