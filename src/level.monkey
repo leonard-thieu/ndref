@@ -1757,8 +1757,8 @@ Class Level
                                 lastCreatedRoomType = RoomType.Basic
                                 tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Basic, originX, originY, originX2, originY2, wideCorridor, wallType)
                             Case 1
-                                lastCreatedRoomType = RoomType.Pillar
-                                ' No room?
+                                lastCreatedRoomType = RoomType.OutsideCorners
+                                tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.OutsideCorners, originX, originY, originX2, originY2, wideCorridor, wallType)
                             Case 2
                                 lastCreatedRoomType = RoomType.Pillar
                                 tiles = Level._CreateRoom(xVal, yVal, wVal, hVal, RoomType.Pillar, originX, originY, originX2, originY2, wideCorridor, wallType)
