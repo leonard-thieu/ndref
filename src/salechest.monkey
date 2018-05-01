@@ -16,7 +16,13 @@ Class SaleChest Extends Chest
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, cont: String, invis: Bool, isLocked: Bool, isSecret: Bool, tmpColor: Int)
-        Debug.TraceNotImplemented("SaleChest.New(Int, Int, String, Bool, Bool, Bool, Int)")
+        Super.New(xVal, yVal, cont, invis, isLocked, isSecret, tmpColor)
+
+        Self.saleChest = True
+
+        SaleChest.currentSaleChests.AddLast(Self)
+
+        Self.SetCost()
     End Method
 
     Field cost: Int = 999
