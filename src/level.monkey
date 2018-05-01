@@ -1872,8 +1872,8 @@ Class Level
                             Else
                                 Local distanceToLastLiquid := Util.GetDist(lastLiquidX, lastLiquidY, tile.x, tile.y)
                                 If distanceToLastLiquid <= 1.01
-                                    Local convertToLiquidChance := Util.RndIntRangeFromZero(3, True)
-                                    If convertToLiquidChance = 0
+                                    Local convertToLiquidRoll := Util.RndIntRangeFromZero(3, True)
+                                    If convertToLiquidRoll = 0
                                         lastLiquidX = tile.x
                                         lastLiquidY = tile.y
                                         tile.type = liquidTileType
