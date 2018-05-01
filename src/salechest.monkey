@@ -2,8 +2,13 @@
 
 Import monkey.list
 Import chest
+Import controller_game
+Import level
 Import logger
+Import player_class
+Import saleitem
 Import sprite
+Import util
 
 Class SaleChest Extends Chest
 
@@ -48,7 +53,32 @@ Class SaleChest Extends Chest
     End Method
 
     Method SetCost: Void()
-        Debug.TraceNotImplemented("SaleChest.SetCost()")
+        Select Self.chestColor
+            Case Chest.CHEST_COLOR_BLUE,
+                 Chest.CHEST_COLOR_BLACK
+                Self.cost = 40
+            Case Chest.CHEST_COLOR_WHITE
+                Self.cost = 30
+            Default
+                Self.cost = 20
+        End Select
+
+        If Util.IsCharacterActive(Character.Monk) Or
+           Util.IsCharacterActive(Character.Dove) Or
+           Util.IsCharacterActive(Character.Coda)
+            Self.cost = 0
+        End If
+
+        If Player.DoesAnyPlayerHaveItemOfType("ring_charisma") Or
+           Player.DoesAnyPlayerHaveItemOfType("ring_wonder")
+            Self.cost *= SaleItem.CHARISMA_DISCOUNT
+        End If
+
+        If Level.isHardcoreMode
+            Self.cost *= (controller_game.currentDepth * 0.5) + 2.0
+        End If
+
+        Debug.TraceNotImplemented("SaleChest.SetCost() (digit sprites)")
     End Method
 
     Method SkipNextDraw: Void()
