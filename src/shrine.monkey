@@ -357,7 +357,9 @@ Class Shrine Extends Entity
     End Method
 
     Method GenPainContents: Void()
-        Debug.TraceNotImplemented("Shrine.GenPainContents()")
+        Self.contents1 = Self.RandomGlassWeapon()
+        Self.contents2 = Self.RandomGlassWeapon()
+        Self.contents3 = Self.RandomGlassWeapon()
     End Method
 
     Method GenUncertaintyContents: Void()
