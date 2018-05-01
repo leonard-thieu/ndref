@@ -1201,7 +1201,7 @@ Class Item Extends Entity
     End Method
 
     Method GetValue: Int()
-        Debug.TraceNotImplemented("Item.GetValue()")
+        Return Self.utility
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
