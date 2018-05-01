@@ -3577,7 +3577,7 @@ Class Level
                 enemyIds.Push(EnemyId.LightMinotaur)
         End Select
 
-        'AssertImpl(weights.Length() = enemyIds.Length())
+        Assert(weights.Length() = enemyIds.Length())
 
         Local numMinibosses := 1
 
@@ -4845,7 +4845,7 @@ Class Level
                     toughSarcophagusEnemyIds.Push(EnemyId.WaterBall)
             End Select
 
-            'AssertImpl(toughSarcophagusEnemyIds.Length() > 0)
+            Assert(toughSarcophagusEnemyIds.Length() > 0)
 
             toughSarcophagusEnemyIds.Shuffle(True)
 
