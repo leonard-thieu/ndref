@@ -3404,12 +3404,42 @@ Class Level
     End Function
 
     Function NewLevel: Void(level: Int, zone: Int, playerID: Int, inEditor: Bool, levelObj: LevelObject, continuedRun: Bool)
+        Debug.Log("NEWLEVEL level: " + level +
+                          " zone: " + zone +
+                          " currentLevel: " + controller_game.currentLevel +
+                          " currentZone: " + controller_game.currentZone +
+                          " currentDepth: " + controller_game.currentDepth)
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+
+            player.WarpFamiliars()
+        End For
+
+        Level.previousLevelUnkilledStairLockingMinibosses.Clear()
+        For Local enemy := EachIn Enemy.enemyList
+            If enemy.isStairLockingMiniboss
+                Level.previousLevelUnkilledStairLockingMinibosses.Push(enemy.enemyType)
+            End If
+        End For
+
+        For Local enemy := EachIn Enemy.enemyList
+            enemy.coinsToDrop = 0
+        End For
+
+        RenderableObject.DeleteAll(True)
+
+        Level.placedArena = False
+
+        controller_game.currentLevel = level
+        controller_game.currentZone = zone
+
         Level.isSeededMode = True
         Level.randSeedString = "1"
         Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
         If Level.randSeed = -1 Then Level.randSeed = 0
 
-        If Not Level.wholeRunRNG
+        If Level.wholeRunRNG = Null
             Level.wholeRunRNG = RNG.Make(Level.randSeed)
         End If
 
@@ -3423,28 +3453,29 @@ Class Level
 
         Level.creatingMap = True
 
-        'INIT_HARDCORE_MODE_COMMON
-        Level.GenerateHardcoreZoneOrder()
-        controller_game.currentZone = Level.zoneOrder.Get(0)
-        controller_game.currentLevel = 1
-        controller_game.currentDepth = 1
-        Level.isHardcoreMode = True
-        Item.CreateItemPools()
+        If level = 1
+            Level.GenerateHardcoreZoneOrder()
+            controller_game.currentZone = Level.zoneOrder.Get(0)
+            controller_game.currentLevel = 1
+            controller_game.currentDepth = 1
+            Level.isHardcoreMode = True
+            Item.CreateItemPools()
 
-        Util.SeedRnd(randSeed)
+            Util.SeedRnd(randSeed)
 
-        For Local i := 0 Until controller_game.numPlayers
-            Local characterID: Int
-            Local player := controller_game.players[i]
-            If player <> Null
-                characterID = player.characterID
-                player.Die()
-            End If
+            For Local i := 0 Until controller_game.numPlayers
+                Local characterID: Int
+                Local player := controller_game.players[i]
+                If player <> Null
+                    characterID = player.characterID
+                    player.Die()
+                End If
 
-            controller_game.players[i] = New Player(i, characterID)
-        End For
+                controller_game.players[i] = New Player(i, characterID)
+            End For
+        End If
 
-        If Level.CreateMap(Null)
+        If Level.CreateMap(levelObj)
             Debug.WriteLine("Created map.")
         Else
             Debug.WriteLine("Failed to create map.")

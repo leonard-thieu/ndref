@@ -18,6 +18,7 @@ Function Main: Int()
     controller_game.numPlayers = 1
 
     Level.NewLevel(1, 1, 0, False, Null, False)
+    Level.NewLevel(2, 1, 0, False, Null, False)
 
     Return 0
 End Function
