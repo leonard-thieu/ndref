@@ -1719,19 +1719,20 @@ Class Level
             End If
         End If
 
-        Local catacombWallRoll: Float
+        Local catacombWallChance: Float
         Select controller_game.currentLevel
-            Case 1 catacombWallRoll = 0.00
-            Case 2 catacombWallRoll = 0.10
-            Case 3 catacombWallRoll = 0.13
-            Case 4 catacombWallRoll = 0.16
+            Case 1 catacombWallChance = 0.00
+            Case 2 catacombWallChance = 0.10
+            Case 3 catacombWallChance = 0.13
+            Case 4 catacombWallChance = 0.16
             Default
                 If currentLevel > 4
-                    catacombWallRoll = math.Max(controller_game.currentLevel * 0.04, 0.40)
+                    catacombWallChance = math.Max(controller_game.currentLevel * 0.04, 0.40)
                 End If
         End Select
 
-        If catacombWallRoll > Util.RndIntRangeFromZero(1, True) And
+        Local catacombWallRoll := Util.RndFloatRange(0.0, 1.0, True)
+        If catacombWallChance > catacombWallRoll And
            roomType = RoomType.None And
            controller_game.currentZone = 1
             wallType = TileType.CatacombWall
