@@ -888,7 +888,14 @@ Class Level
     End Function
 
     Function ClearMinibossWall: Void()
-        Debug.TraceNotImplemented("Level.ClearMinibossWall()")
+        For Local tileData := EachIn Level.minibossFormerWall
+            Local tile := Level.GetTileAt(tileData.x, tileData.y)
+            If tile <> Null And
+               Not tile.IsFloor()
+                Local newTile := Level.PlaceTileRemovingExistingTiles(tileData.x, tileData.y, tileData.type, False, -1, False)
+                newTile.wireMask = tileData.wireMask
+            End If
+        End For
     End Function
 
     Function ClearTextLabelAt: Void(xVal: Int, yVal: Int)
