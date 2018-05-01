@@ -4139,7 +4139,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        New Slime(point.x, point.y, 3)
+                        New Slime(point.x, point.y, 1)
                     End If
                 Default
                     Local ghostRoll := Util.RndIntRangeFromZero(6, True)
