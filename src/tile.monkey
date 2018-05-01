@@ -504,8 +504,15 @@ Class Tile Extends RenderableObject
         Self.isCracked = True
     End Method
 
-    Method BecomeDarkShopWall: Void(spritePath: Int)
-        Debug.TraceNotImplemented("Tile.BecomeDarkShopWall(Int)")
+    Method BecomeDarkShopWall: Void(spritePath: String)
+        Self.hasResource = False
+        Self.health = 4
+
+        Self.image = New Sprite(spritePath, 1, Image.DefaultFlags)
+        Self.image.SetAlphaValue(0.0)
+        If Self.IsWall()
+            Self.image.SetZOff(8.0)
+        End If
     End Method
 
     Method BecomeDiamond: Void()
@@ -697,7 +704,12 @@ Class Tile Extends RenderableObject
     End Method
 
     Method DarkenShopWall: Void()
-        Debug.TraceNotImplemented("Tile.DarkenShopWall()")
+        Select Self.GetType()
+            Case TileType.ShopWall
+                Self.BecomeDarkShopWall("level/wall_shop_crypt_dark.png")
+            Case TileType.CrackedShopWall
+                Self.BecomeDarkShopWall("level/wall_shop_crypt_dark_cracked.png")
+        End Select
     End Method
 
     Method Die: Void()
