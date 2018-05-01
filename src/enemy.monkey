@@ -4,16 +4,70 @@ Import monkey.list
 Import monkey.map
 Import mojo.graphics
 Import brl.json
+Import armadillo
+Import armoredskeleton
+Import bat
 Import beatanimationdata
+Import beetle
+IMport bishop
+Import blademaster
+Import cauldron
+Import clone
+Import devil
+Import electric_mage
 Import entity
+Import evileye
+Import fakewall
+Import fire_elemental
+Import fortissimole
+Import gargoyle
+Import ghast
+Import ghost
+Import ghoul
+Import goblin
+Import goblin_bomber
+Import golem
+Import gorgon
+Import harpy
+Import hellhound
+Import ice_elemental
+Import knight
+Import lich
 Import logger
 Import mobileentity
+Import mole
+Import monkey_enemy
+Import mushroom
+Import mushroom_light
 Import necrodancer
 Import necrodancergame
+Import orc
+Import pawn
+Import pixie
 Import player_class
 Import point
+Import queen
+Import rook
+Import shove_monster
+Import skeleton
+Import skeletonknight
+Import skeletonmage
+Import skull
+Import sleeping_goblin
+Import slime
+Import spider
 Import sprite
+Import tarmonster
+Import trapcauldron
+Import trapchest
+Import warlock
+Import water_ball
+Import wight
+Import wraith
 Import xml
+Import yeti
+Import zombie
+Import zombie_electric
 
 Class Enemy Extends MobileEntity Abstract
 
@@ -183,7 +237,182 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function MakeEnemy: Enemy(xVal: Int, yVal: Int, type: Int)
-        Debug.TraceNotImplemented("Enemy.MakeEnemy(Int, Int, Int)")
+        Local enemy: Enemy
+
+        ' NOTE: This function is split into multiple functions to work around an MSVC compiler limit (hard limit of 128 nesting levels).
+        '       Monkey X transpiles `Select` statements into chained `else-if` clauses when targeting C++. This causes the deep nesting.
+        enemy = Enemy.MakeEnemy1(xVal, yVal, type)
+        If enemy <> Null Then Return enemy
+
+        enemy = Enemy.MakeEnemy2(xVal, yVal, type)
+        If enemy <> Null Then Return enemy
+
+        Return New Slime(xVal, yVal, 1)
+    End Function
+
+    Function MakeEnemy1: Enemy(xVal: Int, yVal: Int, type: Int)
+        Local enemy: Enemy
+
+        Select type
+            Case EnemyId.GreenSlime enemy = New Slime(xVal, yVal, 1)
+            Case EnemyId.BlueSlime enemy = New Slime(xVal, yVal, 2)
+            Case EnemyId.OrangeSlime enemy = New Slime(xVal, yVal, 3)
+            Case EnemyId.WhiteSkeleton enemy = New Skeleton(xVal, yVal, 1)
+            Case EnemyId.YellowSkeleton enemy = New Skeleton(xVal, yVal, 2)
+            Case EnemyId.BlackSkeleton enemy = New Skeleton(xVal, yVal, 3)
+            Case EnemyId.BlueBat enemy = New Bat(xVal, yVal, 1)
+            Case EnemyId.RedBat enemy = New Bat(xVal, yVal, 2)
+            Case EnemyId.GreenBat enemy = New Bat(xVal, yVal, 3)
+            Case EnemyId.PurpleMonkey enemy = New Monkey(xVal, yVal, 1)
+            Case EnemyId.WhiteMonkey enemy = New Monkey(xVal, yVal, 2)
+            Case EnemyId.Ghost enemy = New Ghost(xVal, yVal, 1)
+            Case EnemyId.Zombie enemy = New Zombie(xVal, yVal, 1)
+            Case EnemyId.Wraith enemy = New Wraith(xVal, yVal, 1)
+            Case EnemyId.ChestMimic enemy = New TrapChest(xVal, yVal, 1)
+            Case EnemyId.LockedChestMimic enemy = New TrapChest(xVal, yVal, 2)
+            Case EnemyId.WhiteChestMimic enemy = New TrapChest(xVal, yVal, 3)
+            Case EnemyId.WhiteArmoredSkeleton enemy = New ArmoredSkeleton(xVal, yVal, 1)
+            Case EnemyId.YellowArmoredSkeleton enemy = New ArmoredSkeleton(xVal, yVal, 2)
+            Case EnemyId.BlackArmoredSkeleton enemy = New ArmoredSkeleton(xVal, yVal, 3)
+            Case EnemyId.WhiteSkeletonMage enemy = New SkeletonMage(xVal, yVal, 1)
+            Case EnemyId.YellowSkeletonMage enemy = New SkeletonMage(xVal, yVal, 2)
+            Case EnemyId.BlackSkeletonMage enemy = New SkeletonMage(xVal, yVal, 3)
+            Case EnemyId.BlueMushroom enemy = New Mushroom(xVal, yVal, 1)
+            Case EnemyId.PurpleMushroom enemy = New Mushroom(xVal, yVal, 2)
+            Case EnemyId.LightGolem enemy = New Golem(xVal, yVal, 1)
+            Case EnemyId.DarkGolem enemy = New Golem(xVal, yVal, 2)
+            Case EnemyId.WhiteArmadillo enemy = New Armadillo(xVal, yVal, 1)
+            Case EnemyId.YellowArmadillo enemy = New Armadillo(xVal, yVal, 2)
+            Case EnemyId.Clone enemy = New Clone(xVal, yVal, 1)
+            Case EnemyId.TarMonster enemy = New TarMonster(xVal, yVal, 1)
+            Case EnemyId.Mole enemy = New Mole(xVal, yVal, 1)
+            Case EnemyId.Wight enemy = New Wight(xVal, yVal, 1)
+            Case EnemyId.WallMimic enemy = New FakeWall(xVal, yVal, 1)
+            Case EnemyId.MushroomLight enemy = New MushroomLight(xVal, yVal, 1, True, False)
+            Case EnemyId.ExplodingMushroom enemy = New MushroomLight(xVal, yVal, 1, False, True)
+            Case EnemyId.FireSlime enemy = New Slime(xVal, yVal, 5)
+            Case EnemyId.IceSlime enemy = New Slime(xVal, yVal, 4)
+            Case EnemyId.WhiteSkeletonKnight enemy = New SkeletonKnight(xVal, yVal, 1)
+            Case EnemyId.YellowSkeletonKnight enemy = New SkeletonKnight(xVal, yVal, 2)
+            Case EnemyId.BlackSkeletonKnight enemy = New SkeletonKnight(xVal, yVal, 3)
+            Case EnemyId.FireElemental enemy = New FireElemental(xVal, yVal, 1)
+            Case EnemyId.IceElemental enemy = New IceElemental(xVal, yVal, 1)
+            Case EnemyId.PurpleGoblin enemy = New Goblin(xVal, yVal, 1)
+            Case EnemyId.GrayGoblin enemy = New Goblin(xVal, yVal, 2)
+            Case EnemyId.FireBeetle enemy = New Beetle(xVal, yVal, 1)
+            Case EnemyId.IceBeetle enemy = New Beetle(xVal, yVal, 2)
+            Case EnemyId.Hellhound enemy = New Hellhound(xVal, yVal, 1)
+            Case EnemyId.ShoveMonster enemy = New ShoveMonster(xVal, yVal, 1)
+            Case EnemyId.GrayShoveMonster enemy = New ShoveMonster(xVal, yVal, 2)
+            Case EnemyId.Yeti enemy = New Yeti(xVal, yVal, 1)
+            Case EnemyId.Ghast enemy = New Ghast(xVal, yVal, 1)
+            Case EnemyId.FireCauldronMimic enemy = New TrapCauldron(xVal, yVal, 1)
+            Case EnemyId.IceCauldronMimic enemy = New TrapCauldron(xVal, yVal, 2)
+            Case EnemyId.FireCauldron enemy = New Cauldron(xVal, yVal, 1)
+            Case EnemyId.IceCauldron enemy = New Cauldron(xVal, yVal, 2)
+            Case EnemyId.GoblinBomber enemy = New GoblinBomber(xVal, yVal, 1)
+            Case EnemyId.GoblinSentry enemy = New SleepingGoblin(xVal, yVal, 1)
+            Case EnemyId.BlackBat enemy = New Bat(xVal, yVal, 4)
+            Case EnemyId.OrangeArmadillo enemy = New Armadillo(xVal, yVal, 3)
+            Case EnemyId.ApprenticeBlademaster enemy = New Blademaster(xVal, yVal, 1)
+            Case EnemyId.Blademaster enemy = New Blademaster(xVal, yVal, 2)
+            Case EnemyId.Ghoul enemy = New Ghoul(xVal, yVal, 1)
+            Case EnemyId.OozeGolem enemy = New Golem(xVal, yVal, 3)
+            Case EnemyId.Harpy enemy = New Harpy(xVal, yVal, 1)
+            Case EnemyId.Lich enemy = New Lich(xVal, yVal, 1)
+            Case EnemyId.RedLich enemy = New Lich(xVal, yVal, 2)
+            Case EnemyId.BlackLich enemy = New Lich(xVal, yVal, 3)
+            Case EnemyId.GreenMonkey enemy = New Monkey(xVal, yVal, 3)
+            Case EnemyId.MagicMonkey enemy = New Monkey(xVal, yVal, 4)
+            Case EnemyId.Pixie enemy = New Pixie(xVal, yVal, 1)
+            Case EnemyId.Sarcophagus enemy = New Sarcophagus(xVal, yVal, 1)
+            Case EnemyId.YellowSarcophagus enemy = New Sarcophagus(xVal, yVal, 2)
+            Case EnemyId.BlackSarcophagus enemy = New Sarcophagus(xVal, yVal, 3)
+            Case EnemyId.Spider enemy = New Spider(xVal, yVal, 1)
+            Case EnemyId.Warlock enemy = New Warlock(xVal, yVal, 1)
+            Case EnemyId.NeonWarlock enemy = New Warlock(xVal, yVal, 2)
+            Case EnemyId.Mummy enemy = New Mummy(xVal, yVal, 1)
+            Case EnemyId.Gargoyle1 enemy = New Gargoyle(xVal, yVal, 1)
+            Case EnemyId.Gargoyle2 enemy = New Gargoyle(xVal, yVal, 2)
+            Case EnemyId.Gargoyle3 enemy = New Gargoyle(xVal, yVal, 3)
+            Case EnemyId.Gargoyle4 enemy = New Gargoyle(xVal, yVal, 4)
+        End Select
+
+        Return enemy
+    End Function
+
+    Function MakeEnemy2: Enemy(xVal: Int, yVal: Int, type: Int)
+        Local enemy: Enemy
+
+        Select type
+            Case EnemyId.Gargoyle5 enemy = New Gargoyle(xVal, yVal, 5)
+            Case EnemyId.Gargoyle6 enemy = New Gargoyle(xVal, yVal, 6)
+            Case EnemyId.YellowDireBat enemy = New BatMiniboss(xVal, yVal, 1)
+            Case EnemyId.BrownDireBat enemy = New BatMiniboss(xVal, yVal, 2)
+            Case EnemyId.GreenDragon enemy = New Dragon(xVal, yVal, 1)
+            Case EnemyId.RedDragon enemy = New Dragon(xVal, yVal, 2)
+            Case EnemyId.BlueDragon enemy = New Dragon(xVal, yVal, 3)
+            Case EnemyId.BlueBanshee enemy = New Banshee(xVal, yVal, 1)
+            Case EnemyId.GreenBanshee enemy = New Banshee(xVal, yVal, 2)
+            Case EnemyId.LightMinotaur enemy = New Minotaur(xVal, yVal, 1)
+            Case EnemyId.DarkMinotaur enemy = New Minotaur(xVal, yVal, 2)
+            Case EnemyId.DarkNightmare enemy = New Nightmare(xVal, yVal, 1)
+            Case EnemyId.BloodNightmare enemy = New Nightmare(xVal, yVal, 2)
+            Case EnemyId.TheMommy enemy = New Mommy(xVal, yVal, 1)
+            Case EnemyId.Ogre enemy = New Ogre(xVal, yVal, 1)
+            Case EnemyId.GoldMetroGnome enemy = New MetroGnome(xVal, yVal, 1)
+            Case EnemyId.GreenMetroGnome enemy = New MetroGnome(xVal, yVal, 2)
+            Case EnemyId.EarthDragon enemy = New Dragon(xVal, yVal, 4)
+            Case EnemyId.Shopkeeper1 enemy = New Shopkeeper(xVal, yVal, 1, False)
+            Case EnemyId.Shopkeeper2 enemy = New Shopkeeper(xVal, yVal, 2, False)
+            Case EnemyId.Shopkeeper3 enemy = New Shopkeeper(xVal, yVal, 3, False)
+            Case EnemyId.Shopkeeper4 enemy = New Shopkeeper(xVal, yVal, 4, False)
+            Case EnemyId.ShopkeeperGhost enemy = New ShopkeeperGhost(xVal, yVal, 1)
+            Case EnemyId.MonstrousShopkeeper enemy = New Shopkeeper(xVal, yVal, 5, False)
+            Case EnemyId.CrystalSkeleton enemy = New Skeleton(xVal, yVal, 4)
+            Case EnemyId.WhiteSkull enemy = New Skull(xVal, yVal, 1)
+            Case EnemyId.YellowSkull enemy = New Skull(xVal, yVal, 2)
+            Case EnemyId.BlackSkull enemy = New Skull(xVal, yVal, 3)
+            Case EnemyId.CrystalSkull enemy = New Skull(xVal, yVal, 4)
+            Case EnemyId.Fortissimole enemy = New Fortissimole(xVal, yVal, 1)
+            Case EnemyId.Pawn enemy = New Pawn(xVal, yVal, 1)
+            Case EnemyId.RedPawn enemy = New Pawn(xVal, yVal, 2)
+            Case EnemyId.Knight enemy = New Knight(xVal, yVal, 1)
+            Case EnemyId.RedKnight enemy = New Knight(xVal, yVal, 2)
+            Case EnemyId.Bishop enemy = New Bishop(xVal, yVal, 1)
+            Case EnemyId.RedBishop enemy = New Bishop(xVal, yVal, 2)
+            Case EnemyId.Rook enemy = New Rook(xVal, yVal, 1)
+            Case EnemyId.RedRook enemy = New Rook(xVal, yVal, 2)
+            Case EnemyId.Queen enemy = New Queen(xVal, yVal, 1)
+            Case EnemyId.RedQueen enemy = New Queen(xVal, yVal, 2)
+            Case EnemyId.WaterBall enemy = New WaterBall(xVal, yVal, 1)
+            Case EnemyId.PurpleElectricMage enemy = New ElectricMage(xVal, yVal, 1)
+            Case EnemyId.RedElectricMage enemy = New ElectricMage(xVal, yVal, 2)
+            Case EnemyId.GoldElectricMage enemy = New ElectricMage(xVal, yVal, 3)
+            Case EnemyId.GreenGorgon enemy = New Gorgon(xVal, yVal, 1)
+            Case EnemyId.ElectricZombie enemy = New ZombieElectric(xVal, yVal, 1)
+            Case EnemyId.CrystalArmoredSkeleton enemy = New ArmoredSkeleton(xVal, yVal, 4)
+            Case EnemyId.CrystalSkeletonKnight enemy = New SkeletonKnight(xVal, yVal, 4)
+            Case EnemyId.GreenEvilEye enemy = New EvilEye(xVal, yVal, 1)
+            Case EnemyId.GoldGorgon enemy = New Gorgon(xVal, yVal, 2)
+            Case EnemyId.PinkEvilEye enemy = New EvilEye(xVal, yVal, 2)
+            Case EnemyId.GreenOrc enemy = New Orc(xVal, yVal, 1)
+            Case EnemyId.PinkOrc enemy = New Orc(xVal, yVal, 2)
+            Case EnemyId.PurpleOrc enemy = New Orc(xVal, yVal, 3)
+            Case EnemyId.RedDevil enemy = New Devil(xVal, yVal, 1)
+            Case EnemyId.GreenDevil enemy = New Devil(xVal, yVal, 2)
+            Case EnemyId.PurpleSlime enemy = New Slime(xVal, yVal, 6)
+            Case EnemyId.CursedWraith enemy = New Wraith(xVal, yVal, 2)
+            Case EnemyId.CrateMimic enemy = New TrapChest(xVal, yVal, 4)
+            Case EnemyId.ShopWallMimic enemy = New FakeWall(xVal, yVal, 2)
+            Case EnemyId.BlackSlime enemy = New Slime(xVal, yVal, 7)
+            Case EnemyId.WhiteSlime enemy = New Slime(xVal, yVal, 8)
+            Case EnemyId.BarrelMimic enemy = New TrapChest(xVal, yVal, 5)
+            Case EnemyId.ShrineMimic enemy = New TrapChest(xVal, yVal, 6)
+            Case EnemyId.TarBall enemy = New WaterBall(xVal, yVal, 2)
+        End Select
+
+        Return enemy
     End Function
 
     Function MakeNonNecroDancerEnemiesIntoFormationDancers: Void()
@@ -882,6 +1111,7 @@ Class EnemyId
     Const GoldMetroGnome: Int = 413
     Const GreenMetroGnome: Int = 414
     Const EarthDragon: Int = 415
+    Const Fortissimole: Int = 504
     Const Shopkeeper1: Int = 600
     Const Shopkeeper2: Int = 601
     Const Shopkeeper3: Int = 602
