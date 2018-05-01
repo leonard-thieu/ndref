@@ -503,8 +503,10 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetStringAttribute(Int, Int, Int)")
     End Function
 
-    Function GetValue: Int(t: Int)
-        Debug.TraceNotImplemented("Item.GetValue(Int)")
+    Function GetValue: Int(t: String)
+        Local itemNode := Item.GetItemXML(t)
+
+        Return item.GetInt(itemNode, "data", 0)
     End Function
 
     Function GetWeaponBaseType: Int(t: Int)
