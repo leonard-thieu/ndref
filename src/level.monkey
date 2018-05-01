@@ -1936,23 +1936,25 @@ Class Level
             Case RoomType.Pillar
                 Level._CreateWalls(tiles, xVal, yVal, xMax, yMax, wallType)
 
-                Local wallRoll := Util.RndIntRangeFromZero(6, True)
+                Local leftPillarX := xVal + 2
+                Local rightPillarX := xVal + wVal - 2
+                Local topPillarY := yVal + 2
+                Local bottomPillarY := yVal + hVal - 2
+                Local catacombWallRoll := Util.RndIntRangeFromZero(6, True)
 
                 For Local x := xVal + 1 Until xMax
                     For Local y := yVal + 1 Until yMax
                         ' If 2 units away (horizontally and veritcally) from the walls
-                        If ((x - xVal = 2) Or (xMax - x - 2 = 2)) And
-                           ((y - yVal = 2) Or (yMax - y - 2 = 2))
-                            If wallRoll
-                                tiles.AddLast(New TileData(x, y, wallType))
-                            Else
+                        If (x = leftPillarX Or x = rightPillarX) And
+                           (y = topPillarY Or y = bottomPillarY)
+                            If catacombWallRoll = 0
                                 tiles.AddLast(New TileData(x, y, TileType.CatacombWall))
+                            Else
+                                tiles.AddLast(New TileData(x, y, wallType))
                             End If
-
-                            Continue
+                        Else
+                            tiles.AddLast(New TileData(x, y, TileType.Floor))
                         End If
-
-                        tiles.AddLast(New TileData(x, y, TileType.Floor))
                     End For
                 End For
             Case RoomType.OutsideCorners
