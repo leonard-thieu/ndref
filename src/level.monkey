@@ -1974,13 +1974,16 @@ Class Level
                            (x = xInsideMin And y = yInsideMax) Or
                            (x = xInsideMax And y = yInsideMin) Or
                            (x = xInsideMax And y = yInsideMax)
-                            Local xRem := originX - x - 2
-                            Local yRem := originY - y - 2
-                            If (Not wideCorridor Or Util.GetDist(originX, originY, originX2 + xRem, originY2 + yRem) > 1.0) And
-                               (Util.GetDist(0, 0, xRem, yRem) > 1.0)
-                                tiles.AddLast(New TileData(x, y, wallType))
+                            Local xRem := originX - x
+                            Local yRem := originY - y
+                            If Not wideCorridor Or
+                               (Util.GetDist(originX, originY, originX2 + xRem, originY2 + yRem) > 1.0)
+                                Local remDist := Util.GetDist(0, 0, xRem, yRem)
+                                If remDist > 1.0
+                                    tiles.AddLast(New TileData(x, y, wallType))
 
-                                Continue
+                                    Continue
+                                End If
                             End If
                         End If
 
