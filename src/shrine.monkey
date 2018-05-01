@@ -2,6 +2,7 @@
 
 Import monkey.list
 Import monkey.set
+Import brl.json
 Import mojo.graphics
 Import bouncer
 Import chest
@@ -356,7 +357,11 @@ Class Shrine Extends Entity
     End Method
 
     Method GenUncertaintyContents: Void()
-        Debug.TraceNotImplemented("Shrine.GenUncertaintyContents()")
+        Local weaponPredicate := New UncertaintyWeaponPredicate()
+        Self.contents1 = Item.GetRandomItemInClassByPredicate(weaponPredicate, -1, "chestChance", True)
+
+        Local ringPredicate := New UncertaintyRingPredicate()
+        Self.contents2 = Item.GetRandomItemInClassByPredicate(ringPredicate, -1, "chestChance", True)
     End Method
 
     Method GetBombItem: Int()
@@ -415,8 +420,15 @@ Class UncertaintyWeaponPredicate Implements IItemPredicate
 
     Function _EditorFix: Void() End
 
-    Method Call: Bool(n: Object)
-        Debug.TraceNotImplemented("UncertaintyWeaponPredicate.Call(Object)")
+    Method Call: Bool(n: JsonObject)
+        If Item.IsItemOfClass(n, "isObsidian") Or
+           Item.IsItemOfClass(n, "isTitanium")
+            Return Not Item.IsItemOfClass(n, "isDagger") And
+                   Not Item.IsItemOfClass(n, "isSpear") And
+                   Not Item.IsItemOfClass(n, "isCrossbow")
+        End If
+
+        Return False
     End Method
 
 End Class
@@ -425,8 +437,22 @@ Class UncertaintyRingPredicate Implements IItemPredicate
 
     Function _EditorFix: Void() End
 
-    Method Call: Bool(n: Object)
-        Debug.TraceNotImplemented("UncertaintyRingPredicate.Call(Object)")
+    Method Call: Bool(n: JsonObject)
+        Local name := item.GetString(n, "name", "")
+
+        Select name
+            Case "ring_peace",
+                 "ring_gold",
+                 "ring_charisma",
+                 "ring_regeneration",
+                 "ring_courage",
+                 "ring_might",
+                 "ring_war",
+                 "ring_frost"
+                Return True
+        End Select
+
+        Return False
     End Method
 
 End Class
