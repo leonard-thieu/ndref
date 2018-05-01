@@ -209,7 +209,16 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function GetNumPenaltyBoxMinibosses: Int()
-        Debug.TraceNotImplemented("Enemy.GetNumPenaltyBoxMinibosses()")
+        Local numPenaltyBoxMinibosses := 0
+
+        For Local enemy := EachIn Enemy.enemyList
+            If enemy.inPenaltyBox And
+               enemy.isMiniboss
+                numPenaltyBoxMinibosses += 1
+            End If
+        End For
+
+        Return numPenaltyBoxMinibosses
     End Function
 
     Function GetNumStairLockingMinibosses: Int()
