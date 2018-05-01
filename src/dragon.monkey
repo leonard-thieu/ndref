@@ -1,27 +1,45 @@
 'Strict
 
+Import mojo.graphics
 Import enemy
 Import entity
 Import logger
 Import point
+Import shrine
 Import sprite
+Import util
 
 Class Dragon Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Dragon.New(Int, Int, Int)")
+        If Shrine.warShrineActive And
+           l = 1
+            l = Util.RndIntRange(2, 3, False, -1)
+        End If
+
+        Self.Init(xVal, yVal, l, "dragon", "", -1, -1)
+
+        Self.overrideAttackSound = "dragonAttack"
+        Self.overrideDeathSound = "dragonDeath"
+        Self.overrideHitSound = "dragonHit"
+
+        If l = 3
+            Self.iceBlast = New Sprite("spells/ice_blast.png", 8, Image.MidHandle)
+            Self.iceBlast.SetHandle(-2, 59)
+            Self.iceBlast.SetZOff(1000.0)
+        End If
     End Method
 
     Field iceBlast: Sprite
-    Field seekDistance: Int
+    Field seekDistance: Int = 7
     Field lastFireballBeat: Int
-    Field firstFrame: Bool
+    Field firstFrame: Bool = 1
     Field hasRoared: Bool
     Field playerMoveOverride: Bool
     Field attackState: Int
-    Field facingLeft: Bool
+    Field facingLeft: Bool = True
     Field iceBlastDuration: Int
     Field iceBlastFaceLeft: Bool
     Field failedLastMove: Bool
