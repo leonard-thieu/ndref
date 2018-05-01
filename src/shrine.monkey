@@ -5,24 +5,31 @@ Import monkey.set
 Import bouncer
 Import entity
 Import item
+Import level
 Import logger
 Import rng
 Import sprite
 Import textsprite
+Import weighted_picker
 
 Class Shrine Extends Entity
 
-    Global SHRINE_BLOOD: Int
-    Global SHRINE_CHANCE: Int
-    Global SHRINE_NO_RETURN: Int
-    Global SHRINE_PACE: Int
-    Global SHRINE_PAIN: Int
-    Global SHRINE_PEACE: Int
-    Global SHRINE_PHASING: Int
-    Global SHRINE_RHYTHM: Int
-    Global SHRINE_RISK: Int
-    Global SHRINE_SACRIFICE: Int
-    Global SHRINE_UNCERTAINTY: Int
+    Const SHRINE_BLOOD: Int = 0
+    Const SHRINE_DARKNESS: Int = 1
+    Const SHRINE_GLASS: Int = 2
+    Const SHRINE_PEACE: Int = 3
+    Const SHRINE_RHYTHM: Int = 4
+    Const SHRINE_RISK: Int = 5
+    Const SHRINE_SACRIFICE: Int = 6
+    Const SHRINE_SPACE: Int = 7
+    Const SHRINE_WAR: Int = 8
+    Const SHRINE_NO_RETURN: Int = 9
+    Const SHRINE_PHASING: Int = 10
+    Const SHRINE_PACE: Int = 11
+    Const SHRINE_CHANCE: Int = 12
+    Const SHRINE_BOSS: Int = 13
+    Const SHRINE_PAIN: Int = 14
+    Const SHRINE_UNCERTAINTY: Int = 15
 
     Global bossShrineActive: Bool
     Global darknessShrineActive: Bool
@@ -53,7 +60,84 @@ Class Shrine Extends Entity
     End Function
 
     Function GetRandomShrineInt: Int(isShriner: Bool, banType1: Int, banType2: Int)
-        Debug.TraceNotImplemented("Shrine.GetRandomShrineInt(Bool, Int, Int)")
+        Local weights := New WeightedPicker()
+
+        If Not Level.isHardcoreMode
+            weights.Push(12)
+            weights.Push(9)
+            weights.Push(13)
+            weights.Push(11)
+            weights.Push(0)
+            weights.Push(9)
+            weights.Push(13)
+            weights.Push(11)
+            weights.Push(9)
+            weights.Push(0)
+            weights.Push(0)
+            weights.Push(0)
+            weights.Push(14)
+            weights.Push(11)
+            weights.Push(11)
+            weights.Push(11)
+        Else
+            weights.Push(10)
+            weights.Push(9)
+            weights.Push(11)
+            weights.Push(9)
+            weights.Push(9)
+            weights.Push(7)
+            weights.Push(8)
+            weights.Push(9)
+            weights.Push(6)
+            weights.Push(5)
+            weights.Push(5)
+            weights.Push(5)
+            weights.Push(8)
+            weights.Push(9)
+            weights.Push(9)
+            weights.Push(9)
+        End If
+
+        Local shrineInt := -1
+
+        If isShriner
+            For Local i := 201 Until 0 Step -1
+                If Not Shrine.IsValidShrine(shrineInt)
+                    shrineInt = weights.PickRandom(True)
+
+                    Continue
+                End If
+
+                Select shrineInt
+                    Case banType1,
+                         banType2,
+                         Shrine.SHRINE_PAIN,
+                         Shrine.SHRINE_SACRIFICE,
+                         Shrine.SHRINE_CHANCE
+                        Continue
+                    Default
+                        Return shrineInt
+                End Select
+            End For
+        Else
+            For Local i := 201 Until 0 Step -1
+                If Not Shrine.IsValidShrine(shrineInt)
+                    shrineInt = weights.PickRandom(True)
+
+                    Continue
+                End If
+
+                Select shrineInt
+                    Case banType1,
+                         banType2
+                        Continue
+                    Default
+                        Return shrineInt
+                End Select
+            End For
+        End If
+
+        Return Shrine.SHRINE_GLASS
     End Function
 
     Function GetShrineAt: Object(xVal: Int, yVal: Int)
@@ -61,7 +145,38 @@ Class Shrine Extends Entity
     End Function
 
     Function IsValidShrine: Bool(shrineType: Int)
-        Debug.TraceNotImplemented("Shrine.IsValidShrine(Int)")
+        If shrineType = -1 Then Return False
+        If Shrine.usedShrines.Contains(shrineType) Then Return False
+
+        Select shrineType
+            Case Shrine.SHRINE_BLOOD
+                Return Not Util.IsWeaponlessCharacterActive()
+            Case Shrine.SHRINE_PEACE
+                Return Not Util.IsWeaponlessCharacterActive()
+            Case Shrine.SHRINE_UNCERTAINTY
+                Return Not Util.IsWeaponlessCharacterActive() Or
+                       Not Util.IsCharacterActive(Character.Tempo)
+            Case Shrine.SHRINE_RHYTHM
+                Return Not Util.IsCharacterActive(Character.Bard)
+            Case Shrine.SHRINE_RISK
+                Return Not Util.AreAriaOrCodaActive() Or
+                       Not Util.IsCharacterActive(Character.Diamond)
+            Case Shrine.SHRINE_PAIN
+                Return Not Util.AreAriaOrCodaActive()
+            Case Shrine.SHRINE_SACRIFICE
+                Return Not Util.IsCharacterActive(Character.Dove)
+            Case Shrine.SHRINE_NO_RETURN
+                'Return Not Util.IsWeaponlessCharacterActive()
+                Return False
+            Case Shrine.SHRINE_PHASING
+                'Return Not Util.IsCharacterActive(Character.Dove)
+                Return False
+            Case Shrine.SHRINE_PACE
+                'Return Not Util.IsCharacterActive(Character.Bard)
+                Return False
+        End Select
+
+        Return True
     End Function
 
     Function ResetCosts: Void()
