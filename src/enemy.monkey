@@ -108,12 +108,12 @@ Class Enemy Extends MobileEntity Abstract
         Else
             Local enemyNodes := JsonArray(necrodancergame.xmlData.Get("enemies")).GetData()
 
-            For Local enemyNode := EachIn enemyNodes
-                Local enemyNodeObj := JsonObject(enemyNode)
-                If enemyNodeObj <> Null And
-                   item.GetString(enemyNodeObj, "name", "") = name And
-                   item.GetInt(enemyNodeObj, "type", 0) = level
-                    Return enemyNodeObj
+            For Local enemyNodeValue := EachIn enemyNodes
+                Local enemyNode := JsonObject(enemyNodeValue)
+                If enemyNode <> Null And
+                   item.GetString(enemyNode, "name", "") = name And
+                   item.GetInt(enemyNode, "type", 0) = level
+                    Return enemyNode
                 End If
             End For
         End If
