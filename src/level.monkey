@@ -4458,7 +4458,150 @@ Class Level
     End Function
 
     Function PlacePenaltyBoxEnemies: Void()
-        Debug.TraceNotImplemented("Level.PlacePenaltyBoxEnemies()")
+        Local initialCorner := Util.RndIntRangeFromZero(3, True)
+
+        Local corners := New IntPointStack()
+        corners.Push(New Point(-2, -2))
+        corners.Push(New Point(2, -2))
+        corners.Push(New Point(2, 2))
+        corners.Push(New Point(-2, 2))
+
+        Local orderedCorners := New IntPointStack()
+        For Local i := 0 To 3
+            Local corner := corners.Get((initialCorner + i) Mod 4)
+            orderedCorners.Push(corner)
+        End For
+
+        Local enemyIds := New IntStack()
+
+        enemyIds.Push(EnemyId.GreenSlime)
+
+        Select controller_game.currentZone
+            Case 1
+                Select controller_game.currentLevel
+                    Case 2
+                        enemyIds.Push(EnemyId.BlueBat)
+                        enemyIds.Push(EnemyId.WhiteSkeleton)
+                    Case 3
+                        enemyIds.Push(EnemyId.RedBat)
+                        enemyIds.Push(EnemyId.YellowSkeleton)
+                    Default
+                        enemyIds.Push(EnemyId.RedBat)
+                        enemyIds.Push(EnemyId.BlackSkeleton)
+                End Select
+
+                enemyIds.Push(EnemyId.Ghost)
+            Case 2
+                Select controller_game.currentLevel
+                    Case 2
+                        enemyIds.Push(EnemyId.BlueBat)
+                        enemyIds.Push(EnemyId.WhiteArmoredSkeleton)
+                    Case 3
+                        enemyIds.Push(EnemyId.RedBat)
+                        enemyIds.Push(EnemyId.YellowSkeleton)
+                    Default
+                        enemyIds.Push(EnemyId.RedBat)
+                        enemyIds.Push(EnemyId.BlackSkeleton)
+                End Select
+
+                enemyIds.Push(EnemyId.Clone)
+            Case 3
+                If controller_game.currentLevel <= 3
+                    enemyIds.Push(EnemyId.IceElemental)
+                Else
+                    enemyIds.Push(EnemyId.FireElemental)
+                End If
+
+                Select controller_game.currentLevel
+                    Case 2
+                        enemyIds.Push(EnemyId.WhiteSkeletonKnight)
+                    Case 3
+                        enemyIds.Push(EnemyId.YellowSkeletonKnight)
+                    Default
+                        enemyIds.Push(EnemyId.BlackSkeletonKnight)
+                End Select
+
+                If controller_game.currentLevel <= 3
+                    enemyIds.Push(EnemyId.FireElemental)
+                Else
+                    enemyIds.Push(EnemyId.IceElemental)
+                End If
+
+                enemyIds.Push(EnemyId.Clone)
+            Case 4
+                Select controller_game.currentLevel
+                    Case 2
+                        enemyIds.Push(EnemyId.Warlock)
+                        enemyIds.Push(EnemyId.Lich)
+                    Case 3
+                        enemyIds.Push(EnemyId.NeonWarlock)
+                        enemyIds.Push(EnemyId.RedLich)
+                    Default
+                        enemyIds.Push(EnemyId.NeonWarlock)
+                        enemyIds.Push(EnemyId.BlackLich)
+                End Select
+
+                If Util.IsCharacterActive(Character.Dorian)
+                    enemyIds.Push(EnemyId.Harpy)
+                Else
+                    If controller_game.currentLevel <= 3
+                        enemyIds.Push(EnemyId.ApprenticeBlademaster)
+                    Else
+                        enemyIds.Push(EnemyId.Blademaster)
+                    End If
+                End If
+            Default
+                Select controller_game.currentLevel
+                    Case 2
+                        enemyIds.Push(EnemyId.GreenGorgon)
+                        enemyIds.Push(EnemyId.PurpleElectricMage)
+                    Case 3
+                        enemyIds.Push(EnemyId.GreenGorgon)
+                        enemyIds.Push(EnemyId.RedElectricMage)
+                    Default
+                        enemyIds.Push(EnemyId.GreenGorgon)
+                        enemyIds.Push(EnemyId.GoldElectricMage)
+                End Select
+
+                If controller_game.currentLevel <= 3
+                    enemyIds.Push(EnemyId.RedDevil)
+                Else
+                    enemyIds.Push(EnemyId.GreenDevil)
+                End If
+        End Select
+
+        Assert(enemyIds.Length() = 4)
+        Assert(Level.previousLevelUnkilledStairLockingMinibosses.Length() > 0)
+
+        Local previousLevelUnkilledStairLockingMinibossesIndexes := New Stack<Int>()
+        previousLevelUnkilledStairLockingMinibossesIndexes.Push(0)
+        previousLevelUnkilledStairLockingMinibossesIndexes.Push(2)
+        previousLevelUnkilledStairLockingMinibossesIndexes.Push(1)
+        previousLevelUnkilledStairLockingMinibossesIndexes.Push(3)
+
+        For Local i := 0 To 3
+            Local enemyId := enemyIds.Get(i)
+            Local previousLevelUnkilledStairLockingMinibossesIndex := previousLevelUnkilledStairLockingMinibossesIndexes.Get(i)
+            If previousLevelUnkilledStairLockingMinibossesIndex < Level.previousLevelUnkilledStairLockingMinibosses.Length()
+                enemyId = Level.previousLevelUnkilledStairLockingMinibosses.Get(previousLevelUnkilledStairLockingMinibossesIndex)
+            End If
+
+            Local corner := orderedCorners.Get(i)
+            Local enemy := Enemy.MakeEnemy(corner.x, corner.y, enemyId)
+            enemy.inPenaltyBox = True
+            enemy.hasBeenVisible = True
+            enemy.exemptFromPause = True
+
+            Local dragon := Dragon(enemy)
+            If dragon <> Null
+                dragon.seekDistance = 0
+                If dragon.level = 2
+                    dragon.seekDistance = 10
+                End If
+
+                dragon.dontMove = True
+            End If
+        End For
     End Function
 
     Function PlaceRandomEnemyForTempo: Void(xVal: Int, yVal: Int)
