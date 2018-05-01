@@ -55,7 +55,46 @@ Class Shopkeeper Extends NPC
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Shopkeeper.Die()")
+        If Not Self.dead
+            If Not Self.falling
+                Local itemName: String
+
+                Select Self.level
+                    Case 4  itemName = "charm_gluttony"
+                    Case 3  itemName = "head_glass_jaw"
+                    Case 2  itemName = "blood_drum"
+                    Default itemName = "head_crown_of_greed"
+                End Select
+
+                New Item(Self.x, Self.y, itemName, False, -1, False)
+            End If
+
+            Super.Die()
+
+            ' SKIPPED: Audio stuff.
+
+            If Self.health <= 0 And
+               Self.level <= 1
+                Level.shopkeeperDead = True
+
+                ' SKIPPED: Steam stats.
+
+                If Level.isHardcoreMode
+                    If controller_game.currentDepth >= 5
+                        Level.shopkeeperGhostDepth = controller_game.currentDepth
+                        Level.shopkeeperGhostLevel = controller_game.currentLevel + 1
+                    Else
+                        Level.shopkeeperGhostDepth = controller_game.currentDepth + 1
+                        Level.shopkeeperGhostLevel = controller_game.currentLevel
+                    End If
+                Else
+                    Level.shopkeeperGhostDepth = controller_game.currentDepth
+                    Level.shopkeeperGhostLevel = 3
+                End If
+            End If
+
+            Shopkeeper.isMonstrous = False
+        End If
     End Method
 
     Method GetMovementDirection: Point()
