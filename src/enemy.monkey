@@ -8,6 +8,7 @@ Import beatanimationdata
 Import entity
 Import logger
 Import mobileentity
+Import necrodancer
 Import necrodancergame
 Import player_class
 Import point
@@ -71,7 +72,27 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function GetBaseType: Int(fullType: Int)
-        Debug.TraceNotImplemented("Enemy.GetBaseType(Int)")
+        Local enemyNodes := JsonArray(necrodancergame.xmlData.Get("enemies")).GetData()
+
+        Local enemyName: String
+        For Local enemyNodeValue := EachIn enemyNodes
+            Local enemyNode := JsonObject(enemyNodeValue)
+            If enemyNode <> Null And
+               item.GetInt(enemyNode, "id", EnemyId.None) = fullType
+                enemyName = item.GetString(enemyNode, "name", "")
+
+                Exit
+            End If
+        End For
+        Assert(enemyName <> "")
+
+        Local baseEnemyNode := Enemy.GetEnemyXML(enemyName, 1)
+        Assert(baseEnemyNode <> Null)
+
+        Local baseType := item.GetInt(baseEnemyNode, "id", EnemyId.None)
+        Assert(baseType <> EnemyId.None)
+
+        Return baseType
     End Function
 
     Function GetDamagableEnemiesAt: Object(xVal: Int, yVal: Int, phasing: Bool, piercing: Bool, attackSourceX: Int, attackSourceY: Int, dVal: Int)
@@ -760,6 +781,7 @@ End Class
 
 Class EnemyId
 
+    Const None: Int = -1
     Const GreenSlime: Int = 0
     Const BlueSlime: Int = 1
     Const OrangeSlime: Int = 2
