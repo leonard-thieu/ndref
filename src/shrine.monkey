@@ -349,7 +349,11 @@ Class Shrine Extends Entity
     End Method
 
     Method GenBossContents: Void()
-        Debug.TraceNotImplemented("Shrine.GenBossContents()")
+        Local requestedLevel := controller_game.currentLevel + 2
+
+        Self.contents1 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_RED, True, "", False)
+        Self.contents2 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_WHITE, True, "", False)
+        Self.contents3 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_BLACK, True, "", False)
     End Method
 
     Method GenPainContents: Void()
