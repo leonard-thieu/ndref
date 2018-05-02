@@ -3533,51 +3533,51 @@ Class Level
 
     Function PlaceAppropriateMinibosses: Void(room: RoomBase)
         Local weights := New WeightedPicker()
-        Local enemyIds := New IntStack()
+        Local minibossIds := New IntStack()
 
         Select controller_game.currentZone
             Case 1
                 weights.Push(1)
-                enemyIds.Push(EnemyId.GreenDragon)
+                minibossIds.Push(EnemyId.GreenDragon)
                 weights.Push(1)
-                enemyIds.Push(EnemyId.LightMinotaur)
+                minibossIds.Push(EnemyId.LightMinotaur)
 
                 If controller_game.currentLevel <= 2
                     weights.Push(1)
-                    enemyIds.Push(EnemyId.YellowDireBat)
+                    minibossIds.Push(EnemyId.YellowDireBat)
                 End If
             Case 4
                 weights.Push(20)
-                enemyIds.Push(EnemyId.GreenDragon)
+                minibossIds.Push(EnemyId.GreenDragon)
                 weights.Push(15)
-                enemyIds.Push(EnemyId.BlueBanshee)
+                minibossIds.Push(EnemyId.BlueBanshee)
                 weights.Push(15)
-                enemyIds.Push(EnemyId.DarkNightmare)
+                minibossIds.Push(EnemyId.DarkNightmare)
                 weights.Push(25)
-                enemyIds.Push(EnemyId.Ogre)
+                minibossIds.Push(EnemyId.Ogre)
                 weights.Push(25)
-                enemyIds.Push(EnemyId.TheMommy)
+                minibossIds.Push(EnemyId.TheMommy)
             Case 5
                 weights.Push(2)
-                enemyIds.Push(EnemyId.GreenDragon)
+                minibossIds.Push(EnemyId.GreenDragon)
                 weights.Push(1)
-                enemyIds.Push(EnemyId.LightMinotaur)
+                minibossIds.Push(EnemyId.LightMinotaur)
                 weights.Push(1)
-                enemyIds.Push(EnemyId.GoldMetroGnome)
+                minibossIds.Push(EnemyId.GoldMetroGnome)
             Default
                 weights.Push(25)
-                enemyIds.Push(EnemyId.GreenDragon)
+                minibossIds.Push(EnemyId.GreenDragon)
                 weights.Push(15)
-                enemyIds.Push(EnemyId.YellowDireBat)
+                minibossIds.Push(EnemyId.YellowDireBat)
                 weights.Push(20)
-                enemyIds.Push(EnemyId.BlueBanshee)
+                minibossIds.Push(EnemyId.BlueBanshee)
                 weights.Push(15)
-                enemyIds.Push(EnemyId.DarkNightmare)
+                minibossIds.Push(EnemyId.DarkNightmare)
                 weights.Push(25)
-                enemyIds.Push(EnemyId.LightMinotaur)
+                minibossIds.Push(EnemyId.LightMinotaur)
         End Select
 
-        Assert(weights.Length() = enemyIds.Length())
+        Assert(weights.Length() = minibossIds.Length())
 
         Local numMinibosses := 1
 
@@ -3591,7 +3591,7 @@ Class Level
             numMinibosses += extraMinibossesPerExit
         End If
 
-        Local enemyIds2 := New IntStack()
+        Local placedMinibossIds := New IntStack()
         Local minibossPoint := Level.GetStandardExitCoords()
 
         For Local i := 0 Until numMinibosses
@@ -3600,40 +3600,39 @@ Class Level
                 If minibossPoint = Null Then Exit
             End If
 
-            Local v56 := New IntStack()
-            Local dunno := 999999
+            Local minibossesPlacedFlags := New IntStack()
+            Local minibossPlacedFlagsMin := 999999
 
-            For Local enemyId := EachIn enemyIds
-                Local j := 0
+            For Local minibossId := EachIn minibossIds
+                Local minibossPlacedFlags := 0
 
                 For Local previousLevelMiniboss := EachIn Level.previousLevelMinibosses
-                    If enemyId = Enemy.GetBaseType(previousLevelMiniboss) Then j += 1
+                    If minibossId = Enemy.GetBaseType(previousLevelMiniboss) Then minibossPlacedFlags += 1
                 End For
 
-                For Local enemyId2 := EachIn enemyIds2
-                    If enemyId = enemyId2 Then j += 2
+                For Local placedMinibossId := EachIn placedMinibossIds
+                    If minibossId = placedMinibossId Then minibossPlacedFlags += 2
                 End For
 
-                v56.Push(j)
+                minibossesPlacedFlags.Push(minibossPlacedFlags)
 
-                If dunno <= j Then j = dunno
-                dunno = j
+                minibossPlacedFlagsMin = math.Min(minibossPlacedFlagsMin, minibossPlacedFlags)
             End For
 
-            For Local k := 0 Until weights.Length()
-                Local v26 := v56.Get(k)
+            For Local j := 0 Until weights.Length()
+                Local minibossPlacedFlags := minibossesPlacedFlags.Get(j)
 
                 Local enabled := False
-                If v26 = dunno Then enabled = True
+                If minibossPlacedFlags = minibossPlacedFlagsMin Then enabled = True
 
-                weights.SetEnabled(k + 1, enabled)
+                weights.SetEnabled(j, enabled)
             End For
 
-            Local enemyIdIndex := weights.PickRandom(True)
-            Local enemyId := enemyIds.Get(enemyIdIndex)
-            enemyIds2.Push(enemyId)
+            Local minibossIdIndex := weights.PickRandom(True)
+            Local minibossId := minibossIds.Get(minibossIdIndex)
+            placedMinibossIds.Push(minibossId)
 
-            Local miniboss := Level.PlaceMinibossOfShapeAt(enemyId, minibossPoint.x, minibossPoint.y)
+            Local miniboss := Level.PlaceMinibossOfShapeAt(minibossId, minibossPoint.x, minibossPoint.y)
             miniboss.isStairLockingMiniboss = True
 
             Local dragon := Dragon(miniboss)
@@ -4230,9 +4229,7 @@ Class Level
                     Local skeletonRoll4 := Util.RndIntRangeFromZero(2, True)
                     If skeletonRoll4 = 0
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
-                        If point = Null
-                            'goto NEXT_ROOM
-                        End If
+                        If point = Null Then Continue
 
                         New Skeleton(point.x, point.y, 3)
                     End If
