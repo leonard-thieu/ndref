@@ -8,7 +8,9 @@ Class StackEx<T> Extends Stack<T>
     Function _EditorFix: Void() End
 
     Method ChooseRandom: T(useSeed: Bool)
-        Debug.TraceNotImplemented("StackEx.ChooseRandom()")
+        Local randomIndex := Util.RndIntRangeFromZero(Self.Length() - 1, useSeed)
+
+        Return Self.Get(randomIndex)
     End Method
 
     Method Find: Int(value: Int)
@@ -26,12 +28,6 @@ Class StackEx<T> Extends Stack<T>
                 Self.Set(randomValue, value_at_i)
             End If
         End For
-    End Method
-
-    Method NoTrim: Void()
-        ChooseRandom(False)
-        Find(0)
-        Shuffle(False)
     End Method
 
 End
