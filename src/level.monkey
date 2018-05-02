@@ -4242,7 +4242,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        New Skeleton(point.x, point.y, 2)
+                        New Bat(point.x, point.y, 2)
                     End If
 
                     Local batRoll2 := Util.RndIntRangeFromZero(2, True)
@@ -4250,7 +4250,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        New Skeleton(point.x, point.y, 1)
+                        New Bat(point.x, point.y, 1)
                     End If
 
                     Local zombieRoll := Util.RndBool(True)
