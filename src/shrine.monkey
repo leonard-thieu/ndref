@@ -352,7 +352,15 @@ Class Shrine Extends Entity
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Shrine.Die()")
+        If Not Self.dead
+            Shrine.shrineList.RemoveEach(Self)
+
+            If Self.hintText <> Null
+                Self.hintText.Discard()
+            End If
+
+            Super.Die()
+        End If
     End Method
 
     Method GenBossContents: Void()
