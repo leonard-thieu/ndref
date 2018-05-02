@@ -13,6 +13,7 @@ Import bossmaster
 Import chest
 Import conjurer
 Import controller_game
+Import controller_level_editor
 Import crate
 Import dragon
 Import entity
@@ -943,7 +944,88 @@ Class Level
     End Function
 
     Function CreateBossBattle: Void()
-        Debug.TraceNotImplemented("Level.CreateBossBattle()")
+        If Level.IsFinalBossZone()
+            ' TODO: Verify boss numbers.
+            If Util.IsCharacterActive(Character.Aria)
+                Level.bossNumber = 7
+            Else If Util.IsCharacterActive(Character.Nocturna)
+                Level.bossNumber = 10
+            Else If Util.IsCharacterActive(Character.Cadence)
+                Level.bossNumber = 5
+            End If
+        Else
+            Local bossNumbers := New IntStack()
+            bossNumbers.Push(1)
+            bossNumbers.Push(2)
+            bossNumbers.Push(3)
+            bossNumbers.Push(4)
+
+            If Level.isHardcoreMode Or
+               controller_game.currentZone > 4
+                bossNumbers.Push(9)
+            End If
+
+            Debug.Log("CREATEBOSSBATTLE Selecting randomly from eligible bosses:")
+
+            Local eligibleBossNumbers := New StackEx<Int>()
+
+            For Local bossNumber := EachIn bossNumbers
+                If Level.usedBosses.Contains(bossNumber) Then Continue
+
+                Debug.Log("  Eligible boss :  " + bossNumber)
+                eligibleBossNumbers.Push(bossNumber)
+            End For
+
+            Level.bossNumber = 1
+            If eligibleBossNumbers.Length() > 0
+                Level.bossNumber = eligibleBossNumbers.ChooseRandom(True)
+            End If
+
+            Debug.Log("Selected boss :  " + Level.bossNumber)
+        End If
+
+        If Level.forceBoss <> -1
+            Level.bossNumber = Level.forceBoss
+            Level.forceBoss = -1
+        End If
+
+        Level.usedBosses.Insert(Level.bossNumber)
+
+        Select Level.bossNumber
+            Case  1 Level.CreateBossBattle1()
+            Case  2 Level.CreateBossBattle2()
+            Case  3 Level.CreateBossBattle3()
+            Case  4 Level.CreateBossBattle4()
+            Case  5 Level.CreateBossBattle5()
+            Case  9 Level.CreateBossBattle9()
+            Case 10 Level.CreateBossBattleFrankensteinway()
+        End Select
+
+        Level.outsideBossChamber = True
+
+        If Level.previousLevelUnkilledStairLockingMinibosses.Length() > 0 And
+           Not Level.pacifismModeOn And
+           Not Level.isLevelEditor And
+           ControllerLevelEditor.playingLevel = -1 And
+           Not Level.skipNextPenaltyBox
+            Level.PlacePenaltyBoxEnemies()
+
+            Level.minibossFormerWall = New List<MinibossTileData>()
+
+            Level.AddMinibossWall(-1, -3, TileType.BossWall)
+            Level.AddMinibossWall(0, -3, TileType.BossWall)
+            Level.AddMinibossWall(1, -3, TileType.BossWall)
+
+            Level.PlaceTileRemovingExistingTiles(-1, -1, TileType.BossFloor, False, -1, False)
+            Level.PlaceTileRemovingExistingTiles(1, -1, TileType.BossFloor, False, -1, False)
+            Level.PlaceTileRemovingExistingTiles(-1, 1, TileType.BossFloor, False, -1, False)
+            Level.PlaceTileRemovingExistingTiles(1, 1, TileType.BossFloor, False, -1, False)
+
+            Level.GetTileAt(-3, 0).AddTorch()
+            Level.GetTileAt(3, 0).AddTorch()
+            Level.GetTileAt(0, -3).AddTorch()
+            Level.GetTileAt(0, 3).AddTorch()
+        End If
     End Function
 
     Function CreateBossBattle1: Void()
@@ -2989,7 +3071,10 @@ Class Level
     End Function
 
     Function GetSingleZoneModeFinalBossZone: Int()
-        Debug.TraceNotImplemented("Level.GetSingleZoneModeFinalBossZone()")
+        If Util.IsCharacterActive(Character.Aria) Then Return 1
+        If Util.IsCharacterActive(Character.Nocturna) Then Return 5
+
+        Return 4
     End Function
 
     Function GetStandardExitCoords: Point()
@@ -3173,7 +3258,11 @@ Class Level
     End Function
 
     Function IsFinalBossZone: Bool()
-        Debug.TraceNotImplemented("Level.IsFinalBossZone()")
+        If Level.isHardcoreMode Then Return controller_game.currentDepth = 5
+
+        Local singleZoneModeFinalBossZone = Level.GetSingleZoneModeFinalBossZone()
+
+        Return controller_game.currentZone = singleZoneModeFinalBossZone
     End Function
 
     Function IsFloorAdjacent: Bool(xVal: Int, yVal: Int)
