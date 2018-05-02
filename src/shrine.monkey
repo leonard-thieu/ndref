@@ -145,8 +145,15 @@ Class Shrine Extends Entity
         Return Shrine.SHRINE_GLASS
     End Function
 
-    Function GetShrineAt: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Shrine.GetShrineAt(Int, Int)")
+    Function GetShrineAt: Shrine(xVal: Int, yVal: Int)
+        For Local shrine := EachIn Shrine.shrineList
+            If shrine.x = xVal And
+               shrine.y = yVal
+                Return shrine
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function IsValidShrine: Bool(shrineType: Int)

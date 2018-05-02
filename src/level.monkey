@@ -3226,57 +3226,43 @@ Class Level
     End Function
 
     Function IsPassable: Bool()
-        Local points := New List<Point>()
-        Local intPointSet := New IntPointSet()
-        Local point := New Point(0, 0)
+        Local points := New IntPointList()
+        Local visitedPoints := New IntPointSet()
+        Local startPoint := New Point(0, 0)
 
-        points.AddLast(point)
-        intPointSet.Insert(point)
+        points.AddLast(startPoint)
+        visitedPoints.Insert(startPoint)
 
         While Not points.IsEmpty()
-            Local firstPoint := points.RemoveFirst()
+            Local point := points.RemoveFirst()
 
-            For Local dir := 0 Until 4
-                Local newPoint := firstPoint.Add(Util.GetPointFromDir(dir))
-                Local x := newPoint.x
-                Local y := newPoint.y
+            For Local dir := 0 To 3
+                Local offset := Util.GetPointFromDir(dir)
+                Local nextPoint := point.Add(offset)
+                Local x := nextPoint.x
+                Local y := nextPoint.y
 
-                If Not intPointSet.Contains(newPoint)
+                If Not visitedPoints.Contains(nextPoint)
                     If Level.IsExit(x, y) Then Return True
 
                     Local tile := Level.GetTileAt(x, y)
-                    If tile
+                    If tile <> Null
                         If tile.IsFloor() Or
                            tile.type = TileType.DirtWall Or
                            tile.type = TileType.CorridorDirtWall Or
                            tile.IsDoor()
-                            Local dirBlocked := False
+                            If Trap.GetTrapAt(x, y) <> Null Then Continue
+                            If Shrine.GetShrineAt(x, y) <> Null Then Continue
 
-                            For Local trap := EachIn Trap.trapList
-                                If (x = trap.x) And (y = trap.y)
-                                    dirBlocked = True
-                                End If
-                            End For
-
-                            If dirBlocked Then Continue
-
-                            For Local shrine := EachIn Shrine.shrineList
-                                If (x = shrine.x) And (y = shrine.y)
-                                    dirBlocked = True
-                                End If
-                            End For
-
-                            If dirBlocked Then Continue
-
-                            points.AddLast(newPoint)
-                            intPointSet.Insert(newPoint)
+                            points.AddLast(nextPoint)
+                            visitedPoints.Insert(nextPoint)
                         End If
                     End If
                 End If
             End For
         End While
 
-        Throw New Throwable()
+        Return False
     End Function
 
     Function IsPeaceful: Bool()
