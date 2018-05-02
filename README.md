@@ -12,4 +12,4 @@ A significant amount of the core algorithm has been implemented. The implementat
 
 ## Special Thanks
 
-Special thanks to Marukyu, sillypairs, incnone, Worse Than You, Jethrain, and many others for their assistance on this project.
+Special thanks to Marukyu, sillypairs, incnone, Worse Than You, Jethrain, Grimy, Teraka, and many others for their assistance on this project.
