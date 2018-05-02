@@ -19,6 +19,7 @@ Function Main: Int()
 
     Level.NewLevel(1, 1, 0, False, Null, False)
     Level.NewLevel(2, 1, 0, False, Null, False)
+    Level.NewLevel(3, 1, 0, False, Null, False)
 
     Return 0
 End Function
