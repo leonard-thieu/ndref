@@ -3970,33 +3970,32 @@ Class Level
 
             Local point: Point
 
-            If extraEnemies > 0
-                Local i := 500
-                For i = i - 1 Until 0 Step -1
-                    point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
-                    If point = Null Then Continue
+            Local i := 500
+            For i = i - 1 Until 0 Step -1
+                If extraEnemies <= 0 Then Exit
 
-                    Local enemyRoll := Util.RndIntRangeFromZero(3, True)
-                    Select enemyRoll
-                        Case 0
-                            New Wraith(point.x, point.y, 1)
-                        Case 1
-                            point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
-                            If point = Null Then Continue
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
 
-                            Local batLevel := Util.RndIntRange(1, 2, True, -1)
-                            New Bat(point.x, point.y, batLevel)
-                        Case 2
-                            Local skeletonLevel := Util.RndIntRange(2, 3, True, -1)
-                            New Skeleton(point.x, point.y, skeletonLevel)
-                        Default
-                            New Ghost(point.x, point.y, 1)
-                    End Select
+                extraEnemies -= 1
 
-                    extraEnemies -= 1
-                    If extraEnemies <= 0 Then Exit
-                End For
-            End If
+                Local enemyRoll := Util.RndIntRangeFromZero(3, True)
+                Select enemyRoll
+                    Case 0
+                        New Wraith(point.x, point.y, 1)
+                    Case 1
+                        point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                        If point = Null Then Continue
+
+                        Local batLevel := Util.RndIntRange(1, 2, True, -1)
+                        New Bat(point.x, point.y, batLevel)
+                    Case 2
+                        Local skeletonLevel := Util.RndIntRange(2, 3, True, -1)
+                        New Skeleton(point.x, point.y, skeletonLevel)
+                    Default
+                        New Ghost(point.x, point.y, 1)
+                End Select
+            End For
 
             Select controller_game.currentLevel
                 Case 1
