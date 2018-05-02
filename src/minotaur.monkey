@@ -3,18 +3,29 @@
 Import enemy
 Import logger
 Import point
+Import shrine
 
 Class Minotaur Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Minotaur.New(Int, Int, Int)")
+        If Shrine.warShrineActive
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "minotaur", "", -1, -1)
+
+        Self.overrideHitSound = "minotaurHit"
+        Self.overrideAttackSound = "minotaurAttack"
+        Self.overrideDeathSound = "minotaurDeath"
+
+        Self.initalYOff = Self.yOff
     End Method
 
     Field initalYOff: Int
     Field hasRoared: Bool
-    Field chargingDir: Int
+    Field chargingDir: Int = -1
     Field stunnedTime: Int
 
     Method GetMovementDirection: Point()
