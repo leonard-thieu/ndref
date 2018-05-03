@@ -6216,7 +6216,43 @@ Class Level
     End Function
 
     Function RemoveSomeWallsAwayFromCorridors: Void(percentToRemove: Float, includeCorridors: Bool, maxHealth: Int)
-        Debug.TraceNotImplemented("Level.RemoveSomeWallsAwayFromCorridors(Float, Bool, Int)")
+        Local removalCandidates := New IntPointList()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsWall(Not includeCorridors, True, False, False)
+                    If tile.health <= maxHealth
+                        removalCandidates.AddLast(New Point(tile.x, tile.y))
+                    End If
+                End If
+            End For
+        End For
+
+        Local i := 500
+        Local numWallsToRemove := removalCandidates.Count() * percentToRemove
+
+        For Local i = i - 1 Until 0 Step -1
+            If removalCandidates.IsEmpty() Then Exit
+            If numWallsToRemove <= 0 Then Exit
+
+            Local removalCandidatesIndex := Util.RndIntRangeFromZero(removalCandidates.Count() - 1, True)
+            Local removalCandidatesArray := removalCandidates.ToArray()
+            Local wallToRemove := removalCandidatesArray[removalCandidatesIndex]
+
+            If Level.IsFloorAdjacent(wallToRemove.x, wallToRemove.y)
+                If Not Level.IsCorridorFloorOrDoorAdjacent(wallToRemove.x, wallToRemove.y)
+                    Level.PlaceTileRemovingExistingTiles(wallToRemove.x, wallToRemove.y, False, False, -1, False)
+                    numWallsToRemove -= 1
+                End If
+            End If
+
+            removalCandidates.RemoveEach(wallToRemove)
+        End For
+
+        If i <= 0
+            Debug.Log("****************** RemoveSomeWallsAwayFromCorridors: Unable to remove the desired number of walls! ******************")
+        End If
     End Function
 
     Function RemoveTileAt: Void(xVal: Int, yVal: Int)
