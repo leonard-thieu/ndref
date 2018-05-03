@@ -1075,10 +1075,10 @@ Class Level
             End For
         End For
 
-        Level.PlaceTileRemovingExistingTiles(-2, -4, TileType.BossFloor, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(2, -4, TileType.BossFloor, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(-2, -5, TileType.BossFloor, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(2, -5, TileType.BossFloor, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(-2, -4, TileType.BossWall, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(2, -4, TileType.BossWall, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(-2, -5, TileType.BossWall, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(2, -5, TileType.BossWall, False, -1, False)
 
         Level.CreateRoom(-4, -15, 9, 9, False, RoomType.Boss, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
 
