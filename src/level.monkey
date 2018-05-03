@@ -5276,14 +5276,182 @@ Class Level
                         New Slime(point.x, point.y, 3)
                     End If
             End Select
-
-            ' TODO: Aria section
-            ' TODO: Tempo section
         End For
+
+        If Util.IsCharacterActive(Character.Aria)
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone1() (Aria)")
+        End If
+
+        If Util.IsCharacterActive(Character.Tempo)
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone1() (Tempo)")
+        End If
     End Function
 
     Function PlaceEnemiesZone2: Void()
-        Debug.TraceNotImplemented("Level.PlaceEnemiesZone2()")
+        Debug.Log("PLACEENEMIES: Placing zone 2 enemies")
+
+        For Local room := EachIn Level.rooms
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit
+                Local lastRoom := New RectRoom(room)
+                Level.PlaceAppropriateMinibosses(lastRoom)
+
+                Local exitCoords := Level.GetStandardExitCoords()
+                Level.PlaceShopkeeperGhostIfNeededAt(exitCoords.x, exitCoords.y)
+            End If
+
+            Local point := Level.GetRandPointInRoomWithOptions(room, True, True, False)
+            If point = Null Then Continue
+
+            New MushroomLight(point.x, point.y, 1)
+
+            Local mushroomLightRoll := Util.RndIntRangeFromZero(10, True)
+            If mushroomLightRoll = 0
+                point = Level.GetRandPointInRoomWithOptions(room, True, True, False)
+                If point = Null Then Continue
+
+                New MushroomLight(point.x, point.y, 1)
+            End If
+
+            Local rectRoom := New RectRoom(room)
+            Level.PlaceRareEnemies(rectRoom, room.hasExit)
+
+            Local extraEnemies := Level.GetExtraEnemiesBase()
+            If Util.IsCharacterActive(Character.Aria)
+                extraEnemies += 1
+            End If
+
+            Local i := 500
+            For Local i = i - 1 Until 0 Step -1
+                If extraEnemies <= 0 Then Exit
+
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                extraEnemies -= 1
+
+                Local enemyTypeRoll := Util.RndIntRangeFromZero(4, True)
+                Select enemyTypeRoll
+                    Case 0
+                        New Wight(point.x, point.y, 1)
+                    Case 1
+                        point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                        If point = Null Then Continue
+
+                        Local skeletonMageLevelRoll := Util.RndIntRange(2, 3, True, -1)
+                        New SkeletonMage(point.x, point.y, skeletonMageLevelRoll)
+                    Case 2
+                        Local armoredSkeletonLevelRoll := Util.RndIntRange(2, 3, True, -1)
+                        New ArmoredSkeleton(point.x, point.y, armoredSkeletonLevelRoll)
+                    Case 3
+                        Local batLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        New Bat(point.x, point.y, batLevelRoll)
+                    Default
+                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        New Armadillo(point.x, point.y, armadilloLevelRoll)
+                End Select
+            End For
+
+            Select controller_game.currentLevel
+                Case 1
+                    Local skeletonMageRoll := Util.RndBool(True)
+                    If skeletonMageRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New SkeletonMage(point.x, point.y, 1)
+                    End If
+
+                    Local mushroomOrArmoredSkeletonRoll := Util.RndBool(True)
+                    If mushroomOrArmoredSkeletonRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Mushroom(point.x, point.y, 1)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New ArmoredSkeleton(point.x, point.y, 1)
+                    End If
+
+                    Local armadilloRoll := Util.RndIntRangeFromZero(3, True)
+                    If armadilloRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Armadillo(point.x, point.y, 1)
+                    End If
+
+                    Local mushroomOrGolemRoll := Util.RndIntRangeFromZero(2, True)
+                    If mushroomOrGolemRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Golem(point.x, point.y, 1)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Mushroom(point.x, point.y, 1)
+                    End If
+
+                    If room.hasExit
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Golem(point.x, point.y, 1)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New ArmoredSkeleton(point.x, point.y, 1)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Armadillo(point.x, point.y, 1)
+
+                        If Util.IsCharacterActive(Character.Aria)
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Sarcophagus(point.x, point.y, 1)
+                        End If
+                    End If
+
+                    Local cloneOrArmoredSkeletonRoll := Util.RndIntRangeFromZero(2, True)
+                    If cloneOrArmoredSkeletonRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Clone(point.x, point.y, 1)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New ArmoredSkeleton(point.x, point.y, 1)
+                    End If
+                Case 2
+                    Debug.TraceNotImplemented("Level.PlaceEnemiesZone2() (Level 2)")
+                Default
+                    Debug.TraceNotImplemented("Level.PlaceEnemiesZone2() (Other levels)")
+            End Select
+        End For
+
+        If Util.IsCharacterActive(Character.Aria)
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone2() (Aria)")
+        End If
+
+        If Util.IsCharacterActive(Character.Tempo)
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone2() (Tempo)")
+        End If
     End Function
 
     Function PlaceEnemiesZone3: Void()
