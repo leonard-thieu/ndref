@@ -16,6 +16,7 @@ Import conjurer
 Import controller_game
 Import controller_level_editor
 Import crate
+Import diamonddealer
 Import dragon
 Import entity
 Import exitmap
@@ -75,6 +76,7 @@ Import transmogrifier
 Import trap
 Import trapchest
 Import util
+Import weaponmaster
 Import weighted_picker
 Import wraith
 Import xml
@@ -1961,12 +1963,6 @@ Class Level
         Return True
     End Function
 
-    Function _FailMap: Bool()
-        Level.CreateMap(Null)
-
-        Return False
-    End Function
-
     Function CreateMapZone2: Bool()
         Debug.TraceNotImplemented("Level.CreateMapZone2()")
     End Function
@@ -1981,6 +1977,12 @@ Class Level
 
     Function CreateMapZone5: Bool(recursive: Bool)
         Debug.TraceNotImplemented("Level.CreateMapZone5(Bool)")
+    End Function
+
+    Function _FailMap: Bool()
+        Level.CreateMap(Null)
+
+        Return False
     End Function
 
     Function CreateMerlin: Void()
