@@ -5687,8 +5687,197 @@ Class Level
         Return room
     End Function
 
+    Function PlaceRoomZone2: RoomData(roomToAttachTo: RoomData)
+        Return Level.PlaceRoomZone2(RoomType.None, roomToAttachTo)
+    End Function
+
     Function PlaceRoomZone2: RoomData(roomType: Int, roomToAttachTo: RoomData)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone2(Int, RoomData)")
+        Level.pendingTiles.Clear()
+        Tile.CleanUpPendingTiles()
+
+        Local wideCorridor := True
+        Select roomType
+            Case RoomType.Shop,
+                 RoomType.Secret,
+                 RoomType.Vault
+                wideCorridor = False
+        End Select
+
+        Local x: Int
+        Local y: Int
+
+        If roomToAttachTo
+            While True
+                If roomToAttachTo.x = x Then Exit
+                If roomToAttachTo.x + roomToAttachTo.w = x Then Exit
+                If roomToAttachTo.y = y Then Exit
+                If roomToAttachTo.y + roomToAttachTo.h = y Then Exit
+
+                x = roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.w, True)
+                y = roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.h, True)
+            End While
+        Else
+            Local tileLocation := Level.FindTileOfType(TileType.Unknown98, True)
+            x = tileLocation.x
+            y = tileLocation.y
+        End If
+
+        Local numFloor: Int
+
+        If Level.GetTileTypeAt(x + 1, y) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x, y + 1) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x - 1, y) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x, y - 1) = TileType.Floor Then numFloor += 1
+
+        If numFloor <> 1
+            Debug.WriteLine("Failed to place room for zone 2. Attachment point has " + numFloor + " tiles adjacent that are Floor (expected 1).")
+            Return Null
+        End If
+
+        Local moveX := 0 ' Possible values: -1, 0, 1
+        Local moveY := 0 ' Possible values: -1, 0, 1
+
+        If Level.GetTileTypeAt(x + 1, y) = TileType.Floor Then moveX = -1
+        If Level.GetTileTypeAt(x, y + 1) = TileType.Floor Then moveY = -1
+        If Level.GetTileTypeAt(x - 1, y) = TileType.Floor Then moveX = 1
+        If Level.GetTileTypeAt(x, y - 1) = TileType.Floor Then moveY = 1
+
+        Local horizontal := True
+        If moveX = 0 Then horizontal = False
+
+        Level.carveX = x
+        Level.carveY = y
+
+        If Not Level.CarveNewCorridor(moveX, moveY, horizontal, True, False, roomType, wideCorridor) Then Return Null
+
+        Local wVal := Util.RndIntRange(8, 7, True, -1)
+        Local hVal := Util.RndIntRange(7, 6, True, -1)
+
+        Select roomType
+            Case RoomType.Shop
+                wVal = 6
+                hVal = 8
+            Case RoomType.Secret
+                wVal = 4
+                hVal = 3
+            Case RoomType.Vault
+                wVal = 4
+                hVal = 3
+        End Select
+
+        Local xVal: Int
+        Local yVal: Int
+        Local xOff: Int
+        Local yOff: Int
+        Local originX := Level.carveX
+        Local originY := Level.carveY
+
+        Select moveX
+            Case -1
+                yOff = Util.RndIntRangeFromZero(hVal - 2, True)
+
+                If wideCorridor
+                    yOff = Util.RndIntRangeFromZero(hVal - 3, True)
+                End If
+
+                xVal = originX - wVal
+                yVal = originY - yOff - 1
+            Case 1
+                yOff = Util.RndIntRangeFromZero(hVal - 2, True)
+
+                If wideCorridor
+                    yOff = Util.RndIntRangeFromZero(hVal - 3, True)
+                End If
+
+                xVal = originX
+                yVal = originY - yOff - 1
+            Default
+                xOff = Util.RndIntRangeFromZero(wVal - 2, True)
+
+                If wideCorridor
+                    xOff = Util.RndIntRangeFromZero(wVal - 3, True)
+                End If
+
+                xVal = originX - xOff - 1
+                yVal = originY
+                If moveY = -1 Then yVal -= hVal
+        End Select
+
+        Local originX2 := originX + 1
+        Local originY2 := originY
+
+        If horizontal
+            originX2 = originX
+            originY2 = originY + 1
+        End If
+
+        If Not Level.CreateRoom(xVal, yVal, wVal, hVal, True, roomType, originX, originY, originX2, originY2, wideCorridor, TileType.DirtWall, False, True)
+            Return Null
+        End If
+
+        For Local pendingTilesOnXNode := EachIn Level.pendingTiles
+            For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
+                Local tileX := pendingTilesOnXNode.Key()
+                Local tileY := pendingTileNode.Key()
+
+                Local tile := Level.GetTileAt(tileX, tileY)
+                Local tileType := pendingTileNode.Value().GetType()
+                If tile <> Null Then tile.Die()
+
+                New Tile(tileX, tileY, tileType, False, -1)
+            End For
+        End For
+
+        Select roomType
+            Case RoomType.Shop
+                Level.PlaceShopItemsAt(x, y, Null)
+            Case RoomType.Secret,
+                 RoomType.Vault
+                ' Do nothing
+            Default
+                Local addDoorRoll := Util.RndIntRangeFromZero(100, True)
+                Local addDoor: Bool
+                Select controller_game.currentLevel
+                    Case 1 If addDoorRoll <= 20 Then addDoor = True
+                    Case 2 If addDoorRoll <= 15 Then addDoor = True
+                    Case 3 If addDoorRoll <= 10 Then addDoor = True
+                    Default
+                        If controller_game.currentLevel > 3
+                            If addDoorRoll <= 5 Then addDoor = True
+                        End If
+                End Select
+
+                If addDoor
+                    If Level.isHardcoreMode
+                        If wideCorridor
+                            New Tile(originX, originY, TileType.Door, False, -1)
+                            New Tile(originX2, originY2, TileType.Door, False, -1)
+                        Else
+                            Local metalDoorRoll := Util.RndIntRangeFromZero(8, True)
+                            If metalDoorRoll = 0
+                                New Tile(originX, originY, TileType.MetalDoor, False, -1)
+                            Else
+                                New Tile(originX, originY, TileType.Door, False, -1)
+                            End If
+                        End If
+                    Else
+                        New Tile(originX, originY, TileType.Door, False, -1)
+                        If wideCorridor
+                            New Tile(originX2, originY2, TileType.Door, False, -1)
+                        End If
+                    End If
+                Else
+                    New Tile(originX, originY, TileType.CorridorFloor, False, -1)
+                    If wideCorridor
+                        New Tile(originX2, originY2, TileType.CorridorFloor, False, -1)
+                    End If
+                End If
+        End Select
+
+        Local room := New RoomData(xVal, yVal, wVal, hVal, Level.lastCreatedRoomType, False)
+        Level.rooms.AddLast(room)
+
+        Return room
     End Function
 
     Function PlaceRoomZone3: RoomData(roomType: Int, roomToAttachTo: RoomData)
