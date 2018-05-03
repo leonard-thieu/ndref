@@ -3,13 +3,26 @@
 Import enemy
 Import entity
 Import logger
+Import shrine
 
 Class Golem Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Golem.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive And
+           l = 1
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "golem")
+
+        Self.overrideAttackSound = "golemAttack"
+        Self.overrideHitSound = "golemHit"
+        Self.overrideDeathSound = "golemDeath"
+        Self.overrideMoveSound = "golemChase"
     End Method
 
     Field droppedOoze: Bool
