@@ -4368,12 +4368,6 @@ Class Level
 
         Select level
             Case LevelType.SeededAllZonesMode
-                Level.GenerateHardcoreZoneOrder()
-                controller_game.currentZone = Level.zoneOrder.Get(0)
-                controller_game.currentLevel = 1
-                controller_game.currentDepth = 1
-                Level.isHardcoreMode = True
-
                 Level.isSeededMode = True
                 Level.randSeedString = "1"
                 Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
@@ -4401,10 +4395,17 @@ Class Level
 
         Debug.Log("NEWLEVEL: Using seed " + randSeed)
 
+        Level.creatingMap = True
+
         Util.SeedRnd(randSeed)
 
         Select level
             Case LevelType.SeededAllZonesMode
+                Level.GenerateHardcoreZoneOrder()
+                controller_game.currentZone = Level.zoneOrder.Get(0)
+                controller_game.currentLevel = 1
+                controller_game.currentDepth = 1
+                Level.isHardcoreMode = True
                 Item.CreateItemPools()
 
                 Util.SeedRnd(randSeed)
@@ -4420,8 +4421,6 @@ Class Level
                     controller_game.players[i] = New Player(i, characterID)
                 End For
         End Select
-
-        Level.creatingMap = True
 
         Select controller_game.currentLevel
             Case LevelType.BossBattle
