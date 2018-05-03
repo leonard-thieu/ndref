@@ -4382,6 +4382,12 @@ Class Level
                 controller_game.currentLevel += 1
         End Select
 
+        ' TODO: Verify that this is correct.
+        If controller_game.currentLevel = 5
+            controller_game.currentZone += 1
+            controller_game.currentLevel = 1
+        End If
+
         If Level.wholeRunRNG = Null
             Level.wholeRunRNG = RNG.Make(Level.randSeed)
         End If
