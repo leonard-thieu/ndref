@@ -4422,12 +4422,11 @@ Class Level
             Default
                 If Level.CreateMap(levelObj)
                     Debug.WriteLine("Created map.")
+                    Level.DumpMap()
                 Else
                     Debug.WriteLine("Failed to create map.")
                 End If
         End Select
-
-        Level.DumpMap()
 
         Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool)")
     End Function
