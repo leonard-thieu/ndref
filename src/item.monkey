@@ -866,7 +866,7 @@ Class Item Extends Entity
             End Select
         End If
 
-        If Util.IsCharacterActive(Character.Unknown14)
+        If Util.IsCharacterActive(Character.Reaper)
             If Item.IsItemOfClass(n, "isFamiliar") Then Return False
             If name.Contains("familiar") Then Return False
 
