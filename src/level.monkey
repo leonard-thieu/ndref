@@ -4378,7 +4378,8 @@ Class Level
 
         ' TODO: Verify that this is correct.
         If controller_game.currentLevel = 5
-            controller_game.currentZone += 1
+            controller_game.currentDepth += 1
+            controller_game.currentZone = controller_game.currentDepth
             controller_game.currentLevel = 1
         End If
 
