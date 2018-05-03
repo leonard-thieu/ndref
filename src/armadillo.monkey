@@ -4,17 +4,29 @@ Import enemy
 Import entity
 Import logger
 Import point
+Import shrine
 
 Class Armadillo Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Armadillo.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive And
+           l = 1
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "armadillo")
+
+        Self.overrideHitSound = "armadilloHit"
+        Self.overrideAttackSound = "armadilloAttack"
+        Self.overrideDeathSound = "armadilloDeath"
     End Method
 
-    Field chargeNext: Int
-    Field chargingDir: Int
+    Field chargeNext: Int = -1
+    Field chargingDir: Int = -1
     Field stunnedTime: Int
 
     Method AttemptCharge: Void(target: Entity, immediate: Bool)
