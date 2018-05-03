@@ -230,7 +230,13 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function KillAllEnemies: Void()
-        Debug.TraceNotImplemented("Enemy.KillAllEnemies()")
+        Enemy.killingAllEnemies = True
+
+        For Local enemy := EachIn Enemy.enemyList
+            enemy.Die()
+        End For
+        
+        Enemy.killingAllEnemies = False
     End Function
 
     Function KillAllNonConductorEnemies: Void()
@@ -457,7 +463,9 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function SetEnemiesToDropNoCoinsOverride: Void()
-        Debug.TraceNotImplemented("Enemy.SetEnemiesToDropNoCoinsOverride()")
+        For Local enemy := EachIn Enemy.enemyList
+            enemy.dropNoCoinsOverride = True
+        End For
     End Function
 
     Function StartRandomizerRun: Void()

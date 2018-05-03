@@ -37,7 +37,9 @@ Class King Extends Enemy
     Field lastMan: Bool
 
     Method Die: Void()
-        Debug.TraceNotImplemented("King.Die()")
+        Enemy.SetEnemiesToDropNoCoinsOverride()
+        Super.Die()
+        Enemy.KillAllEnemies()
     End Method
 
     Method GetMovementDirection: Point()
