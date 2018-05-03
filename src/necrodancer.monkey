@@ -14,12 +14,15 @@ Const DUMP_ITEM_POOLS := False
 Function Main: Int()
     GameData.LoadGameDataXML(True)
 
-    controller_game.players[0] = New Player(0, Character.Cadence)
+    controller_game.players[0] = New Player(controller_game.player1, Character.Cadence)
     controller_game.numPlayers = 1
 
-    Level.NewLevel(1, 1, 0, False, Null, False)
-    Level.NewLevel(2, 1, 0, False, Null, False)
-    Level.NewLevel(3, 1, 0, False, Null, False)
+    controller_game.currentLevel = LevelType.Lobby
+
+    Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
 
     Return 0
 End Function

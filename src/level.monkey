@@ -3713,8 +3713,16 @@ Class Level
 
         Level.placedArena = False
 
-        controller_game.currentLevel = level
-        controller_game.currentZone = zone
+        Select level
+            Case LevelType.SeededAllZonesMode
+                Level.GenerateHardcoreZoneOrder()
+                controller_game.currentZone = Level.zoneOrder.Get(0)
+                controller_game.currentLevel = 1
+                controller_game.currentDepth = 1
+                Level.isHardcoreMode = True
+            Case LevelType.NextLevel
+                controller_game.currentLevel += 1
+        End Select
 
         Level.isSeededMode = True
         Level.randSeedString = "1"
@@ -3727,41 +3735,45 @@ Class Level
 
         Level.currentFloorRNG = Level.wholeRunRNG.Split()
         Local randSeed := Level.currentFloorRNG.Rand()
-        ' TODO: Deterministic start log message
+
+        Debug.Log("DETERMINISTIC START: " + Level.randSeed +
+                                   " z: " + controller_game.currentZone +
+                                   " l: " + controller_game.currentLevel)
 
         Debug.Log("NEWLEVEL: Using seed " + randSeed)
 
         Util.SeedRnd(randSeed)
 
+        Select level
+            Case LevelType.SeededAllZonesMode
+                Item.CreateItemPools()
+
+                Util.SeedRnd(randSeed)
+
+                For Local i := 0 Until controller_game.numPlayers
+                    Local characterID: Int
+                    Local player := controller_game.players[i]
+                    If player <> Null
+                        characterID = player.characterID
+                        player.Die()
+                    End If
+
+                    controller_game.players[i] = New Player(i, characterID)
+                End For
+        End Select
+
         Level.creatingMap = True
 
-        If level = 1
-            Level.GenerateHardcoreZoneOrder()
-            controller_game.currentZone = Level.zoneOrder.Get(0)
-            controller_game.currentLevel = 1
-            controller_game.currentDepth = 1
-            Level.isHardcoreMode = True
-            Item.CreateItemPools()
-
-            Util.SeedRnd(randSeed)
-
-            For Local i := 0 Until controller_game.numPlayers
-                Local characterID: Int
-                Local player := controller_game.players[i]
-                If player <> Null
-                    characterID = player.characterID
-                    player.Die()
+        Select controller_game.currentLevel
+            Case LevelType.BossBattle
+                Level.CreateBossBattle()
+            Default
+                If Level.CreateMap(levelObj)
+                    Debug.WriteLine("Created map.")
+                Else
+                    Debug.WriteLine("Failed to create map.")
                 End If
-
-                controller_game.players[i] = New Player(i, characterID)
-            End For
-        End If
-
-        If Level.CreateMap(levelObj)
-            Debug.WriteLine("Created map.")
-        Else
-            Debug.WriteLine("Failed to create map.")
-        End If
+        End Select
 
         Level.DumpMap()
 

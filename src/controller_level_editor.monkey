@@ -16,7 +16,7 @@ Import textsprite
 
 Class ControllerLevelEditor Extends Controller
 
-    Global playingLevel: Int
+    Global playingLevel: Int = -1
     Global storedEditor: Object
 
     Function _EditorFix: Void() End
