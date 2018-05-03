@@ -781,6 +781,10 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.ImageFlipX(Bool)")
     End Method
 
+    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String)
+        Self.Init(xVal, yVal, l, name, "", -1, -1)
+    End Method
+
     Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
         Self.x = xVal
         Self.y = yVal
