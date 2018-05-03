@@ -9,7 +9,20 @@ Class FakeWall Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("FakeWall.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "fakewall")
+
+        Self.stealth = True
+
+        If Self.level = 2
+            Self.containsItem = True
+        End If
+
+        Self.overrideMoveSound = "wallMonsterChase"
+        Self.overrideDeathSound = "wallMonsterDeath"
+        Self.overrideHitSound = "wallMonsterHit"
+        Self.overrideAttackSound = "wallMonsterAttack"
     End Method
 
     Field hasMoved: Bool
