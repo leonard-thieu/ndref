@@ -118,8 +118,8 @@ Class Sprite Extends Tweenable
         Debug.TraceNotImplemented("Sprite.GetFrame()")
     End Method
 
-    Method GetImage: Object()
-        Debug.TraceNotImplemented("Sprite.GetImage()")
+    Method GetImage: Image()
+        Return Sprite.imageMap.Get(Self.path)
     End Method
 
     Method GetNumFrames: Int()
@@ -194,6 +194,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetHandle: Void(xVal: Int, yVal: Int)
+        'Self.GetImage().SetHandle(xVal, yVal)
         Debug.TraceNotImplemented("Sprite.SetHandle(Int, Int)")
     End Method
 

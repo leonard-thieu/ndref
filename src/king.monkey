@@ -1,16 +1,35 @@
 'Strict
 
 Import enemy
-Import entity
 Import logger
+Import player_class
 Import point
+Import shrine
+Import util
 
 Class King Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("King.New(Int, Int, Int)")
+        If Shrine.warShrineActive
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "king", "", -1, -1)
+
+        Self.initialYOff = Self.yOff
+
+        Self.ActivateLight(0.01, 0.02)
+
+        Self.overrideAttackSound = "kingAttack"
+        Self.overrideDeathSound = "kingDeath"
+        Self.overrideHitSound = "kingHit"
+
+        If Util.IsCharacterActive(Character.Monk) Or
+           Util.IsCharacterActive(Character.Coda)
+            Self.coinsToDrop = 1
+        End If
     End Method
 
     Field initialYOff: Int

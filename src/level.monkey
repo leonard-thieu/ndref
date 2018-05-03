@@ -9,6 +9,7 @@ Import banshee
 Import bat
 Import bat_miniboss
 Import beastmaster
+Import bishop
 Import bossmaster
 Import chest
 Import conjurer
@@ -26,6 +27,8 @@ Import input2
 Import intpointlist
 Import intpointset
 Import intpointstack
+Import king
+Import knight
 Import level_object
 Import logger
 Import merlin
@@ -39,14 +42,17 @@ Import nightmare
 Import npc
 Import ogre
 Import particles
+Import pawn
 Import pawnbroker
 Import player_class
 Import poltergeist
 Import portal_seg
+Import queen
 Import rect
 Import renderable_object
 Import replay
 Import rng
+Import rook
 Import room_with_door
 Import roomdata
 Import saleitem
@@ -1003,11 +1009,7 @@ Class Level
 
         Level.outsideBossChamber = True
 
-        If Level.previousLevelUnkilledStairLockingMinibosses.Length() > 0 And
-           Not Level.pacifismModeOn And
-           Not Level.isLevelEditor And
-           ControllerLevelEditor.playingLevel = -1 And
-           Not Level.skipNextPenaltyBox
+        If Level.WantPenaltyBox()
             Level.PlacePenaltyBoxEnemies()
 
             Level.minibossFormerWall = New List<MinibossTileData>()
@@ -1037,7 +1039,205 @@ Class Level
     End Function
 
     Function CreateBossBattle3: Void()
-        Debug.TraceNotImplemented("Level.CreateBossBattle3()")
+        Debug.Log("CREATEBOSSBATTLE3: Creating deep blues boss battle.")
+
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Level.CreateRoom(-3, -3, 6, 6, False, RoomType.Boss, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+
+        Level.EnsureBossTraining("deepblues")
+
+        If Level.isTrainingMode
+            Level.AddExit(0, 2, LevelType.Lobby, 1)
+            Level.PlaceTileRemovingExistingTiles(2, 0, TileType.Stairs, False, -1, False)
+        End If
+
+        If Util.IsCharacterActive(Character.Tempo)
+            If Level.WantPenaltyBox()
+                New Sarcophagus(-2, 2, 1)
+            End If
+        End If
+
+        Level.PlaceTileRemovingExistingTiles(-1, -1, TileType.BossWall, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(1, -1, TileType.BossWall, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(-1, 1, TileType.BossWall, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(1, 1, TileType.BossWall, False, -1, False)
+
+        Level.GetTileAt(-1, -1).AddTorch()
+        Level.GetTileAt(1, -1).AddTorch()
+        Level.GetTileAt(-1, 1).AddTorch()
+        Level.GetTileAt(1, 1).AddTorch()
+
+        For Local y := -3 To -5 Step -1
+            For Local x := -1 To 1
+                Level.PlaceTileRemovingExistingTiles(x, y, TileType.BossFloor, False, -1, False)
+            End For
+        End For
+
+        Level.PlaceTileRemovingExistingTiles(-2, -4, TileType.BossFloor, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(2, -4, TileType.BossFloor, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(-2, -5, TileType.BossFloor, False, -1, False)
+        Level.PlaceTileRemovingExistingTiles(2, -5, TileType.BossFloor, False, -1, False)
+
+        Level.CreateRoom(-4, -15, 9, 9, False, RoomType.Boss, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+
+        For Local x := -1 To 1
+            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door, False, -1, False)
+        End For
+
+        For Local x := -1 To 1
+            Level.GetTileAt(x, -6).SetDoorTrigger(2)
+        End For
+
+        Level.SetMagicBarrier(True)
+
+        For Local x := -3 To 4
+            For Local y := -14 To -7
+                Level.GetTileAt(x, y).SetTrigger(1)
+            End For
+        End For
+
+        Level.GetTileAt(-2, -6).AddTorch()
+        Level.GetTileAt(2, -6).AddTorch()
+        Level.GetTileAt(-1, -15).AddTorch()
+        Level.GetTileAt(3, -15).AddTorch()
+        Level.GetTileAt(-4, -13).AddTorch()
+        Level.GetTileAt(-4, -9).AddTorch()
+        Level.GetTileAt(5, -12).AddTorch()
+        Level.GetTileAt(5, -8).AddTorch()
+
+        Local pawnMoveDelayBase: Int
+        Local leftKnightMoveDelay: Int
+        Local rightKnightMoveDelay: Int
+
+        Local moveDelayRoll := Util.RndIntRangeFromZero(8, True)
+        If moveDelayRoll <> 0
+            pawnMoveDelayBase = 1
+            leftKnightMoveDelay = 4
+            rightKnightMoveDelay = 6
+        Else
+            pawnMoveDelayBase = 2
+
+            Local knightMoveDelayRoll := Util.RndIntRangeFromZero(1, True)
+            If knightMoveDelayRoll = 0
+                leftKnightMoveDelay = 1
+                rightKnightMoveDelay = 6
+            Else
+                leftKnightMoveDelay = 6
+                rightKnightMoveDelay = 1
+            End If
+        End If
+
+        Local pawnMoveDelayDirectionRoll := Util.RndIntRangeFromZero(1, True)
+        Local pawnMoveDelayDirection := 0
+        If pawnMoveDelayDirectionRoll = 1
+            pawnMoveDelayDirection = 7
+        End If
+
+        Local rookLevel: Int
+        Local leftKnightLevel: Int
+        Local bishopLevel: Int
+        Local kingLevel: Int
+        Local queenLevel: Int
+        Local rightKnightLevel: Int
+
+        Select controller_game.currentDepth
+            Case 2
+                Select Util.RndIntRangeFromZero(2, True)
+                    Case 0
+                        rookLevel = 2
+                        leftKnightLevel = 2
+                        bishopLevel = 1
+                        rightKnightLevel = 1
+                    Case 1
+                        rookLevel = 1
+                        leftKnightLevel = 1
+                        bishopLevel = 2
+                        rightKnightLevel = 2
+                    Default
+                        rookLevel = 1
+                        leftKnightLevel = 2
+                        bishopLevel = 1
+                        rightKnightLevel = 2
+                End Select
+
+                kingLevel = 1
+                queenLevel = 2
+            Case 3
+                rookLevel = 1
+                leftKnightLevel = 1
+                bishopLevel = 1
+                kingLevel = 2
+                queenLevel = 1
+                rightKnightLevel = 1
+            Case 4
+                rookLevel = 1
+                leftKnightLevel = 2
+                bishopLevel = 1
+                kingLevel = 2
+                queenLevel = 2
+                rightKnightLevel = 2
+            Default
+                If controller_game.currentDepth <= 1
+                    rookLevel = 1
+                    leftKnightLevel = 1
+                    bishopLevel = 1
+                    kingLevel = 1
+                    queenLevel = 1
+                    rightKnightLevel = 1
+                Else
+                    rookLevel = 2
+                    leftKnightLevel = 2
+                    bishopLevel = 2
+                    kingLevel = 2
+                    queenLevel = 2
+                    rightKnightLevel = 2
+                End If
+        End Select
+
+        Local leftRook := New Rook(-3, -14, rookLevel)
+        leftRook.currentMoveDelay = 8
+        leftRook.castleNextMove = True
+
+        Local leftKnight := New Knight(-2, -14, leftKnightLevel)
+        leftKnight.currentMoveDelay = leftKnightMoveDelay
+
+        Local leftBishop := New Bishop(-1, -14, bishopLevel)
+        leftBishop.currentMoveDelay = 4
+
+        Local king := New King(0, -14, kingLevel)
+        king.currentMoveDelay = 8
+
+        Local queen := New Queen(1, -14, queenLevel)
+        queen.currentMoveDelay = 6
+
+        Local rightBishop := New Bishop(2, -14, bishopLevel)
+        rightBishop.currentMoveDelay = 6
+
+        Local rightKnight := New Knight(3, -14, rightKnightLevel)
+        rightKnight.currentMoveDelay = rightKnightMoveDelay
+
+        Local rightRook := New Rook(4, -14, rookLevel)
+        rightRook.currentMoveDelay = 8
+
+        Local pawnMoveDelayOffset := Util.RndIntRangeFromZero(7, True)
+        
+        Local pawnLevel := 1
+        If controller_game.currentDepth >= 3
+            pawnLevel = 2
+        End If
+
+        For Local i := 0 Until 8
+            Local pawn := New Pawn(i - 3, -13, pawnLevel)
+            pawn.currentMoveDelay = pawnMoveDelayBase + math.Abs(pawnMoveDelayDirection - ((pawnMoveDelayOffset + i) Mod 8))
+        End For
+
+        If Level.isHardMode
+            Debug.TraceNotImplemented("Level.CreateBossBattle3() (Hard Mode)")
+        End If
+
+        Enemy.enemiesPaused = True
     End Function
 
     Function CreateBossBattle4: Void()
@@ -6028,7 +6228,16 @@ Class Level
     End Function
 
     Function SetMagicBarrier: Void(on: Bool)
-        Debug.TraceNotImplemented("Level.SetMagicBarrier(Bool)")
+        For Local x := -2 To 3
+            Level.SetMagicBarrierAt(x, -7, on)
+        End For
+    End Function
+
+    Function SetMagicBarrierAt: Void(xVal: Int, yVal: Int, on: Bool)
+        Local tile := Level.GetTileAt(xVal, yVal)
+        If tile <> Null
+            tile.magicBarrier = on
+        End If
     End Function
 
     Function ShopkeeperMissing: Bool()
@@ -6072,7 +6281,11 @@ Class Level
     End Function
 
     Function WantPenaltyBox: Bool()
-        Debug.TraceNotImplemented("Level.WantPenaltyBox()")
+        Return Level.previousLevelUnkilledStairLockingMinibosses.Length() > 0 And
+               Not Level.pacifismModeOn And
+               Not Level.isLevelEditor And
+               ControllerLevelEditor.playingLevel = -1 And
+               Not Level.skipNextPenaltyBox
     End Function
 
     Function WidenCorridors: Void()
