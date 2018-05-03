@@ -1,9 +1,11 @@
 'Strict
 
+Import mojo.graphics
 Import enemy
 Import logger
 Import player_class
 Import point
+Import shrine
 Import sprite
 
 Class SkeletonMage Extends Enemy
@@ -11,7 +13,19 @@ Class SkeletonMage Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("SkeletonMage.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive
+            l = 3
+        End If
+
+        Self.Init(xVal, yVal, l, "skeletonmage")
+
+        Self.gustImage = New Sprite("particles/wind_gust.png", 7, Image.MidHandle)
+
+        Self.overrideHitSound = "skeletonHit"
+        Self.overrideDeathSound = "skeletonDeath"
+        Self.overrideAttackSound = "skeletonAttack"
     End Method
 
     Field gustImage: Sprite
