@@ -5898,9 +5898,6 @@ Class Level
         Level.carveX = x
         Level.carveY = y
 
-        Local width: Int
-        Local height: Int
-
         If Not Level.CarveNewCorridor(moveX, moveY, horizontal, True, False, roomType, wideCorridor) Then Return Null
 
         For Local i := 0 Until 2
@@ -5953,8 +5950,8 @@ Class Level
             End If
         End For
 
-        width = Util.RndIntRange(6, 8, True, -1)
-        height = Util.RndIntRange(5, 7, True, -1)
+        Local width := Util.RndIntRange(6, 8, True, -1)
+        Local height := Util.RndIntRange(5, 7, True, -1)
 
         If roomType = RoomType.Shop
             width = 6
