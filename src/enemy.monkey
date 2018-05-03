@@ -451,7 +451,9 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function SetAllEnemiesMinimumMoveDistance: Void(dist: Int)
-        Debug.TraceNotImplemented("Enemy.SetAllEnemiesMinimumMoveDistance(Int)")
+        For Local enemy := EachIn Enemy.enemyList
+            enemy.minEnemyMoveDistance = 5
+        End For
     End Function
 
     Function SetAllNonNecroDancerEnemyMoveDelays: Void(cmd: Int)
