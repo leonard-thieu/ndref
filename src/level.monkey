@@ -3031,6 +3031,7 @@ Class Level
             If room.type = RoomType.Vault
                 If controller_game.currentLevel = 3
                     Local vaultRoll := Util.RndIntRangeFromZero(5, True)
+                    ' TODO: Does the `Continue` only belong to `FillVault`?
                     If vaultRoll = 0
                         Level.FillVault(room)
                     End If
@@ -4372,14 +4373,14 @@ Class Level
                 controller_game.currentLevel = 1
                 controller_game.currentDepth = 1
                 Level.isHardcoreMode = True
+
+                Level.isSeededMode = True
+                Level.randSeedString = "1"
+                Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
+                If Level.randSeed = -1 Then Level.randSeed = 0
             Case LevelType.NextLevel
                 controller_game.currentLevel += 1
         End Select
-
-        Level.isSeededMode = True
-        Level.randSeedString = "1"
-        Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
-        If Level.randSeed = -1 Then Level.randSeed = 0
 
         If Level.wholeRunRNG = Null
             Level.wholeRunRNG = RNG.Make(Level.randSeed)
