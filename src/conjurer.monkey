@@ -36,8 +36,7 @@ Class Conjurer Extends NPC
 
         Self.DisplayCost()
 
-        ' TODO: Args for `Thing`.
-        Self.box = New Thing()
+        Self.box = New Thing(Self.x + 1, Self.y, True)
     End Method
 
     Field actionCost: Int = 40
