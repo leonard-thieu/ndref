@@ -42,7 +42,9 @@ Class Mole Extends Enemy
     End Method
 
     Method Delete: Void()
-        Debug.TraceNotImplemented("Mole.Delete()")
+        Self.UnoccupyDirt()
+
+        Super.Delete()
     End Method
 
     Method GetMovementDirection: Point()
