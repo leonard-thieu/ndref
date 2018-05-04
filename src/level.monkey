@@ -3816,7 +3816,25 @@ Class Level
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(room: RoomBase, tileType: Int, skipCollisions: Bool)
-        Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType(RoomBase, Int, Bool)")
+        Local i := 200
+        For i = i - 1 Until 0 Step -1
+            Local point := room.GetRandPoint()
+            Local tile := Level.GetTileAt(point.x, point.y)
+            Local tileTypeAtPoint := TileType.Empty
+            If tile <> Null
+                tileTypeAtPoint = tile.GetType()
+            End If
+
+            If tileTypeAtPoint = tileType
+                If Not skipCollisions Or
+                   (Not Util.IsGlobalCollisionAt(point.x, point.y, False, False, False, False) And
+                    Enemy.GetEnemyAt(point.x, point.y, True) = Null)
+                    Return point
+                End If
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function GetRandPointInRoomOfTileType: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, tileType: Int, skipCollisions: Bool)
