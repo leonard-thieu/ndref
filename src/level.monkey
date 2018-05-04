@@ -2279,7 +2279,7 @@ Class Level
         End For
         anotherRooms.AddLast(room1)
 
-        For Local room := EachIn rooms
+        For Local room := EachIn anotherRooms
             Local numTorch := Util.RndIntRange(minTorch, maxTorch, True, -1)
             Local i: Int
             Local minTorchDistance: Float
