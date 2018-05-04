@@ -169,6 +169,9 @@ Class Chest Extends Entity
         Self.secretChest = isSecret
 
         Chest.chestList.AddLast(Self)
+
+        Debug.WriteLine("Placed " + ChestColor.ToString(Self.chestColor) + " Chest at " + (New Point(Self.x, Self.y)).ToString())
+        Debug.WriteLine("    with " + Item.GetDisplayName(Self.contents))
     End Method
 
     Field chestColor: Int = Chest.CHEST_COLOR_NONE
@@ -222,5 +225,26 @@ Class Chest Extends Entity
     Method Update: Void()
         Debug.TraceNotImplemented("Chest.Update()")
     End Method
+
+End Class
+
+Class ChestColor
+
+    Const None: Int = 0
+    Const Red: Int = 1
+    Const Black: Int = 2
+    Const White: Int = 3
+    Const Blue: Int = 4
+
+    Function ToString: String(color: Int)
+        Select color
+            Case ChestColor.Red Return "Red"
+            Case ChestColor.Black Return "Black"
+            Case ChestColor.White Return "Purple"
+            Case ChestColor.Blue Return "Blue"
+        End Select
+
+        Return "None"
+    End Function
 
 End Class
