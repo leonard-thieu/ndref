@@ -27,7 +27,9 @@ Class Banshee Extends Enemy
     Field hasShrieked: Bool
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Banshee.Die()")
+        ' SKIPPED: Audio section.
+
+        Super.Die()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
