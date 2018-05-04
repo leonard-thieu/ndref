@@ -2159,7 +2159,7 @@ Class Level
                                 Continue
                             End If
 
-                            If Level.GetTileAt(x, y) <> Null
+                            If Level.GetTileAt(x, y) = Null
                                 New Tile(x, y, TileType.CorridorDirtWall, False, -1)
                             End If
                         End For
