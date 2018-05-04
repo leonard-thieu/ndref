@@ -1,6 +1,8 @@
 'Strict
 
 Import enemy
+Import item
+Import level
 Import logger
 Import point
 
@@ -29,11 +31,19 @@ Class FakeWall Extends Enemy
     Field goldDropped: Bool
 
     Method Die: Void()
-        Debug.TraceNotImplemented("FakeWall.Die()")
+        Self.DropItem()
+
+        Super.Die()
     End Method
 
-    Method DropItem2: Void()
-        Debug.TraceNotImplemented("FakeWall.DropItem2()")
+    Method DropItem: Void()
+        If Not Level.isTrainingMode Or
+           Self.level = 2 And
+           Not Self.goldDropped
+            Self.goldDropped = True
+
+            New Item(Self.x, Self.y, "resource_coin10", False, -1, False)
+        End If
     End Method
 
     Method GetMovementDirection: Point()
