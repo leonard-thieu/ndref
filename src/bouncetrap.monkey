@@ -20,7 +20,9 @@ Class BounceTrap Extends Trap
             Const limit := 500
 
             For Local i := limit - 1 Until 0 Step -1
-                Select Util.RndIntRangeFromZero(3, True)
+                Self.bounceDir = Util.RndIntRangeFromZero(3, True)
+                
+                Select Self.bounceDir
                     Case BounceTrapDirection.Right
                         If Not Level.IsWallAt(xVal + 1, yVal, False, False) Then Exit
                     Case BounceTrapDirection.Left
