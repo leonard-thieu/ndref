@@ -6395,7 +6395,7 @@ Class Level
 
         Select roomType
             Case RoomType.Shop
-                Level.PlaceShopItemsAt(x, y, Null)
+                Level.PlaceShopItemsAt(xVal, yVal, Null)
             Case RoomType.Secret,
                  RoomType.Vault
                 ' Do nothing
