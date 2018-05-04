@@ -339,6 +339,15 @@ Class Item Extends Entity
         Return item.GetInt(itemNode, "coinCost", 0)
     End Function
 
+    Function GetDisplayName: String(itemName: String)
+        Local itemNode := Item.GetItemXML(itemName)
+        If itemNode <> Null
+            itemName = item.GetString(itemNode, "displayName", itemName)
+        End If
+
+        Return itemName
+    End Function
+
     Function GetFlyawayText: Int(i: Int)
         Debug.TraceNotImplemented("Item.GetFlyawayText(Int)")
     End Function
