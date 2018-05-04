@@ -7363,7 +7363,7 @@ Class Level
         End For
 
         Local i := 500
-        Local numWallsToRemove := removalCandidates.Count() * percentToRemove
+        Local numWallsToRemove := Int(removalCandidates.Count() * percentToRemove)
 
         For Local i = i - 1 Until 0 Step -1
             If removalCandidates.IsEmpty() Then Exit
