@@ -1,15 +1,20 @@
 'Strict
 
 Import monkey.list
+Import mojo.graphics
+Import controller_game
 Import enemy
 Import entity
 Import logger
+Import player_class
 Import point
+Import shrine
 Import sprite
+Import util
 
 Class KingConga Extends Enemy
 
-    Global theKing: Object
+    Global theKing: KingConga
 
     Function DestroyThrone: Void()
         Debug.TraceNotImplemented("KingConga.DestroyThrone()")
@@ -22,21 +27,50 @@ Class KingConga Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("KingConga.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "king_conga")
+
+        Self.initX = xVal
+        Self.initY = yVal
+
+        KingConga.theKing = Self
+
+        Self.overrideAttackSound = "kingCongaAttack"
+        Self.overrideHitSound = "kingCongaHit"
+        Self.overrideDeathSound = "kingCongaDeath"
+
+        Self.initialXOff = Self.xOff
+
+        Self.image2 = New Sprite("entities/king_conga_throne.png", 1, Image.DefaultFlags)
+        Self.image2.SetZOff(40.0)
+
+        Local healthMaxBonus := controller_game.currentDepth - 1
+        If Shrine.warShrineActive
+            healthMaxBonus = 4
+        End If
+
+        Self.healthMax += healthMaxBonus
+        Self.health = Self.healthMax
+
+        If Util.IsCharacterActive(Character.Monk) Or
+           Util.IsCharacterActive(Character.Coda)
+            Self.coinsToDrop = 1
+        End If
     End Method
 
     Field state: Int
     Field throneDestroyed: Bool
     Field initX: Int
     Field initY: Int
-    Field initialXOff: Int
+    Field initialXOff: Int = -1
     Field image2: Sprite
-    Field zombieFriends: List<Object>
-    Field lastBeatNum: Int
-    Field lastBeatAnim: Int
+    Field zombieFriends: List<Enemy> = New List<Enemy>()
+    Field lastBeatNum: Int = -1
+    Field lastBeatAnim: Int = -1
 
-    Method AddZombieFriend: Void(z: Object)
-        Debug.TraceNotImplemented("KingConga.AddZombieFriend(Object)")
+    Method AddZombieFriend: Void(z: Enemy)
+        Debug.TraceNotImplemented("KingConga.AddZombieFriend(Enemy)")
     End Method
 
     Method CheckZombieFriends: Void()
