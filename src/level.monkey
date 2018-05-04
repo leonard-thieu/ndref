@@ -3783,7 +3783,24 @@ Class Level
     End Function
 
     Function GetRandomOffsetPoint: Point()
-        Debug.TraceNotImplemented("Level.GetRandomOffsetPoint()")
+        Local x := 0
+        Local y := 0
+
+        If Util.RndIntRangeFromZero(1, True) <> 0
+            If Util.RndIntRangeFromZero(1, True) <> 0
+                x = 1
+            Else
+                x = -1
+            End If
+        Else
+            If Util.RndIntRangeFromZero(1, True) <> 0
+                y = 1
+            Else
+                y = -1
+            End If
+        End If
+
+        Return New Point(x, y)
     End Function
 
     Function GetRandomWallInRoom: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
