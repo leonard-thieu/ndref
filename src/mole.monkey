@@ -2,21 +2,40 @@
 
 Import enemy
 Import entity
+Import level
 Import logger
 Import mole_dirt
+Import player_class
 Import point
+Import util
 
 Class Mole Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Mole.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "mole")
+
+        Self.animOverride = False
+
+        Self.overrideAttackSound = "moleAttack"
+        Self.overrideDeathSound = "moleDeath"
+
+        If Not Level.isLevelEditor
+            Self.PutDirt()
+        End If
+
+        If Util.IsCharacterActive(Character.Eli)
+            Self.coinsToDrop = 0
+            Self.Die()
+        End If
     End Method
 
     Field currentDirt: MoleDirt
     Field wasBurrowed: Bool
-    Field isBurrowed: Bool
+    Field isBurrowed: Bool = True
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
         Debug.TraceNotImplemented("Mole.CanBeDamaged(Bool, Bool)")
