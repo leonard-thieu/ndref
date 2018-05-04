@@ -10,13 +10,20 @@ Class ZombieSnake Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("ZombieSnake.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "zombie_snake")
+
+        Self.movesRegardlessOfDistance = True
+        Self.wasSeekingX = False
+
+        Self.ActivateLight(0.01, 0.02)
     End Method
 
     Field zsChild: ZombieSnake
     Field zsParent: ZombieSnake
-    Field cachedMoveDir: Point
-    Field facing: Int
+    Field cachedMoveDir: Point = New Point(0, 0)
+    Field facing: Int = -1
 
     Method AdjustFacingDir: Void()
         Debug.TraceNotImplemented("ZombieSnake.AdjustFacingDir()")
