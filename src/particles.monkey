@@ -25,8 +25,8 @@ Class ParticleSystem Extends Tweenable
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, data: ParticleSystemData, dir: Int, imagePath: Int)
-        Debug.TraceNotImplemented("ParticleSystem.New(Int, Int, ParticleSystemData, Int, Int)")
+    Method New(xVal: Int, yVal: Int, data: ParticleSystemData, dir: Int, imagePath: String)
+        Debug.TraceNotImplemented("ParticleSystem.New(Int, Int, ParticleSystemData, Int, String)")
     End Method
 
     Field visible: Bool = True
@@ -49,27 +49,27 @@ End Class
 
 Class ParticleSystemData
 
-    Global BLOOD: Object
-    Global BLOOD_SACRIFICE: Object
-    Global CONFUSION: Object
-    Global DIG: Object
-    Global DIG_ZONE4: Object
-    Global GEYSER: Object
-    Global HEAL_SPELL: Object
-    Global LORD_CROWN: Object
-    Global MOLE_APPEAR: Object
-    Global MOLE_DIG: Object
-    Global MONSTER_DEAD: Object
-    Global MONSTER_HIT: Object
-    Global MUSHROOM_SPORES: Object
-    Global OCTOBOSS_SPLASH: Object
-    Global SKELETON_HEAD: Object
-    Global SKELETON_HELMET: Object
-    Global SKELETON_SHIELD: Object
-    Global TAR_SPLASH_IN: Object
-    Global TAR_SPLASH_OUT: Object
-    Global WATER_SPLASH_IN: Object
-    Global WATER_SPLASH_OUT: Object
+    Global BLOOD: ParticleSystemData
+    Global BLOOD_SACRIFICE: ParticleSystemData
+    Global CONFUSION: ParticleSystemData
+    Global DIG: ParticleSystemData
+    Global DIG_ZONE4: ParticleSystemData
+    Global GEYSER: ParticleSystemData
+    Global HEAL_SPELL: ParticleSystemData
+    Global LORD_CROWN: ParticleSystemData
+    Global MOLE_APPEAR: ParticleSystemData
+    Global MOLE_DIG: ParticleSystemData
+    Global MONSTER_DEAD: ParticleSystemData
+    Global MONSTER_HIT: ParticleSystemData
+    Global MUSHROOM_SPORES: ParticleSystemData
+    Global OCTOBOSS_SPLASH: ParticleSystemData
+    Global SKELETON_HEAD: ParticleSystemData
+    Global SKELETON_HELMET: ParticleSystemData
+    Global SKELETON_SHIELD: ParticleSystemData
+    Global TAR_SPLASH_IN: ParticleSystemData
+    Global TAR_SPLASH_OUT: ParticleSystemData
+    Global WATER_SPLASH_IN: ParticleSystemData
+    Global WATER_SPLASH_OUT: ParticleSystemData
 
     Function Init: Void()
         Debug.TraceNotImplemented("ParticleSystemData.Init()")
