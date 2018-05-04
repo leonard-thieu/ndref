@@ -230,6 +230,10 @@ Class Util
         Debug.TraceNotImplemented("Util.IsEnemyAdjacent(Int, Int)")
     End Function
 
+    Function IsGlobalCollisionAt: Bool(xVal: Int, yVal: Int, isPlayer: Bool, ignoreWalls: Bool, includeShopWallsDespiteIgnoringWalls: Bool, skipIgnoreWalls: Bool)
+        Return Util.IsGlobalCollisionAt(xVal, yVal, isPlayer, ignoreWalls, False, includeShopWallsDespiteIgnoringWalls, skipIgnoreWalls)
+    End Function
+
     Function IsGlobalCollisionAt: Bool(xVal: Int, yVal: Int, isPlayer: Bool, ignoreWalls: Bool, includeTheNothing: Bool, includeShopWallsDespiteIgnoringWalls: Bool, skipIgnoreWalls: Bool)
         If includeTheNothing And
            Level.GetTileAt(xVal, yVal) = Null
