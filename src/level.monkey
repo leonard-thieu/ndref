@@ -7030,7 +7030,7 @@ Class Level
             Select trapType
                 Case TrapType.BounceTrap
                     If Trap.GetTrapTypeAt(point.x + 1, point.y) = TrapType.BounceTrap Then Continue
-                    If Trap.GetTrapTypeAt(point.x, point.y - 1) = TrapType.BounceTrap Then Continue
+                    If Trap.GetTrapTypeAt(point.x, point.y + 1) = TrapType.BounceTrap Then Continue
                     If Trap.GetTrapTypeAt(point.x - 1, point.y) = TrapType.BounceTrap Then Continue
                     If Trap.GetTrapTypeAt(point.x, point.y - 1) = TrapType.BounceTrap Then Continue
 
