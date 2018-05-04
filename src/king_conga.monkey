@@ -70,7 +70,7 @@ Class KingConga Extends Enemy
     Field lastBeatAnim: Int = -1
 
     Method AddZombieFriend: Void(z: Enemy)
-        Debug.TraceNotImplemented("KingConga.AddZombieFriend(Enemy)")
+        Self.zombieFriends.AddLast(z)
     End Method
 
     Method CheckZombieFriends: Void()
