@@ -3,10 +3,13 @@
 Import brl.json
 Import mojo.graphics
 Import enemyclamper
+Import level
 Import logger
 Import player_class
 Import point
 Import sprite
+Import tile
+Import trap
 
 Class TarMonster Extends EnemyClamper
 
@@ -54,7 +57,27 @@ Class TarMonster Extends EnemyClamper
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("TarMonster.Die()")
+        If Self.clampedOnto <> Null And
+           Self.clampedOnto.clampedEnemy = Self
+            Self.clampedOnto.clampedEnemy = Null
+        End If
+
+        If Self.enableDeathEffects
+            Local exitValue := Level.GetExitValue(Self.x, Self.y)
+            If exitValue.x = LevelType.Unknown_4
+                If Level.IsFloorAt(Self.x, Self.y)
+                    Level.PlaceTileRemovingExistingTiles(Self.x, Self.y, TileType.Tar, False, -1, False)
+
+                    Local trapAtDeath := Trap.GetTrapAt(Self.x, Self.y)
+                    If trapAtDeath <> Null And
+                       Not trapAtDeath.indestructible
+                        trapAtDeath.Die()
+                    End If
+                End If
+            End If
+        End If
+
+        Super.Die()
     End Method
 
     Method DislodgeAttempt: Bool()
