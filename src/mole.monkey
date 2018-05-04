@@ -75,7 +75,10 @@ Class Mole Extends Enemy
     End Method
 
     Method UnoccupyDirt: Void()
-        Debug.TraceNotImplemented("Mole.UnoccupyDirt()")
+        If Self.currentDirt <> Null
+            Self.currentDirt.Unoccupy()
+            Self.currentDirt = Null
+        End If
     End Method
 
     Method Update: Void()
