@@ -51,7 +51,7 @@ Class BounceTrap Extends Trap
             Case BounceTrapDirection.UpRight,
                  BounceTrapDirection.UpLeft,
                  BounceTrapDirection.DownLeft,
-                 BounceTrapDirection.DownRight,
+                 BounceTrapDirection.DownRight
                 Self.image = New Sprite("traps/diagonal_bouncetrap.png", 14, 16, 16, Image.MidHandle)
             ' Covers spin and cardinal direction bounce traps.
             Default
