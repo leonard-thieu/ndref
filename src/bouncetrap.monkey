@@ -63,6 +63,12 @@ Class BounceTrap Extends Trap
         Self.image.SetZ(-995.0)
 
         Self.originalDir = Self.bounceDir
+
+        Local debugBounceDir := Self.bounceDir
+        If d = BounceTrapDirection.Spin
+            debugBounceDir = BounceTrapDirection.Spin
+        End If
+        Debug.WriteLine("    Direction: " + BounceTrapDirection.ToString(debugBounceDir))
     End Method
 
     Field isRotatingCW: Bool
@@ -107,5 +113,22 @@ Class BounceTrapDirection
     Const UpRight: Int = 7
     Const Omni: Int = 8
     Const Spin: Int = 9
+
+    Function ToString: String(dir: Int)
+        Select dir
+            Case BounceTrapDirection.Right Return "Right"
+            Case BounceTrapDirection.Left Return "Left"
+            Case BounceTrapDirection.Down Return "Down"
+            Case BounceTrapDirection.Up Return "Up"
+            Case BounceTrapDirection.DownRight Return "Down Right"
+            Case BounceTrapDirection.DownLeft Return "Down Left"
+            Case BounceTrapDirection.UpLeft Return "Up Left"
+            Case BounceTrapDirection.UpRight Return "Up Right"
+            Case BounceTrapDirection.Omni Return "Omni"
+            Case BounceTrapDirection.Spin Return "Spin"
+        End Select
+
+        Return "None"
+    End Function
 
 End Class
