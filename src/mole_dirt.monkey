@@ -38,7 +38,7 @@ Class MoleDirt Extends Entity
     End Method
 
     Method Unoccupy: Void()
-        Debug.TraceNotImplemented("MoleDirt.Unoccupy()")
+        Self.occupied = False
     End Method
 
     Method Update: Void()
