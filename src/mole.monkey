@@ -62,7 +62,12 @@ Class Mole Extends Enemy
     End Method
 
     Method PutDirt: Void()
-        Debug.TraceNotImplemented("Mole.PutDirt()")
+        If Self.currentDirt = Null Or
+           Self.x <> Self.currentDirt.x Or
+           Self.y <> Self.currentDirt.y
+            Self.UnoccupyDirt()
+            self.currentDirt = New MoleDirt(Self.x, Self.y)
+        End If
     End Method
 
     Method Render: Void()
