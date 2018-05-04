@@ -29,6 +29,7 @@ Import intpointlist
 Import intpointset
 Import intpointstack
 Import king
+Import king_conga
 Import knight
 Import level_object
 Import logger
@@ -81,6 +82,7 @@ Import weighted_picker
 Import wraith
 Import xml
 Import zombie
+Import zombiesnake
 
 Class Level
 
@@ -1032,8 +1034,351 @@ Class Level
         End If
     End Function
 
+    Function CreateBossBattleEntrance: Void(bossTrainingName: String)
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Level.CreateRoom(-3, -3, 6, 6, False, RoomType.Boss)
+
+        Level.EnsureBossTraining(bossTrainingName)
+
+        If Level.isTrainingMode
+            Level.AddExit(0, 2, LevelType.Lobby, 1)
+            Level.PlaceTileRemovingExistingTiles(2, 0, TileType.Stairs)
+        End If
+
+        If Util.IsCharacterActive(Character.Tempo)
+            If Level.WantPenaltyBox()
+                New Sarcophagus(-2, 2, 1)
+            End If
+        End If
+
+        Level.PlaceTileRemovingExistingTiles(-1, -1, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(1, -1, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(-1, 1, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(1, 1, TileType.BossWall)
+
+        Level.GetTileAt(-1, -1).AddTorch()
+        Level.GetTileAt(1, -1).AddTorch()
+        Level.GetTileAt(-1, 1).AddTorch()
+        Level.GetTileAt(1, 1).AddTorch()
+
+        For Local y := -3 To -5 Step -1
+            For Local x := -1 To 1
+                Level.PlaceTileRemovingExistingTiles(x, y, TileType.BossFloor)
+            End For
+        End For
+
+        Level.PlaceTileRemovingExistingTiles(-2, -4, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(2, -4, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(-2, -5, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(2, -5, TileType.BossWall)
+    End Function
+
     Function CreateBossBattle1: Void()
-        Debug.TraceNotImplemented("Level.CreateBossBattle1()")
+        Debug.Log("CREATEBOSSBATTLE1: Creating conga line boss battle.")
+
+        Level.CreateBossBattleEntrance("conga")
+
+        Level.CreateRoom(-8, -18, 16, 12, False, RoomType.Boss)
+
+        For Local x := -1 To 1
+            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door)
+        End For
+
+        Level.GetTileAt(-2, -6).AddTorch()
+        Level.GetTileAt(2, -6).AddTorch()
+
+        Level.GetTileAt(0, -5).AddTextLabel("text/TEMP_conga_line.png", -1, 4, 2.0, True, False)
+
+        For Local x := -1 To 1
+            Level.GetTileAt(x, -6).SetDoorTrigger(2)
+        End For
+
+        Level.SetMagicBarrier(True)
+
+        For Local x := -7 To 7
+            For Local y := -17 To -7
+                Level.GetTileAt(x, y).SetTrigger(1)
+            End For
+        End For
+
+        Local kingConga := New KingConga(0, -17, 1)
+        kingConga.ActivateLight(0.01, 0.02)
+
+        Local throneTile := Level.PlaceTileRemovingExistingTiles(0, -17, TileType.CatacombWall)
+        throneTile.SetDigTrigger(24)
+        throneTile.AddTorch()
+
+        Local zombieBasePoint := Level.GetRandomOffsetPoint()
+        If zombieBasePoint.x < 0 Then zombieBasePoint.x = 1
+        If zombieBasePoint.y > 0 Then zombieBasePoint.y = -1
+
+        Local zombieLeftBottom1 := New ZombieSnake(zombieBasePoint.x - 3, zombieBasePoint.y - 15, 1)
+        Local zombieLeftBottom2 := New ZombieSnake(zombieBasePoint.x - 4, zombieBasePoint.y - 15, 1)
+        Local zombieLeftBottom3 := New ZombieSnake(zombieBasePoint.x - 5, zombieBasePoint.y - 15, 1)
+        Local zombieLeftBottom4 := New ZombieSnake(zombieBasePoint.x - 6, zombieBasePoint.y - 15, 1)
+
+        Local zombieLeftTop1 := New ZombieSnake(zombieBasePoint.x - 6, zombieBasePoint.y - 16, 1)
+        Local zombieLeftTop2 := New ZombieSnake(zombieBasePoint.x - 5, zombieBasePoint.y - 16, 1)
+        Local zombieLeftTop3 := New ZombieSnake(zombieBasePoint.x - 4, zombieBasePoint.y - 16, 1)
+        Local zombieLeftTop4 := New ZombieSnake(zombieBasePoint.x - 3, zombieBasePoint.y - 16, 1)
+
+        zombieLeftBottom1.movePriority = 99200000
+
+        zombieLeftBottom1.SetChild(zombieLeftBottom2)
+        zombieLeftBottom2.SetParent(zombieLeftBottom1)
+        zombieLeftBottom2.SetChild(zombieLeftBottom3)
+        zombieLeftBottom3.SetParent(zombieLeftBottom2)
+        zombieLeftBottom3.SetChild(zombieLeftBottom4)
+        zombieLeftBottom4.SetParent(zombieLeftBottom3)
+        zombieLeftBottom4.SetChild(zombieLeftTop1)
+
+        zombieLeftTop1.SetParent(zombieLeftBottom4)
+        zombieLeftTop1.SetChild(zombieLeftTop2)
+        zombieLeftTop2.SetParent(zombieLeftTop1)
+        zombieLeftTop2.SetChild(zombieLeftTop3)
+        zombieLeftTop3.SetParent(zombieLeftTop2)
+        zombieLeftTop3.SetChild(zombieLeftTop4)
+        zombieLeftTop4.SetParent(zombieLeftTop3)
+
+        kingConga.AddZombieFriend(zombieLeftBottom1)
+        kingConga.AddZombieFriend(zombieLeftBottom2)
+        kingConga.AddZombieFriend(zombieLeftBottom3)
+        kingConga.AddZombieFriend(zombieLeftBottom4)
+        
+        kingConga.AddZombieFriend(zombieLeftTop1)
+        kingConga.AddZombieFriend(zombieLeftTop2)
+        kingConga.AddZombieFriend(zombieLeftTop3)
+        kingConga.AddZombieFriend(zombieLeftTop4)
+
+        Local zombieRightBottom1 := New ZombieSnake(zombieBasePoint.x + 3, zombieBasePoint.y - 15, 1)
+        Local zombieRightBottom2 := New ZombieSnake(zombieBasePoint.x + 4, zombieBasePoint.y - 15, 1)
+        Local zombieRightBottom3 := New ZombieSnake(zombieBasePoint.x + 5, zombieBasePoint.y - 15, 1)
+        Local zombieRightBottom4 := New ZombieSnake(zombieBasePoint.x + 6, zombieBasePoint.y - 15, 1)
+
+        Local zombieRightTop1 := New ZombieSnake(zombieBasePoint.x + 6, zombieBasePoint.y - 16, 1)
+        Local zombieRightTop2 := New ZombieSnake(zombieBasePoint.x + 5, zombieBasePoint.y - 16, 1)
+        Local zombieRightTop3 := New ZombieSnake(zombieBasePoint.x + 4, zombieBasePoint.y - 16, 1)
+        Local zombieRightTop4 := New ZombieSnake(zombieBasePoint.x + 3, zombieBasePoint.y - 16, 1)
+
+        zombieRightBottom1.movePriority = 99200000
+
+        zombieRightBottom1.SetChild(zombieRightBottom2)
+        zombieRightBottom2.SetParent(zombieRightBottom1)
+        zombieRightBottom2.SetChild(zombieRightBottom3)
+        zombieRightBottom3.SetParent(zombieRightBottom2)
+        zombieRightBottom3.SetChild(zombieRightBottom4)
+        zombieRightBottom4.SetParent(zombieRightBottom3)
+        zombieRightBottom4.SetChild(zombieRightTop1)
+
+        zombieRightTop1.SetParent(zombieRightBottom4)
+        zombieRightTop1.SetChild(zombieRightTop2)
+        zombieRightTop2.SetParent(zombieRightTop1)
+        zombieRightTop2.SetChild(zombieRightTop3)
+        zombieRightTop3.SetParent(zombieRightTop2)
+        zombieRightTop3.SetChild(zombieRightTop4)
+        zombieRightTop4.SetParent(zombieRightTop3)
+
+        kingConga.AddZombieFriend(zombieRightBottom1)
+        kingConga.AddZombieFriend(zombieRightBottom2)
+        kingConga.AddZombieFriend(zombieRightBottom3)
+        kingConga.AddZombieFriend(zombieRightBottom4)
+        
+        kingConga.AddZombieFriend(zombieRightTop1)
+        kingConga.AddZombieFriend(zombieRightTop2)
+        kingConga.AddZombieFriend(zombieRightTop3)
+        kingConga.AddZombieFriend(zombieRightTop4)
+
+        Local point: Point
+        Select controller_game.currentZone
+            Case 1
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                Local leftGhost := New Ghost(-7, point.y - 17, 1)
+                leftGhost.ActivateLight(0.01, 0.02)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                Local rightGhost := New Ghost(7, point.y - 17, 1)
+                rightGhost.ActivateLight(0.01, 0.02)
+
+                Local leftBat := New Bat(-5, -11, 1)
+                leftBat.ActivateLight(0.01, 1.5)
+
+                Local rightBat := New Bat(5, -11, 1)
+                rightBat.ActivateLight(0.01, 1.5)
+
+                Local redBat := New Bat(0, -17, 2)
+                redBat.ActivateLight(0.01, 1.5)
+            Case 2
+                Local leftSkeletonMage := New SkeletonMage(-7, 16, 1)
+                leftSkeletonMage.ActivateLight(0.01, 1.5)
+
+                Local rightSkeletonMage := New SkeletonMage(7, 15, 3)
+                rightSkeletonMage.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 0
+                Local leftArmadillo := New Armadillo(point.x - 5, point.y - 10, 1)
+                leftArmadillo.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y > 0 Then point.y = 0
+                Local rightArmadillo := New Armadillo(point.x + 5, point.y - 12, 1)
+                rightArmadillo.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                Local centerArmadillo := New Armadillo(point.x, point.y - 13, 2)
+                centerArmadillo.ActivateLight(0.01, 1.5)
+
+                Local leftBat := New Bat(-6, -8, 1)
+                leftBat.ActivateLight(0.01, 1.5)
+
+                Local rightBat := New Bat(6, -8, 2)
+                rightBat.ActivateLight(0.01, 1.5)
+            Case 3
+                Local hellhound := New Hellhound(-7, -16, 1)
+                hellhound.ActivateLight(0.01, 1.5)
+
+                Local yeti := New Yeti(7, -15, 1)
+                yeti.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y > 0 Then point.y = -1
+                Local leftGoblin := New Goblin(-5, point.y - 8, 2)
+                leftGoblin.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y > 0 Then point.y = -1
+                Local rightGoblin := New Goblin(5, point.y - 8, 1)
+                rightGoblin.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                Local iceElemental := New IceElemental(point.x - 1, point.y - 13, 1)
+                iceElemental.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                Local fireElemental := New FireElemental(point.x + 1, point.y - 13, 1)
+                fireElemental.ActivateLight(0.01, 1.5)
+
+                Local leftBat := New Bat(-6, -8, 1)
+                leftBat.ActivateLight(0.01, 1.5)
+
+                Local rightBat := New Bat(6, -8, 2)
+                rightBat.ActivateLight(0.01, 1.5)
+            Case 4
+                If Not Util.IsCharacterActive(Character.Dorian)
+                    Local blademaster := New Blademaster(-7, -16, 2)
+                    blademaster.ActivateLight(0.01, 1.5)
+                Else
+                    Local harpy := New Harpy(-7, -16, 1)
+                    harpy.ActivateLight(0.01, 1.5)
+                End If
+
+                Local warlock := New Warlock(7, -15, 2)
+                warlock.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y > 0 Then point.y = -1
+                Local leftGoblinBomber := New GoblinBomber(-5, point.y - 7, 1)
+                leftGoblinBomber.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y > 0 Then point.y = -1
+                Local rightGoblinBomber := New GoblinBomber(5, point.y - 8, 1)
+                rightGoblinBomber.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                If Not Util.IsCharacterActive(Character.Dorian)
+                    Local blademaster2 := New Blademaster(point.x - 1, point.y - 13, 1)
+                    blademaster2.ActivateLight(0.01, 1.5)
+                Else
+                    Local harpy2 := New Harpy(point.x - 1, point.y - 13, 1)
+                    harpy2.ActivateLight(0.01, 1.5)
+                End If
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                Local warlock2 := New Warlock(point.x + 1, point.y - 13, 1)
+
+                Local leftBat := New Bat(-6, -8, 1)
+                leftBat.ActivateLight(0.01, 1.5)
+
+                Local rightBat := New Bat(6, -8, 4)
+                rightBat.ActivateLight(0.01, 1.5)
+            Default
+                Local leftElectricMage := New ElectricMage(-7, 16, 1)
+                leftElectricMage.ActivateLight(0.01, 1.5)
+
+                If Not Util.IsCharacterActive(Character.Aria)
+                    Local rightElectricMage := New ElectricMage(7, -15, 3)
+                    rightElectricMage.ActivateLight(0.01, 1.5)
+                End If
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y > 0 Then point.y = -1
+                If Not Util.IsCharacterActive(Character.Aria)
+                    Local leftDevil := New Devil(-5, point.y - 7, 2)
+                    leftDevil.ActivateLight(0.01, 1.5)
+                End If
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y > 0 Then point.y = -1
+                Local rightDevil := New Devil(5, point.y - 8, 1)
+                rightDevil.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                If point.x > 0 Then point.x = -1
+                Local leftEvilEye := New EvilEye(point.x - 1, point.y - 13, 1)
+                leftEvilEye.ActivateLight(0.01, 1.5)
+
+                point = Level.GetRandomOffsetPoint()
+                If point.y < 0 Then point.y = 1
+                If Not Util.IsCharacterActive(Character.Aria)
+                    Local rightEvilEye := New EvilEye(point.x + 1, point.y - 13, 2)
+                    rightEvilEye.ActivateLight(0.01, 1.5)
+                End If
+
+                Local leftBat := New Bat(-6, -8, 1)
+                leftBat.ActivateLight(0.01, 1.5)
+
+                Local rightBat := New Bat(6, -8, 2)
+                rightBat.ActivateLight(0.01, 1.5)
+        End Select
+
+        If Level.isHardMode
+            Debug.TraceNotImplemented("Level.CreateBossBattle1() (Hard Mode)")
+        End If
+
+        Select controller_game.currentZone
+            Case 1
+                New SpikeTrap(-5, -11)
+                New SpikeTrap(5, -11)
+                
+                New SpeedUpTrap(0, -14)
+                New SpikeTrap(-5, -14)
+                New SpikeTrap(5, -14)
+
+                New SpikeTrap(-5, -8)
+                New SpikeTrap(5, -8)
+            Default
+                New ConfuseTrap(-5, -11)
+                New ConfuseTrap(5, -11)
+                
+                New SpeedUpTrap(0, -14)
+                New SpeedUpTrap(-5, -14)
+                New SpeedUpTrap(5, -14)
+
+                New ConfuseTrap(-5, -8)
+                New ConfuseTrap(5, -8)
+        End Select
+
+        Enemy.enemiesPaused = True
     End Function
 
     Function CreateBossBattle2: Void()
@@ -1043,49 +1388,12 @@ Class Level
     Function CreateBossBattle3: Void()
         Debug.Log("CREATEBOSSBATTLE3: Creating deep blues boss battle.")
 
-        Level.InitNewMap(True)
-        Level.DisableLevelConstraints()
+        Level.CreateBossBattleEntrance("deepblues")
 
-        Level.CreateRoom(-3, -3, 6, 6, False, RoomType.Boss, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
-
-        Level.EnsureBossTraining("deepblues")
-
-        If Level.isTrainingMode
-            Level.AddExit(0, 2, LevelType.Lobby, 1)
-            Level.PlaceTileRemovingExistingTiles(2, 0, TileType.Stairs, False, -1, False)
-        End If
-
-        If Util.IsCharacterActive(Character.Tempo)
-            If Level.WantPenaltyBox()
-                New Sarcophagus(-2, 2, 1)
-            End If
-        End If
-
-        Level.PlaceTileRemovingExistingTiles(-1, -1, TileType.BossWall, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(1, -1, TileType.BossWall, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(-1, 1, TileType.BossWall, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(1, 1, TileType.BossWall, False, -1, False)
-
-        Level.GetTileAt(-1, -1).AddTorch()
-        Level.GetTileAt(1, -1).AddTorch()
-        Level.GetTileAt(-1, 1).AddTorch()
-        Level.GetTileAt(1, 1).AddTorch()
-
-        For Local y := -3 To -5 Step -1
-            For Local x := -1 To 1
-                Level.PlaceTileRemovingExistingTiles(x, y, TileType.BossFloor, False, -1, False)
-            End For
-        End For
-
-        Level.PlaceTileRemovingExistingTiles(-2, -4, TileType.BossWall, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(2, -4, TileType.BossWall, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(-2, -5, TileType.BossWall, False, -1, False)
-        Level.PlaceTileRemovingExistingTiles(2, -5, TileType.BossWall, False, -1, False)
-
-        Level.CreateRoom(-4, -15, 9, 9, False, RoomType.Boss, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+        Level.CreateRoom(-4, -15, 9, 9, False, RoomType.Boss)
 
         For Local x := -1 To 1
-            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door, False, -1, False)
+            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door)
         End For
 
         For Local x := -1 To 1
@@ -2379,6 +2687,10 @@ Class Level
 
     Function CreateMerlin: Void()
         Debug.TraceNotImplemented("Level.CreateMerlin()")
+    End Function
+
+    Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int)
+        Return Level.CreateRoom(xVal, yVal, wVal, hVal, pending, roomType, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
@@ -7085,6 +7397,10 @@ Class Level
                 End If
             End If
         End If
+    End Function
+
+    Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int)
+        Return Level.PlaceTileRemovingExistingTiles(xVal, yVal, tileType, False, -1, False)
     End Function
 
     Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
