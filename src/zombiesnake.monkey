@@ -49,8 +49,9 @@ Class ZombieSnake Extends Enemy
         Self.zsChild = zs
     End Method
 
-    Method SetParent: Void(zs: Object)
-        Debug.TraceNotImplemented("ZombieSnake.SetParent(Object)")
+    Method SetParent: Void(zs: ZombieSnake)
+        Self.zsParent = zs
+        Self.movePriority = zs.movePriority - 1
     End Method
 
     Method Update: Void()
