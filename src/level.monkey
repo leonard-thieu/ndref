@@ -5560,7 +5560,129 @@ Class Level
                         New Bat(point.x, point.y, 1)
                     End If
                 Default
-                    Debug.TraceNotImplemented("Level.PlaceEnemiesZone2() (Other levels)")
+                    Local skeletonMageRoll := Util.RndBool(True)
+                    If skeletonMageRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        Local skeletonMageLevelRoll := Util.RndIntRange(2, 3, True, -1)
+                        New SkeletonMage(point.x, point.y, skeletonMageLevelRoll)
+                    End If
+
+                    Local wightOrMoleRoll := Util.RndIntRangeFromZero(4, True)
+                    If wightOrMoleRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Wight(point.x, point.y, 1)
+                    Else
+                        Local moleRoll := Util.RndBool(True)
+                        If moleRoll
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Mole(point.x, point.y, 1)
+                        End If
+                    End If
+
+                    Local golemOrMushroomRoll := Util.RndIntRangeFromZero(2, True)
+                    If golemOrMushroomRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Golem(point.x, point.y, 2)
+                    Else
+                        Local mushroomRoll := Util.RndBool(True)
+                        If mushroomRoll
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Mushroom(point.x, point.y, 2)
+                        End If
+                    End If
+
+                    If room.hasExit
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Golem(point.x, point.y, 2)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New ArmoredSkeleton(point.x, point.y, 3)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Armadillo(point.x, point.y, 2)
+
+                        If Util.IsCharacterActive(Character.Aria)
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = Null Then Continue
+
+                            New Sarcophagus(point.x, point.y, 3)
+                        End If
+                    End If
+
+                    Local cloneOrArmoredSkeletonRoll := Util.RndIntRangeFromZero(2, True)
+                    If cloneOrArmoredSkeletonRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Clone(point.x, point.y, 1)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New ArmoredSkeleton(point.x, point.y, 2)
+                    End If
+
+                    Local armoredSkeletonRoll := Util.RndIntRangeFromZero(2, True)
+                    If armoredSkeletonRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New ArmoredSkeleton(point.x, point.y, 3)
+                    End If
+
+                    Local armadilloOrMushroomRoll := Util.RndIntRangeFromZero(3, True)
+                    If armadilloOrMushroomRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        New Armadillo(point.x, point.y, armadilloLevelRoll)
+                    Else
+                        Local mushroomRoll := Util.RndBool(True)
+                        If mushroomRoll
+                            New Mushroom(point.x, point.y, 2)
+                        End If
+                    End If
+
+                    Local batRoll := Util.RndIntRangeFromZero(3, True)
+                    If batRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Bat(point.x, point.y, 1)
+                    End If
+
+                    Local batRoll2 := Util.RndIntRangeFromZero(4, True)
+                    If batRoll2 = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = Null Then Continue
+
+                        New Bat(point.x, point.y, 2)
+                    End If
+
+                    Local tarMonsterRoll := Util.RndIntRangeFromZero(2, True)
+                    If tarMonsterRoll = 0
+                        point = Level.GetRandPointInRoomOfTileType(New RectRoom(room), TileType.Tar, True)
+                        If point = Null Then Continue
+
+                        New TarMonster(point.x, point.y, 1)
+                    End If
             End Select
         End For
 
