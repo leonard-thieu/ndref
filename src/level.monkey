@@ -7098,7 +7098,7 @@ Class Level
 
                     Local spikeTrapRoll := Util.RndIntRangeFromZero(3, True)
                     If spikeTrapRoll = 0
-                        Level.PlaceTrapInRoom(room, TrapType.TrapDoor)
+                        Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
                     End If
 
                     Local bounceTrapRoll := Util.RndIntRangeFromZero(3, True)
