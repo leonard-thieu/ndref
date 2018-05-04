@@ -1,5 +1,7 @@
 'Strict
 
+Import brl.json
+Import mojo.graphics
 Import enemyclamper
 Import logger
 Import player_class
@@ -11,7 +13,29 @@ Class TarMonster Extends EnemyClamper
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("TarMonster.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "tarmonster")
+
+        Self.stealth = True
+
+        Local tarMonsterNode := Enemy.GetEnemyXML("tarmonster", l)
+        Local spritesheetNode := JsonObject(tarMonsterNode.Get("spritesheet"))
+        Local path := item.GetString(spritesheetNode, "path", "")
+        Local frameW := item.GetInt(spritesheetNode, "frameW", 0)
+        Local frameH := item.GetInt(spritesheetNode, "frameH", 0)
+        Local numFrames := item.GetInt(spritesheetNode, "numFrames", 1)
+        Self.image2 = New Sprite(path, frameW, frameH, numFrames, Image.DefaultFlags)
+        Self.image2.SetFrame(2)
+
+        Self.homeX = xVal
+        Self.homeY = yVal
+
+        Self.overrideAttackSound = "tarMonsterAttack"
+        Self.overrideDeathSound = "tarMonsterDeath"
+        Self.overrideMoveSound = "tarMonsterChase"
+
+        Self.startingCoinsToDrop = Self.coinsToDrop
     End Method
 
     Field image2: Sprite
