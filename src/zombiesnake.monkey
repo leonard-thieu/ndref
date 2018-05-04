@@ -45,8 +45,8 @@ Class ZombieSnake Extends Enemy
         Debug.TraceNotImplemented("ZombieSnake.MoveSucceed(Bool, Bool)")
     End Method
 
-    Method SetChild: Void(zs: Object)
-        Debug.TraceNotImplemented("ZombieSnake.SetChild(Object)")
+    Method SetChild: Void(zs: ZombieSnake)
+        Self.zsChild = zs
     End Method
 
     Method SetParent: Void(zs: Object)
