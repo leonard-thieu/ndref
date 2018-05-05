@@ -7957,8 +7957,12 @@ Class Level
         Return New Cauldron(xVal, yVal, 1)
     End Function
 
-    Function PlaceZone3Elemental: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Elemental(Int, Int)")
+    Function PlaceZone3Elemental: Enemy(xVal: Int, yVal: Int)
+        If Level.IsInZone3Hot(xVal, yVal)
+            Return Enemy.MakeEnemy(xVal, yVal, EnemyId.FireElemental)
+        End If
+
+        Return Enemy.MakeEnemy(xVal, yVal, EnemyId.IceElemental)
     End Function
 
     Function PlaceZone3Slime: Slime(xVal: Int, yVal: Int)
