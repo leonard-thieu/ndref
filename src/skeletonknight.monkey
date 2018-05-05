@@ -1,28 +1,43 @@
 'Strict
 
+Import monkey.math
 Import enemy
 Import entity
 Import logger
 Import point
+Import shrine
 
 Class SkeletonKnight Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("SkeletonKnight.New(Int, Int, Int)")
+        Super.New()
+        
+        If Shrine.warShrineActive
+            l = math.Max(3, l)
+        End If
+
+        Self.Init(xVal, yVal, l, "skeletonknight")
+
+        Self.enableTell = False
+        Self.swarmCulprit = True
+
+        Self.overrideHitSound = "skeletonKnightDeath"
+        Self.overrideDeathSound = "skeletonKnightDeath"
+        Self.overrideAttackSound = "skeletonKnightAttack"
     End Method
 
-    Field hasHead: Bool
-    Field cachedMoveDir: Point
-    Field directionHitFrom: Int
+    Field hasHead: Bool = True
+    Field cachedMoveDir: Point = New Point(0, 0)
+    Field directionHitFrom: Int = -1
     Field gotBounced: Bool
-    Field hasHorse: Bool
+    Field hasHorse: Bool = True
     Field shieldDestroyed: Bool
-    Field shieldDir: Int
+    Field shieldDir: Int = 1
     Field hasRoared: Bool
     Field justBounced: Bool
-    Field willHaveHead: Bool
+    Field willHaveHead: Bool = True
 
     Method AdjustShieldDir: Void()
         Debug.TraceNotImplemented("SkeletonKnight.AdjustShieldDir()")
