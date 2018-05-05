@@ -4279,7 +4279,7 @@ Class Level
             End If
 
             If Not nearWallIsOk
-                If Level._IsWallAdjacent(x, y) Then Continue
+                If Level.IsWallAdjacent8(x, y) Then Continue
             End If
 
             If Not secretRoomOK
@@ -4682,12 +4682,8 @@ Class Level
     End Function
 
     Function IsWallAdjacent8: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsWallAdjacent8(Int, Int)")
-    End Function
-
-    Function _IsWallAdjacent: Bool(xVal: Int, yVal: Int)
         For Local y := yVal - 1 To yVal + 1
-            For Local x := xVal - 1 To xVal + 1
+            For Local x := xVal -1 To xVal + 1
                 If x = xVal And
                    y = yVal
                     Continue
