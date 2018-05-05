@@ -5,11 +5,13 @@ Import mojo.graphics
 Import controller_game
 Import enemy
 Import entity
+Import level
 Import logger
 Import player_class
 Import point
 Import shrine
 Import sprite
+Import tile
 Import util
 
 Class KingConga Extends Enemy
@@ -78,7 +80,11 @@ Class KingConga Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("KingConga.Die()")
+        Enemy.SetEnemiesToDropNoCoinsOverride()
+        Level.PlaceTileRemovingExistingTiles(Self.initX, Self.initY, TileType.Floor)
+        KingConga.theKing = Null
+        Super.Die()
+        Enemy.KillAllEnemies()
     End Method
 
     Method EnterFinalState: Void(playCry: Bool)
