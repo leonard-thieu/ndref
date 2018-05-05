@@ -774,7 +774,18 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone3Wall: Sprite()
-        Debug.TraceNotImplemented("Tile.GetZone3Wall()")
+        Local wall: Sprite
+
+        If Self.IsTileset(TilesetType.Zone3Hot)
+            wall = New Sprite("level/zone3_wall_dirt_hot.png", 24, 48, 8, Image.DefaultFlags)
+        Else
+            wall = New Sprite("level/zone3_wall_dirt_cold.png", 24, 48, 8, Image.DefaultFlags)
+        End If
+
+        Local frame := Util.RndIntRangeFromZero(7, False)
+        wall.SetFrame(frame)
+
+        Return wall
     End Method
 
     Method GetZone4Wall: Sprite()
