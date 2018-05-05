@@ -37,7 +37,10 @@ Class Trap Extends Entity Abstract
     End Function
 
     Function IsLiveTrapAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Trap.IsLiveTrapAt(Int, Int)")
+        Local trap := Trap.GetTrapAt(xVal, yVal)
+        If trap <> Null Then Return trap.IsLive()
+
+        Return False
     End Function
 
     Function RemoveAll: Void()
@@ -85,7 +88,7 @@ Class Trap Extends Entity Abstract
     End Method
 
     Method IsLive: Bool()
-        Debug.TraceNotImplemented("Trap.IsLive()")
+        Return Self.triggeredOn = Null
     End Method
 
     Method Move: Void()

@@ -449,40 +449,34 @@ Class Enemy Extends MobileEntity Abstract
         For Local enemy := EachIn Enemy.enemyList
             If Not enemy.swarmCulprit Then Continue
 
-            Local x := enemy.x
-            Local y := enemy.y
+            Local xOff := 0
+            Local yOff := 0
 
-            If math.Abs(x) > math.Abs(y)
-                If x < 0
-                    x -= 1
+            If math.Abs(enemy.x) > math.Abs(enemy.y)
+                If enemy.x < 0
+                    xOff = -1
                 Else
-                    x += 1
+                    xOff = 1
                 End If
             Else
-                If y < 0
-                    y -= 1
+                If enemy.y < 0
+                    yOff = -1
                 Else
-                    y += 1
+                    yOff = 1
                 End If
             End If
 
-            While Not Util.IsGlobalCollisionAt(x, y, False, False, False, False)
-                Local liveTrap := False
+            Local x := enemy.x
+            Local y := enemy.y
 
-                For Local trap := EachIn Trap.trapList
-                    If x = trap.x And
-                       y = trap.y
-                        liveTrap = trap.IsLive()
+            Repeat
+                enemy.x = x
+                enemy.y = y
 
-                        Exit
-                    End If
-                End For
-
-                If liveTrap Then Exit
-            End While
-
-            enemy.x = x
-            enemy.y = y
+                x += xOff
+                y += yOff
+            Until Util.IsGlobalCollisionAt(x, y, False, False, False, False) Or
+                  Trap.IsLiveTrapAt(x, y)
         End For
     End Function
 
