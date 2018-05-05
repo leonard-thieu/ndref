@@ -4559,6 +4559,10 @@ Class Level
         Debug.TraceNotImplemented("Level.IsIcePartOfLevel(Int, Int)")
     End Function
 
+    Function IsInZone3Hot: Bool(xVal: Int, yVal: Int)
+        Return (yVal * Level.zone3DividingLineX) - (xVal * Level.zone3DividingLineY) <= 0
+    End Function
+
     Function IsLockedExit: Bool(xVal: Int, yVal: Int)
         Debug.TraceNotImplemented("Level.IsLockedExit(Int, Int)")
     End Function
@@ -7957,8 +7961,12 @@ Class Level
         Debug.TraceNotImplemented("Level.PlaceZone3Elemental(Int, Int)")
     End Function
 
-    Function PlaceZone3Slime: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Slime(Int, Int)")
+    Function PlaceZone3Slime: Slime(xVal: Int, yVal: Int)
+        If Level.IsInZone3Hot(xVal, yVal)
+            Return New Slime(xVal, yVal, 5)
+        End If
+
+        Return New Slime(xVal, yVal, 4)
     End Function
 
     Function PlaceZone3YetiHellhound: Object(xVal: Int, yVal: Int)
