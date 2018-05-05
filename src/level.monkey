@@ -4668,7 +4668,9 @@ Class Level
     End Function
 
     Function IsTrapOrExitAbove: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsTrapOrExitAbove(Int, Int)")
+        If Level.IsExitAt(xVal, yVal) Then Return True
+
+        Return Trap.GetTrapTypeAt(xVal, yVal) <> TrapType.None
     End Function
 
     Function IsVisibleTileAt: Bool(xVal: Int, yVal: Int)
