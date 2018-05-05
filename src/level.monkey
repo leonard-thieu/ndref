@@ -10,8 +10,11 @@ Import bat
 Import bat_miniboss
 Import beastmaster
 Import bishop
+Import bombtrap
 Import bossmaster
+Import bouncetrap
 Import chest
+Import confusetrap
 Import conjurer
 Import controller_game
 Import controller_level_editor
@@ -60,6 +63,7 @@ Import roomdata
 Import saleitem
 Import sarcophagus
 Import sarcophagus_tough
+Import scattertrap
 Import shopkeeper_ghost
 Import shrine
 Import shriner
@@ -77,6 +81,7 @@ Import tiledata
 Import transmogrifier
 Import trap
 Import trapchest
+Import trapdoor
 Import util
 Import weaponmaster
 Import weighted_picker
