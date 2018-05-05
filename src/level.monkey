@@ -311,7 +311,56 @@ Class Level
     End Function
 
     Function AddHarderStone: Void()
-        Debug.TraceNotImplemented("Level.AddHarderStone()")
+        Debug.Log("Adding harder stone")
+
+        Local percentToConvert := 0.01
+        Select controller_game.currentLevel
+            Case 2 percentToConvert = 0.02
+            Case 3 percentToConvert = 0.03
+            Case 4 percentToConvert = 0.04
+            Default
+                If controller_game.currentDepth > 4
+                    percentToConvert = math.Min(0.1, controller_game.currentLevel * 0.01)
+                End If
+        End Select
+
+        If controller_game.currentZone = 4
+            percentToConvert = math.Min(0.01, percentToConvert)
+        End If
+
+        Local conversionCandidates := New IntPointList()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsWall(False, True, False, False) And
+                   tile.health <= 1 And
+                   Not tile.isCracked
+                    conversionCandidates.AddLast(New Point(tile.x, tile.y))
+                End If
+            End For
+        End For
+
+        Local i := 5000
+        Local numWallsToConvert := Int(conversionCandidates.Count() * percentToConvert)
+
+        For i = i - 1 Until 0 Step -1
+            If numWallsToConvert <= 0 Then Exit
+
+            numWallsToConvert -= 1
+
+            Local conversionCandidatesIndex := Util.RndIntRangeFromZero(conversionCandidates.Count() - 1, True)
+            Local conversionCandidatesArray := conversionCandidates.ToArray()
+            Local wallToConvert := conversionCandidatesArray[conversionCandidatesIndex]
+
+            Level.GetTileAt(wallToConvert.x, wallToConvert.y).BecomeHarderStone()
+
+            conversionCandidates.RemoveEach(wallToConvert)
+        End For
+
+        If i <= 0
+            Debug.Log("****************** ADDSTONE: Unable to place the desired amount of stone! ******************")
+        End If
     End Function
 
     Function AddMinibossWall: Void(xVal: Int, yVal: Int, wallType: Int)
