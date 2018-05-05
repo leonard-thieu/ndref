@@ -2,6 +2,7 @@
 
 Import monkey.list
 Import monkey.map
+Import monkey.math
 Import mojo.graphics
 Import brl.json
 Import armadillo
@@ -58,8 +59,10 @@ Import slime
 Import spider
 Import sprite
 Import tarmonster
+Import trap
 Import trapcauldron
 Import trapchest
+Import util
 Import warlock
 Import water_ball
 Import wight
@@ -443,7 +446,44 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function MoveSwarmEnemiesAwayFromStartLocation: Void()
-        Debug.TraceNotImplemented("Enemy.MoveSwarmEnemiesAwayFromStartLocation()")
+        For Local enemy := EachIn Enemy.enemyList
+            If Not enemy.swarmCulprit Then Continue
+
+            Local x := enemy.x
+            Local y := enemy.y
+
+            If math.Abs(x) > math.Abs(y)
+                If x < 0
+                    x -= 1
+                Else
+                    x += 1
+                End If
+            Else
+                If y < 0
+                    y -= 1
+                Else
+                    y += 1
+                End If
+            End If
+
+            While Not Util.IsGlobalCollisionAt(x, y, False, False, False, False)
+                Local liveTrap := False
+
+                For Local trap := EachIn Trap.trapList
+                    If x = trap.x And
+                       y = trap.y
+                        liveTrap = trap.IsLive()
+
+                        Exit
+                    End If
+                End For
+
+                If liveTrap Then Exit
+            End While
+
+            enemy.x = x
+            enemy.y = y
+        End For
     End Function
 
     Function ResetAll: Void()
