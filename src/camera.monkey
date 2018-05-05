@@ -52,7 +52,11 @@ Class Camera
     End Function
 
     Function IsOnScreenStandardizedRelativeToPoint: Bool(xVal: Int, yVal: Int, pointX: Int, pointY: Int)
-        Debug.TraceNotImplemented("Camera.IsOnScreenStandardizedRelativeToPoint(Int, Int, Int, Int)")
+        Local pixelX := pointX - (24 * xVal)
+        Local pixelY := pointY - (24 * yVal)
+
+        Return (-239 <= pixelX And pixelX <= 251) And
+               (-134 <= pixelY And pixelY <= 146)
     End Function
 
     Function SetFreezeFrames: Void(num: Int, delay: Int, xVal: Int, yVal: Int)
