@@ -2877,10 +2877,20 @@ Class Level
 
             Local placeLiquid := False
 
-            If (controller_game.currentLevel = 1) And (liquidRoll <=  5) Then placeLiquid = True
-            If (controller_game.currentLevel = 2) And (liquidRoll <= 25) Then placeLiquid = True
-            If (controller_game.currentLevel = 3) And (liquidRoll <= 45) Then placeLiquid = True
-            If (controller_game.currentLevel > 3) And (liquidRoll <= 65) Then placeLiquid = True
+            Select controller_game.currentZone
+                Case 1,
+                     2,
+                     4
+                    Select controller_game.currentLevel
+                        Case 1 If liquidRoll <=  5 Then placeLiquid = True
+                        Case 2 If liquidRoll <= 25 Then placeLiquid = True
+                        Case 3 If liquidRoll <= 45 Then placeLiquid = True
+                        Default
+                            If controller_game.currentLevel > 3
+                                If liquidRoll <= 65 Then placeLiquid = True
+                            End If
+                    End Select
+            End Select
 
             Select lastCreatedRoomType
                 Case RoomType.Basic,
