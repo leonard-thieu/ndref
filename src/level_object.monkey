@@ -17,7 +17,7 @@ Import salechest
 Import saleitem
 Import scattertrap
 Import shrine
-Import teleportrap
+Import teleporttrap
 Import tile
 Import trap
 Import trapdoor

@@ -71,6 +71,7 @@ Import spells
 Import spiketrap
 Import stack_ex
 Import swarm_sarcophagus
+Import teleporttrap
 Import tile
 Import tiledata
 Import transmogrifier
