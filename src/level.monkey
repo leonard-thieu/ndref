@@ -7506,7 +7506,11 @@ Class Level
     End Function
 
     Function PlaceTrapInRoom: Trap(room: RoomData, trapType: Int, bounceDir: Int)
-        Return Level.PlaceTrapInRoom(room.x, room.y, room.w, room.h, trapType, bounceDir, Null)
+        Return Level.PlaceTrapInRoom(room.x, room.y, room.w, room.h, trapType, bounceDir)
+    End Function
+
+    Function PlaceTrapInRoom: Trap(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int)
+        Return Level.PlaceTrapInRoom(xVal, yVal, wVal, hVal, trapType, bounceDir, Null)
     End Function
 
     Function PlaceTrapInRoom: Trap(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap)
@@ -7802,7 +7806,84 @@ Class Level
     End Function
 
     Function PlaceTrapsZone3: Void()
-        Debug.TraceNotImplemented("Level.PlaceTrapsZone3()")
+        For Local room := EachIn Level.rooms
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit Then Continue
+
+            Select controller_game.currentLevel
+                Case 1
+                    Local trapRoll := Util.RndBool(True)
+                    If trapRoll
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndIntRangeFromZero(2, True)
+                    If trapRoll2 = 0
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+                Case 2
+                    Local trapRoll := Util.RndIntRangeFromZero(4, True)
+                    If trapRoll = 0
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndIntRangeFromZero(3, True)
+                    If trapRoll2
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll3 := Util.RndIntRangeFromZero(3, True)
+                    If trapRoll3 = 0
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll4 := Util.RndBool(True)
+                    If trapRoll4
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+                Case 3
+                    Local trapRoll := Util.RndIntRangeFromZero(2, True)
+                    If trapRoll = 0
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndBool(True)
+                    If trapRoll2
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    For numTraps = numTraps Until 0 Step -1
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End For
+                Default
+                    Local trapRoll := Util.RndIntRangeFromZero(2, True)
+                    If trapRoll = 0
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndBool(True)
+                    If trapRoll2
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll3 := Util.RndIntRangeFromZero(4, True)
+                    If trapRoll3 = 0
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    For numTraps = numTraps Until 0 Step -1
+                        Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
+                    End For
+            End Select
+        End For
     End Function
 
     Function PlaceTrapsZone4: Void()
@@ -7814,7 +7895,31 @@ Class Level
     End Function
 
     Function PlaceTrapZone3: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceTrapZone3(Int, Int, Int, Int)")
+        Local trapTypeRoll := Util.RndIntRangeFromZero(100, True)
+        Local trapType: Int
+        Local direction := -1
+        
+        If trapTypeRoll <= 1
+            trapType = TrapType.BounceTrap
+            direction = BounceTrapDirection.Spin
+        Else If trapTypeRoll <=  5
+            trapType = TrapType.BounceTrap
+            direction = BounceTrapDirection.Omni
+        Else If trapTypeRoll <= 10
+            trapType = TrapType.TrapDoor
+        Else If trapTypeRoll <= 30
+            trapType = TrapType.ConfuseTrap
+        Else If trapTypeRoll <= 45
+            trapType = TrapType.TeleportTrap
+        Else If trapTypeRoll <= 60
+            trapType = TrapType.SpikeTrap
+        Else If trapTypeRoll <= 75
+            trapType = TrapType.BombTrap
+        Else
+            trapType = TrapType.BounceTrap
+        End If
+
+        Level.PlaceTrapInRoom(xVal, yVal, wVal, hVal, trapType, direction)
     End Function
 
     Function PlaceTrapZone4: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
