@@ -3,18 +3,35 @@
 Import enemy
 Import logger
 Import point
+Import shrine
 
 Class Goblin Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Goblin.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "goblin")
+
+        For Local i := 0 Until Self.lastDist.Length()
+            Self.lastDist[i] = 9999.0
+        End For
+
+        Self.overrideAttackSound = "goblinAttack"
+        Self.overrideDeathSound = "goblinDeath"
+        Self.overrideHitSound = "goblinHit"
+
+        Self.swarmCulprit = True
     End Method
 
-    Field lastDist: Float[]
+    Field lastDist: Float[4]
     Field movingAway: Bool
-    Field lastVocalization: Int
+    Field lastVocalization: Int = -1
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Goblin.GetMovementDirection()")
