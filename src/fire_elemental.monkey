@@ -8,7 +8,13 @@ Class FireElemental Extends ElementalBase
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("FireElemental.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "fireelemental")
+
+        Self.overrideAttackSound = "elementalFireAttack"
+        Self.overrideHitSound = "elementalFireHit"
+        Self.overrideDeathSound = "elementalFireDeath"
     End Method
 
     Method DropTile: Void()
