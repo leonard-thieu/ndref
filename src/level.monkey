@@ -8236,7 +8236,20 @@ Class Level
     End Function
 
     Function WidenCorridors: Void()
-        Debug.TraceNotImplemented("Level.WidenCorridors()")
+        Local corridorWallLocations := New IntPointList()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.GetType() = TileType.CorridorDirtWall
+                    corridorWallLocations.AddLast(New Point(tile.x, tile.y))
+                End If
+            End For
+        End For
+
+        For Local corridorWallLocation := EachIn corridorWallLocations
+            Level.PlaceTileRemovingExistingTiles(corridorWallLocation.x, corridorWallLocation.y, TileType.Floor)
+        End For
     End Function
 
     Function _EditorFix: Void() End
