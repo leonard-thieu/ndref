@@ -8,7 +8,13 @@ Class IceElemental Extends ElementalBase
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("IceElemental.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "iceelemental")
+
+        Self.overrideAttackSound = "elementalIceAttack"
+        Self.overrideHitSound = "elementalIceHit"
+        Self.overrideDeathSound = "elementalIceDeath"
     End Method
 
     Method DropTile: Void()
