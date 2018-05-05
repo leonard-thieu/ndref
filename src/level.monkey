@@ -7944,8 +7944,13 @@ Class Level
         Debug.TraceNotImplemented("Level.PlaceZone3Beetle(Int, Int)")
     End Function
 
-    Function PlaceZone3Cauldron: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Cauldron(Int, Int)")
+    Function PlaceZone3Cauldron: Enemy(xVal: Int, yVal: Int)
+        Local trapCauldronRoll := Util.RndIntRangeFromZero(20, True)
+        If trapCauldronRoll = 0
+            Return New TrapCauldron(xVal, yVal, 1)
+        End If
+
+        Return New Cauldron(xVal, yVal, 1)
     End Function
 
     Function PlaceZone3Elemental: Object(xVal: Int, yVal: Int)
