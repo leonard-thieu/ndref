@@ -388,7 +388,51 @@ Class Level
     End Function
 
     Function AddSomePillarsInOpenSpace: Void()
-        Debug.TraceNotImplemented("Level.AddSomePillarsInOpenSpace()")
+        Local pillarCandidates := New IntPointList()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                
+                If tile.GetType() <> TileType.Floor Then Continue
+                If Level.IsTrapOrExitAbove(tile.x, tile.y) Then Continue
+                If Level.IsWallAdjacent8(tile.x, tile.y) Then Continue
+
+                Local player1Location := controller_game.players[controller_game.player1].GetLocation()
+                Local distFromPlayer := Util.GetDist(player1Location.x, player1Location.y, tile.x, tile.y)
+                If distFromPlayer <= 6.0 Then Continue
+
+                Local distFromClosestNPC := NPC.GetDistFromClosestNPC(tile.x, tile.y)
+                If distFromClosestNPC <= 6.0 Then Continue
+
+                pillarCandidates.AddLast(New Point(tile.x, tile.y))
+            End For
+        End For
+
+        Local i := 500
+        Local numPillars := 6
+
+        For i = i - 1 Until 0 Step -1
+            If pillarCandidates.IsEmpty() Then Exit
+            If numPillars <= 0 Then Exit
+
+            Local pillarCandidatesIndex := Util.RndIntRangeFromZero(pillarCandidates.Count() - 1, True)
+            Local pillarCandidatesArray := pillarCandidates.ToArray()
+            Local pillarCandidate := pillarCandidatesArray[pillarCandidatesIndex]
+
+            If Level.IsFloorAdjacent(pillarCandidate.x, pillarCandidate.y)
+                If Not Level.IsCorridorFloorOrDoorAdjacent(pillarCandidate.x, pillarCandidate.y)
+                    Level.PlaceTileRemovingExistingTiles(pillarCandidate.x, pillarCandidate.y, TileType.DirtWall)
+                    numPillars -= 1
+                End If
+            End If
+
+            pillarCandidates.RemoveEach(pillarCandidate)
+        End For
+
+        If i <= 0
+            Debug.Log("****************** AddSomePillarsInOpenSpace: Unable to add the desired number of pillars! ******************")
+        End If
     End Function
 
     Function AddSpecialRoom: Void(roomType: Int, addCrack: Bool)
