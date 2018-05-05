@@ -7969,8 +7969,13 @@ Class Level
         Return New Slime(xVal, yVal, 4)
     End Function
 
-    Function PlaceZone3YetiHellhound: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3YetiHellhound(Int, Int)")
+    Function PlaceZone3YetiHellhound: Enemy(xVal: Int, yVal: Int)
+        If Level.IsInZone3Hot(xVal, yVal)
+            Return Enemy.MakeEnemy(xVal, yVal, EnemyId.Hellhound)
+        End If
+
+
+        Return Enemy.MakeEnemy(xVal, yVal, EnemyId.Yeti)
     End Function
 
     Function PlaceZoneAppropriateNumberOfDiamondsAt: Void(xVal: Int, yVal: Int)
