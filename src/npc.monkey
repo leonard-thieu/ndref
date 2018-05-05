@@ -1,9 +1,11 @@
 'Strict
 
 Import monkey.list
+Import monkey.math
 Import enemy
 Import logger
 Import sprite
+Import util
 
 Class NPC Extends Enemy Abstract
 
@@ -14,7 +16,18 @@ Class NPC Extends Enemy Abstract
     End Function
 
     Function GetDistFromClosestNPC: Float(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("NPC.GetDistFromClosestNPC(Int, Int)")
+        Local closestDist := 99999.0
+
+        For Local npc := EachIn NPC.npcList
+            If npc.dead Then Continue
+
+            Local location := npc.GetLocation()
+            Local dist := Util.GetDist(location.x, location.y, xVal, yVal)
+
+            closestDist = math.Min(closestDist, dist)
+        End For
+
+        Return closestDist
     End Function
 
     Function _EditorFix: Void() End
