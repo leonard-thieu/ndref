@@ -6486,9 +6486,11 @@ Class Level
                 extraEnemies -= 1
 
                 Select Util.RndIntRangeFromZero(4, True)
-                    Case 0,
-                         1
+                    Case 0
                         Level.PlaceZone3YetiHellhound(point.x, point.y)
+                    Case 1
+                        ' This value is not used.
+                        point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
                     Case 2
                         Local skeletonKnightLevel := Util.RndIntRange(2, 3, True, -1)
                         New SkeletonKnight(point.x, point.y, skeletonKnightLevel)
