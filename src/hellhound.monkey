@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import level
 Import logger
 
 Class Hellhound Extends Enemy
@@ -19,7 +20,12 @@ Class Hellhound Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Hellhound.Die()")
+        If Self.enableDeathEffects And
+           Self.falling
+            Level.PlaceHotCoalTileAt(Self.x, Self.y)
+        End If
+
+        Super.Die()
     End Method
 
 End Class
