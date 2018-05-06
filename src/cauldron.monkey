@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import level
 Import logger
 Import player_class
 Import util
@@ -30,7 +31,12 @@ Class Cauldron Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Cauldron.Die()")
+        Select Self.level
+            Case 2  Level.PlaceIceTileAt(Self.x, Self.y)
+            Default Level.PlaceHotCoalTileAt(Self.x, Self.y)
+        End Select
+
+        Super.Die()
     End Method
 
     Method Update: Void()
