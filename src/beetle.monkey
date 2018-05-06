@@ -9,10 +9,18 @@ Class Beetle Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Beetle.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "beetle")
+
+        Self.overrideHitSound = "beetleHit"
+        Self.overrideAttackSound = "beetleAttack"
+        Self.overrideDeathSound = "beetleDeath"
+
+        Self.swarmCulprit = True
     End Method
 
-    Field hasArmor: Bool
+    Field hasArmor: Bool = True
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("Beetle.Hit(String, Int, Int, Entity, Bool, Int)")
