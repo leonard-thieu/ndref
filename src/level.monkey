@@ -6636,7 +6636,23 @@ Class Level
     End Function
 
     Function PlaceHotCoalTileAt: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceHotCoalTileAt(Int, Int)")
+        Local exitValue := Level.GetExitValue(xVal, yVal)
+        If exitValue.x <> -4 Then Return
+
+        If Not Level.IsFloorAt(xVal, yVal) Then Return
+
+        Select Level.GetTileTypeAt(xVal, yVal)
+            Case TileType.Ice
+                Level.PlaceTileRemovingExistingTiles(xVal, yVal, TileType.Water)
+                ' SKIPPING: Audio part
+            Default
+                Local trap := Trap.GetTrapAt(xVal, yVal)
+                If trap <> Null
+                    trap.Die()
+                End If
+
+                Level.PlaceTileRemovingExistingTiles(xVal, yVal, TileType.Ice)
+        End Select
     End Function
 
     Function PlaceIceTileAt: Void(xVal: Int, yVal: Int)
