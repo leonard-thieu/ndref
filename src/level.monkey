@@ -6570,9 +6570,97 @@ Class Level
 
                     Level.PlaceZone3Slime(point.x, point.y)
                 Case 2
-                    Debug.TraceNotImplemented("Level.PlaceEnemiesZone4() (Level 2)")
+                    Local ghastRoll := Util.RndIntRangeFromZero(4, True)
+                    If ghastRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New Ghast(point.x, point.y, 1)
+                    End If
+
+                    Local skeletonKnightRoll := Util.RndBool(True)
+                    If skeletonKnightRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New SkeletonKnight(point.x, point.y, 2)
+                    End If
+
+                    Local shoveMonsterOrSlimeRoll := Util.RndBool(True)
+                    If shoveMonsterOrSlimeRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New ShoveMonster(point.x, point.y, 1)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Slime(point.x, point.y)
+                    End If
+
+                    Local beetleRoll := Util.RndIntRangeFromZero(5, True)
+                    If beetleRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Beetle(point.x, point.y)
+                    End If
+
+                    Local elementalOrGoblinRoll := Util.RndIntRangeFromZero(2, True)
+                    If elementalOrGoblinRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        ' NOTE: The value for this roll is not checked.
+                        Util.RndBool(True)
+
+                        Level.PlaceZone3Elemental(point.x, point.y)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New Goblin(point.x, point.y, 1)
+                    End If
+
+                    If room.hasExit
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3YetiHellhound(point.x, point.y)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New Goblin(point.x, point.y, 2)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Beetle(point.x, point.y)
+
+                        If Util.IsCharacterActive(Character.Aria)
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = null Then Continue
+
+                            New Sarcophagus(point.x, point.y, 2)
+                        End If
+                    End If
+
+                    Local yetiHellhoundOrSlimeRoll := Util.RndIntRangeFromZero(4, True)
+                    If yetiHellhoundOrSlimeRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3YetiHellhound(point.x, point.y)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Slime(point.x, point.y)
+                    End If
                 Default
-                    Debug.TraceNotImplemented("Level.PlaceEnemiesZone4() (Other levels)")
+                    Debug.TraceNotImplemented("Level.PlaceEnemiesZone3() (Other levels)")
             End Select
         End For
 
