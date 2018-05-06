@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.math
+Import crystal_shards
 Import enemy
 Import entity
 Import logger
@@ -52,7 +53,11 @@ Class SkeletonKnight Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("SkeletonKnight.Die()")
+        If Self.level = 4
+            New CrystalShards(Self.x, Self.y)
+        End If
+
+        Super.Die()
     End Method
 
     Method GetMovementDirection: Point()
