@@ -8585,7 +8585,7 @@ Class Level
                     End If
 
                     Local trapRoll2 := Util.RndIntRangeFromZero(3, True)
-                    If trapRoll2
+                    If trapRoll2 = 0
                         Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
                     End If
 
