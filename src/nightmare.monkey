@@ -4,19 +4,40 @@ Import enemy
 Import entity
 Import logger
 Import point
+Import shrine
 
 Class Nightmare Extends Enemy
 
-    Global nightmare: Object
+    Global nightmare: Nightmare
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Nightmare.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "nightmare")
+
+        If l > 1
+            Self.NIGHTMARE_DARKNESS_RADIUS = 3.5
+        End If
+
+        Self.ActivateLight(0.1, Self.NIGHTMARE_DARKNESS_RADIUS)
+        Self.lightSourceBrightness = -15.0
+
+        Nightmare.nightmare = Self
+
+        Self.overrideAttackSound = "nightmareAttack"
+        Self.overrideDeathSound = "nightmareDeath"
+        Self.overrideHitSound = "nightmareHit"
+        Self.overrideCrySound = "nightmareCry"
     End Method
 
-    Field NIGHTMARE_DARKNESS_RADIUS: Float
-    Field seekDistance: Int
+    Field NIGHTMARE_DARKNESS_RADIUS: Float = 2.5
+    Field seekDistance: Int = 9
     Field failedLastMove: Bool
 
     Method Die: Void()
