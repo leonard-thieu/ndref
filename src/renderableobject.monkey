@@ -14,17 +14,12 @@ Class RenderableObject Abstract
     Function DeleteAll: Void(spareThePlayers: Bool)
         RenderableObject.deletingAll = True
 
-        If spareThePlayers
-            For Local renderableObj := EachIn RenderableObject.renderableObjectList
-                If Not (renderableObj.isPlayer And renderableObj.isFamiliar)
-                    renderableObj.Die()
-                End If
-            End For
-        Else
-            For Local renderableObj := EachIn RenderableObject.renderableObjectList
+        For Local renderableObj := EachIn RenderableObject.renderableObjectList
+            If Not spareThePlayers Or
+               (Not renderableObj.isPlayer And Not renderableObj.isFamiliar)
                 renderableObj.Die()
-            End For
-        End If
+            End If
+        End For
 
         Entity.deadEntityList.Clear()
 
