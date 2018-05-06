@@ -1,11 +1,14 @@
 'Strict
 
+Import monkey.list
+Import mojo.graphics
 Import entity
 Import logger
+Import sprite
 
 Class CrystalShards Extends Entity
 
-    Global shardsList: Object
+    Global shardsList: List<CrystalShards> = New List<CrystalShards>()
 
     Function AnyAt: Bool(x: Int, y: Int)
         Debug.TraceNotImplemented("CrystalShards.AnyAt(Int, Int)")
@@ -14,10 +17,15 @@ Class CrystalShards Extends Entity
     Function _EditorFix: Void() End
 
     Method New(x_: Int, y_: Int)
-        Debug.TraceNotImplemented("CrystalShards.New(Int, Int)")
+        Super.New()
+
+        CrystalShards.shardsList.AddLast(Self)
+
+        Self.image = New Sprite("entities/crystal_shards.png", 24, 24, 2, Image.DefaultFlags)
+        Self.image.SetZOff(-19.0)
     End Method
 
-    Field fadeBeats: Int
+    Field fadeBeats: Int = 2
 
     Method Die: Void()
         Debug.TraceNotImplemented("CrystalShards.Die()")
