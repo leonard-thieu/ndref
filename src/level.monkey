@@ -4712,7 +4712,7 @@ Class Level
     End Function
 
     Function IsTrapOrExitAbove: Bool(xVal: Int, yVal: Int)
-        If Level.IsExitAt(xVal, yVal) Then Return True
+        If Level.IsExitAt(xVal, yVal - 1) Then Return True
 
         Return Trap.GetTrapTypeAt(xVal, yVal) <> TrapType.None
     End Function
