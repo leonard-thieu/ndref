@@ -8683,8 +8683,12 @@ Class Level
         Debug.TraceNotImplemented("Level.PlaceWire(Point, Point)")
     End Function
 
-    Function PlaceZone3Beetle: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceZone3Beetle(Int, Int)")
+    Function PlaceZone3Beetle: Enemy(xVal: Int, yVal: Int)
+        If Level.IsInZone3Hot(xVal, yVal)
+            Return Enemy.MakeEnemy(xVal, yVal, EnemyId.FireBeetle)
+        End If
+
+        Return Enemy.MakeEnemy(xVal, yVal, EnemyId.IceBeetle)
     End Function
 
     Function PlaceZone3Cauldron: Enemy(xVal: Int, yVal: Int)
