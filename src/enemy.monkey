@@ -469,6 +469,9 @@ Class Enemy Extends MobileEntity Abstract
             Local x := enemy.x
             Local y := enemy.y
 
+            Local originalX := x
+            Local originalY := y
+
             Repeat
                 enemy.x = x
                 enemy.y = y
@@ -477,6 +480,13 @@ Class Enemy Extends MobileEntity Abstract
                 y += yOff
             Until Util.IsGlobalCollisionAt(x, y, False, False, False, False) Or
                   Trap.IsLiveTrapAt(x, y)
+
+            If enemy.x <> originalX Or
+               enemy.y <> originalY
+                Local enemyNode := Enemy.GetEnemyXML(enemy.xmlName, enemy.level)
+                Local displayName := item.GetString(enemyNode, "displayName", enemy.friendlyName)
+                Debug.WriteLine("Moved " + displayName + " from " + (New Point(originalX, originalY)).ToString() + " to " + (New Point(enemy.x, enemy.y)).ToString())
+            End If
         End For
     End Function
 
