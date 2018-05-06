@@ -5,7 +5,7 @@ Import gamedata
 Import level
 Import player_class
 
-Const DEBUG_BUILD := False
+Const DEBUG_BUILD := True
 
 Const DUMPMAP_ITERATIVE := False
 Const TRACE_NOT_IMPLEMENTED := True
