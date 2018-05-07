@@ -6489,7 +6489,7 @@ Class Level
                     Case 0
                         Level.PlaceZone3YetiHellhound(point.x, point.y)
                     Case 1
-                        ' This value is not used.
+                        ' NOTE: This value is not used.
                         point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
                     Case 2
                         Local skeletonKnightLevel := Util.RndIntRange(2, 3, True, -1)
@@ -6660,16 +6660,110 @@ Class Level
                         Level.PlaceZone3Slime(point.x, point.y)
                     End If
                 Default
-                    Debug.TraceNotImplemented("Level.PlaceEnemiesZone3() (Other levels)")
+                    Local ghastRoll := Util.RndIntRangeFromZero(3, True)
+                    If ghastRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New Ghast(point.x, point.y, 1)
+                    End If
+
+                    Local skeletonKnightOrYetiHellhoundRoll := Util.RndBool(True)
+                    If skeletonKnightOrYetiHellhoundRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New SkeletonKnight(point.x, point.y, 3)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3YetiHellhound(point.x, point.y)
+                    End If
+
+                    Local shoveMonsterOrSlimeRoll := Util.RndBool(True)
+                    If shoveMonsterOrSlimeRoll
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New ShoveMonster(point.x, point.y, 2)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Slime(point.x, point.y)
+                    End If
+
+                    Local yetiHellhoundRoll := Util.RndIntRangeFromZero(5, True)
+                    If yetiHellhoundRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3YetiHellhound(point.x, point.y)
+                    End If
+
+                    Local goblinOrElementalRoll := Util.RndIntRangeFromZero(2, True)
+                    If goblinOrElementalRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Local goblinLevel := Util.RndIntRange(1, 2, True, -1)
+                        New Goblin(point.x, point.y, goblinLevel)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        ' NOTE: The value for this roll is not checked.
+                        Util.RndBool(True)
+
+                        Level.PlaceZone3Elemental(point.x, point.y)
+                    End If
+
+                    If room.hasExit
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3YetiHellhound(point.x, point.y)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        New Goblin(point.x, point.y, 2)
+
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Beetle(point.x, point.y)
+
+                        If Util.IsCharacterActive(Character.Aria)
+                            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                            If point = null Then Continue
+
+                            New Sarcophagus(point.x, point.y, 3)
+                        End If
+                    End If
+
+                    Local beetleOrSlimeRoll := Util.RndIntRangeFromZero(4, True)
+                    If beetleOrSlimeRoll = 0
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Beetle(point.x, point.y)
+                    Else
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        If point = null Then Continue
+
+                        Level.PlaceZone3Slime(point.x, point.y)
+                    End If
             End Select
         End For
 
         If Util.IsCharacterActive(Character.Aria)
-            Debug.TraceNotImplemented("Level.PlaceEnemiesZone4() (Aria section)")
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone3() (Aria section)")
         End If
 
         If Util.IsCharacterActive(Character.Tempo)
-            Debug.TraceNotImplemented("Level.PlaceEnemiesZone4() (Tempo section)")
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone3() (Tempo section)")
         End If
     End Function
 
