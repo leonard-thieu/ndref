@@ -6923,8 +6923,6 @@ Class Level
                 Else
                     enemyIds.Push(EnemyId.IceElemental)
                 End If
-
-                enemyIds.Push(EnemyId.Clone)
             Case 4
                 Select controller_game.currentLevel
                     Case 2
