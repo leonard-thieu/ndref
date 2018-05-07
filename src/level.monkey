@@ -5081,9 +5081,9 @@ Class Level
 
     Function GetTileTypeAt: Int(xVal: Int, yVal: Int)
         Local tile := Level.GetTileAt(xVal, yVal)
-        If tile Then Return tile.GetType()
+        If tile <> Null Then Return tile.GetType()
 
-        Return -1
+        Return TileType.Empty
     End Function
 
     Function GetZone3BeetleType: Int(xVal: Int, yVal: Int)
