@@ -3174,7 +3174,11 @@ Class Level
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int)
-        Return Level.CreateRoom(xVal, yVal, wVal, hVal, pending, roomType, -1, -1, -1, -1, False, TileType.DirtWall, False, True)
+        Return Level.CreateRoom(xVal, yVal, wVal, hVal, pending, roomType, True)
+    End Function
+
+    Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, allowWaterTarOoze: Bool)
+        Return Level.CreateRoom(xVal, yVal, wVal, hVal, pending, roomType, -1, -1, -1, -1, False, TileType.DirtWall, False, allowWaterTarOoze)
     End Function
 
     Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
