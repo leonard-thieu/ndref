@@ -9208,7 +9208,36 @@ Class Level
     End Function
 
     Function PlaceTrapZone4: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceTrapZone4(Int, Int, Int, Int)")
+        Local trapTypeRoll := Util.RndIntRangeFromZero(100, True)
+        Local trapType: Int
+        Local direction := BounceTrapDirection.None
+
+        If trapTypeRoll <= 5
+            trapType = TrapType.BounceTrap
+            direction = BounceTrapDirection.Omni
+        Else If trapTypeRoll <= 10
+            trapType = TrapType.TrapDoor
+        Else If trapTypeRoll <= 20
+            trapType = TrapType.ConfuseTrap
+        Else If trapTypeRoll <= 30
+            trapType = TrapType.BombTrap
+        Else If trapTypeRoll <= 40
+            trapType = TrapType.SpikeTrap
+        Else If trapTypeRoll <= 55
+            trapType = TrapType.BounceTrap
+            direction = BounceTrapDirection.DownRight
+        Else If trapTypeRoll <= 70
+            trapType = TrapType.BounceTrap
+            direction = BounceTrapDirection.DownLeft
+        Else If trapTypeRoll <= 85
+            trapType = TrapType.BounceTrap
+            direction = BounceTrapDirection.UpLeft
+        Else
+            trapType = TrapType.BounceTrap
+            direction = BounceTrapDirection.UpRight
+        End If
+
+        Level.PlaceTrapInRoom(xVal, yVal, wVal, hVal, trapType, direction)
     End Function
 
     Function PlaceTrapZone5: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
