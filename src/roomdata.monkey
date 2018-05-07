@@ -1,6 +1,7 @@
 'Strict
 
 Import logger
+Import point
 Import rect
 
 Class RoomData
@@ -27,8 +28,8 @@ Class RoomData
         Debug.TraceNotImplemented("RoomData.GetBounds()")
     End Method
 
-    Method GetLocation: Object()
-        Debug.TraceNotImplemented("RoomData.GetLocation()")
+    Method GetLocation: Point()
+        Return New Point(Self.x, Self.y)
     End Method
 
     Method GetSize: Object()
