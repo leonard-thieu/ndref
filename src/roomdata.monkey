@@ -32,8 +32,8 @@ Class RoomData
         Return New Point(Self.x, Self.y)
     End Method
 
-    Method GetSize: Object()
-        Debug.TraceNotImplemented("RoomData.GetSize()")
+    Method GetSize: Point()
+        Return New Point(Self.w, Self.h)
     End Method
 
     Method ToString: String()
