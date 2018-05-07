@@ -20,6 +20,7 @@ Import conjurer
 Import controller_game
 Import controller_level_editor
 Import crate
+Import death_metal
 Import diamonddealer
 Import dragon
 Import entity
@@ -1482,7 +1483,84 @@ Class Level
     End Function
 
     Function CreateBossBattle2: Void()
-        Debug.TraceNotImplemented("Level.CreateBossBattle2()")
+        Debug.Log("CREATEBOSSBATTLE2: Creating death metal boss battle.")
+
+        Level.CreateBossBattleEntrance("deathmetal")
+
+        Level.CreateRoom(-6, -16, 12, 10, False, RoomType.Boss)
+
+        For Local x := -1 To 1
+            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door)
+        End For
+
+        Level.GetTileAt(-2, -6).AddTorch()
+        Level.GetTileAt(2, -6).AddTorch()
+
+        For Local x := -1 To 1
+            Level.GetTileAt(x, -6).SetDoorTrigger(2)
+        End For
+
+        Level.SetMagicBarrier(True)
+
+        For Local x := -5 To 5
+            For Local y := -15 To -7
+                Level.GetTileAt(x, y).SetTrigger(1)
+            End For
+        End For
+
+        Local point := Level.GetRandomOffsetPoint()
+        Local deathMetal := New DeathMetal(point.x, -11, 1)
+        deathMetal.ActivateLight(0.01, 1.5)
+
+        Local enemyId1: Int
+        Local enemyId2: Int
+
+        Select controller_game.currentZone
+            Case 1
+                enemyId1 = EnemyId.Ghost
+                enemyId2 = EnemyId.Ghost
+            Case 2
+                enemyId1 = EnemyId.Clone
+                enemyId2 = EnemyId.Clone
+            Case 3
+                enemyId1 = EnemyId.IceBeetle
+                enemyId2 = EnemyId.FireBeetle
+            Case 4
+                enemyId1 = EnemyId.Warlock
+                enemyId2 = EnemyId.NeonWarlock
+            Default
+                enemyId1 = EnemyId.GreenEvilEye
+                enemyId2 = EnemyId.PinkEvilEye
+        End Select
+
+        point = Level.GetRandomOffsetPoint()
+        Local enemy11 := Enemy.MakeEnemy(point.x - 3, math.Abs(point.y) - 15, enemyId1)
+        enemy11.ActivateLight(0.01, 1.5)
+        point = Level.GetRandomOffsetPoint()
+        Local enemy21 := Enemy.MakeEnemy(point.x + 3, math.Abs(point.y) - 15, enemyId2)
+        enemy21.ActivateLight(0.01, 1.5)
+        point = Level.GetRandomOffsetPoint()
+        Local enemy22 := Enemy.MakeEnemy(point.x - 3, point.y - 9, enemyId2)
+        enemy22.ActivateLight(0.01, 1.5)
+        point = Level.GetRandomOffsetPoint()
+        Local enemy12 := Enemy.MakeEnemy(point.x + 3, point.y - 9, enemyId1)
+        enemy12.ActivateLight(0.01, 1.5)
+
+        If Level.isHardMode
+            Debug.TraceNotImplemented("Level.CreateBossBattle2() (Hard Mode)")
+        End If
+
+        New BounceTrap(-4, -11, BounceTrapDirection.Omni)
+        New BounceTrap(4, -11, BounceTrapDirection.Omni)
+
+        New BounceTrap(0, -14, BounceTrapDirection.Omni)
+        New BounceTrap(-4, -14, BounceTrapDirection.Omni)
+        New BounceTrap(4, -14, BounceTrapDirection.Omni)
+
+        New BounceTrap(-4, -8, BounceTrapDirection.Omni)
+        New BounceTrap(4, -8, BounceTrapDirection.Omni)
+
+        Enemy.enemiesPaused = True
     End Function
 
     Function CreateBossBattle3: Void()

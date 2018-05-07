@@ -3,27 +3,42 @@
 Import enemy
 Import entity
 Import logger
+Import player_class
 Import point
+Import util
 
 Class DeathMetal Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("DeathMetal.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "deathmetal")
+
+        Self.animOverride = False
+
+        Self.overrideHitSound = "deathMetal_hit"
+        Self.overrideDeathSound = "deathMetal_death"
+        Self.overrideAttackSound = "deathMetal_attack"
+
+        If Util.IsCharacterActive(Character.Monk) Or
+           Util.IsCharacterActive(Character.Coda)
+            Self.coinsToDrop = 1
+        End If
     End Method
 
-    Field actionDelay: Int
-    Field cachedMoveDir: Point
+    Field actionDelay: Int = -1
+    Field cachedMoveDir: Point = New Point(0, 0)
     Field shieldDestroyed: Bool
     Field preventKnockbackThisFrame: Bool
-    Field shieldDir: Int
-    Field actionDelayTime: Int
-    Field lastActionTime: Int
+    Field shieldDir: Int = 1
+    Field actionDelayTime: Int = 3
+    Field lastActionTime: Int = 7
     Field lastAction: Int
     Field summonCount: Int
     Field justBounced: Bool
-    Field directionHitFrom: Int
+    Field directionHitFrom: Int = -1
 
     Method AdjustShieldDir: Void()
         Debug.TraceNotImplemented("DeathMetal.AdjustShieldDir()")
