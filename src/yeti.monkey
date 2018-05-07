@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import level
 Import logger
 
 Class Yeti Extends Enemy
@@ -22,7 +23,11 @@ Class Yeti Extends Enemy
     Field animState: Int
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Yeti.Die()")
+        If Self.enableDeathEffects
+            Level.PlaceIceTileAt(Self.x, Self.y)
+        End If
+
+        Super.Die()
     End Method
 
     Method MoveFail: Void()
