@@ -43,8 +43,20 @@ Class Util
         Debug.TraceNotImplemented("Util.CustomMusicInUse()")
     End Function
 
-    Function DirToString: Int(dir: Int)
-        Debug.TraceNotImplemented("Util.DirToString(Int)")
+    Function DirToString: String(dir: Int)
+        Select dir
+            Case Direction.None Return "DIR_NONE"
+            Case Direction.Right Return "DIR_RIGHT"
+            Case Direction.Down Return "DIR_DOWN"
+            Case Direction.Left Return "DIR_LEFT"
+            Case Direction.Up Return "DIR_UP"
+            Case Direction.DownRight Return "DIR_DOWNRIGHT"
+            Case Direction.DownLeft Return "DIR_DOWNLEFT"
+            Case Direction.UpLeft Return "DIR_UPLEFT"
+            Case Direction.UpRight Return "DIR_UPRIGHT"
+        End Select
+
+        Return "Unrecognized direction " + dir
     End Function
 
     Function FindClosestTrulyUnoccupiedSpace: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
@@ -463,6 +475,7 @@ End Class
 
 Class Direction
 
+    Const None: Int = -1
     Const Right: Int = 0
     Const Down: Int = 1
     Const Left: Int = 2
