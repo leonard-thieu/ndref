@@ -9,7 +9,15 @@ Class Harpy Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Harpy.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "harpy")
+
+        Self.movesRegardlessOfDistance = True
+
+        Self.overrideHitSound = "harpyHit"
+        Self.overrideDeathSound = "harpyDeath"
+        Self.overrideAttackSound = "harpyAttack"
     End Method
 
     Method GetMovementDirection: Point()
