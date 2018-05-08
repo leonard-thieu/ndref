@@ -88,7 +88,6 @@ Import util
 Import weaponmaster
 Import weighted_picker
 Import wraith
-Import xml
 Import zombie
 Import zombiesnake
 
@@ -579,10 +578,8 @@ Class Level
                 ' Decompilation is a little awkward in this section. Absolutely zero clue what's going on.
                 Local validGlassItems := New Stack<String>()
                 For Local glassItem := EachIn glassItems
-                    ' TOOD: Update to use JSON
-                    'Local itemsNode := necrodancergame.xmlData.GetChildAtPath("items/")
-                    Local itemsNode: XMLNode
-                    If Item.IsValidItemForCurrentChars(itemsNode)
+                    Local glassItemNode := Item.GetItemXML(glassItem)
+                    If Item.IsValidItemForCurrentChars(glassItemNode)
                         validGlassItems.Push(glassItem)
                     End If
                 End For

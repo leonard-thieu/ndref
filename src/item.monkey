@@ -943,10 +943,6 @@ Class Item Extends Entity
         Return True
     End Function
 
-    Function IsValidItemForCurrentChars: Bool(n: XMLNode)
-        Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars(XMLNode)")
-    End Function
-
     Function IsValidItemForCurrentChars: Bool(name: String)
         Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars(String)")
     End Function
