@@ -8409,7 +8409,146 @@ Class Level
     End Function
 
     Function PlaceRoomZone4: RoomData(roomType: Int)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone4(Int)")
+        Level.pendingTiles.Clear()
+        Tile.CleanUpPendingTiles()
+
+        Local roomToAttachTo: RoomData
+
+        Repeat
+            Local roomsIndex := Util.RndIntRangeFromZero(Level.rooms.Count - 1, True)
+            Local roomsArray := Level.rooms.ToArray()
+            roomToAttachTo = roomsArray[roomsIndex]
+
+            Select roomToAttachTo.type
+                Case RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            Exit
+        Forever
+
+        Local x := 0
+        Local y := 0
+
+        Repeat
+            If roomToAttachTo.x = x Then Exit
+            If roomToAttachTo.x + roomToAttachTo.w = x Then Exit
+            If roomToAttachTo.y = y Then Exit
+            If roomToAttachTo.y + roomToAttachTo.h = y Then Exit
+
+            x = roomToAttachTo.x + Util.RndIntRangeFromZero(roomToAttachTo.w, True)
+            y = roomToAttachTo.y + Util.RndIntRangeFromZero(roomToAttachTo.h, True)
+        Forever
+
+        Local numFloor: Int
+
+        If Level.GetTileTypeAt(x + 1, y) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x, y + 1) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x - 1, y) = TileType.Floor Then numFloor += 1
+        If Level.GetTileTypeAt(x, y - 1) = TileType.Floor Then numFloor += 1
+
+        If numFloor <> 1
+            Debug.WriteLine("Failed to place room for zone 4. Attachment point has " + numFloor + " tiles adjacent that are Floor (expected 1).")
+            Return Null
+        End If
+
+        Local moveX := 0 ' Possible values: -1, 0, 1
+        Local moveY := 0 ' Possible values: -1, 0, 1
+
+        If Level.GetTileTypeAt(x + 1, y) = TileType.Floor Then moveX = -1
+        If Level.GetTileTypeAt(x, y + 1) = TileType.Floor Then moveY = -1
+        If Level.GetTileTypeAt(x - 1, y) = TileType.Floor Then moveX = 1
+        If Level.GetTileTypeAt(x, y - 1) = TileType.Floor Then moveY = 1
+
+        Local horizontal := True
+        If moveX = 0 Then horizontal = False
+
+        Level.carveX = x
+        Level.carveY = y
+
+        Level.CarveCorridorTile(x, y, horizontal, True, False, roomType, False)
+
+        Local wVal := Util.RndIntRange(5, 7, True, -1)
+        Local hVal := Util.RndIntRange(5, 7, True, -1)
+
+        Select roomType
+            Case RoomType.Shop
+                wVal = 6
+                hVal = 8
+            Case RoomType.Secret
+                wVal = 4
+                hVal = 3
+            Case RoomType.Vault
+                wVal = 4
+                hVal = 3
+        End Select
+
+        Local xVal: Int
+        Local yVal: Int
+        Local xOff: Int
+        Local yOff: Int
+        Local originX := Level.carveX
+        Local originY := Level.carveY
+
+        Select moveX
+            Case -1
+                yOff = Util.RndIntRangeFromZero(hVal - 3, True)
+
+                xVal = originX - wVal
+                yVal = originY - yOff - 1
+            Case 1
+                yOff = Util.RndIntRangeFromZero(hVal - 3, True)
+
+                xVal = originX
+                yVal = originY - yOff - 1
+            Default
+                xOff = Util.RndIntRangeFromZero(wVal - 3, True)
+
+                xVal = originX - xOff - 1
+                yVal = originY
+                If moveY = -1 Then yVal -= hVal
+        End Select
+
+        Local originX2 := originX + 1
+        Local originY2 := originY
+
+        If horizontal
+            originX2 = originX
+            originY2 = originY + 1
+        End If
+
+        If Not Level.CreateRoom(xVal, yVal, wVal, hVal, True, roomType, originX, originY, originX2, originY2, False, TileType.DirtWall, True, True)
+            Return Null
+        End If
+
+        For Local pendingTilesOnXNode := EachIn Level.pendingTiles
+            For Local pendingTileNode := EachIn pendingTilesOnXNode.Value()
+                Local tileX := pendingTilesOnXNode.Key()
+                Local tileY := pendingTileNode.Key()
+
+                Local tile := Level.GetTileAt(tileX, tileY)
+                Local tileType := pendingTileNode.Value().GetType()
+                If tile <> Null Then tile.Die()
+
+                New Tile(tileX, tileY, tileType, False, -1)
+            End For
+        End For
+
+        Select roomType
+            Case RoomType.Shop
+                Level.PlaceShopItemsAt(xVal, yVal, Null)
+            Case RoomType.Secret,
+                 RoomType.Vault
+                ' Do nothing
+            Default
+                New Tile(originX, originY, TileType.Door, False, -1)
+        End Select
+
+        Local room := New RoomData(xVal, yVal, wVal, hVal, Level.lastCreatedRoomType, False)
+        Level.rooms.AddLast(room)
+
+        Return room
     End Function
 
     Function PlaceRoomZone5: RoomData(pseg: PortalSeg, width: Int, height: Int, minEntryDist: Int)
