@@ -71,7 +71,11 @@ Class Poltergeist Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Poltergeist.Die()")
+        If Poltergeist.theGhoul = Self
+            Poltergeist.theGhoul = Null
+        End If
+
+        Super.Die()
     End Method
 
     Method GetMovementDirection: Point()
