@@ -7213,8 +7213,19 @@ Class Level
         Return roomData
     End Function
 
-    Function PlaceGargoyle: Object(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Level.PlaceGargoyle(Int, Int, Int)")
+    Function PlaceGargoyle: Gargoyle(xVal: Int, yVal: Int)
+        Local level := Util.RndIntRange(1, 5, True, -1)
+
+        Return Level.PlaceGargoyle(xVal, yVal, level)
+    End Function
+
+    Function PlaceGargoyle: Gargoyle(xVal: Int, yVal: Int, l: Int)
+        If Util.IsGlobalCollisionAt(xVal, yVal, False, False, False, False) Then Return Null
+        If Level.IsExit(xVal, yVal) Then Return Null
+        If Trap.GetTrapAt(xVal, yVal) <> Null Then Return Null
+        If Level.IsWaterOrTarAt(xVal, yVal) Then Return Null
+
+        Return New Gargoyle(xVal, yVal, l)
     End Function
 
     Function PlaceHotCoalTileAt: Void(xVal: Int, yVal: Int)
