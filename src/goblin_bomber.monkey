@@ -1,5 +1,6 @@
 'Strict
 
+Import bomb
 Import enemy
 Import logger
 Import point
@@ -26,7 +27,13 @@ Class GoblinBomber Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("GoblinBomber.Die()")
+        Super.Die()
+
+        If Self.dropBomb
+            If Self.health <= 0
+                New Bomb(Self.x, Self.y, Null, True, False, "bomb")
+            End If
+        End If
     End Method
 
     Method GetMovementDirection: Point()
