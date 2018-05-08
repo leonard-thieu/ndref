@@ -996,7 +996,37 @@ Class Level
     End Function
 
     Function CheckMapConsistency: Void()
-        Debug.TraceNotImplemented("Level.CheckMapConsistency()")
+        Debug.Log("Checking map consistency for seed " + Level.randSeed + " z " + controller_game.currentZone + " l " + controller_game.currentLevel)
+
+        For Local trap := EachIn Trap.trapList
+            Select trap.trapType
+                Case TrapType.BounceTrap,
+                     TrapType.SpikeTrap,
+                     TrapType.TrapDoor,
+                     TrapType.ConfuseTrap,
+                     TrapType.TeleportTrap,
+                     TrapType.SlowDownTrap,
+                     TrapType.SpeedUpTrap,
+                     TrapType.BombTrap
+                    If Level.IsWallAt(trap.x, trap.y, False, False)
+                        Debug.Log("MAP INCONSISTENCY: Trap type " + trap.trapType + " inside wall at " + trap.GetLocation.ToString())
+                    End If
+            End Select
+        End For
+
+        For Local pickup := EachIn Item.pickupList
+            If Level.IsWallAt(pickup.x, pickup.y, False, False)
+                Debug.Log("MAP INCONSISTENCY: Item " + pickup.itemType + " inside wall at " + pickup.GetLocation().ToString())
+            End If
+        End For
+
+        For Local enemy := EachIn Enemy.enemyList
+            If Level.IsWallAt(enemy.x, enemy.y, False, False)
+                If enemy.xmlName <> "spider"
+                    Debug.Log("MAP INCONSISTENCY: Enemy " + enemy.xmlName + " inside wall at " + enemy.GetLocation().ToString())
+                End If
+            End If
+        End For
     End Function
 
     Function ClearMinibossWall: Void()
