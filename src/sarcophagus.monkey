@@ -36,7 +36,9 @@ Class Sarcophagus Extends Enemy
     Field vibrateOffset: Float = 0.7
 
     Method Delete: Void()
-        Debug.TraceNotImplemented("Sarcophagus.Delete()")
+        Sarcophagus.sarcophagi.RemoveEach(Self)
+
+        Super.Delete()
     End Method
 
     Method Die: Void()
