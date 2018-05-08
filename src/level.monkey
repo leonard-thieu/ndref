@@ -9520,7 +9520,24 @@ Class Level
     End Function
 
     Function PlaceTorchesAnywhere: Void()
-        Debug.TraceNotImplemented("Level.PlaceTorchesAnywhere()")
+        Debug.Log("PLACETORCHESANYWHERE: Placing torches")
+
+        For Local limit := 5000 Until 0 Step -1
+            Local wallTypeRoll := Util.RndIntRangeFromZero(1, True)
+            Local wallType := TileType.ShopWall
+            If wallType = 0
+                wallType = TileType.DirtWall
+            End If
+
+            Local wallLocation := Level.FindTileOfType(wallType)
+            Local wall := Level.GetTileAt(wallLocation.x, wallLocation.y)
+
+            If wall = Null Then Continue
+            If Level.GetDistanceToNearestTorch(wall) < 4.0 Then Continue
+            If Enemy.GetEnemyAt(wallLocation.x, wallLocation.y, True) <> Null Then Continue
+
+            wall.AddTorch()
+        End For
     End Function
 
     Function PlaceTrapInRoom: Trap(room: RoomData, trapType: Int)
