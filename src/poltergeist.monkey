@@ -1,19 +1,56 @@
 'Strict
 
+Import brl.json
+Import mojo.graphics
 Import enemy
 Import entity
+Import item
 Import logger
+Import player_class
 Import point
 Import sprite
+Import util
 
 Class Poltergeist Extends Enemy
 
-    Global theGhoul: Object
+    Global theGhoul: Poltergeist
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Poltergeist.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "ghoul")
+
+        Self.invisible = True
+        Self.collides = False
+        Self.blink_MIN = 120
+        Self.blink_MAX = 240
+        Self.blink_DUR = 10
+
+        Self.overrideAttackSound = "ghoulAttack"
+        Self.overrideDeathSound = "ghoulDeath"
+
+        Self.image.SetZOff(18.0)
+
+        Local enemyNode := Enemy.GetEnemyXML(Self.xmlName, Self.level)
+        Local spritesheetNode := JsonObject(enemyNode.Get("spritesheet"))
+        Local path := item.GetString(spritesheetNode, "path", "")
+        Local frameW := item.GetInt(spritesheetNode, "frameW", 0)
+        Local frameH := item.GetInt(spritesheetNode, "frameH", 0)
+        Local numFrames := item.GetInt(spritesheetNode, "numFrames", 1)
+        Self.alphaImage = New Sprite(path, frameW, frameH, numFrames, Image.DefaultFlags)
+        Self.alphaImage.SetAlphaValue(0.6)
+        Self.alphaImage.SetZOff(18.0)
+
+        Self.isWraithLike = True
+
+        Poltergeist.theGhoul = Self
+
+        If Util.IsCharacterActive(Character.Eli)
+            Self.coinsToDrop = 0
+            Self.Die()
+        End If
     End Method
 
     Field alphaImage: Sprite
