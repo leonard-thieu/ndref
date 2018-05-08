@@ -5412,7 +5412,14 @@ Class Level
     End Function
 
     Function IsWaterOrTarAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsWaterOrTarAt(Int, Int)")
+        Select Level.GetTileTypeAt(xVal, yVal)
+            Case TileType.Water,
+                 TileType.Tar,
+                 TileType.DeepWater
+                Return True
+        End Select
+
+        Return False
     End Function
 
     Function IsWireLikeAt: Bool(x: Int, y: Int)
