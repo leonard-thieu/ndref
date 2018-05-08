@@ -1,11 +1,13 @@
 'Strict
 
+Import monkey.list
 Import enemy
 Import logger
+Import shrine
 
 Class Sarcophagus Extends Enemy
 
-    Global sarcophagi: Object
+    Global sarcophagi: List<Sarcophagus> = New List<Sarcophagus>()
 
     Function DestroyAll: Void()
         Debug.TraceNotImplemented("Sarcophagus.DestroyAll()")
@@ -14,13 +16,24 @@ Class Sarcophagus Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Sarcophagus.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive
+            l = 3
+        End If
+
+        Self.Init(xVal, yVal, l, "sarcophagus")
+
+        Sarcophagus.sarcophagi.AddLast(Self)
+
+        Self.overrideHitSound = "sarcophagusHit"
+        Self.overrideDeathSound = "sarcophagusDeath"
     End Method
 
     Field numEnemiesSpawned: Int
     Field spawnedEnemy: Enemy
-    Field vibrateCounter: Int
-    Field vibrateOffset: Float
+    Field vibrateCounter: Int = 3
+    Field vibrateOffset: Float = 0.7
 
     Method Delete: Void()
         Debug.TraceNotImplemented("Sarcophagus.Delete()")
