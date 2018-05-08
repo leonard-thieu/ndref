@@ -3186,7 +3186,324 @@ Class Level
     End Function
 
     Function CreateMapZone4: Bool(recursive: Bool)
-        Debug.TraceNotImplemented("Level.CreateMapZone4(Bool)")
+        Local saveGameData := Not recursive
+        Level.InitNewMap(saveGameData)
+
+        Debug.Log("CREATEMAP ZONE4: Creating room stubs")
+
+        Local roomPositionRoll := Util.RndIntRangeFromZero(3, True)
+
+        Level.rooms = New List<RoomData>()
+
+        Local room1 := Level.PlaceFirstRoom()
+        Level.rooms.AddLast(room1)
+
+        Local exitRoom: RoomData
+        Local xLow: Int
+        Local xHigh: Int
+        Local yLow: Int
+        Local yHigh: Int
+        Select roomPositionRoll
+            ' Down Right
+            Case 0
+                xLow = -2
+                xHigh = 12
+                yLow = -2
+                yHigh = 12
+                exitRoom = New RoomData(xHigh, yHigh, 5, 5, RoomType.Basic, False)
+            ' Up Right
+            Case 1
+                xLow = -2
+                xHigh = 12
+                yLow = -17
+                yHigh = -3
+                exitRoom = New RoomData(xHigh, yLow, 5, 5, RoomType.Basic, False)
+            ' Down Left
+            Case 2
+                xLow = -17
+                xHigh = -3
+                yLow = -2
+                yHigh = 12
+                exitRoom = New RoomData(xLow, yHigh, 5, 5, RoomType.Basic, False)
+            ' Up Left
+            Default
+                xLow = -17
+                xHigh = -3
+                yLow = -17
+                yHigh = -3
+                exitRoom = New RoomData(xLow, yLow, 5, 5, RoomType.Basic, False)
+        End Select
+
+        Debug.Log("CREATEMAP ZONE4: Creating exit room stub at " + exitRoom.GetLocation().ToString() + " of size " + exitRoom.GetSize().ToString())
+
+        Level.rooms.AddLast(exitRoom)
+
+        If Not Level.CreateRoom(exitRoom.x, exitRoom.y, exitRoom.w, exitRoom.h, False, RoomType.Basic, False) Then Return Level.CreateMapZone4(True)
+
+        Local limit := 500
+        For Local i := 1 To 6
+            Local x := Util.RndIntRange(xLow, xHigh, True, -1)
+            Local y := Util.RndIntRange(yLow, yHigh, True, -1)
+
+            Local createRoom := True
+            Local j: Int
+            For j = 0 To i
+                Local roomsArray := Level.rooms.ToArray()
+                Local room := roomsArray[j]
+
+                If math.Abs(room.x - x) <= 5 And
+                   math.Abs(room.y - y) <= 5
+                    limit -= 1
+                    i -= 1
+                    createRoom = False
+
+                    Exit
+                End If
+            End For
+
+            If createRoom
+                Local room := New RoomData(x, y, 5, 5, RoomType.Basic, False)
+                Debug.Log("CREATEMAP ZONE4: Creating room stub at " + room.GetLocation().ToString() + " of size " + room.GetSize().ToString())
+                Level.rooms.AddLast(room)
+
+                If Not Level.CreateRoom(room.x, room.y, room.w, room.h, False, RoomType.Basic) Then Return Level.CreateMapZone4(True)
+            End If
+
+            If limit <= 0 Then Return Level.CreateMapZone4(True)
+        End For
+
+        Local xMax := xHigh + 5
+        Local yMax := yHigh + 5
+
+        For Local x := xLow To xMax
+            For Local y := yLow To yMax
+                If Not Level.IsTileEmpty(x, y) Then Continue
+
+                Level.PlaceTileRemovingExistingTiles(x, y, TileType.DirtWall)
+            End For
+        End For
+
+        ' TODO: Is this conditionally logged?
+        Debug.Log("CREATEMAP ZONE4: Placing secret rooms 1")
+        Level.PlaceSecretRooms(3)
+
+        Local i: Int
+        Local j := 0
+        For i = 500 Until 0 Step -1
+            Local roomsIndex := Util.RndIntRange(1, 7, True, -1)
+            Local roomsArray := Level.rooms.ToArray()
+            Local room := roomsArray[roomsIndex]
+
+            Local direction := Util.RndIntRangeFromZero(3, True)
+            Select direction
+                Case Direction.Right
+                    If room.x + room.w >= xMax Then Continue
+                    If room.w > 8 Then Continue
+                    
+                    If room.h >= 0
+                        Local yOff: Int
+                        For yOff = 0 To room.h
+                            If Level.IsFloorAt(room.x + room.w + 1, room.y + yOff) Then Exit
+                        End For
+
+                        If yOff <= room.h Then Continue
+                    End If
+                Case Direction.Down
+                    If room.y + room.h >= yMax Then Continue
+                    If room.h > 8 Then Continue
+
+                    If room.w >= 0
+                        Local xOff: Int
+                        For xOff = 0 To room.w
+                            If Level.IsFloorAt(room.x + xOff, room.y + room.h + 1) Then Exit
+                        End For
+
+                        If xOff <= room.w Then Continue
+                    End If
+                Case Direction.Left
+                    If xLow >= room.x Then Continue
+                    If room.w > 8 Then Continue
+                    
+                    If room.h >= 0
+                        Local yOff: Int
+                        For yOff = 0 To room.h
+                            If Level.IsFloorAt(room.x - 1, room.y + yOff) Then Exit
+                        End For
+
+                        If yOff <= room.h Then Continue
+                    End If
+                Case Direction.Up
+                    If yLow >= room.y Then Continue
+                    If room.h > 8 Then Continue
+
+                    If room.w >= 0
+                        Local xOff: Int
+                        For xOff = 0 To room.w
+                            If Level.IsFloorAt(room.x + xOff, room.y - 1) Then Exit
+                        End For
+
+                        If xOff <= room.w Then Continue
+                    End If
+            End Select
+
+            Debug.Log("CREATEMAP ZONE4: Expanding room at " + room.GetLocation().ToString() + " of size " + room.GetSize().ToString() + " in direction " + Util.DirToString(direction))
+
+            Select direction
+                Case Direction.Right
+                    room.w += 1
+                Case Direction.Down
+                    room.h += 1
+                Case Direction.Left
+                    room.x -= 1
+                    room.w += 1
+                Case Direction.Up
+                    room.y -= 1
+                    room.h += 1
+            End Select
+
+            Local allowWaterTarOoze := roomsIndex <> 1
+            If Not Level.CreateRoom(room.x, room.y, room.w, room.h, False, RoomType.Basic, allowWaterTarOoze) Then Return Level.CreateMapZone4(True)
+
+            i += 1
+            j += 1
+            If j > 40 Then Exit
+        End For
+
+        If i < 0 Then Return Level.CreateMapZone4(True)
+
+        Local roomsIndex := Util.RndIntRange(2, 7, True, -1)
+        Local roomsArray := Level.rooms.ToArray()
+        Local room := roomsArray[roomsIndex]
+
+        Local roomType := RoomType.OutsideCorners
+        If Util.RndBool(True)'
+            roomType = RoomType.Pillar
+        End If
+
+        If Not Level.CreateRoom(room.x, room.y, room.w, room.h, False, roomType) Then Return Level.CreateMapZone4(True)
+
+        Level.rooms.RemoveFirst()
+
+        roomsArray = Level.rooms.ToArray()
+        exitRoom = roomsArray[0]
+        exitRoom.hasExit = True
+
+        limit = 500
+
+        Debug.Log("CREATEMAP ZONE4: Placing exit in room 1")
+        For limit = limit - 1 Until 0 Step -1
+            Local stairsXOff := Util.RndIntRangeFromZero(exitRoom.w - 1, True)
+            Local stairsX := exitRoom.x + stairsXOff
+            Local stairsYOff := Util.RndIntRangeFromZero(exitRoom.h - 1, True)
+            Local stairsY := exitRoom.y + stairsYOff
+
+            If Not Level.IsFloorAt(stairsX, stairsY) Then Continue
+
+            Local tileBelow := Level.GetTileAt(stairsX, stairsY + 1)
+            If tileBelow = Null Then Continue
+            If tileBelow.IsWall() Then Continue
+
+            Level.GetTileAt(stairsX, stairsY).Die()
+
+            Local stairs := New Tile(stairsX, stairsY, TileType.LockedStairsMiniboss, False, -1)
+            stairs.flyawayText = "|198|DEFEAT THE MINIBOSS!|"
+
+            Local exitKey := New Point(stairsX, stairsY)
+            Local exitValue := New Point(LevelType.LockedExit1, -6)
+            Level.exits.Set(exitKey, exitValue)
+
+            Exit
+        End For
+
+        If limit <= 0 Then Return Level._FailMap()
+
+        Debug.Log("CREATEMAP ZONE4: Placing shop")
+        For limit = limit - 1 Until 0 Step -1
+            Local shop := Level.PlaceRoomZone4(RoomType.Shop)
+            If shop <> Null Then Exit
+        End For
+
+        If limit <= 0 Then Return Level._FailMap()
+
+        Level.ProcessSpecialRoom()
+
+        If Not Level.isLevelEditor
+            Level.CreateIndestructibleBorder()
+        End If
+        
+        Level.chestsStillToPlace = 1
+        If Not Level.isHardcoreMode
+            Local extraChestRoll := Util.RndIntRangeFromZero(100, True)
+            If extraChestRoll <= 9
+                Level.chestsStillToPlace = 2
+            End If
+        End If
+
+        Debug.Log("CREATEMAP ZONE4: Placing secret rooms 2")
+        ' TODO: Decompiler shows -1 for t_numRooms. However, hardcoding 4 creates the correct number of secret rooms and
+        '       sets RNG state to expected values (for seed "1", floor 1-1).
+        '       It's possible that 4 is the correct hardcoded value but why doesn't the decompiler show this?
+        Level.PlaceSecretRooms(4)
+
+        Debug.Log("CREATEMAP ZONE4: Filling secret rooms")
+        If Not Level.FillSecretRooms() Then Return Level._FailMap()
+
+        If Not Level.isHardcoreMode
+            If controller_game.currentLevel <= 2
+                Level.chestsStillToPlace = math.Max(Level.chestsStillToPlace, 1)
+            End If
+        End If
+
+        Level.AddStone()
+        Level.AddHarderStone()
+        Level.PlaceTraps()
+        Level.PlaceEnemies()
+
+        Debug.Log("CREATEMAP ZONE4: Placing one speedup or slowdown trap")
+        For Local i := 500 Until 0 Step -1
+            Local trap := Trap.FindRandomTrap()
+            If trap <> Null
+                If trap.canBeReplacedByTempoTrap And
+                   trap.trapType = TrapType.BounceTrap
+                    Local trapX := trap.x
+                    Local trapY := trap.y
+
+                    trap.Die()
+
+                    If Util.RndBool(True)
+                        New SpeedUpTrap(trapX, trapY)
+                        Debug.Log("CREATEMAP ZONE4: Speedup trap placed at " + trapX + "/" + trapY)
+                    Else
+                        New SlowDownTrap(trapX, trapY)
+                        Debug.Log("CREATEMAP ZONE4: Slowdown trap placed at " + trapX + "/" + trapY)
+                    End If
+
+                    Exit
+                End If
+            End If
+        End For
+
+        Level.PlaceTorchesAnywhere()
+
+        If controller_game.currentLevel = 1
+            Util.SeedRnd($E15869CC)
+        End If
+
+        Level.PlaceCrateOrBarrel()
+        Level.PlaceChests(False)
+        Level.PlaceResourceWall()
+        Level.PlaceLockedChests()
+        Level.PlaceShrine()
+
+        Debug.Log("CREATEMAP ZONE4: Cleaning up pending tiles")
+        Tile.CleanUpPendingTiles()
+
+        Level.CheckMapConsistency()
+        Level.PlaceNocturnaArea()
+
+        Debug.Log("CREATEMAP ZONE4: Finished!")
+
+        Return True
     End Function
 
     Function CreateMapZone5: Bool(recursive: Bool)
