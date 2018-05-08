@@ -1,7 +1,9 @@
 'Strict
 
+Import mojo.graphics
 Import entity
 Import logger
+Import sprite
 Import trap
 
 Class FireTrap Extends Trap
@@ -9,15 +11,25 @@ Class FireTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, d: Int, m: Bool)
-        Debug.TraceNotImplemented("FireTrap.New(Int, Int, Int, Bool)")
+        Super.New(xVal, yVal, TrapType.FireTrap)
+
+        Self.xOff = 12.0
+        Self.yOff = 7.0
+
+        Self.fireDir = d
+
+        Self.image = New Sprite("traps/firetrap.png", 34, 23, 6, Image.MidHandle)
+        Self.image.SetZOff(10.0)
+
+        Self.manual = m
     End Method
 
     Field fireDir: Int
     Field manual: Bool
     Field isReady: Bool
-    Field vibrateCounter: Int
-    Field vibrateOffset: Float
-    Field shootBeats: Int
+    Field vibrateCounter: Int = 3
+    Field vibrateOffset: Float = 0.7
+    Field shootBeats: Int = -1
     Field retractBeats: Int
 
     Method CheckTriggerRadius: Bool(ent: Object)
