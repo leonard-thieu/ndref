@@ -1,5 +1,7 @@
 'Strict
 
+Import monkey.list
+Import mojo.graphics
 Import item
 Import logger
 Import player_class
@@ -7,7 +9,7 @@ Import sprite
 
 Class Bomb Extends Item
 
-    Global bombList: Object
+    Global bombList: List<Bomb> = New List<Bomb>()
     Global curExplosionKills: Int
 
     Function GenerateExplosionDamage: Void(tmpX: Int, tmpY: Int, source: Int, dam: Int, p: Object, big: Bool, allowSelfHits: Bool)
@@ -28,19 +30,35 @@ Class Bomb Extends Item
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, dropper: Object, playLitSound: Bool, big: Bool, dmgSource: Int)
-        Debug.TraceNotImplemented("Bomb.New(Int, Int, Object, Bool, Bool, Int)")
+    Method New(xVal: Int, yVal: Int, dropper: Player, playLitSound: Bool, big: Bool, dmgSource: String)
+        Super.New(xVal, yVal, "bomb", False, -1, False)
+
+        Self.pickupable = False
+
+        Self.player = dropper
+        Self.isBig = big
+        Self.beatsUntilExplosion = 3
+        Self.damageSource = dmgSource
+
+        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8, Image.DefaultFlags)
+        Self.explosionImg.SetZOff(1000.0)
+
+        If playLitSound
+            Debug.TraceNotImplemented("Bomb.New(Int, Int, Player, Bool, Bool, String) (Audio)")
+        End If
+
+        Bomb.bombList.AddLast(Self)
     End Method
 
     Field player: Player
     Field isBig: Bool
-    Field damageSource: String
-    Field beatsUntilExplosion: Int
+    Field damageSource: String = "bomb"
+    Field beatsUntilExplosion: Int = -1
     Field explosionImg: Sprite
     Field exploded: Bool
-    Field allowSelfHits: Bool
-    Field bombDamage: Int
-    Field explosionFrameCounter: Int
+    Field allowSelfHits: Bool = True
+    Field bombDamage: Int = 4
+    Field explosionFrameCounter: Int = 3
     Field explosionFrame: Int
 
     Method Die: Void()
