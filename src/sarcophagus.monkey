@@ -40,7 +40,19 @@ Class Sarcophagus Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Sarcophagus.Die()")
+        If Self.coinsToDrop > 0
+            If Self.numEnemiesSpawned <= 1
+                Self.coinsToDrop = (5 * Self.level) + 15
+            Else If Self.numEnemiesSpawned = 2
+                Self.coinsToDrop = (2 * Self.level) + 6
+            Else
+                Self.coinsToDrop = (1 * Self.level) + 4
+            End If
+        End If
+
+        Sarcophagus.sarcophagi.RemoveEach(Self)
+
+        Super.Die()
     End Method
 
     Method MoveFail: Void()
