@@ -9,10 +9,17 @@ Class GoblinBomber Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("GoblinBomber.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "goblin_bomber")
+
+        Self.isGentle = True
+
+        Self.overrideAttackSound = "goblinAttack"
+        Self.overrideDeathSound = "goblinDeath"
     End Method
 
-    Field dropBomb: Bool
+    Field dropBomb: Bool = True
 
     Method AfterHitHook2: Void(diffX: Int, diffY: Int)
         Debug.TraceNotImplemented("GoblinBomber.AfterHitHook2(Int, Int)")
