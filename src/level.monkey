@@ -9172,7 +9172,101 @@ Class Level
     End Function
 
     Function PlaceTrapsZone4: Void()
-        Debug.TraceNotImplemented("Level.PlaceTrapsZone4()")
+        For Local room := EachIn Level.rooms
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit Then Continue
+
+            Select controller_game.currentLevel
+                Case 1
+                    Local trapRoll := Util.RndBool(True)
+                    If trapRoll
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndIntRangeFromZero(2, True)
+                    If trapRoll2 = 0
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+                Case 2
+                    Local trapRoll := Util.RndIntRangeFromZero(4, True)
+                    If trapRoll = 0
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndIntRangeFromZero(3, True)
+                    If trapRoll2 = 0
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll3 := Util.RndIntRangeFromZero(3, True)
+                    If trapRoll3 = 0
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll4 := Util.RndBool(True)
+                    If trapRoll4
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+                Case 3
+                    Local trapRoll := Util.RndIntRangeFromZero(2, True)
+                    If trapRoll = 0
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndBool(True)
+                    If trapRoll2
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    For numTraps = numTraps Until 0 Step -1
+                        Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
+                    End For
+            End Select
+        End For
+
+        Local destructibleWalls := New IntPointList()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsWall(False, True, False, False)
+                    destructibleWalls.AddLast(New Point(tile.x, tile.y))
+                End If
+            End For
+        End For
+
+        For Local limit := 500 Until 0 Step -1
+            Local destructibleWallsIndex := Util.RndIntRangeFromZero(destructibleWalls.Count() - 1, True)
+            Local destructibleWallsArray := destructibleWalls.ToArray()
+            Local destructibleWall := destructibleWallsArray[destructibleWallsIndex]
+
+            If Util.GetDist(0, destructibleWall.y, destructibleWall.x, 0) < 5.0 Then Continue
+
+            If Util.RndBool(True)
+                If Not Level.IsFloorAt(destructibleWall.x + 1, destructibleWall.y) Then Continue
+                If destructibleWall.y = 0 Then Continue
+
+                Level.PlaceTileRemovingExistingTiles(destructibleWall.x, destructibleWall.y, TileType.CatacombWall)
+
+                New FireTrap(destructibleWall.x, destructibleWall.y, 0, False)
+            Else
+                If Not Level.IsFloorAt(destructibleWall.x - 1, destructibleWall.y) Then Continue
+                If destructibleWall.y = 0 Then Continue
+
+                Level.PlaceTileRemovingExistingTiles(destructibleWall.x, destructibleWall.y, TileType.CatacombWall)
+
+                New FireTrap(destructibleWall.x, destructibleWall.y, 2, False)
+            End If
+
+            Return
+        End For
     End Function
 
     Function PlaceTrapsZone5: Void()
