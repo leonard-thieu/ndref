@@ -7159,7 +7159,236 @@ Class Level
     End Function
 
     Function PlaceEnemiesZone4: Void()
-        Debug.TraceNotImplemented("Level.PlaceEnemiesZone4()")
+        Debug.Log("PLACEENEMIES: Placing zone 4 enemies")
+
+        For Local room := EachIn Level.rooms
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Start,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit
+                Level.PlaceExitRoomMiniboss(New RectRoom(room))
+            End If
+
+            Level.PlaceRareEnemies(New RectRoom(room), room.hasExit)
+
+            Local extraEnemies := Level.GetExtraEnemiesBase()
+            If room.w * room.h > 40
+                If room.w * room.h <= 60
+                    extraEnemies += 1
+                Else
+                    extraEnemies += 2
+                End If
+            End If
+
+            Local point: Point
+
+            Local limit := 500
+            For limit = limit - 1 Until 0 Step -1
+                If extraEnemies <= 0 Then Exit
+
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                extraEnemies -= 1
+
+                Local enemyTypeRoll := Util.RndIntRangeFromZero(4, True)
+                Select enemyTypeRoll
+                    Case 0
+                        If controller_game.currentLevel <= 2
+                            New Monkey(point.x, point.y, 4)
+                        Else
+                            New Monkey(point.x, point.y, 3)
+                        End If
+                    Case 1
+                        ' Do nothing.
+                    Case 2
+                        New Golem(point.x, point.y, 3)
+                    Case 3
+                        ' Useless Dorian check goes here.
+                        New Harpy(point.x, point.y, 1)
+                    Default
+                        ' There's a check to place a bat here but only when 4 != 4.
+
+                        New Harpy(point.x, point.y, 1)
+                End Select
+            End For
+
+            If room.type = RoomType.Basic
+                Local gargoyleRoll := Util.RndIntRangeFromZero(4, True)
+                If gargoyleRoll = 0 And
+                   Not room.hasExit
+                    If room.w <= 5 And
+                       room.h <= 5
+                        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                        ' No null check?
+                        ' TODO: This Null check isn't supposed to be here. Remove this after debugging.
+                        If point = Null Then Continue
+
+                        Local gargoyleLevel := Util.RndIntRange(1, 5, True, -1)
+                        New Gargoyle(point.x, point.y, gargoyleLevel)
+                    Else
+                        If Util.RndBool(True)
+                            Level.PlaceGargoyle(room.x + 2, room.y + 2)
+                            Level.PlaceGargoyle(room.x + 2, room.y + room.h - 2)
+                            Level.PlaceGargoyle(room.x + room.w - 2, room.y + 2)
+                            Level.PlaceGargoyle(room.x + room.w - 2, room.y + room.h - 2)
+                        Else
+                            Local gargoyleY := Util.RndIntRange(room.y + 1, room.y + room.h - 2, True, -1)
+                            Local roomXMax := room.x + room.w - 1
+                            For Local gargoyleX := room.x + 2 Until roomXMax Step 2
+                                Level.PlaceGargoyle(gargoyleX, gargoyleY)
+                            End For
+                        End If
+                    End If
+                End If
+            End If
+
+            Local poltergeistRoll := Util.RndIntRangeFromZero(4, True)
+            If poltergeistRoll = 0 And
+               Level.AllowSpirit()
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                New Poltergeist(point.x, point.y, 1)
+            End If
+
+            ' TODO: Consider breaking this section up into level-specific blocks like the other enemy placement functions.
+            Local warlockOrBatRoll := Util.RndIntRangeFromZero(2, True)
+            If warlockOrBatRoll = 0
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                New Bat(point.x, point.y, 4)
+            Else
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                Local warlockLevel := math.Min(2, controller_game.currentLevel)
+                New Warlock(point.x, point.y, warlockLevel)
+            End If
+
+            Local monkeyOrBlademasterRoll := Util.RndIntRangeFromZero(3, True)
+            If monkeyOrBlademasterRoll = 0 Or
+               Util.IsCharacterActive(Character.Dorian)
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                Local monkeyLevel := 3
+                If controller_game.currentLevel >= 3
+                    monkeyLevel = 4
+                End If
+
+                New Monkey(point.x, point.y, monkeyLevel)
+            Else
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                Local blademasterLevel := 1
+                If controller_game.currentLevel >= 3
+                    blademasterLevel = 2
+                End If
+
+                New Blademaster(point.x, point.y, blademasterLevel)
+            End If
+
+            If controller_game.currentLevel >= 2
+                Local armadilloRoll := Util.RndIntRangeFromZero(5, True)
+                If armadilloRoll = 0
+                    point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                    If point = Null Then Continue
+
+                    New Armadillo(point.x, point.y, 3)
+                End If
+            End If
+
+            If controller_level_editor.currentLevel >= 3
+                Local pixieRoll := Util.RndIntRangeFromZero(4, True)
+                If pixieRoll = 0
+                    point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
+                    If point = Null Then Continue
+
+                    New Pixie(point.x, point.y, 1)
+                End If
+            End If
+
+            Local goblinBomberRoll := Util.RndIntRangeFromZero(3, True)
+            If goblinBomberRoll = 0
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                New GoblinBomber(point.x, point.y, 1)
+            End If
+
+            Local lichRoll := Util.RndIntRangeFromZero(2, True)
+            If lichRoll = 0
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                Local lichLevel = math.Min(3, controller_game.currentLevel)
+                New Lich(point.x, point.y, lichLevel)
+            End If
+
+            Local sleepingGoblinOrHarpyRoll := Util.RndBool(True)
+            If sleepingGoblinOrHarpyRoll
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                New SleepingGoblin(point.x, point.y, 1)
+            Else
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                New Harpy(point.x, point.y, 1)
+            End If
+
+            If room.hasExit
+                If Not Util.IsCharacterActive(Character.Dove)
+                    point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                    If point = Null Then Continue
+
+                    Local sarcophagusLevel := math.Min(3, controller_game.currentLevel)
+                    New Sarcophagus(point.x, point.y, sarcophagusLevel)
+                End If
+                
+                point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+                If point = Null Then Continue
+
+                New Golem(point.x, point.y, 3)
+            End If
+        End For
+
+        If Util.IsCharacterActive(Character.Tempo)
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone4() (Tempo section)")
+        End If
+
+        Local walls := New IntPointList()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+
+                If Not tile.IsWall(False, True, False, False) Then Continue
+                If tile.health >= 3 Then Continue
+
+                walls.AddLast(New Point(tile.x, tile.y))
+            End For
+        End For
+
+        For Local numSpiders := 3 Until 0 Step -1
+            Local wallsIndex := Util.RndIntRangeFromZero(walls.Count() - 1, True)
+            Local wallsArray := walls.ToArray()
+            Local wall := wallsArray[wallsIndex]
+
+            If Enemy.GetEnemyAt(wall.x, wall.y, True) <> Null Then Continue
+            If Trap.GetTrapAt(wall.x, wall.y) <> Null Then Continue
+
+            New Spider(wall.x, wall.y, 1)
+        End For
     End Function
 
     Function PlaceEnemiesZone5: Void()
