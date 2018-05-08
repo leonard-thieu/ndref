@@ -1,9 +1,13 @@
 'Strict
 
+Import mojo.graphics
 Import bouncer
+Import controller_game
 Import enemy
 Import entity
+Import level
 Import logger
+Import necrodancer_enemy
 Import player_class
 Import point
 Import sprite
@@ -13,7 +17,32 @@ Class Gargoyle Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Gargoyle.New(Int, Int, Int)")
+        Super.New()
+
+        If l = 5
+            If controller_game.currentLevel = 3
+                l = 6
+            Else If Necrodancer.necrodancer <> Null
+                l = 7
+            End If
+        End If
+
+        Self.Init(xVal, yVal, l, "gargoyle")
+
+        If Self.level = 1
+            Self.gustImage = New Sprite("particles/wind_gust.png", 7, Image.MidHandle)
+        End If
+
+        If Self.level >= 5 And
+           Level.randSeed <> -1
+            Self.DetermineContents()
+        End If
+
+        Self.isCrate = True
+        Self.containsItem = True
+
+        Self.overrideAttackSound = "gargoyleAttack"
+        Self.overrideDeathSound = "gargoyleDeath"
     End Method
 
     Field gustImage: Sprite
