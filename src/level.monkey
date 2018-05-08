@@ -7191,6 +7191,13 @@ Class Level
         Return Level._FailMap()
     End Function
 
+    Function PlaceExitRoomMiniboss: Void(rd: RoomBase)
+        Level.PlaceAppropriateMinibosses(rd)
+
+        Local exitCoords := Level.GetStandardExitCoords()
+        Level.PlaceShopkeeperGhostIfNeededAt(exitCoords.x, exitCoords.y)
+    End Function
+
     Function PlaceFirstRoom: RoomData()
         Const xVal := -3
         Const yVal := -3
