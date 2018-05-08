@@ -3,6 +3,7 @@
 Import mojo.graphics
 Import bouncer
 Import controller_game
+Import crate
 Import enemy
 Import entity
 Import level
@@ -56,7 +57,11 @@ Class Gargoyle Extends Enemy
     Field bounce2: Bouncer
 
     Method DetermineContents: Void()
-        Debug.TraceNotImplemented("Gargoyle.DetermineContents()")
+        If Not Self.determinedContents And
+           Self.level <> 7
+            Self.contents = Crate.SelectItem(controller_game.currentLevel)
+            Self.determinedContents = True
+        End If
     End Method
 
     Method Die: Void()
