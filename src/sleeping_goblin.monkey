@@ -9,12 +9,20 @@ Class SleepingGoblin Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("SleepingGoblin.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "sleeping_goblin")
+
+        Self.animOverride = 4
+
+        Self.overrideAttackSound = "goblinAttack"
+        Self.overrideDeathSound = "goblinDeath"
+        Self.overrideHitSound = "goblinHit"
     End Method
 
-    Field sleeping: Bool
+    Field sleeping: Bool = True
     Field stunnedTime: Int
-    Field wakeupTime: Int
+    Field wakeupTime: Int = 3
     Field haveReslept: Bool
 
     Method GetMovementDirection: Point()
