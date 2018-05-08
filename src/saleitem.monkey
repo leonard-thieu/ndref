@@ -134,7 +134,8 @@ Class SaleItem Extends Item
     Field medic: Medic
 
     Method ApplyDiscount: Void(val: Float)
-        Debug.TraceNotImplemented("SaleItem.ApplyDiscount(Float)")
+        Self.discount = val
+        Self.SetCost()
     End Method
 
     Method CanSeeShopkeeper: Bool()
