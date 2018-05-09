@@ -1,11 +1,14 @@
 'Strict
 
 Import monkey.map
+Import controller_game
 Import enemy
 Import entity
 Import logger
 Import mole_dirt
 Import point
+Import shrine
+Import util
 
 Class Fortissimole Extends Enemy
 
@@ -16,24 +19,47 @@ Class Fortissimole Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Fortissimole.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "fortissimole")
+
+        Self.yOffOffstage = Self.yOff
+        Self.yOffOnstage = Self.yOff - 8.0
+
+        Self.overrideHitSound = "fortissimoleVoHit"
+        Self.overrideDeathSound = "fortissimoleVoDeath"
+
+        Self.ActivateLight(0.01, 0.02)
+
+        Self.paceDir = 0
+        If Util.RndBool(True)
+            Self.paceDir = 2
+        End If
+
+        Local healthBonus := controller_game.currentDepth - 1
+        If Shrine.warShrineActive
+            healthBonus = 4
+        End If
+
+        Self.healthMax += healthBonus
+        Self.health = Self.healthMax
     End Method
 
     Field yOffOffstage: Int
     Field yOffOnstage: Int
-    Field paceDir: Int
+    Field paceDir: Int = 2
     Field imageOnStage: Bool
     Field onstageState: Int
-    Field spawnArmsOffset: Int
+    Field spawnArmsOffset: Int = -1
     Field jumpingOffstage: Bool
     Field currentDirt: MoleDirt
     Field isBurrowed: Bool
     Field queuedDestage: Bool
     Field queuedPrep: Bool
-    Field destageVia: Point
+    Field destageVia: Point = New Point(0, 0)
     Field paceParity: Bool
     Field offstageState: Int
-    Field spawnMap: IntMap<Object>
+    Field spawnMap: IntMap<Enemy> = New IntMap<Enemy>()
     Field summonCount: Int
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
