@@ -1157,10 +1157,7 @@ Class Level
         End If
     End Function
 
-    Function CreateBossBattleEntrance: Void(bossTrainingName: String)
-        Level.InitNewMap(True)
-        Level.DisableLevelConstraints()
-
+    Function PlaceFirstBossRoom: Void(bossTrainingName: String)
         Level.CreateRoom(-3, -3, 6, 6, False, RoomType.Boss)
 
         Level.EnsureBossTraining(bossTrainingName)
@@ -1201,7 +1198,10 @@ Class Level
     Function CreateBossBattle1: Void()
         Debug.Log("CREATEBOSSBATTLE1: Creating conga line boss battle.")
 
-        Level.CreateBossBattleEntrance("conga")
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Level.PlaceFirstBossRoom("conga")
 
         Level.CreateRoom(-8, -18, 16, 12, False, RoomType.Boss)
 
@@ -1507,7 +1507,10 @@ Class Level
     Function CreateBossBattle2: Void()
         Debug.Log("CREATEBOSSBATTLE2: Creating death metal boss battle.")
 
-        Level.CreateBossBattleEntrance("deathmetal")
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Level.PlaceFirstBossRoom("deathmetal")
 
         Level.CreateRoom(-6, -16, 12, 10, False, RoomType.Boss)
 
@@ -1588,7 +1591,10 @@ Class Level
     Function CreateBossBattle3: Void()
         Debug.Log("CREATEBOSSBATTLE3: Creating deep blues boss battle.")
 
-        Level.CreateBossBattleEntrance("deepblues")
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Level.PlaceFirstBossRoom("deepblues")
 
         Level.CreateRoom(-4, -15, 9, 9, False, RoomType.Boss)
 
