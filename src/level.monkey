@@ -7887,8 +7887,8 @@ Class Level
             Case 405 miniboss = New Banshee(xVal, yVal, level)
             Case 409 miniboss = New Nightmare(xVal, yVal, level)
             Case 407 miniboss = New Minotaur(xVal, yVal, level)
-            Case 412 miniboss = New Ogre(xVal, yVal, level)
-            Case 411 miniboss = New Mommy(xVal, yVal, level)
+            Case 412 miniboss = New Ogre(xVal, yVal, 1)
+            Case 411 miniboss = New Mommy(xVal, yVal, 1)
             Default  miniboss = New MetroGnome(xVal, yVal, level)
         End Select
 
