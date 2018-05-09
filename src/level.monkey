@@ -1163,7 +1163,7 @@ Class Level
         Level.EnsureBossTraining(bossTrainingName)
 
         If Level.isTrainingMode
-            Level.AddExit(0, 2, LevelType.Lobby, 1)
+            Level.AddExit(2, 0, LevelType.Lobby, 1)
             Level.PlaceTileRemovingExistingTiles(2, 0, TileType.Stairs)
         End If
 
