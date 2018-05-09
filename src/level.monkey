@@ -524,23 +524,20 @@ Class Level
 
                     ' Left item
                     Local randomItem1 := Item.GetRandomItemInClass(itemClass, requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                    If randomItem1 <> Item.NoItem Or
-                       randomItem1 <> "resource_hoard_gold"
+                    If Item.IsValidRandomItem(randomItem1)
                         New SaleItem(entranceX - 1, entranceY - 2, randomItem1, True, Null, -1.0, Null)
                     End If
                 End If
 
                 ' Center item (left item if a weaponless character is active)
                 Local randomItem2 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                If randomItem2 <> Item.NoItem Or
-                   randomItem2 <> "resource_hoard_gold"
+                If Item.IsValidRandomItem(randomItem2)
                     New SaleItem(entranceX + saleItemXOff, entranceY - 2, randomItem2, True, Null, -1.0, Null)
                 End If
 
                 ' Right item
                 Local randomItem3 := Item.GetRandomItemInClass("", requestedLevel, "anyChest", Chest.CHEST_COLOR_NONE, True, "", False)
-                If randomItem3 <> Item.NoItem Or
-                   randomItem3 <> "resource_hoard_gold"
+                If Item.IsValidRandomItem(randomItem3)
                     New SaleItem(entranceX + 1, entranceY - 2, randomItem3, True, Null, -1.0, Null)
                 End If
 
@@ -611,8 +608,7 @@ Class Level
                 Local glassItemXOff := -1
                 For Local i := 0 Until 3
                     Local anotherItem := anotherItems.Get(i)
-                    If anotherItem <> Item.NoItem And
-                       anotherItem <> "resource_hoard_gold"
+                    If Item.IsValidRandomItem(anotherItem)
                         Local glassItem := New SaleItem(entranceX + glassItemXOff, entranceY - 2, anotherItem, False, shopkeeper, -1.0, Null)
                         glassItem.ApplyDiscount(0.5)
                     End If

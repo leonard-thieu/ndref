@@ -947,8 +947,14 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.IsValidItemForCurrentChars(String)")
     End Function
 
-    Function IsValidRandomItem: Bool(t: Int)
-        Debug.TraceNotImplemented("Item.IsValidRandomItem(Int)")
+    Function IsValidRandomItem: Bool(t: String)
+        Select t
+            Case Item.NoItem,
+                 "resource_hoard_gold"
+                Return False
+        End Select
+
+        Return True
     End Function
 
     Function MoveAll: Void()
