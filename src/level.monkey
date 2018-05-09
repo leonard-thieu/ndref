@@ -5030,7 +5030,27 @@ Class Level
     End Function
 
     Function FillTiles: Void(rect: Rect, tileType: Int, tileTypeEdge: Int)
-        Debug.TraceNotImplemented("Level.FillTiles(Rect, Int, Int)")
+        If tileTypeEdge = TileType.Empty
+            tileTypeEdge = tileType
+        End If
+
+        Local xMin := rect.x
+        Local xMax := rect.GetRight()
+        Local yMin := rect.y
+        Local yMax := rect.GetBottom()
+
+        For Local x := xMin To xMax
+            For Local y := yMin To yMax
+                If x = xMin Or
+                   x = xMax Or
+                   y = yMin Or
+                   y = yMax
+                    Level.PlaceTileRemovingExistingTiles(x, y, tileTypeEdge)
+                Else
+                    Level.PlaceTileRemovingExistingTiles(x, y, tileType)
+                End If
+            End For
+        End For
     End Function
 
     Function FillVault: Void(tmpRoom: RoomData)
