@@ -5573,7 +5573,16 @@ Class Level
     End Function
 
     Function IsFinalBoss: Bool()
-        Debug.TraceNotImplemented("Level.IsFinalBoss()")
+        Select controller_game.currentLevel
+            Case LevelType.TrainingFinalBossBattleNecroDancer,
+                 LevelType.TrainingFinalBossBattleNecroDancer2,
+                 LevelType.TrainingFinalBossBattleLute,
+                 LevelType.TrainingFinalBossBattleConductor,
+                 LevelType.FinalBossBattle
+                Return True
+        End Select
+
+        Return False
     End Function
 
     Function IsFinalBossZone: Bool()

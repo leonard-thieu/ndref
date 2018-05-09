@@ -4,6 +4,7 @@ Import monkey.list
 Import mojo.graphics
 Import controller_game
 Import entity
+Import level
 Import level_object
 Import logger
 Import player_class
@@ -177,20 +178,15 @@ Class Tile Extends RenderableObject
                     Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
                     Self.health = 4
                 Case TileType.BossWall
-                    Select currentLevel
-                        Case -490,
-                             -492,
-                             -493,
-                             -494,
-                             5
-                            If Level.isConductorLevel
-                                Self.image = New Sprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
-                            Else
-                                Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
-                            End If
-                        Default
-                            Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
-                    End Select
+                    If Level.IsFinalBoss()
+                        If Level.isConductorLevel
+                            Self.image = New Sprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
+                        Else
+                            Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
+                        End If
+                    Else
+                        Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
+                    End If
 
                     Local frame := Util.RndIntRangeFromZero(4, False)
                     Self.image.SetFrame(frame)
@@ -613,16 +609,11 @@ Class Tile Extends RenderableObject
                     Self.image = New Sprite("level/zone5_wall_stone_B.png", 1, Image.DefaultFlags)
                 End If
             Case TilesetType.Boss
-                Select controller_game.currentLevel
-                    Case -494,
-                         -493,
-                         -492,
-                         -490,
-                            5
-                        Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
-                    Default
-                        Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
-                End Select
+                If Level.IsFinalBoss()
+                    Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
+                Else
+                    Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
+                End If
 
                 Local frame := Util.RndIntRangeFromZero(4, False)
                 Self.image.SetFrame(frame)
