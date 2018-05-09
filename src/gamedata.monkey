@@ -561,8 +561,8 @@ Class GameData
         Debug.TraceNotImplemented("GameData.SetKeyBinding(Int, Int, Int)")
     End Function
 
-    Function SetKilledEnemy: Void(enemyName: Int, type: Int, val: Bool)
-        Debug.TraceNotImplemented("GameData.SetKilledEnemy(Int, Int, Bool)")
+    Function SetKilledEnemy: Void(enemyName: String, type: Int, val: Bool)
+        Debug.TraceNotImplemented("GameData.SetKilledEnemy(String, Int, Bool)")
     End Function
 
     Function SetLanguage: Void(l: Int)

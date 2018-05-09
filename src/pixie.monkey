@@ -1,7 +1,10 @@
 'Strict
 
+Import controller_level_editor
 Import enemy
 Import entity
+Import gamedata
+Import level
 Import logger
 Import point
 Import sprite
@@ -33,7 +36,12 @@ Class Pixie Extends Enemy
     Field explosionFrame: Int
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Pixie.Die()")
+        If Not Level.isReplaying And
+           ControllerLevelEditor.playingLevel = -1
+            GameData.SetKilledEnemy(Self.xmlName, Self.level, True)
+        End If
+
+        Super.Die()
     End Method
 
     Method GetMovementDirection: Point()
