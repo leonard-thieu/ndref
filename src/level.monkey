@@ -1158,6 +1158,10 @@ Class Level
     End Function
 
     Function PlaceFirstBossRoom: Void(bossTrainingName: String)
+        Level.PlaceFirstBossRoom(bossTrainingName, TilesetType.None)
+    End Function
+
+    Function PlaceFirstBossRoom: Void(bossTrainingName: String, tilesetOverride: Int)
         Level.CreateRoom(-3, -3, 6, 6, False, RoomType.Boss)
 
         Level.EnsureBossTraining(bossTrainingName)
@@ -1185,7 +1189,11 @@ Class Level
 
         For Local y := -3 To -5 Step -1
             For Local x := -1 To 1
-                Level.PlaceTileRemovingExistingTiles(x, y, TileType.BossFloor)
+                If y = -3
+                    Level.PlaceTileRemovingExistingTiles(x, y, TileType.BossFloor, False, tilesetOverride, False)
+                Else
+                    Level.PlaceTileRemovingExistingTiles(x, y, TileType.BossFloor)
+                End If
             End For
         End For
 
