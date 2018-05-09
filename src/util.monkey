@@ -214,7 +214,18 @@ Class Util
     End Function
 
     Function IsAnyPlayerAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.IsAnyPlayerAt(Int, Int)")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+
+            If player.Perished() Then Continue
+
+            If player.x = xVal And
+               player.y = yVal
+                Return True
+            End If
+        End For
+
+        Return False
     End Function
 
     Function IsBomblessCharacterActive: Bool()
