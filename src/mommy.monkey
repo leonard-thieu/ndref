@@ -9,7 +9,13 @@ Class Mommy Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Mommy.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "mommy")
+
+        Self.overrideHitSound = "mommyHit"
+        Self.overrideDeathSound = "mommyDeath"
+        Self.overrideCrySound = "mommyCry"
     End Method
 
     Field readyToSpawn: Bool
