@@ -103,23 +103,27 @@ Class Tile Extends RenderableObject
 
         Tile.totalTilesCreatedOrDestroyed += 1
 
-        If typeVal = TileType.Tar Then Level.isAnyTar = True
+        If typeVal = TileType.Tar
+            Level.isAnyTar = True
+        End If
 
         Local existingTileType := TileType.Empty
         If Not pending
             Local existingTile := Level.GetTileAt(xVal, yVal)
-            If existingTile
+            If existingTile <> Null
                 existingTileType = existingTile.GetType()
                 existingTile.Die()
             End If
         End If
 
-        Self.type = typeVal
-        Self.tilesetOverride = tilesetOvrd
         Self.x = xVal
         Self.y = yVal
+        Self.type = typeVal
+        Self.tilesetOverride = tilesetOvrd
 
-        If tilesetOvrd = TilesetType.None Then Self.tilesetOverride = Self.CalcTileset()
+        If tilesetOvrd = TilesetType.None
+            Self.tilesetOverride = Self.CalcTileset()
+        End If
 
         If Self.IsFloor()
             Select Self.type
@@ -169,6 +173,14 @@ Class Tile Extends RenderableObject
             End Select
 
             Self.image.SetZ(-1001.0)
+        Else If Self.IsNecrodancerPlatform()
+            Self.image = New Sprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
+            image.SetFrame(Self.type - 112)
+            Self.health = 4
+
+            If Not pending
+                Self.collides = True
+            End If
         Else If Self.IsWall()
             Select Self.type
                 Case TileType.ShopWall
@@ -264,12 +276,6 @@ Class Tile Extends RenderableObject
                     End Select
                 Default
                     Self.BecomeDirt()
-
-                    If Self.IsNecrodancerPlatform()
-                        Self.image = New Sprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
-                        image.SetFrame(Self.type - 112)
-                        Self.health = 4
-                    End If
             End Select
 
             If Not pending
@@ -277,8 +283,8 @@ Class Tile Extends RenderableObject
             End If
         End If
 
-        If Self.image Then Self.image.SetAlphaValue(0.0)
-        If Self.image2 Then Self.image2.SetAlphaValue(0.0)
+        If Self.image <> Null Then Self.image.SetAlphaValue(0.0)
+        If Self.image2 <> Null Then Self.image2.SetAlphaValue(0.0)
 
         If Self.IsWire()
             Self.LoadWireImages("level/wire.png", 0)
