@@ -65,7 +65,14 @@ Class Gargoyle Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Gargoyle.Die()")
+        If Not Self.dead
+            If Crate.fallenGargoyles.Contains(Self)
+                Self.x = -9999
+                Self.y = -9999
+            Else
+                Super.Die()
+            End If
+        End If 
     End Method
 
     Method GetMovementDirection: Point()
