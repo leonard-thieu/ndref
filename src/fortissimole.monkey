@@ -13,7 +13,20 @@ Import util
 Class Fortissimole Extends Enemy
 
     Function SpawnFans: Void()
-        Debug.TraceNotImplemented("Fortissimole.SpawnFans()")
+        Local skeletonLevel := 1
+        If controller_game.currentDepth >= 2 skeletonLevel += 1
+        If controller_game.currentDepth >= 3 skeletonLevel += 1
+
+        For Local x := -3 To 3
+            For Local y := -14 To -13
+                If Util.IsGlobalCollisionAt(x, y, False, False, False, False) Then Continue
+                If Util.IsAnyPlayerAt(x, y) Then Continue
+
+                Local skeleton := New Skeleton(x, y, skeletonLevel)
+                skeleton.isMosh = True
+                skeleton.ActivateLight(0.01, 0.02)
+            End For
+        End For
     End Function
 
     Function _EditorFix: Void() End
