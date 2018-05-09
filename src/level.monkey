@@ -609,8 +609,7 @@ Class Level
                 End While
 
                 Local glassItemXOff := -1
-                Local i := 0
-                Repeat
+                For Local i := 0 Until 3
                     Local anotherItem := anotherItems.Get(i)
                     If anotherItem <> Item.NoItem And
                        anotherItem <> "resource_hoard_gold"
@@ -624,8 +623,8 @@ Class Level
                         glassItemXOff += 1
                     End If
 
-                    i += 1
-                Until (i < 3) And (glassItemXOff <= 1)
+                    If glassItemXOff > 1 Then Exit
+                End For
 
                 If Not Util.RndIntRangeFromZero(9, True)
                     Level.PlaceSecondarySpecialShop(False, False)
