@@ -1219,12 +1219,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-
-        For Local x := -7 To 7
-            For Local y := -17 To -7
-                Level.GetTileAt(x, y).SetTrigger(1)
-            End For
-        End For
+        Level.PaintTriggerInterior(-8, -18, 16, 12, 1)
 
         Local kingConga := New KingConga(0, -17, 1)
         kingConga.ActivateLight(0.01, 0.02)
@@ -1524,12 +1519,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-
-        For Local x := -5 To 5
-            For Local y := -15 To -7
-                Level.GetTileAt(x, y).SetTrigger(1)
-            End For
-        End For
+        Level.PaintTriggerInterior(-6, -16, 12, 10, 1)
 
         Local point := Level.GetRandomOffsetPoint()
         Local deathMetal := New DeathMetal(point.x, -11, 1)
@@ -1603,12 +1593,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-
-        For Local x := -3 To 4
-            For Local y := -14 To -7
-                Level.GetTileAt(x, y).SetTrigger(1)
-            End For
-        End For
+        Level.PaintTriggerInterior(-4, -15, 9, 9, 1)
 
         Level.GetTileAt(-2, -6).AddTorch()
         Level.GetTileAt(2, -6).AddTorch()
@@ -5955,7 +5940,11 @@ Class Level
     End Function
 
     Function PaintTriggerInterior: Void(x: Int, y: Int, w: Int, h: Int, trigger: Int)
-        Debug.TraceNotImplemented("Level.PaintTriggerInterior(Int, Int, Int, Int, Int)")
+        For Local a := x + 1 To x + w - 1
+            For Local b := y + 1 To y + h - 1
+                Level.GetTileAt(a, b).SetTrigger(trigger)
+            End For
+        End For
     End Function
 
     Function PawnSlot: Void(slotName: String, ent: Entity)
