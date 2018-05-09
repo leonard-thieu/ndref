@@ -11,13 +11,25 @@ Class Pixie Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Pixie.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "pixie")
+
+        Self.hasSilhouette = False
+        Self.canMoveOntoPlayer = True
+
+        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8, Image.DefaultFlags)
+        Self.explosionImg.SetZOff(1000.0)
+
+        Self.overrideHitSound = "pixieAttack"
+
+        Self.ActivateLight(0.01, 1.5)
     End Method
 
     Field explosionImg: Sprite
     Field exploded: Bool
-    Field dieCounter: Int
-    Field explosionFrameCounter: Int
+    Field dieCounter: Int = -1
+    Field explosionFrameCounter: Int = 3
     Field explosionFrame: Int
 
     Method Die: Void()
