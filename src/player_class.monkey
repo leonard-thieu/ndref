@@ -1019,7 +1019,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method Perished: Bool()
-        Debug.TraceNotImplemented("Player.Perished()")
+        Return Self.perished
     End Method
 
     Method PermitMoveFail: Bool()
