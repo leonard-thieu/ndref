@@ -6038,6 +6038,7 @@ Class Level
         Select controller_game.currentLevel
             Case LevelType.BossBattle
                 Level.CreateBossBattle()
+                Level.DumpMap()
             Default
                 If Level.CreateMap(levelObj)
                     Debug.WriteLine("Created map.")
