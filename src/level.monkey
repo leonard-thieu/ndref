@@ -1474,9 +1474,7 @@ Class Level
                 rightBat.ActivateLight(0.01, 1.5)
         End Select
 
-        If Level.isHardMode
-            Debug.TraceNotImplemented("Level.CreateBossBattle1() (Hard Mode)")
-        End If
+        Level.BossMaybeMinibossesAt(-6, 0, 5, 0)
 
         Select controller_game.currentZone
             Case 1
@@ -1571,9 +1569,7 @@ Class Level
         Local enemy12 := Enemy.MakeEnemy(point.x + 3, point.y - 9, enemyType1)
         enemy12.ActivateLight(0.01, 1.5)
 
-        If Level.isHardMode
-            Debug.TraceNotImplemented("Level.CreateBossBattle2() (Hard Mode)")
-        End If
+        Level.BossMaybeMinibossesAt(-5, 0, 4, 0)
 
         New BounceTrap(-4, -11, BounceTrapDirection.Omni)
         New BounceTrap(4, -11, BounceTrapDirection.Omni)
@@ -1749,9 +1745,7 @@ Class Level
             pawn.currentMoveDelay = pawnMoveDelayBase + math.Abs(pawnMoveDelayDirection - ((pawnMoveDelayOffset + i) Mod 8))
         End For
 
-        If Level.isHardMode
-            Debug.TraceNotImplemented("Level.CreateBossBattle3() (Hard Mode)")
-        End If
+        Level.BossMaybeMinibossesAt(-3, 0, 3, 0)
 
         Enemy.enemiesPaused = True
     End Function
