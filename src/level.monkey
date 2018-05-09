@@ -1752,7 +1752,127 @@ Class Level
     End Function
 
     Function CreateBossBattle9: Void()
-        Debug.TraceNotImplemented("Level.CreateBossBattle9()")
+        Debug.Log("CREATEBOSSBATTLE9: Creating fortissimole boss battle.")
+
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Local bossRoom := New Rect(-8, -17, 16, 11)
+        Level.FillTiles(bossRoom, TileType.DirtWall, TileType.BossWall)
+
+        Level.PlaceFirstBossRoom("fortissimole", TilesetType.Boss)
+
+        Level.CreateRoom(-7, -16, 14, 9, False, RoomType.Start)
+
+        For Local x := -1 To 1
+            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door, False, TilesetType.Boss, False)
+        End For
+
+        For Local x := -2 To 2
+            Level.PlaceTileRemovingExistingTiles(x, -7, TileType.Floor)
+        End For
+
+        Level.GetTileAt(-3, -7).AddTorch()
+        Level.GetTileAt(3, -7).AddTorch()
+        Level.GetTileAt(-7, -10).AddTorch()
+        Level.GetTileAt(7, -10).AddTorch()
+        Level.GetTileAt(-2, -16).AddTorch()
+        Level.GetTileAt(2, -16).AddTorch()
+
+        For Local x := -1 To 1
+            Level.GetTileAt(x, -6).SetDoorTrigger(2)
+        End For
+
+        Level.SetMagicBarrier(True)
+        Level.PaintTriggerInterior(-7, -15, 14, 9, 1)
+
+        Level.PlaceTileRemovingExistingTiles(-5, -15, TileType.NecroDancerSpeaker1)
+        Level.PlaceTileRemovingExistingTiles(-4, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(-3, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(-2, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(-1, -15, TileType.NecroDancerStageGreen)
+        Level.PlaceTileRemovingExistingTiles(0, -15, TileType.NecroDancerStageGreen)
+        Level.PlaceTileRemovingExistingTiles(1, -15, TileType.NecroDancerStageGreen)
+        Level.PlaceTileRemovingExistingTiles(2, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(3, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(4, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(5, -15, TileType.NecroDancerSpeaker1)
+
+        Local fortissimoleX := Util.RndIntRange(-2, 2, True, -1)
+        New Fortissimole(fortissimoleX, -15, 1)
+
+        Fortissimole.SpawnFans()
+
+        Local enemyType1 := EnemyType.GreenSlime
+        Local enemyType2 := EnemyType.GreenSlime
+
+        Select controller_game.currentZone
+            Case 1
+                enemyType1 = EnemyType.Ghost
+                enemyType2 = EnemyType.Ghost
+            Case 2
+                enemyType1 = EnemyType.WhiteSkeletonMage
+                enemyType2 = EnemyType.WhiteSkeletonMage
+            Case 3
+                enemyType1 = EnemyType.FireElemental
+                enemyType2 = EnemyType.IceElemental
+            Case 4
+                If Util.IsCharacterActive(Character.Dorian)
+                    enemyType1 = EnemyType.Harpy
+                    enemyType2 = EnemyType.Harpy
+                Else
+                    enemyType1 = EnemyType.ApprenticeBlademaster
+                    enemyType2 = EnemyType.ApprenticeBlademaster
+                End If
+            Default
+                If controller_game.currentZone >= 5
+                    enemyType1 = EnemyType.GreenEvilEye
+                    enemyType2 = EnemyType.GreenEvilEye
+                End If
+        End Select
+
+        Local point: Point
+
+        point = Level.GetRandomOffsetPoint()
+        Local enemy1 := Enemy.MakeEnemy(point.x, point.y, enemyType1)
+        enemy1.ActivateLight(0.01, 1.5)
+        point = Level.GetRandomOffsetPoint()
+        Local enemy2 := Enemy.MakeEnemy(point.x, point.y, enemyType2)
+        enemy2.ActivateLight(0.01, 1.5)
+
+        Local enemyType3 := EnemyType.GreenSlime
+        Local enemyType4 := EnemyType.GreenSlime
+
+        Select controller_game.currentZone
+            Case 1
+                enemyType3 = EnemyType.Ghost
+                enemyType4 = EnemyType.Ghost
+            Case 2
+                enemyType3 = EnemyType.LightGolem
+                enemyType4 = EnemyType.LightGolem
+            Case 3
+                enemyType3 = EnemyType.Hellhound
+                enemyType4 = EnemyType.Yeti
+            Case 4
+                enemyType3 = EnemyType.OozeGolem
+                enemyType4 = EnemyType.OozeGolem
+            Default
+                If controller_game.currentZone >= 5
+                    enemyType3 = EnemyType.PurpleElectricMage
+                    enemyType4 = EnemyType.PurpleElectricMage
+                End If
+        End Select
+
+        point = Level.GetRandomOffsetPoint()
+        Local enemy3 := Enemy.MakeEnemy(point.x, point.y, enemyType3)
+        enemy3.ActivateLight(0.01, 1.5)
+        point = Level.GetRandomOffsetPoint()
+        Local enemy4 := Enemy.MakeEnemy(point.x, point.y, enemyType4)
+        enemy4.ActivateLight(0.01, 1.5)
+
+        Level.BossMaybeMinibossesAt(-5, 0, 4, 0)
+
+        Enemy.enemiesPaused = True
     End Function
 
     Function CreateBossBattleFrankensteinway: Void()
