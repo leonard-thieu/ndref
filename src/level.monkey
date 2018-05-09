@@ -5952,43 +5952,43 @@ Class Level
         Select controller_game.currentZone
             Case 1
                 weights.Push(1)
-                minibossTypes.Push(EnemyType.GreenDragon)
+                minibossTypes.Push(EnemyBaseType.Dragon)
                 weights.Push(1)
-                minibossTypes.Push(EnemyType.LightMinotaur)
+                minibossTypes.Push(EnemyBaseType.Minotaur)
 
                 If controller_game.currentLevel <= 2
                     weights.Push(1)
-                    minibossTypes.Push(EnemyType.YellowDireBat)
+                    minibossTypes.Push(EnemyBaseType.BatMiniboss)
                 End If
             Case 4
                 weights.Push(20)
-                minibossTypes.Push(EnemyType.GreenDragon)
+                minibossTypes.Push(EnemyBaseType.Dragon)
                 weights.Push(15)
-                minibossTypes.Push(EnemyType.BlueBanshee)
+                minibossTypes.Push(EnemyBaseType.Banshee)
                 weights.Push(15)
-                minibossTypes.Push(EnemyType.DarkNightmare)
+                minibossTypes.Push(EnemyBaseType.Nightmare)
                 weights.Push(25)
-                minibossTypes.Push(EnemyType.Ogre)
+                minibossTypes.Push(EnemyBaseType.Ogre)
                 weights.Push(25)
-                minibossTypes.Push(EnemyType.TheMommy)
+                minibossTypes.Push(EnemyBaseType.Mommy)
             Case 5
                 weights.Push(2)
-                minibossTypes.Push(EnemyType.GreenDragon)
+                minibossTypes.Push(EnemyBaseType.Dragon)
                 weights.Push(1)
-                minibossTypes.Push(EnemyType.LightMinotaur)
+                minibossTypes.Push(EnemyBaseType.Minotaur)
                 weights.Push(1)
-                minibossTypes.Push(EnemyType.GoldMetroGnome)
+                minibossTypes.Push(EnemyBaseType.MetroGnome)
             Default
                 weights.Push(25)
-                minibossTypes.Push(EnemyType.GreenDragon)
+                minibossTypes.Push(EnemyBaseType.Dragon)
                 weights.Push(15)
-                minibossTypes.Push(EnemyType.YellowDireBat)
+                minibossTypes.Push(EnemyBaseType.BatMiniboss)
                 weights.Push(20)
-                minibossTypes.Push(EnemyType.BlueBanshee)
+                minibossTypes.Push(EnemyBaseType.Banshee)
                 weights.Push(15)
-                minibossTypes.Push(EnemyType.DarkNightmare)
+                minibossTypes.Push(EnemyBaseType.Nightmare)
                 weights.Push(25)
-                minibossTypes.Push(EnemyType.LightMinotaur)
+                minibossTypes.Push(EnemyBaseType.Minotaur)
         End Select
 
         Assert(weights.Length() = minibossTypes.Length())
@@ -7843,31 +7843,31 @@ Class Level
         If controller_game.currentDepth >= 2 And
            level = 1
             Select newMiniboss
-                Case 402,
-                     400,
-                     407
+                Case EnemyBaseType.Dragon,
+                     EnemyBaseType.BatMiniboss,
+                     EnemyBaseType.Minotaur
                     level = 2
             End Select
         End If
 
         If controller_game.currentZone = 3 And
            level = 2 And
-           newMiniboss = 402
+           newMiniboss = EnemyBaseType.Dragon
             level = 3
         End If
 
         If controller_game.currentDepth >= 4
             Select newMiniboss
-                Case 405,
-                     409
+                Case EnemyBaseType.Banshee,
+                     EnemyBaseType.Nightmare
                     level = 2
-                Case 402
+                Case EnemyBaseType.Dragon
                     level = Util.RndIntRange(2, 3, True, -1)
             End Select
         End If
 
         If controller_game.currentZone = 5 And
-           newMiniboss = 402
+           newMiniboss = EnemyBaseType.Dragon
             If Util.RndBool(True) Then level = 4
         End If
 
@@ -7882,14 +7882,22 @@ Class Level
         Local miniboss: Enemy
 
         Select newMiniboss
-            Case 402 miniboss = New Dragon(xVal, yVal, level)
-            Case 400 miniboss = New BatMiniboss(xVal, yVal, level)
-            Case 405 miniboss = New Banshee(xVal, yVal, level)
-            Case 409 miniboss = New Nightmare(xVal, yVal, level)
-            Case 407 miniboss = New Minotaur(xVal, yVal, level)
-            Case 412 miniboss = New Ogre(xVal, yVal, 1)
-            Case 411 miniboss = New Mommy(xVal, yVal, 1)
-            Default  miniboss = New MetroGnome(xVal, yVal, level)
+            Case EnemyBaseType.Dragon
+                miniboss = New Dragon(xVal, yVal, level)
+            Case EnemyBaseType.BatMiniboss
+                miniboss = New BatMiniboss(xVal, yVal, level)
+            Case EnemyBaseType.Banshee
+                miniboss = New Banshee(xVal, yVal, level)
+            Case EnemyBaseType.Nightmare
+                miniboss = New Nightmare(xVal, yVal, level)
+            Case EnemyBaseType.Minotaur
+                miniboss = New Minotaur(xVal, yVal, level)
+            Case EnemyBaseType.Ogre
+                miniboss = New Ogre(xVal, yVal, 1)
+            Case EnemyBaseType.Mommy
+                miniboss = New Mommy(xVal, yVal, 1)
+            Default
+                miniboss = New MetroGnome(xVal, yVal, level)
         End Select
 
         Return miniboss

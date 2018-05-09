@@ -1234,3 +1234,75 @@ Class EnemyType
     Const RedQueen: Int = 809
 
 End Class
+
+Class EnemyBaseType
+
+    Const Slime: Int = 0
+    Const Skeleton: Int = 3
+    Const Bat: Int = 6
+    Const Monkey: Int = 9
+    Const Ghost: Int = 11
+    Const Zombie: Int = 12
+    Const Wraith: Int = 13
+    Const TrapChest: Int = 14
+    Const ArmoredSkeleton: Int = 100
+    Const SkeletonMage: Int = 103
+    Const Mushroom: Int = 106
+    Const Golem: Int = 108
+    Const Armadillo: Int = 110
+    Const Clone: Int = 112
+    Const TarMonster: Int = 113
+    Const Mole: Int = 114
+    Const Wight: Int = 115
+    Const FakeWall: Int = 116
+    Const MushroomLight: Int = 117
+    Const MushroomExploding: Int = 118
+    Const SkeletonKnight: Int = 202
+    Const FireElemental: Int = 205
+    Const IceElemental: Int = 206
+    Const Goblin: Int = 207
+    Const Beetle: Int = 209
+    Const Hellhound: Int = 211
+    Const ShoveMonster: Int = 212
+    Const Yeti: Int = 213
+    Const Ghast: Int = 214
+    Const TrapCauldron: Int = 215
+    Const Cauldron: Int = 217
+    Const GoblinBomber: Int = 300
+    Const SleepingGoblin: Int = 301
+    Const Blademaster: Int = 304
+    Const Ghoul: Int = 306
+    Const Harpy: Int = 308
+    Const Lich: Int = 309
+    Const Pixie: Int = 314
+    Const Sarcophagus: Int = 315
+    Const Spider: Int = 318
+    Const Warlock: Int = 319
+    Const Mummy: Int = 321
+    Const Gargoyle: Int = 322
+    Const BatMiniboss: Int = 400
+    Const Dragon: Int = 402
+    Const Banshee: Int = 405
+    Const Minotaur: Int = 407
+    Const Nightmare: Int = 409
+    Const Mommy: Int = 411
+    Const Ogre: Int = 412
+    Const MetroGnome: Int = 413
+    Const Shopkeeper: Int = 600
+    Const ShopkeeperGhost: Int = 604
+    Const Skull: Int = 701
+    Const WaterBall: Int = 702
+    Const ElectricMage: Int = 704
+    Const ElectricOrb: Int = 707
+    Const Gorgon: Int = 710
+    Const ZombieElectric: Int = 711
+    Const EvilEye: Int = 717
+    Const Orc: Int = 720
+    Const Devil: Int = 723
+    Const Pawn: Int = 800
+    Const Knight: Int = 802
+    Const Bishop: Int = 804
+    Const Rook: Int = 806
+    Const Queen: Int = 808
+
+End Class
