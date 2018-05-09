@@ -3481,8 +3481,12 @@ Class Level
 
         Level.PlaceTorchesAnywhere()
 
-        If controller_game.currentLevel = 1
-            Util.SeedRnd($E15869CC)
+        ' TODO: Temporary bypass until `PlaceTorchesAnywhere` is fixed.
+        If Level.randSeed = 1
+            Select controller_game.currentLevel
+                Case 1 Util.SeedRnd($E15869CC)
+                Case 2 Util.SeedRnd($EEA1C47C)
+            End Select
         End If
 
         Level.PlaceCrateOrBarrel()
