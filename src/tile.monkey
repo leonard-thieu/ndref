@@ -173,14 +173,6 @@ Class Tile Extends RenderableObject
             End Select
 
             Self.image.SetZ(-1001.0)
-        Else If Self.IsNecrodancerPlatform()
-            Self.image = New Sprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
-            image.SetFrame(Self.type - 112)
-            Self.health = 4
-
-            If Not pending
-                Self.collides = True
-            End If
         Else If Self.IsWall()
             Select Self.type
                 Case TileType.ShopWall
@@ -275,7 +267,13 @@ Class Tile Extends RenderableObject
                             Self.BecomeHarderStone()
                     End Select
                 Default
-                    Self.BecomeDirt()
+                    If Self.IsNecrodancerPlatform()
+                        Self.image = New Sprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
+                        image.SetFrame(Self.type - 112)
+                        Self.health = 4
+                    Else
+                        Self.BecomeDirt()
+                    End If
             End Select
 
             If Not pending
