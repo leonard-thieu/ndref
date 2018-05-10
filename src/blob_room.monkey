@@ -9,10 +9,17 @@ Class BlobRoom Extends RoomBase
 
     Function _EditorFix: Void() End
 
-    Field footprint: IntPointSet
+    Field footprint: IntPointSet = New IntPointSet()
 
     Method FillRect: Void(x: Int, y: Int, w: Int, h: Int)
-        Debug.TraceNotImplemented("BlobRoom.FillRect(Int, Int, Int, Int)")
+        For Local a := x To x + w
+            For Local b := y To y + h
+                Local tileLocation := New Point(x, y)
+                If Not Self.footprint.Contains(tileLocation)
+                    Self.footprint.Insert(tileLocation)
+                End If
+            End For
+        End For
     End Method
 
     Method GetBounds: Object()
