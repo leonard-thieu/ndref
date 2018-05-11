@@ -39,7 +39,10 @@ Class Point
     End Method
 
     Method RotateCWAbout: Point(origin: Point)
-        Debug.TraceNotImplemented("Point.RotateCWAbout(Point)")
+        Local rotatedX := origin.x - origin.y + Self.y
+        Local rotatedY := origin.x + origin.y - Self.x
+
+        Return New Point(rotatedX, rotatedY)
     End Method
 
     Method Scale: Point(scalar: Int)
