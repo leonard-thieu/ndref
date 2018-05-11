@@ -4,17 +4,31 @@ Import enemy
 Import entity
 Import logger
 Import point
+Import shrine
+Import util
 
 Class Orc Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(x_: Int, y_: Int, l: Int)
-        Debug.TraceNotImplemented("Orc.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive
+            l = 3
+        End If
+
+        Self.Init(x_, y_, l, "orc")
+
+        Self.facing = Util.RndIntRangeFromZero(3, True)
+
+        Self.overrideAttackSound = "orcAttack"
+        Self.overrideHitSound = "orcHit"
+        Self.overrideDeathSound = "orcDeath"
     End Method
 
-    Field facing: Int
-    Field nextFacing: Int
+    Field facing: Int = -1
+    Field nextFacing: Int = -1
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Orc.GetMovementDirection()")
