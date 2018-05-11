@@ -2,13 +2,25 @@
 
 Import enemy
 Import logger
+Import shrine
 
 Class Gorgon Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Gorgon.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "gorgon")
+
+        Self.isGentle = True
+
+        Self.overrideHitSound = "gorgonHit"
+        Self.overrideDeathSound = "gorgonDeath"
     End Method
 
     Field statueFlashFrames: Int
