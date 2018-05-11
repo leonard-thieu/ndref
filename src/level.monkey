@@ -7893,6 +7893,8 @@ Class Level
     End Function
 
     Function PlaceFirstRoom: RoomData()
+        Debug.Log("Creating first room")
+
         Const xVal := -3
         Const yVal := -3
         Const width := 6
