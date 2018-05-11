@@ -394,7 +394,7 @@ Class Level
         For Local tilesOnXNode := EachIn Level.tiles
             For Local tileNode := EachIn tilesOnXNode.Value()
                 Local tile := tileNode.Value()
-                
+
                 If tile.GetType() <> TileType.Floor Then Continue
                 If Level.IsTrapOrExitAbove(tile.x, tile.y) Then Continue
                 If Level.IsWallAdjacent8(tile.x, tile.y) Then Continue
@@ -477,7 +477,7 @@ Class Level
                     heartContainer = "misc_heart_container"
                 Else If heartContainerRoll <= 25
                     heartContainer = "misc_heart_container2"
-                Else If heartContainerRoll <= 50 
+                Else If heartContainerRoll <= 50
                     heartContainer = "misc_heart_container_empty2"
                 Else
                     heartContainer = "misc_heart_container_empty"
@@ -1272,7 +1272,7 @@ Class Level
         kingConga.AddZombieFriend(zombieLeftBottom2)
         kingConga.AddZombieFriend(zombieLeftBottom3)
         kingConga.AddZombieFriend(zombieLeftBottom4)
-        
+
         kingConga.AddZombieFriend(zombieLeftTop1)
         kingConga.AddZombieFriend(zombieLeftTop2)
         kingConga.AddZombieFriend(zombieLeftTop3)
@@ -1310,7 +1310,7 @@ Class Level
         kingConga.AddZombieFriend(zombieRightBottom2)
         kingConga.AddZombieFriend(zombieRightBottom3)
         kingConga.AddZombieFriend(zombieRightBottom4)
-        
+
         kingConga.AddZombieFriend(zombieRightTop1)
         kingConga.AddZombieFriend(zombieRightTop2)
         kingConga.AddZombieFriend(zombieRightTop3)
@@ -1483,7 +1483,7 @@ Class Level
             Case 1
                 New SpikeTrap(-5, -11)
                 New SpikeTrap(5, -11)
-                
+
                 New SpeedUpTrap(0, -14)
                 New SpikeTrap(-5, -14)
                 New SpikeTrap(5, -14)
@@ -1493,7 +1493,7 @@ Class Level
             Default
                 New ConfuseTrap(-5, -11)
                 New ConfuseTrap(5, -11)
-                
+
                 New SpeedUpTrap(0, -14)
                 New SpeedUpTrap(-5, -14)
                 New SpeedUpTrap(5, -14)
@@ -1727,7 +1727,7 @@ Class Level
         rightRook.currentMoveDelay = 8
 
         Local pawnMoveDelayOffset := Util.RndIntRangeFromZero(7, True)
-        
+
         Local pawnLevel := 1
         If controller_game.currentDepth >= 3
             pawnLevel = 2
@@ -3404,7 +3404,7 @@ Class Level
                 Case Direction.Right
                     If room.x + room.w >= xMax Then Continue
                     If room.w > 8 Then Continue
-                    
+
                     If room.h >= 0
                         Local yOff: Int
                         For yOff = 0 To room.h
@@ -3428,7 +3428,7 @@ Class Level
                 Case Direction.Left
                     If xLow >= room.x Then Continue
                     If room.w > 8 Then Continue
-                    
+
                     If room.h >= 0
                         Local yOff: Int
                         For yOff = 0 To room.h
@@ -3535,7 +3535,7 @@ Class Level
         If Not Level.isLevelEditor
             Level.CreateIndestructibleBorder()
         End If
-        
+
         Level.chestsStillToPlace = 1
         If Not Level.isHardcoreMode
             Local extraChestRoll := Util.RndIntRangeFromZero(100, True)
@@ -5009,7 +5009,7 @@ Class Level
                     Local invisibleChestRoll := Util.RndIntRangeFromZero(4, True)
                     If invisibleChestRoll = 0
                         batLevel = 4
-                        
+
                         Local point := Level.GetRandPointInRoomWithOptions(room, True, True, True)
                         If point <> Null
                             If Not Level.isHardcoreMode Or
@@ -6311,7 +6311,7 @@ Class Level
                 For Local k := 0 Until GameData.GetNumPendingSpawnItems()
                     itemName = GameData.GetPendingSpawnItem(k)
                     Local itemSlot := Item.GetSlot(itemName)
-                    
+
                     If itemSlot = "weapon"
                         GameData.RemovePendingSpawnItem(itemName)
                     End If
@@ -7815,7 +7815,7 @@ Class Level
                     Local sarcophagusLevel := math.Min(3, controller_game.currentLevel)
                     New Sarcophagus(point.x, point.y, sarcophagusLevel)
                 End If
-                
+
                 point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                 If point = Null Then Continue
 
@@ -10186,7 +10186,7 @@ Class Level
         Local trapTypeRoll := Util.RndIntRangeFromZero(100, True)
         Local trapType: Int
         Local direction := -1
-        
+
         If trapTypeRoll <= 1
             trapType = TrapType.BounceTrap
             direction = BounceTrapDirection.Spin
