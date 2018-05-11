@@ -80,7 +80,12 @@ Class Fortissimole Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Fortissimole.Die()")
+        Self.UnoccupyDirt()
+        Enemy.SetEnemiesToDropNoCoinsOverride()
+        Super.Die()
+        Enemy.KillAllEnemies()
+
+        ' SKIPPED: Audio
     End Method
 
     Method DigFloor: Void()
@@ -132,7 +137,10 @@ Class Fortissimole Extends Enemy
     End Method
 
     Method UnoccupyDirt: Void()
-        Debug.TraceNotImplemented("Fortissimole.UnoccupyDirt()")
+        If Self.currentDirt <> Null
+            Self.currentDirt.Unoccupy()
+            Self.currentDirt = Null
+        End If
     End Method
 
     Method Update: Void()
