@@ -5532,8 +5532,8 @@ Class Level
         For Local ex := EachIn Level.exits
             Local exitValue := ex.Value()
             Select exitValue.x
-                Case -3,
-                     -6
+                Case LevelType.NextLevel,
+                     LevelType.LockedExit1
                     Return ex.Key()
             End Select
         End For
