@@ -441,7 +441,9 @@ Class Tile Extends RenderableObject
     End Method
 
     Method AddWireConnection: Void(dir: Int)
-        Debug.TraceNotImplemented("Tile.AddWireConnection(Int)")
+        If 0 <= dir And dir <= 3
+            Self.wireMask |= 1 Shl dir
+        End If
     End Method
 
     Method BecomeBombWall: Void()
