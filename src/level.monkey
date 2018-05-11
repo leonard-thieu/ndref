@@ -5425,6 +5425,21 @@ Class Level
         Return Level.GetRandPointInRoomWithOptions(room.x, room.y, room.w, room.h, skipWater, nearWallIsOk, secretRoomOK)
     End Function
 
+    Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
+        Return Level.GetRandPointInRoomWithOptions(xVal, yVal, wVal, hVal, True, True, True, skipWater, nearWallIsOk, secretRoomOK)
+    End Function
+
+    Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
+        Local body := New Rect(xVal, yVal, wVal, hVal)
+        Local room := New RectRoom(body)
+
+        Return Level.GetRandPointInRoomWithOptions(room, skipCollisions, skipExit, skipTraps, skipWater, nearWallIsOk, secretRoomOK)
+    End Function
+
+    Function GetRandPointInRoomWithOptions: Point(room: RoomBase, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
+        Return Level.GetRandPointInRoomWithOptions(room, True, True, True, skipWater, nearWallIsOk, secretRoomOK)
+    End Function
+
     Function GetRandPointInRoomWithOptions: Point(room: RoomBase, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
         Local pointsTested := New IntPointSet()
 
@@ -5470,17 +5485,6 @@ Class Level
 
             Return point
         End For
-    End Function
-
-    Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Return Level.GetRandPointInRoomWithOptions(xVal, yVal, wVal, hVal, True, True, True, skipWater, nearWallIsOk, secretRoomOK)
-    End Function
-
-    Function GetRandPointInRoomWithOptions: Point(xVal: Int, yVal: Int, wVal: Int, hVal: Int, skipCollisions: Bool, skipExit: Bool, skipTraps: Bool, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
-        Local body := New Rect(xVal, yVal, wVal, hVal)
-        Local room := New RectRoom(body)
-
-        Return Level.GetRandPointInRoomWithOptions(room, skipCollisions, skipExit, skipTraps, skipWater, nearWallIsOk, secretRoomOK)
     End Function
 
     Function GetShrinePoint: Point()
