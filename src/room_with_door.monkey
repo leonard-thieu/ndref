@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import logger
 Import rect
@@ -8,14 +8,18 @@ Class RoomWithDoor Extends RectRoom
 
     Function _EditorFix: Void() End
 
-    Method New(body_: Object, door_: Object)
-        Debug.TraceNotImplemented("RoomWithDoor.New(Object, Object)")
+    Method New(body_: Rect, door_: Rect)
+        Self.body = body_
+        Self.door = door_
+
+        Assert(Self.body.Contains(Self.door))
     End Method
 
     Field door: Rect
 
     Method IsWall: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("RoomWithDoor.IsWall(Int, Int)")
+        Return Self.body.OnBorder(x, y) And
+               Not Self.door.Contains(x, y)
     End Method
 
 End Class
