@@ -3,16 +3,29 @@
 Import enemy
 Import entity
 Import logger
+Import shrine
 
 Class Devil Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Devil.New(Int, Int, Int)")
+        Super.New()
+
+        If Shrine.warShrineActive
+            l = 2
+        End If
+
+        Self.Init(xVal, yVal, l, "devil")
+
+        Self.allowDiagonalFlip = True
+
+        Self.overrideAttackSound = "devilAttack"
+        Self.overrideHitSound = "devilHit"
+        Self.overrideDeathSound = "devilDeath"
     End Method
 
-    Field inEgg: Bool
+    Field inEgg: Bool = True
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("Devil.Hit(String, Int, Int, Entity, Bool, Int)")
