@@ -97,7 +97,17 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function CreateLord: Void()
-        Debug.TraceNotImplemented("Enemy.CreateLord()")
+        For Local limit := 501 Until 0 Step -1
+            Local enemyIndex := Util.RndIntRangeFromZero(Enemy.enemyList.Count() - 1, True)
+            Local enemyArray := Enemy.enemyList.ToArray()
+            Local enemy := enemyArray[enemyIndex]
+
+            If enemy.CanBeLord()
+                enemy.MakeLord()
+
+                Return
+            End If
+        End For
     End Function
 
     Function CullAllEnemies: Void()
@@ -692,7 +702,9 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method CanBeLord: Bool()
-        Debug.TraceNotImplemented("Enemy.CanBeLord()")
+        Return Not Self.isMiniboss And
+               Not Self.isLord And
+               Self.beatsPerMove > 1
     End Method
 
     Method CheckFamiliarTouch: Void(dir: Int)
@@ -1020,7 +1032,16 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method MakeLord: Void()
-        Debug.TraceNotImplemented("Enemy.MakeLord()")
+        Self.healthMax *= 2
+        Self.health *= 2
+        Self.damagePerHit *= 2
+        Self.isLord = True
+        Self.isMassive = True
+
+        Local dropLordScrollRoll := Util.RndIntRangeFromZero(2, True)
+        Self.dropLordScroll = (dropLordScrollRoll = 0)
+
+        Self.AdjustLordImage()
     End Method
 
     Method Move: Int()
