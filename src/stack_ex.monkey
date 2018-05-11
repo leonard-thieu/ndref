@@ -13,6 +13,12 @@ Class StackEx<T> Extends Stack<T>
         Return Self.Get(randomIndex)
     End Method
 
+    Method Extend: Void(other: StackEx<T>)
+        For Local item := EachIn other
+            Self.Push(item)
+        End For
+    End Method
+
     Method Find: Int(value: Int)
         Debug.TraceNotImplemented("StackEx.Find()")
     End Method
