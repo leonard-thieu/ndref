@@ -3,7 +3,7 @@ Strict
 Import monkey.map
 Import point
 
-Class IntPointMap Extends Map<Point, Object>
+Class IntPointMap<T> Extends Map<Point, T>
 
     Function _EditorFix: Void() End
 
