@@ -34,7 +34,8 @@ Class Point
     End Method
 
     Method Equals: Bool(other: Point)
-        Debug.TraceNotImplemented("Point.Equals(Point)")
+        Return Self.x = other.x And
+               Self.y = other.y
     End Method
 
     Method RotateCWAbout: Point(origin: Point)
