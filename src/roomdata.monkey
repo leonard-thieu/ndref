@@ -1,6 +1,5 @@
-'Strict
+Strict
 
-Import logger
 Import point
 Import rect
 
@@ -24,8 +23,8 @@ Class RoomData
     Field type: Int
     Field hasExit: Bool
 
-    Method GetBounds: Object()
-        Debug.TraceNotImplemented("RoomData.GetBounds()")
+    Method GetBounds: Rect()
+        Return New Rect(Self.x, Self.y, Self.w, Self.h)
     End Method
 
     Method GetLocation: Point()
@@ -37,9 +36,7 @@ Class RoomData
     End Method
 
     Method ToString: String()
-        Local rect := New Rect(Self.x, Self.y, Self.w, Self.h)
-
-        Return rect.ToString()
+        Return Self.GetBounds().ToString()
     End Method
 
 End Class
