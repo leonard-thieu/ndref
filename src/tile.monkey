@@ -805,7 +805,20 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone5Wall: Sprite()
-        Debug.TraceNotImplemented("Tile.GetZone5Wall()")
+        Local zone5Wall := New Sprite("level/zone5_wall_dirt.png", 24, 48, 13, Image.DefaultFlags)
+
+        Local frame: Int
+
+        Local frameRoll := Util.RndIntRangeFromZero(100, False)
+        If frameRoll <= 34
+            frame = Util.RndIntRange(3, 12, False, -1)
+        Else
+            frame = Util.RndIntRangeFromZero(2, False)
+        End If
+
+        zone5Wall.SetFrame(frame)
+
+        Return zone5Wall
     End Method
 
     Method HasTileBeenSeen: Bool()
