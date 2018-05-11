@@ -1078,7 +1078,33 @@ Class Tile Extends RenderableObject
     End Method
 
     Method LoadWireImages: Void(mainImage: String, conductorPhase: Int)
-        Debug.TraceNotImplemented("Tile.LoadWireImages(String, Int)")
+        Select conductorPhase
+            Case 0
+                Self.imageWireSilhouette = New Sprite("level/wire_silhouette.png", 24, 24, 16, Image.DefaultFlags)
+                Self.imageWireSilhouette.SetZ(-1000.0)
+
+                Self.imageWire = New Sprite(mainImage, 24, 24, 128, Image.DefaultFlags)
+
+                Select Util.RndIntRangeFromZero(2, False)
+                    Case 0
+                        Self.imageWireFlash = New Sprite("level/elec_flash_1.png", 16, 10, 6, Image.DefaultFlags)
+                    Case 1
+                        Self.imageWireFlash = New Sprite("level/elec_flash_2.png", 13, 12, 6, Image.DefaultFlags)
+                    Case 2
+                        Self.imageWireFlash = New Sprite("level/elec_flash_3.png", 12, 13, 6, Image.DefaultFlags)
+                End Select
+
+                Self.imageWireFlash.SetZ(-998.0)
+                Self.wireFlashAnimDelay = 3
+                Self.wireFlashDelay = Util.RndIntRangeFromZero(1800, False)
+            Case 1
+                Self.imageWire = New Sprite(mainImage, 24, 24, 35, Image.DefaultFlags)
+            Case 2
+                Self.imageWire = New Sprite(mainImage, 24, 24, 15, Image.DefaultFlags)
+        End Select
+
+        Self.imageWire.SetAlphaValue(0.0)
+        Self.imageWire.SetZ(-999.0)
     End Method
 
     Method Render: Void()
