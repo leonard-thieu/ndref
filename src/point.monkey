@@ -46,7 +46,10 @@ Class Point
     End Method
 
     Method Scale: Point(scalar: Int)
-        Debug.TraceNotImplemented("Point.Scale(Int)")
+        Local scaledX := scalar * Self.x
+        Local scaledY := scalar * Self.y
+
+        Return New Point(scaledX, scaledY)
     End Method
 
     Method ToString: String()
