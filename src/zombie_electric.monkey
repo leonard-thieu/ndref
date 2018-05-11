@@ -4,17 +4,28 @@ Import enemy
 Import entity
 Import logger
 Import point
+Import util
 
 Class ZombieElectric Extends Enemy
 
     Function _EditorFix: Void() End
 
     Method New(x_: Int, y_: Int, l: Int)
-        Debug.TraceNotImplemented("ZombieElectric.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(x_, y_, l, "zombie_electric")
+
+        Self.facing = Util.RndIntRangeFromZero(3, True)
+        Local movementDir := Self.GetMovementDir()
+        Self.movesRegardlessOfDistance = True
+        Self.facing = movementDir
+
+        Self.overrideAttackSound = "eleczombieAttack"
+        Self.overrideDeathSound = "eleczombieDeath"
     End Method
 
-    Field facing: Int
-    Field turnToFace: Int
+    Field facing: Int = -1
+    Field turnToFace: Int = -1
     Field rested: Bool
     Field queueRest: Bool
 
