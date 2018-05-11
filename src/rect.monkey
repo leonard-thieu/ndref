@@ -1,14 +1,14 @@
-'Strict
+Strict
 
+Import monkey.math
 Import monkey.stack
-Import logger
 Import point
 Import util
 
 Class Rect
 
     Function MakeBounds: Rect(minX: Int, minY: Int, maxX: Int, maxY: Int)
-        Debug.TraceNotImplemented("Rect.MakeBounds(Int, Int, Int, Int)")
+        Return New Rect(minX, minY, maxX - minX, maxY - minY)
     End Function
 
     Function _EditorFix: Void() End
@@ -25,20 +25,35 @@ Class Rect
     Field w: Int
     Field h: Int
 
+    Method Copy: Rect()
+        Return New Rect(Self.x, Self.y, Self.w, Self.h)
+    End Method
+
     Method Contains: Bool(other: Point)
-        Debug.TraceNotImplemented("Rect.Contains(Point)")
+        Return Self.Contains(New Rect(other.x, other.y, 0, 0))
     End Method
 
     Method Contains: Bool(other: Rect)
-        Debug.TraceNotImplemented("Rect.Contains(Rect)")
+        If Self.x > other.x Then Return False
+        If Self.GetRight() < other.GetRight() Then Return False
+        If Self.y > other.y Then Return False
+        If Self.GetBottom() < other.GetBottom() Then Return False
+
+        Return True
     End Method
 
     Method Contains: Bool(px: Int, py: Int)
-        Debug.TraceNotImplemented("Rect.Contains(Int, Int)")
+        Return Self.Contains(New Point(px, py))
     End Method
 
     Method ContainsNoCorners: Bool(other: Rect)
-        Debug.TraceNotImplemented("Rect.ContainsNoCorners(Rect)")
+        For Local corner := EachIn Self.GetCorners()
+            If other.Contains(corner.x, corner.y)
+                Return False
+            End If
+        End For
+
+        Return Self.Contains(other)
     End Method
 
     Method GetBottom: Int()
@@ -46,19 +61,57 @@ Class Rect
     End Method
 
     Method GetCenter: Point()
-        Debug.TraceNotImplemented("Rect.GetCenter()")
+        Local centerX := Self.x + (Self.w / 2)
+        Local centerY := Self.y + (Self.h / 2)
+
+        Return New Point(centerX, centerY)
     End Method
 
     Method GetCorners: Stack<Point>()
-        Debug.TraceNotImplemented("Rect.GetCorners()")
+        Local corners := New Stack<Point>()
+
+        corners.Push(New Point(Self.GetLeft(), Self.GetTop()))
+        corners.Push(New Point(Self.GetLeft(), Self.GetBottom()))
+        corners.Push(New Point(Self.GetRight(), Self.GetTop()))
+        corners.Push(New Point(Self.GetRight(), Self.GetBottom()))
+
+        Return corners
+    End Method
+
+    Method GetLeft: Int()
+        Return Self.x
     End Method
 
     Method GetL1Dist: Int(other: Point)
-        Debug.TraceNotImplemented("Rect.GetL1Dist(Point)")
+        Local xDiff := 0
+        If other.x < Self.x
+            xDiff = Self.x - other.x
+        Else If other.x > Self.GetRight()
+            xDiff = other.x - Self.GetRight()
+        End If
+
+        Local yDiff := 0
+        If other.y < Self.y
+            yDiff = Self.y - other.y
+        Else If other.y > Self.GetBottom()
+            yDiff = other.y - Self.GetBottom()
+        End If
+
+        Return xDiff + yDiff
     End Method
 
     Method GetL1Dist: Int(other: Rect)
-        Debug.TraceNotImplemented("Rect.GetL1Dist2(Rect)")
+        Local l1Dist := 999999
+
+        For Local corner := EachIn Self.GetCorners()
+            l1Dist = math.Min(l1Dist, other.GetL1Dist(corner))
+        End For
+
+        For Local otherCorner := EachIn other.GetCorners()
+            l1Dist = math.Min(l1Dist, Self.GetL1Dist(otherCorner))
+        End For
+
+        Return l1Dist
     End Method
 
     Method GetPoints: Stack<Point>()
@@ -79,8 +132,19 @@ Class Rect
         Return Self.x + Self.w
     End Method
 
+    Method GetTop: Int()
+        Return Self.y
+    End Method
+
     Method OnBorder: Bool(px: Int, py: Int)
-        Debug.TraceNotImplemented("Rect.OnBorder(Int, Int)")
+        If Not Self.Contains(px, py) Then Return False
+
+        If px = Self.x Then Return True
+        If py = Self.y Then Return True
+        If px = Self.x + Self.w Then Return True
+        If py = Self.y + Self.h Then Return True
+
+        Return False
     End Method
 
     Method RandomPoint: Point()
