@@ -1,6 +1,6 @@
-'Strict
+Strict
 
-Import logger
+Import point
 Import rect
 Import room_base
 Import roomdata
@@ -20,8 +20,8 @@ Class RectRoom Extends RoomBase
 
     Field body: Rect
 
-    Method GetBounds: Object()
-        Debug.TraceNotImplemented("RectRoom.GetBounds()")
+    Method GetBounds: Rect()
+        Return Self.body.Copy()
     End Method
 
     Method GetRandPoint: Point()
@@ -34,19 +34,20 @@ Class RectRoom Extends RoomBase
     End Method
 
     Method IsFloor: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("RectRoom.IsFloor(Int, Int)")
+        Return Not Self.IsOutside(x, y) And
+               Not Self.body.OnBorder(x, y)
     End Method
 
     Method IsOutside: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("RectRoom.IsOutside(Int, Int)")
+        Return Not Self.body.Contains(x, y)
     End Method
 
     Method IsWall: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("RectRoom.IsWall(Int, Int)")
+        Return Self.body.OnBorder(x, y)
     End Method
 
     Method ToRoomData: RoomData(roomType: Int)
-        Debug.TraceNotImplemented("RectRoom.ToRoomData(Int)")
+        Return New RoomData(Self.body.x, Self.body.y, Self.body.w, Self.body.h, roomType, False)
     End Method
 
 End Class
