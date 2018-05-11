@@ -140,6 +140,10 @@ Class Util
         Debug.TraceNotImplemented("Util.GetLeaderboardSuffixForCharacterAndCoopAndDeathlessState(Bool, Bool, Bool, Bool, Bool, Bool)")
     End Function
 
+    Function GetL1Dist: Int(x1: Int, y1: Int, x2: Int, y2: Int)
+        Return math.Abs(x1 - x2) + math.Abs(y1 - y2)
+    End Function
+
     Function GetPlayerLocation: Object(playerNum: Int)
         Debug.TraceNotImplemented("Util.GetPlayerLocation(Int)")
     End Function
