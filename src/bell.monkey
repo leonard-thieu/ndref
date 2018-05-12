@@ -41,7 +41,14 @@ Class Bell Extends Enemy
     Field enemy: Enemy
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Bell.Die()")
+        If Not Self.dead
+            Bell.bells.RemoveEach(Self)
+            Super.Die()
+
+            If Self.isBig
+                Enemy.KillAllEnemies()
+            End If
+        End If
     End Method
 
     Method HasBeenRung: Bool()
