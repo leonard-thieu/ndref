@@ -15,7 +15,13 @@ Class Pawnbroker Extends NPC
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Pawnbroker.Die()")
+        If Not Self.dead
+            If Not Self.falling
+                New Item(Self.x, Self.y, "misc_coupon", False, -1, False)
+            End If
+
+            Super.Die()
+        End If
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
