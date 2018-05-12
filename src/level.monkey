@@ -10062,6 +10062,7 @@ Class Level
                 End For
 
                 Local fakeWallLocation := pointsNotAdjacentToDoors.ChooseRandom(True)
+                Level.PlaceTileRemovingExistingTiles(fakeWallLocation.x, fakeWallLocation.y, TileType.Floor)
                 New FakeWall(fakeWallLocation.x, fakeWallLocation.y, 2)
             End If
         End If
