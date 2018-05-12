@@ -4058,7 +4058,40 @@ Class Level
     End Function
 
     Function CreateRoomZone5: Void(rm: RoomWithDoor, roomType: Int)
-        Debug.TraceNotImplemented("Level.CreateRoomZone5(RoomWithDoor, Int)")
+        Debug.Log("CREATEROOMZONE5: Placing room " + rm.body.ToString() + " with door " + rm.door.ToString() + " of type " + roomType)
+
+        Select roomType
+            Case RoomType.Shop
+                Level.CreateRoom(rm.body.x, rm.body.y, rm.body.w, rm.body.h, False, roomType)
+                Level.PlaceShopItemsAt(rm.body.x, rm.body.y, rm.door)
+            Default
+                Level.FillTiles(rm.body, TileType.Floor, TileType.DirtWall)
+                Level.FillTiles(rm.door, TileType.Door, TileType.Empty)
+
+                Local doorCenter := rm.door.GetCenter()
+                Level.PlaceConnectedWireDoor(doorCenter)
+        End Select
+
+        Level.rooms.AddLast(rm.ToRoomData(roomType))
+    End Function
+
+    Function CreateRoomZone5: RoomWithDoor(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int)
+        Return Level.CreateRoomZone5(portalSegs, width, height, minEntryDist, RoomType.Basic)
+    End Function
+
+    Function CreateRoomZone5: RoomWithDoor(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
+        portalSegs.Shuffle(True)
+
+        For Local portalSeg := EachIn portalSegs
+            Local room := Level.PlaceRoomZone5(portalSeg, width, height, minEntryDist)
+            If room <> Null
+                Level.CreateRoomZone5(room, roomType)
+
+                Return room
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function CreateSwarmMap: Void()
@@ -5925,7 +5958,20 @@ Class Level
     End Function
 
     Function IsZone5RoomLegal: Bool(loc: Rect)
-        Debug.TraceNotImplemented("Level.IsZone5RoomLegal(Rect)")
+        For Local x := loc.GetLeft() To loc.GetRight()
+            For Local y := loc.GetTop() To loc.GetBottom()
+                Local tile := Level.GetTileAt(x, y)
+                If tile = Null Then Continue
+
+                Local tileType := tile.GetType()
+                If tileType <> TileType.Empty And
+                   (tileType <> TileType.DirtWall Or Not loc.OnBorder(x, y))
+                    Return False
+                End If
+            End For
+        End For
+
+        Return True
     End Function
 
     Function JanitorReset: Void()
@@ -6387,7 +6433,16 @@ Class Level
     End Function
 
     Function PlaceConnectedWireDoor: Void(p: Point)
-        Debug.TraceNotImplemented("Level.PlaceConnectedWireDoor(Point)")
+        Local wiredDoor := Level.PlaceTileRemovingExistingTiles(p.x, p.y, TileType.WiredDoor)
+
+        For Local d := 0 Until 3
+            Local offset := Util.GetPointFromDir(d)
+            Local connectionPoint := p.Add(offset)
+
+            If Level.IsFloorAt(connectionPoint.x, connectionPoint.y)
+                wiredDoor.AddWireConnection(d)
+            End If
+        End For
     End Function
 
     Function PlaceCrateOrBarrel: Void()
@@ -9299,11 +9354,72 @@ Class Level
         Return room
     End Function
 
-    Function PlaceRoomZone5: RoomData(pseg: PortalSeg, width: Int, height: Int, minEntryDist: Int)
-        Debug.TraceNotImplemented("Level.PlaceRoomZone5(PortalSeg, Int, Int, Int)")
+    Function PlaceRoomZone5: RoomWithDoor(pseg: PortalSeg, width: Int, height: Int, minEntryDist: Int)
+        Local origin := pseg.GetOrigin()
+        Local normal := pseg.GetNormal()
+        Local faceVector := pseg.GetFaceVector()
+        Local length := pseg.GetLength()
+
+        Local faceScalar := width
+        Local normalScalar := height
+        If faceVector.y <> 0
+            faceScalar = height
+            normalScalar = width
+        End If
+
+        Local rooms := New StackEx<RoomWithDoor>()
+
+        For Local i := 3 Until faceScalar + length - 2
+            Local scaledFaceVector1 := faceVector.Scale(i)
+            Local offsetOrigin1 := origin.Add(scaledFaceVector1)
+
+            Local scaledNormal := normal.Scale(normalScalar)
+            Local offsetOrigin2 := offsetOrigin1.Add(scaledNormal)
+            Local scaledFaceVector2 := faceVector.Scale(-faceScalar)
+            offsetOrigin2 = offsetOrigin2.Add(scaledFaceVector2)
+
+            Local bodyX := math.Min(offsetOrigin1.x, offsetOrigin2.x)
+            Local bodyY := math.Min(offsetOrigin1.y, offsetOrigin2.y)
+            Local bodyXMax := math.Max(offsetOrigin1.x, offsetOrigin2.x)
+            Local bodyYMax := math.Max(offsetOrigin1.y, offsetOrigin2.y)
+            Local body := Rect.MakeBounds(bodyX, bodyY, bodyXMax, bodyYMax)
+
+            If Level.IsZone5RoomLegal(body)
+                Local firstRoomBounds := Level.firstRoom.GetBounds()
+                If firstRoomBounds.GetL1Dist(body) >= minEntryDist
+                    For Local j := 1 Until length - 1
+                        Local scaledFaceVector3 := faceVector.Scale(j)
+                        Local offsetOrigin3 := origin.Add(scaledFaceVector3)
+
+                        Local scaledFaceVector4 := faceVector.Scale(2)
+                        Local offsetOrigin4 := offsetOrigin3.Add(scaledFaceVector4)
+
+                        Local doorX := math.Min(offsetOrigin3.x, offsetOrigin4.x)
+                        Local doorY := math.Min(offsetOrigin3.y, offsetOrigin4.y)
+                        Local doorXMax := math.Max(offsetOrigin3.x, offsetOrigin4.x)
+                        Local doorYMax := math.Max(offsetOrigin3.y, offsetOrigin4.y)
+                        Local door := Rect.MakeBounds(doorX, doorY, doorXMax, doorYMax)
+
+                        If body.ContainsNoCorners(door)
+                            Local room := New RoomWithDoor(body, door)
+
+                            Assert(body.Contains(door))
+
+                            rooms.Push(room)
+                        End If
+                    End For
+                End If
+            End If
+        End For
+
+        If rooms.Length <> 0
+            Return rooms.ChooseRandom(True)
+        End If
+
+        Return Null
     End Function
 
-    Function PlaceRoomZone5: RoomData(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
+    Function PlaceRoomZone5: RoomWithDoor(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
         Debug.TraceNotImplemented("Level.PlaceRoomZone5(StackEx<PortalSeg>, Int, Int, Int, Int)")
     End Function
 
