@@ -2,6 +2,7 @@
 
 Import enemy
 Import logger
+Import particles
 Import point
 
 Class Mummy Extends Enemy
@@ -9,7 +10,18 @@ Class Mummy Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Mummy.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "mummy")
+
+        Self.movesRegardlessOfDistance = True
+
+        Self.overrideAttackSound = "mummyAttack"
+        Self.overrideDeathSound = "mummyDeath"
+
+        Local particleSystemX := (Self.x * 24) + 12
+        Local particleSystemY := (Self.y * 24) + 24
+        New ParticleSystem(particleSystemX, particleSystemY, ParticleSystemData.MOLE_DIG, -1, "")
     End Method
 
     Field animNum: Int

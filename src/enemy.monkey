@@ -515,7 +515,9 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function SetEnemiesToDropNoCoins: Void()
-        Debug.TraceNotImplemented("Enemy.SetEnemiesToDropNoCoins()")
+        For Local enemy := EachIn Enemy.enemyList
+            enemy.coinsToDrop = 0
+        End For
     End Function
 
     Function SetEnemiesToDropNoCoinsOverride: Void()
@@ -1002,7 +1004,8 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method InitImage: Void(enemyXML: JsonObject, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
-        Self.image = New Sprite("", 1, Image.DefaultFlags)
+        Self.image = New Sprite()
+        Self.shadow = New Sprite()
 
         Debug.TraceNotImplemented("Enemy.InitImage(JsonObject, String, Int, Int)")
     End Method
@@ -1029,6 +1032,15 @@ Class Enemy Extends MobileEntity Abstract
 
     Method Knockback: Void(dir: Int)
         Debug.TraceNotImplemented("Enemy.Knockback(Int)")
+    End Method
+
+    Method MakeDancer: Void()
+        Self.isDancer = True
+        Self.shadowYOff -= 8
+        Self.yOff -= 8.0
+        Self.shadow.UnSetZ()
+        Self.shadow.SetZOff(Self.image.zOff + 24.0)
+        Self.image.SetZOff(Self.image.zOff + 124.0)
     End Method
 
     Method MakeLord: Void()

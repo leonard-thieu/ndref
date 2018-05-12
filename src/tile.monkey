@@ -437,7 +437,9 @@ Class Tile Extends RenderableObject
     End Method
 
     Method AddTorch2: Void()
-        Debug.TraceNotImplemented("Tile.AddTorch2()")
+        Self.TORCH_LIGHT_MAX *= 1.6
+        
+        Self.AddTorch()
     End Method
 
     Method AddWireConnection: Void(dir: Int)

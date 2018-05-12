@@ -1,5 +1,6 @@
 'Strict
 
+Import mojo.graphics
 Import enemy
 Import entity
 Import item
@@ -9,34 +10,62 @@ Import sprite
 
 Class Necrodancer Extends Enemy
 
-    Global necrodancer: Object
+    Global necrodancer: Necrodancer
     Global wallsStep: Int
 
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
-        Debug.TraceNotImplemented("Necrodancer.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "necrodancer")
+
+        Self.isNecroDancer = True
+
+        Necrodancer.necrodancer = Self
+
+        Self.iceBlast = New Sprite("spells/ice_blast.png", 8, Image.MidHandle)
+        Self.iceBlast.SetHandle(-2, 59)
+        Self.iceBlast.SetZOff(1000.0)
+
+        Self.shieldImage = New Sprite("entities/necroshield.png", 1, Image.DefaultFlags)
+        Self.shieldImage.SetZOff(Self.storedZOff + 10)
+
+        Necrodancer.wallsStep = 0
+
+        Self.origXOff = Self.xOff
+
+        Select Self.level
+            Case 1
+                Self.MakeDancer()
+            Case 2
+                Self.actionTime = 10
+        End Select
+
+        Self.overrideHitSound = "necrodancerHit"
+        Self.overrideDeathSound = "necrodancerDeath"
+        Self.overrideAttackSound = "necrodancerAttack"
     End Method
 
     Field bombStep: Int
     Field saidLutePhrase: Bool
     Field iceBlast: Sprite
     Field shieldImage: Sprite
-    Field origXOff: Int
-    Field actionTime: Int
+    Field origXOff: Int = -1
+    Field actionTime: Int = 12
     Field theLute: Item
     Field doingTransition: Bool
     Field lastAction: Int
-    Field actionDelay: Int
+    Field actionDelay: Int = -1
     Field phase: Int
     Field summonCount: Int
     Field didCry: Bool
-    Field actionDelayTime: Int
+    Field actionDelayTime: Int = 3
     Field spellNum: Int
     Field iceBlastDuration: Int
-    Field lastSpell: Int
-    Field vibrateCounter: Int
-    Field vibrateOffset: Float
+    Field lastSpell: Int = -1
+    Field vibrateCounter: Int = 3
+    Field vibrateOffset: Float = 1.0
     Field madeLava: Bool
 
     Method CastIce: Void()

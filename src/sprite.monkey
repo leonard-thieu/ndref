@@ -236,7 +236,8 @@ Class Sprite Extends Tweenable
     End Method
 
     Method UnSetZ: Void()
-        Debug.TraceNotImplemented("Sprite.UnSetZ()")
+        Self.zSet = False
+        Self.z = 0.0
     End Method
 
     Method Width: Int()

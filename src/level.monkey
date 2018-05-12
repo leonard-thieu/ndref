@@ -24,6 +24,7 @@ Import controller_level_editor
 Import crate
 Import dead_ringer
 Import death_metal
+Import decorative_firetrap
 Import devil
 Import diamonddealer
 Import dragon
@@ -33,6 +34,7 @@ Import evileye
 Import exitmap
 Import fakewall
 import gamedata
+Import gargoyle
 Import ghast
 Import ghost
 Import gorgon
@@ -50,7 +52,9 @@ Import metrognome
 Import minotaur
 Import mommy
 Import monkey_enemy
+Import mummy
 Import necrodancer
+Import necrodancer_enemy
 Import necrodancergame
 Import nightmare
 Import npc
@@ -86,6 +90,7 @@ Import spells
 Import spiketrap
 Import stack_ex
 Import swarm_sarcophagus
+Import switch
 Import teleporttrap
 Import tile
 Import tiledata
@@ -1991,7 +1996,168 @@ Class Level
     End Function
 
     Function CreateFinalBossBattle: Void()
-        Debug.TraceNotImplemented("Level.CreateFinalBossBattle()")
+        Debug.Log("CREATEFINALBOSSBATTLE: Creating Necrodancer battle.")
+
+        Level.InitNewMap(True)
+        Level.outsideBossChamber = True
+        Level.DisableLevelConstraints()
+
+        Level.CreateRoom(-2, -3, 6, 7, False, RoomType.Boss)
+
+        If Level.isTrainingMode
+            Level.AddExit(2, 0, LevelType.Lobby, 1)
+            Level.PlaceTileRemovingExistingTiles(2, 0, TileType.Stairs)
+
+            If controller_game.numPlayers = 1
+                Level.MakeHelper()
+            End If
+        End If
+
+        Level.GetTileAt(-2, 0).AddTorch()
+        Level.GetTileAt(4, 0).AddTorch()
+        Level.GetTileAt(1, 4).AddTorch()
+
+        For Local y := -3 To -5 Step -1
+            For Local x := 0 To 2
+                Level.PlaceTileRemovingExistingTiles(x, y, TileType.BossFloor)
+            End For
+        End For
+
+        Level.PlaceTileRemovingExistingTiles(-1, -4, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(3, -4, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(-1, -5, TileType.BossWall)
+        Level.PlaceTileRemovingExistingTiles(3, -5, TileType.BossWall)
+
+        Level.CreateRoom(-7, -17, 16, 11, False, RoomType.Boss)
+
+        For Local x := 0 To 2
+            Level.GetTileAt(x, -6).SetDoorTrigger(2)
+        End For
+
+        Level.GetTileAt(-5, -6).AddTorch2()
+        Level.GetTileAt(-1, -6).AddTorch2()
+        Level.GetTileAt(3, -6).AddTorch2()
+        Level.GetTileAt(7, -6).AddTorch2()
+        Level.GetTileAt(-5, -17).AddTorch2()
+        Level.GetTileAt(-1, -17).AddTorch2()
+        Level.GetTileAt(3, -17).AddTorch2()
+        Level.GetTileAt(7, -17).AddTorch2()
+        Level.GetTileAt(-7, -14).AddTorch2()
+        Level.GetTileAt(-7, -10).AddTorch2()
+        Level.GetTileAt(9, -14).AddTorch2()
+        Level.GetTileAt(9, -10).AddTorch2()
+
+        Level.PlaceTileRemovingExistingTiles(-2, -17, TileType.NecroDancerSpeaker1)
+        Level.PlaceTileRemovingExistingTiles(-1, -17, TileType.NecroDancerSpeaker2)
+        Level.PlaceTileRemovingExistingTiles(0, -17, TileType.NecroDancerSpeaker3)
+        Level.PlaceTileRemovingExistingTiles(1, -17, TileType.NecroDancerSpeaker2)
+        Level.PlaceTileRemovingExistingTiles(2, -17, TileType.NecroDancerSpeaker3)
+        Level.PlaceTileRemovingExistingTiles(3, -17, TileType.NecroDancerSpeaker2)
+        Level.PlaceTileRemovingExistingTiles(4, -17, TileType.NecroDancerSpeaker1)
+        Level.PlaceTileRemovingExistingTiles(-2, -16, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(-1, -16, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(0, -16, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(1, -16, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(2, -16, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(3, -16, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(4, -16, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(-2, -15, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(-1, -15, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(0, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(1, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(2, -15, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(3, -15, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(4, -15, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(-2, -14, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(-1, -14, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(0, -14, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(1, -14, TileType.NecroDancerStageGreen)
+        Level.PlaceTileRemovingExistingTiles(2, -14, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(3, -14, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(4, -14, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(-2, -13, TileType.NecroDancerStageCyan)
+        Level.PlaceTileRemovingExistingTiles(-1, -13, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(0, -13, TileType.NecroDancerStageGreen)
+        Level.PlaceTileRemovingExistingTiles(1, -13, TileType.NecroDancerStageGreen)
+        Level.PlaceTileRemovingExistingTiles(2, -13, TileType.NecroDancerStageGreen)
+        Level.PlaceTileRemovingExistingTiles(3, -13, TileType.NecroDancerStageTurquoise)
+        Level.PlaceTileRemovingExistingTiles(4, -13, TileType.NecroDancerStageCyan)
+
+        For Local x := -3 To 5
+            Level.PlaceTileRemovingExistingTiles(x, -18, TileType.BossWall)
+        End For
+
+        New DecorativeFireTrap(-1, -16)
+        New DecorativeFireTrap(3, -16)
+
+        Level.SetMagicBarrier(True)
+        Level.PaintTriggerInterior(-7, -17, 16, 11, 1)
+
+        Local necrodancer := New Necrodancer(0, -15, 1)
+        necrodancer.ActivateLight(0.01, 1.5)
+
+        New Gargoyle(-2, -13, 5)
+        New Gargoyle(4, -13, 5)
+
+        Local leftMummy := New Mummy(0, -13, 1)
+        leftMummy.MakeDancer()
+        Local centerMummy := New Mummy(1, -13, 1)
+        centerMummy.MakeDancer()
+        Local rightMummy := New Mummy(2, -13, 1)
+        rightMummy.MakeDancer()
+
+        Local leftBlackSkeleton := New Skeleton(-2, -16, 3)
+        leftBlackSkeleton.MakeDancer()
+        Local rightBlackSkeleton := New Skeleton(4, -16, 3)
+        rightBlackSkeleton.MakeDancer()
+        Local leftWhiteSkeleton := New Skeleton(-2, -15, 1)
+        leftWhiteSkeleton.MakeDancer()
+        Local rightWhiteSkeleton := New Skeleton(4, -15, 1)
+        rightWhiteSkeleton.MakeDancer()
+
+        Level.PlaceTileRemovingExistingTiles(1, -9, TileType.BossWall)
+
+        Local hintTile := Level.PlaceTileRemovingExistingTiles(1, 2, TileType.BossWall)
+        hintTile.AddTextLabel("|49|USE ALL WALLS TO YOUR ADVANTAGE!|", 0, -12.0, 2.0, False, True)
+
+        Local switch11 := New Switch(2, -5, 33, Null)
+        Local switch12 := New Switch(0, -5, 33, switch11)
+        switch11.pairedSwitch = switch12
+
+        Local switch21X := 3
+        Local switch22X := -1
+        Local switchRoll := Util.RndIntRangeFromZero(1, True)
+        If switchRoll = 0
+            switch21X = -1
+            switch22X = 3
+        End If
+
+        Local switch21 := New Switch(switch21X, -11, 34, Null)
+        Local switch22 := New Switch(switch22X, -12, 34, switch21)
+        switch21.pairedSwitch = switch22
+
+        Necrodancer.necrodancer.theLute = New Item(2, -15, "weapon_golden_lute", False, -1, False)
+
+        Local weaponName: String
+        Select Util.RndIntRangeFromZero(2, True)
+            Case 0  weaponName = "weapon_broadsword"
+            Case 1  weaponName = "weapon_flail"
+            Default weaponName = "weapon_longsword"
+        End Select
+        
+        New Item(3, -7, weaponName, False, -1, False)
+
+        Enemy.enemiesPaused = True
+
+        Level.UnlockChar(Character.Dorian)
+
+        If GameData.GetNPCUnlock("bossmaster") And
+           Not GameData.HasFoughtNecrodancer() And
+           Not Level.isReplaying
+            Level.charactersJustUnlocked.AddLast(506)
+        End If
+
+        GameData.SetFoughtNecrodancer()
     End Function
 
     Function CreateFinalBossBattle2: Void()
@@ -6375,7 +6541,22 @@ Class Level
     End Function
 
     Function MakeHelper: Void()
-        Debug.TraceNotImplemented("Level.MakeHelper()")
+        controller_game.numPlayers += 1
+
+        Local dorian := New Player(1, Character.Dorian)
+        controller_game.players[1] = dorian
+        
+        Local player1 := controller_game.players[0]
+        player1.helper = dorian
+
+        dorian.x = 1
+        dorian.y = 0
+        dorian.isHelper = True
+        dorian.SetTotallyBlank()
+
+        dorian.AddItemOfType("weapon_dagger", Null, True, False)
+        dorian.AddItemOfType("armor_platemail_dorian", Null, True, False)
+        dorian.AddItemOfType("ring_might", Null, True, False)
     End Function
 
     Function MakeInvisibleChestAt: Void(tmpX: Int, tmpY: Int)
@@ -6416,10 +6597,7 @@ Class Level
             End If
         End For
 
-        For Local enemy := EachIn Enemy.enemyList
-            enemy.coinsToDrop = 0
-        End For
-
+        Enemy.SetEnemiesToDropNoCoins()
         RenderableObject.DeleteAll(True)
 
         Level.placedArena = False
@@ -6434,13 +6612,6 @@ Class Level
                 controller_game.currentLevel += 1
         End Select
 
-        ' TODO: Verify that this is correct.
-        If controller_game.currentLevel = 5
-            controller_game.currentDepth += 1
-            controller_game.currentZone = controller_game.currentDepth
-            controller_game.currentLevel = 1
-        End If
-
         If Level.wholeRunRNG = Null
             Level.wholeRunRNG = RNG.Make(Level.randSeed)
         End If
@@ -6451,6 +6622,21 @@ Class Level
         Debug.Log("DETERMINISTIC START: " + Level.randSeed +
                                    " z: " + controller_game.currentZone +
                                    " l: " + controller_game.currentLevel)
+
+        ' TODO: Verify that this is correct.
+        If controller_game.currentLevel = LevelType.FinalBossBattle
+            If Not Level.IsFinalBossZone()
+                controller_game.currentDepth += 1
+                controller_game.currentZone = controller_game.currentDepth
+                controller_game.currentLevel = 1
+            End If
+        End If
+
+        If Level.IsFinalBossZone() And
+           controller_game.currentLevel = LevelType.FinalBossBattle And
+           Util.IsCharacterActive(Character.Cadence)
+            Level.MakeHelper()
+        End If
 
         Debug.Log("NEWLEVEL: Using seed " + randSeed)
 
@@ -6484,6 +6670,8 @@ Class Level
         Select controller_game.currentLevel
             Case LevelType.BossBattle
                 Level.CreateBossBattle()
+            Case LevelType.FinalBossBattle
+                Level.CreateFinalBossBattle()
             Default
                 If Level.CreateMap(levelObj)
                     Debug.WriteLine("Created map.")

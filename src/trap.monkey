@@ -131,21 +131,26 @@ Class TrapType
     Const BombTrap: Int = 9
     Const FireTrap: Int = 10
     Const ABTeleportTrap: Int = 11
+    Const Switch: Int = 12
+    Const DecorativeFireTrap: Int = 13
     Const ScatterTrap: Int = 14
 
     Function ToDisplayName: String(type: Int)
         Select type
-            Case  1 Return "Bounce Trap"
-            Case  2 Return "Spike Trap"
-            Case  3 Return "Trap Door"
-            Case  4 Return "Confuse Trap"
-            Case  5 Return "Teleport Trap"
-            Case  6 Return "Slow Down Trap"
-            Case  7 Return "Speed Up Trap"
-            Case  8 Return "Travel Rune"
-            Case  9 Return "Bomb Trap"
-            Case 10 Return "Fire Trap"
-            Case 14 Return "Scatter Trap"
+            Case TrapType.BounceTrap Return "Bounce Trap"
+            Case TrapType.SpikeTrap Return "Spike Trap"
+            Case TrapType.TrapDoor Return "Trap Door"
+            Case TrapType.ConfuseTrap Return "Confuse Trap"
+            Case TrapType.TeleportTrap Return "Teleport Trap"
+            Case TrapType.SlowDownTrap Return "Slow Down Trap"
+            Case TrapType.SpeedUpTrap Return "Speed Up Trap"
+            Case TrapType.TravelRune Return "Travel Rune"
+            Case TrapType.BombTrap Return "Bomb Trap"
+            Case TrapType.FireTrap Return "Wall Pig"
+            Case TrapType.ABTeleportTrap Return "AB Teleport Trap"
+            Case TrapType.Switch Return "Switch"
+            Case TrapType.DecorativeFireTrap Return "Decorative Fire Trap"
+            Case TrapType.ScatterTrap Return "Scatter Trap"
         End Select
 
         Return "Unknown trap (" + type + ")"

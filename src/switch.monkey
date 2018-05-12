@@ -1,12 +1,14 @@
 'Strict
 
+Import mojo.graphics
 Import entity
 Import logger
+Import sprite
 Import trap
 
 Class Switch Extends Trap
 
-    Global switches: Object
+    Global switches: List<Switch> = New List<Switch>()
 
     Function RemoveAll: Void()
         Debug.TraceNotImplemented("Switch.RemoveAll()")
@@ -14,11 +16,24 @@ Class Switch Extends Trap
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, triggerNum: Int, pair: Object)
-        Debug.TraceNotImplemented("Switch.New(Int, Int, Int, Object)")
+    Method New(xVal: Int, yVal: Int, triggerNum: Int, pair: Switch)
+        Super.New(xVal, yVal, TrapType.Switch)
+
+        Self.xOff = 5.0
+        Self.yOff = 15.0
+        
+        Self.trigger = triggerNum
+        Self.pairedSwitch = pair
+
+        Self.image = New Sprite("traps/switch.png", 14, 16, 4, Image.DefaultFlags)
+        Self.image.SetZ(-995.0)
+
+        Switch.switches.AddLast(Self)
+
+        Self.ActivateLight(1.0, 1.5)
     End Method
 
-    Field trigger: Int
+    Field trigger: Int = -1
     Field pairedSwitch: Switch
 
     Method Die: Void()
