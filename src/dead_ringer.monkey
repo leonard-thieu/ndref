@@ -1,5 +1,7 @@
 'Strict
 
+Import mojo.graphics
+Import bell
 Import enemy
 Import entity
 Import logger
@@ -10,12 +12,31 @@ Class DeadRinger Extends Enemy
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, l: Int, b1: Object, b2: Object, b3: Object, b4: Object)
-        Debug.TraceNotImplemented("DeadRinger.New(Int, Int, Int, Object, Object, Object, Object)")
+    Method New(xVal: Int, yVal: Int, l: Int, b1: Bell, b2: Bell, b3: Bell, b4: Bell)
+        Super.New()
+
+        Self.Init(xVal, yVal, l, "dead_ringer")
+
+        Self.overrideHitSound = "deadRingerHit"
+        Self.overrideDeathSound = "deadRingerDeath"
+
+        If xVal > 0
+            Self.seekingBell = True
+        End If
+
+        Self.bells[0] = b1
+        Self.bells[1] = b2
+        Self.bells[2] = b3
+        Self.bells[3] = b4
+
+        Self.imageStandard = Self.image
+        Self.imageSmash = New Sprite("entities/dead_ringer_hammer.png", 35, 54, 28, Image.DefaultFlags)
+        Self.imageCharge = New Sprite("entities/dead_ringer_charge.png", 50, 43, 6, Image.DefaultFlags)
+        Self.imageChargeSwipe = New Sprite("swipes/swipe_dead_ringer.png", 24, 20, 4, Image.MidHandle)
     End Method
 
     Field seekingBell: Int
-    Field bells: Bell[]
+    Field bells: Bell[5]
     Field imageStandard: Sprite
     Field imageSmash: Sprite
     Field imageCharge: Sprite
@@ -24,8 +45,8 @@ Class DeadRinger Extends Enemy
     Field phase: Int
     Field justSmashed: Bool
     Field smashCounter: Int
-    Field chargingDir: Int
-    Field chargedDir: Int
+    Field chargingDir: Int = -1
+    Field chargedDir: Int = -1
     Field chargeCounter: Int
     Field justGotHit: Bool
     Field readyToCharge: Bool

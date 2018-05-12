@@ -9,6 +9,7 @@ Import banshee
 Import bat
 Import bat_miniboss
 Import beastmaster
+Import bell
 Import bishop
 Import blob_room
 Import bombtrap
@@ -21,6 +22,7 @@ Import conjurer
 Import controller_game
 Import controller_level_editor
 Import crate
+Import dead_ringer
 Import death_metal
 Import devil
 Import diamonddealer
@@ -1166,6 +1168,10 @@ Class Level
         End If
     End Function
 
+    Function PlaceFirstBossRoom: Void()
+        Level.PlaceFirstBossRoom("")
+    End Function
+
     Function PlaceFirstBossRoom: Void(bossTrainingName: String)
         Level.PlaceFirstBossRoom(bossTrainingName, TilesetType.None)
     End Function
@@ -1173,7 +1179,9 @@ Class Level
     Function PlaceFirstBossRoom: Void(bossTrainingName: String, tilesetOverride: Int)
         Level.CreateRoom(-3, -3, 6, 6, False, RoomType.Boss)
 
-        Level.EnsureBossTraining(bossTrainingName)
+        If bossTrainingName <> ""
+            Level.EnsureBossTraining(bossTrainingName)
+        End If
 
         If Level.isTrainingMode
             Level.AddExit(2, 0, LevelType.Lobby, 1)
@@ -1757,7 +1765,64 @@ Class Level
     End Function
 
     Function CreateBossBattle5: Void()
-        Debug.TraceNotImplemented("Level.CreateBossBattle5()")
+        Debug.Log("CREATEBOSSBATTLE5: Creating dead ringer boss battle.")
+
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Level.PlaceFirstBossRoom()
+
+        Level.CreateRoom(-6, -17, 12, 11, False, RoomType.Boss)
+
+        For Local x := -1 To 1
+            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door)
+        End For
+
+        Level.GetTileAt(-2, -6).AddTorch()
+        Level.GetTileAt(2, -6).AddTorch()
+        Level.GetTileAt(-2, -17).AddTorch()
+        Level.GetTileAt(2, -17).AddTorch()
+        Level.GetTileAt(-6, -10).AddTorch()
+        Level.GetTileAt(6, -10).AddTorch()
+
+        For Local x := -1 To 1
+            Level.GetTileAt(x, -6).SetDoorTrigger(2)
+        End For
+
+        Level.SetMagicBarrier(True)
+        Level.PaintTriggerInterior(-6, -17, 12, 11, 1)
+
+        Local bell1 := New Bell(-3, 13, 1)
+        Local bell2 := New Bell(3, 13, 2)
+        Local bell3 := New Bell(3, -8, 3)
+        Local bell4 := New Bell(-3, -8, 4)
+
+        bell1.ActivateLight(0.01, 1.5)
+        bell2.ActivateLight(0.01, 1.5)
+        bell3.ActivateLight(0.01, 1.5)
+        bell4.ActivateLight(0.01, 1.5)
+
+        Local deadRingerX := -2
+        Local deadRingerXRoll := Util.RndIntRangeFromZero(1, True)
+        If deadRingerXRoll = 0
+            deadRingerX = 2
+        End If
+
+        Local deadRinger := New DeadRinger(deadRingerX, -12, 1, bell1, bell2, bell3, bell4)
+        deadRinger.ActivateLight(0.01, 1.5)
+
+        Local sarcophagusLeft := New Sarcophagus(-5, -16, 1)
+        sarcophagusLeft.ActivateLight(0.01, 1.5)
+        Local sarcophagusRight := New Sarcophagus(5, -16, 1)
+        sarcophagusRight.ActivateLight(0.01, 1.5)
+
+        If GameData.GetNPCUnlock("bossmaster") And
+           Not GameData.HasFoughtDeadRinger() And
+           Not Level.isReplaying
+            Level.charactersJustUnlocked.AddLast(505)
+        End If
+
+        GameData.SetFoughtDeadRinger()
     End Function
 
     Function CreateBossBattle9: Void()

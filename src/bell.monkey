@@ -1,12 +1,13 @@
 'Strict
 
+Import monkey.list
 Import enemy
 Import entity
 Import logger
 
 Class Bell Extends Enemy
 
-    Global bells: Object
+    Global bells: List<Bell> = New List<Bell>()
 
     Function GetBellAt: Object(xVal: Int, yVal: Int)
         Debug.TraceNotImplemented("Bell.GetBellAt(Int, Int)")
@@ -15,13 +16,28 @@ Class Bell Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, num: Int)
-        Debug.TraceNotImplemented("Bell.New(Int, Int, Int)")
+        Super.New()
+
+        Self.bellNum = num
+        Local l := 1
+        If num = 5
+            l = 2
+            Self.isBig = True
+        End If
+
+        Self.isCrate = True
+
+        Self.Init(xVal, yVal, l, "bell")
+
+        Self.overrideDeathSound = "deadRingerBell" + Self.bellNum
+
+        Bell.bells.AddLast(Self)
     End Method
 
-    Field bellNum: Int
+    Field bellNum: Int = -1
     Field isBig: Bool
     Field beingSought: Bool
-    Field rungOnBeat: Int
+    Field rungOnBeat: Int = -1
     Field enemy: Enemy
 
     Method Die: Void()
