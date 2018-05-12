@@ -10229,7 +10229,64 @@ Class Level
     End Function
 
     Function PlaceTrapsZone5: Void()
-        Debug.TraceNotImplemented("Level.PlaceTrapsZone5()")
+        For Local room := EachIn Level.rooms
+            Select room.type
+                Case RoomType.Shop,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            If room.hasExit Then Continue
+
+            Select controller_game.currentLevel
+                Case 1
+                    Local trapRoll := Util.RndBool(True)
+                    If trapRoll
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndIntRangeFromZero(2, True)
+                    If trapRoll2 = 0
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+                Case 2
+                    Local trapRoll := Util.RndIntRangeFromZero(4, True)
+                    If trapRoll = 0
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndIntRangeFromZero(3, True)
+                    If trapRoll2 = 0
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll3 := Util.RndIntRangeFromZero(3, True)
+                    If trapRoll3 = 0
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll4 := Util.RndBool(True)
+                    If trapRoll4
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+                Case 3
+                    Local trapRoll := Util.RndIntRangeFromZero(2, True)
+                    If trapRoll = 0
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local trapRoll2 := Util.RndBool(True)
+                    If trapRoll2
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End If
+
+                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    For numTraps = numTraps Until 0 Step -1
+                        Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
+                    End For
+            End Select
+        End For
     End Function
 
     Function PlaceTrapZone3: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
@@ -10294,7 +10351,39 @@ Class Level
     End Function
 
     Function PlaceTrapZone5: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Debug.TraceNotImplemented("Level.PlaceTrapZone5(Int, Int, Int, Int)")
+        Local trapDoorWeight := 0
+
+        If controller_game.currentZone <> 5
+            trapDoorWeight = 5
+        Else If controller_game.currentLevel <> 3
+            If Not Util.RndBool(True)
+                trapDoorWeight = 5
+            End If
+        End If
+
+        Local weights := New WeightedPicker()
+        weights.Push(10)
+        weights.Push(20)
+        weights.Push(trapDoorWeight)
+        weights.Push(50)
+        weights.Push(10)
+
+        Local trapType: Int
+
+        Select weights.PickRandom(True)
+            Case 0
+                trapType = TrapType.BombTrap
+            Case 1
+                trapType = TrapType.SpikeTrap
+            Case 2
+                trapType = TrapType.TrapDoor
+            Case 3
+                trapType = TrapType.BounceTrap
+            Default
+                trapType = TrapType.ScatterTrap
+        End Select
+
+        Level.PlaceTrapInRoom(xVal, yVal, wVal, hVal, trapType, BounceTrapDirection.None)
     End Function
 
     Function PlaceWire: Bool(src: Point, dst: Point)
