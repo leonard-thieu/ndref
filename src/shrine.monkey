@@ -65,82 +65,70 @@ Class Shrine Extends Entity
     End Function
 
     Function GetRandomShrineInt: Int(isShriner: Bool, banType1: Int, banType2: Int)
-        Local weights := New WeightedPicker()
+        Local picker := New WeightedPicker()
 
-        If Not Level.isHardcoreMode
-            weights.Push(12)
-            weights.Push(9)
-            weights.Push(13)
-            weights.Push(11)
-            weights.Push(0)
-            weights.Push(9)
-            weights.Push(13)
-            weights.Push(11)
-            weights.Push(9)
-            weights.Push(0)
-            weights.Push(0)
-            weights.Push(0)
-            weights.Push(14)
-            weights.Push(11)
-            weights.Push(11)
-            weights.Push(11)
+        If Level.isHardcoreMode
+            picker.Push(10)
+            picker.Push(9)
+            picker.Push(11)
+            picker.Push(9)
+            picker.Push(9)
+            picker.Push(7)
+            picker.Push(8)
+            picker.Push(9)
+            picker.Push(6)
+            picker.Push(5)
+            picker.Push(5)
+            picker.Push(5)
+            picker.Push(8)
+            picker.Push(9)
+            picker.Push(9)
+            picker.Push(9)
         Else
-            weights.Push(10)
-            weights.Push(9)
-            weights.Push(11)
-            weights.Push(9)
-            weights.Push(9)
-            weights.Push(7)
-            weights.Push(8)
-            weights.Push(9)
-            weights.Push(6)
-            weights.Push(5)
-            weights.Push(5)
-            weights.Push(5)
-            weights.Push(8)
-            weights.Push(9)
-            weights.Push(9)
-            weights.Push(9)
+            picker.Push(12)
+            picker.Push(9)
+            picker.Push(13)
+            picker.Push(11)
+            picker.Push(0)
+            picker.Push(9)
+            picker.Push(13)
+            picker.Push(11)
+            picker.Push(9)
+            picker.Push(0)
+            picker.Push(0)
+            picker.Push(0)
+            picker.Push(14)
+            picker.Push(11)
+            picker.Push(11)
+            picker.Push(11)
         End If
 
         Local shrineInt := -1
 
-        If isShriner
-            For Local i := 201 Until 0 Step -1
-                If Not Shrine.IsValidShrine(shrineInt)
-                    shrineInt = weights.PickRandom(True)
+        For Local i := 200 Until 0 Step -1
+            shrineInt = picker.PickRandom(True)
 
-                    Continue
-                End If
+            If Not Shrine.IsValidShrine(shrineInt)
+                Continue
+            End If
 
+            If isShriner
                 Select shrineInt
-                    Case banType1,
-                         banType2,
-                         Shrine.SHRINE_PAIN,
+                    Case Shrine.SHRINE_PAIN,
                          Shrine.SHRINE_SACRIFICE,
                          Shrine.SHRINE_CHANCE
                         Continue
-                    Default
-                        Return shrineInt
                 End Select
-            End For
-        Else
-            For Local i := 201 Until 0 Step -1
-                If Not Shrine.IsValidShrine(shrineInt)
-                    shrineInt = weights.PickRandom(True)
+            End If
 
+            Select shrineInt
+                Case banType1,
+                     banType2
                     Continue
-                End If
+            End Select
 
-                Select shrineInt
-                    Case banType1,
-                         banType2
-                        Continue
-                    Default
-                        Return shrineInt
-                End Select
-            End For
-        End If
+            Return shrineInt
+        End For
 
         Return Shrine.SHRINE_GLASS
     End Function
