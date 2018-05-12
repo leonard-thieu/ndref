@@ -21,14 +21,18 @@ Import controller_game
 Import controller_level_editor
 Import crate
 Import death_metal
+Import devil
 Import diamonddealer
 Import dragon
+Import electric_mage
 Import entity
+Import evileye
 Import exitmap
 Import fakewall
 import gamedata
 Import ghast
 Import ghost
+Import gorgon
 Import input2
 Import intpointlist
 Import intpointset
@@ -48,6 +52,7 @@ Import necrodancergame
 Import nightmare
 Import npc
 Import ogre
+Import orc
 Import particles
 Import pawn
 Import pawnbroker
@@ -70,6 +75,7 @@ Import shopkeeper_ghost
 Import shrine
 Import shriner
 Import skeleton
+Import skull
 Import slime
 Import slowdowntrap
 Import speeduptrap
@@ -85,10 +91,12 @@ Import trap
 Import trapchest
 Import trapdoor
 Import util
+Import water_ball
 Import weaponmaster
 Import weighted_picker
 Import wraith
 Import zombie
+Import zombie_electric
 Import zombiesnake
 
 Class Level
@@ -7857,7 +7865,43 @@ Class Level
     End Function
 
     Function PlaceEnemiesZone5: Void()
-        Debug.TraceNotImplemented("Level.PlaceEnemiesZone5()")
+        Debug.Log("PLACEENEMIES: Placing zone 5 enemies")
+
+        Local wraithRooms := New StackEx<RoomBase>()
+
+        For Local roomData := EachIn Level.rooms
+            Select roomData.type
+                Case RoomType.Shop,
+                     RoomType.Start,
+                     RoomType.Secret,
+                     RoomType.Vault
+                    Continue
+            End Select
+
+            Local room := New RectRoom(roomData)
+            Level.PutRoomEnemiesZone5(room, roomData.hasExit)
+            wraithRooms.Push(room)
+        End For
+
+        Level.PutRoomEnemiesZone5(Level.hallwayZone5, False)
+        Level.PutRoomEnemiesZone5(Level.hallwayZone5, False)
+        wraithRooms.Push(Level.hallwayZone5)
+
+        If Level.AllowSpirit()
+            Local room := wraithRooms.ChooseRandom(True)
+            Local point := Level.GetRandPointInRoomWithOptions(room, True, True, True, False, True, False)
+            If point = Null Then Return
+
+            New Wraith(point.x, point.y, 2)
+        End If
+
+        If Not Level.isHardcoreMode
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone5() (Non-Hardcore Mode)")
+        End If
+
+        If Util.IsCharacterActive(Character.Tempo)
+            Debug.TraceNotImplemented("Level.PlaceEnemiesZone5() (Tempo)")
+        End If
     End Function
 
     Function PlaceExit: Bool(rdExit: RoomData)
@@ -10352,7 +10396,10 @@ Class Level
     End Function
 
     Function PutEnemyZone5: Void(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.PutEnemyZone5(Int, Int)")
+        Local pts := New StackEx<Point>()
+        pts.Push(New Point(x, y))
+
+        Level.PutVariedEnemiesZone5(pts)
     End Function
 
     Function PutFutureStair: Void(x: Int, y: Int)
@@ -10364,11 +10411,171 @@ Class Level
     End Function
 
     Function PutRoomEnemiesZone5: Void(room: RoomBase, hasExit: Bool)
-        Debug.TraceNotImplemented("Level.PutRoomEnemiesZone5(RoomBase, Bool)")
+        If hasExit
+            Level.PlaceExitRoomMiniboss(room)
+        End If
+
+        Level.PlaceRareEnemies(room, hasExit)
+
+        Local wire := Level.GetRandPointInRoomOfTileType(room, TileType.Wire, True)
+        If wire <> Null
+            New ZombieElectric(wire.x, wire.y, 1)
+        End If
+
+        Local point: Point
+        
+        Local extraEnemies := Level.GetExtraEnemiesBase()
+        If Util.IsCharacterActive(Character.Aria)
+            extraEnemies += 1
+        End If
+
+        For Local limit := 500 Until 0 Step -1
+            If extraEnemies <= 0 Then Exit
+
+            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+            If point = Null Then Return
+
+            extraEnemies -= 1
+            Level.PutEnemyZone5(point.x, point.y)
+        End For
+
+        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+        If point = Null Then Return
+
+        Local electricMageOrSkullRoll := Util.RndBool(True)
+        If electricMageOrSkullRoll
+            Local levelHigh := math.Min(3, controller_game.currentLevel)
+            Local electricMageLevel := Util.RndIntRange(1, levelHigh, True, -1)
+            New ElectricMage(point.x, point.y, electricMageLevel)
+        Else
+            Local levelHigh := math.Min(3, controller_game.currentLevel)
+            Local skullLevel := Util.RndIntRange(1, levelHigh, True, -1)
+            New Skull(point.x, point.y, skullLevel)
+        End If
+
+        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+        If point = Null Then Return
+
+        Local orcOrWaterBallOrGorgonRoll := Util.RndBool(True)
+        If orcOrWaterBallOrGorgonRoll
+            Local levelHigh := math.Min(3, controller_game.currentLevel)
+            Local orcLevel := Util.RndIntRange(1, levelHigh, True, -1)
+            New Orc(point.x, point.y, orcLevel)
+        Else
+            Local waterBallOrGorgonRoll := Util.RndBool(True)
+            If waterBallOrGorgonRoll
+                New WaterBall(point.x, point.y, 1)
+            Else
+                Local gorgonLevelRoll := Util.RndIntRangeFromZero(3, True)
+                Local gorgonLevel := 1
+                If gorgonLevelRoll = 0
+                    gorgonLevel = 2
+                End If
+
+                New Gorgon(point.x, point.y, gorgonLevel)
+            End If
+        End If
+
+        point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+        If point = Null Then Return
+
+        Local devilOrEvilEyeRoll := Util.RndBool(True)
+        If devilOrEvilEyeRoll
+            Local levelHigh := math.Min(2, controller_game.currentLevel)
+            Local devilLevel := Util.RndIntRange(1, levelHigh, True, -1)
+            New Devil(point.x, point.y, devilLevel)
+        Else
+            Local levelHigh := math.Min(2, controller_game.currentLevel)
+            Local evilEyeLevel := Util.RndIntRange(1, levelHigh, True, -1)
+            New EvilEye(point.x, point.y, evilEyeLevel)
+        End If
+
+        If hasExit
+            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+            If point = Null Then Return
+
+            Local electricMageLevel := math.Min(3, controller_game.currentLevel)
+            New ElectricMage(point.x, point.y, electricMageLevel)
+
+            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+            If point = Null Then Return
+
+            Local skullLevel := math.Min(3, controller_game.currentLevel)
+            New Skull(point.x, point.y, skullLevel)
+
+            point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
+            If point = Null Then Return
+
+            Local evilEyeLevel := math.Min(2, controller_game.currentLevel)
+            New EvilEye(point.x, point.y, evilEyeLevel)
+        End If
     End Function
 
     Function PutVariedEnemiesZone5: Void(pts: StackEx<Point>)
-        Debug.TraceNotImplemented("Level.PutVariedEnemiesZone5(StackEx<Point>)")
+        pts.Shuffle(True)
+
+        Local picker := New WeightedPicker()
+        picker.Push(100)
+        picker.Push(50)
+        picker.Push(50)
+        picker.Push(200)
+        picker.Push(100)
+        picker.Push(100)
+        picker.Push(100)
+
+        Local selected: Int[7]
+
+        For Local point := EachIn pts
+            Local minSelected := 999
+            For Local s := EachIn selected
+                minSelected = math.Min(minSelected, s)
+            End For
+
+            For Local i := 0 Until picker.weights.Length()
+                Local s := selected[i]
+                Local isMinSelected := s = minSelected
+                picker.SetEnabled(i, isMinSelected)
+            End For
+
+            Local enemyTypeRoll := picker.PickRandom(True)
+            Local weight := picker.weights.Get(enemyTypeRoll)
+            picker.weights.Set(enemyTypeRoll, weight + 1)
+
+            Select enemyTypeRoll
+                Case 0
+                    Local electricMageLevelHigh := math.Min(3, controller_game.currentLevel)
+                    Local electricMageLevel := Util.RndIntRange(1, electricMageLevelHigh, True, -1)
+                    New ElectricMage(point.x, point.y, electricMageLevel)
+                Case 1
+                    New WaterBall(point.x, point.y, 1)
+                Case 2
+                    Local gorgonLevel := 1
+                    If controller_game.currentLevel >= 2
+                        Local gorgonLevelRoll := Util.RndIntRangeFromZero(2, True)
+                        If gorgonLevelRoll = 0
+                            gorgonLevel = 2
+                        End If
+                    End If
+
+                    New Gorgon(point.x, point.y, gorgonLevel)
+                Case 3
+                    Local skullLevelHigh := math.Min(3, controller_game.currentLevel)
+                    Local skullLevel := Util.RndIntRange(1, skullLevelHigh, True, -1)
+                    New Skull(point.x, point.y, skullLevel)
+                Case 4
+                    Local evilEyeLevelHigh := math.Min(2, controller_game.currentLevel)
+                    Local evilEyeLevel := Util.RndIntRange(1, evilEyeLevelHigh, True, -1)
+                    New EvilEye(point.x, point.y, evilEyeLevel)
+                Case 5
+                    Local orcLevelHigh := math.Min(3, controller_game.currentLevel)
+                    Local orcLevel := Util.RndIntRange(1, orcLevelHigh, True, -1)
+                    New Orc(point.x, point.y, orcLevel)
+                Default
+                    Local devilLevelHigh := math.Min(2, controller_game.currentLevel)
+                    Local devilLevel := Util.RndIntRange(1, devilLevelHigh, True, -1)
+                    New Devil(point.x, point.y, devilLevel)
+            End Select
+        End For
     End Function
 
     Function QueryHarderBosses: Bool()
