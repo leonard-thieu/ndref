@@ -45,7 +45,13 @@ Class Transmogrifier Extends NPC
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Transmogrifier.Die()")
+        If Not Self.dead
+            If Not Self.falling
+                New Item(Self.x, Self.y, "scroll_transmute", False, -1, False)
+            End If
+
+            Super.Die()
+        End If
     End Method
 
     Method DisplayCost: Void()
