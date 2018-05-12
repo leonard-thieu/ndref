@@ -1,7 +1,9 @@
 'Strict
 
 Import audio2
+Import conductor_battery
 Import enemy
+Import level
 Import logger
 Import point
 
@@ -30,7 +32,13 @@ Class WaterBall Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("WaterBall.Die()")
+        Super.Die()
+
+        ConductorBattery.WaterBallDeath(Self)
+
+        If Self.enableDeathEffects
+            Self.PlaceTileAt(Self.x, Self.y)
+        End If
     End Method
 
     Method GetMovementDirection: Point()
@@ -38,7 +46,12 @@ Class WaterBall Extends Enemy
     End Method
 
     Method PlaceTileAt: Void(tileX: Int, tileY: Int)
-        Debug.TraceNotImplemented("WaterBall.PlaceTileAt(Int, Int)")
+        Select Self.level
+            Case 1
+                Level.PlaceTileTypeAt(Self.x, Self.y, TileType.Water)
+            Default
+                Level.PlaceTileTypeAt(Self.x, Self.y, TileType.Tar)
+        End Select
     End Method
 
 End Class

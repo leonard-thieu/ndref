@@ -10157,7 +10157,18 @@ Class Level
     End Function
 
     Function PlaceTileTypeAt: Void(xVal: Int, yVal: Int, tileType: Int)
-        Debug.TraceNotImplemented("Level.PlaceTileTypeAt(Int, Int, Int)")
+        Local exitValue := Level.GetExitValue(xVal, yVal)
+        If exitValue.x <> LevelType.Unknown_4 Then Return
+
+        If Not Level.IsFloorAt(xVal, yVal) Then Return
+
+        Level.PlaceTileRemovingExistingTiles(xVal, yVal, tileType)
+
+        Local trap := Trap.GetTrapAt(xVal, yVal)
+        If trap <> Null And
+           Not trap.indestructible
+            trap.Die()
+        End If
     End Function
 
     Function PlaceTorchesAnywhere: Void()

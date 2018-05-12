@@ -4,6 +4,7 @@ Import conductor
 Import enemy
 Import entity
 Import logger
+Import water_ball
 
 Class ConductorBattery Extends Enemy
 
@@ -13,8 +14,8 @@ Class ConductorBattery Extends Enemy
         Debug.TraceNotImplemented("ConductorBattery.GetBatteryAt(Int, Int)")
     End Function
 
-    Function WaterBallDeath: Void(enemy: Object)
-        Debug.TraceNotImplemented("ConductorBattery.WaterBallDeath(Object)")
+    Function WaterBallDeath: Void(enemy: WaterBall)
+        Debug.TraceNotImplemented("ConductorBattery.WaterBallDeath(WaterBall)")
     End Function
 
     Function _EditorFix: Void() End
