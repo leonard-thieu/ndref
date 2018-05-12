@@ -10054,7 +10054,8 @@ Class Level
                     For Local tileNode := EachIn tilesOnXNode.Value()
                         Local tile := tileNode.Value()
 
-                        If Not Level.IsDoorAdjacent(tile.x, tile.y)
+                        If Not Level.IsDoorAdjacent(tile.x, tile.y) And
+                           Level.GetTileTypeAt(tile.x, tile.y) = TileType.ShopWall
                             pointsNotAdjacentToDoors.Push(New Point(tile.x, tile.y))
                         End If
                     End For
