@@ -3933,6 +3933,7 @@ Class Level
             Select controller_game.currentLevel
                 Case 1 Util.SeedRnd($70721534)
                 Case 2 Util.SeedRnd($B553431E)
+                Case 3 Util.SeedRnd($A6660B28)
             End Select
         End If
 
