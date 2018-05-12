@@ -10,6 +10,7 @@ Import bat
 Import bat_miniboss
 Import beastmaster
 Import bishop
+Import blob_room
 Import bombtrap
 Import bossmaster
 Import bouncetrap
@@ -127,7 +128,7 @@ Class Level
     Global firstRoom: RoomData
     Global flawlessVictory: Bool = True
     Global forceBoss: Int = -1
-    Global hallwayZone5: Object
+    Global hallwayZone5: BlobRoom
     Global isAllCharactersDLCMode: Bool
     Global isAllCharactersMode: Bool
     Global isAllCharsRunNoItemsNoShrines: Bool = True
@@ -3625,7 +3626,326 @@ Class Level
     End Function
 
     Function CreateMapZone5: Bool(recursive: Bool)
-        Debug.TraceNotImplemented("Level.CreateMapZone5(Bool)")
+        Local saveGameData := Not recursive
+        Level.InitNewMap(saveGameData)
+
+        Local room1Data := Level.PlaceFirstRoom()
+
+        Local hallway := New BlobRoom()
+        hallway.FillRect(room1Data.x, room1Data.y - 10, 4, 10)
+        hallway.FillRect(room1Data.x, room1Data.y - 14, 14, 4)
+
+        If Util.RndBool(True)
+            hallway.ReflectHorizontallyAbout(room1Data.x + 2)
+        End If
+
+        Local rotationPoint: Point
+        Local numRotations: Int
+
+        rotationPoint = New Point(room1Data.x + 2, room1Data.y - 2)
+        numRotations = Util.RndIntRangeFromZero(2, True)
+        If numRotations = 2
+            numRotations = 3
+        End If
+        For numRotations = numRotations Until 0 Step -1
+            hallway.RotateCWAbout(rotationPoint)
+        End For
+
+        Local translateX := Util.RndIntRangeFromZero(2, True)
+        hallway.TranslateBy(New Point(translateX, 0))
+
+        rotationPoint = New Point(0, 0)
+        numRotations = Util.RndIntRangeFromZero(3, True)
+        For numRotations = numRotations Until 0 Step -1
+            hallway.RotateCWAbout(rotationPoint)
+        End For
+
+        Local hallwayTiles := hallway.MakeTiles()
+        For Local hallwayTile := EachIn hallwayTiles
+            Level.PlaceTileRemovingExistingTiles(hallwayTile.x, hallwayTile.y, hallwayTile.type)
+        End For
+
+        Debug.Log("CREATEMAP ZONE5: Placed hallway at " + hallway.GetBounds().ToString())
+
+        Level.DumpMap()
+
+        Local isEntryDoorPlaced := False
+        Local room1 := New RectRoom(room1Data.GetBounds())
+        For Local room1PortalSeg := EachIn room1.GetPortalSegs()
+            For Local hallwayPortalSeg := EachIn hallway.GetPortalSegs()
+                Local intersection := room1PortalSeg.Intersect(hallwayPortalSeg)
+                If intersection = Null Then Continue
+
+                Assert(intersection.length + 1 >= 3)
+
+                Local scalar := Util.RndIntRangeFromZero(intersection.length - 2, False)
+                Local origin := intersection.GetOrigin()
+
+                Local faceVector := intersection.GetFaceVector().Scale(scalar)
+                Local offsetOrigin := origin.Add(faceVector)
+
+                Local faceVector2 := intersection.GetFaceVector().Scale(2)
+                Local offsetOrigin2 := offsetOrigin.Add(faceVector2)
+
+                Local x := math.Min(offsetOrigin.x, offsetOrigin2.x)
+                Local y := math.Min(offsetOrigin.y, offsetOrigin2.y)
+                Local w := math.Max(offsetOrigin.x, offsetOrigin2.x)
+                Local h := math.Max(offsetOrigin.y, offsetOrigin2.y)
+                Local doorBounds := Rect.MakeBounds(x, y, w, h)
+
+                Level.FillTiles(doorBounds, TileType.Door, TileType.Empty)
+                Level.PlaceConnectedWireDoor(doorBounds.GetCenter())
+
+                Debug.Log("CREATEMAP ZONE5: Placed entry door at " + doorBounds.ToString())
+
+                isEntryDoorPlaced = True
+
+                Exit
+            End For
+
+            If isEntryDoorPlaced Then Exit
+        End For
+
+        Assert(isEntryDoorPlaced)
+
+        Level.DumpMap()
+
+        Local hallwayPortalSegs := hallway.GetPortalSegs()
+
+        Debug.Log("CREATEMAPZONE5: Place miniboss room connected to central hallway")
+
+        Local minibossRoom := Level.CreateRoomZone5(hallwayPortalSegs, 9, 9, 5)
+        If minibossRoom = Null
+            Debug.Log("Retrying: could not place miniboss room")
+
+            Return Level.CreateMapZone5(True)
+        End If
+
+        Local lastRoom := Level.rooms.Last()
+        lastRoom.hasExit = True
+
+        Level.DumpMap()
+
+        Debug.Log("CREATEMAPZONE5: Place two small rooms connected to central hallway")
+
+        Local smallRoom1 := Level.CreateRoomZone5(hallwayPortalSegs, 6, 5, 0)
+        If smallRoom1 = Null
+            Debug.Log("Retrying: could not place first two misc rooms")
+
+            Return Level.CreateMapZone5(True)
+        End If
+
+        Local smallRoom2 := Level.CreateRoomZone5(hallwayPortalSegs, 6, 5, 0)
+        If smallRoom2 = Null
+            Debug.Log("Retrying: could not place first two misc rooms")
+
+            Return Level.CreateMapZone5(True)
+        End If
+
+        Level.DumpMap()
+
+        Debug.Log("CREATEMAPZONE5: Place two small rooms connected to central hallway or another small room")
+
+        hallwayPortalSegs.Extend(smallRoom1.GetPortalSegs())
+        hallwayPortalSegs.Extend(smallRoom2.GetPortalSegs())
+
+        Local smallRoom3 := Level.CreateRoomZone5(hallwayPortalSegs, 6, 5, 0)
+        If smallRoom3 = Null
+            Debug.Log("Retrying: could not place last two misc rooms")
+
+            Return Level.CreateMapZone5(True)
+        End If
+
+        Local smallRoom4 := Level.CreateRoomZone5(hallwayPortalSegs, 6, 5, 0)
+        If smallRoom4 = Null
+            Debug.Log("Retrying: could not place last two misc rooms")
+
+            Return Level.CreateMapZone5(True)
+        End If
+
+        Level.DumpMap()
+
+        Debug.Log("CREATEMAPZONE5: Place exit")
+
+        Local points := New IntPointStack()
+
+        Local rect: Rect
+        Local point: Point
+
+        rect = New Rect(minibossRoom.body.x + 2, minibossRoom.body.y + 2, 2, 1)
+        point = rect.RandomPoint()
+        points.Push(point)
+        rect = New Rect(minibossRoom.body.x + 6, minibossRoom.body.y + 2, 1, 2)
+        point = rect.RandomPoint()
+        points.Push(point)
+        rect = New Rect(minibossRoom.body.x + 2, minibossRoom.body.y + 5, 1, 2)
+        point = rect.RandomPoint()
+        points.Push(point)
+        rect = New Rect(minibossRoom.body.x + 5, minibossRoom.body.y + 6, 2, 1)
+        point = rect.RandomPoint()
+        points.Push(point)
+
+        points.Shuffle(True)
+        Local pointsIndex := 0
+        For Local i := 1 Until points.Length()
+            Local point := points.Get(pointsIndex)
+            Local pointL1Dist := Util.GetL1Dist(0, 0, point.x, point.y)
+
+            Local nextPoint := points.Get(i)
+            Local nextPointL1Dist := Util.GetL1Dist(0, 0, nextPoint.x, nextPoint.y)
+
+            If pointL1Dist < nextPointL1Dist
+                pointsIndex = i
+            End If
+        End For
+
+        Local exitPoint := points.Get(pointsIndex)
+        points.Remove(pointsIndex)
+        Level.CreateExit(exitPoint.x, exitPoint.y)
+
+        points.Shuffle(True)
+
+        Debug.Log("CREATEMAPZONE5: Place wire")
+
+        points.Pop()
+        For Local point := EachIn points
+            Level.PlaceWire(exitPoint, point)
+        End For
+
+        Local rooms := New Stack<RoomBase>()
+        rooms.Push(room1)
+        rooms.Push(hallway)
+        rooms.Push(minibossRoom)
+        rooms.Push(smallRoom1)
+        rooms.Push(smallRoom2)
+        rooms.Push(smallRoom3)
+        rooms.Push(smallRoom4)
+
+        For Local room := EachIn rooms
+            Local internalNodePoints := New IntPointStack()
+            Local wirePoints := New IntPointStack()
+
+            Local hasExit := False
+            Local exitCoords := Level.GetStandardExitCoords()
+            If room.IsFloor(exitCoords.x, exitCoords.y)
+                wirePoints.Push(exitCoords)
+                hasExit = True
+            End If
+
+            Local hasStart := room.IsFloor(0, 0)
+
+            For Local roomFloorPoint := EachIn room.GetFloor()
+                If Level.IsTileTypeAdjacent(roomFloorPoint.x, roomFloorPoint.y, TileType.WiredDoor)
+                    wirePoints.Push(roomFloorPoint)
+
+                    Local wire := Level.PlaceTileRemovingExistingTiles(roomFloorPoint.x, roomFloorPoint.y, TileType.Wire)
+
+                    For Local dir := 0 Until 3
+                        Local offset := Util.GetPointFromDir(dir)
+                        Local connectionPoint := roomFloorPoint.Add(offset)
+
+                        If Level.GetTileTypeAt(connectionPoint.x, connectionPoint.y) = TileType.WiredDoor
+                            wire.AddWireConnection(dir)
+                        End If
+                    End For
+                Else If Not Level.IsWallAdjacent8(roomFloorPoint.x, roomFloorPoint.y)
+                    internalNodePoints.Push(roomFloorPoint)
+                End If
+            End For
+
+            If hasStart
+                wirePoints.Push(New Point(0, 0))
+            Else If Not hasExit And
+                    wirePoints.Length() = 1
+                Local internalNodePoint := internalNodePoints.ChooseRandom(True)
+
+                Debug.Log("CREATEMAPZONE5: Creating internal node in leaf room at " + internalNodePoint.ToString())
+
+                wirePoints.Push(internalNodePoint)
+            End If
+
+            For Local i := 1 Until wirePoints.Length()
+                Local src := wirePoints.Get(0)
+                Local dst := wirePoints.Get(i)
+                Level.PlaceWire(src, dst)
+            End For
+        End For
+
+        Level.DumpMap()
+
+        Debug.Log("Place shop connected to hallway")
+
+        hallwayPortalSegs = hallway.GetPortalSegs()
+
+        Local shop := Level.CreateRoomZone5(hallwayPortalSegs, 6, 8, 0, RoomType.Shop)
+        If shop = Null
+            Debug.Log("Retrying: could not place shop")
+
+            Return Level.CreateMapZone5(True)
+        End If
+
+        Level.DumpMap()
+
+        Level.PadWalls()
+
+        Level.DumpMap()
+
+        Level.ProcessSpecialRoom()
+
+        If Not Level.isLevelEditor
+            Level.CreateIndestructibleBorder()
+        End If
+
+        Debug.Log("CREATEMAP ZONE5: Placing secret rooms")
+
+        Level.chestsStillToPlace = 1
+        If Not Level.isHardcoreMode
+            Local extraChestRoll := Util.RndIntRangeFromZero(100, True)
+            If extraChestRoll <= 9
+                Level.chestsStillToPlace += 1
+            End If
+        End If
+
+        Level.PlaceSecretRooms(4)
+
+        Debug.Log("CREATEMAP ZONE5: Filling secret rooms")
+        If Not Level.FillSecretRooms() Then Return Level._FailMap()
+
+        If Not Level.isHardcoreMode
+            If Level.chestsStillToPlace <= 1
+                Level.chestsStillToPlace = 1
+            End If
+
+            If controller_game.currentLevel <= 2
+                Level.chestsStillToPlace = 2
+            End If
+        End If
+
+        Level.AddStone()
+        Level.PlaceTraps()
+        Level.hallwayZone5 = hallway
+        Level.PlaceEnemies()
+
+        Level.PlaceTorchesAnywhere()
+
+        If Level.randSeed = 1
+            Select controller_game.currentLevel
+                Case 1 Util.SeedRnd($70721534)
+            End Select
+        End If
+
+        Level.PlaceCrateOrBarrel()
+        Level.PlaceChests(False)
+        Level.PlaceResourceWall()
+        Level.PlaceLockedChests()
+        Level.PlaceShrine()
+
+        Debug.Log("CREATEMAP ZONE5: Cleaning up pending tiles")
+        Tile.CleanUpPendingTiles()
+
+        Debug.Log("CREATEMAP ZONE5: Finished!")
+
+        Return True
     End Function
 
     Function _FailMap: Bool()
@@ -10503,7 +10823,115 @@ Class Level
     End Function
 
     Function PlaceWire: Bool(src: Point, dst: Point)
-        Debug.TraceNotImplemented("Level.PlaceWire(Point, Point)")
+        Debug.Log("PLACEWIRE: Wiring " + src.ToString() + " to " + dst.ToString())
+
+        Local connections := New IntPointMap<Point>()
+        Local wirePoints := New List<Point>()
+
+        connections.Add(src, Null)
+        wirePoints.AddLast(src)
+
+        While wirePoints.Count() > 0
+            Local wirePoint := wirePoints.RemoveFirst()
+
+            For Local dir := 0 To 3
+                Local offset := Util.GetPointFromDir(dir)
+                Local wirePointCandidate := wirePoint.Add(offset)
+                
+                If wirePointCandidate.Equals(dst) Or
+                   Not Level.IsWallAdjacent8(wirePointCandidate.x, wirePointCandidate.y)
+                    If Level.IsFloorAt(wirePointCandidate.x, wirePointCandidate.y) And
+                       Not connections.Contains(wirePointCandidate)
+                        connections.Add(wirePointCandidate, wirePoint)
+                        wirePoints.AddLast(wirePointCandidate)
+                    End If
+                End If
+            End For
+        End While
+
+        Local dstKey := dst
+        If connections.Contains(dstKey)
+            Local dstValue: Point
+            Local dirToPrev := Direction.None
+
+            Repeat
+                Local dirToNext := Direction.None
+
+                dstValue = connections.Get(dstKey)
+                If dstValue <> Null
+                    Local xDiff := dstValue.x - dstKey.x
+                    Local yDiff := dstValue.y - dstKey.y
+
+                    If xDiff > 0
+                        If yDiff > 0
+                            dirToNext = Direction.DownRight
+                        Else If yDiff < 0
+                            dirToNext = Direction.UpRight
+                        End If
+                    Else If xDiff < 0
+                        If yDiff > 0
+                            dirToNext = Direction.DownLeft
+                        Else If yDiff < 0
+                            dirToNext = Direction.UpLeft
+                        End If
+                    Else
+                        If yDiff > 0
+                            dirToNext = Direction.Down
+                        Else If yDiff < 0
+                            dirToNext = Direction.Up
+                        End If
+                    End If
+
+                    If yDiff = 0
+                        If xDiff > 0
+                            dirToNext = Direction.Right
+                        Else If xDiff < 0
+                            dirToNext = Direction.Left
+                        End If
+                    End If
+                End If
+
+                If Not Level.IsExitAt(dstKey.x, dstKey.y)
+                    Local wire := Level.PlaceTileRemovingExistingTiles(dstKey.x, dstKey.y, TileType.Wire)
+
+                    If dirToPrev <> Direction.None
+                        wire.AddWireConnection(dirToPrev)
+                    End If
+                    If dirToNext <> Direction.None
+                        wire.AddWireConnection(dirToNext)
+                    End If
+                End If
+
+                Select dirToNext
+                    Case Direction.Up
+                        dirToPrev = Direction.Down
+                    Case Direction.Down
+                        dirToPrev = Direction.Up
+                    Case Direction.Left
+                        dirToPrev = Direction.Right
+                    Case Direction.Right
+                        dirToPrev = Direction.Left
+                    Case Direction.UpLeft
+                        dirToPrev = Direction.DownRight
+                    Case Direction.UpRight
+                        dirToPrev = Direction.DownLeft
+                    Case Direction.DownLeft
+                        dirToPrev = Direction.UpRight
+                    Case Direction.DownRight
+                        dirToPrev = Direction.UpLeft
+                    Default
+                        dirToPrev = Direction.None
+                End Select
+
+                dstKey = dstValue
+            Until dstValue = Null
+
+            Return True
+        End If
+
+        Debug.Log("PLACEWIRE: Failed to find route to destination")
+
+        Return False
     End Function
 
     Function PlaceZone3Beetle: Enemy(xVal: Int, yVal: Int)
