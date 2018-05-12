@@ -1,6 +1,7 @@
 'Strict
 
 Import mojo.graphics
+Import audio2
 Import bell
 Import enemy
 Import entity
@@ -55,7 +56,21 @@ Class DeadRinger Extends Enemy
     Field chargedLength: Int
 
     Method Die: Void()
-        Debug.TraceNotImplemented("DeadRinger.Die()")
+        If Not Self.dead
+            Enemy.SetEnemiesToDropNoCoinsOverride()
+
+            If Not RenderableObject.deletingAll
+                Audio.PlayGameSoundAt("deadRingerDeath", Self.x, Self.y, False, -1, False)
+            End If
+
+            Super.Die()
+            Enemy.KillAllEnemies()
+
+            Local bigBell := Self.bells[4]
+            If bigBell <> Null
+                bigBell.Die()
+            End If
+        End If
     End Method
 
     Method GetMovementDirection: Point()

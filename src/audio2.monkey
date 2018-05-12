@@ -52,16 +52,16 @@ Class Audio
     Global subtitleImg: Object
     Global subtitleStartTime: Int
 
-    Function _PlayGameSound: Void(snd: Int, ch: Int, loop: Bool, pan: Float, vol: Float, rememberMusicChannel: Int, rememberVOChannel: Int, startPaused: Bool, isMusic: Bool)
-        Debug.TraceNotImplemented("Audio._PlayGameSound(Int, Int, Bool, Float, Float, Int, Int, Bool, Bool)")
+    Function _PlayGameSound: Void(snd: String, ch: Int, loop: Bool, pan: Float, vol: Float, rememberMusicChannel: Int, rememberVOChannel: Int, startPaused: Bool, isMusic: Bool)
+        Debug.TraceNotImplemented("Audio._PlayGameSound(String, Int, Bool, Float, Float, Int, Int, Bool, Bool)")
     End Function
 
-    Function _PlayGameSoundAt: Void(xVal: Int, yVal: Int, snd: Int, ch: Int, loop: Bool, fullVol: Bool, maxDist: Int, volumeMult: Float, voNum: Int)
-        Debug.TraceNotImplemented("Audio._PlayGameSoundAt(Int, Int, Int, Int, Bool, Bool, Int, Float, Int)")
+    Function _PlayGameSoundAt: Void(xVal: Int, yVal: Int, snd: String, ch: Int, loop: Bool, fullVol: Bool, maxDist: Int, volumeMult: Float, voNum: Int)
+        Debug.TraceNotImplemented("Audio._PlayGameSoundAt(Int, Int, String, Int, Bool, Bool, Int, Float, Int)")
     End Function
 
-    Function _PlayGameSoundAtWithDelay: Void(xVal: Int, yVal: Int, snd: Int, delayVal: Int, ch: Int, loop: Bool, vol: Float, spd: Float, voNum: Int)
-        Debug.TraceNotImplemented("Audio._PlayGameSoundAtWithDelay(Int, Int, Int, Int, Int, Bool, Float, Float, Int)")
+    Function _PlayGameSoundAtWithDelay: Void(xVal: Int, yVal: Int, snd: String, delayVal: Int, ch: Int, loop: Bool, vol: Float, spd: Float, voNum: Int)
+        Debug.TraceNotImplemented("Audio._PlayGameSoundAtWithDelay(Int, String, Int, Int, Int, Bool, Float, Float, Int)")
     End Function
 
     Function AdjustMusicPitch: Void(diffSemitones: Int)
@@ -200,12 +200,16 @@ Class Audio
         Debug.TraceNotImplemented("Audio.PauseSong(Bool)")
     End Function
 
-    Function PlayGameSound: Void(snd: Int, ch: Int, spd: Float)
-        Debug.TraceNotImplemented("Audio.PlayGameSound(Int, Int, Float)")
+    Function PlayGameSound: Void(snd: String, ch: Int, spd: Float)
+        Debug.TraceNotImplemented("Audio.PlayGameSound(String, Int, Float)")
     End Function
 
-    Function PlayGameSoundAt: Void(snd: Int, xVal: Int, yVal: Int, ch: Int, fullVol: Bool, maxDist: Int, loop: Bool, spd: Float)
-        Debug.TraceNotImplemented("Audio.PlayGameSoundAt(Int, Int, Int, Int, Bool, Int, Bool, Float)")
+    Function PlayGameSoundAt: Void(snd: String, xVal: Int, yVal: Int, fullVol: Bool, maxDist: Int, loop: Bool)
+        Debug.TraceNotImplemented("Audio.PlayGameSoundAt(String, Int, Int, Bool, Int, Bool)")
+    End Function
+
+    Function PlayGameSoundAt: Void(snd: String, xVal: Int, yVal: Int, ch: Int, fullVol: Bool, maxDist: Int, loop: Bool, spd: Float)
+        Debug.TraceNotImplemented("Audio.PlayGameSoundAt(String, Int, Int, Int, Bool, Int, Bool, Float)")
     End Function
 
     Function PlayGameSoundFromFile: Void(snd: Int, ch: Int, loop: Bool, pan: Float, vol: Float, voNum: Int)
