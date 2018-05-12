@@ -1,7 +1,9 @@
 'Strict
 
+Import mojo.graphics
 Import entity
 Import logger
+Import sprite
 Import trap
 
 Class ScatterTrap Extends Trap
@@ -9,7 +11,13 @@ Class ScatterTrap Extends Trap
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("ScatterTrap.New(Int, Int)")
+        Super.New(xVal, yVal, TrapType.ScatterTrap)
+
+        Self.xOff = 5.0
+        Self.yOff = 15.0
+
+        Self.image = New Sprite("traps/scattertrap.png", 14, 16, 4, Image.DefaultFlags)
+        Self.image.SetZ(-995.0)
     End Method
 
     Field triggeredFrames: Int
