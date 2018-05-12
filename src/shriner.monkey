@@ -35,7 +35,14 @@ Class Shriner Extends NPC
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Shriner.Die()")
+        Self.shrine1.cost = 0
+        Self.shrine1.SetCost()
+        Self.shrine2.cost = 0
+        Self.shrine2.SetCost()
+        Self.shrine3.cost = 0
+        Self.shrine3.SetCost()
+
+        Super.Die()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
