@@ -6539,7 +6539,7 @@ Class Level
 
         For Local i := 0 Until numMinibosses
             If i > 0
-                minibossPoint = Level.GetRandPointInRoomWithOptions(room, True, True, True, True, True, False)
+                minibossPoint = Level.GetRandPointInRoomWithOptions(room, True, True, False)
                 If minibossPoint = Null Then Exit
             End If
 
@@ -6586,10 +6586,10 @@ Class Level
                 dragon.dontMove = True
             End If
 
-            Local metrognome := MetroGnome(miniboss)
-            If metrognome <> Null
-                metrognome.originX = minibossPoint.x
-                metrognome.originY = minibossPoint.y
+            Local metroGnome := MetroGnome(miniboss)
+            If metroGnome <> Null
+                metroGnome.originX = minibossPoint.x
+                metroGnome.originY = minibossPoint.y
             End If
         End For
     End Function
