@@ -58,6 +58,7 @@ Import necrodancer_enemy
 Import necrodancergame
 Import nightmare
 Import npc
+Import octoboss
 Import ogre
 Import orc
 Import particles
@@ -1769,7 +1770,45 @@ Class Level
     End Function
 
     Function CreateBossBattle4: Void()
-        Debug.TraceNotImplemented("Level.CreateBossBattle4()")
+        Debug.Log("CREATEBOSSBATTLE4: Creating octoboss battle.")
+
+        Level.InitNewMap(True)
+        Level.DisableLevelConstraints()
+
+        Level.PlaceFirstBossRoom("octoboss")
+
+        Level.CreateRoom(-6, -15, 12, 9, False, RoomType.Boss)
+
+        For Local x := -1 To 1
+            Level.PlaceTileRemovingExistingTiles(x, -6, TileType.Door)
+        End For
+
+        Level.GetTileAt(-2, -6).AddTorch()
+        Level.GetTileAt(2, -6).AddTorch()
+        Level.GetTileAt(-2, -15).AddTorch()
+        Level.GetTileAt(2, -15).AddTorch()
+        Level.GetTileAt(-6, -10).AddTorch()
+        Level.GetTileAt(6, -10).AddTorch()
+
+        For Local x := -1 To 1
+            Level.GetTileAt(x, -6).SetDoorTrigger(2)
+        End For
+
+        Level.SetMagicBarrier(True)
+        Level.PaintTriggerInterior(-6, -15, 12, 9, 1)
+
+        For Local x := -5 To 5
+            For Local y := -14 To -11
+                Level.PlaceTileRemovingExistingTiles(x, y, TileType.Water)
+            End For
+        End For
+
+        Local coralRiff := New Octoboss(0, -14, 1)
+        coralRiff.ActivateLight(0.01, 1.5)
+
+        Level.BossMaybeMinibossesAt(-5, 0, 4, 0)
+
+        Enemy.enemiesPaused = True
     End Function
 
     Function CreateBossBattle5: Void()
@@ -4788,7 +4827,18 @@ Class Level
     End Function
 
     Function DryUpAllWater: Void(replacementFloor: Int)
-        Debug.TraceNotImplemented("Level.DryUpAllWater(Int)")
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+
+                Local tileType := Level.GetTileTypeAt(tile.x, tile.y)
+                Select tileType
+                    Case TileType.Water,
+                         TileType.DeepWater
+                        Level.PlaceTileRemovingExistingTiles(tile.x, tile.y, replacementFloor)
+                End Select
+            End For
+        End For
     End Function
 
     Function DumpMap: Void()
