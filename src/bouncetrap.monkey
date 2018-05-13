@@ -2,6 +2,7 @@
 
 Import mojo.graphics
 Import entity
+Import level
 Import logger
 Import trap
 Import util
@@ -16,36 +17,35 @@ Class BounceTrap Extends Trap
         Self.xOff = 12.0
         Self.yOff = 18.0
 
-        If d = BounceTrapDirection.None
-            Const limit := 500
+        Select d
+            Case BounceTrapDirection.None
+                Const limit := 500
 
-            For Local i := limit - 1 Until 0 Step -1
+                For Local i := limit - 1 Until 0 Step -1
+                    Self.bounceDir = Util.RndIntRangeFromZero(3, True)
+                    
+                    Select Self.bounceDir
+                        Case BounceTrapDirection.Right
+                            If Not Level.IsWallAt(xVal + 1, yVal, False, False) Then Exit
+                        Case BounceTrapDirection.Left
+                            If Not Level.IsWallAt(xVal - 1, yVal, False, False) Then Exit
+                        Case BounceTrapDirection.Down
+                            If Not Level.IsWallAt(xVal, yVal + 1, False, False) Then Exit
+                        Case BounceTrapDirection.Up
+                            If Not Level.IsWallAt(xVal, yVal - 1, False, False) Then Exit
+                    End Select
+                End For
+            Case BounceTrapDirection.Spin
                 Self.bounceDir = Util.RndIntRangeFromZero(3, True)
-                
-                Select Self.bounceDir
-                    Case BounceTrapDirection.Right
-                        If Not Level.IsWallAt(xVal + 1, yVal, False, False) Then Exit
-                    Case BounceTrapDirection.Left
-                        If Not Level.IsWallAt(xVal - 1, yVal, False, False) Then Exit
-                    Case BounceTrapDirection.Down
-                        If Not Level.IsWallAt(xVal, yVal + 1, False, False) Then Exit
-                    Case BounceTrapDirection.Up
-                        If Not Level.IsWallAt(xVal, yVal - 1, False, False) Then Exit
-                End Select
-            End For
-        End If
 
-        If d = BounceTrapDirection.Spin
-            Self.bounceDir = Util.RndIntRangeFromZero(3, True)
-
-            If Util.RndBool(True)
-                Self.isRotatingCW = True
-            Else
-                Self.isRotatingCCW = True
-            End If
-        Else
-            Self.bounceDir = d
-        End If
+                If Util.RndBool(True)
+                    Self.isRotatingCW = True
+                Else
+                    Self.isRotatingCCW = True
+                End If
+            Default
+                Self.bounceDir = d
+        End Select
 
         Select Self.bounceDir
             Case BounceTrapDirection.Omni
