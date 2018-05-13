@@ -1195,7 +1195,10 @@ Class Level
 
         If Util.IsCharacterActive(Character.Tempo)
             If Level.WantPenaltyBox()
-                New Sarcophagus(-2, 2, 1)
+                Local sarcophagus := New Sarcophagus(-2, 2, 1)
+                sarcophagus.exemptFromPause = True
+                sarcophagus.hasBeenVisible = True
+                sarcophagus.coinsToDrop = 0
             End If
         End If
 
