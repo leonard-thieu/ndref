@@ -12,7 +12,7 @@ Class Zombie Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         Super.New()
 
-        Self.Init(xVal, yVal, l, "zombie", "", -1, -1)
+        Self.Init(xVal, yVal, l, "zombie")
 
         Self.movesRegardlessOfDistance = True
         Self.facing = Util.RndIntRangeFromZero(3, True)

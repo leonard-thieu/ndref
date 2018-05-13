@@ -764,7 +764,7 @@ Class Enemy Extends MobileEntity Abstract
         If Self.isLord And
            Self.coinsToDrop > 0
             If Self.dropLordScroll
-                New Item(location.x, location.y, "scroll_gigantism", False, -1, False)
+                New Item(location.x, location.y, "scroll_gigantism")
             Else
                 Local numCoins := Self.killCoinMultiplier * 24.0
                 New Item(location.x, location.y, "resource_coin0", False, numCoins, False)
@@ -841,15 +841,7 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.ImageFlipX(Bool)")
     End Method
 
-    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String)
-        Self.Init(xVal, yVal, l, name, "")
-    End Method
-
-    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String)
-        Self.Init(xVal, yVal, l, name, overrideSpriteName, -1, -1)
-    End Method
-
-    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
+    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String = "", overrideFrameW: Int = -1, overrideFrameH: Int = -1)
         Self.x = xVal
         Self.y = yVal
         Self.lastX = xVal

@@ -83,19 +83,19 @@ Class Octoboss Extends Enemy
         Local phase3: Int
         Local phase4: Int
         
-        phase1 = Util.RndIntRange(1, 4, True, -1)
+        phase1 = Util.RndIntRange(1, 4, True)
 
         Repeat
-            phase2 = Util.RndIntRange(1, 4, True, -1)
+            phase2 = Util.RndIntRange(1, 4, True)
         Until phase2 <> phase1
 
         Repeat
-            phase3 = Util.RndIntRange(1, 4, True, -1)
+            phase3 = Util.RndIntRange(1, 4, True)
         Until phase3 <> phase2 And
               phase3 <> phase1
 
         Repeat
-            phase4 = Util.RndIntRange(1, 4, True, -1)
+            phase4 = Util.RndIntRange(1, 4, True)
         Until phase4 <> phase3 And
               phase4 <> phase2 And
               phase4 <> phase1

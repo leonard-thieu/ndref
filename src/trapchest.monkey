@@ -3,6 +3,7 @@
 Import enemy
 Import entity
 Import item
+Import level
 Import logger
 Import point
 
@@ -13,7 +14,7 @@ Class TrapChest Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         Super.New()
 
-        Self.Init(xVal, yVal, l, "trapchest", "", -1, -1)
+        Self.Init(xVal, yVal, l, "trapchest")
 
         Self.stealth = True
         Self.containsItem = True

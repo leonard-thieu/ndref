@@ -66,7 +66,7 @@ Class Shopkeeper Extends NPC
                     Default itemName = "head_crown_of_greed"
                 End Select
 
-                New Item(Self.x, Self.y, itemName, False, -1, False)
+                New Item(Self.x, Self.y, itemName)
             End If
 
             Super.Die()

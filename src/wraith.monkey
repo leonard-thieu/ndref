@@ -16,7 +16,7 @@ Class Wraith Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         Super.New()
 
-        Self.Init(xVal, yVal, l, "wraith", "", -1, -1)
+        Self.Init(xVal, yVal, l, "wraith")
 
         If l = 2 Then Self.isGentle = True
         Self.invisible = True

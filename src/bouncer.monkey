@@ -13,7 +13,7 @@ Class Bouncer
         Self.power = powerVal
         Self.value = minVal
         Self.steps = stepsVal
-        Self.currentSteps = Util.RndIntRange(-stepsVal, stepsVal - 1, False, -1)
+        Self.currentSteps = Util.RndIntRange(-stepsVal, stepsVal - 1, False)
         Self.goingUp = Util.RndBool(False)
     End Method
 

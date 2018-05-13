@@ -7,7 +7,7 @@ Import player_class
 
 Const DEBUG_BUILD := True
 
-Const DUMPMAP_ITERATIVE := False
+Const DUMPMAP_ITERATIVE := True
 Const TRACE_NOT_IMPLEMENTED := True
 Const DUMP_ITEM_POOLS := False
 
@@ -19,38 +19,39 @@ Function Main: Int()
 
     controller_game.currentLevel = LevelType.Lobby
 
-    Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
     
-    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
     Return 0
 End Function
 
 Function Assert: Void(assertion: Bool)
     If Not assertion
+        Debug.WriteLine("Assertion failed!")
         Error("Assertion failed!")
     End If
 End Function

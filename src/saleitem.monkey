@@ -109,7 +109,7 @@ Class SaleItem Extends Item
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, type: String, bldCost: Bool, sk: Shopkeeper, fCost: Float, m: Medic)
-        Super.New(xVal, yVal, type, False, -1, False)
+        Super.New(xVal, yVal, type)
 
         Self.isSaleItem = True
         SaleItem.currentSaleItems.AddLast(Self)

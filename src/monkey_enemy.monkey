@@ -22,7 +22,7 @@ Class Monkey Extends EnemyClamper
             End Select
         End If
 
-        Self.Init(xVal, yVal, l, "monkey", "", -1, -1)
+        Self.Init(xVal, yVal, l, "monkey")
 
         Self.overrideDeathSound = "monkeyDeath"
         If l = 4

@@ -193,7 +193,7 @@ Class LevelObject
 
             If itemObj.bloodCost <= 0.0
                 If itemObj.saleCost <= 0
-                    item = New Item(itemObj.x, itemObj.y, itemObj.type, False, -1, False)
+                    item = New Item(itemObj.x, itemObj.y, itemObj.type)
                 Else
                     item = New SaleItem(itemObj.x, itemObj.y, itemObj.type, False, Null, -1.0, Null)
                 End If

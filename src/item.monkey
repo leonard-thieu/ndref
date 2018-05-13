@@ -14,7 +14,7 @@ Import necrodancergame
 
 ' TODO: Write a wrapper for the JSON API and pull these helper functions in.
 
-Function GetString: String(obj: JsonObject, key: String, defval: String)
+Function GetString: String(obj: JsonObject, key: String, defval: String = "")
     If Not obj.Contains(key) Then Return defval
 
     Local value := obj.Get(key)
@@ -23,7 +23,7 @@ Function GetString: String(obj: JsonObject, key: String, defval: String)
     Return value.StringValue()
 End Function
 
-Function GetInt: Int(obj: JsonObject, key: String, defval: Int)
+Function GetInt: Int(obj: JsonObject, key: String, defval: Int = 0)
     If Not obj.Contains(key) Then Return defval
 
     Local value := obj.Get(key)
@@ -32,7 +32,7 @@ Function GetInt: Int(obj: JsonObject, key: String, defval: Int)
     Return value.IntValue()
 End Function
 
-Function GetFloat: Float(obj: JsonObject, key: String, defval: Float)
+Function GetFloat: Float(obj: JsonObject, key: String, defval: Float = 0.0)
     If Not obj.Contains(key) Then Return defval
 
     Local value := obj.Get(key)
@@ -41,7 +41,7 @@ Function GetFloat: Float(obj: JsonObject, key: String, defval: Float)
     Return value.FloatValue()
 End Function
 
-Function GetBool: Bool(obj: JsonObject, key: String, defval: Bool)
+Function GetBool: Bool(obj: JsonObject, key: String, defval: Bool = False)
     If Not obj.Contains(key) Then Return defval
 
     Local value := obj.Get(key)
@@ -416,11 +416,14 @@ Class Item Extends Entity
         Return pickups
     End Function
 
-    Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String)
-        Return Item.GetRandomItemInClass(itemClass, requestedLevel, randomType, Chest.CHEST_COLOR_NONE, False, "", False)
-    End Function
-
-    Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String, chestColor: Int, ignorePendingMetaGameItems: Bool, itemSlot: String, nonDeterministic: Bool)
+    Function GetRandomItemInClass: String(
+        itemClass: String,
+        requestedLevel: Int,
+        randomType: String,
+        chestColor: Int = Chest.CHEST_COLOR_NONE,
+        ignorePendingMetaGameItems: Bool = False,
+        itemSlot: String = "",
+        nonDeterministic: Bool = False)
         If Not ignorePendingMetaGameItems And
            Not Level.isHardcoreMode
             For Local i := 0 Until GameData.GetNumPendingSpawnItems()
@@ -983,7 +986,7 @@ Class Item Extends Entity
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, type: String, drop: Bool, utl: Int, isTrainingWeapon: Bool)
+    Method New(xVal: Int, yVal: Int, type: String, drop: Bool = False, utl: Int = -1, isTrainingWeapon: Bool = False)
         Super.New()
 
         If necrodancer.DEBUG_BUILD

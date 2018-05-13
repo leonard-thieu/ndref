@@ -42,7 +42,7 @@ Class FakeWall Extends Enemy
            Not Self.goldDropped
             Self.goldDropped = True
 
-            New Item(Self.x, Self.y, "resource_coin10", False, -1, False)
+            New Item(Self.x, Self.y, "resource_coin10")
         End If
     End Method
 

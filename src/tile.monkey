@@ -128,24 +128,24 @@ Class Tile Extends RenderableObject
         If Self.IsFloor()
             Select Self.type
                 Case TileType.Stairs
-                    Self.image = New Sprite("level/stairs.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs.png", 1, Image.DefaultFlags)
                 Case TileType.LockedStairs
-                    Self.image = New Sprite("level/stairs_locked.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked.png", 1, Image.DefaultFlags)
                 Case TileType.LockedStairs3Diamonds
-                    Self.image = New Sprite("level/stairs_locked_diamond3.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked_diamond3.png", 1, Image.DefaultFlags)
                 Case TileType.LockedStairs9Diamonds
-                    Self.image = New Sprite("level/stairs_locked_diamond9.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked_diamond9.png", 1, Image.DefaultFlags)
                 Case TileType.LockedStairsMiniboss
-                    Self.image = New Sprite("level/stairs_locked_miniboss.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked_miniboss.png", 1, Image.DefaultFlags)
                 Case TileType.ShopFloor
-                    Self.image = New Sprite("level/TEMP_shop_floor.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/TEMP_shop_floor.png", 3, Image.XYPadding)
                 Case TileType.Water,
                      TileType.DeepWater
-                    Self.image = New Sprite("level/TEMP_floor_water.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/TEMP_floor_water.png", 3, Image.XYPadding)
                 Case TileType.HotCoal
-                    Self.image = New Sprite("level/TEMP_floor_hotcoal.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/TEMP_floor_hotcoal.png", 3, Image.XYPadding)
                 Case TileType.Ice
-                    Self.image = New Sprite("level/TEMP_floor_ice.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/TEMP_floor_ice.png", 3, Image.XYPadding)
                 Case TileType.Crystal
                     Self.image = New Sprite("level/TEMP_floor_crystal.png", 26, 26, 6, Image.XYPadding)
                 Case TileType.Ooze
@@ -155,18 +155,18 @@ Class Tile Extends RenderableObject
                     Self.tarAnimCounter = Util.RndIntRangeFromZero(10000, False)
                     Self.tarAnimDelay = Util.RndIntRangeFromZero(200, False)
                 Case TileType.Geyser
-                    Self.image = New Sprite("level/TEMP_floor_geyser.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/TEMP_floor_geyser.png", 3, Image.XYPadding)
                 Case TileType.Tar
                     Self.image = New Sprite("level/floor_tar.png", 26, 26, 18, Image.XYPadding)
                     Self.tarAnimCounter = Util.RndIntRangeFromZero(10000, False)
                     Self.tarAnimDelay = Util.RndIntRangeFromZero(200, False)
                 Case TileType.LobbyUpgradesFloor
-                    Self.image = New Sprite("level/TEMP_npc_floor.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/TEMP_npc_floor.png", 3, Image.XYPadding)
                 Case TileType.RisingFloor
-                    Self.image = New Sprite("level/floor_rising.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/floor_rising.png", 3, Image.XYPadding)
                     Tile.floorRisingList.AddLast(Self)
                 Case TileType.RecededFloor
-                    Self.image = New Sprite("level/floor_receded.png", 0, 0, 3, Image.XYPadding)
+                    Self.image = New Sprite("level/floor_receded.png", 3, Image.XYPadding)
                     Tile.floorRecededList.AddLast(Self)
                 Default
                     Self.image = Self.LoadFloor()
@@ -176,10 +176,10 @@ Class Tile Extends RenderableObject
         Else If Self.IsWall()
             Select Self.type
                 Case TileType.ShopWall
-                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_shop_crypt.png", 1, Image.DefaultFlags)
                     Self.health = 4
                 Case TileType.CrackedShopWall
-                    Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 1, Image.DefaultFlags)
                     Self.health = 4
                 Case TileType.BossWall
                     If Level.IsFinalBoss()
@@ -196,7 +196,7 @@ Class Tile Extends RenderableObject
                     Self.image.SetFrame(frame)
                     Self.unbreakable = True
                 Case TileType.UnbreakableWall
-                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_shop_crypt.png", 1, Image.DefaultFlags)
                     Self.unbreakable = True
                 Case TileType.IndestructibleBorder
                     Self.image = New Sprite("level/end_of_world.png", 24, 48, 8, Image.DefaultFlags)
@@ -221,9 +221,9 @@ Class Tile Extends RenderableObject
 
                     If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
                        Level.IsWallAt(Self.x + 1, Self.y, False, False)
-                        Self.image2 = New Sprite("level/door_front.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_front.png", 1, Image.DefaultFlags)
                     Else
-                        Self.image2 = New Sprite("level/door_side.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_side.png", 1, Image.DefaultFlags)
                     End If
 
                     Self.health = 0
@@ -232,9 +232,9 @@ Class Tile Extends RenderableObject
 
                     If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
                        Level.IsWallAt(Self.x + 1, Self.y, False, False)
-                        Self.image2 = New Sprite("level/door_locked_front.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_locked_front.png", 1, Image.DefaultFlags)
                     Else
-                        Self.image2 = New Sprite("level/door_locked_side.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_locked_side.png", 1, Image.DefaultFlags)
                     End If
 
                     Self.health = 100
@@ -302,7 +302,7 @@ Class Tile Extends RenderableObject
             Self.image.SetZOff(8.0)
         End If
 
-        Self.xImage = New Sprite("level/floor_x.png", 0, 0, 1, Image.DefaultFlags)
+        Self.xImage = New Sprite("level/floor_x.png", 1, Image.DefaultFlags)
         Self.xImage.SetZ(-901.0)
 
         Local tiles := Level.tiles
@@ -409,8 +409,8 @@ Class Tile Extends RenderableObject
         Local tileset := Self.GetTileset()
         If tileset = TilesetType.Zone2
             Self.torchImage = New Sprite("entities/mushroom_light.png", 24, 24, 4, Image.DefaultFlags)
-            Self.torchOffX = Util.RndIntRange(-2, 2, False, -1)
-            Self.torchOffY = Util.RndIntRange(-2, 2, False, -1) - 7
+            Self.torchOffX = Util.RndIntRange(-2, 2, False)
+            Self.torchOffY = Util.RndIntRange(-2, 2, False) - 7
 
             If Util.RndBool(False)
                 Self.torchImage.SetFrame(1)
@@ -422,7 +422,7 @@ Class Tile Extends RenderableObject
             Self.torchOffY = -8
             Self.animateTorch = False
         Else
-            Self.torchImage = New Sprite("level/wall_torch.png", 0, 0, 4, Image.DefaultFlags)
+            Self.torchImage = New Sprite("level/wall_torch.png", 4, Image.DefaultFlags)
             Self.torchOffX = 5
             Self.torchOffY = -12
             Self.animateTorch = True
@@ -813,7 +813,7 @@ Class Tile Extends RenderableObject
 
         Local frameRoll := Util.RndIntRangeFromZero(100, False)
         If frameRoll <= 34
-            frame = Util.RndIntRange(3, 12, False, -1)
+            frame = Util.RndIntRange(3, 12, False)
         Else
             frame = Util.RndIntRangeFromZero(2, False)
         End If
@@ -960,11 +960,7 @@ Class Tile Extends RenderableObject
         Debug.TraceNotImplemented("Tile.IsVisible()")
     End Method
 
-    Method IsWall: Bool()
-        Return Self.IsWall(False, False, False, False)
-    End Method
-
-    Method IsWall: Bool(nonCorridor: Bool, destructibleOnly: Bool, forVision: Bool, torchlessOnly: Bool)
+    Method IsWall: Bool(nonCorridor: Bool = False, destructibleOnly: Bool = False, forVision: Bool = False, torchlessOnly: Bool = False)
         If destructibleOnly
             Select Self.type
                 Case TileType.IndestructibleBorder,

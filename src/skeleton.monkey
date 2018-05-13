@@ -19,7 +19,7 @@ Class Skeleton Extends Enemy
             l = math.Max(l, 3)
         End If
 
-        Self.Init(xVal, yVal, l, "skeleton", "", -1, -1)
+        Self.Init(xVal, yVal, l, "skeleton")
 
         Self.overrideHitSound = "skeletonHit"
         Self.overrideDeathSound = "skeletonDeath"

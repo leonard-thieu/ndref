@@ -37,7 +37,7 @@ Class Bat Extends Enemy
             End If
         End Select
 
-        Self.Init(xVal, yVal, l, "bat", "", -1, -1)
+        Self.Init(xVal, yVal, l, "bat")
 
         Self.overrideAttackSound = "batAttack"
         Self.overrideHitSound = "batHit"

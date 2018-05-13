@@ -31,7 +31,7 @@ Class Bomb Extends Item
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, dropper: Player, playLitSound: Bool, big: Bool, dmgSource: String)
-        Super.New(xVal, yVal, "bomb", False, -1, False)
+        Super.New(xVal, yVal, "bomb")
 
         Self.pickupable = False
 

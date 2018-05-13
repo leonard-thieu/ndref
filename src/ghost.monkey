@@ -11,7 +11,7 @@ Class Ghost Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         Super.New()
 
-        Self.Init(xVal, yVal, l, "ghost", "", -1, -1)
+        Self.Init(xVal, yVal, l, "ghost")
 
         Self.image.SetAlphaTweenFromCurrent(0.4, 5)
 

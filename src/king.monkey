@@ -16,7 +16,7 @@ Class King Extends Enemy
             l = 2
         End If
 
-        Self.Init(xVal, yVal, l, "king", "", -1, -1)
+        Self.Init(xVal, yVal, l, "king")
 
         Self.initialYOff = Self.yOff
 

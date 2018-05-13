@@ -91,7 +91,7 @@ Class Crate Extends Enemy
         Self.isCrate = True
         Self.containsItem = True
 
-        Self.Init(xVal, yVal, type + 1, "crate", "", -1, -1)
+        Self.Init(xVal, yVal, type + 1, "crate")
 
         Self.initialYOff = Self.yOff
         Self.crateType = type

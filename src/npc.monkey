@@ -80,7 +80,7 @@ Class NPC Extends Enemy Abstract
             Self.cageBackImage = New Sprite("level/cage_back.png", 1, Image.DefaultFlags)
         End If
 
-        Self.Init(xVal, yVal, l, name, "", -1, -1)
+        Self.Init(xVal, yVal, l, name)
 
         NPC.npcList.AddLast(Self)
     End Method

@@ -141,7 +141,7 @@ Class Chest Extends Entity
                     Local chestColor: Int
 
                     Repeat
-                        chestColor = Util.RndIntRange(1, 3, True, -1)
+                        chestColor = Util.RndIntRange(1, 3, True)
                     Until chestColor = Chest.lastChestColor Or
                           chestColor = Chest.lastChestColor2
                 End If
@@ -187,7 +187,7 @@ Class Chest Extends Entity
     Field bounce2: Bouncer
 
     Method AddKeyToContents: Void()
-        New Item(Self.x, Self.y, "misc_key", False, -1, False)
+        New Item(Self.x, Self.y, "misc_key")
 
         Self.Die()
     End Method

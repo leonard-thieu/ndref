@@ -16,10 +16,10 @@ Class Dragon Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         If Shrine.warShrineActive And
            l = 1
-            l = Util.RndIntRange(2, 3, False, -1)
+            l = Util.RndIntRange(2, 3, False)
         End If
 
-        Self.Init(xVal, yVal, l, "dragon", "", -1, -1)
+        Self.Init(xVal, yVal, l, "dragon")
 
         Self.overrideAttackSound = "dragonAttack"
         Self.overrideDeathSound = "dragonDeath"

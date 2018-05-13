@@ -665,15 +665,15 @@ Class Level
                 Local requestedLevel := controller_game.currentLevel + 2
 
                 Local randomRedChestItemType := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_RED, False, "", False)
-                Local randomRedChestItem := New Item(-198, -197, randomRedChestItemType, False, -1, False)
+                Local randomRedChestItem := New Item(-198, -197, randomRedChestItemType)
                 randomRedChestItem.singleChoiceItem = True
 
                 Local randomWhiteChestItemType := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_WHITE, False, "", False)
-                Local randomWhiteChestItem := New Item(-197, -197, randomWhiteChestItemType, False, -1, False)
+                Local randomWhiteChestItem := New Item(-197, -197, randomWhiteChestItemType)
                 randomWhiteChestItem.singleChoiceItem = True
 
                 Local randomBlackChestItemType := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_BLACK, False, "", False)
-                Local randomBlackChestItem := New Item(-196, -197, randomBlackChestItemType, False, -1, False)
+                Local randomBlackChestItem := New Item(-196, -197, randomBlackChestItemType)
                 randomBlackChestItem.singleChoiceItem = True
 
                 Level.GetTileAt(-198, -197).SetTrigger(18)
@@ -1174,15 +1174,7 @@ Class Level
         End If
     End Function
 
-    Function PlaceFirstBossRoom: Void()
-        Level.PlaceFirstBossRoom("")
-    End Function
-
-    Function PlaceFirstBossRoom: Void(bossTrainingName: String)
-        Level.PlaceFirstBossRoom(bossTrainingName, TilesetType.None)
-    End Function
-
-    Function PlaceFirstBossRoom: Void(bossTrainingName: String, tilesetOverride: Int)
+    Function PlaceFirstBossRoom: Void(bossTrainingName: String = "", tilesetOverride: Int = TilesetType.None)
         Level.CreateRoom(-3, -3, 6, 6, False, RoomType.Boss)
 
         If bossTrainingName <> ""
@@ -1253,7 +1245,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-        Level.PaintTriggerInterior(-8, -18, 16, 12, 1)
+        Level.PaintTriggerInterior(-8, -18, 16, 12)
 
         Local kingConga := New KingConga(0, -17, 1)
         kingConga.ActivateLight(0.01, 0.02)
@@ -1553,7 +1545,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-        Level.PaintTriggerInterior(-6, -16, 12, 10, 1)
+        Level.PaintTriggerInterior(-6, -16, 12, 10)
 
         Local point := Level.GetRandomOffsetPoint()
         Local deathMetal := New DeathMetal(point.x, -11, 1)
@@ -1627,7 +1619,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-        Level.PaintTriggerInterior(-4, -15, 9, 9, 1)
+        Level.PaintTriggerInterior(-4, -15, 9, 9)
 
         Level.GetTileAt(-2, -6).AddTorch()
         Level.GetTileAt(2, -6).AddTorch()
@@ -1795,7 +1787,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-        Level.PaintTriggerInterior(-6, -15, 12, 9, 1)
+        Level.PaintTriggerInterior(-6, -15, 12, 9)
 
         For Local x := -5 To 5
             For Local y := -14 To -11
@@ -1837,7 +1829,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-        Level.PaintTriggerInterior(-6, -17, 12, 11, 1)
+        Level.PaintTriggerInterior(-6, -17, 12, 11)
 
         Local bell1 := New Bell(-3, 13, 1)
         Local bell2 := New Bell(3, 13, 2)
@@ -1905,7 +1897,7 @@ Class Level
         End For
 
         Level.SetMagicBarrier(True)
-        Level.PaintTriggerInterior(-7, -15, 14, 9, 1)
+        Level.PaintTriggerInterior(-7, -15, 14, 9)
 
         Level.PlaceTileRemovingExistingTiles(-5, -15, TileType.NecroDancerSpeaker1)
         Level.PlaceTileRemovingExistingTiles(-4, -15, TileType.NecroDancerStageTurquoise)
@@ -1919,7 +1911,7 @@ Class Level
         Level.PlaceTileRemovingExistingTiles(4, -15, TileType.NecroDancerStageTurquoise)
         Level.PlaceTileRemovingExistingTiles(5, -15, TileType.NecroDancerSpeaker1)
 
-        Local fortissimoleX := Util.RndIntRange(-2, 2, True, -1)
+        Local fortissimoleX := Util.RndIntRange(-2, 2, True)
         New Fortissimole(fortissimoleX, -15, 1)
 
         Fortissimole.SpawnFans()
@@ -2133,7 +2125,7 @@ Class Level
         New DecorativeFireTrap(3, -16)
 
         Level.SetMagicBarrier(True)
-        Level.PaintTriggerInterior(-7, -17, 16, 11, 1)
+        Level.PaintTriggerInterior(-7, -17, 16, 11)
 
         Local necrodancer := New Necrodancer(0, -15, 1)
         necrodancer.ActivateLight(0.01, 1.5)
@@ -2178,7 +2170,7 @@ Class Level
         Local switch22 := New Switch(switch22X, -12, 34, switch21)
         switch21.pairedSwitch = switch22
 
-        Necrodancer.necrodancer.theLute = New Item(2, -15, "weapon_golden_lute", False, -1, False)
+        Necrodancer.necrodancer.theLute = New Item(2, -15, "weapon_golden_lute")
 
         Local weaponName: String
         Select Util.RndIntRangeFromZero(2, True)
@@ -2187,7 +2179,7 @@ Class Level
             Default weaponName = "weapon_longsword"
         End Select
         
-        New Item(3, -7, weaponName, False, -1, False)
+        New Item(3, -7, weaponName)
 
         Enemy.enemiesPaused = True
 
@@ -2320,8 +2312,8 @@ Class Level
             Local depth: Int = -1
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
-                level = Util.RndIntRange(1, 3, True, -1)
-                depth = Util.RndIntRange(1, 5, True, -1)
+                level = Util.RndIntRange(1, 3, True)
+                depth = Util.RndIntRange(1, 5, True)
             End While
 
             Level.placeShrinerOnLevel = level
@@ -2336,11 +2328,11 @@ Class Level
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
                 If Level.isHardcoreMode
-                    level = Util.RndIntRange(1, 2, True, -1)
+                    level = Util.RndIntRange(1, 2, True)
                     depth = 1
                 Else
-                    level = Util.RndIntRange(1, 3, True, -1)
-                    depth = Util.RndIntRange(1, 5, True, -1)
+                    level = Util.RndIntRange(1, 3, True)
+                    depth = Util.RndIntRange(1, 5, True)
                 End If
             End While
 
@@ -2355,8 +2347,8 @@ Class Level
             Local depth: Int = -1
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
-                level = Util.RndIntRange(1, 3, True, -1)
-                depth = Util.RndIntRange(1, 5, True, -1)
+                level = Util.RndIntRange(1, 3, True)
+                depth = Util.RndIntRange(1, 5, True)
             End While
 
             Level.placeGlassShopOnLevel = level
@@ -2370,8 +2362,8 @@ Class Level
             Local depth: Int = -1
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
-                level = Util.RndIntRange(1, 3, True, -1)
-                depth = Util.RndIntRange(1, 5, True, -1)
+                level = Util.RndIntRange(1, 3, True)
+                depth = Util.RndIntRange(1, 5, True)
             End While
 
             Level.placeFoodShopOnLevel = level
@@ -2385,8 +2377,8 @@ Class Level
             Local depth: Int = -1
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
-                level = Util.RndIntRange(1, 3, True, -1)
-                depth = Util.RndIntRange(1, 5, True, -1)
+                level = Util.RndIntRange(1, 3, True)
+                depth = Util.RndIntRange(1, 5, True)
             End While
 
             Level.placeArenaOnLevel = level
@@ -2401,8 +2393,8 @@ Class Level
             Local depth: Int = -1
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
-                level = Util.RndIntRange(1, 3, True, -1)
-                depth = Util.RndIntRange(1, 5, True, -1)
+                level = Util.RndIntRange(1, 3, True)
+                depth = Util.RndIntRange(1, 5, True)
             End While
 
             Level.placeTransmogrifierOnLevel = level
@@ -2416,8 +2408,8 @@ Class Level
             Local depth: Int = -1
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
-                level = Util.RndIntRange(1, 3, True, -1)
-                depth = Util.RndIntRange(1, 5, True, -1)
+                level = Util.RndIntRange(1, 3, True)
+                depth = Util.RndIntRange(1, 5, True)
             End While
 
             Level.placeConjurerOnLevel = level
@@ -2431,8 +2423,8 @@ Class Level
             Local depth: Int = -1
 
             While Not Level.IsFreeLevelForSpecialRoom(level, depth)
-                level = Util.RndIntRange(1, 3, True, -1)
-                depth = Util.RndIntRange(1, 5, True, -1)
+                level = Util.RndIntRange(1, 3, True)
+                depth = Util.RndIntRange(1, 5, True)
             End While
 
             Level.placePawnbrokerOnLevel = level
@@ -2749,7 +2741,7 @@ Class Level
         If Level.isHardcoreMode
             Level.chestsStillToPlace = 1
         Else
-            Level.chestsStillToPlace = Util.RndIntRange(1, 2, True, -1)
+            Level.chestsStillToPlace = Util.RndIntRange(1, 2, True)
         End If
 
         Debug.Log("CREATEMAP ZONE1: Placing secret rooms")
@@ -3207,7 +3199,7 @@ Class Level
         End For
 
         Level.PlaceCrateOrBarrel()
-        Level.PlaceChests(False)
+        Level.PlaceChests()
         Level.PlaceResourceWall()
 
         Debug.Log("CREATEMAP ZONE2: Adding fake walls (if any)")
@@ -3557,7 +3549,7 @@ Class Level
         End For
 
         Level.PlaceCrateOrBarrel()
-        Level.PlaceChests(False)
+        Level.PlaceChests()
         Level.PlaceResourceWall()
         Level.PlaceLockedChests()
         Level.PlaceShrine()
@@ -3677,7 +3669,7 @@ Class Level
         Local i: Int
         Local j := 0
         For i = 500 Until 0 Step -1
-            Local roomsIndex := Util.RndIntRange(1, 7, True, -1)
+            Local roomsIndex := Util.RndIntRange(1, 7, True)
             Local roomsArray := Level.rooms.ToArray()
             Local room := roomsArray[roomsIndex]
 
@@ -3758,7 +3750,7 @@ Class Level
 
         If i < 0 Then Return Level.CreateMapZone4(True)
 
-        Local roomsIndex := Util.RndIntRange(2, 7, True, -1)
+        Local roomsIndex := Util.RndIntRange(2, 7, True)
         Local roomsArray := Level.rooms.ToArray()
         Local room := roomsArray[roomsIndex]
 
@@ -3882,7 +3874,7 @@ Class Level
         End If
 
         Level.PlaceCrateOrBarrel()
-        Level.PlaceChests(False)
+        Level.PlaceChests()
         Level.PlaceResourceWall()
         Level.PlaceLockedChests()
         Level.PlaceShrine()
@@ -4211,7 +4203,7 @@ Class Level
         End If
 
         Level.PlaceCrateOrBarrel()
-        Level.PlaceChests(False)
+        Level.PlaceChests()
         Level.PlaceResourceWall()
         Level.PlaceLockedChests()
         Level.PlaceShrine()
@@ -4234,15 +4226,21 @@ Class Level
         Debug.TraceNotImplemented("Level.CreateMerlin()")
     End Function
 
-    Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int)
-        Return Level.CreateRoom(xVal, yVal, wVal, hVal, pending, roomType, True)
-    End Function
-
-    Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, allowWaterTarOoze: Bool)
-        Return Level.CreateRoom(xVal, yVal, wVal, hVal, pending, roomType, -1, -1, -1, -1, False, TileType.DirtWall, False, allowWaterTarOoze)
-    End Function
-
-    Function CreateRoom: Bool(xVal: Int, yVal: Int, wVal: Int, hVal: Int, pending: Bool, roomType: Int, originX: Int, originY: Int, originX2: Int, originY2: Int, wideCorridor: Bool, wallType: Int, allowWallOverlap: Bool, allowWaterTarOoze: Bool)
+    Function CreateRoom: Bool(
+        xVal: Int,
+        yVal: Int,
+        wVal: Int,
+        hVal: Int,
+        pending: Bool,
+        roomType: Int,
+        originX: Int = -1,
+        originY: Int = -1,
+        originX2: Int = -1,
+        originY2: Int = -1,
+        wideCorridor: Bool = False,
+        wallType: Int = TileType.DirtWall,
+        allowWallOverlap: Bool = False,
+        allowWaterTarOoze: Bool = True)
         If controller_game.currentZone <= 3
             If Level.levelConstraintX > xVal Or
                Level.levelConstraintY > yVal Or
@@ -4351,14 +4349,14 @@ Class Level
             Local liquidRoll := Util.RndIntRangeFromZero(100, True)
 
             Local numLiquidMaxPart1 := math.Min(controller_game.currentLevel - 1, 5)
-            Local numLiquidMaxPart2 := Util.RndIntRange(2, 7, True, -1)
+            Local numLiquidMaxPart2 := Util.RndIntRange(2, 7, True)
             Local numLiquidMaxPart3 := Util.RndIntRangeFromZero(numLiquidMaxPart1, True)
             Local numLiquidMax := numLiquidMaxPart2 + numLiquidMaxPart3
 
             Local liquidTileType: Int
             Select controller_game.currentZone
                 Case 2
-                    numLiquidMaxPart2 = Util.RndIntRange(2, 7, True, -1)
+                    numLiquidMaxPart2 = Util.RndIntRange(2, 7, True)
                     numLiquidMaxPart3 = Util.RndIntRangeFromZero(numLiquidMaxPart1, True)
                     numLiquidMax = numLiquidMaxPart2 + numLiquidMaxPart3
 
@@ -4671,11 +4669,7 @@ Class Level
         Level.rooms.AddLast(rm.ToRoomData(roomType))
     End Function
 
-    Function CreateRoomZone5: RoomWithDoor(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int)
-        Return Level.CreateRoomZone5(portalSegs, width, height, minEntryDist, RoomType.Basic)
-    End Function
-
-    Function CreateRoomZone5: RoomWithDoor(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int)
+    Function CreateRoomZone5: RoomWithDoor(portalSegs: StackEx<PortalSeg>, width: Int, height: Int, minEntryDist: Int, roomType: Int = RoomType.Basic)
         portalSegs.Shuffle(True)
 
         For Local portalSeg := EachIn portalSegs
@@ -4954,7 +4948,7 @@ Class Level
                     Continue
                 End If
 
-                New Item(room.x + 2, room.y + 2, "misc_potion", False, -1, False)
+                New Item(room.x + 2, room.y + 2, "misc_potion")
 
                 Continue
             End If
@@ -4971,9 +4965,9 @@ Class Level
                     Else
                         Local bombRoll := Util.RndIntRangeFromZero(100, True)
                         If bombRoll < 45
-                            New Item(point.x, point.y, "bomb_3", False, -1, False)
+                            New Item(point.x, point.y, "bomb_3")
                         Else
-                            New Item(point.x, point.y, "bomb", False, -1, False)
+                            New Item(point.x, point.y, "bomb")
                         End If
                     End If
 
@@ -4986,7 +4980,7 @@ Class Level
             If placeGoldenKey
                 If Not Level.isHardcoreMode And
                    Not Level.isDDRMode
-                    New Item(room.x + 1, room.y + 1, "misc_golden_key", False, -1, False)
+                    New Item(room.x + 1, room.y + 1, "misc_golden_key")
                 End If
 
                 placeGoldenKey = False
@@ -5044,7 +5038,7 @@ Class Level
                     itemName = Level.RandomFood()
                 End If
 
-                New Item(room.x + 2, room.y + 2, itemName, False, -1, False)
+                New Item(room.x + 2, room.y + 2, itemName)
 
                 Continue
             End If
@@ -5168,7 +5162,7 @@ Class Level
                         Local secretRoomVariantVariantVariantRoll := Util.RndIntRangeFromZero(100, True)
                         If secretRoomVariantVariantVariantRoll <= 34
                             If Not Util.IsBomblessCharacterActive()
-                                New Item(point.x, point.y, "bomb_3", False, -1, False)
+                                New Item(point.x, point.y, "bomb_3")
 
                                 Continue
                             End If
@@ -5183,7 +5177,7 @@ Class Level
                             Continue
                         End If
 
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, "bomb")
                     End If
                 End If
             Else
@@ -5281,7 +5275,7 @@ Class Level
                     End If
                 End If
 
-                New Item(room.x + 2, room.y + 2, "misc_potion", False, -1, False)
+                New Item(room.x + 2, room.y + 2, "misc_potion")
 
                 Continue
             End If
@@ -5296,9 +5290,9 @@ Class Level
                 Else
                     Local bombRoll := Util.RndIntRangeFromZero(100, True)
                     If bombRoll >= 45
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, "bomb")
                     Else
-                        New Item(point.x, point.y, "bomb_3", False, -1, False)
+                        New Item(point.x, point.y, "bomb_3")
                     End If
                 End If
 
@@ -5314,7 +5308,7 @@ Class Level
                     Continue
                 End If
 
-                New Item(room.x + 1, room.y + 1, "misc_glass_key", False, -1, False)
+                New Item(room.x + 1, room.y + 1, "misc_glass_key")
 
                 placeGlassKey = False
 
@@ -5360,11 +5354,11 @@ Class Level
                     Local itemRoll := Util.RndIntRangeFromZero(1, True)
                     If itemRoll = 0
                         Local foodName := Level.RandomFood()
-                        New Item(room.x + 2, room.y + 2, foodName, False, -1, False)
+                        New Item(room.x + 2, room.y + 2, foodName)
                     Else
                         Local requestedLevel := controller_game.currentLevel + 1
                         Local itemName := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", False)
-                        New Item(room.x + 2, room.y + 2, itemName, False, -1, False)
+                        New Item(room.x + 2, room.y + 2, itemName)
                     End If
 
                     Continue
@@ -5429,9 +5423,9 @@ Class Level
                     End If
 
                     If bombRoll < 45
-                        New Item(point.x, point.y, "bomb_3", False, -1, False)
+                        New Item(point.x, point.y, "bomb_3")
                     Else If bombRoll < 80
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, "bomb")
                     Else
                         Local numCoins := Level.GetAppropriateCoins()
                         New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
@@ -5527,7 +5521,7 @@ Class Level
                         End If
                 End Select
 
-                New Item(room.x + 2, room.y + 2, "misc_potion", False, -1, False)
+                New Item(room.x + 2, room.y + 2, "misc_potion")
 
                 Continue
             End If
@@ -5542,9 +5536,9 @@ Class Level
                 Else
                     Local bombRoll := Util.RndIntRangeFromZero(100, True)
                     If bombRoll >= 45
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, "bomb")
                     Else
-                        New Item(point.x, point.y, "bomb_3", False, -1, False)
+                        New Item(point.x, point.y, "bomb_3")
                     End If
                 End If
 
@@ -5594,11 +5588,11 @@ Class Level
                     Local itemRoll := Util.RndIntRangeFromZero(1, True)
                     If itemRoll = 0
                         Local foodName := Level.RandomFood()
-                        New Item(room.x + 2, room.y + 2, foodName, False, -1, False)
+                        New Item(room.x + 2, room.y + 2, foodName)
                     Else
                         Local requestedLevel := controller_game.currentLevel + 1
                         Local itemName := Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", False)
-                        New Item(room.x + 2, room.y + 2, itemName, False, -1, False)
+                        New Item(room.x + 2, room.y + 2, itemName)
                     End If
 
                     Continue
@@ -5706,7 +5700,7 @@ Class Level
                     Local secretRoomVariantVariantVariantRoll := Util.RndIntRangeFromZero(100, True)
                     If secretRoomVariantVariantVariantRoll <= 34
                         If Not Util.IsBomblessCharacterActive()
-                            New Item(point.x, point.y, "bomb_3", False, -1, False)
+                            New Item(point.x, point.y, "bomb_3")
 
                             Continue
                         End If
@@ -5720,7 +5714,7 @@ Class Level
                         Continue
                     End If
 
-                    New Item(point.x, point.y, "bomb", False, -1, False)
+                    New Item(point.x, point.y, "bomb")
                 End If
             Else
                 Local point := Level.GetRandPointInRoomWithOptions(room, True, True, True)
@@ -5812,11 +5806,7 @@ Class Level
         Debug.TraceNotImplemented("Level.FillVault(RoomData)")
     End Function
 
-    Function FindTileOfType: Point(tileType: Int)
-        Return Level.FindTileOfType(tileType, True)
-    End Function
-
-    Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool)
+    Function FindTileOfType: Point(tileType: Int, ignoreCrackedWalls: Bool = True)
         While True
             Local tilesOnXNode: map.Node<Int, IntMap<Tile>>
             Local i := Util.RndIntRangeFromZero(Level.tiles.Count() - 1, True)
@@ -6065,11 +6055,7 @@ Class Level
         Debug.TraceNotImplemented("Level.GetRandPointInRoomOfTileType(Int, Int, Int, Int, Int, Bool)")
     End Function
 
-    Function GetRandPointInRoomWithOptions: Point(room: RoomData)
-        Return Level.GetRandPointInRoomWithOptions(room, True, True, True)
-    End Function
-
-    Function GetRandPointInRoomWithOptions: Point(room: RoomData, skipWater: Bool, nearWallIsOk: Bool, secretRoomOK: Bool)
+    Function GetRandPointInRoomWithOptions: Point(room: RoomData, skipWater: Bool = True, nearWallIsOk: Bool = True, secretRoomOK: Bool = True)
         Return Level.GetRandPointInRoomWithOptions(room.x, room.y, room.w, room.h, skipWater, nearWallIsOk, secretRoomOK)
     End Function
 
@@ -6539,11 +6525,7 @@ Class Level
         Return False
     End Function
 
-    Function IsWallAt: Bool(xVal: Int, yVal: Int)
-        Return Level.IsWallAt(xVal, yVal, False, False)
-    End Function
-
-    Function IsWallAt: Bool(xVal: Int, yVal: Int, destructibleOnly: Bool, torchlessOnly: Bool)
+    Function IsWallAt: Bool(xVal: Int, yVal: Int, destructibleOnly: Bool = False, torchlessOnly: Bool = False)
         Local tile := Level.GetTileAt(xVal, yVal)
 
         Return tile And tile.IsWall(False, destructibleOnly, False, torchlessOnly)
@@ -6630,7 +6612,7 @@ Class Level
         Return Util.RndBool(True)
     End Function
 
-    Function NewLevel: Void(level: Int, zone: Int, playerID: Int, inEditor: Bool, levelObj: LevelObject, continuedRun: Bool)
+    Function NewLevel: Void(level: Int, zone: Int, playerID: Int = 0, inEditor: Bool = False, levelObj: LevelObject = Null, continuedRun: Bool = False)
         Debug.Log("NEWLEVEL level: " + level +
                           " zone: " + zone +
                           " currentLevel: " + controller_game.currentLevel +
@@ -6764,7 +6746,7 @@ Class Level
         Level.tempTileWalk.Clear()
     End Function
 
-    Function PaintTriggerInterior: Void(x: Int, y: Int, w: Int, h: Int, trigger: Int)
+    Function PaintTriggerInterior: Void(x: Int, y: Int, w: Int, h: Int, trigger: Int = 1)
         For Local a := x + 1 To x + w - 1
             For Local b := y + 1 To y + h - 1
                 Level.GetTileAt(a, b).SetTrigger(trigger)
@@ -6900,7 +6882,7 @@ Class Level
         End For
     End Function
 
-    Function PlaceChests: Void(freeBroadSword: Bool)
+    Function PlaceChests: Void(freeBroadSword: Bool = False)
         Local trapChestRoll := Util.RndIntRangeFromZero(99, True)
         Local placeTrapChest := False
 
@@ -7244,10 +7226,10 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
                         If point = Null Then Continue
 
-                        Local batLevel := Util.RndIntRange(1, 2, True, -1)
+                        Local batLevel := Util.RndIntRange(1, 2, True)
                         New Bat(point.x, point.y, batLevel)
                     Case 2
-                        Local skeletonLevel := Util.RndIntRange(2, 3, True, -1)
+                        Local skeletonLevel := Util.RndIntRange(2, 3, True)
                         New Skeleton(point.x, point.y, skeletonLevel)
                     Default
                         New Ghost(point.x, point.y, 1)
@@ -7657,16 +7639,16 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
                         If point = Null Then Continue
 
-                        Local skeletonMageLevelRoll := Util.RndIntRange(2, 3, True, -1)
+                        Local skeletonMageLevelRoll := Util.RndIntRange(2, 3, True)
                         New SkeletonMage(point.x, point.y, skeletonMageLevelRoll)
                     Case 2
-                        Local armoredSkeletonLevelRoll := Util.RndIntRange(2, 3, True, -1)
+                        Local armoredSkeletonLevelRoll := Util.RndIntRange(2, 3, True)
                         New ArmoredSkeleton(point.x, point.y, armoredSkeletonLevelRoll)
                     Case 3
-                        Local batLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        Local batLevelRoll := Util.RndIntRange(1, 2, True)
                         New Bat(point.x, point.y, batLevelRoll)
                     Default
-                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True)
                         New Armadillo(point.x, point.y, armadilloLevelRoll)
                 End Select
             End For
@@ -7757,7 +7739,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        Local skeletonMageLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        Local skeletonMageLevelRoll := Util.RndIntRange(1, 2, True)
                         New SkeletonMage(point.x, point.y, skeletonMageLevelRoll)
                     End If
 
@@ -7835,7 +7817,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True)
                         New Armadillo(point.x, point.y, armadilloLevelRoll)
                     Else
                         Local mushroomRoll := Util.RndBool(True)
@@ -7860,7 +7842,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        Local skeletonMageLevelRoll := Util.RndIntRange(2, 3, True, -1)
+                        Local skeletonMageLevelRoll := Util.RndIntRange(2, 3, True)
                         New SkeletonMage(point.x, point.y, skeletonMageLevelRoll)
                     End If
 
@@ -7946,7 +7928,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = Null Then Continue
 
-                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True, -1)
+                        Local armadilloLevelRoll := Util.RndIntRange(1, 2, True)
                         New Armadillo(point.x, point.y, armadilloLevelRoll)
                     Else
                         Local mushroomRoll := Util.RndBool(True)
@@ -8040,7 +8022,7 @@ Class Level
                         ' NOTE: This value is not used.
                         point = Level.GetRandPointInRoomWithOptions(room, False, False, False)
                     Case 2
-                        Local skeletonKnightLevel := Util.RndIntRange(2, 3, True, -1)
+                        Local skeletonKnightLevel := Util.RndIntRange(2, 3, True)
                         New SkeletonKnight(point.x, point.y, skeletonKnightLevel)
                     Default
                         Level.PlaceZone3Elemental(point.x, point.y)
@@ -8255,7 +8237,7 @@ Class Level
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                         If point = null Then Continue
 
-                        Local goblinLevel := Util.RndIntRange(1, 2, True, -1)
+                        Local goblinLevel := Util.RndIntRange(1, 2, True)
                         New Goblin(point.x, point.y, goblinLevel)
                     Else
                         point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
@@ -8386,7 +8368,7 @@ Class Level
                         ' TODO: This Null check isn't supposed to be here. Remove this after debugging.
                         If point = Null Then Continue
 
-                        Local gargoyleLevel := Util.RndIntRange(1, 5, True, -1)
+                        Local gargoyleLevel := Util.RndIntRange(1, 5, True)
                         New Gargoyle(point.x, point.y, gargoyleLevel)
                     Else
                         If Util.RndBool(True)
@@ -8638,7 +8620,7 @@ Class Level
     End Function
 
     Function PlaceGargoyle: Gargoyle(xVal: Int, yVal: Int)
-        Local level := Util.RndIntRange(1, 5, True, -1)
+        Local level := Util.RndIntRange(1, 5, True)
 
         Return Level.PlaceGargoyle(xVal, yVal, level)
     End Function
@@ -8744,7 +8726,7 @@ Class Level
                      EnemyBaseType.Nightmare
                     level = 2
                 Case EnemyBaseType.Dragon
-                    level = Util.RndIntRange(2, 3, True, -1)
+                    level = Util.RndIntRange(2, 3, True)
             End Select
         End If
 
@@ -9308,8 +9290,8 @@ Class Level
             End If
         End For
 
-        Local width := Util.RndIntRange(6, 8, True, -1)
-        Local height := Util.RndIntRange(5, 7, True, -1)
+        Local width := Util.RndIntRange(6, 8, True)
+        Local height := Util.RndIntRange(5, 7, True)
 
         If roomType = RoomType.Shop
             width = 6
@@ -9498,8 +9480,8 @@ Class Level
 
         If Not Level.CarveNewCorridor(moveX, moveY, horizontal, True, False, roomType, wideCorridor) Then Return Null
 
-        Local wVal := Util.RndIntRange(8, 7, True, -1)
-        Local hVal := Util.RndIntRange(7, 6, True, -1)
+        Local wVal := Util.RndIntRange(8, 7, True)
+        Local hVal := Util.RndIntRange(7, 6, True)
 
         Select roomType
             Case RoomType.Shop
@@ -9743,8 +9725,8 @@ Class Level
             End For
         End If
 
-        Local wVal := Util.RndIntRange(5, 6, True, -1)
-        Local hVal := Util.RndIntRange(5, 7, True, -1)
+        Local wVal := Util.RndIntRange(5, 6, True)
+        Local hVal := Util.RndIntRange(5, 7, True)
 
         Select roomType
             Case RoomType.Shop
@@ -9901,8 +9883,8 @@ Class Level
 
         Level.CarveCorridorTile(x, y, horizontal, True, False, roomType, False)
 
-        Local wVal := Util.RndIntRange(5, 7, True, -1)
-        Local hVal := Util.RndIntRange(5, 7, True, -1)
+        Local wVal := Util.RndIntRange(5, 7, True)
+        Local hVal := Util.RndIntRange(5, 7, True)
 
         Select roomType
             Case RoomType.Shop
@@ -10272,11 +10254,11 @@ Class Level
 
             Local replaceWithChestPosition := -1
             If Util.RndIntRangeFromZero(3, True) = 0
-                replaceWithChestPosition = Util.RndIntRange(1, 3, True, -1)
+                replaceWithChestPosition = Util.RndIntRange(1, 3, True)
             End If
 
             ' Red, black, or purple
-            Local chestColor := Util.RndIntRange(1, 3, True, -1)
+            Local chestColor := Util.RndIntRange(1, 3, True)
 
             If Level.isFloorIsLavaMode
                 replaceWithChestPosition = -1
@@ -10353,7 +10335,7 @@ Class Level
 
         If controller_game.currentDepth > 2 And
            Not monstrousShop
-            Local fakeWallRoll := Util.RndIntRange(1, 5, True, -1)
+            Local fakeWallRoll := Util.RndIntRange(1, 5, True)
             If fakeWallRoll <= 2
                 Local pointsNotAdjacentToDoors := New IntPointStack()
 
@@ -10391,9 +10373,9 @@ Class Level
             If controller_game.currentDepth <> 1 Or
                Not Level.isHardcoreMode Or
                Level.isDailyChallenge
-                level = Util.RndIntRange(1, 3, True, -1)
+                level = Util.RndIntRange(1, 3, True)
             Else
-                level = Util.RndIntRange(2, 3, True, -1)
+                level = Util.RndIntRange(2, 3, True)
             End If
 
             Level.placeShrineOnLevel.Set(controller_game.currentZone, level)
@@ -10412,7 +10394,7 @@ Class Level
                 New Shrine(point.x, point.y, shrineInt, shrineRNG, False, False)
             End If
         Else
-            Local trapChestRoll := Util.RndIntRange(1, 50, True, -1)
+            Local trapChestRoll := Util.RndIntRange(1, 50, True)
             If trapChestRoll = 1
                 Local point := Level.GetShrinePoint()
                 If point <> Null
@@ -10422,11 +10404,7 @@ Class Level
         End If
     End Function
 
-    Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int)
-        Return Level.PlaceTileRemovingExistingTiles(xVal, yVal, tileType, False, -1, False)
-    End Function
-
-    Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
+    Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool = False, tilesetOverride: Int = TilesetType.None, fromEarthSpell: Bool = False)
         Local lightValueCached: Float
         Local alpha: Float
         Local hasBeenSeen: Bool
@@ -10503,19 +10481,11 @@ Class Level
         End For
     End Function
 
-    Function PlaceTrapInRoom: Trap(room: RoomData, trapType: Int)
-        Return Level.PlaceTrapInRoom(room, trapType, -1)
-    End Function
-
-    Function PlaceTrapInRoom: Trap(room: RoomData, trapType: Int, bounceDir: Int)
+    Function PlaceTrapInRoom: Trap(room: RoomData, trapType: Int, bounceDir: Int = BounceTrapDirection.None)
         Return Level.PlaceTrapInRoom(room.x, room.y, room.w, room.h, trapType, bounceDir)
     End Function
 
-    Function PlaceTrapInRoom: Trap(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int)
-        Return Level.PlaceTrapInRoom(xVal, yVal, wVal, hVal, trapType, bounceDir, Null)
-    End Function
-
-    Function PlaceTrapInRoom: Trap(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap)
+    Function PlaceTrapInRoom: Trap(xVal: Int, yVal: Int, wVal: Int, hVal: Int, trapType: Int, bounceDir: Int, twoAwayTrap: Trap = Null)
         For Local i := 200 Until 0 Step -1
             Local point: Point
 
@@ -10652,7 +10622,7 @@ Class Level
                         Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
                     End If
 
-                    Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
+                    Local numBounceTraps := Util.RndIntRange(1, 3, True)
                     For Local i := 0 Until numBounceTraps
                         Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
                     End For
@@ -10678,7 +10648,7 @@ Class Level
                         Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
                     End If
 
-                    Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
+                    Local numBounceTraps := Util.RndIntRange(1, 3, True)
                     For Local i := 0 Until numBounceTraps
                         Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
                     End For
@@ -10755,7 +10725,7 @@ Class Level
                         Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
                     End If
 
-                    Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
+                    Local numBounceTraps := Util.RndIntRange(1, 3, True)
                     For Local numBounceTraps = numBounceTraps Until 0 Step -1
                         Local bounceTrapDirectionRoll := Util.RndBool(True)
                         Local bounceTrapDirection := BounceTrapDirection.None
@@ -10787,7 +10757,7 @@ Class Level
                             Level.PlaceTrapInRoom(room, TrapType.SpikeTrap)
                         End If
 
-                        Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
+                        Local numBounceTraps := Util.RndIntRange(1, 3, True)
                         For Local numBounceTraps = numBounceTraps Until 0 Step -1
                             Local bounceTrapDirectionRoll := Util.RndIntRangeFromZero(2, True)
                             Local bounceTrapDirection := BounceTrapDirection.None
@@ -10860,7 +10830,7 @@ Class Level
                         Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
                     End If
 
-                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    Local numTraps := Util.RndIntRange(1, 3, True)
                     For numTraps = numTraps Until 0 Step -1
                         Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
                     End For
@@ -10880,7 +10850,7 @@ Class Level
                         Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
                     End If
 
-                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    Local numTraps := Util.RndIntRange(1, 3, True)
                     For numTraps = numTraps Until 0 Step -1
                         Level.PlaceTrapZone3(room.x, room.y, room.w, room.h)
                     End For
@@ -10941,7 +10911,7 @@ Class Level
                         Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
                     End If
 
-                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    Local numTraps := Util.RndIntRange(1, 3, True)
                     For numTraps = numTraps Until 0 Step -1
                         Level.PlaceTrapZone4(room.x, room.y, room.w, room.h)
                     End For
@@ -11039,7 +11009,7 @@ Class Level
                         Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
                     End If
 
-                    Local numTraps := Util.RndIntRange(1, 3, True, -1)
+                    Local numTraps := Util.RndIntRange(1, 3, True)
                     For numTraps = numTraps Until 0 Step -1
                         Level.PlaceTrapZone5(room.x, room.y, room.w, room.h)
                     End For
@@ -11337,7 +11307,7 @@ Class Level
     Function PutCrateOrBarrel: Void(x: Int, y: Int)
         If Level.isHardcoreMode Or
            controller_game.currentDepth > 1
-            Local trapChestRoll := Util.RndIntRange(1, 100, True, -1)
+            Local trapChestRoll := Util.RndIntRange(1, 100, True)
             If trapChestRoll <= 3
                 Local trapChestBaseLevel := Util.RndIntRangeFromZero(1, True)
                 New TrapChest(x, y, trapChestBaseLevel + 4)

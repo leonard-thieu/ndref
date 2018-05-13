@@ -16,7 +16,7 @@ Class MetroGnome Extends Enemy
 
         If Shrine.warShrineActive Then l = 2
 
-        Self.Init(x_, y_, l, "metrognome", "", -1, -1)
+        Self.Init(x_, y_, l, "metrognome")
 
         Self.overrideAttackSound = "metrognomeAttack"
         Self.overrideHitSound = "metrognomeHit"

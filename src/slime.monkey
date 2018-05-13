@@ -16,10 +16,10 @@ Class Slime Extends Enemy
 
         If l = 1 And
            Shrine.warShrineActive
-            l = Util.RndIntRange(2, 3, False, -1)
+            l = Util.RndIntRange(2, 3, False)
         End If
 
-        Self.Init(xVal, yVal, l, "slime", "", -1, -1)
+        Self.Init(xVal, yVal, l, "slime")
 
         Self.moveCount = Util.RndIntRangeFromZero(3, True)
 

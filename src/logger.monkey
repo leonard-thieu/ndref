@@ -19,15 +19,7 @@ Class Logger
         Self.fs.WriteString(value)
     End Method
 
-    Method WriteLine: Void()
-        Self.WriteLine("", LogLevel.Trace)
-    End Method
-
-    Method WriteLine: Void(value: String)
-        Self.WriteLine(value, LogLevel.Trace)
-    End Method
-
-    Method WriteLine: Void(value: String, level: Int)
+    Method WriteLine: Void(value: String = "", level: Int = LogLevel.Trace)
         Self.Write(value, level)
         Self.fs.WriteString("~r~n")
     End Method

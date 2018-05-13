@@ -12,16 +12,8 @@ Class MushroomLight Extends Enemy
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, l: Int, forceNonExploding: Bool, forceExploding: Bool)
+    Method New(xVal: Int, yVal: Int, l: Int, forceNonExploding: Bool = False, forceExploding: Bool = False)
         Self.InitMushroom(xVal, yVal, l, forceNonExploding, forceExploding)
-    End Method
-
-    Method New(xVal: Int, yVal: Int, l: Int, forceNonExploding: Bool)
-        Self.InitMushroom(xVal, yVal, l, forceNonExploding, False)
-    End Method
-
-    Method New(xVal: Int, yVal: Int, l: Int)
-        Self.InitMushroom(xVal, yVal, l, False, False)
     End Method
 
     Field isExploding: Bool
@@ -67,9 +59,9 @@ Class MushroomLight Extends Enemy
         End If
 
         If Self.isExploding
-            Self.Init(xVal, yVal, l, "mushroom_exploding", "", -1, -1)
+            Self.Init(xVal, yVal, l, "mushroom_exploding")
         Else
-            Self.Init(xVal, yVal, l, "mushroom_light", "", -1, -1)
+            Self.Init(xVal, yVal, l, "mushroom_light")
         End If
 
         Local flipXRoll := Util.RndBool(True)

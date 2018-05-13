@@ -16,7 +16,7 @@ Class Rook Extends Enemy
             l = 2
         End If
 
-        Self.Init(xVal, yVal, l, "rook", "", -1, -1)
+        Self.Init(xVal, yVal, l, "rook")
 
         Self.ActivateLight(0.01, 0.02)
 

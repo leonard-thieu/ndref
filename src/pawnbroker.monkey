@@ -17,7 +17,7 @@ Class Pawnbroker Extends NPC
     Method Die: Void()
         If Not Self.dead
             If Not Self.falling
-                New Item(Self.x, Self.y, "misc_coupon", False, -1, False)
+                New Item(Self.x, Self.y, "misc_coupon")
             End If
 
             Super.Die()
