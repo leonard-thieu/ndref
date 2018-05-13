@@ -19,8 +19,8 @@ Class Flyaway
 
     Function _EditorFix: Void() End
 
-    Method New(filename: Int, xVal: Int, yVal: Int, tempXOff: Int, tempYOff: Int, inWrld: Bool, xSpd: Float, ySpd: Float, textString: Bool, dur: Int)
-        Debug.TraceNotImplemented("Flyaway.New(Int, Int, Int, Int, Int, Bool, Float, Float, Bool, Int)")
+    Method New(filename: String, xVal: Int, yVal: Int, tempXOff: Int, tempYOff: Int, inWrld: Bool, xSpd: Float, ySpd: Float, textString: Bool, dur: Int)
+        Debug.TraceNotImplemented("Flyaway.New(String, Int, Int, Int, Int, Bool, Float, Float, Bool, Int)")
     End Method
 
     Field noRender: Bool
