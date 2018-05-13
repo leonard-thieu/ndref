@@ -31,6 +31,10 @@ Class CrystalShards Extends Entity
         Debug.TraceNotImplemented("CrystalShards.Die()")
     End Method
 
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Debug.TraceNotImplemented("CrystalShards.Hit(String, Int, Int, Entity, Bool, Int)")
+    End Method
+
     Method Move: Void()
         Debug.TraceNotImplemented("CrystalShards.Move()")
     End Method

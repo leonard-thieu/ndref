@@ -33,6 +33,10 @@ Class MoleDirt Extends Entity
     Field fadeCounter: Int
     Field FADE_TIME: Int = 60
 
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Debug.TraceNotImplemented("MoleDirt.Hit(String, Int, Int, Entity, Bool, Int)")
+    End Method
+
     Method Render: Void()
         Debug.TraceNotImplemented("MoleDirt.Render()")
     End Method
