@@ -177,8 +177,6 @@ Class Entity Extends RenderableObject Abstract
         Debug.TraceNotImplemented("Entity.Freeze(Int, Bool)")
     End Method
 
-    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int) Abstract
-
     Method IsConfused: Bool()
         Debug.TraceNotImplemented("Entity.IsConfused()")
     End Method
