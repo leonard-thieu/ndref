@@ -12,6 +12,7 @@ Import enemyclamper
 Import entity
 Import familiar
 Import familiar_fixed
+Import flyaway
 Import gamedata
 Import item
 Import logger
@@ -110,8 +111,8 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.GetSlotFromNum(Int)")
     End Function
 
-    Function GetSlotNum: Int(sl: Int)
-        Debug.TraceNotImplemented("Player.GetSlotNum(Int)")
+    Function GetSlotNum: Int(sl: String)
+        Debug.TraceNotImplemented("Player.GetSlotNum(String)")
     End Function
 
     Function GetTransplantDisplayTime: Int()
@@ -506,11 +507,368 @@ Class Player Extends MobileEntity
     End Method
 
     Method AddItemOfType: Void(item: String, itemObj: Item, ignoreFlyTo: Bool, isInitialEquip: Bool)
-        Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool)")
+        If Self.IsWeaponlessCharacter()
+            If Item.IsItemOfType(item, "isWeapon")
+                Select item
+                    Case "weapon_dagger",
+                         "weapon_flower",
+                         "weapon_eli",
+                         "weapon_golden_lute"
+                        ' Do nothing.
+                    Default
+                        If controller_game.currentLevel <> LevelType.Lobby
+                            Self.Hit("COWARDICE", 99999, -1, Null, False, 0)
+
+                            Return
+                        End If
+                End Select
+            End If
+        End If
+
+        If Not Item.IsItemOfType(item, "isCoin") And
+           Not Item.IsItemOfType(item, "isDiamond")
+            Select item
+                Case "weapon_dagger",
+                     "shovel_basic",
+                     "weapon_golden_lute"
+                    ' Do nothing
+                Default
+                    If (Self.characterID = Character.Bolt And item = "weapon_spear") Or
+                       (Self.characterID = Character.Tempo And item = "weapon_blood_dagger") Or
+                       (Self.characterID = Character.Mary And item = "weapon_spear")
+                        ' Do nothing
+                    Else
+                        If Not Self.isHelper And
+                           Not isInitialEquip
+                            Level.isAllCharsRunNoItemsNoShrines = False
+                            If Level.isRunNoItemsNoShrines
+                                Level.isRunNoItemsNoShrines = False
+
+                                Debug.Log("No longer low%!  Picked up a non-coin/diamond item.")
+                            End If
+                        End If
+                    End If
+            End Select
+        End If
+
+        Item.AddToSeenItems(item)
+
+        If controller_game.currentLevel = LevelType.Lobby
+            Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool) (Lobby items)")
+
+            Return
+        End If
+
+        Self.globalIgnoreFlyToSlot = ignoreFlyTo
+
+        If Not Self.AddItemOfType_PreProcess(item, itemObj)
+            Return
+        End If
+
+        Self.globalIgnoreFlyToSlot = False
+
+        If itemObj <> Null And
+           itemObj.isMystery
+            Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool) (Mystery item)")
+        End If
+
+        If Item.IsItemOfType(item, "isCoin")
+            Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool) (Coins)")
+        End If
+
+        If Item.IsItemOfType(item, "isDiamond")
+            Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool) (Diamonds)")
+        End If
+
+        Select item
+            Case "resource_hoard1",
+                 "resource_hoard2",
+                 "resource_hoard3",
+                 "resource_hoard4",
+                 "resource_coin50",
+                 "resource_coin100",
+                 "resource_coin150"
+                Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool) (" + item + ")")
+            Case "head_crown_of_thorns"
+                Self.Hit("crownOfThorns", 1, Direction.None, Null, False, 0)
+            Case "feet_boots_pain"
+                Self.Hit("BOOTS OF PAIN", 3, Direction.None, Null, False, 0)
+            Case "ring_pain"
+                Self.Hit("RING OF PAIN", 1, Direction.None, Null, False, 0)
+            Case "misc_heart_container"
+                Self.health.GainHearts(1, True)
+            Case "misc_heart_container2"
+                Self.health.GainHearts(2, True)
+            Case "misc_heart_container_cursed"
+                Self.health.GainCursedHearts(1)
+            Case "misc_heart_container_cursed2"
+                Self.health.GainCursedHearts(2)
+            Case "misc_heart_container_empty"
+                Self.health.GainHearts(1, False)
+            Case "misc_heart_container_empty2"
+                Self.health.GainHearts(2, False)
+            Case "perm_heart2"
+                GameData.SetPlayerHealthMax(4)
+                For Local i := 0 Until controller_game.numPlayers
+                    Local player := controller_game.players[i]
+                    player.health.Reset(0)
+                End For
+            Case "perm_heart3"
+                GameData.SetPlayerHealthMax(6)
+                For Local i := 0 Until controller_game.numPlayers
+                    Local player := controller_game.players[i]
+                    player.health.Reset(0)
+                End For
+            Case "perm_heart4"
+                GameData.SetPlayerHealthMax(8)
+                For Local i := 0 Until controller_game.numPlayers
+                    Local player := controller_game.players[i]
+                    player.health.Reset(0)
+                End For
+            Case "perm_heart5"
+                GameData.SetPlayerHealthMax(10)
+                For Local i := 0 Until controller_game.numPlayers
+                    Local player := controller_game.players[i]
+                    player.health.Reset(0)
+                End For
+            Case "perm_heart6"
+                GameData.SetPlayerHealthMax(12)
+                For Local i := 0 Until controller_game.numPlayers
+                    Local player := controller_game.players[i]
+                    player.health.Reset(0)
+                End For
+            Case "bomb"
+                Self.numBombs += 1
+            Case "bomb_3"
+                Self.numBombs += 3
+            Case "head_blast_helm"
+                If Not Self.hasPickedUpBlastHelmThisRun
+                    Self.numBombs += 3
+                    Self.hasPickedUpBlastHelmThisRun = True
+                End If
+            Case "charm_grenade"
+                If Not Self.hasPickedUpGrenadeCharmThisRun
+                    Self.numBombs += 3
+                    Self.hasPickedUpGrenadeCharmThisRun = True
+                End If
+        End Select
+
+        If Item.IsItemOfType(item, "isSpell")
+            Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool) (Spells)")
+        End If
+
+        Self.ProcessTheResultsOfEquippingItem(item)
+
+        If itemObj <> Null And
+           Not itemObj.isMystery
+            Debug.TraceNotImplemented("Player.AddItemOfType(String, Item, Bool, Bool) (Flyaways)")
+        End If
     End Method
 
     Method AddItemOfType_PreProcess: Bool(i: String, itemObj: Item)
+        If Item.IsItemOfType(i, "isDiamond")
+            Self.hudDiamondForFlyingRender = True
+        End If
+
+        Local itemNode := Item.GetItemXML(i)
+
+        Local consumable := item.GetBool(itemNode, "consumable", False)
+        If consumable
+            Return True
+        End If
+
+        Local slot := Item.GetSlot(i)
+        Select slot
+            Case Item.NoItem
+                Return True
+            Case "bomb"
+                Local hasBombs := Self.numBombs > 0
+                Self.PutItemInSlot("bomb", i, hasBombs)
+
+                Return True
+        End Select
+
+        If itemObj <> Null
+            If itemObj.IsItemOfType("isStackable")
+                Local stackQuantity := itemObj.stackQuantity
+                If Self.itemQuantity.Contains(i)
+                    stackQuantity += Self.itemQuantity.Get(i)
+                End If
+
+                Self.itemQuantity.Set(i, stackQuantity)
+
+                Local hideQuantity := itemObj.hideQuantity
+                Self.hideQuantity.Set(i, hideQuantity)
+
+                Return True
+            End If
+        Else
+            Select i
+                Case "food_cookies"
+                    Local quantity := item.GetInt(itemNode, "quantity", 1)
+                    If Self.itemQuantity.Contains(i)
+                        quantity += Self.itemQuantity.Get(i)
+                    End If
+
+                    Self.itemQuantity.Set(i, quantity)
+
+                    Local hideQuantity := item.GetBool(itemNode, "hideQuantity", False)
+                    Self.hideQuantity.Set(i, hideQuantity)
+
+                    Return True
+            End Select
+        End If
+
+        If slot = "spell" Then Return True
+
+        Select i
+            Case "misc_potion"
+                If Self.HasItemOfType("misc_potion")
+                    Self.DropItem("misc_potion")
+
+                    Return False
+                End If
+            Case "holster"
+                If Self.HasItemOfType("hud_backpack") Or
+                   Self.HasItemOfType("bag_holding")
+                    If Self.HasItemOfType("hud_backpack")
+                        Self.DropItem("hud_backpack")
+                    End If
+
+                    If Self.HasItemOfType("bag_holding")
+                        Self.DropItem("bag_holding")
+                    End If
+
+                    Local action2ItemName := Self.ownedItems.Get("action2")
+                    Select action2ItemName
+                        Case "",
+                             "hud_backpack",
+                             "bag_holding"
+                            ' Do nothing
+                        Default
+                            Self.DropItem(action2ItemName)
+                    End Select
+
+                    Self.PutItemInSlot("action2", Item.NoItem, False)
+
+                    Return True
+                End If
+        End Select
+
+        Select slot
+            Case "weapon"
+                If Not Self.IsAnythingInSlot("weapon")
+                    Self.PutItemInSlot("weapon", i, False)
+
+                    Return True
+                End If
+
+                If Self.HasItemOfType("holster")
+                    Local weapon2ItemName := Item.NoItem
+                    If Self.IsAnythingInSlot("weapon2")
+                        weapon2ItemName = Self.ownedItems.Get("weapon2")
+                    End If
+
+                    Local weaponItemName := Self.ownedItems.Get("weapon")
+                    Self.PutItemInSlot("weapon2", weaponItemName, True)
+
+                    Local flyaway := New Flyaway("|268|(OLD WEAPON HOLSTERED)|", Self.x, Self.y, 0, -13, True, 0.0, 0.2, True, 120)
+                    flyaway.CenterX()
+
+                    Self.PutItemInSlot("weapon", i, False)
+
+                    If weapon2ItemName <> Item.NoItem
+                        Local weapon2 := Self.DropItem(weapon2ItemName)
+                        Self.ProcessDropMystery(weapon2, "weapon2")
+                    End If
+
+                    If Self.mysterySlots.Contains("weapon")
+                        Self.mysterySlots.Insert("weapon2")
+                        Self.mysterySlots.Remove("weapon")
+                    End If
+                Else
+                    Local weaponItemName := Self.ownedItems.Get("weapon")
+
+                    Self.PutItemInSlot("weapon", i, False)
+
+                    If itemObj = Null Or
+                       Not itemObj.trainingWeapon
+                        Local weapon := Self.DropItem(weaponItemName)
+                        Self.ProcessDropMystery(weapon, "weapon")
+                    End If
+                End If
+
+                Return True
+            Case "misc"
+                If Not Self.miscItems.Contains(i)
+                    Self.miscItems.AddLast(i)
+                    Self.miscItems.Sort()
+                End If
+            Case "action"
+                If Not Self.IsAnythingInSlot("action1")
+                    Self.PutItemInSlot("action1", i, False)
+
+                    Return True
+                End If
+
+                If Not Self.IsAnythingInSlot("action2") And
+                   Self.HaveSecondActionSlot()
+                    Self.PutItemInSlot("action2", i, False)
+
+                    Return True
+                End If
+
+                If Self.HaveSecondActionSlot()
+                    Local hudItemName := Self.GetItemInSlot("hud")
+                    If hudItemName = "bag_holding"
+                        Local action2ItemName := Self.ownedItems.Get("action2")
+                        Self.holdingBagItems.AddLast(action2ItemName)
+
+                        Local action1ItemName := Self.ownedItems.Get("action1")
+                        Self.PutItemInSlot("action2", action1ItemName, True)
+
+                        Self.PutItemInSlot("action1", i, False)
+
+                        Return True
+                    End If
+
+                    Local action2ItemName := Self.ownedItems.Get("action2")
+                    Local action1ItemName := Self.ownedItems.Get("action1")
+
+                    Self.PutItemInSlot("action2", action1ItemName, True)
+                    Self.PutItemInSlot("action1", i, False)
+                    Self.DropItem(action2ItemName)
+
+                    Return True
+                End If
+
+                Local action1ItemName := Self.ownedItems.Get("action1")
+
+                Self.PutItemInSlot("action1", i, False)
+                Self.DropItem(action1ItemName)
+
+                Return True
+        End Select
+
+        If Not Self.IsAnythingInSlot(slot)
+            If slot <> "misc"
+                Self.PutItemInSlot(slot, i, False)
+            End If
+
+            Return True
+        End If
+
+        Select slot
+            Case "body"
+                Local bodyItemName := Self.ownedItems.Get(slot)
+                If i = bodyItemName
+                    Return True
+                End If
+        End Select
+
         Debug.TraceNotImplemented("Player.AddItemOfType_PreProcess(String, Item)")
+
+        Return False
     End Method
 
     Method AfterEnemyMovement: Void()
@@ -656,8 +1014,8 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.DropBomb()")
     End Method
 
-    Method DropItem: Object(i: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Player.DropItem(Int, Int, Int)")
+    Method DropItem: Item(i: String, xVal: Int = -99999, yVal: Int = -99999)
+        Debug.TraceNotImplemented("Player.DropItem(String, Int, Int)")
     End Method
 
     Method EmptyAllSlots: Void(includeLamb: Bool)
@@ -736,7 +1094,7 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.GetHUDQuantityText(Int)")
     End Method
 
-    Method GetItemInSlot: String(sl: String, overrideBatForm: Bool)
+    Method GetItemInSlot: String(sl: String, overrideBatForm: Bool = True)
         If Self.batFormActive Or Not overrideBatForm
             Select sl
                 Case "weapon"
@@ -825,7 +1183,7 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.HasCouponLike()")
     End Method
 
-    Method HasItemOfType: Bool(i: String, overrideBatForm: Bool)
+    Method HasItemOfType: Bool(i: String, overrideBatForm: Bool = True)
         If Not Self.batFormActive Or overrideBatForm
             If Self.characterID = Character.Tempo
                 If i = "head_sonar" Then Return True
@@ -876,8 +1234,14 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.ImmediatelyMoveTo(Int, Int, Bool, Bool, Bool, Bool, Bool)")
     End Method
 
-    Method IsAnythingInSlot: Bool(sl: Int)
-        Debug.TraceNotImplemented("Player.IsAnythingInSlot(Int)")
+    Method IsAnythingInSlot: Bool(sl: String)
+        If Self.ownedItems.Contains(sl)
+            Local itemName := Self.ownedItems.Get(sl)
+
+            Return itemName = Item.NoItem
+        End If
+
+        Return False
     End Method
 
     Method IsBomblessCharacter: Bool()
@@ -1030,8 +1394,8 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.PlayVO(Int)")
     End Method
 
-    Method ProcessDropMystery: Void(item: Object, slot: Int)
-        Debug.TraceNotImplemented("Player.ProcessDropMystery(Object, Int)")
+    Method ProcessDropMystery: Void(item: Item, slot: String)
+        Debug.TraceNotImplemented("Player.ProcessDropMystery(Item, String)")
     End Method
 
     Method ProcessMoveQueue: Void()
@@ -1046,16 +1410,34 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.ProcessSlotOffsets2(Int, Int, Int)")
     End Method
 
-    Method ProcessTheResultsOfEquippingItem: Void(item: Int)
-        Debug.TraceNotImplemented("Player.ProcessTheResultsOfEquippingItem(Int)")
+    Method ProcessTheResultsOfEquippingItem: Void(item: String)
+        Debug.TraceNotImplemented("Player.ProcessTheResultsOfEquippingItem(String)")
     End Method
 
     Method ProcessTheResultsOfLosingItem: Void(i: Int)
         Debug.TraceNotImplemented("Player.ProcessTheResultsOfLosingItem(Int)")
     End Method
 
-    Method PutItemInSlot: Void(sl: Int, i: Int, ignoreFlyTo: Bool)
-        Debug.TraceNotImplemented("Player.PutItemInSlot(Int, Int, Bool)")
+    Method PutItemInSlot: Void(sl: String, i: String, ignoreFlyTo: Bool)
+        Self.ownedItems.Set(sl, i)
+
+        If Not ignoreFlyTo And
+           Not Self.globalIgnoreFlyToSlot
+            Local slotNum: Int
+
+            Select sl
+                Case "shovel"
+                    slotNum = 0
+                Case "weapon"
+                    slotNum = 1
+                Default
+                    slotNum = Player.GetSlotNum(sl)
+            End Select
+
+            If slotNum <> -1
+                Self.hudSlotOffFlyFromPlayer[slotNum] = True
+            End If
+        End If
     End Method
 
     Method Render: Void()
