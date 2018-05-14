@@ -5,6 +5,7 @@ Import monkey.map
 Import monkey.math
 Import brl.json
 Import mojo.graphics
+Import enemy.npc.shopkeeper
 Import enemy.armadillo
 Import enemy.armoredskeleton
 Import enemy.bat
