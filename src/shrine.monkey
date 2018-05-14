@@ -6,7 +6,7 @@ Import brl.json
 Import mojo.graphics
 Import bouncer
 Import chest
-Import controller_game
+Import gui.controller_game
 Import entity
 Import item
 Import level

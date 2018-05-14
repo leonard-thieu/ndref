@@ -52,6 +52,8 @@ Import enemy.wraith
 Import enemy.zombie
 Import enemy.zombie_electric
 Import enemy.zombiesnake
+Import gui.controller_game
+Import gui.controller_level_editor
 Import abteleporttrap
 Import beastmaster
 Import blob_room
@@ -62,8 +64,6 @@ Import camera
 Import chest
 Import confusetrap
 Import conjurer
-Import controller_game
-Import controller_level_editor
 Import decorative_firetrap
 Import diamonddealer
 Import entity

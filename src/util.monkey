@@ -4,7 +4,7 @@ Import monkey.list
 Import monkey.map
 Import monkey.math
 Import monkey.random
-Import controller_game
+Import gui.controller_game
 Import level
 Import logger
 Import player_class

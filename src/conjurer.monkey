@@ -1,6 +1,6 @@
 'Strict
 
-Import controller_game
+Import gui.controller_game
 Import item
 Import level
 Import logger

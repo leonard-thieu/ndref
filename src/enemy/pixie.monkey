@@ -1,6 +1,6 @@
 'Strict
 
-Import controller_level_editor
+Import gui.controller_level_editor
 Import enemy
 Import entity
 Import gamedata

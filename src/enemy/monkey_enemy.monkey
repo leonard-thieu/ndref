@@ -1,7 +1,7 @@
 'Strict
 
 Import enemy.enemyclamper
-Import controller_game
+Import gui.controller_game
 Import entity
 Import logger
 Import player_class

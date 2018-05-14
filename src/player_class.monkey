@@ -4,11 +4,11 @@ Import monkey.list
 Import monkey.map
 Import monkey.set
 Import enemy.enemyclamper
+Import gui.controller_game
+Import gui.controller_input_popup
+Import gui.controller_popup
 Import bouncer
 Import camera
-Import controller_game
-Import controller_input_popup
-Import controller_popup
 Import entity
 Import familiar
 Import familiar_fixed

@@ -1,7 +1,7 @@
 'Strict
 
 Import monkey.map
-Import controller_game
+Import gui.controller_game
 Import enemy
 Import entity
 Import logger

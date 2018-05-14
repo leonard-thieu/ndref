@@ -2,7 +2,7 @@
 
 Import monkey.list
 Import enemy.tentacle
-Import controller_game
+Import gui.controller_game
 Import enemy
 Import entity
 Import level

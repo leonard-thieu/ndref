@@ -2,7 +2,7 @@
 
 Import monkey.list
 Import mojo.graphics
-Import controller_game
+Import gui.controller_game
 Import entity
 Import level
 Import level_object

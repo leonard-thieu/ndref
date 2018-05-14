@@ -6,7 +6,7 @@ Import bombtrap
 Import bouncetrap
 Import chest
 Import confusetrap
-Import controller_game
+Import gui.controller_game
 Import enemy
 Import firetrap
 Import item

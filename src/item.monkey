@@ -5,7 +5,7 @@ Import monkey.stack
 Import mojo.app
 Import bomb
 Import chest
-Import controller_game
+Import gui.controller_game
 Import entity
 Import gamedata
 Import logger
