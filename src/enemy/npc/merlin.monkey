@@ -1,6 +1,6 @@
 Strict
 
-Import npc
+Import enemy.npc
 
 Class Merlin Extends NPC
 

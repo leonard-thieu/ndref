@@ -1,9 +1,9 @@
 'Strict
 
 Import gui.controller_game
+Import enemy.npc
 Import entity
 Import logger
-Import npc
 Import point
 
 Class Transmogrifier Extends NPC

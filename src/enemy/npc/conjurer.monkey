@@ -1,10 +1,10 @@
 'Strict
 
 Import gui.controller_game
+Import enemy.npc
 Import item
 Import level
 Import logger
-Import npc
 Import thing
 
 Class Conjurer Extends NPC

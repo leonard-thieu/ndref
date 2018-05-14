@@ -1,9 +1,9 @@
 'Strict
 
+Import enemy.npc
 Import entity
 Import gamedata
 Import logger
-Import npc
 Import point
 
 Class Shopkeeper Extends NPC

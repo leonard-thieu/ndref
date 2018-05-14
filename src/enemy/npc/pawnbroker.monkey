@@ -1,8 +1,8 @@
 'Strict
 
+Import enemy.npc
 Import entity
 Import logger
-Import npc
 
 Class Pawnbroker Extends NPC
 

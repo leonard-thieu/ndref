@@ -4,17 +4,7 @@ Import monkey.map
 Import monkey.math
 Import monkey.random
 Import monkey.set
-Import enemy.npc.beastmaster
-Import enemy.npc.bossmaster
-Import enemy.npc.conjurer
-Import enemy.npc.diamonddealer
-Import enemy.npc.medic
-Import enemy.npc.merlin
-Import enemy.npc.pawnbroker
-Import enemy.npc.shopkeeper
-Import enemy.npc.shriner
-Import enemy.npc.transmogrifier
-Import enemy.npc.weaponmaster
+Import enemy
 Import enemy.banshee
 Import enemy.bat
 Import enemy.bat_miniboss
@@ -63,8 +53,21 @@ Import enemy.wraith
 Import enemy.zombie
 Import enemy.zombie_electric
 Import enemy.zombiesnake
+Import enemy.npc
+Import enemy.npc.beastmaster
+Import enemy.npc.bossmaster
+Import enemy.npc.conjurer
+Import enemy.npc.diamonddealer
+Import enemy.npc.medic
+Import enemy.npc.merlin
+Import enemy.npc.pawnbroker
+Import enemy.npc.shopkeeper
+Import enemy.npc.shriner
+Import enemy.npc.transmogrifier
+Import enemy.npc.weaponmaster
 Import gui.controller_game
 Import gui.controller_level_editor
+Import trap
 Import trap.abteleporttrap
 Import trap.bombtrap
 Import trap.bouncetrap
@@ -92,7 +95,6 @@ Import level_object
 Import logger
 Import necrodancer
 Import necrodancergame
-Import npc
 Import particles
 Import player_class
 Import portal_seg
@@ -108,7 +110,6 @@ Import spells
 Import stack_ex
 Import tile
 Import tiledata
-Import trap
 Import util
 Import weighted_picker
 

@@ -1,9 +1,9 @@
 'Strict
 
+Import enemy.npc
 Import entity
 Import level
 Import logger
-Import npc
 Import shrine
 
 Class Shriner Extends NPC

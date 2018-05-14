@@ -1,7 +1,7 @@
 'Strict
 
+Import enemy.npc
 Import logger
-Import npc
 
 Class Medic Extends NPC
 
