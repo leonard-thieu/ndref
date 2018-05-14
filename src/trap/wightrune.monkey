@@ -1,7 +1,7 @@
 'Strict
 
+Import trap.teleporttrap
 Import logger
-Import teleporttrap
 
 Class WightRune Extends TeleportTrap
 

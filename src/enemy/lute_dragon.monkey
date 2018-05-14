@@ -1,9 +1,9 @@
 'Strict
 
 Import enemy.lute_head
+Import trap.firetrap
 Import enemy
 Import entity
-Import firetrap
 Import logger
 Import point
 Import sprite

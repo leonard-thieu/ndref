@@ -2,26 +2,26 @@
 
 Import monkey.list
 Import enemy.crate
-Import bombtrap
-Import bouncetrap
-Import chest
-Import confusetrap
 Import gui.controller_game
+Import trap.bombtrap
+Import trap.bouncetrap
+Import trap.confusetrap
+Import trap.firetrap
+Import trap.scattertrap
+Import trap.teleporttrap
+Import trap.trapdoor
+Import trap.travelrune
+Import chest
 Import enemy
-Import firetrap
 Import item
 Import level
 Import logger
 Import point
 Import salechest
 Import saleitem
-Import scattertrap
 Import shrine
-Import teleporttrap
 Import tile
 Import trap
-Import trapdoor
-Import travelrune
 
 Class LevelObject
 

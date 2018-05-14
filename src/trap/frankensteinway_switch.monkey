@@ -1,7 +1,7 @@
 'Strict
 
+Import enemy.frankensteinway_prop
 Import entity
-Import frankensteinway_prop
 Import logger
 Import trap
 
