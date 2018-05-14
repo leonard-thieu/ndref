@@ -1,8 +1,11 @@
 'Strict
 
 Import monkey.list
+Import enemy
 Import enemy.crate
 Import gui.controller_game
+Import level
+Import trap
 Import trap.bombtrap
 Import trap.bouncetrap
 Import trap.confusetrap
@@ -12,16 +15,13 @@ Import trap.teleporttrap
 Import trap.trapdoor
 Import trap.travelrune
 Import chest
-Import enemy
 Import item
-Import level
 Import logger
 Import point
 Import salechest
 Import saleitem
 Import shrine
 Import tile
-Import trap
 
 Class LevelObject
 

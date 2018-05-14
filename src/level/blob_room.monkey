@@ -2,10 +2,10 @@ Strict
 
 Import monkey.math
 Import monkey.stack
+Import level.room_base
 Import intpointset
 Import point
 Import rect
-Import room_base
 Import tiledata
 
 Class BlobRoom Extends RoomBase

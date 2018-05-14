@@ -1,8 +1,8 @@
 Strict
 
+Import level.rect_room
 Import logger
 Import rect
-Import rect_room
 
 Class RoomWithDoor Extends RectRoom
 

@@ -67,6 +67,12 @@ Import enemy.npc.transmogrifier
 Import enemy.npc.weaponmaster
 Import gui.controller_game
 Import gui.controller_level_editor
+Import level.blob_room
+Import level.level_object
+Import level.rectroom
+Import level.room_with_door
+Import level.room_base
+Import level.roomdata
 Import trap
 Import trap.abteleporttrap
 Import trap.bombtrap
@@ -81,7 +87,6 @@ Import trap.switch
 Import trap.teleporttrap
 Import trap.trapdoor
 Import trap.travelrune
-Import blob_room
 Import camera
 Import chest
 Import entity
@@ -91,7 +96,6 @@ Import input2
 Import intpointlist
 Import intpointset
 Import intpointstack
-Import level_object
 Import logger
 Import necrodancer
 Import necrodancergame
@@ -102,8 +106,6 @@ Import rect
 Import renderableobject
 Import replay
 Import rng
-Import room_with_door
-Import roomdata
 Import saleitem
 Import shrine
 Import spells

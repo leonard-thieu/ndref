@@ -1,9 +1,9 @@
 Strict
 
+Import level.room_base
+Import level.roomdata
 Import point
 Import rect
-Import room_base
-Import roomdata
 Import util
 
 Class RectRoom Extends RoomBase

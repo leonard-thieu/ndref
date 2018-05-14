@@ -3,9 +3,8 @@
 Import monkey.list
 Import mojo.graphics
 Import gui.controller_game
-Import entity
 Import level
-Import level_object
+Import entity
 Import logger
 Import player_class
 Import renderableobject
