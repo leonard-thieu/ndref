@@ -3,9 +3,9 @@
 Import monkey.map
 Import monkey.stack
 Import mojo.app
+Import gui.controller_game
 Import bomb
 Import chest
-Import gui.controller_game
 Import entity
 Import gamedata
 Import logger

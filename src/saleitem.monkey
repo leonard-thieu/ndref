@@ -4,8 +4,8 @@ Import monkey.list
 Import enemy.npc.shopkeeper
 Import enemy.npc.medic
 Import gui.controller_game
-Import item
 Import level
+Import item
 Import logger
 Import player_class
 Import sprite

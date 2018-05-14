@@ -4,12 +4,12 @@ Import monkey.list
 Import monkey.set
 Import brl.json
 Import mojo.graphics
+Import gui.controller_game
+Import level
 Import bouncer
 Import chest
-Import gui.controller_game
 Import entity
 Import item
-Import level
 Import logger
 Import rng
 Import saleitem
