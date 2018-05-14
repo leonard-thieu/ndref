@@ -1,9 +1,9 @@
 'Strict
 
 Import monkey.list
-Import chest
-Import controller_game
+Import gui.controller_game
 Import level
+Import chest
 Import logger
 Import player_class
 Import saleitem

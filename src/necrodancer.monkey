@@ -1,8 +1,8 @@
 Strict
 
-Import controller_game
-Import gamedata
+Import gui.controller_game
 Import level
+Import gamedata
 Import player_class
 
 Const DEBUG_BUILD := True

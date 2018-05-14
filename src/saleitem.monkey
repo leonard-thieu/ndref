@@ -1,13 +1,13 @@
 'Strict
 
 Import monkey.list
-Import controller_game
-Import item
+Import enemy.npc.shopkeeper
+Import enemy.npc.medic
+Import gui.controller_game
 Import level
+Import item
 Import logger
-Import medic
 Import player_class
-Import shopkeeper
 Import sprite
 Import util
 
