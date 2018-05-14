@@ -1,8 +1,8 @@
 Strict
 
+Import level.portal_seg
 Import intpointstack
 Import point
-Import portal_seg
 Import rect
 Import stack_ex
 

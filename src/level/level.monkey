@@ -69,6 +69,7 @@ Import gui.controller_game
 Import gui.controller_level_editor
 Import level.blob_room
 Import level.level_object
+Import level.portal_seg
 Import level.rectroom
 Import level.room_with_door
 Import level.room_base
@@ -101,7 +102,6 @@ Import necrodancer
 Import necrodancergame
 Import particles
 Import player_class
-Import portal_seg
 Import rect
 Import renderableobject
 Import replay
