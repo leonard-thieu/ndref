@@ -1,10 +1,10 @@
 'Strict
 
-Import conductor
+Import enemy.conductor
+Import enemy.water_ball
 Import enemy
 Import entity
 Import logger
-Import water_ball
 
 Class ConductorBattery Extends Enemy
 

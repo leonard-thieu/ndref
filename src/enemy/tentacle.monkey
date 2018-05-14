@@ -1,10 +1,10 @@
 'Strict
 
 Import mojo.graphics
+Import enemy.octoboss
 Import enemy
 Import entity
 Import logger
-Import octoboss
 Import point
 Import sprite
 

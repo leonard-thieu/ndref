@@ -1,7 +1,7 @@
 'Strict
 
+Import enemy.conductor_battery
 Import audio2
-Import conductor_battery
 Import enemy
 Import level
 Import logger

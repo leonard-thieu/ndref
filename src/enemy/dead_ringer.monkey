@@ -1,8 +1,8 @@
 'Strict
 
 Import mojo.graphics
+Import enemy.bell
 Import audio2
-Import bell
 Import enemy
 Import entity
 Import logger

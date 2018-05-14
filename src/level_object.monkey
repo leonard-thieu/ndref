@@ -1,12 +1,12 @@
 'Strict
 
 Import monkey.list
+Import enemy.crate
 Import bombtrap
 Import bouncetrap
 Import chest
 Import confusetrap
 Import controller_game
-Import crate
 Import enemy
 Import firetrap
 Import item

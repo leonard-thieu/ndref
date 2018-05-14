@@ -3,9 +3,9 @@
 Import monkey.list
 Import monkey.map
 Import monkey.stack
+Import enemy.frankensteinway_prop
 Import enemy
 Import entity
-Import frankensteinway_prop
 Import logger
 Import point
 Import sprite

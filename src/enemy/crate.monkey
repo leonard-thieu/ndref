@@ -1,12 +1,12 @@
 'Strict
 
 Import monkey.list
+Import enemy.gargoyle
 Import bouncer
 Import chest
 Import controller_game
 Import enemy
 Import entity
-Import gargoyle
 Import item
 Import level
 Import logger

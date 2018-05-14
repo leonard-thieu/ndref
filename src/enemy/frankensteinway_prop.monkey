@@ -1,8 +1,8 @@
 'Strict
 
+Import enemy.frankensteinway
 Import enemy
 Import entity
-Import frankensteinway
 Import logger
 
 Class FrankensteinwayProp Extends Enemy

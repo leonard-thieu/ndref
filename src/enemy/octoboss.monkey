@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import enemy.tentacle
 Import controller_game
 Import enemy
 Import entity
@@ -9,7 +10,6 @@ Import logger
 Import player_class
 Import point
 Import shrine
-Import tentacle
 Import tile
 Import util
 

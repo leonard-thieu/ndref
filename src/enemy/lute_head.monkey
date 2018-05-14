@@ -1,9 +1,9 @@
 'Strict
 
+Import enemy.lute_dragon
 Import enemy
 Import entity
 Import logger
-Import lute_dragon
 Import point
 
 Class LuteHead Extends Enemy

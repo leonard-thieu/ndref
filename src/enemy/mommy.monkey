@@ -1,8 +1,8 @@
 'Strict
 
+Import enemy.mummy
 Import enemy
 Import logger
-Import mummy
 
 Class Mommy Extends Enemy
 

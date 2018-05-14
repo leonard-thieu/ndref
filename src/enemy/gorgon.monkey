@@ -1,6 +1,6 @@
 'Strict
 
-Import crate
+Import enemy.crate
 Import enemy
 Import item
 Import logger

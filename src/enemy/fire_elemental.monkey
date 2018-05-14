@@ -1,6 +1,6 @@
 'Strict
 
-Import elemental_base
+Import enemy.elemental_base
 Import logger
 
 Class FireElemental Extends ElementalBase

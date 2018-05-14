@@ -3,12 +3,12 @@
 Import monkey.list
 Import monkey.map
 Import monkey.set
+Import enemy.enemyclamper
 Import bouncer
 Import camera
 Import controller_game
 Import controller_input_popup
 Import controller_popup
-Import enemyclamper
 Import entity
 Import familiar
 Import familiar_fixed

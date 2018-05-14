@@ -1,7 +1,7 @@
 'Strict
 
 Import monkey.list
-Import conductor
+Import enemy.conductor
 Import enemy
 Import entity
 Import logger

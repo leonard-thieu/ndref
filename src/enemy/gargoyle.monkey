@@ -1,14 +1,14 @@
 'Strict
 
 Import mojo.graphics
+Import enemy.crate
+Import enemy.necrodancer_enemy
 Import bouncer
 Import controller_game
-Import crate
 Import enemy
 Import entity
 Import level
 Import logger
-Import necrodancer_enemy
 Import player_class
 Import point
 Import sprite

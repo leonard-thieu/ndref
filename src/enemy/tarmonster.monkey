@@ -2,7 +2,7 @@
 
 Import brl.json
 Import mojo.graphics
-Import enemyclamper
+Import enemy.enemyclamper
 Import level
 Import logger
 Import player_class
