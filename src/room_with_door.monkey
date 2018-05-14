@@ -12,7 +12,7 @@ Class RoomWithDoor Extends RectRoom
         Self.body = body_
         Self.door = door_
 
-        Assert(Self.body.Contains(Self.door))
+        Debug.Assert(Self.body.Contains(Self.door))
     End Method
 
     Field door: Rect

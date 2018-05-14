@@ -1,5 +1,7 @@
 Strict
 
+Import logger
+
 Class RNG
 
     Function Make: RNG(x: Int)
@@ -36,9 +38,7 @@ Class RNG
     End Method
 
     Method SetSeed: Void(seed_: Int)
-        If Not (1 <= Self.seed And Self.seed < 2147483647)
-            ' AssertImpl("Assertion failed: 1<=m_seed && m_seed<2147483647")
-        End If
+        Debug.Assert(1 <= Self.seed And Self.seed < 2147483647, "1<=m_seed && m_seed<2147483647")
 
         Self.seed = seed_
     End Method

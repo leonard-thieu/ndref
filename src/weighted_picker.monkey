@@ -1,7 +1,6 @@
 'Strict
 
 Import monkey.stack
-Import necrodancer
 Import logger
 Import util
 
@@ -17,7 +16,7 @@ Class WeightedPicker
     End Method
 
     Method PickRandom: Int(useSeed: Bool)
-        Assert(Self.weights.Length() = Self.enabled.Length())
+        Debug.Assert(Self.weights.Length() = Self.enabled.Length())
 
         Local totalWeight := 0
         For Local i := 0 Until Self.weights.Length()
@@ -26,7 +25,7 @@ Class WeightedPicker
             End If
         End For
 
-        Assert(totalWeight > 0)
+        Debug.Assert(totalWeight > 0)
 
         Local rnd := Util.RndIntRangeFromZero(totalWeight - 1, useSeed)
         Local rndIndex := Self._IndexOfEnabled(-1)
@@ -37,7 +36,7 @@ Class WeightedPicker
             rndIndex = Self._IndexOfEnabled(rndIndex)
         End While
 
-        Assert(rnd < Self.weights.Get(rndIndex))
+        Debug.Assert(rnd < Self.weights.Get(rndIndex))
 
         Return rndIndex
     End Method
@@ -48,7 +47,7 @@ Class WeightedPicker
         Repeat
             i += 1
 
-            Assert(i < Self.weights.Length())
+            Debug.Assert(i < Self.weights.Length())
         Until Self.enabled.Get(i)
 
         Return i

@@ -3949,7 +3949,7 @@ Class Level
                 Local intersection := room1PortalSeg.Intersect(hallwayPortalSeg)
                 If intersection = Null Then Continue
 
-                Assert(intersection.length + 1 >= 3)
+                Debug.Assert(intersection.length + 1 >= 3)
 
                 Local scalar := Util.RndIntRangeFromZero(intersection.length - 2, False)
                 Local origin := intersection.GetOrigin()
@@ -3979,7 +3979,7 @@ Class Level
             If isEntryDoorPlaced Then Exit
         End For
 
-        Assert(isEntryDoorPlaced)
+        Debug.Assert(isEntryDoorPlaced)
 
         Level.DumpMap()
 
@@ -6826,7 +6826,7 @@ Class Level
                 minibossTypes.Push(EnemyBaseType.Minotaur)
         End Select
 
-        Assert(weights.Length() = minibossTypes.Length())
+        Debug.Assert(weights.Length() = minibossTypes.Length())
 
         Local numMinibosses := 1
 
@@ -8900,8 +8900,8 @@ Class Level
                 End If
         End Select
 
-        Assert(enemyTypes.Length() = 4)
-        Assert(Level.previousLevelUnkilledStairLockingMinibosses.Length() > 0)
+        Debug.Assert(enemyTypes.Length() = 4)
+        Debug.Assert(Level.previousLevelUnkilledStairLockingMinibosses.Length() > 0)
 
         Local previousLevelUnkilledStairLockingMinibossesIndexes := New Stack<Int>()
         previousLevelUnkilledStairLockingMinibossesIndexes.Push(0)
@@ -9137,7 +9137,7 @@ Class Level
                     toughSarcophagusEnemyTypes.Push(EnemyType.WaterBall)
             End Select
 
-            Assert(toughSarcophagusEnemyTypes.Length() > 0)
+            Debug.Assert(toughSarcophagusEnemyTypes.Length() > 0)
 
             toughSarcophagusEnemyTypes.Shuffle(True)
 
@@ -10032,7 +10032,7 @@ Class Level
                         If body.ContainsNoCorners(door)
                             Local room := New RoomWithDoor(body, door)
 
-                            Assert(body.Contains(door))
+                            Debug.Assert(body.Contains(door))
 
                             rooms.Push(room)
                         End If

@@ -73,12 +73,12 @@ Class PortalSeg
         If intersection.length < 0 Then Return Null
 
         While Not otherBounds.Contains(intersection.GetTerminus())
-            Assert(intersection.length >= 1)
+            Debug.Assert(intersection.length >= 1)
 
             intersection.length -= 1
         End While
 
-        Assert(intersection.length >= 0)
+        Debug.Assert(intersection.length >= 0)
 
         Return intersection
     End Method

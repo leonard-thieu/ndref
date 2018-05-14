@@ -40,7 +40,6 @@ Import mole
 Import monkey_enemy
 Import mushroom
 Import mushroom_light
-Import necrodancer
 Import necrodancergame
 Import orc
 Import pawn
@@ -151,13 +150,13 @@ Class Enemy Extends MobileEntity Abstract
                 Exit
             End If
         End For
-        Assert(enemyName <> "")
+        Debug.Assert(enemyName <> "")
 
         Local baseEnemyNode := Enemy.GetEnemyXML(enemyName, 1)
-        Assert(baseEnemyNode <> Null)
+        Debug.Assert(baseEnemyNode <> Null)
 
         Local baseType := item.GetInt(baseEnemyNode, "id", EnemyType.None)
-        Assert(baseType <> EnemyType.None)
+        Debug.Assert(baseType <> EnemyType.None)
 
         Return baseType
     End Function

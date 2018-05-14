@@ -11,8 +11,20 @@ Class Logger
 
     Method New()
         Self.fs = FileStream.Open("log.txt", "w")
-        
+
         Self.WriteLine()
+    End Method
+
+    Method Assert: Void(assertion: Bool, message: String = "")
+        If Not assertion
+            Local fullMessage := "Assertion failed!"
+            If message <> ""
+                fullMessage += " " + message
+            End If
+
+            Self.WriteLine(fullMessage, LogLevel.Error)
+            Error(fullMessage)
+        End If
     End Method
 
     Method Write: Void(value: String, level: Int)
@@ -61,5 +73,6 @@ Class LogLevel
 
     Const Trace: Int = 0
     Const Debug: Int = 1
+    Const Error: Int = 2
 
 End Class
