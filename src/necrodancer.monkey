@@ -4,6 +4,7 @@ Import gui.controller_game
 Import level
 Import gamedata
 Import player_class
+Import xml
 
 Const DEBUG_BUILD := True
 
@@ -12,6 +13,7 @@ Const TRACE_NOT_IMPLEMENTED := True
 Const DUMP_ITEM_POOLS := False
 
 Function Main: Int()
+    xml.ParseXML("", Null, 0)
     GameData.LoadGameDataXML(True)
 
     controller_game.players[0] = New Player(controller_game.player1, Character.Cadence)
