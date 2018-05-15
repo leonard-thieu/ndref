@@ -1,5 +1,6 @@
 'Strict
 
+Import monkey.math
 Import logger
 
 Class PlayerHealth
@@ -58,7 +59,9 @@ Class PlayerHealth
     End Method
 
     Method GetNormalMax: Int()
-        Debug.TraceNotImplemented("PlayerHealth.GetNormalMax()")
+        Local normalMax := Self.baseMax + Self.bonusMax
+
+        Return math.Min(normalMax, 20)
     End Method
 
     Method Heal: Bool(amount: Int, allowGluttony: Bool)
@@ -82,7 +85,10 @@ Class PlayerHealth
     End Method
 
     Method LoseBonusHeart: Void()
-        Debug.TraceNotImplemented("PlayerHealth.LoseBonusHeart()")
+        Self.bonusMax = 0
+
+        Local normalMax := Self.GetNormalMax()
+        Self.current = math.Min(Self.current, normalMax)
     End Method
 
     Method ProcessCurse: Void()
