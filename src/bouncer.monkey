@@ -27,7 +27,7 @@ Class Bouncer
     Field enabled: Bool = True
 
     Method Disable: Void()
-        Debug.TraceNotImplemented("Bouncer.Disable()")
+        Self.enabled = False
     End Method
 
     Method Enable: Void()
