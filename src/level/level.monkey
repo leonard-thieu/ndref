@@ -6393,10 +6393,10 @@ Class Level
 
     Function IsFinalBoss: Bool()
         Select controller_game.currentLevel
-            Case LevelType.TrainingFinalBossBattleNecroDancer,
-                 LevelType.TrainingFinalBossBattleNecroDancer2,
-                 LevelType.TrainingFinalBossBattleLute,
-                 LevelType.TrainingFinalBossBattleConductor,
+            Case LevelType.TrainingNecroDancerBattle,
+                 LevelType.TrainingNecroDancer2Battle,
+                 LevelType.TrainingLuteDragonBattle,
+                 LevelType.TrainingConductorBattle,
                  LevelType.FinalBossBattle
                 Return True
         End Select
@@ -7830,52 +7830,52 @@ Class Level
                     Level.practiceEnemyNum = controller_game.currentLevel + math.Abs(LevelType.MinTrainingLevel)
 
                     Select controller_game.currentLevel
-                        Case LevelType.TrainingBossBattle1
+                        Case LevelType.TrainingCongaLineBattle
                             Level.forceBoss = BossBattleType.CongaLine
                             controller_game.currentDepth = controller_game.currentZone
                             Level.CreateBossBattle()
-                        Case LevelType.TrainingBossBattle2
+                        Case LevelType.TrainingDeathMetalBattle
                             Level.forceBoss = BossBattleType.DeathMetal
                             controller_game.currentDepth = controller_game.currentZone
                             Level.CreateBossBattle()
-                        Case LevelType.TrainingBossBattle3
+                        Case LevelType.TrainingDeepBluesBattle
                             Level.forceBoss = BossBattleType.DeepBlues
                             controller_game.currentDepth = controller_game.currentZone
                             Level.CreateBossBattle()
-                        Case LevelType.TrainingBossBattle4
+                        Case LevelType.TrainingCoralRiffBattle
                             Level.forceBoss = BossBattleType.CoralRiff
                             controller_game.currentDepth = controller_game.currentZone
                             Level.CreateBossBattle()
-                        Case LevelType.TrainingBossBattle9
+                        Case LevelType.TrainingDeadRingerBattle
                             Level.forceBoss = BossBattleType.DeadRinger
                             controller_game.currentDepth = controller_game.currentZone
                             Level.CreateBossBattle()
-                        Case LevelType.TrainingBossBattle5
+                        Case LevelType.TrainingFortissimoleBattle
                             Level.forceBoss = BossBattleType.Fortissimole
                             controller_game.currentZone = 4
                             controller_game.currentDepth = 4
                             Level.CreateBossBattle()
-                        Case LevelType.TrainingFinalBossBattleNecroDancer
+                        Case LevelType.TrainingNecroDancerBattle
                             Level.bossNumber = BossBattleType.NecroDancer
                             controller_game.currentZone = 4
                             controller_game.currentDepth = 4
                             Level.CreateFinalBossBattle()
-                        Case LevelType.TrainingFinalBossBattleNecroDancer2
+                        Case LevelType.TrainingNecroDancer2Battle
                             Level.bossNumber = BossBattleType.NecroDancer2
                             controller_game.currentZone = 4
                             controller_game.currentDepth = 4
                             Level.CreateFinalBossBattle2()
-                        Case LevelType.TrainingFinalBossBattleLute
+                        Case LevelType.TrainingLuteDragonBattle
                             Level.bossNumber = BossBattleType.LuteDragon
                             controller_game.currentZone = 1
                             controller_game.currentDepth = 4
                             Level.CreateFinalBossBattle3()
-                        Case LevelType.TrainingBossBattle10
+                        Case LevelType.TrainingFrankensteinwayBattle
                             Level.forceBoss = BossBattleType.Frankensteinway
                             controller_game.currentZone = 5
                             controller_game.currentDepth = 5
                             Level.CreateBossBattle()
-                        Case LevelType.TrainingFinalBossBattleConductor
+                        Case LevelType.TrainingConductorBattle
                             Level.bossNumber = BossBattleType.Conductor
                             controller_game.currentZone = 5
                             controller_game.currentDepth = 5
@@ -13216,17 +13216,17 @@ Class LevelType
 
     Const MinTrainingLevel: Int = -1000
     Const MaxTrainingLevel: Int = -101
-    Const TrainingBossBattle1: Int = -500
-    Const TrainingBossBattle2: Int = -499
-    Const TrainingBossBattle3: Int = -498
-    Const TrainingBossBattle4: Int = -497
-    Const TrainingBossBattle9: Int = -496
-    Const TrainingBossBattle5: Int = -495
-    Const TrainingFinalBossBattleNecroDancer: Int = -494
-    Const TrainingFinalBossBattleNecroDancer2: Int = -493
-    Const TrainingFinalBossBattleLute: Int = -492
-    Const TrainingBossBattle10: Int = -491
-    Const TrainingFinalBossBattleConductor: Int = -490
+    Const TrainingCongaLineBattle: Int = -500
+    Const TrainingDeathMetalBattle: Int = -499
+    Const TrainingDeepBluesBattle: Int = -498
+    Const TrainingCoralRiffBattle: Int = -497
+    Const TrainingDeadRingerBattle: Int = -496
+    Const TrainingFortissimoleBattle: Int = -495
+    Const TrainingNecroDancerBattle: Int = -494
+    Const TrainingNecroDancer2Battle: Int = -493
+    Const TrainingLuteDragonBattle: Int = -492
+    Const TrainingFrankensteinwayBattle: Int = -491
+    Const TrainingConductorBattle: Int = -490
 
     Const SeededMysteryMode: Int = -64
     Const SeededRandomizerMode: Int = -63
