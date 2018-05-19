@@ -26,7 +26,7 @@ Class Replay
 
     Function _EditorFix: Void() End
 
-    Field curReplayData: Node<ReplayData>
+    Field curReplayData: list.Node<ReplayData>
     Field gaveWarning: Bool
     Field startingZone: Int
     Field startingLevel: Int

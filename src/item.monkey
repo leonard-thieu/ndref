@@ -416,11 +416,7 @@ Class Item Extends Entity
         Return pickups
     End Function
 
-    Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String)
-        Return Item.GetRandomItemInClass(itemClass, requestedLevel, randomType, Chest.CHEST_COLOR_NONE, False, "", False)
-    End Function
-
-    Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String, chestColor: Int, ignorePendingMetaGameItems: Bool, itemSlot: String, nonDeterministic: Bool)
+    Function GetRandomItemInClass: String(itemClass: String, requestedLevel: Int, randomType: String, chestColor: Int = Chest.CHEST_COLOR_NONE, ignorePendingMetaGameItems: Bool = False, itemSlot: String = "", nonDeterministic: Bool = False)
         If Not ignorePendingMetaGameItems And
            Not Level.isHardcoreMode
             For Local i := 0 Until GameData.GetNumPendingSpawnItems()

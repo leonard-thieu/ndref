@@ -33,7 +33,7 @@ Class LevelObject
         Self.bossNum = boss
 
         If Not loadFromCurrent
-            If fromXML
+            If fromXML <> Null
                 ' Load from XML
             End If
         Else

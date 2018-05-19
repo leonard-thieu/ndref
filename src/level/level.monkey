@@ -4,6 +4,7 @@ Import monkey.map
 Import monkey.math
 Import monkey.random
 Import monkey.set
+Import mojo.app
 Import enemy
 Import enemy.banshee
 Import enemy.bat
@@ -65,12 +66,18 @@ Import enemy.npc.shopkeeper
 Import enemy.npc.shriner
 Import enemy.npc.transmogrifier
 Import enemy.npc.weaponmaster
+Import gui.controller
+Import gui.controller_boss_intro
+Import gui.controller_cutscene
 Import gui.controller_game
 Import gui.controller_level_editor
+Import gui.controller_popup
+Import gui.controller_postgame
+Import level.advancelevel_callback
 Import level.blob_room
 Import level.level_object
 Import level.portal_seg
-Import level.rectroom
+Import level.rect_room
 Import level.room_with_door
 Import level.room_base
 Import level.roomdata
@@ -88,8 +95,11 @@ Import trap.switch
 Import trap.teleporttrap
 Import trap.trapdoor
 Import trap.travelrune
+Import audio2
 Import camera
+Import chain
 Import chest
+Import data
 Import entity
 Import exitmap
 import gamedata
@@ -98,6 +108,7 @@ Import intpointlist
 Import intpointset
 Import intpointstack
 Import logger
+Import minimap
 Import necrodancer
 Import necrodancergame
 Import particles
@@ -109,11 +120,13 @@ Import rng
 Import saleitem
 Import shrine
 Import spells
+Import sprite
 Import stack_ex
 Import tile
 Import tiledata
 Import util
 Import weighted_picker
+Import xml
 
 Class Level
 
@@ -129,20 +142,20 @@ Class Level
     Global conjurer: Conjurer
     Global constMapLightValues: Float[]
     Global continuedRunCoinScore: Int
-    Global creatingMap: Int
+    Global creatingMap: Bool
     Global currentFloorRNG: RNG
     Global dailyChallengeX: Int
     Global dailyChallengeY: Int
     Global deathlessWinCount: Int
     Global debugForceMonstrousShop: Bool
     Global enemiesDropSingleCoinForThisLevel: Bool
-    Global exitArrow: Object
+    Global exitArrow: Sprite
     Global exitArrowX: Float
     Global exitArrowY: Float
     Global exits: ExitMap = New ExitMap()
     Global firstRoom: RoomData
     Global flawlessVictory: Bool = True
-    Global forceBoss: Int = -1
+    Global forceBoss: Int = BossBattleType.None
     Global hallwayZone5: BlobRoom
     Global isAllCharactersDLCMode: Bool
     Global isAllCharactersMode: Bool
@@ -169,7 +182,7 @@ Class Level
     Global isStoryMode: Bool
     Global isSwarmMode: Bool
     Global isTrainingMode: Bool
-    Global justUnlocked: Int
+    Global justUnlocked: String
     Global lastCreatedRoomType: Int = RoomType.None
     Global lastTileCount: Int = -1
     Global levelConstraintH: Int
@@ -192,9 +205,9 @@ Class Level
     Global minLevelX: Int
     Global minLevelY: Int
     Global minibossFormerWall: List<MinibossTileData> = New List<MinibossTileData>()
-    Global minimap: Object
+    Global minimap: Minimap
     Global nonDeterministicMSStart: Int = -1
-    Global outsideBossChamber: Int
+    Global outsideBossChamber: Bool
     Global pacifismModeOn: Bool
     Global pawnbroker: Pawnbroker
     Global pendingTiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
@@ -216,13 +229,13 @@ Class Level
     Global placeShrinerOnLevel: Int = -1
     Global placeTransmogrifierOnDepth: Int = -1
     Global placeTransmogrifierOnLevel: Int = -1
-    Global placedAdditionalBlackChest: Int
-    Global placedAdditionalRedChest: Int
+    Global placedAdditionalBlackChest: Bool
+    Global placedAdditionalRedChest: Bool
     Global placedAdditionalWhiteChest: Bool
     Global placedArena: Bool
     Global placedUrnThisRun: Bool
     Global playedVictoryCutscene: Bool
-    Global popUpController: Object
+    Global popUpController: ControllerPopUp
     Global popUpType: Int = -1
     Global practiceEnemyNum: Int = -1
     Global previousLevelMinibosses: StackEx<Int> = New StackEx<Int>()
@@ -253,9 +266,9 @@ Class Level
     Global tiles: IntMap<IntMap<Tile>> = New IntMap<IntMap<Tile>>()
     Global todaysRandSeedString: String
     Global transmogrifier: Transmogrifier
-    Global triggerList: List<Int> = New List<Int>()
+    Global triggerList: IntList = New IntList()
     Global usedBosses: IntSet = New IntSet()
-    Global usedCustomMusic: Int
+    Global usedCustomMusic: Bool
     Global wasMinibossLockedInBattle: Bool
     Global wholeRunRNG: RNG
     Global zone3DividingLineX: Float
@@ -902,6 +915,22 @@ Class Level
 
     Function AdvanceLevel: Void()
         Debug.TraceNotImplemented("Level.AdvanceLevel()")
+    End Function
+
+    Function AllCharsAllComplete: Bool()
+        Debug.TraceNotImplemented("Level.AllCharsAllComplete()")
+    End Function
+
+    Function AllCharsAnyComplete: Bool()
+        Debug.TraceNotImplemented("Level.AllCharsAnyComplete()")
+    End Function
+
+    Function AllCharsDLCAllComplete: Bool()
+        Debug.TraceNotImplemented("Level.AllCharsDLCAllComplete()")
+    End Function
+
+    Function AllCharsDLCAnyComplete: Bool()
+        Debug.TraceNotImplemented("Level.AllCharsDLCAnyComplete()")
     End Function
 
     Function AllowSpirit: Bool()
@@ -2193,7 +2222,7 @@ Class Level
             Case 1  weaponName = "weapon_flail"
             Default weaponName = "weapon_longsword"
         End Select
-        
+
         New Item(3, -7, weaponName, False, -1, False)
 
         Enemy.enemiesPaused = True
@@ -2302,7 +2331,7 @@ Class Level
         Debug.TraceNotImplemented("Level.CreateLobby()")
     End Function
 
-    Function CreateMap: Bool(levelObj: LevelObject)
+    Function CreateMap: Bool(levelObj: LevelObject = Null)
         If controller_game.currentLevel = 1
             Level.previousLevelMinibosses.Clear()
             Level.previousLevelUnkilledStairLockingMinibosses.Clear()
@@ -6247,7 +6276,10 @@ Class Level
     End Function
 
     Function HaveFinalBoss: Bool()
-        Debug.TraceNotImplemented("Level.HaveFinalBoss()")
+        Return Util.IsCharacterActive(Character.Aria) Or
+               Util.IsCharacterActive(Character.Melody) Or
+               Util.IsCharacterActive(Character.Cadence) Or
+               Util.IsCharacterActive(Character.Nocturna)
     End Function
 
     Function InitNewMap: Void(saveGameData: Bool)
@@ -6373,11 +6405,15 @@ Class Level
     End Function
 
     Function IsFinalBossZone: Bool()
-        If Level.isHardcoreMode Then Return controller_game.currentDepth = 5
+        If Level.isHardcoreMode
+            Local maxDepth := Level.GetMaxDepth()
 
-        Local singleZoneModeFinalBossZone = Level.GetSingleZoneModeFinalBossZone()
+            Return controller_game.currentDepth = maxDepth
+        End If
 
-        Return controller_game.currentZone = singleZoneModeFinalBossZone
+        Local maxZone = Level.GetSingleZoneModeFinalBossZone()
+
+        Return controller_game.currentZone = maxZone
     End Function
 
     Function IsFloorAdjacent: Bool(xVal: Int, yVal: Int)
@@ -6592,7 +6628,7 @@ Class Level
         Debug.TraceNotImplemented("Level.JanitorReset()")
     End Function
 
-    Function LoadLevelSong: Void(levelObj: LevelObject)
+    Function LoadLevelSong: Void(levelObj: LevelObject = Null)
         Debug.TraceNotImplemented("Level.LoadLevelSong(LevelObject)")
     End Function
 
@@ -6605,7 +6641,7 @@ Class Level
 
         Local dorian := New Player(1, Character.Dorian)
         controller_game.players[1] = dorian
-        
+
         Local player1 := controller_game.players[0]
         player1.helper = dorian
 
@@ -6637,18 +6673,297 @@ Class Level
         Return Util.RndBool(True)
     End Function
 
-    Function NewLevel: Void(level: Int, zone: Int, playerID: Int, inEditor: Bool, levelObj: LevelObject, continuedRun: Bool)
+    Function NewLevel: Void(level: Int, zone: Int, playerID: Int = 0, inEditor: Bool = False, levelObj: LevelObject = Null, continuedRun: Bool = False)
         Debug.Log("NEWLEVEL level: " + level +
                           " zone: " + zone +
                           " currentLevel: " + controller_game.currentLevel +
                           " currentZone: " + controller_game.currentZone +
                           " currentDepth: " + controller_game.currentDepth)
 
+        Select level
+            Case LevelType.Lobby
+                Player.SetCoins(0, True)
+            Case LevelType.NextLevel
+                If ControllerLevelEditor.playingLevel <> -1
+                    If ControllerLevelEditor.playingWholeDungeon And
+                       (ControllerLevelEditor.playingLevel < ControllerLevelEditor.storedEditor.numLevels)
+                        ControllerLevelEditor.playingLevel += 1
+                        Local levelObj := ControllerLevelEditor.storedEditor.levels.Get(ControllerLevelEditor.playingLevel)
+                        Level.NewLevel(LevelType.Test, zone, playerID, False, levelObj)
+                    Else
+                        Level.DoRestart()
+                    End If
+
+                    Return
+                End If
+
+                If Level.mentorLevel <> -1
+                    GameData.SetMentorLevelClear(Level.mentorLevel)
+                    level = LevelType.Lobby
+                End If
+            Default
+                If LevelType.MinMentorLevel <= level And level <= LevelType.MaxMentorLevel
+                    Level.mentorLevel = level + math.Abs(LevelType.MaxMentorLevel)
+
+                    Local mentorLevelId := Level.mentorLevel + 1
+                    Local mentorLevelPath := data.FixDataPath("mentor/mentor_" + mentorLevelId + ".xml")
+                    Local mentorLevelData := app.LoadString(mentorLevelPath)
+                    Local mentorLevelNode := xml.ParseXML(mentorLevelData)
+
+                    Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Mentor levels)")
+                End If
+        End Select
+
+        If levelObj <> Null
+            Local bossNum := levelObj.bossNum
+            If bossNum <> -1
+                level = LevelType.BossBattle
+
+                If bossNum <= 16
+                    zone = bossNum - 11
+                    Level.forceBoss = BossBattleType.CongaLine
+                Else If bossNum <= 21
+                    zone = bossNum - 16
+                    Level.forceBoss = BossBattleType.DeathMetal
+                Else If bossNum <= 26
+                    zone = bossNum - 21
+                    Level.forceBoss = BossBattleType.DeepBlues
+                Else If bossNum <= 31
+                    zone = bossNum - 26
+                    Level.forceBoss = BossBattleType.CoralRiff
+                Else
+                    zone = bossNum - 31
+                    Level.forceBoss = BossBattleType.DeadRinger
+                End If
+            End If
+        End If
+
+        Local playVictoryCutscene := False
+
+        If (controller_game.currentLevel = LevelType.FinalBossBattle) Or
+           (controller_game.currentLevel = LevelType.BossBattle And
+            controller_game.currentDepth = Level.GetMaxDepth() And
+            Not Level.HaveFinalBoss())
+            playVictoryCutscene = True
+        End If
+
+        If Level.isStoryMode And
+           (Util.IsCharacterActive(Character.Nocturna) Or
+            Util.IsCharacterActive(Character.Cadence) Or
+            Util.IsCharacterActive(Character.Melody))
+            playVictoryCutscene = False
+        End If
+
+        If GameData.GetEnableCutscenes() And
+           Not Level.playedVictoryCutscene And
+           playVictoryCutscene And
+           level = LevelType.NextLevel
+            If Not Level.isDeathlessMode And
+               Not Level.isReplaying And
+               Not Level.isAllCharactersMode And
+               Not Level.isAllCharactersDLCMode And
+               Not Level.isPhasingMode And
+               Not Level.isRandomizerMode And
+               Not Level.isMysteryMode And
+               Not Level.isNoReturnMode
+                Stairs_callback.levelVal = LevelType.NextLevel
+                Stairs_callback.zoneVal = zone
+                Stairs_callback.playerVal = playerID
+                Stairs_callback.continuedRun = continuedRun
+
+                Local creditsNum := 1
+
+                If Util.IsCharacterActive(Character.Coda)
+                    creditsNum = 4
+                Else If Util.IsCharacterActive(Character.Aria)
+                    creditsNum = 3
+                Else If Util.IsCharacterActive(Character.Nocturna)
+                    creditsNum = 5
+                Else If Util.IsCharacterActive(Character.Melody) Or
+                        Util.IsCharacterActive(Character.Cadence) Or
+                        Util.IsCharacterActive(Character.Bolt) Or
+                        Util.IsCharacterActive(Character.Dorian)
+                    creditsNum = 2
+                End If
+
+                New ControllerCutscene(-1, -1, creditsNum)
+                Level.playedVictoryCutscene = True
+
+                Return
+            End If
+        End If
+
+        If LevelType.MinAllCharactersCharacterSelect <= level And level <= LevelType.MaxAllCharactersCharacterSelect
+            Local firstPlayer := controller_game.players[0]
+            Local characterID := level + math.Abs(LevelType.MinAllCharactersCharacterSelect)
+            firstPlayer.SetCharacter(characterID)
+
+            continuedRun = Level.AllCharsAnyComplete()
+
+            Level.NewLevel(LevelType.AllZonesMode, 1, 0, False, Null, continuedRun)
+
+            Return
+        End If
+
+        If LevelType.MinAllCharactersDLCCharacterSelect <= level And level <= LevelType.MaxAllCharactersDLCCharacterSelect
+            Local firstPlayer := controller_game.players[0]
+            Local characterID := level + math.Abs(LevelType.MinAllCharactersDLCCharacterSelect)
+            firstPlayer.SetCharacter(characterID)
+
+            continuedRun = Level.AllCharsDLCAnyComplete()
+
+            Level.NewLevel(LevelType.AllZonesMode, 1, 0, False, Null, continuedRun)
+
+            Return
+        End If
+
+        If level = LevelType.DeathlessMode
+            Level.isDeathlessMode = True
+            Level.deathlessWinCount = 0
+
+            Level.NewLevel(LevelType.AllZonesMode, 1)
+
+            Return
+        End If
+
+        Level.isLevelEditor = inEditor
+        controller_game.dailyChallengeSuccessScore = -1
+        controller_game.speedrunSuccessScore = -1
+        controller_game.hardcoreModeSuccessScore = -1
+        Level.isLevelEnding = False
+
+        If level = LevelType.Lobby
+            Level.DoRestart_Common(False, False)
+        End If
+
+        For Local i := 0 Until controller_game.numPlayers
+            GameData.SetPlayerCoins(Player.numCoins)
+            GameData.SetPlayerDiamonds(Player.numDiamonds)
+        End For
+
+        Audio.songShopOpen = False
+
+        Level.pacifismModeOn = False
+        If Util.IsCharacterActive(Character.Dove) And
+           level <> LevelType.DailyChallenge And
+           level <> LevelType.StoryMode And
+           Not inEditor And
+           levelObj = Null
+            Level.pacifismModeOn = True
+        End If
+
+        If level = LevelType.NextLevel
+            level = controller_game.currentLevel + 1
+        End If
+
+        If pacifismModeOn
+            If level = LevelType.BossBattle
+                level = LevelType.FinalBossBattle
+            End If
+        End If
+
+        Local flag2 := False
+        If level > 5
+            flag2 = True
+        End If
+
+        If level = LevelType.FinalBossBattle And
+           (Not Level.isHardcoreMode Or controller_game.currentDepth = Level.GetMaxDepth()) And
+           (controller_game.currentZone <> Level.GetSingleZoneModeFinalBossZone() Or Not Level.HaveFinalBoss()) And
+           (Not Level.isHardcoreMode Or Not Level.HaveFinalBoss())
+            flag2 = True
+        End If
+
+        If zone = 1
+            Select level
+                Case LevelType.Level1,
+                     LevelType.Level2
+                    If Not GameData.GetTutorialComplete()
+                        level = LevelType.Tutorial
+                    End If
+            End Select
+        End If
+
+        Local allPlayersPerished := True
+        ' This is not the same as `Player.AllPlayersPerished`.
+        ' `Player.AllPlayersPerished` also checks helpers.
         For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
+            If player <> Null And
+               Not player.Perished()
+                allPlayersPerished = False
 
-            player.WarpFamiliars()
+                Exit
+            End If
         End For
+
+        Local isTrainingLevel := LevelType.MinTrainingLevel <= level And level <= LevelType.MaxTrainingLevel
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If player = Null
+                player = New Player(i)
+                controller_game.players[i] = player
+            End If
+
+            player.lordCrownActiveBeat = -1
+            player.shieldActiveBeat = -1
+
+            If player.Perished()
+                If allPlayersPerished
+                    Local characterID := player.characterID
+                    Local weapon := player.weapon
+
+                    player.Die()
+
+                    Local weaponType: String
+                    If isTrainingLevel
+                        If weapon <> Null And
+                           weapon.IsKeepable()
+                            weaponType = weapon.type
+                        End If
+                    End If
+
+                    player = New Player(i)
+                    player.SetCharacter(characterID)
+                    controller_game.players[i] = player
+
+                    If isTrainingLevel
+                        If weaponType <> "" And
+                           weaponType <> Item.NoItem
+                            player.AddItemOfType(weaponType, Null, True, False)
+                        End If
+                    End If
+                Else
+                    player.perished = False
+                    If player.characterID = Character.Mary
+                        player.lambFamiliar = New Familiar(player)
+                    End If
+                End If
+
+                player.health.Revive()
+            End If
+
+            player.x = i Mod 2
+            player.y = i / 2
+            player.WarpFamiliars()
+
+            If i = 3 And
+               level = LevelType.BossBattle
+                player.x = -1
+                player.y = 0
+            End If
+
+            player.lastX = player.x
+            player.lastY = player.y
+        End For
+
+        If controller_game.numPlayers = 1 And
+           Level.IsFinalBossZone() And
+           level = LevelType.FinalBossBattle And
+           Util.IsCharacterActive(Character.Cadence)
+            Level.MakeHelper()
+        End If
 
         Level.previousLevelUnkilledStairLockingMinibosses.Clear()
         For Local enemy := EachIn Enemy.enemyList
@@ -6658,87 +6973,1133 @@ Class Level
         End For
 
         Enemy.SetEnemiesToDropNoCoins()
-        RenderableObject.DeleteAll(True)
-
+        RenderableObject.DeleteAll()
         Level.placedArena = False
 
-        Select level
-            Case LevelType.SeededAllZonesMode
-                Level.isSeededMode = True
-                Level.randSeedString = "1"
-                Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
-                If Level.randSeed = -1 Then Level.randSeed = 0
-            Case LevelType.NextLevel
-                controller_game.currentLevel += 1
-        End Select
+        If allPlayersPerished
+            controller_game.player1 = 0
 
-        If Level.wholeRunRNG = Null
-            Level.wholeRunRNG = RNG.Make(Level.randSeed)
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                player.health.Refill()
+            End For
         End If
 
-        Level.currentFloorRNG = Level.wholeRunRNG.Split()
-        Local randSeed := Level.currentFloorRNG.Rand()
+        controller_game.currentLevel = level
+        controller_game.currentZone = zone
 
-        Debug.Log("DETERMINISTIC START: " + Level.randSeed +
-                                   " z: " + controller_game.currentZone +
-                                   " l: " + controller_game.currentLevel)
+        Select controller_game.currentLevel
+            Case LevelType.DailyChallenge
+                If Level.randSeed = -1
+                    Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Daily seed)")
+                Else
+                    Debug.Log("Setting random seed to " + Level.randSeed)
+                End If
+            Case LevelType.SeededNoReturnMode,
+                 LevelType.SeededAllZonesMode,
+                 LevelType.SeededRandomizerMode,
+                 LevelType.SeededHardMode,
+                 LevelType.SeededMysteryMode,
+                 LevelType.SeededPhasingMode
+                Level.isSeededMode = True
 
-        ' TODO: Verify that this is correct.
-        If controller_game.currentLevel = LevelType.FinalBossBattle
-            If Not Level.IsFinalBossZone()
-                controller_game.currentDepth += 1
-                controller_game.currentZone = controller_game.currentDepth
-                controller_game.currentLevel = 1
+                Level.randSeed = Util.ParseTextSeed(Level.randSeedString)
+                If Level.randSeed = -1
+                    Level.randSeed = 0
+                End If
+            Default
+                Local isNonDeterministic := False
+                Select level
+                    Case LevelType.Lobby,
+                         LevelType.Test,
+                         LevelType.StoryMode,
+                         LevelType.SwarmMode,
+                         LevelType.NoReturnMode,
+                         LevelType.SoulMode,
+                         LevelType.HardMode,
+                         LevelType.FloorIsLavaMode,
+                         LevelType.PhasingMode,
+                         LevelType.RandomizerMode,
+                         LevelType.MysteryMode,
+                         LevelType.AllZonesMode,
+                         LevelType.RandomCharacter
+                        isNonDeterministic = True
+                End Select
+
+                If Level.isLevelEditor Then isNonDeterministic = True
+
+                If Not Level.isHardcoreMode
+                    Select level
+                        Case LevelType.Level1,
+                             LevelType.DancePadMode
+                            isNonDeterministic = True
+                    End Select
+                End If
+
+                If isTrainingLevel Then isNonDeterministic = True
+
+                If isNonDeterministic
+                    Level.randSeed = -1
+
+                    If Level.nonDeterministicMSStart = -1 Or
+                       isTrainingLevel
+                        Level.nonDeterministicMSStart = app.Millisecs()
+                    End If
+
+                    Debug.Log("NON-DETERMINISTIC MS START INIT: " + Level.nonDeterministicMSStart)
+
+                    Select controller_game.currentLevel
+                        Case LevelType.AllZonesMode,
+                             LevelType.StoryMode,
+                             LevelType.SwarmMode,
+                             LevelType.NoReturnMode,
+                             LevelType.SoulMode,
+                             LevelType.HardMode,
+                             LevelType.FloorIsLavaMode,
+                             LevelType.PhasingMode,
+                             LevelType.RandomizerMode,
+                             LevelType.MysteryMode
+                            Level.randSeed = Level.nonDeterministicMSStart
+                    End Select
+                End If
+        End Select
+
+        If Level.randSeed <> -1
+            If Level.wholeRunRNG = Null
+                Level.wholeRunRNG = RNG.Make(Level.randSeed)
             End If
         End If
 
-        If Level.IsFinalBossZone() And
-           controller_game.currentLevel = LevelType.FinalBossBattle And
-           Util.IsCharacterActive(Character.Cadence)
-            Level.MakeHelper()
+        Local z := math.Max(1, controller_game.currentZone)
+        Local l := math.Max(1, controller_game.currentLevel)
+
+        Local randSeed: Int
+
+        If Level.randSeed = -1
+            Debug.Log("NON-DETERMINISTIC MS START: " + Level.nonDeterministicMSStart + " z: " + z + " l: " + l)
+
+            Local x := l +
+                (5 * z) +
+                (23987 * Level.nonDeterministicMSStart)
+            Level.currentFloorRNG = RNG.Make(x)
+        Else
+            Level.currentFloorRNG = Level.wholeRunRNG.Split()
+            randSeed = Level.currentFloorRNG.Rand()
+
+            Debug.Log("DETERMINISTIC START: " + Level.randSeed + " z: " + z + " l: " + l)
+        End If
+
+        If Level.isReplaying And
+           Not flag2
+            If controller_game.currentZone <> Level.replay.startingZone Or
+               controller_game.currentLevel <> Level.replay.startingLevel
+                Level.replay.NextLevel()
+            End If
+
+            If Level.replay.curReplayData <> Null
+                randSeed = Level.replay.curReplayData.Value().randSeed
+            End If
+
+            Select controller_game.currentLevel
+                Case LevelType.DailyChallenge,
+                     LevelType.AllZonesMode,
+                     LevelType.SeededAllZonesMode
+                    Level.randSeed = randSeed
+            End Select
         End If
 
         Debug.Log("NEWLEVEL: Using seed " + randSeed)
 
+        Util.SeedRnd(randSeed)
         Level.creatingMap = True
 
-        Util.SeedRnd(randSeed)
+        If Not Level.isReplaying And
+           Not Level.isLevelEditor And
+           levelObj = Null
+            Select controller_game.currentLevel
+                Case LevelType.Level1,
+                     LevelType.DancePadMode
+                    ' TODO: This needs to be converted back to the XML API.
+                    'GameData.xmlSaveData.Export(1)
+            End Select
+        End If
 
-        Select level
-            Case LevelType.SeededAllZonesMode
-                Level.GenerateHardcoreZoneOrder()
-                controller_game.currentZone = Level.zoneOrder.Get(0)
-                controller_game.currentLevel = 1
+        Local creatingMapStart := app.Millisecs()
+
+        Select controller_game.currentLevel
+            Case LevelType.Tutorial
+                ' TODO: Verify this condition.
+                If Not Level.isReplaying
+                    Util.AddMetric("event", "newRun")
+                    Util.AddMetric("runType", "tutorial", True)
+                End If
+
+                Level.isSeededMode = False
+                Level.isHardcoreMode = False
+                Level.isDailyChallenge = False
+                Level.isDDRMode = False
+
+                Local firstPlayer := controller_game.players[0]
+                firstPlayer.SetCharacter(Character.Cadence)
+                firstPlayer.SetTotallyBlank()
+
+                Level.CreateTutorialMap()
+            Case LevelType.FinalBossBattle
+                If Level.IsFinalBossZone() And
+                   Level.HaveFinalBoss()
+                    If Util.IsCharacterActive(Character.Nocturna)
+                        Level.bossNumber = BossBattleType.Conductor
+                        Level.CreateFinalBossBattleConductor()
+                    Else If Util.IsCharacterActive(Character.Aria)
+                        Level.bossNumber = BossBattleType.LuteDragon
+                        Level.CreateFinalBossBattle3()
+                    Else If Util.IsCharacterActive(Character.Melody)
+                        Level.bossNumber = BossBattleType.NecroDancer2
+                        Level.CreateFinalBossBattle2()
+                    Else
+                        Level.bossNumber = BossBattleType.NecroDancer
+                        Level.CreateFinalBossBattle()
+                    End If
+                Else
+                    If Not Level.isReplaying
+                        Select controller_game.currentZone
+                            Case 1
+                                Level.UnlockChar(Character.Eli)
+                            Case 2
+                                Level.UnlockChar(Character.Dove)
+                            Case 3
+                                Level.UnlockChar(Character.Monk)
+                            Case 5
+                                Level.UnlockChar(Character.Diamond)
+                            Default
+                                If Util.IsCharacterActive(Character.Monk)
+                                    Level.UnlockChar(Character.Bolt)
+                                End If
+                        End Select
+
+                        If controller_game.currentLevel > 5
+                            If Util.IsCharacterActive(Character.Cadence)
+                                Level.UnlockChar(Character.Melody)
+                            End If
+
+                            If Util.IsCharacterActive(Character.Melody)
+                                Level.UnlockChar(Character.Aria)
+                            End If
+                        End If
+                    End If
+
+                    If Level.isHardcoreMode And
+                       controller_game.currentDepth <= 4
+                        controller_game.currentDepth += 1
+                        controller_game.currentZone = Level.zoneOrder.Get(controller_game.currentDepth - 1)
+                        controller_game.currentLevel = LevelType.Level1
+
+                        Local isAlreadyUnlocked := False
+                        Select controller_game.currentZone
+                            Case 2
+                                isAlreadyUnlocked = GameData.GetZone2UnlockedCurrentCharacters()
+                                GameData.SetZone2UnlockedCurrentCharacters()
+                            Case 3
+                                isAlreadyUnlocked = GameData.GetZone3UnlockedCurrentCharacters()
+                                GameData.SetZone3UnlockedCurrentCharacters()
+                            Case 4
+                                isAlreadyUnlocked = GameData.GetZone4UnlockedCurrentCharacters()
+                                GameData.SetZone4UnlockedCurrentCharacters()
+                        End Select
+
+                        If Not isAlreadyUnlocked
+                            Level.justUnlocked = "zone" + controller_game.currentZone
+
+                            If Util.IsCharacterActive(Character.Aria)
+                                Level.justUnlocked += "aria"
+                            End If
+                        End If
+
+                        Level.CreateMap()
+                    Else
+                        Debug.Log("NEWLEVEL: Completed run")
+
+                        Local runTime := -1
+                        Local totalCoins := -1
+
+                        If Level.isReplaying
+                            If Level.isHardcoreMode
+                                totalCoins = Player.numCoins + Level.continuedRunCoinScore
+                                runTime = Level.replay.runTime
+                            End If
+                        Else
+                            Select controller_game.currentZone
+                                Case 1
+                                    If Not GameData.GetZone2UnlockedCurrentCharacters()
+                                        Level.justUnlocked = "zone2"
+                                    End If
+
+                                    GameData.SetZone2UnlockedCurrentCharacters()
+                                Case 2
+                                    If Not Util.IsCharacterActive(Character.Aria)
+                                        If Not GameData.GetZone3UnlockedCurrentCharacters()
+                                            Level.justUnlocked = "zone3"
+                                        End If
+
+                                        GameData.SetZone3UnlockedCurrentCharacters()
+                                    Else
+                                        If Not GameData.GetZone1UnlockedCurrentCharacters()
+                                            Level.justUnlocked = "zone1aria"
+                                        End If
+
+                                        GameData.SetZone1UnlockedCurrentCharacters()
+                                    End If
+                                Case 3
+                                    If Not Util.IsCharacterActive(Character.Aria)
+                                        If Not GameData.GetZone4UnlockedCurrentCharacters()
+                                            Level.justUnlocked = "zone4"
+                                        End If
+
+                                        GameData.SetZone4UnlockedCurrentCharacters()
+                                    Else
+                                        If Not GameData.GetZone2UnlockedCurrentCharacters()
+                                            Level.justUnlocked = "zone2aria"
+                                        End If
+
+                                        GameData.SetZone2UnlockedCurrentCharacters()
+                                    End If
+                                Default
+                                    If Util.IsCharacterActive(Character.Aria)
+                                        If Not GameData.GetZone3UnlockedCurrentCharacters()
+                                            Level.justUnlocked = "zone3Aria"
+                                        End If
+
+                                        GameData.SetZone3UnlockedCurrentCharacters()
+                                    End If
+                            End Select
+
+                            Util.AddMetric("event", "gameWin")
+
+                            If Level.isDailyChallenge
+                                Util.AddMetric("runType", "hardcoreDaily")
+                            Else If Level.isHardcoreMode
+                                Util.AddMetric("runType", "hardcore")
+                            Else
+                                Select controller_game.currentZone
+                                    Case 1
+                                        Util.AddMetric("runType", "zone1")
+                                    Case 2
+                                        Util.AddMetric("runType", "zone2")
+                                    Case 3
+                                        Util.AddMetric("runType", "zone3")
+                                    Case 4
+                                        Util.AddMetric("runType", "zone4")
+                                    Default
+                                        Util.AddMetric("runType", "Unknown!")
+                                End Select
+                            End If
+
+                            If Level.isHardcoreMode
+                                Local runPlaytimeStr := Util.GetTimeStringFromMilliseconds(controller_game.runPlaytimeMilliseconds, False, True)
+                                Util.AddMetric("speedrunWinTime", runPlaytimeStr)
+                            End If
+
+                            Local gameWinScore := Player.numCoins + Level.continuedRunCoinScore
+                            Util.AddMetric("gameWinScore", gameWinScore, True)
+
+                            If Level.isHardcoreMode
+                                If Level.isDailyChallenge
+                                    controller_game.dailyChallengeSuccessScore = gameWinScore
+                                Else
+                                    controller_game.hardcoreModeSuccessScore = gameWinScore
+                                End If
+
+                                controller_game.speedrunSuccessScore = controller_game.runPlaytimeMilliseconds
+                                
+                                If Level.replay <> Null
+                                    Level.replay.runTime = controller_game.runPlaytimeMilliseconds
+                                End If
+                            End If
+                        End If
+
+                        Local allCharsCompletionCharIndex := controller_game.players[0].characterID
+                        If controller_game.players[0].characterID >= Character.Coda
+                            allCharsCompletionCharIndex -= 1
+                        End If
+
+                        If Level.isAllCharactersMode
+                            Level.allCharsCompletion[allCharsCompletionCharIndex] = True
+                        End If
+
+                        If Level.isAllCharactersDLCMode
+                            Level.allCharsCompletionDLC[allCharsCompletionCharIndex] = True
+                        End If
+
+                        If Level.isAllCharactersMode And
+                           Level.AllCharsAllComplete()
+                            Util.IncrementSteamStat("NumAllCharsCompletions", True, False, True, False)
+
+                            If Level.isAllCharsRunNoItemsNoShrines
+                                Util.IncrementSteamStat("NumAllCharsLowPercentCompletions", True, False, True, False)
+                            End If
+
+                            Level.UnlockChar(Character.Coda)
+                        End If
+
+                        If Level.isAllCharactersDLCMode And
+                           Level.AllCharsDLCAllComplete()
+                            Util.IncrementSteamStat("NumAllCharsDLCCompletions", True, False, True, False)
+                        End If
+
+                        controller_game.controllerGamePointer.specialScoreSubmit = False
+
+                        If Level.isAllCharactersMode And
+                           (Not Level.isDeathlessMode Or
+                            Not Level.AllCharsAllComplete())
+                            Level.popUpController = New ControllerPopUp(
+                                controller_game.controllerGamePointer,
+                                "|35|Submit score for this run?|",
+                                "",
+                                "",
+                                "|1004|NO|",
+                                "|1003|YES|",
+                                True,
+                                False,
+                                "")
+                            Level.popUpType = 4
+
+                            Return
+                        End If
+
+                        If Level.isAllCharactersDLCMode And
+                           (Level.isDeathlessMode Or
+                            Not Level.AllCharsDLCAllComplete())
+                            Level.popUpController = New ControllerPopUp(
+                                controller_game.controllerGamePointer,
+                                "|35|Submit score for this run?|",
+                                "",
+                                "",
+                                "|1004|NO|",
+                                "|1003|YES|",
+                                True,
+                                False,
+                                "")
+                            Level.popUpType = 4
+
+                            Return
+                        End If
+
+                        If Level.isDeathlessMode
+                            Level.deathlessWinCount += 1
+
+                            If Util.IsCharacterActive(Character.Cadence)
+                                Util.SetSteamIntStat("MaxCadenceDeathlessStreak", Level.deathlessWinCount, True, False, False)
+                            End If
+
+                            Level.DoQuickRestart(True, True, False)
+
+                            Return
+                        End If
+
+                        If Not Level.isStoryMode Or
+                           Util.IsCharacterActive(Character.Aria)
+                            ' TODO: Check condition
+                            If Not Level.isHardcoreMode
+                                If Level.isReplaying
+                                    New ControllerPostGame(
+                                        controller_game.controllerGamePointer,
+                                        Level.isHardcoreMode,
+                                        Level.isDailyChallenge,
+                                        Level.isAllCharactersMode,
+                                        False,
+                                        False,
+                                        totalCoins,
+                                        runTime)
+                                Else
+                                    New ControllerPostGame(
+                                        controller_game.controllerGamePointer,
+                                        Level.isHardcoreMode,
+                                        Level.isDailyChallenge,
+                                        Level.isAllCharactersMode,
+                                        False,
+                                        False,
+                                        -1,
+                                        -1)
+                                End If
+                            Else
+                                controller_game.controllerGamePointer.coinVal = -1
+                                controller_game.controllerGamePointer.timeVal = -1
+                                controller_game.hasWon = True
+                            End If
+                        Else
+                            Level.popUpController = New ControllerPopUp(
+                                controller_game.controllerGamePointer,
+                                "|35|Submit score for this run?|",
+                                "",
+                                "",
+                                "|1004|NO|",
+                                "|1003|YES|",
+                                True,
+                                False,
+                                "")
+                            Level.popUpType = 4
+                        End If
+
+                        Return
+                    End If
+                End If
+            Case LevelType.CharacterSelect
+                Level.CreateCharSelect()
+            Case LevelType.BeastmasterZone1
+                Level.CreateBeastmasterZone1()
+            Case LevelType.BeastmasterZone2
+                Level.CreateBeastmasterZone2()
+            Case LevelType.BeastmasterZone3
+                Level.CreateBeastmasterZone3()
+            Case LevelType.BeastmasterZone4
+                Level.CreateBeastmasterZone4()
+            Case LevelType.BeastmasterZone5
+                Level.CreateBeastmasterZone5()
+            Case LevelType.BossmasterMinibosses
+                Level.CreateBossmasterMinibosses()
+            Case LevelType.BossmasterBosses
+                Level.CreateBossmasterBosses()
+            Case LevelType.ExtraModesSelect
+                Level.CreateExtraModesSelect()
+            Case LevelType.LevelEditor
+                New ControllerLevelEditor()
+
+                Return
+            Case LevelType.Test
+                If levelObj = Null
+                    Level.CreateTestMap()
+                End If
+            Case LevelType.RandomCharacter
+                Local character := Character.Cadence
+                Local numEnabledCharacter := Player.NumEnabledCharacters() - 1
+
+                For Local i := 1000 Until 0 Step -1
+                    Local c := Util.RndIntRangeFromZero(numEnabledCharacter, False)
+
+                    If c = Character.Coda Then Continue
+                    If c = Character.None Then Continue
+
+                    If GameData.IsCharUnlocked(c)
+                        character =  c
+
+                        Exit
+                    End If
+                End For
+
+                Local player := controller_game.players[playerID]
+                player.SetCharacter(character)
+
+                Level.isAllCharactersMode = False
+                Level.isAllCharactersDLCMode = False
+
+                controller_game.currentLevel = LevelType.Lobby
+                Level.CreateLobby()
+
+                Level.nonDeterministicMSStart = -1
+            Case LevelType.CreateAllCharactersCharacterSelect,
+                 LevelType.AllCharactersCharacterSelect
+                Level.isAllCharactersMode = True
+
+                If controller_game.currentLevel = LevelType.CreateAllCharactersCharacterSelect
+                    For Local i := 0 Until Level.allCharsCompletion.Length()
+                        Level.allCharsCompletion[i] = False
+                    End For
+
+                    If controller_game.numPlayers > 1
+                        controller_game.players[controller_game.numPlayers - 1].Die()
+                        controller_game.players[controller_game.numPlayers - 1] = Null
+                        controller_game.numPlayers -= 1
+                    End If
+
+                    Level.isAllCharsRunNoItemsNoShrines = True
+                End If
+
+                controller_game.currentLevel = LevelType.AllCharactersCharacterSelect
+                Level.CreateAllCharsSelect()
+            Case LevelType.CreateAllCharactersDLCCharacterSelect,
+                 LevelType.AllCharactersDLCCharacterSelect
+                Level.isAllCharactersDLCMode = True
+
+                If controller_game.currentLevel = LevelType.CreateAllCharactersDLCCharacterSelect
+                    For Local i := 0 Until Level.allCharsCompletionDLC.Length()
+                        Level.allCharsCompletionDLC[i] = False
+                    End For
+
+                    If controller_game.numPlayers > 1
+                        controller_game.players[controller_game.numPlayers - 1].Die()
+                        controller_game.players[controller_game.numPlayers - 1] = Null
+                        controller_game.numPlayers -= 1
+                    End If
+
+                    Level.isAllCharsRunNoItemsNoShrines = True
+                End If
+
+                controller_game.currentLevel = LevelType.AllCharactersDLCCharacterSelect
+                Level.CreateAllCharsDLCSelect()
+            Case LevelType.Lobby
+                If Not Level.quickRestart And
+                   ControllerLevelEditor.playingLevel = -1
+                    Level.isSeededMode = False
+                    Level.isHardcoreMode = False
+                    Level.isDailyChallenge = False
+                    Level.isDDRMode = False
+
+                    controller_game.currentLevel = LevelType.Lobby
+                    Level.CreateLobby()
+                End If
+            Case LevelType.BossBattle
+                If Level.IsFinalBossZone() And
+                   Util.IsCharacterActive(Character.Aria)
+                    controller_game.currentLevel = LevelType.FinalBossBattle
+                    Level.bossNumber = BossBattleType.LuteDragon
+                    Level.CreateFinalBossBattle3()
+                Else If Level.IsFinalBossZone() And
+                        Util.IsCharacterActive(Character.Melody)
+                    controller_game.currentLevel = LevelType.FinalBossBattle
+                    Level.bossNumber = BossBattleType.NecroDancer2
+                    Level.CreateFinalBossBattle2()
+                Else
+                    Level.CreateBossBattle()
+                End If
+            Case LevelType.Unknown_1
+                Level.isSeededMode = False
+                Level.isHardcoreMode = False
+                Level.isDailyChallenge = False
+                Level.isDDRMode = False
+
+                Level.CreateTestMap()
+            Case LevelType.DancePadMode
+                If Not Level.isReplaying
+                    Util.AddMetric("event", "newRun")
+                    Util.AddMetric("runType", "DDR", True)
+                End If
+
+                controller_game.currentZone = Level.GetInitialZone()
                 controller_game.currentDepth = 1
-                Level.isHardcoreMode = True
+                controller_game.currentLevel = LevelType.Level1
+
+                Level.isDDRMode = True
+
+                Shrine.ResetShrines()
                 Item.CreateItemPools()
 
                 Util.SeedRnd(randSeed)
 
+                Level.CreateMap()
+
+                Level.GetTileAt(0, -1).AddTextLabel("|125|Dance pad mode! Easier difficulty.|", 0, 18)
+                Level.GetTileAt(0, 0).AddTextLabel("|126|Practice with this mode until|", 0, 32)
+                Level.GetTileAt(0, 1).AddTextLabel("|127|you are ready for normal modes!|", 0, 15)
+            Case LevelType.Level1
+                controller_game.currentDepth = controller_game.currentZone
+                If Util.IsCharacterActive(Character.Aria) And
+                   1 <= controller_game.currentZone And controller_game.currentZone <= 4
+                    controller_game.currentDepth = 5 - controller_game.currentZone
+                End If
+
+                Shrine.ResetShrines()
+                Item.CreateItemPools()
+
+                Util.SeedRnd(randSeed)
+
+                If Not Level.isReplaying
+                    Util.AddMetric("event", "newRun")
+
+                    Select controller_game.currentZone
+                        Case 1
+                            Util.AddMetric("runType", "zone1", True)
+                        Case 2
+                            Util.AddMetric("runType", "zone2", True)
+                        Case 3
+                            Util.AddMetric("runType", "zone3", True)
+                        Default
+                            Util.AddMetric("runType", "zone4", True)
+                    End Select
+                End If
+
+                If inEditor Or
+                   ControllerLevelEditor.playingLevel = 1 Or
+                   Level.mentorLevel <> -1
+                    Shrine.ResetShrines()
+                    Item.CreateItemPools()
+
+                    Util.SeedRnd(randSeed)
+
+                    If Level.mentorLevel <> -1
+                        Local firstPlayer := controller_game.players[0]
+                        firstPlayer.SetCharacter(Character.Bard)
+                        firstPlayer.SetTotallyBlank()
+                        firstPlayer.health.Damage(firstPlayer.health.Get() - 1)
+                    End If
+                End If
+            Case LevelType.ToggleCoOpMode
+                If Not Level.quickRestart And
+                   ControllerLevelEditor.playingLevel = -1
+                    If controller_game.numPlayers > 1
+                        controller_game.players[controller_game.numPlayers - 1].Die()
+                        controller_game.players[controller_game.numPlayers - 1] = Null
+                        controller_game.numPlayers -= 1
+                    Else
+                        Local playerID := controller_game.numPlayers
+                        Local player := New Player(playerID, Character.None)
+                        player.x = 1
+
+                        controller_game.players[controller_game.numPlayers] = player
+                        controller_game.numPlayers += 1
+                    End If
+
+                    Level.isAllCharactersMode = False
+                    Level.isAllCharactersDLCMode = False
+                    Level.isSeededMode = False
+                    Level.isHardcoreMode = False
+                    Level.isDailyChallenge = False
+                    Level.isDDRMode = False
+
+                    controller_game.currentLevel = LevelType.Lobby
+                    Level.CreateLobby()
+                End If
+            Case LevelType.AllZonesMode,
+                 LevelType.DailyChallenge,
+                 LevelType.SeededAllZonesMode,
+                 LevelType.StoryMode,
+                 LevelType.SwarmMode,
+                 LevelType.NoReturnMode,
+                 LevelType.SeededNoReturnMode,
+                 LevelType.SoulMode,
+                 LevelType.HardMode,
+                 LevelType.SeededHardMode,
+                 LevelType.FloorIsLavaMode,
+                 LevelType.PhasingMode,
+                 LevelType.SeededPhasingMode,
+                 LevelType.RandomizerMode,
+                 LevelType.SeededRandomizerMode,
+                 LevelType.MysteryMode,
+                 LevelType.SeededMysteryMode
+                Level.forceBoss = BossBattleType.None
+                Shrine.ResetShrines()
+
+                If Not Level.isReplaying
+                    Util.AddMetric("event", "newRun")
+
+                    If controller_game.currentLevel = LevelType.DailyChallenge
+                        Util.AddMetric("runType", "hardcoreDaily", True)
+                    Else
+                        Util.AddMetric("runType", "hardcore", True)
+                    End If
+                End If
+
+                If Not continuedRun
+                    controller_game.runPlaytimeLastAdded = 0
+                    controller_game.runPlaytimeMilliseconds = 0
+                End If
+
+                controller_game.subRunPlaytimeMilliseconds = 0
+
+                Select controller_game.currentLevel
+                    Case LevelType.DailyChallenge
+                        Level.isDailyChallenge = True
+                        Level.isDeathlessMode = False
+                        Level.isAllCharactersMode = False
+                        Level.isAllCharactersDLCMode = False
+
+                        Local firstPlayer := controller_game.players[0]
+                        firstPlayer.SetCharacter(Character.Cadence)
+                    Case LevelType.StoryMode
+                        Level.isStoryMode = True
+                        Level.isDeathlessMode = False
+                        Level.isAllCharactersMode = False
+                        Level.isAllCharactersDLCMode = False
+
+                        If Not continuedRun
+                            Local firstPlayer := controller_game.players[0]
+                            firstPlayer.SetCharacter(Character.Nocturna)
+                        End If
+                    Case LevelType.SwarmMode
+                        Level.isSwarmMode = True
+                    Case LevelType.NoReturnMode,
+                         LevelType.SeededNoReturnMode
+                        Level.isNoReturnMode = True
+                    Case LevelType.HardMode,
+                         LevelType.SeededHardMode
+                        Level.isHardMode = True
+                    Case LevelType.FloorIsLavaMode
+                        Level.isFloorIsLavaMode = True
+
+                        For Local i := 0 Until controller_game.numPlayers
+                            Local player := controller_game.players[i]
+                            Select player.characterID
+                                Case Character.Cadence,
+                                     Character.Melody,
+                                     Character.Monk,
+                                     Character.Bolt,
+                                     Character.Bard,
+                                     Character.Nocturna
+                                    Continue
+                            End Select
+
+                            player.SetCharacter(Character.Cadence)
+                        End For
+                    Case LevelType.PhasingMode,
+                         LevelType.SeededPhasingMode
+                        Level.isPhasingMode = True
+                    Case LevelType.RandomizerMode,
+                         LevelType.SeededRandomizerMode
+                        Level.isRandomizerMode = True
+                        Enemy.StartRandomizerRun()
+                    Case LevelType.MysteryMode,
+                         LevelType.SeededMysteryMode
+                        Level.isMysteryMode = True
+                    Case LevelType.AllZonesMode
+                        GameData.SetHavePlayedHardcore(True)
+                    Case LevelType.SoulMode
+                        Level.isSoulMode = True
+                End Select
+
+                Level.GenerateHardcoreZoneOrder()
+                controller_game.currentZone = Level.zoneOrder.Get(0)
+                controller_game.currentLevel = 1
+                controller_game.currentDepth = 1
+
+                Level.isHardcoreMode = True
+
+                Item.CreateItemPools()
+                Util.SeedRnd(Level.randSeed)
+
                 For Local i := 0 Until controller_game.numPlayers
-                    Local characterID: Int
+                    Local characterID := Character.Cadence
+
                     Local player := controller_game.players[i]
                     If player <> Null
                         characterID = player.characterID
                         player.Die()
                     End If
 
-                    controller_game.players[i] = New Player(i, characterID)
-                End For
-        End Select
+                    player = New Player(i, characterID)
+                    player.x = i Mod 2
+                    player.y = i / 2
 
-        Select controller_game.currentLevel
-            Case LevelType.BossBattle
-                Level.CreateBossBattle()
-            Case LevelType.FinalBossBattle
-                Level.CreateFinalBossBattle()
-            Default
-                If Level.CreateMap(levelObj)
-                    Debug.WriteLine("Created map.")
+                    controller_game.players[i] = player
+                End For
+
+                Level.CreateMap()
+
+                If Level.isDeathlessMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|128|Deathless mode! Compete for high|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|129|Scores by beating the game|", 0, 32)
+                    Level.GetTileAt(0, 1).AddTextLabel("|130|repeatedly without dying!|", 0, 15)
+                Else If Level.isAllCharactersMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|131|ALL CHARACTERS MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|132|TRY TO BEAT THE GAME WITH ALL|", 0, 32)
+                    Level.GetTileAt(0, 1).AddTextLabel("|133|NINE CHARACTERS IN A ROW!|", 0, 15)
+                Else If Level.isAllCharactersDLCMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|131|ALL CHARACTERS MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|132|TRY TO BEAT THE GAME WITH ALL|", 0, 32)
+                    Level.GetTileAt(0, 1).AddTextLabel("|13510|THIRTEEN CHARACTERS IN A ROW!|", 0, 15)
+                Else If Level.isStoryMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|134|STORY MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|135|BEAT THE GAME WITH NOCTURNA,|", 0, 32)
+                    Level.GetTileAt(0, 1).AddTextLabel("|136|CADENCE, MELODY, AND ARIA!|", 0, 15)
+                Else If Level.isNoReturnMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|13500|NO RETURN MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|13501|Take damage when returning|", 0, 32)
+                    Level.GetTileAt(0, 1).AddTextLabel("|13502|to the previous tile|", 0, 15)
+                Else If Level.isHardMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|13503|HARD MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|13504|MORE ENEMIES, HARDER BOSSES|", 0, 32)
+                Else If Level.isPhasingMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|13505|PHASING MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|13506|PHASE THROUGH WALLS|", 0, 32)
+                Else If Level.isRandomizerMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|13507|RANDOMIZER MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|13508|Enemy attributes are randomized.|", 0, 32)
+                Else If Level.isMysteryMode
+                    Level.GetTileAt(0, -1).AddTextLabel("|13509|MYSTERY MODE!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("??????????????", 0, 32)
+                Else If Level.isDailyChallenge
+                    Level.GetTileAt(0, -1).AddTextLabel("|140|Daily ALL ZONES challenge!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|141|EVERYONE GETS THE SAME DUNGEON!|", 0, 32)
+                    Level.GetTileAt(0, 1).AddTextLabel("|142|Score = coin total when run ends.|", 0, 15)
                 Else
-                    Debug.WriteLine("ERROR: Failed to create map.")
+                    Level.GetTileAt(0, -1).AddTextLabel("|137|Complete all zones in one run!|", 0, 18)
+                    Level.GetTileAt(0, 0).AddTextLabel("|138|All lobby upgrades are unlocked,|", 0, 32)
+                    Level.GetTileAt(0, 1).AddTextLabel("|139|but you start with lower health.|", 0, 15)
+                End If
+            Default
+                If isTrainingLevel
+                    Level.isTrainingMode = True
+                    Level.practiceEnemyNum = controller_game.currentLevel + math.Abs(LevelType.MinTrainingLevel)
+
+                    Select controller_game.currentLevel
+                        Case LevelType.TrainingBossBattle1
+                            Level.forceBoss = BossBattleType.CongaLine
+                            controller_game.currentDepth = controller_game.currentZone
+                            Level.CreateBossBattle()
+                        Case LevelType.TrainingBossBattle2
+                            Level.forceBoss = BossBattleType.DeathMetal
+                            controller_game.currentDepth = controller_game.currentZone
+                            Level.CreateBossBattle()
+                        Case LevelType.TrainingBossBattle3
+                            Level.forceBoss = BossBattleType.DeepBlues
+                            controller_game.currentDepth = controller_game.currentZone
+                            Level.CreateBossBattle()
+                        Case LevelType.TrainingBossBattle4
+                            Level.forceBoss = BossBattleType.CoralRiff
+                            controller_game.currentDepth = controller_game.currentZone
+                            Level.CreateBossBattle()
+                        Case LevelType.TrainingBossBattle9
+                            Level.forceBoss = BossBattleType.DeadRinger
+                            controller_game.currentDepth = controller_game.currentZone
+                            Level.CreateBossBattle()
+                        Case LevelType.TrainingBossBattle5
+                            Level.forceBoss = BossBattleType.Fortissimole
+                            controller_game.currentZone = 4
+                            controller_game.currentDepth = 4
+                            Level.CreateBossBattle()
+                        Case LevelType.TrainingFinalBossBattleNecroDancer
+                            Level.bossNumber = BossBattleType.NecroDancer
+                            controller_game.currentZone = 4
+                            controller_game.currentDepth = 4
+                            Level.CreateFinalBossBattle()
+                        Case LevelType.TrainingFinalBossBattleNecroDancer2
+                            Level.bossNumber = BossBattleType.NecroDancer2
+                            controller_game.currentZone = 4
+                            controller_game.currentDepth = 4
+                            Level.CreateFinalBossBattle2()
+                        Case LevelType.TrainingFinalBossBattleLute
+                            Level.bossNumber = BossBattleType.LuteDragon
+                            controller_game.currentZone = 1
+                            controller_game.currentDepth = 4
+                            Level.CreateFinalBossBattle3()
+                        Case LevelType.TrainingBossBattle10
+                            Level.forceBoss = BossBattleType.Frankensteinway
+                            controller_game.currentZone = 5
+                            controller_game.currentDepth = 5
+                            Level.CreateBossBattle()
+                        Case LevelType.TrainingFinalBossBattleConductor
+                            Level.bossNumber = BossBattleType.Conductor
+                            controller_game.currentZone = 5
+                            controller_game.currentDepth = 5
+                            Level.CreateFinalBossBattleConductor()
+                        Default
+                            Level.isBeastmaster = True
+                            Level.CreateTrainingMap()
+                    End Select
+                Else If LevelType.MinCharacterSelect <= controller_game.currentLevel And controller_game.currentLevel <= LevelType.MaxCharacterSelect
+                    Local characterID := controller_game.currentLevel + math.Abs(LevelType.MinCharacterSelect)
+
+                    Local player := controller_game.players[playerID]
+                    player.SetCharacter(characterID)
+
+                    Level.isAllCharactersMode = False
+                    Level.isAllCharactersDLCMode = False
+                    Level.isSeededMode = False
+                    Level.isHardcoreMode = False
+                    Level.isDailyChallenge = False
+                    Level.isDDRMode = False
+
+                    controller_game.currentLevel = LevelType.Lobby
+                    Level.CreateLobby()
                 End If
         End Select
+
+        If Level.isFloorIsLavaMode
+            For Local tilesOnXNode := EachIn Level.tiles
+                For Local tileNode := EachIn tilesOnXNode.Value()
+                    Local tile := tileNode.Value()
+                    If Not tile.trigger
+                        If tile.IsNormalFloor()
+                            If Not Util.IsAnyPlayerAt(tile.x, tile.y) And
+                               Shrine.GetShrineAt(tile.x, tile.y - 1) = Null
+                                Level.PlaceTileRemovingExistingTiles(tile.x, tile.y, TileType.HotCoal)
+                            End If
+                        End If
+
+                        If tile.IsDoor()
+                            Level.PlaceTileRemovingExistingTiles(tile.x, tile.y, TileType.HotCoal)
+                        End If
+                    End If
+                End For
+            End For
+
+            While Not Chest.chestList.IsEmpty()
+                Local chest := Chest.chestList.First()
+                chest.Open(Null)
+            End While
+        End If
+
+        Local creatingMapEnd := app.Millisecs()
+
+        Local creatingMapDuration = creatingMapStart - creatingMapEnd
+        Debug.Log("Level generation completed in " + creatingMapDuration + " ms")
+
+        If Shrine.paceShrineActive
+            Local firstPlayer := controller_game.players[0]
+            If firstPlayer.paceBeat = -1
+                Local itemName := Item.GetRandomItemInClass("", controller_game.currentLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", True)
+                New Item(0, 1, itemName, False, -1, False)
+            End If
+        End If
+
+        Level.skipNextPenaltyBox = False
+        Level.creatingMap = False
+
+        If Level.isHardMode
+            Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Hard Mode)")
+        End If
+
+        If controller_game.currentLevel <= 0
+            Crate.fallenCrates.Clear()
+            Crate.fallenGargoyles.Clear()
+        Else
+            Crate.ProcessFallenCrates()
+        End If
+
+        If isTrainingLevel
+
+        Else If Level.isTrainingMode
+
+        End If
+
+        If isTrainingLevel
+            If Level.isDDRMode
+                For Local i := 0 Until controller_game.numPlayers
+                    Local player := controller_game.players[i]
+                    If player <> Null
+                        Select player.characterID
+                            Case Character.Aria,
+                                 Character.Melody,
+                                 Character.Coda
+                                player.AddItemOfType("armor_glass", Null, True, False)
+                                player.AddItemOfType("spell_fireball", Null, True, False)
+                                player.AddItemOfType("spell_heal", Null, True, False)
+                            Case Character.Eli,
+                                 Character.Nocturna
+                                player.health.Reset(10)
+                                player.AddItemOfType("spell_fireball", Null, True, False)
+                                player.AddItemOfType("spell_heal", Null, True, False)
+                            Case Character.Dove
+                                player.health.Reset(10)
+                                player.AddItemOfType("spell_heal", Null, True, False)
+                            Case Character.Diamond
+                                player.health.Reset(10)
+                            Default
+                                player.ownedItems.Set("weapon", Item.NoItem)
+                                player.AddItemOfType("weapon_broadsword", Null, True, False)
+                                player.health.Reset(10)
+                                player.AddItemOfType("spell_fireball", Null, True, False)
+                                player.AddItemOfType("spell_heal", Null, True, False)
+                        End Select
+                    End If
+                End For
+            End If
+
+            Tile.anyPlayerHaveRingOfShadowsCachedFrame = -1
+            Tile.anyPlayerHaveCompassCachedFrame = -1
+            Tile.anyPlayerHaveZoneMapCachedFrame = -1
+            Tile.anyPlayerHaveMonocleCachedFrame = -1
+            Tile.anyPlayerHaveRingOfLuckCachedFrame = -1
+            Tile.anyPlayerHaveSunglassesCachedFrame = -1
+            Entity.anyPlayerHaveCircletCachedFrame = -1;
+            Entity.anyPlayerHaveGlassTorchCachedFrame = -1;
+            Entity.anyPlayerHaveForesightTorchCachedFrame = -1;
+            Entity.anyPlayerHaveWallsTorchCachedFrame = -1;
+            Entity.anyPlayerHaveNazarCharmCachedFrame = -1;
+
+            If Not Level.isReplaying And
+               Not Level.isLevelEditor And
+               randSeed = 0
+                For Local i := 0 Until controller_game.numPlayers
+                    Local player := controller_game.players[i]
+                    player.health.Refill()
+                End For
+
+                Chain.kills = 0
+
+                If Not continuedRun
+                    Level.usedCustomMusic = False
+                End If
+
+                ' TODO: Probably not correct.
+                Local hadWeapon := False
+                If hadWeapon
+                    Level.todaysRandSeedString = ""
+                End If
+
+                Local replay := New Replay()
+                replay.startingLevel = controller_game.currentLevel
+                replay.startingZone = controller_game.currentZone
+                replay.saveData = ""
+                replay.startingGold = Player.numCoins
+
+                Local player1 := controller_game.players[controller_game.player1]
+                replay.hasBroadsword = player1.HasItemOfType("weapon_broadsword", False)
+            End If
+        End If
+
+        If Level.replay <> Null And
+           Not Level.isReplaying
+            Level.replay.NewLevel(randSeed)
+        End If
+
+        If isTrainingLevel And
+           Not Level.isLevelEditor And
+           levelObj = Null And
+           Not Level.isHardcoreMode And
+           Not Level.isDailyChallenge
+            Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Training level)")
+        End If
+
+        Level.RecalcLevelBoundaries()
+
+        For Local i := 0 Until Chain.waitingForFirstMovement.Length()
+            Chain.waitingForFirstMovement[i] = True
+        End For
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            player.CancelTween()
+            player.falling = False
+        End For
+
+        Camera.fadeOutDuration = 0
+        Camera.fadeOutCurrent = 0
+        Camera.fadeOutCallback = Null
+        Camera.fadeInDuration = 0
+        Camera.fadeInCurrent = 0
+        Camera.fadeInCallback = Null
+
+        Enemy.ApplyMonkeyPawAll()
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If player.HasItemOfType("ring_regeneration", False) Or
+               player.HasItemOfType("ring_wonder", False)
+                player.Heal(2, False, True, False)
+            End If
+        End For
+
+        If controller_game.currentLevel = LevelType.Level1 And
+           controller_game.currentDepth = 1
+            Level.isRunNoItemsNoShrines = True
+        End If
+
+        Level.LoadLevelSong()
+
+        Select controller_game.currentLevel
+            Case LevelType.BossBattle,
+                 LevelType.FinalBossBattle
+                If GameData.GetEnableBossIntros() And
+                   Not Level.isReplaying
+                    New ControllerBossIntro(controller_game.controllerGamePointer, Level.bossNumber)
+                End If
+        End Select
+
+        If Level.mentorLevel <> -1
+            Local firstPlayer := controller_game.players[0]
+            firstPlayer.SetCharacter(Character.Bard)
+            firstPlayer.SetTotallyBlank()
+            firstPlayer.health.Damage(firstPlayer.health.Get() - 1)
+        End If
 
         Level.DumpMap()
 
@@ -11116,14 +12477,9 @@ Class Level
     End Function
 
     Function PlaceTrapZone5: Void(xVal: Int, yVal: Int, wVal: Int, hVal: Int)
-        Local trapDoorWeight := 0
-
-        If controller_game.currentZone <> 5
-            trapDoorWeight = 5
-        Else If controller_game.currentLevel <> 3
-            If Not Util.RndBool(True)
-                trapDoorWeight = 5
-            End If
+        Local trapDoorWeight := 5
+        If Level.MaybeForbidTrapdoor()
+            trapDoorWeight = 0
         End If
 
         Local weights := New WeightedPicker()
@@ -11166,7 +12522,7 @@ Class Level
             For Local dir := 0 To 3
                 Local offset := Util.GetPointFromDir(dir)
                 Local wirePointCandidate := wirePoint.Add(offset)
-                
+
                 If wirePointCandidate.Equals(dst) Or
                    Not Level.IsWallAdjacent8(wirePointCandidate.x, wirePointCandidate.y)
                     If Level.IsFloorAt(wirePointCandidate.x, wirePointCandidate.y) And
@@ -11385,7 +12741,7 @@ Class Level
         End If
 
         Local point: Point
-        
+
         Local extraEnemies := Level.GetExtraEnemiesBase()
         If Util.IsCharacterActive(Character.Aria)
             extraEnemies += 1
@@ -11793,92 +13149,75 @@ End Class
 
 Class LevelType
 
+    Const LevelEditor: Int = -3001
     Const Test: Int = -3000
-    Const SelectCadence: Int = -2000
-    Const SelectMelody: Int = -1999
-    Const SelectAria: Int = -1998
-    Const SelectDorian: Int = -1997
-    Const SelectEli: Int = -1996
-    Const SelectMonk: Int = -1995
-    Const SelectDove: Int = -1994
-    Const SelectCoda: Int = -1993
-    Const SelectBolt: Int = -1992
-    Const SelectBard: Int = -1991
-    Const SelectNocturna: Int = -1990
-    Const SelectDiamond: Int = -1989
-    Const SelectMary: Int = -1988
-    Const SelectTempo: Int = -1987
-    Const SelectReaper: Int = -1986
-    Const Unknown_1902: Int = -1902
+
+    Const MinCharacterSelect: Int = -2000
+    Const MaxCharacterSelect: Int = -1985
+    Const SelectCharacterSelectCadence: Int = -2000
+    Const SelectCharacterSelectMelody: Int = -1999
+    Const SelectCharacterSelectAria: Int = -1998
+    Const SelectCharacterSelectDorian: Int = -1997
+    Const SelectCharacterSelectEli: Int = -1996
+    Const SelectCharacterSelectMonk: Int = -1995
+    Const SelectCharacterSelectDove: Int = -1994
+    Const SelectCharacterSelectCoda: Int = -1993
+    Const SelectCharacterSelectBolt: Int = -1992
+    Const SelectCharacterSelectBard: Int = -1991
+    Const SelectCharacterSelectNocturna: Int = -1990
+    Const SelectCharacterSelectDiamond: Int = -1989
+    Const SelectCharacterSelectMary: Int = -1988
+    Const SelectCharacterSelectTempo: Int = -1987
+    Const SelectCharacterSelectReaper: Int = -1986
+
+    Const DeathlessMode: Int = -1902
     Const RandomCharacter: Int = -1901
-    Const SeededAllCharactersSelect: Int = -1900
-    Const SeededAllCharactersCadence: Int = -1800
-    Const SeededAllCharactersMelody: Int = -1799
-    Const SeededAllCharactersAria: Int = -1798
-    Const SeededAllCharactersDorian: Int = -1797
-    Const SeededAllCharactersEli: Int = -1796
-    Const SeededAllCharactersMonk: Int = -1795
-    Const SeededAllCharactersDove: Int = -1794
-    Const SeededAllCharactersCoda: Int = -1793
-    Const SeededAllCharactersBolt: Int = -1792
-    Const SeededAllCharactersBard: Int = -1791
-    Const SeededAllCharactersNocturna: Int = -1790
-    Const SeededAllCharactersDiamond: Int = -1789
-    Const SeededAllCharactersMary: Int = -1788
-    Const SeededAllCharactersTempo: Int = -1787
-    Const SeededAllCharactersDLCSelect: Int = -1700
+
+    Const CreateAllCharactersCharacterSelect: Int = -1900
+    Const MinAllCharactersCharacterSelect: Int = -1800
+    Const MaxAllCharactersCharacterSelect: Int = -1785
+    Const AllCharactersCharacterSelectCadence: Int = -1800
+    Const AllCharactersCharacterSelectMelody: Int = -1799
+    Const AllCharactersCharacterSelectAria: Int = -1798
+    Const AllCharactersCharacterSelectDorian: Int = -1797
+    Const AllCharactersCharacterSelectEli: Int = -1796
+    Const AllCharactersCharacterSelectMonk: Int = -1795
+    Const AllCharactersCharacterSelectDove: Int = -1794
+    Const AllCharactersCharacterSelectCoda: Int = -1793
+    Const AllCharactersCharacterSelectBolt: Int = -1792
+    Const AllCharactersCharacterSelectBard: Int = -1791
+    Const AllCharactersCharacterSelectNocturna: Int = -1790
+    Const AllCharactersCharacterSelectDiamond: Int = -1789
+    Const AllCharactersCharacterSelectMary: Int = -1788
+    Const AllCharactersCharacterSelectTempo: Int = -1787
+
+    Const CreateAllCharactersDLCCharacterSelect: Int = -1700
+    Const MinAllCharactersDLCCharacterSelect: Int = -1600
+    Const MaxAllCharactersDLCCharacterSelect: Int = -1585
+    Const AllCharactersDLCCharacterSelectCadence: Int = -1600
+    Const AllCharactersDLCCharacterSelectMelody: Int = -1599
+    Const AllCharactersDLCCharacterSelectAria: Int = -1598
+    Const AllCharactersDLCCharacterSelectDorian: Int = -1597
+    Const AllCharactersDLCCharacterSelectEli: Int = -1596
+    Const AllCharactersDLCCharacterSelectMonk: Int = -1595
+    Const AllCharactersDLCCharacterSelectDove: Int = -1594
+    Const AllCharactersDLCCharacterSelectCoda: Int = -1593
+    Const AllCharactersDLCCharacterSelectBolt: Int = -1592
+    Const AllCharactersDLCCharacterSelectBard: Int = -1591
+    Const AllCharactersDLCCharacterSelectNocturna: Int = -1590
+    Const AllCharactersDLCCharacterSelectDiamond: Int = -1589
+    Const AllCharactersDLCCharacterSelectMary: Int = -1588
+    Const AllCharactersDLCCharacterSelectTempo: Int = -1587
+
+    Const MinMentorLevel: Int = -1100
+    Const MaxMentorLevel: Int = -1050
     Const MentorLevel1: Int = -1100
     Const MentorLevel2: Int = -1099
     Const MentorLevel3: Int = -1098
     Const MentorLevel4: Int = -1097
-    Const MentorLevel5: Int = -1096
-    Const MentorLevel6: Int = -1095
-    Const MentorLevel7: Int = -1094
-    Const MentorLevel8: Int = -1093
-    Const MentorLevel9: Int = -1092
-    Const MentorLevel10: Int = -1091
-    Const MentorLevel11: Int = -1090
-    Const MentorLevel12: Int = -1089
-    Const MentorLevel13: Int = -1088
-    Const MentorLevel14: Int = -1087
-    Const MentorLevel15: Int = -1086
-    Const MentorLevel16: Int = -1085
-    Const MentorLevel17: Int = -1084
-    Const MentorLevel18: Int = -1083
-    Const MentorLevel19: Int = -1082
-    Const MentorLevel20: Int = -1081
-    Const MentorLevel21: Int = -1080
-    Const MentorLevel22: Int = -1079
-    Const MentorLevel23: Int = -1078
-    Const MentorLevel24: Int = -1077
-    Const MentorLevel25: Int = -1076
-    Const MentorLevel26: Int = -1075
-    Const MentorLevel27: Int = -1074
-    Const MentorLevel28: Int = -1073
-    Const MentorLevel29: Int = -1072
-    Const MentorLevel30: Int = -1071
-    Const MentorLevel31: Int = -1070
-    Const MentorLevel32: Int = -1069
-    Const MentorLevel33: Int = -1068
-    Const MentorLevel34: Int = -1067
-    Const MentorLevel35: Int = -1066
-    Const MentorLevel36: Int = -1065
-    Const MentorLevel37: Int = -1064
-    Const MentorLevel38: Int = -1063
-    Const MentorLevel39: Int = -1062
-    Const MentorLevel40: Int = -1061
-    Const MentorLevel41: Int = -1060
-    Const MentorLevel42: Int = -1059
-    Const MentorLevel43: Int = -1058
-    Const MentorLevel44: Int = -1057
-    Const MentorLevel45: Int = -1056
-    Const MentorLevel46: Int = -1055
-    Const MentorLevel47: Int = -1054
-    Const MentorLevel48: Int = -1053
-    Const MentorLevel49: Int = -1052
-    Const MentorLevel50: Int = -1051
-    Const MentorLevel51: Int = -1050
-    Const TrainingUnknown_1000: Int = -1000
+
+    Const MinTrainingLevel: Int = -1000
+    Const MaxTrainingLevel: Int = -101
     Const TrainingBossBattle1: Int = -500
     Const TrainingBossBattle2: Int = -499
     Const TrainingBossBattle3: Int = -498
@@ -11890,7 +13229,7 @@ Class LevelType
     Const TrainingFinalBossBattleLute: Int = -492
     Const TrainingBossBattle10: Int = -491
     Const TrainingFinalBossBattleConductor: Int = -490
-    Const TrainingUnknown_101: Int = -101
+
     Const SeededMysteryMode: Int = -64
     Const SeededRandomizerMode: Int = -63
     Const SeededPhasingMode: Int = -62
@@ -11905,10 +13244,10 @@ Class LevelType
     Const NoReturnMode: Int = -52
     Const SwarmMode: Int = -51
     Const StoryMode: Int = -50
-    Const AllCharactersDLCSelect: Int = -22
+    Const AllCharactersDLCCharacterSelect: Int = -22
     Const BeastmasterZone5: Int = -21
     Const ExtraModesSelect: Int = -20
-    Const AllCharactersSelect: Int = -19
+    Const AllCharactersCharacterSelect: Int = -19
     Const BossmasterBosses: Int = -18
     Const BossmasterMinibosses: Int = -17
     Const BeastmasterZone4: Int = -16
@@ -11916,10 +13255,10 @@ Class LevelType
     Const BeastmasterZone2: Int = -14
     Const BeastmasterZone1: Int = -13
     Const CharacterSelect: Int = -12
-    Const Unknown_11: Int = -11
+    Const ToggleCoOpMode: Int = -11
     Const SeededAllZonesMode: Int = -10
     Const DailyChallenge: Int = -9
-    Const Unknown_8: Int = -8
+    Const DancePadMode: Int = -8
     Const AllZonesMode: Int = -7
     Const LockedExit1: Int = -6
     Const LockedExit2: Int = -5
@@ -11933,5 +13272,22 @@ Class LevelType
     Const Level3: Int = 3
     Const BossBattle: Int = 4
     Const FinalBossBattle: Int = 5
+
+End Class
+
+Class BossBattleType
+
+    Const None: Int = -1
+    Const CongaLine: Int = 1
+    Const DeathMetal: Int = 2
+    Const DeepBlues: Int = 3
+    Const CoralRiff: Int = 4
+    Const DeadRinger: Int = 5
+    Const NecroDancer: Int = 6
+    Const NecroDancer2: Int = 7
+    Const LuteDragon: Int = 8
+    Const Fortissimole: Int = 9
+    Const Frankensteinway: Int = 10
+    Const Conductor: Int = 11
 
 End Class

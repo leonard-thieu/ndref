@@ -5,7 +5,7 @@ Import logger
 
 Class Controller Extends GuiContainer
 
-    Global currentController: Object
+    Global currentController: Controller
 
     Function GiveFocus: Void(c: Object)
         Debug.TraceNotImplemented("Controller.GiveFocus(Object)")

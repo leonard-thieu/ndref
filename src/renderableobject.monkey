@@ -11,7 +11,7 @@ Class RenderableObject Abstract
     Global lightSourceList: List<RenderableObject> = New List<RenderableObject>()
     Global renderableObjectList: List<RenderableObject> = New List<RenderableObject>()
 
-    Function DeleteAll: Void(spareThePlayers: Bool)
+    Function DeleteAll: Void(spareThePlayers: Bool = True)
         RenderableObject.deletingAll = True
 
         For Local renderableObj := EachIn RenderableObject.renderableObjectList
