@@ -8102,8 +8102,6 @@ Class Level
         End If
 
         Level.DumpMap()
-
-        Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool)")
     End Function
 
     Function PadWalls: Void()

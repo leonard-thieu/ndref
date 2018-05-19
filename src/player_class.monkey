@@ -178,7 +178,7 @@ Class Player Extends MobileEntity
 
     Function _EditorFix: Void() End
 
-    Method New(id: Int, characterID_: Int)
+    Method New(id: Int, characterID_: Int = Character.None)
         Super.New()
 
         Player.coinXOR = Player.numCoins ~ $1D69

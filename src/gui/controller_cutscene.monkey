@@ -1,10 +1,10 @@
 'Strict
 
 Import monkey.list
+Import mojo.graphics
 Import gui.controller
 Import gui.controller_cutscene
 Import callback
-Import graphics
 Import logger
 Import sprite
 

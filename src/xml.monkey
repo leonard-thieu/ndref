@@ -4,6 +4,10 @@ Import monkey.list
 Import monkey.map
 Import logger
 
+Function ParseXML: XMLDoc(raw: String, error: XMLError = Null)
+    Debug.TraceNotImplemented("ParseXML(String, XMLError)")
+End Function
+
 Class XMLNode
 
     Function _EditorFix: Void() End

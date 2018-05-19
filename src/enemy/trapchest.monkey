@@ -1,6 +1,9 @@
 'Strict
 
 Import enemy
+Import gui.controller_game
+Import level
+Import chest
 Import entity
 Import item
 Import logger
@@ -13,7 +16,7 @@ Class TrapChest Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         Super.New()
 
-        Self.Init(xVal, yVal, l, "trapchest", "", -1, -1)
+        Self.Init(xVal, yVal, l, "trapchest")
 
         Self.stealth = True
         Self.containsItem = True
@@ -35,7 +38,17 @@ Class TrapChest Extends Enemy
     End Method
 
     Method DetermineContents: Void()
-        Debug.TraceNotImplemented("TrapChest.DetermineContents()")
+        If Self.contents = Item.NoItem
+            If Self.level >= 6
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "urnChance")
+            Else If Self.level >= 4
+                Self.contents = "bomb"
+            Else If Self.level >= 2
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel + 1, "lockedChestChance")
+            Else
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel + 1, "chestChance")
+            End If
+        End If
     End Method
 
     Method Die: Void()
@@ -47,7 +60,17 @@ Class TrapChest Extends Enemy
     End Method
 
     Method DropItem: Void()
-        Debug.TraceNotImplemented("TrapChest.DropItem()")
+        If Not Self.itemDropped
+            If Not Level.isTrainingMode
+                Self.DetermineContents()
+
+                If Self.contents <> Item.NoItem
+                    New Item(Self.x, Self.y, Self.contents, False, -1, False)
+                End If
+            End If
+
+            Self.itemDropped = True
+        End If
     End Method
 
     Method GetMovementDirection: Point()

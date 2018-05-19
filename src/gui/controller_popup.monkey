@@ -12,8 +12,8 @@ Class ControllerPopUp Extends Controller
 
     Function _EditorFix: Void() End
 
-    Method New(game: Object, pText: Int, pText2: Int, pText3: Int, option1: Int, option2: Int, opt1Default: Bool, ignoreInpt: Bool, pText4: Int)
-        Debug.TraceNotImplemented("ControllerPopUp.New(Object, Int, Int, Int, Int, Int, Bool, Bool, Int)")
+    Method New(game: Controller, pText: String, pText2: String, pText3: String, option1: String, option2: String, opt1Default: Bool, ignoreInpt: Bool, pText4: String)
+        Debug.TraceNotImplemented("ControllerPopUp.New(Controller, String, String, String, String, String, Bool, Bool, String)")
     End Method
 
     Field cachedScaleVal: Bool
