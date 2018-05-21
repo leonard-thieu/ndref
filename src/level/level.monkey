@@ -7929,7 +7929,7 @@ Class Level
 
         Local creatingMapEnd := app.Millisecs()
 
-        Local creatingMapDuration = creatingMapStart - creatingMapEnd
+        Local creatingMapDuration = creatingMapEnd - creatingMapStart
         Debug.Log("Level generation completed in " + creatingMapDuration + " ms")
 
         If Shrine.paceShrineActive
