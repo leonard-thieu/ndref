@@ -2885,8 +2885,8 @@ Class Level
 
         Level.PlaceCrateOrBarrel()
 
-        Local freeBroadSword := controller_game.currentLevel = 1
-        Level.PlaceChests(freeBroadSword)
+        Local freeBroadsword := controller_game.currentLevel = 1
+        Level.PlaceChests(freeBroadsword)
 
         Level.PlaceResourceWall()
         Level.PlaceLockedChests()
@@ -8339,7 +8339,7 @@ Class Level
         End For
     End Function
 
-    Function PlaceChests: Void(freeBroadSword: Bool)
+    Function PlaceChests: Void(freeBroadsword: Bool)
         Local trapChestRoll := Util.RndIntRangeFromZero(99, True)
         Local placeTrapChest := False
 
@@ -8354,9 +8354,9 @@ Class Level
                 End If
         End Select
 
-        If Player.DoesPlayer1HaveItemOfType("weapon_broadsword") Then freeBroadSword = False
-        If Util.IsCharacterActive(Character.Diamond) Then freeBroadSword = False
-        If Level.isHardcoreMode Then freeBroadSword = False
+        If Player.DoesPlayer1HaveItemOfType("weapon_broadsword") Then freeBroadsword = False
+        If Util.IsCharacterActive(Character.Diamond) Then freeBroadsword = False
+        If Level.isHardcoreMode Then freeBroadsword = False
 
         Debug.Log("PLACECHESTS: Placing chests: " + Level.chestsStillToPlace)
 
@@ -8429,9 +8429,7 @@ Class Level
                 Continue
             End If
 
-            If freeBroadSword
-                Debug.TraceNotImplemented("Level.PlaceChests(Bool) (Free BroadSword section)")
-
+            If freeBroadsword
                 Local itemName: String
 
                 For Local k := 0 Until GameData.GetNumPendingSpawnItems()
@@ -8446,7 +8444,7 @@ Class Level
                 If itemName <> ""
                     New Chest(point.x, point.y, itemName, False, False, False, Chest.CHEST_COLOR_NONE)
                     Level.chestsStillToPlace -= 1
-                    freeBroadSword = False
+                    freeBroadsword = False
 
                     Continue
                 End If
