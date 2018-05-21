@@ -8468,14 +8468,50 @@ Class Level
                         Default contents = "weapon_broadsword"
                     End Select
                 Else If weaponTypeRoll <= 55
-                    Select weaponQuality
-                        Case 1  contents = "weapon_golden_rapier"
-                        Case 2  contents = "weapon_blood_rapier"
-                        Case 3  contents = "weapon_titanium_rapier"
-                        Case 4  contents = "weapon_obsidian_rapier"
-                        Default contents = "weapon_rapier"
-                    End Select
+                    If Item.IsUnlocked("weapon_rapier")
+                        Select weaponQuality
+                            Case 1  contents = "weapon_golden_rapier"
+                            Case 2  contents = "weapon_blood_rapier"
+                            Case 3  contents = "weapon_titanium_rapier"
+                            Case 4  contents = "weapon_obsidian_rapier"
+                            Default contents = "weapon_rapier"
+                        End Select
+                    End If
+                Else If weaponTypeRoll <= 80 And
+                     Not Util.IsCharacterActive(Character.Mary) And
+                     Not Util.IsCharacterActive(Character.Bolt)
+                    If Item.IsUnlocked("weapon_spear")
+                        Select weaponQuality
+                            Case 1  contents = "weapon_golden_spear"
+                            Case 2  contents = "weapon_blood_spear"
+                            Case 3  contents = "weapon_titanium_spear"
+                            Case 4  contents = "weapon_obsidian_spear"
+                            Default contents = "weapon_spear"
+                        End Select
+                    End If
+                Else
+                    If Item.IsUnlocked("weapon_whip")
+                        Select weaponQuality
+                            Case 1  contents = "weapon_golden_whip"
+                            Case 2  contents = "weapon_blood_whip"
+                            Case 3  contents = "weapon_titanium_whip"
+                            Case 4  contents = "weapon_obsidian_whip"
+                            Default contents = "weapon_whip"
+                        End Select
+                    Else
+                        Select weaponQuality
+                            Case 1  contents = "weapon_golden_broadsword"
+                            Case 2  contents = "weapon_blood_broadsword"
+                            Case 3  contents = "weapon_titanium_broadsword"
+                            Case 4  contents = "weapon_obsidian_broadsword"
+                            Default contents = "weapon_broadsword"
+                        End Select
+                    End If
                 End If
+
+                New Chest(point.x, point.y, contents, False, False, False, Chest.CHEST_COLOR_NONE)
+                Level.chestsStillToPlace -= 1
+                freeBroadsword = False
 
                 Continue
             End If
