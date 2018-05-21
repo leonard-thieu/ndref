@@ -22,19 +22,57 @@ Import salechest
 Import saleitem
 Import shrine
 Import tile
+Import xml
 
 Class LevelObject
 
     Function _EditorFix: Void() End
 
-    Method New(num: Int, music: Int, boss: Int, loadFromCurrent: Bool, fromXML: Object)
+    Method New(num: Int, music: Int, boss: Int, loadFromCurrent: Bool, fromXML: XMLNode)
         Self.levelNum = num
         Self.musicType = music
         Self.bossNum = boss
 
         If Not loadFromCurrent
             If fromXML <> Null
-                ' Load from XML
+                Self.musicType = fromXML.GetAttribute("music", 0)
+                Self.bossNum = fromXML.GetAttribute("bossNum", -1)
+
+                Local tilesNode := fromXML.GetChild("tiles")
+                Local tileNodes := tilesNode.GetChildren("tile")
+                For Local tileNode := EachIn tileNodes
+                    Self.tiles.AddLast(New TileObject(tileNode))
+                End For
+
+                Local trapsNode := fromXML.GetChild("traps")
+                Local trapNodes := trapsNode.GetChildren("trap")
+                For Local trapNode := EachIn trapNodes
+                    Self.traps.AddLast(New trapObject(trapNode))
+                End For
+
+                Local enemiesNode := fromXML.GetChild("enemies")
+                Local enemyNodes := enemiesNode.GetChildren("enemy")
+                For Local enemyNode := EachIn enemyNodes
+                    Self.enemies.AddLast(New enemyObject(enemyNode))
+                End For
+
+                Local itemsNode := fromXML.GetChild("items")
+                Local itemNodes := itemsNode.GetChildren("item")
+                For Local itemNode := EachIn itemNodes
+                    Self.items.AddLast(New itemObject(itemNode))
+                End For
+
+                Local chestsNode := fromXML.GetChild("chests")
+                Local chestNodes := chestsNode.GetChildren("chest")
+                For Local chestNode := EachIn chestNodes
+                    Self.chests.AddLast(New chestObject(chestNode))
+                End For
+
+                Local cratesNode := fromXML.GetChild("crates")
+                Local crateNodes := cratesNode.GetChildren("crate")
+                For Local crateNode := EachIn crateNodes
+                    Self.crates.AddLast(New crateObject(crateNode))
+                End For
             End If
         Else
             For Local tilesOnX := EachIn Level.tiles
@@ -129,9 +167,9 @@ Class LevelObject
 
             Select tile.type
                 Case TileType.Stairs
-                    Local exit_p1 := New Point(tile.x, tile.y)
-                    Local exit_p2 := New Point(-3, currentZone)
-                    Level.exits.Set(exit_p1, exit_p2)
+                    Local exitKey := New Point(tile.x, tile.y)
+                    Local exitValue := New Point(LevelType.NextLevel, currentZone)
+                    Level.exits.Set(exitKey, exitValue)
                 Case TileType.LockedStairsMiniboss
                     Level.CreateExit(tile.x, tile.y)
             End Select
@@ -225,7 +263,7 @@ Class LevelObject
         End For
     End Method
 
-    Method ToXML: Object()
+    Method ToXML: XMLDoc()
         Debug.TraceNotImplemented("LevelObject.ToXML()")
     End Method
 
@@ -244,8 +282,8 @@ Class TileObject
         Self.torch = torch
     End Method
 
-    Method New(fromXML: Object)
-        Debug.TraceNotImplemented("TileObject.New(Object)")
+    Method New(fromXML: XMLNode)
+        Debug.TraceNotImplemented("TileObject.New(XMLNode)")
     End Method
 
     Field x: Int
@@ -255,8 +293,8 @@ Class TileObject
     Field cracked: Bool
     Field torch: Bool
 
-    Method AddToXML: Void(xml: Object)
-        Debug.TraceNotImplemented("TileObject.AddToXML(Object)")
+    Method AddToXML: Void(xml: XMLNode)
+        Debug.TraceNotImplemented("TileObject.AddToXML(XMLNode)")
     End Method
 
 End Class
@@ -271,8 +309,8 @@ Class TrapObject
         Self.type = type
     End Method
 
-    Method New(fromXML: Object)
-        Debug.TraceNotImplemented("TrapObject.New(Object)")
+    Method New(fromXML: XMLNode)
+        Debug.TraceNotImplemented("TrapObject.New(XMLNode)")
     End Method
 
     Field x: Int
@@ -280,8 +318,8 @@ Class TrapObject
     Field type: Int
     Field subtype: Int = -1
 
-    Method AddToXML: Void(xml: Object)
-        Debug.TraceNotImplemented("TrapObject.AddToXML(Object)")
+    Method AddToXML: Void(xml: XMLNode)
+        Debug.TraceNotImplemented("TrapObject.AddToXML(XMLNode)")
     End Method
 
 End Class
@@ -298,8 +336,8 @@ Class EnemyObject
         Self.lord = lord
     End Method
 
-    Method New(fromXML: Object)
-        Debug.TraceNotImplemented("EnemyObject.New(Object)")
+    Method New(fromXML: XMLNode)
+        Debug.TraceNotImplemented("EnemyObject.New(XMLNode)")
     End Method
 
     Field x: Int
@@ -308,8 +346,8 @@ Class EnemyObject
     Field beatDelay: Int = -1
     Field lord: Bool
 
-    Method AddToXML: Void(xml: Object)
-        Debug.TraceNotImplemented("EnemyObject.AddToXML(Object)")
+    Method AddToXML: Void(xml: XMLNode)
+        Debug.TraceNotImplemented("EnemyObject.AddToXML(XMLNode)")
     End Method
 
 End Class
@@ -327,8 +365,8 @@ Class ItemObject
         Self.bloodCost = bloodCost
     End Method
 
-    Method New(fromXML: Object)
-        Debug.TraceNotImplemented("ItemObject.New(Object)")
+    Method New(fromXML: XMLNode)
+        Debug.TraceNotImplemented("ItemObject.New(XMLNode)")
     End Method
 
     Field x: Int
@@ -338,8 +376,8 @@ Class ItemObject
     Field saleCost: Int
     Field bloodCost: Float
 
-    Method AddToXML: Void(xml: Object)
-        Debug.TraceNotImplemented("ItemObject.AddToXML(Object)")
+    Method AddToXML: Void(xml: XMLNode)
+        Debug.TraceNotImplemented("ItemObject.AddToXML(XMLNode)")
     End Method
 
 End Class
@@ -358,8 +396,8 @@ Class ChestObject
         Self.saleCost = saleCost
     End Method
 
-    Method New(fromXML: Object)
-        Debug.TraceNotImplemented("ChestObject.New(Object)")
+    Method New(fromXML: XMLNode)
+        Debug.TraceNotImplemented("ChestObject.New(XMLNode)")
     End Method
 
     Field x: Int
@@ -370,8 +408,8 @@ Class ChestObject
     Field hidden: Bool
     Field saleCost: Int
 
-    Method AddToXML: Void(xml: Object)
-        Debug.TraceNotImplemented("ChestObject.AddToXML(Object)")
+    Method AddToXML: Void(xml: XMLNode)
+        Debug.TraceNotImplemented("ChestObject.AddToXML(XMLNode)")
     End Method
 
 End Class
@@ -387,8 +425,8 @@ Class CrateObject
         Self.contents = contents
     End Method
 
-    Method New(fromXML: Object)
-        Debug.TraceNotImplemented("CrateObject.New(Object)")
+    Method New(fromXML: XMLNode)
+        Debug.TraceNotImplemented("CrateObject.New(XMLNode)")
     End Method
 
     Field x: Int
@@ -396,8 +434,8 @@ Class CrateObject
     Field type: Int
     Field contents: String
 
-    Method AddToXML: Void(xml: Object)
-        Debug.TraceNotImplemented("CrateObject.AddToXML(Object)")
+    Method AddToXML: Void(xml: XMLNode)
+        Debug.TraceNotImplemented("CrateObject.AddToXML(XMLNode)")
     End Method
 
 End Class
@@ -412,16 +450,16 @@ Class ShrineObject
         Self.type = type
     End Method
 
-    Method New(fromXML: Object)
-        Debug.TraceNotImplemented("ShrineObject.New(Object)")
+    Method New(fromXML: XMLNode)
+        Debug.TraceNotImplemented("ShrineObject.New(XMLNode)")
     End Method
 
     Field x: Int
     Field y: Int
     Field type: Int
 
-    Method AddToXML: Void(xml: Object)
-        Debug.TraceNotImplemented("ShrineObject.AddToXML(Object)")
+    Method AddToXML: Void(xml: XMLNode)
+        Debug.TraceNotImplemented("ShrineObject.AddToXML(XMLNode)")
     End Method
 
 End Class
