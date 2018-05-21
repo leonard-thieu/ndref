@@ -12,8 +12,8 @@ Class ControllerPostGame Extends Controller
 
     Function _EditorFix: Void() End
 
-    Method New(game: Object, hardcore: Bool, daily: Bool, allChars: Bool, deathless: Bool, died: Bool, coinVal: Int, timeVal: Int)
-        Debug.TraceNotImplemented("ControllerPostGame.New(Object, Bool, Bool, Bool, Bool, Bool, Int, Int)")
+    Method New(game: ControllerGame, hardcore: Bool, daily: Bool, allChars: Bool, deathless: Bool, died: Bool, coinVal: Int, timeVal: Int)
+        Debug.TraceNotImplemented("ControllerPostGame.New(ControllerGame, Bool, Bool, Bool, Bool, Bool, Int, Int)")
     End Method
 
     Field cGame: ControllerGame

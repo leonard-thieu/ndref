@@ -11,6 +11,7 @@ Import chest
 Import entity
 Import item
 Import logger
+Import player_class
 Import rng
 Import saleitem
 Import sprite
@@ -39,14 +40,14 @@ Class Shrine Extends Entity
     Global bossShrineActive: Bool
     Global darknessShrineActive: Bool
     Global noReturnShrineActive: Bool
-    Global noReturnShrinePlayer: Object
+    Global noReturnShrinePlayer: Player
     Global paceShrineActive: Bool
     Global rhythmShrineActive: Bool
     Global riskShrineActive: Bool
-    Global riskShrinePlayer: Object
+    Global riskShrinePlayer: Player
     Global shrineList: List<Shrine> = New List<Shrine>()
     Global spaceShrineActive: Bool
-    Global usedShrinerInZone: Int
+    Global usedShrinerInZone: Int = -1
     Global usedShrines: IntSet = New IntSet()
     Global warShrineActive: Bool
 
@@ -184,7 +185,20 @@ Class Shrine Extends Entity
     End Function
 
     Function ResetShrines: Void()
-        Debug.TraceNotImplemented("Shrine.ResetShrines()")
+        Shrine.darknessShrineActive = False
+        Shrine.rhythmShrineActive = False
+        Shrine.riskShrineActive = False
+        Shrine.riskShrinePlayer = Null
+        Shrine.spaceShrineActive = False
+        Shrine.warShrineActive = False
+        Shrine.noReturnShrineActive = False
+        Shrine.noReturnShrinePlayer = Null
+        Shrine.paceShrineActive = False
+        Shrine.bossShrineActive = False
+
+        Shrine.usedShrines.Clear()
+
+        Shrine.usedShrinerInZone = -1
     End Function
 
     Function _EditorFix: Void() End

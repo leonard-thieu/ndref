@@ -393,7 +393,7 @@ Class Tile Extends RenderableObject
         Debug.TraceNotImplemented("Tile.AddFloorOverlayImage(String)")
     End Method
 
-    Method AddTextLabel: Void(filename: String, tmpXOff: Int, tmpYOff: Int, displayD: Float, flash: Bool, textString: Bool)
+    Method AddTextLabel: Void(filename: String, tmpXOff: Int, tmpYOff: Int, displayD: Float = 3.0, flash: Bool = False, textString: Bool = True)
         Debug.TraceNotImplemented("Tile.AddTextLabel(String, Int, Int, Float, Bool, Bool)")
     End Method
 

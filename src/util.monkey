@@ -23,8 +23,8 @@ Class Util
     Global pendingScoreSubmission: List<Object>
     Global storedSeed: Int
 
-    Function AddMetric: Void(key: Int, value: Int, send: Bool, blocking: Bool, isNumber: Bool)
-        Debug.TraceNotImplemented("Util.AddMetric(Int, Int, Bool, Bool, Bool)")
+    Function AddMetric: Void(key: String, value: String, send: Bool = False, blocking: Bool = False, isNumber: Bool = False)
+        Debug.TraceNotImplemented("Util.AddMetric(String, String, Bool, Bool, Bool)")
     End Function
 
     Function AreAriaOrCodaActive: Bool()
@@ -197,7 +197,7 @@ Class Util
         Debug.TraceNotImplemented("Util.GetSteamStat(Int)")
     End Function
 
-    Function GetTimeStringFromMilliseconds: Int(msecs: Int, secondsOnly: Bool, padSeconds: Bool)
+    Function GetTimeStringFromMilliseconds: String(msecs: Int, secondsOnly: Bool, padSeconds: Bool)
         Debug.TraceNotImplemented("Util.GetTimeStringFromMilliseconds(Int, Bool, Bool)")
     End Function
 
@@ -209,8 +209,8 @@ Class Util
         Debug.TraceNotImplemented("Util.HasLeaderboardDownloaded()")
     End Function
 
-    Function IncrementSteamStat: Bool(statName: Int, inGameplayOnly: Bool, allowCoop: Bool, allowSeeded: Bool, delayUntilLevelLoad: Bool)
-        Debug.TraceNotImplemented("Util.IncrementSteamStat(Int, Bool, Bool, Bool, Bool)")
+    Function IncrementSteamStat: Bool(statName: String, inGameplayOnly: Bool, allowCoop: Bool, allowSeeded: Bool, delayUntilLevelLoad: Bool)
+        Debug.TraceNotImplemented("Util.IncrementSteamStat(String, Bool, Bool, Bool, Bool)")
     End Function
 
     Function InvertDir: Int(dir: Int)
@@ -426,8 +426,8 @@ Class Util
         Debug.TraceNotImplemented("Util.SetAppFolder()")
     End Function
 
-    Function SetSteamIntStat: Bool(statName: Int, val: Int, inGameplayOnly: Bool, allowCoop: Bool, delayUntilLevelLoad: Bool)
-        Debug.TraceNotImplemented("Util.SetSteamIntStat(Int, Int, Bool, Bool, Bool)")
+    Function SetSteamIntStat: Bool(statName: String, val: Int, inGameplayOnly: Bool, allowCoop: Bool, delayUntilLevelLoad: Bool)
+        Debug.TraceNotImplemented("Util.SetSteamIntStat(String, Int, Bool, Bool, Bool)")
     End Function
 
     Function SongNameSoundtrackId: Int(songName: Int)

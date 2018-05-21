@@ -9,6 +9,7 @@ Import gui.controller_load_dungeon
 Import gui.controller_popup
 Import gui.optionlist
 Import gui.textlabel
+Import level.level_object
 Import entity
 Import logger
 Import sprite
@@ -17,12 +18,13 @@ Import textsprite
 Class ControllerLevelEditor Extends Controller
 
     Global playingLevel: Int = -1
-    Global storedEditor: Object
+    Global playingWholeDungeon: Bool
+    Global storedEditor: ControllerLevelEditor
 
     Function _EditorFix: Void() End
 
     Field numLevels: Int
-    Field levels: IntMap<Object>
+    Field levels: IntMap<LevelObject>
     Field charNum: Int
     Field floorNames: StringStack
     Field floorTypes: IntStack

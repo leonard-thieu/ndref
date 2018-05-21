@@ -4,6 +4,7 @@ Import brl.json
 Import brl.filestream
 Import logger
 Import necrodancergame
+Import xml
 
 Class GameData
 
@@ -17,7 +18,7 @@ Class GameData
     Global modGamedataChanges: Bool
     Global playerDataLoaded: Bool
     Global replaySaveData: Object
-    Global xmlSaveData: Object
+    Global xmlSaveData: XMLDoc
 
     Function AddDiamondDealerItem: Void(itemName: Int)
         Debug.TraceNotImplemented("GameData.AddDiamondDealerItem(Int)")
@@ -79,7 +80,7 @@ Class GameData
         Debug.TraceNotImplemented("GameData.GetDefaultMod()")
     End Function
 
-    Function GetDiamondDealerItems: Int()
+    Function GetDiamondDealerItems: String()
         Debug.TraceNotImplemented("GameData.GetDiamondDealerItems()")
     End Function
 
@@ -293,6 +294,8 @@ Class GameData
 
     Function GetTutorialComplete: Bool()
         Debug.TraceNotImplemented("GameData.GetTutorialComplete()")
+
+        Return True
     End Function
 
     Function GetUseChoral: Bool()
