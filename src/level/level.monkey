@@ -7944,7 +7944,17 @@ Class Level
         Level.creatingMap = False
 
         If Level.isHardMode
-            Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Hard Mode)")
+            Local hardModeNode := Level.GetHardModeXML()
+            If item.GetInt(hardModeNode, "spawnHelperItems", False)
+                Local x := -2
+                If Not Level.IsFloorAt(x, 0)
+                    x = -1
+                End If
+
+                Local helperItemName := Item.RandomHardModeHelperItem()
+
+                New Item(x, 0, helperItemName, False, -1, False)
+            End If
         End If
 
         If controller_game.currentLevel <= 0
