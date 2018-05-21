@@ -6988,9 +6988,12 @@ Class Level
         controller_game.currentLevel = level
         controller_game.currentZone = zone
 
+        Local setTodaysRandSeedString := False
+
         Select controller_game.currentLevel
             Case LevelType.DailyChallenge
                 If Level.randSeed = -1
+                    setTodaysRandSeedString = True
                     Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Daily seed)")
                 Else
                     Debug.Log("Setting random seed to " + Level.randSeed)
@@ -8037,9 +8040,10 @@ Class Level
             Entity.anyPlayerHaveWallsTorchCachedFrame = -1;
             Entity.anyPlayerHaveNazarCharmCachedFrame = -1;
 
+            ' TODO: Verify condition
             If Not Level.isReplaying And
                Not Level.isLevelEditor And
-               randSeed = 0
+               levelObj = Null
                 For Local i := 0 Until controller_game.numPlayers
                     Local player := controller_game.players[i]
                     player.health.Refill()
@@ -8051,9 +8055,8 @@ Class Level
                     Level.usedCustomMusic = False
                 End If
 
-                ' TODO: Probably not correct.
-                Local hadWeapon := False
-                If hadWeapon
+                ' TODO: Verify condition
+                If Not setTodaysRandSeedString
                     Level.todaysRandSeedString = ""
                 End If
 
