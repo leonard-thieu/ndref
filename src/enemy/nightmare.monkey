@@ -41,7 +41,9 @@ Class Nightmare Extends Enemy
     Field failedLastMove: Bool
 
     Method Die: Void()
-        Debug.TraceNotImplemented("Nightmare.Die()")
+        Super.Die()
+
+        Nightmare.nightmare = Null
     End Method
 
     Method GetMovementDirection: Point()
