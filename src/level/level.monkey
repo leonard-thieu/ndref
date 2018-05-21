@@ -11635,7 +11635,7 @@ Class Level
             End If
         End If
 
-        If Not Util.IsCharacterActive(Character.Unknown15)
+        If Not Util.IsCharacterActive(Character.Ghost)
             If Not Level.shopkeeperDead
                 If monstrousShop
                     New Shopkeeper(itemsXMid, itemsY - 2, 5, False)
@@ -11671,7 +11671,7 @@ Class Level
 
             Level.addKeyInSecretChest = True
 
-            If Not Util.IsCharacterActive(Character.Unknown15)
+            If Not Util.IsCharacterActive(Character.Ghost)
                 ' Left item
                 If createKey
                     Local key: String
@@ -11755,7 +11755,7 @@ Class Level
                 replaceWithChestPosition = -1
             End If
 
-            If Not Util.IsCharacterActive(Character.Unknown15)
+            If Not Util.IsCharacterActive(Character.Ghost)
                 Local item1: Entity
 
                 If createKey

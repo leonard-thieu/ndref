@@ -1228,6 +1228,9 @@ End Class
 
 Class Character
 
+    Const AllCharacters: Int = -1900
+    Const AllCharactersDLC: Int = -1700
+    Const StoryMode: Int = -50
     Const None: Int = -1
     Const Cadence: Int = 0
     Const Melody: Int = 1
@@ -1244,6 +1247,7 @@ Class Character
     Const Mary: Int = 12
     Const Tempo: Int = 13
     Const Reaper: Int = 14
-    Const Unknown15: Int = 15
+    Const Ghost: Int = 15
+    Const Thief: Int = 16
 
 End Class
