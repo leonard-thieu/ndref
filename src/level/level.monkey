@@ -7979,7 +7979,12 @@ Class Level
                 End If
             End For
         Else If Level.isTrainingMode
-
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                If player.numBombs = 0
+                    player.AddItemOfType("bomb", Null, True, True)
+                End If
+            End For
         End If
 
         If isTrainingLevel
