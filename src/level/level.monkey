@@ -12749,7 +12749,7 @@ Class Level
         Return Enemy.MakeEnemy(xVal, yVal, EnemyType.IceElemental)
     End Function
 
-    Function PlaceZone3Slime: Slime(xVal: Int, yVal: Int)
+    Function PlaceZone3Slime: Enemy(xVal: Int, yVal: Int)
         If Level.IsInZone3Hot(xVal, yVal)
             Return New Slime(xVal, yVal, 5)
         End If
