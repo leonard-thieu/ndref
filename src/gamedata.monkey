@@ -80,7 +80,7 @@ Class GameData
         Debug.TraceNotImplemented("GameData.GetDefaultMod()")
     End Function
 
-    Function GetDiamondDealerItems: Int()
+    Function GetDiamondDealerItems: String()
         Debug.TraceNotImplemented("GameData.GetDiamondDealerItems()")
     End Function
 

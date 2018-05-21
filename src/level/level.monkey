@@ -8078,7 +8078,18 @@ Class Level
            levelObj = Null And
            Not Level.isHardcoreMode And
            Not Level.isDailyChallenge
-            Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Training level)")
+            Local diamondDealerItems := GameData.GetDiamondDealerItems().Split(",")
+            For Local item := EachIn diamondDealerItems
+                Select item
+                    Case "",
+                         Item.NoItem
+                        Continue
+                End Select
+
+                New Item(0, 0, item, False, -1, False)
+            End For
+
+            GameData.EraseDiamondDealerItems()
         End If
 
         Level.RecalcLevelBoundaries()
