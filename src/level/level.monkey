@@ -7965,7 +7965,19 @@ Class Level
         End If
 
         If isTrainingLevel
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                player.EmptyAllSlots(True)
+                player.GiveInitialEquipment(True)
+                player.AddItemOfType("bomb", Null, True, True)
 
+                If Level.isFloorIsLavaMode
+                    If Not player.IsSlotCursed("weapon")
+                        player.EmptySlot("weapon")
+                        player.AddItemOfType("weapon_cat", Null, True, True)
+                    End If
+                End If
+            End For
         Else If Level.isTrainingMode
 
         End If

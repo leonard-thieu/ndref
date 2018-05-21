@@ -680,8 +680,8 @@ Class Player Extends MobileEntity
         Self.UpdateBonusHeart()
     End Method
 
-    Method EmptySlot: Void(sl: Int)
-        Debug.TraceNotImplemented("Player.EmptySlot(Int)")
+    Method EmptySlot: Void(sl: String)
+        Debug.TraceNotImplemented("Player.EmptySlot(String)")
     End Method
 
     Method EnterBatForm: Void()
@@ -921,8 +921,8 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.IsShrunk(Int, Int)")
     End Method
 
-    Method IsSlotCursed: Bool(sl: Int)
-        Debug.TraceNotImplemented("Player.IsSlotCursed(Int)")
+    Method IsSlotCursed: Bool(sl: String)
+        Debug.TraceNotImplemented("Player.IsSlotCursed(String)")
     End Method
 
     Method IsVisible: Bool()
