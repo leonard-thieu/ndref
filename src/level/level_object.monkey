@@ -59,7 +59,7 @@ Class LevelObject
                         trapObj.subtype = travelRune.runeType
                     Case TrapType.FireTrap
                         Local fireTrap := FireTrap(trap)
-                        trapObj.subtype = fireTrap.subtype
+                        trapObj.subtype = fireTrap.fireDir
                 End Select
 
                 Self.traps.AddLast(trapObj)
