@@ -7987,6 +7987,11 @@ Class Level
             End For
         End If
 
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            player.temporaryMapSight = False
+        End For
+
         If isTrainingLevel
             If Level.isDDRMode
                 For Local i := 0 Until controller_game.numPlayers
