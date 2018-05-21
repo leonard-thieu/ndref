@@ -11,7 +11,7 @@ Import chest
 Import entity
 Import item
 Import logger
-Import player
+Import player_class
 Import rng
 Import saleitem
 Import sprite
