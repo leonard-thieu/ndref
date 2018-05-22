@@ -1,13 +1,11 @@
-'Strict
+Strict
 
-Import logger
-
-Class GuiContainer
+Class GuiContainer Abstract
 
     Function _EditorFix: Void() End
 
     Method GUICallback: Void(index: Int, left: Bool)
-        Debug.TraceNotImplemented("GuiContainer.GUICallback(Int, Bool)")
+        ' Empty implementation
     End Method
 
 End Class

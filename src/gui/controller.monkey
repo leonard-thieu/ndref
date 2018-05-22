@@ -1,26 +1,62 @@
-'Strict
+Strict
 
 Import gui.guicontainer
-Import logger
 
-Class Controller Extends GuiContainer
+Class Controller Extends GuiContainer Abstract
 
     Global currentController: Controller
 
-    Function GiveFocus: Void(c: Object)
-        Debug.TraceNotImplemented("Controller.GiveFocus(Object)")
+    Function GiveFocus: Void(c: Controller)
+        c.parent = Controller.currentController
+        Controller.currentController = c
+        Controller.currentController.RegainFocus()
+    End Function
+
+    Function UpdateCurrent: Void()
+        If Controller.currentController <> Null
+            Controller.currentController.Update()
+        End If
+    End Function
+
+    Function UpdateRender: Void()
+        If Controller.currentController <> Null
+            Controller.currentController.Render()
+        End If
     End Function
 
     Function _EditorFix: Void() End
 
-    Field parent: Controller
-
-    Method HasFocus: Bool()
-        Debug.TraceNotImplemented("Controller.HasFocus()")
+    Method New()
+        Self.parent = Controller.currentController
+        Controller.currentController = Self
     End Method
 
+    Field parent: Controller
+
+    Method RegainFocus: Void() Abstract
+
+    Method Update: Void() Abstract
+
+    Method Render: Void() Abstract
+
+    Method Suspend: Void()
+        ' Empty implementation
+    End Method
+
+    Method Resume: Void()
+        ' Empty implementation
+    End Method
+
+    Method Destructor: Void() Abstract
+
     Method ReleaseFocus: Void()
-        Debug.TraceNotImplemented("Controller.ReleaseFocus()")
+        Controller.currentController = Self.parent
+        Self.Destructor()
+        Controller.currentController.RegainFocus()
+    End Method
+
+    Method HasFocus: Bool()
+        Return Controller.currentController = Self
     End Method
 
 End Class
