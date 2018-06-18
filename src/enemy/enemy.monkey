@@ -527,7 +527,199 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function StartRandomizerRun: Void()
-        Debug.TraceNotImplemented("Enemy.StartRandomizerRun()")
+        Local enemiesNode := necrodancergame.xmlData.GetChildAtPath("enemies")
+        Local enemiesXML := enemiesNode.Export(1)
+        Enemy.randomizerXML = xml.ParseXML(enemiesXML)
+
+        For Local enemyNode := EachIn Enemy.randomizerXML.GetChildren()
+            Select enemyNode.name
+                Case "crate",
+                     "bell",
+                     "conductor",
+                     "conductor_battery",
+                     "conductor_prop",
+                     "frankensteinway",
+                     "frankensteinway_prop",
+                     "dead_ringer",
+                     "lute_dragon",
+                     "lute_head",
+                     "necrodancer",
+                     "fortissimole",
+                     "medic"
+                    Continue
+            End Select
+
+            Local statsNode := enemyNode.GetChild("stats")
+            
+            Local optionalStatsNode := enemyNode.GetChild("optionalStats")
+            If optionalStatsNode = enemyNode.doc.nullNode
+                optionalStatsNode = enemyNode.AddChild("optionalStats", "")
+            End If
+
+            ' Beats per move
+
+            Local beatsPerMoveRoll := Util.RndIntRangeFromZero(99, True)
+            If enemyNode.name = "pawn"
+                beatsPerMoveRoll += 30
+            End If
+
+            Local beatsPerMove: Int
+            If beatsPerMoveRoll < 30 And
+               enemyNode.name <> "yeti" And
+               enemyNode.name <> "mushroom"
+                beatsPerMove = 1
+            Else If beatsPerMoveRoll < 70
+                beatsPerMove = 2
+            Else If beatsPerMoveRoll < 90
+                beatsPerMove = 3
+            Else
+                beatsPerMove = 4
+            End If
+
+            statsNode.SetAttribute("beatsPerMove", beatsPerMove)
+
+            ' Coins to drop
+
+            Local coinsToDrop: Int
+            Select enemyNode.name
+                Case "mummy",
+                     "electric_orb"
+                    coinsToDrop = 0
+                Default
+                    coinsToDrop = Util.RndIntRange(1, 9, True)
+            End Select
+
+            statsNode.SetAttribute("coinsToDrop", coinsToDrop)
+
+            ' Damage per hit
+
+            Local damagePerHitRoll := Util.RndIntRangeFromZero(99, True)
+            Local isMiniboss := optionalStatsNode.GetAttribute("miniboss")
+            Local isBoss := optionalStatsNode.GetAttribute("boss")
+            If isMiniboss Or
+               isBoss
+                damagePerHitRoll += 20
+            End If
+
+            Local damagePerHit: Int
+            If damagePerHitRoll < 30
+                damagePerHit = 1
+            Else If damagePerHitRoll < 50
+                damagePerHit = 2
+            Else If damagePerHitRoll < 70
+                damagePerHit = 3
+            Else If damagePerHitRoll < 80
+                damagePerHit = 4
+            Else If damagePerHitRoll < 90
+                damagePerHit = 5
+            Else
+                damagePerHit = 6
+            End If
+
+            statsNode.SetAttribute("damagePerHit", damagePerHit)
+
+            ' Health
+
+            Local enemyType := enemyNode.GetAttribute("type", 1)
+
+            Local health: Int
+            If beatsPerMove = 1 Or
+               (enemyNode.name = "shopkeeper" And
+                (enemyType = 4 Or
+                 enemyType = 9))
+                health = 1
+            Else
+                Local healthRoll := Util.RndIntRangeFromZero(99, True)
+                If enemyNode.name = "pawn"
+                    healthRoll -= 30
+                Else If isMiniboss Or
+                        isBoss
+                    healthRoll += 15
+                End If
+
+                If healthRoll < 50
+                    health = 1
+                Else If healthRoll < 70
+                    health = 2
+                Else If healthRoll < 80
+                    health = 3
+                Else If healthRoll < 85
+                    health = 4
+                Else If healthRoll < 90
+                    health = 5
+                Else If healthRoll < 100
+                    health = healthRoll - 89
+                Else
+                    health = healthRoll - 99
+                End If
+            End If
+
+            statsNode.SetAttribute("health", health)
+
+            ' Ignore walls
+
+            Local ignoreWallsRoll := Util.RndIntRangeFromZero(19, True)
+            If ignoreWallsRoll = 0
+                optionalStatsNode.SetAttribute("ignoreWalls", True)
+            End If
+
+            ' Movement
+
+            Local movementRoll := Util.RndIntRangeFromZero(99, True)
+            Local movement: String
+            If movementRoll < 50
+                movement = "basicSeek"
+            Else if movementRoll < 65
+                movement = "random"
+            Else if movementRoll < 85
+                movement = "seekWithDiagonals"
+            Else
+                movement = "randomWithDiagonals"
+            End If
+
+            statsNode.SetAttribute("movement", movement)
+
+            ' Miscellaneous attributes
+
+            Local miscellaneousAttributesRoll := Util.RndIntRangeFromZero(9, True)
+            If miscellaneousAttributesRoll = 0
+                optionalStatsNode.SetAttribute("floating", True)
+                optionalStatsNode.SetAttribute("bounceOnMovementFail", False)
+
+                Local tweensNode := enemyNode.GetChild("tweens")
+                If tweensNode = enemyNode.doc.nullNode
+                    tweensNode = enemyNode.AddChild("tweens", "")
+                End If
+
+                tweensNode.SetAttribute("move", "slide")
+                tweensNode.SetAttribute("moveShadow", "slide")
+                tweensNode.SetAttribute("hit", "slide")
+                tweensNode.SetAttribute("hitShadow", "slide")
+
+                Local bouncerNode := enemyNode.GetChild("bouncer")
+                If bouncerNode = enemyNode.doc.nullNode
+                    bouncerNode = enemyNode.AddChild("bouncer", "")
+                End If
+
+                bouncerNode.SetAttribute("min", -2.5)
+                bouncerNode.SetAttribute("max", 0)
+                bouncerNode.SetAttribute("power", 1.5)
+                bouncerNode.SetAttribute("steps", 15)
+            Else
+                optionalStatsNode.SetAttribute("floating", False)
+                optionalStatsNode.SetAttribute("bounceOnMovementFail", True)
+
+                Local tweensNode := enemyNode.GetChild("tweens")
+                If tweensNode <> enemyNode.doc.nullNode
+                    enemyNode.RemoveChild("tweens")
+                End If
+
+                Local bouncerNode := enemyNode.GetChild("bouncer")
+                If bouncerNode <> enemyNode.doc.nullNode
+                    enemyNode.RemoveChild("bouncer")
+                End If
+            End If
+        End For
     End Function
 
     Function _EditorFix: Void() End
