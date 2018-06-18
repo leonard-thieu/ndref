@@ -1,9 +1,11 @@
 'Strict
 
 Import monkey.list
+Import camera
 Import entity
 Import logger
 Import point
+Import util
 
 Class RenderableObject Abstract
 
@@ -107,15 +109,19 @@ Class RenderableObject Abstract
     End Method
 
     Method IsFrozen: Bool(ignoreLastBeat: Bool)
-        Debug.TraceNotImplemented("RenderableObject.IsFrozen(Bool)")
+        Return False
     End Method
 
     Method IsOnScreen: Bool()
-        Debug.TraceNotImplemented("RenderableObject.IsOnScreen()")
+        Return Util.IsOnScreen(Self.x, Self.y, Camera.seekX, Camera.seekY)
     End Method
 
     Method IsOnTile: Bool(px: Int, py: Int)
         Debug.TraceNotImplemented("RenderableObject.IsOnTile(Int, Int)")
+    End Method
+
+    Method Update: Void()
+        ' Empty implementation
     End Method
 
 End Class
