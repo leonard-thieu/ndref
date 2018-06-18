@@ -6706,8 +6706,7 @@ Class Level
                     Level.mentorLevel = level + math.Abs(LevelType.MaxMentorLevel)
 
                     Local mentorLevelId := Level.mentorLevel + 1
-                    Local mentorLevelPath := data.FixDataPath("mentor/mentor_" + mentorLevelId + ".xml")
-                    Local mentorLevelData := app.LoadString(mentorLevelPath)
+                    Local mentorLevelData := app.LoadString("mentor/mentor_" + mentorLevelId + ".xml")
                     Local mentorLevelNode := xml.ParseXML(mentorLevelData)
 
                     Debug.TraceNotImplemented("Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Mentor levels)")
