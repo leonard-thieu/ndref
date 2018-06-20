@@ -365,7 +365,7 @@ Class Util
         Return random.Rnd(low, high)
     End Function
 
-    Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int)
+    Function RndIntRange: Int(low: Int, high: Int, useSeed: Bool, replayConsistencyChannel: Int = -1)
         Local value: Int = math.Floor(Util.RndFloatRange(low, high + 1, useSeed))
         value = math.Clamp(value, low, high)
 

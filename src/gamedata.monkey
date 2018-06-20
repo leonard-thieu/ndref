@@ -1,7 +1,5 @@
 'Strict
 
-Import brl.json
-Import brl.filestream
 Import logger
 Import necrodancergame
 Import xml
@@ -391,9 +389,10 @@ Class GameData
     End Function
 
     Function LoadGameDataXML: Void(bypassChecksum: Bool)
-        Local fs := FileStream.Open("monkey://data/necrodancer.json", "r")
-        necrodancergame.xmlData = New JsonObject(fs.ReadString())
-        fs.Close()
+        Local xmlStr := app.LoadString("monkey://data/necrodancer.xml")
+        necrodancergame.xmlData = xml.ParseXML(xmlStr)
+
+        Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool)")
     End Function
 
     Function LoadPlayerDataXML: Bool(forceCloud: Bool)

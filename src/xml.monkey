@@ -12,8 +12,8 @@ Class XMLNode
 
     Function _EditorFix: Void() End
 
-    Method New(name: Int, valid: Bool)
-        Debug.TraceNotImplemented("XMLNode.New(Int, Bool)")
+    Method New(name: String, valid: Bool)
+        Debug.TraceNotImplemented("XMLNode.New(String, Bool)")
     End Method
 
     Field firstChild: XMLNode
@@ -33,15 +33,23 @@ Class XMLNode
     Field lastChild: XMLNode
     Field previousSibling: XMLNode
 
-    Method AddChild: Object(name: String, attributes: Int)
-        Debug.TraceNotImplemented("XMLNode.AddChild(String, Int)")
+    Method AddChild: XMLNode(name: String, attributes: String = "")
+        Debug.TraceNotImplemented("XMLNode.AddChild(String, String)")
     End Method
 
-    Method Export: Void(options: Int, buffer: Object, depth: Int)
-        Debug.TraceNotImplemented("XMLNode.Export(Int, Object, Int)")
+    Method Clone: XMLDoc(options: Int)
+        Debug.TraceNotImplemented("XMLNode.Clone(Int)")
     End Method
 
-    Method ExportHack: Int(options: Int)
+    Method Export: String(options: Int)
+        Debug.TraceNotImplemented("XMLNode.Export(Int)")
+    End Method
+
+    Method Export: Void(options: Int, buffer: XMLStringBuffer, depth: Int)
+        Debug.TraceNotImplemented("XMLNode.Export(Int, XMLStringBuffer, Int)")
+    End Method
+
+    Method ExportHack: String(options: Int)
         Debug.TraceNotImplemented("XMLNode.ExportHack(Int)")
     End Method
 
@@ -77,16 +85,16 @@ Class XMLNode
         Debug.TraceNotImplemented("XMLNode.GetChild(String)")
     End Method
 
-    Method GetChild: XMLNode(name: String, attributes: Int)
-        Debug.TraceNotImplemented("XMLNode.GetChild(String, Int)")
+    Method GetChild: XMLNode(name: String, attributes: String)
+        Debug.TraceNotImplemented("XMLNode.GetChild(String, String)")
     End Method
 
     Method GetChildAtPath: XMLNode(path: String)
         Debug.TraceNotImplemented("XMLNode.GetChildAtPath(String)")
     End Method
 
-    Method GetChildAtPath: XMLNode(path: String, attributes: Int)
-        Debug.TraceNotImplemented("XMLNode.GetChildAtPath(String, Int)")
+    Method GetChildAtPath: XMLNode(path: String, attributes: String)
+        Debug.TraceNotImplemented("XMLNode.GetChildAtPath(String, String)")
     End Method
 
     Method GetChildren: List<XMLNode>()
@@ -94,31 +102,43 @@ Class XMLNode
     End Method
 
     Method GetChildren: List<XMLNode>(name: String)
-        Debug.TraceNotImplemented("XMLNode.GetChildren2(String)")
+        Debug.TraceNotImplemented("XMLNode.GetChildren(String)")
     End Method
 
-    Method GetChildren: List<XMLNode>(name: String, attributes: Int)
-        Debug.TraceNotImplemented("XMLNode.GetChildren3(String, Int)")
+    Method GetChildren: List<XMLNode>(name: String, attributes: String)
+        Debug.TraceNotImplemented("XMLNode.GetChildren(String, String)")
     End Method
 
-    Method GetChildrenWithAttributes: Object(attributes: Int)
-        Debug.TraceNotImplemented("XMLNode.GetChildrenWithAttributes(Int)")
+    Method GetChildrenWithAttributes: List<XMLNode>(attributes: String)
+        Debug.TraceNotImplemented("XMLNode.GetChildrenWithAttributes(String)")
     End Method
 
-    Method GetXMLAttribute: Object(id: Int)
+    Method GetXMLAttribute: XMLAttribute(id: String)
         Debug.TraceNotImplemented("XMLNode.GetXMLAttribute(Int)")
     End Method
 
-    Method HasAttribute: Bool(id: Int)
-        Debug.TraceNotImplemented("XMLNode.HasAttribute(Int)")
+    Method HasAttribute: Bool(id: String)
+        Debug.TraceNotImplemented("XMLNode.HasAttribute(String)")
     End Method
 
-    Method RemoveAttribute: Void(id: Int)
-        Debug.TraceNotImplemented("XMLNode.RemoveAttribute(Int)")
+    Method IsValid: Bool() Property
+        Return Self.valid
     End Method
 
-    Method RemoveChild: Void(child: Object)
-        Debug.TraceNotImplemented("XMLNode.RemoveChild(Object)")
+    Method Name: String() Property
+        Return Self.name
+    End Method
+
+    Method NullNode: XMLNode() Property
+        Return Self.doc.nullNode
+    End Method
+
+    Method RemoveAttribute: Void(id: String)
+        Debug.TraceNotImplemented("XMLNode.RemoveAttribute(String)")
+    End Method
+
+    Method RemoveChild: Void(child: XMLNode)
+        Debug.TraceNotImplemented("XMLNode.RemoveChild(XMLNode)")
     End Method
 
     Method SetAttribute: Void(id: String)
@@ -141,22 +161,26 @@ Class XMLNode
         Debug.TraceNotImplemented("XMLNode.SetAttribute(String, Int)")
     End Method
 
+    Method Value: String() Property
+        Return Self.value
+    End Method
+
 End Class
 
 Class XMLDoc Extends XMLNode
 
     Function _EditorFix: Void() End
 
-    Method New(name: Int, version: Int, encoding: Int)
-        Debug.TraceNotImplemented("XMLDoc.New(Int, Int, Int)")
+    Method New(name: String, version: String, encoding: String)
+        Debug.TraceNotImplemented("XMLDoc.New(String, String, String)")
     End Method
 
     Field nullNode: XMLNode
     Field version: String
     Field encoding: String
-    Field paths: StringMap2
+    Field paths: StringMap = New StringMap()
 
-    Method Export: Int(options: Int)
+    Method Export: String(options: Int)
         Debug.TraceNotImplemented("XMLDoc.Export(Int)")
     End Method
 
@@ -166,8 +190,8 @@ Class XMLAttribute
 
     Function _EditorFix: Void() End
 
-    Method New(id: Int, value: Int)
-        Debug.TraceNotImplemented("XMLAttribute.New(Int, Int)")
+    Method New(id: String, value: String)
+        Debug.TraceNotImplemented("XMLAttribute.New(String, String)")
     End Method
 
     Field value: String
@@ -209,7 +233,7 @@ Class XMLStringBuffer
         Debug.TraceNotImplemented("XMLStringBuffer.Trim()")
     End Method
 
-    Method value: Int()
+    Method value: String()
         Debug.TraceNotImplemented("XMLStringBuffer.value()")
     End Method
 
@@ -229,11 +253,11 @@ Class XMLError
         Debug.TraceNotImplemented("XMLError.Reset()")
     End Method
 
-    Method Set: Void(message: Int, line: Int, column: Int, offset: Int)
-        Debug.TraceNotImplemented("XMLError.Set(Int, Int, Int, Int)")
+    Method Set: Void(message: String, line: Int, column: Int, offset: Int)
+        Debug.TraceNotImplemented("XMLError.Set(String, Int, Int, Int)")
     End Method
 
-    Method ToString: Int()
+    Method ToString: String()
         Debug.TraceNotImplemented("XMLError.ToString()")
     End Method
 
@@ -243,8 +267,8 @@ Class XMLAttributeQueryItem
 
     Function _EditorFix: Void() End
 
-    Method New(id: Int, value: Int, required: Bool, special: Bool)
-        Debug.TraceNotImplemented("XMLAttributeQueryItem.New(Int, Int, Bool, Bool)")
+    Method New(id: String, value: String, required: Bool, special: Bool)
+        Debug.TraceNotImplemented("XMLAttributeQueryItem.New(String, String, Bool, Bool)")
     End Method
 
     Field id: String
@@ -258,16 +282,16 @@ Class XMLAttributeQuery
 
     Function _EditorFix: Void() End
 
-    Method New(query: Int)
-        Debug.TraceNotImplemented("XMLAttributeQuery.New(Int)")
+    Method New(query: String)
+        Debug.TraceNotImplemented("XMLAttributeQuery.New(String)")
     End Method
 
     Field count: Int
     Field items: XMLAttributeQueryItem[]
     Field chunk: Int
 
-    Method Test: Bool(node: Object)
-        Debug.TraceNotImplemented("XMLAttributeQuery.Test(Object)")
+    Method Test: Bool(node: XMLNode)
+        Debug.TraceNotImplemented("XMLAttributeQuery.Test(XMLNode)")
     End Method
 
 End Class

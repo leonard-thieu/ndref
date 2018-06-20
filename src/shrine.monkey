@@ -2,7 +2,6 @@
 
 Import monkey.list
 Import monkey.set
-Import brl.json
 Import mojo.graphics
 Import gui.controller_game
 Import level
@@ -443,7 +442,7 @@ Class UncertaintyWeaponPredicate Implements IItemPredicate
 
     Function _EditorFix: Void() End
 
-    Method Call: Bool(n: JsonObject)
+    Method Call: Bool(n: XMLNode)
         If Item.IsItemOfClass(n, "isObsidian") Or
            Item.IsItemOfClass(n, "isTitanium")
             Return Not Item.IsItemOfClass(n, "isDagger") And
@@ -460,8 +459,8 @@ Class UncertaintyRingPredicate Implements IItemPredicate
 
     Function _EditorFix: Void() End
 
-    Method Call: Bool(n: JsonObject)
-        Local name := item.GetString(n, "name", "")
+    Method Call: Bool(n: XMLNode)
+        Local name := n.name
 
         Select name
             Case "ring_peace",

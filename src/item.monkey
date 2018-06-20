@@ -11,44 +11,7 @@ Import gamedata
 Import logger
 Import necrodancer
 Import necrodancergame
-
-' TODO: Write a wrapper for the JSON API and pull these helper functions in.
-
-Function GetString: String(obj: JsonObject, key: String, defval: String)
-    If Not obj.Contains(key) Then Return defval
-
-    Local value := obj.Get(key)
-    If value = JsonNull.Instance Then Return defval
-
-    Return value.StringValue()
-End Function
-
-Function GetInt: Int(obj: JsonObject, key: String, defval: Int)
-    If Not obj.Contains(key) Then Return defval
-
-    Local value := obj.Get(key)
-    If value = JsonNull.Instance Then Return defval
-
-    Return value.IntValue()
-End Function
-
-Function GetFloat: Float(obj: JsonObject, key: String, defval: Float)
-    If Not obj.Contains(key) Then Return defval
-
-    Local value := obj.Get(key)
-    If value = JsonNull.Instance Then Return defval
-
-    Return value.FloatValue()
-End Function
-
-Function GetBool: Bool(obj: JsonObject, key: String, defval: Bool)
-    If Not obj.Contains(key) Then Return defval
-
-    Local value := obj.Get(key)
-    If value = JsonNull.Instance Then Return defval
-
-    Return value.BoolValue()
-End Function
+Import xml
 
 Function GetResourceCoinType: String(amount: Int)
     Return "resource_coin" + math.Clamp(amount, 1, 10)
@@ -66,20 +29,20 @@ Class Item Extends Entity
     Global hephItems2: Object
     Global hephItems3: Object
     Global itemImages: Object
-    Global itemPoolAnyChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolAnyChest2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolChest2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolLockedChest: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolLockedChest2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolLockedShop: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolLockedShop2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolRandom: List<JsonObject> = New List<JsonObject>()
-    Global itemPoolRandom2: List<JsonObject> = New List<JsonObject>()
-    Global itemPoolShop: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolShop2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolUrn: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
-    Global itemPoolUrn2: List<JsonObject>[] = [New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>(), New List<JsonObject>()]
+    Global itemPoolAnyChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolAnyChest2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolChest2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolLockedChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolLockedChest2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolLockedShop: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolLockedShop2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolRandom: List<XMLNode> = New List<XMLNode>()
+    Global itemPoolRandom2: List<XMLNode> = New List<XMLNode>()
+    Global itemPoolShop: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolShop2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolUrn: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolUrn2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
     Global lastChestItemClass1: String
     Global lastChestItemClass2: String
     Global merlinItems1: Object
@@ -116,12 +79,13 @@ Class Item Extends Entity
     Function CreateItemPools: Void()
         Local startTime := app.Millisecs()
 
-        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
+        Local itemsNode := necrodancergame.xmlData.GetChild("items")
+        Local itemNodes := itemsNode.GetChildren()
 
         Local attributeNames := New StringStack()
-        Local unlockedItems := New Stack<JsonObject>()
+        Local unlockedItems := New Stack<XMLNode>()
         Local unlockedItemsChances := New IntStack()
-        Local itemPoolCandidates := New Stack<JsonObject>()
+        Local itemPoolCandidates := New Stack<XMLNode>()
 
         For Local i := 0 Until 2
             For Local j := 0 To 7
@@ -134,7 +98,7 @@ Class Item Extends Entity
                     attributeNames.Clear()
 
                     ' Select the pool to fill.
-                    Local itemPool: List<JsonObject>
+                    Local itemPool: List<XMLNode>
                     If j <> 7
                         Select k
                             Case 0
@@ -183,12 +147,11 @@ Class Item Extends Entity
                     unlockedItems.Clear()
                     unlockedItemsChances.Clear()
 
-                    For Local itemNodeValue := EachIn itemNodes
-                        Local itemNode := JsonObject(itemNodeValue)
+                    For Local itemNode := EachIn itemNodes
                         Local m := 0
 
                         For Local attributeName := EachIn attributeNames
-                            Local chancesStr := GetString(itemNode, attributeName, "0")
+                            Local chancesStr := itemNode.GetAttribute(attributeName, "0")
                             Local chancesStrs := chancesStr.Split("|")
 
                             Local chanceIndexMax := math.Min(j, chancesStrs.Length() - 1)
@@ -201,7 +164,7 @@ Class Item Extends Entity
 
                             If chance > 0
                                 If Level.isHardcoreMode Or
-                                   Item.IsUnlocked(GetString(itemNode, "name", ""))
+                                   Item.IsUnlocked(itemNode.GetAttribute("name", ""))
                                     unlockedItems.Push(itemNode)
 
                                     If j = 7
@@ -212,7 +175,7 @@ Class Item Extends Entity
                                         End If
 
                                         If Item.debugTrailerMode
-                                            Local itemSet := GetString(itemNode, "set", "base")
+                                            Local itemSet := itemNode.GetAttribute("set", "base")
                                             If itemSet = "dlc"
                                                 chance *= 50
                                             End If
@@ -259,7 +222,7 @@ Class Item Extends Entity
                     For Local itemPoolCandidate := EachIn itemPoolCandidates
                         If Not Item.IsValidItemForCurrentChars(itemPoolCandidate) Then Continue
 
-                        Local name := GetString(itemPoolCandidate, "name", "")
+                        Local name := itemPoolCandidate.Name
                         If Item.IsDisabled(name) Then Continue
 
                         itemPool.AddLast(itemPoolCandidate)
@@ -286,7 +249,7 @@ Class Item Extends Entity
 
                         Debug.WriteLine(itemPoolName)
                         For Local itemNode := EachIn itemPool
-                            Local name := item.GetString(itemNode, "name", "")
+                            Local name := itemNode.Name
                             Debug.WriteLine(name)
                         End For
                     End If
@@ -316,17 +279,10 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.FindAllGoldPiles()")
     End Function
 
-    Function GetAllItemsInClass: List<JsonObject>(itemClass: String)
-        Local items := New List<JsonObject>()
-        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
+    Function GetAllItemsInClass: List<XMLNode>(itemClass: String)
+        Local itemsNode := necrodancergame.xmlData.GetChild("items")
 
-        For Local itemNodeValue := EachIn itemNodes
-            Local itemNode := JsonObject(itemNodeValue)
-            Local isInClass := GetBool(itemNode, itemClass, False)
-            If isInClass Then items.AddLast(itemNode)
-        End For
-
-        Return items
+        Return itemsNode.GetChildrenWithAttributes(itemClass + "=True")
     End Function
 
     Function GetAppropriateCoinItemForQuantity: Int(quantity: Int)
@@ -336,13 +292,13 @@ Class Item Extends Entity
     Function GetCost: Int(i: String)
         Local itemNode := Item.GetItemXML(i)
 
-        Return item.GetInt(itemNode, "coinCost", 0)
+        Return itemNode.GetAttribute("coinCost", 0)
     End Function
 
     Function GetDisplayName: String(itemName: String)
         Local itemNode := Item.GetItemXML(itemName)
         If itemNode <> Null
-            itemName = item.GetString(itemNode, "displayName", itemName)
+            itemName = itemNode.GetAttribute("displayName", itemName)
         End If
 
         Return itemName
@@ -360,18 +316,8 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetIntAttribute(String, String, Int)")
     End Function
 
-    Function GetItemXML: JsonObject(i: String)
-        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
-
-        For Local itemNode := EachIn itemNodes
-            Local itemNodeObj := JsonObject(itemNode)
-            If itemNodeObj <> Null And
-               GetString(itemNodeObj, "name", Item.NoItem) = i
-                Return itemNodeObj
-            End If
-        End For
-
-        Return Null
+    Function GetItemXML: XMLNode(i: String)
+        Return necrodancergame.xmlData.GetChildAtPath("items/" + i)
     End Function
 
     Function GetPickupAt: Item(xVal: Int, yVal: Int, slf: Item)
@@ -430,7 +376,7 @@ Class Item Extends Entity
     End Function
 
     Function GetRandomItemInClassByPredicate: String(predicate: IItemPredicate, requestedLevel: Int, randomType: String, nonDeterministic: Bool)
-        Local itemPool: List<JsonObject>
+        Local itemPool: List<XMLNode>
         If requestedLevel <= 0
             itemPool = Item.itemPoolRandom
             If nonDeterministic Then itemPool = Item.itemPoolRandom2
@@ -467,7 +413,7 @@ Class Item Extends Entity
         For Local j := 1 Until 10
             For Local itemNode := EachIn itemPool
                 If predicate.Call(itemNode)
-                    Local name := GetString(itemNode, "name", "")
+                    Local name := itemNode.Name
 
                     If Not Item.HasSeenItemXTimes(name, j)
                         Item.AddToSeenItems(name)
@@ -487,21 +433,14 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.GetSet(Object)")
     End Function
 
-    Function GetSlot: String(n: JsonObject)
-        Return GetString(n, "slot", Item.NoItem)
+    Function GetSlot: String(n: XMLNode)
+        Return n.GetAttribute("slot", Item.NoItem)
     End Function
 
     Function GetSlot: String(i: String)
-        Local itemNodes := JsonArray(necrodancergame.xmlData.Get("items")).GetData()
+        Local itemNode := necrodancergame.xmlData.GetChildAtPath("items/" + i)
 
-        For Local itemNode := EachIn itemNodes
-            Local itemObj := JsonObject(itemNode)
-            If itemObj.GetString("name") = i
-                Return GetString(itemObj, "slot", Item.NoItem)
-            End If
-        End For
-
-        Return Item.NoItem
+        Return Item.GetSlot(itemNode)
     End Function
 
     Function GetStringAttribute: Int(i: Int, attr: Int, dflt: Int)
@@ -511,7 +450,7 @@ Class Item Extends Entity
     Function GetValue: Int(t: String)
         Local itemNode := Item.GetItemXML(t)
 
-        Return item.GetInt(itemNode, "data", 0)
+        Return itemNode.GetAttribute("data", 0)
     End Function
 
     Function GetWeaponBaseType: Int(t: Int)
@@ -534,8 +473,8 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.InitAll()")
     End Function
 
-    Function IsCourageItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", Item.NoItem)
+    Function IsCourageItem: Bool(n: XMLNode)
+        Local name := n.Name
 
         Select name
             Case "ring_courage",
@@ -546,8 +485,8 @@ Class Item Extends Entity
         Return False
     End Function
 
-    Function IsDamageBonusItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", Item.NoItem)
+    Function IsDamageBonusItem: Bool(n: XMLNode)
+        Local name := n.Name
 
         Select name
             Case "blood_drum",
@@ -571,8 +510,8 @@ Class Item Extends Entity
         Return False
     End Function
 
-    Function IsDamageReductionItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", Item.NoItem)
+    Function IsDamageReductionItem: Bool(n: XMLNode)
+        Local name := n.Name
 
         Select name
             Case "armor_chainmail",
@@ -603,8 +542,8 @@ Class Item Extends Entity
         Return False
     End Function
 
-    Function IsDiscountItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", Item.NoItem)
+    Function IsDiscountItem: Bool(n: XMLNode)
+        Local name := n.Name
 
         Select name
             Case "misc_coupon",
@@ -615,8 +554,8 @@ Class Item Extends Entity
         Return False
     End Function
 
-    Function IsGoldGeneratingItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", Item.NoItem)
+    Function IsGoldGeneratingItem: Bool(n: XMLNode)
+        Local name := n.Name
 
         Select name
             Case "familiar_shopkeeper",
@@ -628,10 +567,10 @@ Class Item Extends Entity
         Return False
     End Function
 
-    Function IsHealthBonusItem: Bool(n: JsonObject)
-        If n.GetBool("isFood") Return True
+    Function IsHealthBonusItem: Bool(n: XMLNode)
+        If Item.IsItemOfClass(n, "isFood") Then Return True
 
-        Local name := GetString(n, "name", Item.NoItem)
+        Local name := n.Name
 
         Select name
             Case "charm_gluttony",
@@ -655,19 +594,21 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.IsImmediatelyConsumed(Int)")
     End Function
 
-    Function IsItemOfClass: Bool(n: JsonObject, itemClass: String)
-        ' NOTE: If this gets converted back to use XML, the value of `itemClass` should be retrieved as a String.
-        Return item.GetBool(n, itemClass, False)
+    Function IsItemOfClass: Bool(n: XMLNode, itemClass: String)
+        ' WHYYYYYYYY
+        Local isItemOfClass := n.GetAttribute(itemClass, "false")
+
+        Return isItemOfClass.ToUpper() = "TRUE"
     End Function
 
     Function IsItemOfType: Bool(i: String, query: String)
-        Local itemObj := Item.GetItemXML(i)
+        Local itemNode := Item.GetItemXML(i)
 
-        Return GetBool(itemObj, query, False)
+        Return itemNode.GetAttribute(query, False)
     End Function
 
-    Function IsPainItem: Bool(n: JsonObject)
-        Local name := GetString(n, "name", Item.NoItem)
+    Function IsPainItem: Bool(n: XMLNode)
+        Local name := n.Name
 
         Select name
             Case "feet_boots_pain",
@@ -682,9 +623,9 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.IsUnlocked(String)")
     End Function
 
-    Function IsValidItemForCurrentChars: Bool(n: JsonObject)
+    Function IsValidItemForCurrentChars: Bool(n: XMLNode)
         Local slot := Item.GetSlot(n)
-        Local name := GetString(n, "name", Item.NoItem)
+        Local name := n.Name
 
         If Util.IsWeaponlessCharacterActive()
             If slot = "weapon" Then Return False
@@ -988,7 +929,7 @@ Class Item Extends Entity
 
         Local itemNode := Item.GetItemXML(type)
 
-        If itemNode = Null
+        If Not itemNode.IsValid()
             Debug.Log("ERROR: Unrecognized item type " + type)
 
             type = "food_1"
@@ -998,15 +939,15 @@ Class Item Extends Entity
         If utl <> -1
             Self.utility = utl
         Else
-            Self.utility = GetInt(itemNode, "data", 0)
+            Self.utility = itemNode.GetAttribute("data", 0)
         End If
 
-        Self.stackQuantity = GetInt(itemNode, "quantity", 1)
-        Self.hideQuantity = GetBool(itemNode, "hideQuantity", False)
-        Self.diamondCost = GetInt(itemNode, "diamondCost", 0)
-        Self.diamondDealerPrice = GetInt(itemNode, "diamondDealable", 1)
-        Self.coinCost = GetInt(itemNode, "coinCost", 0)
-        Self.quantityYOff = GetInt(itemNode, "quantityYOff", 0)
+        Self.stackQuantity = itemNode.GetAttribute("quantity", 1)
+        Self.hideQuantity = itemNode.GetAttribute("hideQuantity", False)
+        Self.diamondCost = itemNode.GetAttribute("diamondCost", 0)
+        Self.diamondDealerPrice = itemNode.GetAttribute("diamondDealable", 1)
+        Self.coinCost = itemNode.GetAttribute("coinCost", 0)
+        Self.quantityYOff = itemNode.GetAttribute("quantityYOff", 0)
 
         Self.isItem = True
         Self.x = xVal
@@ -1026,17 +967,13 @@ Class Item Extends Entity
         Self.imageFrames = itemData.imageFrames
 
         If Self.IsItemOfType("isCoin")
-            Local resourceCoinType: String
-            Local resourceCoinObj: JsonObject
-            Local resourceCoinPath: String
-
             Local frameWidth := itemData.imageW
             Local frameHeight := itemData.imageH
             Local frameCount := itemData.imageFrames
 
-            resourceCoinType = GetResourceCoinType(Self.utility)
-            resourceCoinObj = Item.GetItemXML(resourceCoinType)
-            resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
+            Local resourceCoinType := item.GetResourceCoinType(Self.utility)
+            Local resourceCoinNode := Item.GetItemXML(resourceCoinType)
+            Local resourceCoinPath := "items/" + resourceCoinNode.value
             Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
 
             Self.yOff += 5.0
@@ -1052,20 +989,20 @@ Class Item Extends Entity
                 pickup.FlagForDeath(0)
 
                 resourceCoinType = GetResourceCoinType(Self.utility)
-                resourceCoinObj = Item.GetItemXML(resourceCoinType)
-                resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
+                resourceCoinNode = Item.GetItemXML(resourceCoinType)
+                resourceCoinPath = "items/" + resourceCoinNode.Value
                 Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
 
                 Self.itemType = resourceCoinType
             End For
 
             If Self.utility >= 50
-                resourceCoinObj = Item.GetItemXML("resource_hoard_gold")
-                resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
+                resourceCoinNode = Item.GetItemXML("resource_hoard_gold")
+                resourceCoinPath = "items/" + resourceCoinNode.Value
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             Else If Self.utility >= 25
-                resourceCoinObj = Item.GetItemXML("resource_hoard_gold_small")
-                resourceCoinPath = "items/" + GetString(resourceCoinObj, "path", "")
+                resourceCoinNode = Item.GetItemXML("resource_hoard_gold_small")
+                resourceCoinPath = "items/" + resourceCoinNode.Value
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             End If
 
@@ -1079,7 +1016,7 @@ Class Item Extends Entity
                 Self.xOff = 3.0
                 Self.yOff = 1.0
             Else
-                Local path := "items/" + GetString(itemNode, "path", "")
+                Local path := "items/" + itemNode.Value
                 Self.image = New Sprite(path, 18, 21, 2, Image.DefaultFlags)
             End If
 
@@ -1103,7 +1040,7 @@ Class Item Extends Entity
             End If
         End If
 
-        Local hint := GetString(itemNode, "hint", "")
+        Local hint := itemNode.GetAttribute("hint", "")
         If hint <> ""
             If Level.isMysteryMode
                 If Self.itemType <> "bomb" And
@@ -1146,7 +1083,7 @@ Class Item Extends Entity
         Local familiar := FamiliarFixed.GetFamiliarAt(Self.x, Self.y)
         If familiar <> Null Then familiar.TryPickup()
 
-        Local displayName := GetString(itemNode, "displayName", Self.itemType)
+        Local displayName := itemNode.GetAttribute("displayName", Self.itemType)
         Debug.WriteLine("Placed " + displayName + " at " + (New Point(Self.x, Self.y)).ToString())
     End Method
 
@@ -1267,18 +1204,18 @@ Class ItemData
 
     Function _EditorFix: Void() End
 
-    Method New(itemXML: JsonObject)
-        Self.imageFrames = 2 * GetInt(itemXML, "numFrames", 1)
-        Self.imageW = GetInt(itemXML, "imageW", 24)
-        Self.imageH = GetInt(itemXML, "imageH", 24)
-        Self.bouncer = GetBool(itemXML, "bouncer", True)
+    Method New(itemXML: XMLNode)
+        Self.imageFrames = 2 * itemXML.GetAttribute("numFrames", 1)
+        Self.imageW = itemXML.GetAttribute("imageW", 24)
+        Self.imageH = itemXML.GetAttribute("imageH", 24)
+        Self.bouncer = itemXML.GetAttribute("bouncer", True)
 
         Local xOffDefault := (24 - Self.imageW) / 2
-        Self.xOff = GetInt(itemXML, "xOff", xOffDefault)
+        Self.xOff = itemXML.GetAttribute("xOff", xOffDefault)
 
         Local yOffDefault := 0
         If Self.bouncer Then yOffDefault = (24 - Self.imageH) / 2
-        Self.yOff = GetInt(itemXML, "yOff", yOffDefault)
+        Self.yOff = itemXML.GetAttribute("yOff", yOffDefault)
     End Method
 
     Field imageFrames: Int
@@ -1292,7 +1229,7 @@ End Class
 
 Interface IItemPredicate
 
-    Method Call: Bool(n: JsonObject)
+    Method Call: Bool(n: XMLNode)
 
 End Interface
 
@@ -1310,7 +1247,7 @@ Class StandardItemPredicate Implements IItemPredicate
     Field chestColor: Int
     Field itemSlot: String
 
-    Method Call: Bool(n: JsonObject)
+    Method Call: Bool(n: XMLNode)
         If Self.itemClass <> ""
             If Not Item.IsItemOfClass(n, Self.itemClass)
                 Return False
@@ -1318,14 +1255,14 @@ Class StandardItemPredicate Implements IItemPredicate
         End If
 
         If Self.itemSlot <> ""
-            Local slot := GetString(n, "slot", "")
+            Local slot := n.GetAttribute("slot", "")
             If slot.ToUpper() <> Self.itemSlot.ToUpper()
                 Return False
             End If
         End If
 
         If Self.chestColor <> Chest.CHEST_COLOR_NONE
-            Local name := GetString(n, "name", "")
+            Local name := n.GetAttribute("name", "")
             If Not Chest.IsItemAppropriateForChestColor(name, Self.chestColor)
                 Return False
             End If
@@ -1340,8 +1277,8 @@ Class TransmutePredicate Implements IItemPredicate
 
     Function _EditorFix: Void() End
 
-    Method Call: Bool(n: JsonObject)
-        Debug.TraceNotImplemented("TransmutePredicate.Call(JsonObject)")
+    Method Call: Bool(n: XMLNode)
+        Debug.TraceNotImplemented("TransmutePredicate.Call(XMLNode)")
     End Method
 
 End Class

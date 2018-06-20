@@ -3,7 +3,6 @@
 Import monkey.list
 Import monkey.map
 Import monkey.math
-Import brl.json
 Import mojo.graphics
 Import enemy.npc.shopkeeper
 Import enemy.armadillo
@@ -139,24 +138,20 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function GetBaseType: Int(fullType: Int)
-        Local enemyNodes := JsonArray(necrodancergame.xmlData.Get("enemies")).GetData()
+        Local enemiesNode := necrodancergame.xmlData.GetChildAtPath("enemies")
 
         Local enemyName: String
-        For Local enemyNodeValue := EachIn enemyNodes
-            Local enemyNode := JsonObject(enemyNodeValue)
-            If enemyNode <> Null And
-               item.GetInt(enemyNode, "id", EnemyType.None) = fullType
-                enemyName = item.GetString(enemyNode, "name", "")
-
-                Exit
-            End If
+        For Local enemyNode := EachIn enemiesNode.GetChildrenWithAttributes("id=" + fullType)
+            enemyName = enemyNode.Name
         End For
         Debug.Assert(enemyName <> "")
 
-        Local baseEnemyNode := Enemy.GetEnemyXML(enemyName, 1)
-        Debug.Assert(baseEnemyNode <> Null)
+        Local baseType := EnemyType.None
+        For Local enemyNode := EachIn enemiesNode.GetChildren(enemyName, "type=1")
+            Debug.Assert(enemyNode.HasAttribute("id"))
 
-        Local baseType := item.GetInt(baseEnemyNode, "id", EnemyType.None)
+            baseType = enemyNode.GetAttribute("id", EnemyType.None)
+        End For
         Debug.Assert(baseType <> EnemyType.None)
 
         Return baseType
@@ -188,25 +183,18 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.GetEnemyNameHelper(Int)")
     End Function
 
-    Function GetEnemyXML: JsonObject(name: String, level: Int)
+    Function GetEnemyXML: XMLNode(name: String, level: Int)
+        Local enemyNode: XMLNode
+
         If Level.isRandomizerMode And
            Enemy.randomizerXML <> Null
             ' TODO: Implement when Randomizer Mode
             Debug.TraceNotImplemented("Enemy.GetEnemyXML(String, Int) (Randomizer Mode)")
         Else
-            Local enemyNodes := JsonArray(necrodancergame.xmlData.Get("enemies")).GetData()
-
-            For Local enemyNodeValue := EachIn enemyNodes
-                Local enemyNode := JsonObject(enemyNodeValue)
-                If enemyNode <> Null And
-                   item.GetString(enemyNode, "name", "") = name And
-                   item.GetInt(enemyNode, "type", 0) = level
-                    Return enemyNode
-                End If
-            End For
+            enemyNode = necrodancergame.xmlData.GetChildAtPath("enemies/" + name, "type=" + level)
         End If
 
-        Return Null
+        Return enemyNode
     End Function
 
     Function GetNumArenaEnemiesRemaining: Int()
@@ -494,7 +482,7 @@ Class Enemy Extends MobileEntity Abstract
             If enemy.x <> originalX Or
                enemy.y <> originalY
                 Local enemyNode := Enemy.GetEnemyXML(enemy.xmlName, enemy.level)
-                Local displayName := item.GetString(enemyNode, "displayName", enemy.friendlyName)
+                Local displayName := enemyNode.GetAttribute("displayName", enemy.friendlyName)
                 Debug.WriteLine("Moved " + displayName + " from " + (New Point(originalX, originalY)).ToString() + " to " + (New Point(enemy.x, enemy.y)).ToString())
             End If
         End For
@@ -528,11 +516,10 @@ Class Enemy Extends MobileEntity Abstract
 
     Function StartRandomizerRun: Void()
         Local enemiesNode := necrodancergame.xmlData.GetChildAtPath("enemies")
-        Local enemiesXML := enemiesNode.Export(1)
-        Enemy.randomizerXML = xml.ParseXML(enemiesXML)
+        Enemy.randomizerXML = enemiesNode.Clone(1)
 
         For Local enemyNode := EachIn Enemy.randomizerXML.GetChildren()
-            Select enemyNode.name
+            Select enemyNode.Name
                 Case "crate",
                      "bell",
                      "conductor",
@@ -552,21 +539,21 @@ Class Enemy Extends MobileEntity Abstract
             Local statsNode := enemyNode.GetChild("stats")
             
             Local optionalStatsNode := enemyNode.GetChild("optionalStats")
-            If optionalStatsNode = enemyNode.doc.nullNode
+            If optionalStatsNode = enemyNode.NullNode
                 optionalStatsNode = enemyNode.AddChild("optionalStats", "")
             End If
 
             ' Beats per move
 
             Local beatsPerMoveRoll := Util.RndIntRangeFromZero(99, True)
-            If enemyNode.name = "pawn"
+            If enemyNode.Name = "pawn"
                 beatsPerMoveRoll += 30
             End If
 
             Local beatsPerMove: Int
             If beatsPerMoveRoll < 30 And
-               enemyNode.name <> "yeti" And
-               enemyNode.name <> "mushroom"
+               enemyNode.Name <> "yeti" And
+               enemyNode.Name <> "mushroom"
                 beatsPerMove = 1
             Else If beatsPerMoveRoll < 70
                 beatsPerMove = 2
@@ -581,7 +568,7 @@ Class Enemy Extends MobileEntity Abstract
             ' Coins to drop
 
             Local coinsToDrop: Int
-            Select enemyNode.name
+            Select enemyNode.Name
                 Case "mummy",
                      "electric_orb"
                     coinsToDrop = 0
@@ -624,13 +611,13 @@ Class Enemy Extends MobileEntity Abstract
 
             Local health: Int
             If beatsPerMove = 1 Or
-               (enemyNode.name = "shopkeeper" And
+               (enemyNode.Name = "shopkeeper" And
                 (enemyType = 4 Or
                  enemyType = 9))
                 health = 1
             Else
                 Local healthRoll := Util.RndIntRangeFromZero(99, True)
-                If enemyNode.name = "pawn"
+                If enemyNode.Name = "pawn"
                     healthRoll -= 30
                 Else If isMiniboss Or
                         isBoss
@@ -687,8 +674,8 @@ Class Enemy Extends MobileEntity Abstract
                 optionalStatsNode.SetAttribute("bounceOnMovementFail", False)
 
                 Local tweensNode := enemyNode.GetChild("tweens")
-                If tweensNode = enemyNode.doc.nullNode
-                    tweensNode = enemyNode.AddChild("tweens", "")
+                If tweensNode = enemyNode.NullNode
+                    tweensNode = enemyNode.AddChild("tweens")
                 End If
 
                 tweensNode.SetAttribute("move", "slide")
@@ -697,8 +684,8 @@ Class Enemy Extends MobileEntity Abstract
                 tweensNode.SetAttribute("hitShadow", "slide")
 
                 Local bouncerNode := enemyNode.GetChild("bouncer")
-                If bouncerNode = enemyNode.doc.nullNode
-                    bouncerNode = enemyNode.AddChild("bouncer", "")
+                If bouncerNode = enemyNode.NullNode
+                    bouncerNode = enemyNode.AddChild("bouncer")
                 End If
 
                 bouncerNode.SetAttribute("min", -2.5)
@@ -710,13 +697,13 @@ Class Enemy Extends MobileEntity Abstract
                 optionalStatsNode.SetAttribute("bounceOnMovementFail", True)
 
                 Local tweensNode := enemyNode.GetChild("tweens")
-                If tweensNode <> enemyNode.doc.nullNode
-                    enemyNode.RemoveChild("tweens")
+                If tweensNode <> enemyNode.NullNode
+                    enemyNode.RemoveChild(tweensNode)
                 End If
 
                 Local bouncerNode := enemyNode.GetChild("bouncer")
-                If bouncerNode <> enemyNode.doc.nullNode
-                    enemyNode.RemoveChild("bouncer")
+                If bouncerNode <> enemyNode.NullNode
+                    enemyNode.RemoveChild(bouncerNode)
                 End If
             End If
         End For
@@ -1060,30 +1047,30 @@ Class Enemy Extends MobileEntity Abstract
 
         Local enemyNode := Enemy.GetEnemyXML(name, l)
         ' TODO: Need `nullNode` behavior?
-        If enemyNode = Null
+        If enemyNode = necrodancergame.xmlData.NullNode
             Debug.Log("ERROR: No enemy with name '" + name + "'")
         End If
 
-        Self.enemyType = item.GetInt(enemyNode, "id", 0)
-        Self.friendlyName = item.GetString(enemyNode, "friendlyName", Self.xmlName)
+        Self.enemyType = enemyNode.GetAttribute("id", 0)
+        Self.friendlyName = enemyNode.GetAttribute("friendlyName", Self.xmlName)
 
         Self.InitImage(enemyNode, name, overrideFrameW, overrideFrameH)
 
-        Local statsNode := JsonObject(enemyNode.Get("stats"))
-        Self.beatsPerMove = item.GetInt(statsNode, "beatsPerMove", 1)
-        Self.coinsToDrop = item.GetInt(statsNode, "coinsToDrop", 1)
-        Self.damagePerHit = item.GetInt(statsNode, "damagePerHit", 1)
-        Self.movePriority = item.GetInt(statsNode, "priority", 0)
-        Self.health = item.GetInt(statsNode, "health", 1)
+        Local statsNode := enemyNode.GetChild("stats")
+        Self.beatsPerMove = statsNode.GetAttribute("beatsPerMove", 1)
+        Self.coinsToDrop = statsNode.GetAttribute("coinsToDrop", 1)
+        Self.damagePerHit = statsNode.GetAttribute("damagePerHit", 1)
+        Self.movePriority = statsNode.GetAttribute("priority", 0)
+        Self.health = statsNode.GetAttribute("health", 1)
 
-        Local optionalStatsNode := JsonObject(enemyNode.Get("optionalStats"))
-        Self.floating = item.GetBool(optionalStatsNode, "floating", False)
-        Self.isMassive = item.GetBool(optionalStatsNode, "massive", False)
-        Self.ignoreLiquids = item.GetBool(optionalStatsNode, "ignoreLiquids", False)
-        Self.isMiniboss = item.GetBool(optionalStatsNode, "miniboss", False)
-        Self.isBoss = item.GetBool(optionalStatsNode, "boss", False)
-        Self.ignoreWalls = item.GetBool(optionalStatsNode, "ignoreWalls", False)
-        Self.isMonkeyLike = item.GetBool(optionalStatsNode, "isMonkeyLike", False)
+        Local optionalStatsNode := enemyNode.GetChild("optionalStats")
+        Self.floating = optionalStatsNode.GetAttribute("floating", False)
+        Self.isMassive = optionalStatsNode.GetAttribute("massive", False)
+        Self.ignoreLiquids = optionalStatsNode.GetAttribute("ignoreLiquids", False)
+        Self.isMiniboss = optionalStatsNode.GetAttribute("miniboss", False)
+        Self.isBoss = optionalStatsNode.GetAttribute("boss", False)
+        Self.ignoreWalls = optionalStatsNode.GetAttribute("ignoreWalls", False)
+        Self.isMonkeyLike = optionalStatsNode.GetAttribute("isMonkeyLike", False)
 
         If Self.isMassive
             Self.frozenImage = New Sprite("entities/frozen_feet_large.png", 31, 24, 2, Image.DefaultFlags)
@@ -1091,10 +1078,8 @@ Class Enemy Extends MobileEntity Abstract
             Self.frozenImage = New Sprite("entities/frozen_feet_medium.png", 31, 24, 2, Image.DefaultFlags)
         End If
 
-        Local particleNode := JsonObject(enemyNode.Get("particle"))
-        If particleNode <> Null
-            Self.hitParticle = item.GetString(particleNode, "hit", "")
-        End If
+        Local particleNode := enemyNode.GetChild("particle")
+        Self.hitParticle = particleNode.GetAttribute("hit", "")
 
         Self.animNormal.Clear()
         Self.animNormal2.Clear()
@@ -1103,19 +1088,16 @@ Class Enemy Extends MobileEntity Abstract
         Self.animTell.Clear()
         Self.animTellBlink.Clear()
 
-        Local frameNodes := JsonArray(enemyNode.Get("frames")).GetData()
-        For Local frameNodeValue := EachIn frameNodes
-            Local frameNode := JsonObject(frameNodeValue)
-
-            Local inSheet := item.GetInt(frameNode, "inSheet", 1)
-            Local onFraction := item.GetFloat(frameNode, "onFraction", 1.0)
-            Local offFraction := item.GetFloat(frameNode, "offFraction", 1.0)
-            Local singleFrame := item.GetBool(frameNode, "singleFrame", False)
+        For Local frameNode := EachIn enemyNode.GetChildren("frame")
+            Local inSheet := frameNode.GetAttribute("inSheet", 1)
+            Local onFraction := frameNode.GetAttribute("onFraction", 1.0)
+            Local offFraction := frameNode.GetAttribute("offFraction", 1.0)
+            Local singleFrame := frameNode.GetAttribute("singleFrame", False)
 
             Local beatAnimationData := New BeatAnimationData(inSheet - 1, onFraction, offFraction, singleFrame)
 
-            Local animType := item.GetString(frameNode, "animType", "normal")
-            Local inAnim := item.GetInt(frameNode, "inAnim", 1)
+            Local animType := frameNode.GetAttribute("animType", "normal")
+            Local inAnim := frameNode.GetAttribute("inAnim", 1)
 
             Select animType
                 Case "normal" Self.animNormal.Set(inAnim - 1, beatAnimationData)
@@ -1127,34 +1109,38 @@ Class Enemy Extends MobileEntity Abstract
             End Select
         End For
 
-        Local bouncerNode := JsonObject(enemyNode.Get("bouncer"))
-        If bouncerNode <> Null
-            Local min := item.GetFloat(bouncerNode, "min", 1.0)
-            Local max := item.GetFloat(bouncerNode, "max", 1.0)
-            Local power := item.GetFloat(bouncerNode, "power", 1.0)
-            Local steps := item.GetInt(bouncerNode, "steps", 10)
+        Local bouncerNodes := enemyNode.GetChildren("bouncer")
+        If bouncerNodes.Count() > 0
+            Local bouncerNode := enemyNode.GetChild("bouncer")
+
+            Local min := bouncerNode.GetAttribute("min", 1.0)
+            Local max := bouncerNode.GetAttribute("max", 1.0)
+            Local power := bouncerNode.GetAttribute("power", 1.0)
+            Local steps := bouncerNode.GetAttribute("steps", 10)
 
             Self.bounce = New Bouncer(min, max, power, steps)
         End If
 
-        Local tweensNode := JsonObject(enemyNode.Get("tweens"))
-        If tweensNode <> Null
+        Local tweensNodes := enemyNode.GetChildren("tweens")
+        If tweensNodes.Count() > 0
+            Local tweensNode := enemyNode.GetChild("tweens")
+
             ' TODO: Double check args.
 
-            Local move := item.GetString(tweensNode, "move", "slide")
+            Local move := tweensNode.GetAttribute("move", "slide")
             If move = "slide" Then Self.moveTween = 3
 
-            Local moveShadow := item.GetString(tweensNode, "moveShadow", "slide")
+            Local moveShadow := tweensNode.GetAttribute("moveShadow", "slide")
             If moveShadow = "slide" Then Self.moveShadowTween = 3
 
-            Local hit := item.GetString(tweensNode, "hit", "slide")
+            Local hit := tweensNode.GetAttribute("hit", "slide")
             If hit = "slide" Then Self.hitTween = 3
 
-            Local hitShadow := item.GetString(tweensNode, "hitShadow", "slide")
+            Local hitShadow := tweensNode.GetAttribute("hitShadow", "slide")
             If hitShadow = "slide" Then Self.hitShadowTween = 3
         End If
 
-        Local movement := item.GetString(statsNode, "movement", "custom")
+        Local movement := statsNode.GetAttribute("movement", "custom")
         Select movement
             Case "random" Self.movementType = 1
             Case "basicSeek" Self.movementType = 2
@@ -1187,7 +1173,7 @@ Class Enemy Extends MobileEntity Abstract
 
         Self.ApplyMonkeyPaw()
 
-        Local displayName := item.GetString(enemyNode, "displayName", Self.friendlyName)
+        Local displayName := enemyNode.GetAttribute("displayName", Self.friendlyName)
         Debug.WriteLine("Placed " + displayName + " at " + (New Point(xVal, yVal)).ToString())
     End Method
 
@@ -1195,11 +1181,11 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.InitDirtJump(Int, Int)")
     End Method
 
-    Method InitImage: Void(enemyXML: JsonObject, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
+    Method InitImage: Void(enemyXML: XMLNode, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
         Self.image = New Sprite()
         Self.shadow = New Sprite()
 
-        Debug.TraceNotImplemented("Enemy.InitImage(JsonObject, String, Int, Int)")
+        Debug.TraceNotImplemented("Enemy.InitImage(XMLNode, String, Int, Int)")
     End Method
 
     Method IsAt: Bool(xVal: Int, yVal: Int)

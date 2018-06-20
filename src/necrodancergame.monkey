@@ -1,6 +1,5 @@
 'Strict
 
-Import brl.json
 Import mojo.app
 Import gui.controller_game
 Import level
@@ -8,8 +7,9 @@ Import gamedata
 Import logger
 Import necrodancergame
 Import player_class
+Import xml
 
-Global xmlData: JsonObject
+Global xmlData: XMLDoc
 Global FRAMES_PER_SEC: Int
 
 Class NecroDancerGame Extends App

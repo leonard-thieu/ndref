@@ -99,7 +99,6 @@ Import audio2
 Import camera
 Import chain
 Import chest
-Import data
 Import entity
 Import exitmap
 import gamedata
@@ -2514,7 +2513,7 @@ Class Level
             Return Level._FailMap()
         End If
 
-        If Level.pacifismModeOn Or (Level.isHardMode And item.GetBool(Level.GetHardModeXML(), "disableTrapdoors", False))
+        If Level.pacifismModeOn Or (Level.isHardMode And Level.GetHardModeXML().GetAttribute("disableTrapdoors", False))
             For Local trap := EachIn Trap.trapList
                 If trap.trapType = TrapType.TrapDoor
                     New SpikeTrap(trap.x, trap.y)
@@ -5999,13 +5998,13 @@ Class Level
            Util.IsCharacterActive(Character.Tempo)
             Local hardModeXML := Level.GetHardModeXML()
 
-            Return item.GetInt(hardModeXML, "extraEnemiesPerRoom", 0)
+            Return hardModeXML.GetAttribute("extraEnemiesPerRoom", 0)
         End If
 
         Return
     End Function
 
-    Function GetHardModeXML: JsonObject()
+    Function GetHardModeXML: XMLDoc()
         Debug.TraceNotImplemented("Level.GetHardModeXML()")
     End Function
 
@@ -7955,8 +7954,8 @@ Class Level
         Level.creatingMap = False
 
         If Level.isHardMode
-            Local hardModeNode := Level.GetHardModeXML()
-            If item.GetInt(hardModeNode, "spawnHelperItems", False)
+            Local hardModeXML := Level.GetHardModeXML()
+            If hardModeXML.GetAttribute("spawnHelperItems", False)
                 Local x := -2
                 If Not Level.IsFloorAt(x, 0)
                     x = -1
@@ -8273,7 +8272,7 @@ Class Level
         If Level.isHardMode Or
            Util.IsCharacterActive(Character.Tempo)
             Local hardModeNode := Level.GetHardModeXML()
-            Local extraMinibossesPerExit := item.GetInt(hardModeNode, "extraMinibossesPerExit", 0)
+            Local extraMinibossesPerExit := hardModeNode.GetAttribute("extraMinibossesPerExit", 0)
 
             numMinibosses += extraMinibossesPerExit
         End If
@@ -10434,7 +10433,7 @@ Class Level
         If Not Level.isHardMode Or hasExit Then Return
 
         Local hardModeXML := Level.GetHardModeXML()
-        Local minibossesPerNonExit := item.GetInt(hardModeXML, "minibossesPerNonExit", 0)
+        Local minibossesPerNonExit := hardModeXML.GetAttribute("minibossesPerNonExit", 0)
 
         Local weights := New WeightedPicker()
         Local enemyTypes := New IntStack()

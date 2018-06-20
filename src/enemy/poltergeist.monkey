@@ -1,10 +1,8 @@
 'Strict
 
-Import brl.json
 Import mojo.graphics
 Import enemy
 Import entity
-Import item
 Import logger
 Import player_class
 Import point
@@ -34,11 +32,11 @@ Class Poltergeist Extends Enemy
         Self.image.SetZOff(18.0)
 
         Local enemyNode := Enemy.GetEnemyXML(Self.xmlName, Self.level)
-        Local spritesheetNode := JsonObject(enemyNode.Get("spritesheet"))
-        Local path := item.GetString(spritesheetNode, "path", "")
-        Local frameW := item.GetInt(spritesheetNode, "frameW", 0)
-        Local frameH := item.GetInt(spritesheetNode, "frameH", 0)
-        Local numFrames := item.GetInt(spritesheetNode, "numFrames", 1)
+        Local spritesheetNode := enemyNode.GetChild("spritesheet")
+        Local path := spritesheetNode.Value()
+        Local frameW := spritesheetNode.GetAttribute("frameW", 0)
+        Local frameH := spritesheetNode.GetAttribute("frameH", 0)
+        Local numFrames := spritesheetNode.GetAttribute("numFrames", 1)
         Self.alphaImage = New Sprite(path, frameW, frameH, numFrames, Image.DefaultFlags)
         Self.alphaImage.SetAlphaValue(0.6)
         Self.alphaImage.SetZOff(18.0)
