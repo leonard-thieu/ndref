@@ -33,7 +33,7 @@ Class Poltergeist Extends Enemy
 
         Local enemyNode := Enemy.GetEnemyXML(Self.xmlName, Self.level)
         Local spritesheetNode := enemyNode.GetChild("spritesheet")
-        Local path := spritesheetNode.Value()
+        Local path := spritesheetNode.value
         Local frameW := spritesheetNode.GetAttribute("frameW", 0)
         Local frameH := spritesheetNode.GetAttribute("frameH", 0)
         Local numFrames := spritesheetNode.GetAttribute("numFrames", 1)

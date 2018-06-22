@@ -142,7 +142,7 @@ Class Enemy Extends MobileEntity Abstract
 
         Local enemyName: String
         For Local enemyNode := EachIn enemiesNode.GetChildrenWithAttributes("id=" + fullType)
-            enemyName = enemyNode.Name
+            enemyName = enemyNode.name
         End For
         Debug.Assert(enemyName <> "")
 
@@ -516,10 +516,11 @@ Class Enemy Extends MobileEntity Abstract
 
     Function StartRandomizerRun: Void()
         Local enemiesNode := necrodancergame.xmlData.GetChildAtPath("enemies")
-        Enemy.randomizerXML = enemiesNode.Clone(1)
+        Local enemiesXMLStr := enemiesNode.Export()
+        Enemy.randomizerXML = xml.ParseXML(enemiesXMLStr)
 
         For Local enemyNode := EachIn Enemy.randomizerXML.GetChildren()
-            Select enemyNode.Name
+            Select enemyNode.name
                 Case "crate",
                      "bell",
                      "conductor",
@@ -539,21 +540,21 @@ Class Enemy Extends MobileEntity Abstract
             Local statsNode := enemyNode.GetChild("stats")
             
             Local optionalStatsNode := enemyNode.GetChild("optionalStats")
-            If optionalStatsNode = enemyNode.NullNode
+            If optionalStatsNode = enemyNode.doc.nullNode
                 optionalStatsNode = enemyNode.AddChild("optionalStats", "")
             End If
 
             ' Beats per move
 
             Local beatsPerMoveRoll := Util.RndIntRangeFromZero(99, True)
-            If enemyNode.Name = "pawn"
+            If enemyNode.name = "pawn"
                 beatsPerMoveRoll += 30
             End If
 
             Local beatsPerMove: Int
             If beatsPerMoveRoll < 30 And
-               enemyNode.Name <> "yeti" And
-               enemyNode.Name <> "mushroom"
+               enemyNode.name <> "yeti" And
+               enemyNode.name <> "mushroom"
                 beatsPerMove = 1
             Else If beatsPerMoveRoll < 70
                 beatsPerMove = 2
@@ -568,7 +569,7 @@ Class Enemy Extends MobileEntity Abstract
             ' Coins to drop
 
             Local coinsToDrop: Int
-            Select enemyNode.Name
+            Select enemyNode.name
                 Case "mummy",
                      "electric_orb"
                     coinsToDrop = 0
@@ -611,13 +612,13 @@ Class Enemy Extends MobileEntity Abstract
 
             Local health: Int
             If beatsPerMove = 1 Or
-               (enemyNode.Name = "shopkeeper" And
+               (enemyNode.name = "shopkeeper" And
                 (enemyType = 4 Or
                  enemyType = 9))
                 health = 1
             Else
                 Local healthRoll := Util.RndIntRangeFromZero(99, True)
-                If enemyNode.Name = "pawn"
+                If enemyNode.name = "pawn"
                     healthRoll -= 30
                 Else If isMiniboss Or
                         isBoss
@@ -674,7 +675,7 @@ Class Enemy Extends MobileEntity Abstract
                 optionalStatsNode.SetAttribute("bounceOnMovementFail", False)
 
                 Local tweensNode := enemyNode.GetChild("tweens")
-                If tweensNode = enemyNode.NullNode
+                If tweensNode = enemyNode.doc.nullNode
                     tweensNode = enemyNode.AddChild("tweens")
                 End If
 
@@ -684,7 +685,7 @@ Class Enemy Extends MobileEntity Abstract
                 tweensNode.SetAttribute("hitShadow", "slide")
 
                 Local bouncerNode := enemyNode.GetChild("bouncer")
-                If bouncerNode = enemyNode.NullNode
+                If bouncerNode = enemyNode.doc.nullNode
                     bouncerNode = enemyNode.AddChild("bouncer")
                 End If
 
@@ -697,12 +698,12 @@ Class Enemy Extends MobileEntity Abstract
                 optionalStatsNode.SetAttribute("bounceOnMovementFail", True)
 
                 Local tweensNode := enemyNode.GetChild("tweens")
-                If tweensNode <> enemyNode.NullNode
+                If tweensNode <> enemyNode.doc.nullNode
                     enemyNode.RemoveChild(tweensNode)
                 End If
 
                 Local bouncerNode := enemyNode.GetChild("bouncer")
-                If bouncerNode <> enemyNode.NullNode
+                If bouncerNode <> enemyNode.doc.nullNode
                     enemyNode.RemoveChild(bouncerNode)
                 End If
             End If
@@ -1047,7 +1048,7 @@ Class Enemy Extends MobileEntity Abstract
 
         Local enemyNode := Enemy.GetEnemyXML(name, l)
         ' TODO: Need `nullNode` behavior?
-        If enemyNode = necrodancergame.xmlData.NullNode
+        If enemyNode = necrodancergame.xmlData.doc.nullNode
             Debug.Log("ERROR: No enemy with name '" + name + "'")
         End If
 

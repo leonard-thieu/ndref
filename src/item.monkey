@@ -222,7 +222,7 @@ Class Item Extends Entity
                     For Local itemPoolCandidate := EachIn itemPoolCandidates
                         If Not Item.IsValidItemForCurrentChars(itemPoolCandidate) Then Continue
 
-                        Local name := itemPoolCandidate.Name
+                        Local name := itemPoolCandidate.name
                         If Item.IsDisabled(name) Then Continue
 
                         itemPool.AddLast(itemPoolCandidate)
@@ -249,7 +249,7 @@ Class Item Extends Entity
 
                         Debug.WriteLine(itemPoolName)
                         For Local itemNode := EachIn itemPool
-                            Local name := itemNode.Name
+                            Local name := itemNode.name
                             Debug.WriteLine(name)
                         End For
                     End If
@@ -413,7 +413,7 @@ Class Item Extends Entity
         For Local j := 1 Until 10
             For Local itemNode := EachIn itemPool
                 If predicate.Call(itemNode)
-                    Local name := itemNode.Name
+                    Local name := itemNode.name
 
                     If Not Item.HasSeenItemXTimes(name, j)
                         Item.AddToSeenItems(name)
@@ -474,7 +474,7 @@ Class Item Extends Entity
     End Function
 
     Function IsCourageItem: Bool(n: XMLNode)
-        Local name := n.Name
+        Local name := n.name
 
         Select name
             Case "ring_courage",
@@ -486,7 +486,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDamageBonusItem: Bool(n: XMLNode)
-        Local name := n.Name
+        Local name := n.name
 
         Select name
             Case "blood_drum",
@@ -511,7 +511,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDamageReductionItem: Bool(n: XMLNode)
-        Local name := n.Name
+        Local name := n.name
 
         Select name
             Case "armor_chainmail",
@@ -543,7 +543,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDiscountItem: Bool(n: XMLNode)
-        Local name := n.Name
+        Local name := n.name
 
         Select name
             Case "misc_coupon",
@@ -555,7 +555,7 @@ Class Item Extends Entity
     End Function
 
     Function IsGoldGeneratingItem: Bool(n: XMLNode)
-        Local name := n.Name
+        Local name := n.name
 
         Select name
             Case "familiar_shopkeeper",
@@ -570,7 +570,7 @@ Class Item Extends Entity
     Function IsHealthBonusItem: Bool(n: XMLNode)
         If Item.IsItemOfClass(n, "isFood") Then Return True
 
-        Local name := n.Name
+        Local name := n.name
 
         Select name
             Case "charm_gluttony",
@@ -608,7 +608,7 @@ Class Item Extends Entity
     End Function
 
     Function IsPainItem: Bool(n: XMLNode)
-        Local name := n.Name
+        Local name := n.name
 
         Select name
             Case "feet_boots_pain",
@@ -625,7 +625,7 @@ Class Item Extends Entity
 
     Function IsValidItemForCurrentChars: Bool(n: XMLNode)
         Local slot := Item.GetSlot(n)
-        Local name := n.Name
+        Local name := n.name
 
         If Util.IsWeaponlessCharacterActive()
             If slot = "weapon" Then Return False
@@ -929,7 +929,7 @@ Class Item Extends Entity
 
         Local itemNode := Item.GetItemXML(type)
 
-        If Not itemNode.IsValid()
+        If Not itemNode.valid
             Debug.Log("ERROR: Unrecognized item type " + type)
 
             type = "food_1"
@@ -990,7 +990,7 @@ Class Item Extends Entity
 
                 resourceCoinType = GetResourceCoinType(Self.utility)
                 resourceCoinNode = Item.GetItemXML(resourceCoinType)
-                resourceCoinPath = "items/" + resourceCoinNode.Value
+                resourceCoinPath = "items/" + resourceCoinNode.value
                 Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
 
                 Self.itemType = resourceCoinType
@@ -998,11 +998,11 @@ Class Item Extends Entity
 
             If Self.utility >= 50
                 resourceCoinNode = Item.GetItemXML("resource_hoard_gold")
-                resourceCoinPath = "items/" + resourceCoinNode.Value
+                resourceCoinPath = "items/" + resourceCoinNode.value
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             Else If Self.utility >= 25
                 resourceCoinNode = Item.GetItemXML("resource_hoard_gold_small")
-                resourceCoinPath = "items/" + resourceCoinNode.Value
+                resourceCoinPath = "items/" + resourceCoinNode.value
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             End If
 
@@ -1016,7 +1016,7 @@ Class Item Extends Entity
                 Self.xOff = 3.0
                 Self.yOff = 1.0
             Else
-                Local path := "items/" + itemNode.Value
+                Local path := "items/" + itemNode.value
                 Self.image = New Sprite(path, 18, 21, 2, Image.DefaultFlags)
             End If
 
