@@ -244,7 +244,7 @@ Class Player Extends MobileEntity
 
         For Local shovel := EachIn Item.GetAllItemsInClass("isShovel")
             Local itemData := New ItemData(shovel)
-            Local name := shovel.Name
+            Local name := shovel.name
             Local path := shovel.value
             Local image := New Sprite("items/" + path, itemData.imageW, itemData.imageH, itemData.imageFrames, Image.DefaultFlags)
             image.SetZ(10000.0)

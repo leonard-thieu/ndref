@@ -6,16 +6,21 @@ Import xml
 
 Class GameData
 
+    Global activeMod: String
+    Global cachedAudioLatency: Bool
     Global cachedAudioLatencyVal: Int
+    Global cachedAutocalibration: Bool
     Global cachedAutocalibrationVal: Int
+    Global cachedVideoLatency: Bool
     Global cachedVideoLatencyVal: Int
     Global gameDataLoaded: Bool
-    Global lastDailyWithScore: Int
-    Global lastNumCoins: Int
-    Global lastNumDiamonds: Int
+    Global lastDailyWithScore: Int = -1
+    Global lastNumCoins: Int = -1
+    Global lastNumDiamonds: Int = -1
     Global modGamedataChanges: Bool
     Global playerDataLoaded: Bool
-    Global replaySaveData: Object
+    Global playerDataLoadPending: Bool
+    Global replaySaveData: XMLDoc
     Global xmlSaveData: XMLDoc
 
     Function AddDiamondDealerItem: Void(itemName: Int)
@@ -389,10 +394,32 @@ Class GameData
     End Function
 
     Function LoadGameDataXML: Void(bypassChecksum: Bool)
-        Local xmlStr := app.LoadString("monkey://data/necrodancer.xml")
-        necrodancergame.xmlData = xml.ParseXML(xmlStr)
+        Local error := New XMLError()
 
-        Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool)")
+        GameData.modGamedataChanges = False
+
+        If GameData.activeMod <> ""
+            Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool) (Mods)")
+        End If
+
+        Local xmlStr := app.LoadString("necrodancer.xml")
+
+        If necrodancer.DEBUG_BUILD
+            Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool) (Debug-only checksum)")
+        Else
+            If Not bypassChecksum And
+               Not GameData.modGamedataChanges
+                Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool) (Release-only checksum)")
+            End If
+        End If
+
+        necrodancergame.xmlData = xml.ParseXML(xmlStr, error)
+        If necrodancergame.xmlData = Null And
+           error.error
+            Debug.Log("NECRODANCER INIT XML PARSE ERROR: " + error.ToString())
+        End If
+
+        GameData.gameDataLoaded = True
     End Function
 
     Function LoadPlayerDataXML: Bool(forceCloud: Bool)
