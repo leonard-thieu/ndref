@@ -65,6 +65,8 @@ Class NecroDancerGame Extends App
         Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
         
         Debug.TraceNotImplemented("NecroDancerGame.OnCreate()")
+
+        app.EndApp()
     End Method
 
     Method OnRender: Int()
