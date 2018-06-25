@@ -6,6 +6,7 @@ Import level
 Import gamedata
 Import logger
 Import necrodancergame
+Import os
 Import player_class
 Import xml
 
@@ -58,7 +59,7 @@ Class NecroDancerGame Extends App
 
     Method TestSeededAllZonesMode: Void(character: Int, randSeedString: String)
         controller_game.players[0] = New Player(controller_game.player1, character)
-        
+
         Level.randSeedString = randSeedString
 
         Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone, controller_game.player1, False, Null, False)
@@ -87,6 +88,26 @@ Class NecroDancerGame Extends App
         Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
         
         Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+    End Method
+
+    Method TestSeededRandomizerMode: Void(character: Int, randSeedString: String)
+        controller_game.players[0] = New Player(controller_game.player1, character)
+
+        Level.randSeedString = randSeedString
+
+        Level.NewLevel(LevelType.SeededRandomizerMode, controller_game.currentZone, controller_game.player1, False, Null, False)
+        
+        ' Dump all enemies
+        os.SaveString(Enemy.randomizerXML.Export(0), "randomizer-" + Level.randSeed + ".xml")
+        
+        Local blackSkullXML := Enemy.GetEnemyXML("skull", 3)
+        Local blackSkullStats := blackSkullXML.GetChild("stats")
+        Local blackSkullBeatsPerMove := blackSkullStats.GetAttribute("beatsPerMove", -1)
+        Local blackSkullHealth := blackSkullStats.GetAttribute("health", -1)
+
+        Debug.WriteLine("Black Skull")
+        Debug.WriteLine("  Beats per move: " + blackSkullBeatsPerMove)
+        Debug.WriteLine("  Health: " + blackSkullHealth)
     End Method
 
 End Class
