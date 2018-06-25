@@ -188,8 +188,7 @@ Class Enemy Extends MobileEntity Abstract
 
         If Level.isRandomizerMode And
            Enemy.randomizerXML <> Null
-            ' TODO: Implement when Randomizer Mode
-            Debug.TraceNotImplemented("Enemy.GetEnemyXML(String, Int) (Randomizer Mode)")
+            enemyNode = Enemy.randomizerXML.GetChildAtPath(name, "type=" + level)
         Else
             enemyNode = necrodancergame.xmlData.GetChildAtPath("enemies/" + name, "type=" + level)
         End If
