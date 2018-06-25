@@ -88,7 +88,9 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function ApplyMonkeyPawAll: Void()
-        Debug.TraceNotImplemented("Enemy.ApplyMonkeyPawAll()")
+        For Local enemy := EachIn Enemy.enemyList
+            enemy.ApplyMonkeyPaw()
+        End For
     End Function
 
     Function Charm: Void(xVal: Int, yVal: Int)
