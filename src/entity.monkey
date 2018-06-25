@@ -48,7 +48,15 @@ Class Entity Extends RenderableObject Abstract
     End Function
 
     Function GetEntityAt: Entity(x: Int, y: Int, includePlayer: Bool)
-        Debug.TraceNotImplemented("Entity.GetEntityAt(Int, Int, Bool)")
+        For Local entity := EachIn Entity.entityList
+            If (includePlayer Or
+                Not entity.isPlayer) And
+               entity.IsOnTile(x, y)
+                Return entity
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function RemoveAnyPerishedEntities: Void()

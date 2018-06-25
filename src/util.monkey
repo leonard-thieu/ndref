@@ -59,8 +59,22 @@ Class Util
         Return "Unrecognized direction " + dir
     End Function
 
-    Function FindClosestTrulyUnoccupiedSpace: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
-        Debug.TraceNotImplemented("Util.FindClosestTrulyUnoccupiedSpace(Int, Int, Bool)")
+    Function FindClosestTrulyUnoccupiedSpace: Point(xVal: Int, yVal: Int, ignoreWalls: Bool)
+        Local points := [[xVal, yVal], [xVal - 1, yVal], [xVal + 1, yVal], [xVal, yVal - 1], [xVal, yVal + 1], [xVal - 1, yVal - 1], [xVal + 1, yVal - 1], [xVal - 1, yVal + 1], [xVal + 1, yVal + 1], [xVal - 2, yVal], [xVal + 2, yVal], [xVal, yVal - 2], [xVal, yVal + 2]]
+
+        For Local p := EachIn points
+            Local x := p[0]
+            Local y := p[1]
+
+            If Level.GetTileAt(x, y) <> Null And
+               Not Util.IsGlobalCollisionAt(x, y, False, ignoreWalls, False, False) And
+               Not Util.IsAnyPlayerAt(x, y) And
+               Entity.GetEntityAt(x, y, True) = Null
+                Return New Point(x, y)
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function FindClosestTrulyUnoccupiedSpaceNotAdjacentToEnemy: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)

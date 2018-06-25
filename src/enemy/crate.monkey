@@ -27,7 +27,62 @@ Class Crate Extends Enemy
     Global fallenGargoyles: List<Gargoyle> = New List<Gargoyle>()
 
     Function ProcessFallenCrates: Void()
-        Debug.TraceNotImplemented("Crate.ProcessFallenCrates()")
+        Local x := -1
+        Local y := 0
+
+        While Crate.fallenCrates.Count() > 0
+            Local fallenCrate := Crate.fallenCrates.RemoveFirst()
+
+            Local point := Util.FindClosestTrulyUnoccupiedSpace(x, y, False)
+            If point <> Null
+                x = point.x
+                y = point.y
+            End If
+
+            fallenCrate.x = x
+            fallenCrate.y = y
+            fallenCrate.falling = False
+            fallenCrate.flaggedForDeath = False
+            fallenCrate.collides = True
+
+            If fallenCrate.emptyCoins = -3
+                fallenCrate.emptyCoins = -1
+            End If
+
+            Select fallenCrate.crateType
+                Case Crate.TYPE_URN,
+                     Crate.TYPE_GOLD_GORGON_STATUE
+                    fallenCrate.health -= 1
+                    If fallenCrate.health <= 0
+                        fallenCrate.Open(False)
+                    End If
+                Case Crate.TYPE_GREEN_GORGON_STATUE
+                    ' Do nothing
+                Default
+                    fallenCrate.Open(False)
+            End Select
+
+            y += 1
+        End While
+
+        While Crate.fallenGargoyles.Count() > 0
+            Local fallenGargoyle := Crate.fallenGargoyles.RemoveFirst()
+
+            Local point := Util.FindClosestTrulyUnoccupiedSpace(x, y, False)
+            If point <> Null
+                x = point.x
+                y = point.y
+            End If
+
+            fallenGargoyle.x = x
+            fallenGargoyle.y = y
+            fallenGargoyle.falling = False
+            fallenGargoyle.flaggedForDeath = False
+
+            fallenGargoyle.OpenAsCrate(False)
+
+            y += 1
+        End While
     End Function
 
     Function SelectItem: String(itemLevel: Int)
