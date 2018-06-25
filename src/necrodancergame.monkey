@@ -29,13 +29,37 @@ Class NecroDancerGame Extends App
         GameData.LoadGameDataXML(True)
 
         controller_game.controllerGamePointer = New ControllerGame()
-
-        controller_game.players[0] = New Player(controller_game.player1, Character.Cadence)
-        controller_game.numPlayers = 1
-
         controller_game.currentLevel = LevelType.Lobby
 
-        Level.randSeedString = "1"
+        controller_game.numPlayers = 1
+
+        Self.TestSeededAllZonesMode(Character.Cadence, "1")
+        
+        Debug.TraceNotImplemented("NecroDancerGame.OnCreate()")
+
+        app.EndApp()
+    End Method
+
+    Method OnRender: Int()
+        Debug.TraceNotImplemented("NecroDancerGame.OnRender()")
+    End Method
+
+    Method OnResume: Int()
+        Debug.TraceNotImplemented("NecroDancerGame.OnResume()")
+    End Method
+
+    Method OnSuspend: Int()
+        Debug.TraceNotImplemented("NecroDancerGame.OnSuspend()")
+    End Method
+
+    Method OnUpdate: Int()
+        Debug.TraceNotImplemented("NecroDancerGame.OnUpdate()")
+    End Method
+
+    Method TestSeededAllZonesMode: Void(character: Int, randSeedString: String)
+        controller_game.players[0] = New Player(controller_game.player1, character)
+        
+        Level.randSeedString = randSeedString
 
         Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone, controller_game.player1, False, Null, False)
         Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
@@ -63,26 +87,6 @@ Class NecroDancerGame Extends App
         Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
         
         Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        
-        Debug.TraceNotImplemented("NecroDancerGame.OnCreate()")
-
-        app.EndApp()
-    End Method
-
-    Method OnRender: Int()
-        Debug.TraceNotImplemented("NecroDancerGame.OnRender()")
-    End Method
-
-    Method OnResume: Int()
-        Debug.TraceNotImplemented("NecroDancerGame.OnResume()")
-    End Method
-
-    Method OnSuspend: Int()
-        Debug.TraceNotImplemented("NecroDancerGame.OnSuspend()")
-    End Method
-
-    Method OnUpdate: Int()
-        Debug.TraceNotImplemented("NecroDancerGame.OnUpdate()")
     End Method
 
 End Class
