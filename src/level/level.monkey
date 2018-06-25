@@ -7415,7 +7415,7 @@ Class Level
                 Level.isHardcoreMode = True
 
                 Item.CreateItemPools()
-                Util.SeedRnd(Level.randSeed)
+                Util.SeedRnd(randSeed)
 
                 For Local i := 0 Until controller_game.numPlayers
                     Local characterID := Character.Cadence
