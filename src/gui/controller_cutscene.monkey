@@ -47,6 +47,10 @@ Class ControllerCutscene Extends Controller
         Debug.TraceNotImplemented("ControllerCutscene.DrawFrame()")
     End Method
 
+    Method RegainFocus: Void()
+        Debug.TraceNotImplemented("ControllerCutscene.RegainFocus()")
+    End Method
+
     Method Render: Void()
         Debug.TraceNotImplemented("ControllerCutscene.Render()")
     End Method

@@ -46,6 +46,10 @@ Class ControllerPostGame Extends Controller
         Debug.TraceNotImplemented("ControllerPostGame.GUICallback(Int, Bool)")
     End Method
 
+    Method RegainFocus: Void()
+        Debug.TraceNotImplemented("ControllerPostGame.RegainFocus()")
+    End Method
+
     Method Render: Void()
         Debug.TraceNotImplemented("ControllerPostGame.Render()")
     End Method

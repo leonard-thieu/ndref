@@ -4844,7 +4844,12 @@ Class Level
     End Function
 
     Function DoRestart: Void()
-        Debug.TraceNotImplemented("Level.DoRestart()")
+        If ControllerLevelEditor.storedEditor <> Null
+            Controller.GiveFocus(ControllerLevelEditor.storedEditor)
+        Else
+            Level.DoRestart_Common(False, True)
+            Level.NewLevel(LevelType.Lobby, 1)
+        End If
     End Function
 
     Function DoRestart_Common: Void(continuedRun: Bool, cancelFade: Bool)

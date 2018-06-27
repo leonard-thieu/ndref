@@ -43,6 +43,10 @@ Class ControllerPopUp Extends Controller
         Debug.TraceNotImplemented("ControllerPopUp.GUICallback(Int, Bool)")
     End Method
 
+    Method RegainFocus: Void()
+        Debug.TraceNotImplemented("ControllerPopUp.RegainFocus()")
+    End Method
+
     Method Render: Void()
         Debug.TraceNotImplemented("ControllerPopUp.Render()")
     End Method
