@@ -1,24 +1,51 @@
 'Strict
 
 Import mojo.app
+Import mojo.graphics
+Import gui.controller
 Import gui.controller_game
 Import level
 Import gamedata
+Import input2
 Import logger
 Import necrodancergame
 Import os
 Import player_class
+Import util
 Import xml
 
+Global CHRISTMAS_MODE: Bool
+Global DEBUG_DISABLE_CLOUD_SAVES: Bool
+Global DEBUG_DISCOFLOOR_ON: Bool
+Global DEBUG_GO_STRAIGHT_TO_GAMEPLAY: Bool
+Global DEBUG_LOG_OUTPUT: Bool
+Global DEBUG_OUTPUT: Bool
+Global DEBUG_STOP_ENEMY_MOVEMENT: Bool
+Global FIXED_HEIGHT: Int
+Global FIXED_WIDTH: Int
+Global FRAMES_PER_SEC: Int = 60
+Global GLOBAL_SCALE_FACTOR: Float = 1.0
+
+Global globalFrameCounter: Int
+Global lastFPS: Int
+Global lastFPSUpdate: Int
+Global lastFrameCount: Int
+Global lastFrameCountUpdate: Int
+Global lastFrameTime: Int
+Global lastFrameTimeUpdate: Int
+Global lastGCAllocCount: Int
+Global lastGCS: Int
+Global lastReportedFPS: Int
+Global lastReportedFPSUpdate: Int
+Global uncapFrameRate: Bool
 Global xmlData: XMLDoc
-Global FRAMES_PER_SEC: Int
 
 Class NecroDancerGame Extends App
 
-    Global lastDeviceHeight: Int
-    Global lastDeviceWidth: Int
-    Global lastViewMultiplier: Int
-    Global textFont: Object
+    Global lastDeviceHeight: Int = -1
+    Global lastDeviceWidth: Int = -1
+    Global lastViewMultiplier: Int = -1
+    Global textFont: Image
 
     Function UpdateScreenSize: Void(force: Bool)
         Debug.TraceNotImplemented("NecroDancerGame.UpdateScreenSize(Bool)")
@@ -29,16 +56,11 @@ Class NecroDancerGame Extends App
     Method OnCreate: Int()
         GameData.LoadGameDataXML(True)
 
-        controller_game.controllerGamePointer = New ControllerGame()
-        controller_game.currentLevel = LevelType.Lobby
-
-        controller_game.numPlayers = 1
-
-        Self.TestSeededAllZonesMode(Character.Cadence, "1")
+        New ControllerGame()
         
         Debug.TraceNotImplemented("NecroDancerGame.OnCreate()")
 
-        app.EndApp()
+        Return 0
     End Method
 
     Method OnRender: Int()
@@ -54,7 +76,26 @@ Class NecroDancerGame Extends App
     End Method
 
     Method OnUpdate: Int()
-        Debug.TraceNotImplemented("NecroDancerGame.OnUpdate()")
+        If app.Millisecs() - necrodancergame.lastFrameTimeUpdate > 999
+            necrodancergame.lastFrameTimeUpdate = app.Millisecs()
+            necrodancergame.lastFPSUpdate = necrodancergame.globalFrameCounter - necrodancergame.lastFrameCountUpdate
+            necrodancergame.lastFrameCountUpdate = necrodancergame.globalFrameCounter
+        End If
+
+        Input.Update()
+
+        If Controller.currentController <> Null
+            Self.TestSeededAllZonesMode(Character.Cadence, "1")
+            
+            Controller.currentController.Update()
+        End If
+
+        Debug.TraceNotImplemented("NecroDancerGame.OnUpdate() (FMOD)")
+        Debug.TraceNotImplemented("NecroDancerGame.OnUpdate() (Steam API)")
+
+        app.EndApp()
+
+        Return 0
     End Method
 
     Method TestSeededAllZonesMode: Void(character: Int, randSeedString: String)
