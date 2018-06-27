@@ -1,7 +1,12 @@
 'Strict
 
+Import gui.controller_game
 Import gui.controller_popup
+Import level
+Import gamedata
+Import input2
 Import logger
+Import necrodancergame
 
 Class Input
 
@@ -123,7 +128,28 @@ Class Input
     End Function
 
     Function Update: Void()
-        Debug.TraceNotImplemented("Input.Update()")
+        If controller_game.DEBUG_MOUSE_COORDS
+            Debug.TraceNotImplemented("Input.Update() (Debug mouse coords)")
+        End If
+
+        If Input.popUpController <> Null
+            If necrodancergame.globalFrameCounter > Input.popupFrame + 60
+                Input.popUpController.ignoreInput = False
+            End If
+
+            Select Input.popUpController.retval
+                Case -1
+                    ' Do nothing
+                Case 2
+                    GameData.SetLobbyMove(True)
+                    Level.DoRestart()
+                    Input.popUpController = Null
+                Default
+                    Input.popUpController = Null
+            End Select
+        End If
+
+        Debug.TraceNotImplemented("Input.Update() (Joystick)")
     End Function
 
     Function UpdateKeysHit: Void()
