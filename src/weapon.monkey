@@ -2,6 +2,8 @@
 
 Import monkey.list
 Import monkey.map
+Import mojo.graphics
+Import item
 Import logger
 Import player_class
 Import point
@@ -24,13 +26,563 @@ Class Weapon
     Function _EditorFix: Void() End
 
     Method New(t: String)
-        Debug.TraceNotImplemented("Weapon.New(String)")
+        Self.startingRenderTime = 9
+        Self.type = t
+
+        If Self.type <> Item.NoItem
+            Local itemNode := Item.GetItemXML(Self.type)
+
+            Local numFrames := itemNode.GetAttribute("numFrames", 1)
+            Local imageW := itemNode.GetAttribute("imageW", 24)
+            Local imageH := itemNode.GetAttribute("imageH", 24)
+
+            If Self.IsDagger()
+                Local swipeImage: Sprite
+
+                Select Self.type
+                    Case "weapon_obsidian_dagger"
+                        swipeImage = New Sprite("swipes/swipe_dagger_obsidian.png", 24, 24, 9, Image.MidHandle)
+                        Self.hasObsSwipe = True
+                    Case "weapon_blood_dagger"
+                        swipeImage = New Sprite("swipes/swipe_dagger_blood.png", 3, Image.MidHandle)
+                    Case "weapon_titanium_dagger"
+                        swipeImage = New Sprite("swipes/swipe_dagger_titanium.png", 3, Image.MidHandle)
+                    Case "weapon_glass_dagger"
+                        swipeImage = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
+                    Case "weapon_golden_dagger"
+                        swipeImage = New Sprite("swipes/swipe_dagger_gold.png", 3, Image.MidHandle)
+                    Case "weapon_dagger_shard"
+                        swipeImage = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
+                    Default
+                        swipeImage = New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                End Select
+
+                Self.startingRenderTime = 6
+                swipeImage.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_dagger.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsLongsword()
+                Local swipeImage: Sprite
+
+                Select Self.type
+                    Case "weapon_obsidian_longsword"
+                        swipeImage = New Sprite("swipes/swipe_longsword_obsidian.png", 48, 24, 12, Image.MidHandle)
+                        Self.hasObsSwipe = True
+                    Case "weapon_blood_longsword"
+                        swipeImage = New Sprite("swipes/swipe_longsword_blood.png", 4, Image.MidHandle)
+                    Case "weapon_titanium_longsword"
+                        swipeImage = New Sprite("swipes/swipe_longsword_titanium.png", 4, Image.MidHandle)
+                    Case "weapon_glass_longsword"
+                        swipeImage = New Sprite("swipes/swipe_longsword_glass.png", 4, Image.MidHandle)
+                    Case "weapon_golden_longsword"
+                        swipeImage = New Sprite("swipes/swipe_longsword_gold.png", 4, Image.MidHandle)
+                    Default
+                        swipeImage = New Sprite("swipes/swipe_longsword.png", 4, Image.MidHandle)
+                End Select
+
+                Self.startingRenderTime = 8
+                Self.numSwipeFrames = 4
+                swipeImage.SetHandle(12, 12)
+                swipeImage.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_longsword.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowXOff = -1
+                Self.glowYOff = -1
+            Else If Self.IsBroadsword()
+                Local swipeImage: Sprite
+
+                Select Self.type
+                    Case "weapon_obsidian_broadsword"
+                        swipeImage = New Sprite("swipes/swipe_broadsword_obsidian.png", 24, 72, 9, Image.MidHandle)
+                        Self.hasObsSwipe = True
+                    Case "weapon_blood_broadsword"
+                        swipeImage = New Sprite("swipes/swipe_broadsword_blood.png", 3, Image.MidHandle)
+                    Case "weapon_titanium_broadsword"
+                        swipeImage = New Sprite("swipes/swipe_broadsword_titanium.png", 3, Image.MidHandle)
+                    Case "weapon_glass_broadsword"
+                        swipeImage = New Sprite("swipes/swipe_broadsword_glass.png", 3, Image.MidHandle)
+                    Case "weapon_golden_broadsword"
+                        swipeImage = New Sprite("swipes/swipe_broadsword_gold.png", 3, Image.MidHandle)
+                    Default
+                        swipeImage = New Sprite("swipes/swipe_broadsword.png", 3, Image.MidHandle)
+                End Select
+
+                Self.startingRenderTime = 6
+                swipeImage.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(1, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint3 := New WeaponPoint(-1, -1, Self, -1, Null, 3, True, 0, 1)
+                Self.attackPoints.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint3)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_broadsword.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowXOff = -1
+                Self.glowYOff = -1
+            Else If Self.IsBow()
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, True, -1, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, 1, attackPoint1, 3, True, -1, 1)
+                Local attackPoint3 := New WeaponPoint(0, -3, Self, 1, attackPoint2, 3, True, -1, 1)
+                attackPoint2.children.AddLast(attackPoint3)
+                attackPoint1.children.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.arrowWeapon = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_bow.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsCrossbow()
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, 1, attackPoint1, 3, True, -1, 1)
+                Local attackPoint3 := New WeaponPoint(0, -3, Self, 1, attackPoint2, 3, True, -1, 1)
+                Local attackPoint4 := New WeaponPoint(0, -3, Self, 1, attackPoint3, 3, True, -1, 1)
+                attackPoint3.children.AddLast(attackPoint4)
+                attackPoint2.children.AddLast(attackPoint3)
+                attackPoint1.children.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.reloadTime = 1
+                Self.clipSize = 3
+                Self.arrowWeapon = True
+
+                Local swipeImage2 := New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                Self.startingRenderTime2 = 6
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage2.Set(0, swipeImage2)
+
+                Self.glowHUD = New Sprite("items/weaponglow_crossbow.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsWhip()
+                Self.startingRenderTime = 8
+                Self.numSwipeFramesPerImage = 2
+                Self.numSwipeFrames = 4
+
+                Select Self.type
+                    Case "weapon_golden_whip"
+                        Local swipeImageA := New Sprite("swipes/swipe_whip_gold_A.png", 4, Image.MidHandle)
+                        swipeImageA.SetZOff(1000.0)
+                        Self.swipeImage.Set(0, swipeImageA)
+                        Local swipeImageB := New Sprite("swipes/swipe_whip_gold_B.png", 4, Image.MidHandle)
+                        swipeImageB.SetZOff(1000.0)
+                        Self.swipeImage.Set(1, swipeImageB)
+                        Local swipeImageC := New Sprite("swipes/swipe_whip_gold_C.png", 4, Image.MidHandle)
+                        swipeImageC.SetZOff(1000.0)
+                        Self.swipeImage.Set(2, swipeImageC)
+                        Local swipeImageD := New Sprite("swipes/swipe_whip_gold_D.png", 4, Image.MidHandle)
+                        swipeImageD.SetZOff(1000.0)
+                        Self.swipeImage.Set(3, swipeImageD)
+                        Local swipeImageE := New Sprite("swipes/swipe_whip_gold_E.png", 4, Image.MidHandle)
+                        swipeImageE.SetZOff(1000.0)
+                        Self.swipeImage.Set(4, swipeImageE)
+                    Case "weapon_obsidian_whip"
+                        Local swipeImageA := New Sprite("swipes/swipe_whip_obsidian_A.png", 24, 120, 12, Image.MidHandle)
+                        swipeImageA.SetZOff(1000.0)
+                        Self.swipeImage.Set(0, swipeImageA)
+                        Local swipeImageB := New Sprite("swipes/swipe_whip_obsidian_B.png", 24, 120, 12, Image.MidHandle)
+                        swipeImageB.SetZOff(1000.0)
+                        Self.swipeImage.Set(1, swipeImageB)
+                        Local swipeImageC := New Sprite("swipes/swipe_whip_obsidian_C.png", 24, 120, 12, Image.MidHandle)
+                        swipeImageC.SetZOff(1000.0)
+                        Self.swipeImage.Set(2, swipeImageC)
+                        Local swipeImageD := New Sprite("swipes/swipe_whip_obsidian_D.png", 24, 120, 12, Image.MidHandle)
+                        swipeImageD.SetZOff(1000.0)
+                        Self.swipeImage.Set(3, swipeImageD)
+                        Local swipeImageE := New Sprite("swipes/swipe_whip_obsidian_E.png", 24, 120, 12, Image.MidHandle)
+                        swipeImageE.SetZOff(1000.0)
+                        Self.swipeImage.Set(4, swipeImageE)
+
+                        Self.hasObsSwipe = True
+                    Default
+                        Local swipeImageA := New Sprite("swipes/swipe_whip_A.png", 4, Image.MidHandle)
+                        swipeImageA.SetZOff(1000.0)
+                        Self.swipeImage.Set(0, swipeImageA)
+                        Local swipeImageB := New Sprite("swipes/swipe_whip_B.png", 4, Image.MidHandle)
+                        swipeImageB.SetZOff(1000.0)
+                        Self.swipeImage.Set(1, swipeImageB)
+                        Local swipeImageC := New Sprite("swipes/swipe_whip_C.png", 4, Image.MidHandle)
+                        swipeImageC.SetZOff(1000.0)
+                        Self.swipeImage.Set(2, swipeImageC)
+                        Local swipeImageD := New Sprite("swipes/swipe_whip_D.png", 4, Image.MidHandle)
+                        swipeImageD.SetZOff(1000.0)
+                        Self.swipeImage.Set(3, swipeImageD)
+                        Local swipeImageE := New Sprite("swipes/swipe_whip_E.png", 4, Image.MidHandle)
+                        swipeImageE.SetZOff(1000.0)
+                        Self.swipeImage.Set(4, swipeImageE)
+                End Select
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, False, 2, 1)
+                Local attackPoint2 := New WeaponPoint(-1, -1, Self, 1, attackPoint1, 2, False, 1, 1)
+                Local attackPoint3 := New WeaponPoint(1, -1, Self, 1, attackPoint1, 0, False, 3, 1)
+                Local attackPoint4 := New WeaponPoint(-1, -1, Self, 1, attackPoint1, 2, True, 1, 0)
+                Local attackPoint5 := New WeaponPoint(-2, -1, Self, 1, attackPoint4, 2, True, 0, 1)
+                Local attackPoint6 := New WeaponPoint(1, -1, Self, 1, attackPoint1, 0, True, 3, 0)
+                Local attackPoint7 := New WeaponPoint(2, -1, Self, 1, attackPoint6, 0, True, 4, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                attackPoint1.children.AddLast(attackPoint3)
+                attackPoint1.children.AddLast(attackPoint4)
+                attackPoint4.children.AddLast(attackPoint5)
+                attackPoint1.children.AddLast(attackPoint6)
+                attackPoint6.children.AddLast(attackPoint7)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.glowHUD = New Sprite("items/weaponglow_whip.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsFlail()
+                Self.startingRenderTime = 6
+                Local swipeImage := New Sprite("swipes/swipe_flail.png", 5, Image.MidHandle)
+                swipeImage.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(-1, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint3 := New WeaponPoint(-1, 0, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint4 := New WeaponPoint(1, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint5 := New WeaponPoint(1, 0, Self, -1, Null, 3, True, 0, 1)
+                Self.attackPoints.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint3)
+                Self.attackPoints.AddLast(attackPoint4)
+                Self.attackPoints.AddLast(attackPoint5)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_flail.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsCat()
+                Self.startingRenderTime = 8
+                Self.numSwipeFramesPerImage = 2
+                Self.numSwipeFrames = 4
+                Local swipeImageA := New Sprite("swipes/swipe_cat_A.png", 4, Image.MidHandle)
+                swipeImageA.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImageA)
+                Local swipeImageB := New Sprite("swipes/swipe_cat_B.png", 4, Image.MidHandle)
+                swipeImageB.SetZOff(1000.0)
+                Self.swipeImage.Set(1, swipeImageB)
+                Local swipeImageC := New Sprite("swipes/swipe_cat_C.png", 4, Image.MidHandle)
+                swipeImageC.SetZOff(1000.0)
+                Self.swipeImage.Set(2, swipeImageC)
+                Local swipeImageD := New Sprite("swipes/swipe_cat_D.png", 4, Image.MidHandle)
+                swipeImageD.SetZOff(1000.0)
+                Self.swipeImage.Set(3, swipeImageD)
+                Local swipeImageE := New Sprite("swipes/swipe_cat_E.png", 4, Image.MidHandle)
+                swipeImageE.SetZOff(1000.0)
+                Self.swipeImage.Set(4, swipeImageE)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, False, 2, 1)
+                Local attackPoint2 := New WeaponPoint(-1, -1, Self, 1, attackPoint1, 2, False, 1, 1)
+                Local attackPoint3 := New WeaponPoint(1, -1, Self, 1, attackPoint1, 0, False, 3, 1)
+                Local attackPoint4 := New WeaponPoint(-1, 0, Self, 1, attackPoint1, 2, True, 0, 1)
+                Local attackPoint5 := New WeaponPoint(1, 0, Self, 1, attackPoint1, 0, True, 4, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                attackPoint1.children.AddLast(attackPoint3)
+                attackPoint1.children.AddLast(attackPoint4)
+                attackPoint1.children.AddLast(attackPoint5)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.glowHUD = New Sprite("items/weaponglow_cat.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowYOff = 1
+            Else If Self.IsRapier()
+                Self.daggerSwipeAdjacent = True
+
+                Local swipeImage: Sprite
+                Local swipeImage2: Sprite
+
+                Select Self.type
+                    Case "weapon_obsidian_rapier"
+                        swipeImage = New Sprite("swipes/swipe_rapier_obsidian.png", 48, 24, 12, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_obsidian.png", 24, 24, 9, Image.MidHandle)
+
+                        Self.hasObsSwipe = True
+                        Self.hasObsSwipe2 = True
+                    Case "weapon_blood_rapier"
+                        swipeImage = New Sprite("swipes/swipe_rapier_blood.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_blood.png", 3, Image.MidHandle)
+                    Case "weapon_titanium_rapier"
+                        swipeImage = New Sprite("swipes/swipe_rapier_titanium.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_titanium.png", 3, Image.MidHandle)
+                    Case "weapon_glass_rapier"
+                        swipeImage = New Sprite("swipes/swipe_rapier_glass.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
+                    Case "weapon_golden_rapier"
+                        swipeImage = New Sprite("swipes/swipe_rapier_golden.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_golden.png", 3, Image.MidHandle)
+                    Default
+                        swipeImage = New Sprite("swipes/swipe_rapier.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                End Select
+
+                swipeImage.SetHandle(24, 12)
+                Self.startingRenderTime = 8
+                Self.startingRenderTime2 = 6
+                Self.numSwipeFrames = 4
+                swipeImage.SetZOff(1000.0)
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+                Self.swipeImage2.Set(0, swipeImage2)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, 1, attackPoint1, 3, True, 0, 2)
+                attackPoint1.children.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_rapier.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsSpear()
+                Self.daggerSwipeAdjacent = True
+
+                Local swipeImage: Sprite
+                Local swipeImage2: Sprite
+
+                Select Self.type
+                    Case "weapon_obsidian_spear"
+                        swipeImage = New Sprite("swipes/swipe_spear_obsidian.png", 48, 24, 12, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_obsidian.png", 24, 24, 9, Image.MidHandle)
+
+                        Self.hasObsSwipe = True
+                        Self.hasObsSwipe2 = True
+                    Case "weapon_blood_spear"
+                        swipeImage = New Sprite("swipes/swipe_spear_blood.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_blood.png", 3, Image.MidHandle)
+                    Case "weapon_titanium_spear"
+                        swipeImage = New Sprite("swipes/swipe_spear_titanium.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_titanium.png", 3, Image.MidHandle)
+                    Case "weapon_glass_spear"
+                        swipeImage = New Sprite("swipes/swipe_spear_glass.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
+                    Case "weapon_golden_spear"
+                        swipeImage = New Sprite("swipes/swipe_spear_golden.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger_golden.png", 3, Image.MidHandle)
+                    Default
+                        swipeImage = New Sprite("swipes/swipe_spear.png", 4, Image.MidHandle)
+                        swipeImage2 = New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                End Select
+
+                swipeImage.SetHandle(12, 12)
+                Self.startingRenderTime = 8
+                Self.startingRenderTime2 = 6
+                Self.numSwipeFrames = 4
+                swipeImage.SetZOff(1000.0)
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+                Self.swipeImage2.Set(0, swipeImage2)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, 1, attackPoint1, 3, True, 0, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_spear.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsBlunderbuss()
+                Local swipeImage := New Sprite("swipes/swipe_blunderbuss.png", 8, Image.MidHandle)
+                swipeImage.SetHandle(-2, 59)
+                Self.startingRenderTime = 16
+                Self.numSwipeFrames = 8
+                Self.numSwipeFramesPerImage = 2
+                swipeImage.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(-1, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                Local attackPoint3 := New WeaponPoint(0, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                Local attackPoint4 := New WeaponPoint(1, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                Local attackPoint5 := New WeaponPoint(-2, -3, Self, -1, attackPoint2, 3, True, 0, 1)
+                Local attackPoint6 := New WeaponPoint(-1, -3, Self, -1, attackPoint2, 3, True, 0, 1)
+                Local attackPoint7 := New WeaponPoint(0, -3, Self, -1, attackPoint3, 3, True, 0, 1)
+                Local attackPoint8 := New WeaponPoint(1, -3, Self, -1, attackPoint4, 3, True, 0, 1)
+                Local attackPoint9 := New WeaponPoint(2, -3, Self, -1, attackPoint4, 3, True, 0, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                attackPoint1.children.AddLast(attackPoint3)
+                attackPoint1.children.AddLast(attackPoint4)
+                attackPoint2.children.AddLast(attackPoint5)
+                attackPoint2.children.AddLast(attackPoint6)
+                attackPoint3.children.AddLast(attackPoint7)
+                attackPoint4.children.AddLast(attackPoint8)
+                attackPoint4.children.AddLast(attackPoint9)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+                Self.reloadTime = 1
+                Self.clipSize = 1
+
+                Local swipeImage2 := New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                Self.startingRenderTime2 = 6
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage2.Set(0, swipeImage2)
+            Else If Self.IsRifle()
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, -1, attackPoint1, 3, True, -1, 1)
+                Local attackPoint3 := New WeaponPoint(0, -3, Self, -1, attackPoint2, 3, True, -1, 1)
+                Local attackPoint4 := New WeaponPoint(0, -4, Self, -1, attackPoint3, 3, True, -1, 1)
+                Local attackPoint5 := New WeaponPoint(0, -5, Self, -1, attackPoint4, 3, True, -1, 1)
+                Local attackPoint6 := New WeaponPoint(0, -6, Self, -1, attackPoint5, 3, True, -1, 1)
+                Local attackPoint7 := New WeaponPoint(0, -7, Self, -1, attackPoint6, 3, True, -1, 1)
+                Local attackPoint8 := New WeaponPoint(0, -8, Self, -1, attackPoint7, 3, True, -1, 1)
+                Local attackPoint9 := New WeaponPoint(0, -9, Self, -1, attackPoint8, 3, True, -1, 1)
+                Local attackPoint10 := New WeaponPoint(0, -10, Self, -1, attackPoint9, 3, True, -1, 1)
+                Local attackPoint11 := New WeaponPoint(0, -11, Self, -1, attackPoint10, 3, True, -1, 1)
+                Local attackPoint12 := New WeaponPoint(0, -12, Self, -1, attackPoint11, 3, True, -1, 1)
+                Local attackPoint13 := New WeaponPoint(0, -13, Self, -1, attackPoint12, 3, True, -1, 1)
+                Local attackPoint14 := New WeaponPoint(0, -14, Self, -1, attackPoint13, 3, True, -1, 1)
+                Local attackPoint15 := New WeaponPoint(0, -15, Self, -1, attackPoint14, 3, True, -1, 1)
+                Local attackPoint16 := New WeaponPoint(0, -16, Self, -1, attackPoint15, 3, True, -1, 1)
+                Local attackPoint17 := New WeaponPoint(0, -17, Self, -1, attackPoint16, 3, True, -1, 1)
+                Local attackPoint18 := New WeaponPoint(0, -18, Self, -1, attackPoint17, 3, True, -1, 1)
+                Local attackPoint19 := New WeaponPoint(0, -19, Self, -1, attackPoint18, 3, True, -1, 1)
+                Local attackPoint20 := New WeaponPoint(0, -20, Self, -1, attackPoint19, 3, True, -1, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                attackPoint2.children.AddLast(attackPoint3)
+                attackPoint3.children.AddLast(attackPoint4)
+                attackPoint4.children.AddLast(attackPoint5)
+                attackPoint5.children.AddLast(attackPoint6)
+                attackPoint6.children.AddLast(attackPoint7)
+                attackPoint7.children.AddLast(attackPoint8)
+                attackPoint8.children.AddLast(attackPoint9)
+                attackPoint9.children.AddLast(attackPoint10)
+                attackPoint10.children.AddLast(attackPoint11)
+                attackPoint11.children.AddLast(attackPoint12)
+                attackPoint12.children.AddLast(attackPoint13)
+                attackPoint13.children.AddLast(attackPoint14)
+                attackPoint14.children.AddLast(attackPoint15)
+                attackPoint15.children.AddLast(attackPoint16)
+                attackPoint16.children.AddLast(attackPoint17)
+                attackPoint17.children.AddLast(attackPoint18)
+                attackPoint18.children.AddLast(attackPoint19)
+                attackPoint19.children.AddLast(attackPoint20)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.reloadTime = 1
+                Self.clipSize = 3
+                Self.arrowWeapon = True
+
+                Local swipeImage2 := New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                Self.startingRenderTime2 = 6
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage2.Set(0, swipeImage2)
+            Else If Self.IsAxe()
+                Self.daggerSwipeAdjacent = True
+
+                Local swipeImage := New Sprite("swipes/swipe_broadsword.png", 3, Image.MidHandle)
+                Local swipeImage2 := New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                Self.startingRenderTime = 6
+                Self.startingRenderTime2 = 6
+                swipeImage.SetZOff(1000.0)
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+                Self.swipeImage2.Set(0, swipeImage2)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                Local attackPoint3 := New WeaponPoint(1, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                Local attackPoint4 := New WeaponPoint(-1, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                attackPoint1.children.AddLast(attackPoint3)
+                attackPoint1.children.AddLast(attackPoint4)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_axe.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsHarp()
+                Self.startingRenderTime = 10
+                Self.numSwipeFrames = 5
+                Local swipeImage := New Sprite("swipes/swipe_harp.png", 5, Image.DefaultFlags)
+                swipeImage.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_harp.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsWarhammer()
+                Self.startingRenderTime = 8
+                Local swipeImage := New Sprite("swipes/swipe_broadsword.png", 3, Image.MidHandle)
+                swipeImage.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+                Self.startingRenderTime2 = 8
+                Self.numSwipeFrames2 = 4
+                Local swipeImage2 := New Sprite("swipes/swipe_warhammer.png", 4, Image.MidHandle)
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage2.Set(0, swipeImage2)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1);
+                Local attackPoint2 := New WeaponPoint(1, -1, Self, -1, Null, 3, True, 0, 1);
+                Local attackPoint3 := New WeaponPoint(-1, -1, Self, -1, Null, 3, True, 0, 1);
+                Local attackPoint4 := New WeaponPoint(1, -2, Self, -1, attackPoint1, 3, True, 0, 1);
+                Local attackPoint5 := New WeaponPoint(-1, -2, Self, -1, attackPoint1, 3, True, 0, 1);
+                Local attackPoint6 := New WeaponPoint(0, -2, Self, -1, attackPoint1, 3, True, 0, 1);
+                Self.attackPoints.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint3)
+                attackPoint1.children.AddLast(attackPoint4)
+                attackPoint1.children.AddLast(attackPoint5)
+                attackPoint1.children.AddLast(attackPoint6)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.glowHUD = New Sprite("items/weaponglow_warhammer.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsStaff()
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.glowHUD = New Sprite("items/weaponglow_staff.png", imageW, imageH, 1, Image.DefaultFlags)
+            Else If Self.IsCutlass()
+                Self.daggerSwipeAdjacent = True
+
+                Local swipeImage := New Sprite("swipes/swipe_rapier.png", 4, Image.MidHandle)
+                Local swipeImage2 := New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
+                swipeImage.SetHandle(12, 12)
+                Self.startingRenderTime = 8
+                Self.startingRenderTime2 = 6
+                Self.numSwipeFrames = 4
+                swipeImage.SetZOff(1000.0)
+                swipeImage2.SetZOff(1000.0)
+                Self.swipeImage.Set(0, swipeImage)
+                Self.swipeImage2.Set(0, swipeImage2)
+
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(0, -2, Self, 1, attackPoint1, 3, True, 0, 1)
+                attackPoint1.children.AddLast(attackPoint2)
+                Self.attackPoints.AddLast(attackPoint1)
+
+                Self.flipEachHit = True
+
+                Self.glowHUD = New Sprite("items/weaponglow_cutlass.png", imageW, imageH, 1, Image.DefaultFlags)
+            End If
+
+            Self.currentClipSize = Self.clipSize
+
+            Self.imageHUD = New Sprite(itemNode.value, imageW, imageH, 2 * numFrames, Image.DefaultFlags)
+            Self.imageHUD.InWorld = False
+            Self.imageHUD.SetZ(10000.0)
+
+            If Self.glowHUD <> Null
+                Self.glowHUD.InWorld = False
+                Self.glowHUD.SetZ(9998.0)
+            End If
+        End If
     End Method
 
     Field type: String = "weapon_dagger"
     Field startingRenderTime: Int
     Field hasObsSwipe: Bool
-    Field swipeImage: Map<Int, Sprite> = New Map<Int, Sprite>()
+    Field swipeImage: IntMap<Sprite> = New IntMap<Sprite>()
     Field flipEachHit: Bool
     Field glowHUD: Sprite
     Field numSwipeFrames: Int = 3
@@ -41,7 +593,7 @@ Class Weapon
     Field reloadTime: Int
     Field clipSize: Int = 1
     Field startingRenderTime2: Int
-    Field swipeImage2: Map<Int, Sprite> = New Map<Int, Sprite>()
+    Field swipeImage2: IntMap<Sprite> = New IntMap<Sprite>()
     Field numSwipeFramesPerImage: Int = 2
     Field daggerSwipeAdjacent: Bool
     Field hasObsSwipe2: Bool

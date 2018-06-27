@@ -169,7 +169,7 @@ Class Sprite Extends Tweenable
         Debug.TraceNotImplemented("Sprite.InitSprite()")
     End Method
 
-    Method InWorld: Void(world: Bool)
+    Method InWorld: Void(world: Bool) Property
         Self.inWorld = world
     End Method
 
