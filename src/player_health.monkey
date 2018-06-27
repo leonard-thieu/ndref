@@ -129,7 +129,13 @@ Class PlayerHealth
     End Method
 
     Method Revive: Void()
-        Debug.TraceNotImplemented("PlayerHealth.Revive()")
+        If Self.fragile
+            Self.baseMax = math.Max(1, Self.baseMax)
+            Self.current = 1
+        Else
+            Self.baseMax = math.Max(4, Self.baseMax)
+            Self.current = 4
+        End If
     End Method
 
 End Class
