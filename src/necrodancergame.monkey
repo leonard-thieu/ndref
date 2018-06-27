@@ -58,7 +58,7 @@ Class NecroDancerGame Extends App
     End Method
 
     Method TestSeededAllZonesMode: Void(character: Int, randSeedString: String)
-        controller_game.players[0] = New Player(controller_game.player1, character)
+        controller_game.players[0] = New Player(0, character)
 
         Level.randSeedString = randSeedString
 
@@ -91,7 +91,7 @@ Class NecroDancerGame Extends App
     End Method
 
     Method TestSeededRandomizerMode: Void(character: Int, randSeedString: String)
-        controller_game.players[0] = New Player(controller_game.player1, character)
+        controller_game.players[0] = New Player(0, character)
 
         Level.randSeedString = randSeedString
 
