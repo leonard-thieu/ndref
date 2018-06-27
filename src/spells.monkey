@@ -116,15 +116,14 @@ Class Spells
         Spells.pulseAnim.Push(3)
         Spells.pulseAnim.Push(3)
 
-        Spells.spellSlot1 = SpellType.None
-        Spells.spellSlot2 = SpellType.None
-
-        ' Instantiates it again?
-        Spells.spellCoolKills = New StringMap<Int>()
+        Spells.InitLearnedSpells()
     End Function
 
     Function InitLearnedSpells: Void()
-        Debug.TraceNotImplemented("Spells.InitLearnedSpells()")
+        Spells.spellSlot1 = SpellType.None
+        Spells.spellSlot2 = SpellType.None
+
+        Spells.spellCoolKills = New StringMap<Int>()
     End Function
 
     Function IsSpellCooled: Bool(sp: Int)

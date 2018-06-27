@@ -1,6 +1,8 @@
 'Strict
 
 Import monkey.math
+Import level
+Import gamedata
 Import logger
 
 Class PlayerHealth
@@ -96,7 +98,7 @@ Class PlayerHealth
     End Method
 
     Method Refill: Void()
-        Debug.TraceNotImplemented("PlayerHealth.Refill()")
+        Self.current = Self.GetNormalMax()
     End Method
 
     Method RefillAsCursed: Void()
@@ -108,7 +110,18 @@ Class PlayerHealth
     End Method
 
     Method Reset: Void(newMax: Int)
-        Debug.TraceNotImplemented("PlayerHealth.Reset(Int)")
+        Self.fragile = False
+
+        If Not Level.isHardcoreMode
+            Local playerHealthMax := GameData.GetPlayerHealthMax()
+            newMax = math.Max(newMax, playerHealthMax)
+        End If
+
+        Self.baseMax = newMax
+        Self.cursedCurrent = 0
+        Self.cursedMax = 0
+        Self.bonusMax = 0
+        Self.Refill()
     End Method
 
     Method ResetFragile: Void()

@@ -7,6 +7,9 @@ Import enemy.enemyclamper
 Import gui.controller_game
 Import gui.controller_input_popup
 Import gui.controller_popup
+Import familiar
+Import familiar_fixed.soul_familiar
+Import level
 Import bouncer
 Import camera
 Import entity
@@ -16,8 +19,10 @@ Import gamedata
 Import item
 Import logger
 Import mobileentity
+Import necrodancergame
 Import player_health
 Import point
+Import spells
 Import sprite
 Import textsprite
 Import weapon
@@ -811,7 +816,72 @@ Class Player Extends MobileEntity
     End Method
 
     Method GiveInitialEquipment: Void(resetHealth: Bool)
-        Debug.TraceNotImplemented("Player.GiveInitialEquipment(Bool)")
+        If Self.playerID = 0
+            Spells.InitLearnedSpells()
+        End If
+
+        Local characterNode := necrodancergame.xmlData.GetChildAtPath("characters/character", "id=" + Self.characterID)
+        If characterNode = necrodancergame.xmlData.nullNode
+            Debug.Log("ERROR: No character found in XML with id " + Self.characterID)
+        Else
+            Local initialEquipmentsNode := characterNode.GetChild("initial_equipment")
+            For Local initialEquipmentNode := EachIn initialEquipmentsNode.GetChildren()
+                Select initialEquipmentNode.name
+                    Case "item"
+                        Local itemType := initialEquipmentNode.GetAttribute("type")
+                        
+                        If Item.itemImages.Contains(itemType)
+                            Self.AddItemOfType(itemType, Null, True, True)
+                        Else
+                            Debug.Log("ERROR: Unrecognized item type " + itemType)
+                        End If
+                    Case "cursed"
+                        Local cursedSlot := initialEquipmentNode.GetAttribute("slot")
+                        
+                        Self.SetSlotCursed(cursedSlot, True)
+                    Default
+                        Debug.Log("ERROR: Unrecognized initial equipment element " + initialEquipmentNode.name)
+                End Select
+            End for
+        End If
+
+        If Level.isSoulMode
+            If Not Self.HasItemOfType("charm_nazar", False)
+                Self.AddItemOfType("charm_nazar", Null, True, True)
+            End If
+
+            New SoulFamiliar(Self.x, Self.y, Self)
+        End If
+
+        If Self.characterID <> Character.Mary
+            Self.lambFamiliar = Null
+        Else
+            Self.lambFamiliar = New Familiar(Self)
+        End If
+
+        If resetHealth
+            Select Self.characterID
+                Case Character.Melody,
+                     Character.Bard,
+                     Character.Monk
+                    Self.health.Reset(4)
+                Case Character.Bolt,
+                     Character.Eli
+                    Self.health.Reset(6)
+                Case Character.Dorian
+                    Self.health.Reset(8)
+                Case Character.Dove
+                    Self.health.Reset(4)
+                    Self.UpdateBonusHeart()
+                    Self.health.Heal(2, False)
+                Case Character.Coda,
+                     Character.Aria,
+                     Character.Ghost
+                    Self.health.ResetFragile()
+                Default
+                    Self.health.Reset(6)
+            End Select
+        End If
     End Method
 
     Method GotBlood: Void(amount: Int)
@@ -1122,8 +1192,8 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.SetDugRecently()")
     End Method
 
-    Method SetSlotCursed: Void(sl: Int, b: Bool)
-        Debug.TraceNotImplemented("Player.SetSlotCursed(Int, Bool)")
+    Method SetSlotCursed: Void(sl: String, b: Bool)
+        Self.cursedSlots.Set(sl, b)
     End Method
 
     Method SetSlotMystery: Void(sl: Int, b: Bool)

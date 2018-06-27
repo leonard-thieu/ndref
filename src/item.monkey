@@ -11,6 +11,7 @@ Import gamedata
 Import logger
 Import necrodancer
 Import necrodancergame
+Import sprite
 Import xml
 
 Function GetResourceCoinType: String(amount: Int)
@@ -28,7 +29,7 @@ Class Item Extends Entity
     Global hephItems1: Object
     Global hephItems2: Object
     Global hephItems3: Object
-    Global itemImages: Object
+    Global itemImages: StringMap<Sprite> = New StringMap<Sprite>()
     Global itemPoolAnyChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
     Global itemPoolAnyChest2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
     Global itemPoolChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]

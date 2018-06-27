@@ -42,7 +42,9 @@ Class FamiliarFixed Extends Entity Abstract
         Debug.TraceNotImplemented("FamiliarFixed.MoveTo(Int, Int)")
     End Method
 
-    Method TryPickup: Void() Abstract
+    Method TryPickup: Void()
+        ' Empty implementation
+    End Method
 
     Method Update: Void()
         Debug.TraceNotImplemented("FamiliarFixed.Update()")
