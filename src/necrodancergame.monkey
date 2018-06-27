@@ -62,32 +62,32 @@ Class NecroDancerGame Extends App
 
         Level.randSeedString = randSeedString
 
-        Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+        Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
 
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
         
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone, controller_game.player1, False, Null, False)
+        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
     End Method
 
     Method TestSeededRandomizerMode: Void(character: Int, randSeedString: String)
@@ -95,7 +95,7 @@ Class NecroDancerGame Extends App
 
         Level.randSeedString = randSeedString
 
-        Level.NewLevel(LevelType.SeededRandomizerMode, controller_game.currentZone, controller_game.player1, False, Null, False)
+        Level.NewLevel(LevelType.SeededRandomizerMode, controller_game.currentZone)
         
         ' Dump all enemies
         os.SaveString(Enemy.randomizerXML.Export(0), "randomizer-" + Level.randSeed + ".xml")
