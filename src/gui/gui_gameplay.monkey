@@ -1,10 +1,11 @@
 'Strict
 
 Import logger
+Import sprite
 
 Class GUI_gameplay
 
-    Global errorKey: Object
+    Global errorKey: Sprite
     Global errorKeyRenderLocX: Int
     Global errorKeyRenderLocY: Int
     Global errorKeyRenderTimer: Int

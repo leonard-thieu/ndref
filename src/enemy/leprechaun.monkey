@@ -8,6 +8,8 @@ Import sprite
 
 Class Leprechaun Extends Enemy
 
+    Global seenLeprechaun: Bool
+
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)

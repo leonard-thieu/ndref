@@ -11,8 +11,8 @@ Class Camera
     Global fadeOutCurrent: Int
     Global fadeOutDuration: Int
     Global fixed: Bool
-    Global freezeFrameDelay: Int
-    Global freezeFrameNum: Int
+    Global freezeFrameDelay: Int = -1
+    Global freezeFrameNum: Int = -1
     Global freezeImage: Object
     Global lastFreezeFrameH: Int
     Global lastFreezeFrameW: Int

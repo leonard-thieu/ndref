@@ -13,6 +13,10 @@ Class Flyaway
         Debug.TraceNotImplemented("Flyaway.RenderAll()")
     End Function
 
+    Function StopRenderingOfAllCurrentFlyaways: Void()
+        Debug.TraceNotImplemented("Flyaway.StopRenderingOfAllCurrentFlyaways()")
+    End Function
+
     Function UpdateAll: Void()
         Debug.TraceNotImplemented("Flyaway.UpdateAll()")
     End Function

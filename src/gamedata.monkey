@@ -466,7 +466,7 @@ Class GameData
         Debug.TraceNotImplemented("GameData.SetChangeLogShownForCurrentVersion()")
     End Function
 
-    Function SetCharUnlocked: Void(charNum: Int, val: Bool)
+    Function SetCharUnlocked: Void(charNum: Int, val: Bool = True)
         Debug.TraceNotImplemented("GameData.SetCharUnlocked(Int, Bool)")
     End Function
 

@@ -20,7 +20,7 @@ Class Util
     Global pendingScoreRetrieval: Bool
     Global pendingScoreRetrievalEnd: Int
     Global pendingScoreRetrievalStart: Int
-    Global pendingScoreSubmission: List<Object>
+    Global pendingScoreSubmission: List<HighScoreSubmission> = New List<HighScoreSubmission>()
     Global storedSeed: Int
 
     Function AddMetric: Void(key: String, value: String, send: Bool = False, blocking: Bool = False, isNumber: Bool = False)
