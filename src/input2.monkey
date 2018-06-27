@@ -1,12 +1,36 @@
 'Strict
 
+Import gui.controller_popup
 Import logger
 
 Class Input
 
-    Global lastBeatSkippedFlyaway: Int
-    Global popUpController: Object
-    Global popupFrame: Int
+    Global keysHit2FramesAgo: Bool[512]
+    Global keysHitLastFrame: Bool[512]
+    Global lastBeatMissed: Int[4]
+    Global lastBeatMovedOn: Int[4]
+    Global lastBeatSkippedFlyaway: Int = -1
+    Global lastJoyX: Float[4]
+    Global lastJoyX2: Float[4]
+    Global lastJoyY: Float[4]
+    Global lastJoyY2: Float[4]
+    Global lastOffbeatMovedOn: Int[4]
+    Global movementBuffer: Int[4]
+    Global movementBufferFrame: Int[4]
+    Global offbeatMovementBuffer: Int[4]
+    Global offbeatMovementBufferFrame: Int[4]
+    Global popUpController: ControllerPopUp
+    Global popupFrame: Int = -1
+    Global punishmentBeatToSkip: Int[4]
+    Global punishmentBeatToSkipQueue: Int[4]
+    Global stickDown: Bool[4]
+    Global stickDown2: Bool[4]
+    Global stickLeft: Bool[4]
+    Global stickLeft2: Bool[4]
+    Global stickRight: Bool[4]
+    Global stickRight2: Bool[4]
+    Global stickUp: Bool[4]
+    Global stickUp2: Bool[4]
 
     Function GameUpdate: Bool()
         Debug.TraceNotImplemented("Input.GameUpdate()")
@@ -45,7 +69,41 @@ Class Input
     End Function
 
     Function Init: Void()
-        Debug.TraceNotImplemented("Input.Init()")
+        For Local i := 0 Until 4
+            Input.stickLeft[i] = False
+            Input.stickRight[i] = False
+            Input.stickUp[i] = False
+            Input.stickDown[i] = False
+            
+            Input.lastJoyX[i] = 0.0
+            Input.lastJoyY[i] = 0.0
+
+            Input.stickLeft2[i] = False
+            Input.stickRight2[i] = False
+            Input.stickUp2[i] = False
+            Input.stickDown2[i] = False
+            
+            Input.lastJoyX2[i] = 0.0
+            Input.lastJoyY2[i] = 0.0
+
+            Input.movementBuffer[i] = -1
+            Input.movementBufferFrame[i] = 0
+
+            Input.offbeatMovementBuffer[i] = -1
+            Input.offbeatMovementBufferFrame[i] = 0
+
+            Input.lastBeatMovedOn[i] = -1
+            Input.lastOffbeatMovedOn[i] = -1
+            Input.lastBeatMissed[i] = -1
+
+            Input.punishmentBeatToSkip[i] = -1
+            Input.punishmentBeatToSkipQueue[i] = -1
+        End For
+
+        For Local i := 0 Until 512
+            Input.keysHitLastFrame[i] = False
+            Input.keysHit2FramesAgo[i] = False
+        End For
     End Function
 
     Function IsRedefined: Bool(key: Int)
