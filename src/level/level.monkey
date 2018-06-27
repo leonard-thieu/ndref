@@ -27,6 +27,7 @@ Import enemy.hellhound
 Import enemy.king
 Import enemy.king_conga
 Import enemy.knight
+Import enemy.leprechaun
 Import enemy.metrognome
 Import enemy.minotaur
 Import enemy.mommy
@@ -101,6 +102,7 @@ Import chain
 Import chest
 Import entity
 Import exitmap
+Import flyaway
 import gamedata
 Import input2
 Import intpointlist
@@ -4846,7 +4848,143 @@ Class Level
     End Function
 
     Function DoRestart_Common: Void(continuedRun: Bool, cancelFade: Bool)
-        Debug.TraceNotImplemented("Level.DoRestart_Common(Bool, Bool)")
+        controller_game.hasWon = False
+        controller_game.showScoreMessage = False
+
+        Level.outsideBossChamber = False
+        Level.pacifismModeOn = False
+        Level.shopkeeperDead = False
+        Level.shopkeeperFell = False
+        Level.placeLordOnLevel = -1
+        Level.placeShrineOnLevel.Clear()
+        Level.placeTransmogrifierOnDepth = -1
+        Level.placeTransmogrifierOnLevel = -1
+        Level.placeArenaOnLevel = -1
+        Level.placeArenaOnDepth = -1
+        Level.placedArena = False
+        Level.placeGlassShopOnLevel = -1
+        Level.placeGlassShopOnDepth = -1
+        Level.placeBloodShopOnLevel = -1
+        Level.placeBloodShopOnDepth = -1
+        Level.placeFoodShopOnLevel = -1
+        Level.placeFoodShopOnDepth = -1
+        Level.placeConjurerOnLevel = -1
+        Level.placeConjurerOnDepth = -1
+        Level.placeShrinerOnLevel = -1
+        Level.placeShrinerOnDepth = -1
+        Level.placePawnbrokerOnLevel = -1
+        Level.placePawnbrokerOnDepth = -1
+        
+        Shrine.darknessShrineActive = False
+        Shrine.rhythmShrineActive = False
+        Shrine.riskShrineActive = False
+        Shrine.riskShrinePlayer = Null
+        Shrine.spaceShrineActive = False
+        Shrine.warShrineActive = False
+        Shrine.noReturnShrineActive = False
+        Shrine.noReturnShrinePlayer = Null
+        Shrine.paceShrineActive = False
+        Shrine.bossShrineActive = False
+        Shrine.usedShrines.Clear()
+        Shrine.usedShrinerInZone = -1
+
+        Level.randSeed = -1
+        Level.nonDeterministicMSStart = -1
+        Level.wholeRunRNG = Null
+        Level.currentFloorRNG = Null
+        Level.usedBosses.Clear()
+        Level.isSeededMode = False
+        Level.isHardcoreMode = False
+        Level.isDailyChallenge = False
+        Level.isDDRMode = False
+        Level.isSwarmMode = False
+        Level.isNoReturnMode = False
+        Level.isSoulMode = False
+        Level.isFloorIsLavaMode = False
+        Level.isPhasingMode = False
+        Level.isRandomizerMode = False
+        Level.isMysteryMode = False
+        Level.isReplaying = False
+        Level.isTrainingMode = False
+        Level.isBeastmaster = False
+        Level.playedVictoryCutscene = False
+        Level.mentorLevel = -1
+
+        If Not continuedRun
+            Level.isStoryMode = False
+            Level.isDeathlessMode = False
+            Level.deathlessWinCount = 0
+            Level.isAllCharactersMode = False
+            Level.isAllCharactersDLCMode = False
+        End If
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If player <> Null
+                player.perished = True
+            End If
+        End For
+
+        Local player2 := controller_game.players[1]
+        If player2 <> Null And
+           player2.isHelper
+            controller_game.numPlayers = 1
+            controller_game.player1 = 0
+
+            player2.Die()
+            controller_game.players[1] = Null
+        End If
+
+        Local continuedRunCoinScore := 0
+        If continuedRun
+            continuedRunCoinScore = Player.numCoins + Level.continuedRunCoinScore
+        End If
+        Level.continuedRunCoinScore = continuedRunCoinScore
+
+        Player.SetCoins(0, True)
+
+        Level.lockedShopPlaced = False
+        Level.secretRockRoomPlaced = False
+
+        SaleItem.lastSaleItemClass1 = ""
+        SaleItem.lastSaleItemClass2 = ""
+        SaleItem.lastChestItemClass1 = ""
+        SaleItem.lastChestItemClass2 = ""
+
+        Chest.lastChestColor = Chest.CHEST_COLOR_NONE
+        Chest.lastChestColor2 = Chest.CHEST_COLOR_NONE
+
+        Crate.fallenCrates = New List<Crate>()
+        Crate.fallenGargoyles = New List<Gargoyle>()
+
+        SaleItem.randomSaleItemList = New List<String>()
+
+        Leprechaun.seenLeprechaun = False
+
+        Chain.kills = 0
+
+        Entity.RemoveAnyPerishedEntities()
+
+        Flyaway.StopRenderingOfAllCurrentFlyaways()
+
+        Level.isRunNoItemsNoShrines = True
+        Level.placedUrnThisRun = False
+
+        If Not continuedRun
+            Level.usedCustomMusic = False
+        End If
+
+        Level.shopkeeperGhostLevel = -1
+        Level.shopkeeperGhostDepth = -1
+
+        If cancelFade
+            Camera.fadeOutDuration = 0
+            Camera.fadeOutCurrent = 0
+            Camera.fadeOutCallback = Null
+            Camera.fadeInDuration = 0
+            Camera.fadeInCurrent = 0
+            Camera.fadeInCallback = Null
+        End If
     End Function
 
     Function DoWePlaceAdditionalChestThisLevel: Bool()

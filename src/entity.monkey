@@ -60,7 +60,13 @@ Class Entity Extends RenderableObject Abstract
     End Function
 
     Function RemoveAnyPerishedEntities: Void()
-        Debug.TraceNotImplemented("Entity.RemoveAnyPerishedEntities()")
+        For Local entity := EachIn Entity.entityList
+            If entity.perished
+                entity.Die()
+
+                Entity.RemoveAnyPerishedEntities()
+            End If
+        End For
     End Function
 
     Function RemoveFromList: Void(entity: Entity)

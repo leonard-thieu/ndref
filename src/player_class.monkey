@@ -169,7 +169,16 @@ Class Player Extends MobileEntity
     End Function
 
     Function SetCoins: Void(tmpNum: Int, allowAchievement: Bool)
-        Debug.TraceNotImplemented("Player.SetCoins(Int, Bool)")
+        Player.numCoins = tmpNum
+        Player.coinXOR = tmpNum ~ $1D69
+
+        If tmpNum > Player.sessionMaxCoins
+            If allowAchievement
+                ' SKIPPED: Steam achievements
+            End If
+
+            Player.sessionMaxCoins = tmpNum
+        End If
     End Function
 
     Function UpdateAll: Void()
