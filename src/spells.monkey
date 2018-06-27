@@ -1,20 +1,27 @@
 'Strict
 
+Import mojo.graphics
+Import monkey.list
 Import monkey.map
+Import monkey.stack
 Import logger
+Import sprite
 
 Class Spells
 
-    Global CHARM_RADIUS: Int
-    Global EARTHQUAKE_RADIUS: Int
-    Global FREEZE_RADIUS: Int
-    Global SHIELD_BEATS: Int
+    Const CHARM_RADIUS: Int = 5
+    Const EARTHQUAKE_RADIUS: Int = 11
+    Const FREEZE_RADIUS: Int = 5
+    Const SHIELD_BEATS: Int = 10
 
-    Global fireballDisplay: Object
-    Global pulseAnim: Object
-    Global pulseDisplay: Object
-    Global pulseInWorld: Object
+    Global fireballDisplay: List<FireballData> = New List<FireballData>()
+    Global fireballInWorld: Sprite[5]
+    Global pulseAnim: Stack<Int> = New Stack<Int>()
+    Global pulseDisplay: List<PulseData> = New List<PulseData>()
+    Global pulseInWorld: Sprite
     Global spellCoolKills: StringMap<Int> = New StringMap<Int>()
+    Global spellSlot1: String = SpellType.None
+    Global spellSlot2: String = SpellType.None
 
     Function CastDescend: Void(player: Object)
         Debug.TraceNotImplemented("Spells.CastDescend(Object)")
@@ -85,7 +92,35 @@ Class Spells
     End Function
 
     Function Init: Void()
-        Debug.TraceNotImplemented("Spells.Init()")
+        Spells.spellCoolKills = New StringMap<Int>()
+
+        Spells.fireballInWorld[0] = New Sprite("spells/fire0.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[0].SetZ(10000.0)
+        Spells.fireballInWorld[1] = New Sprite("spells/fire1.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[1].SetZ(10000.0)
+        Spells.fireballInWorld[2] = New Sprite("spells/fire2.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[2].SetZ(10000.0)
+        Spells.fireballInWorld[3] = New Sprite("spells/fire3.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[3].SetZ(10000.0)
+        Spells.fireballInWorld[4] = New Sprite("spells/fire4.png", 6, Image.DefaultFlags)
+        Spells.fireballInWorld[4].SetZ(10000.0)
+
+        Spells.pulseInWorld = New Sprite("spells/pulse_attack.png", 6, Image.DefaultFlags)
+        Spells.pulseInWorld.SetZ(10000.0)
+
+        Spells.pulseAnim.Clear()
+        Spells.pulseAnim.Push(3)
+        Spells.pulseAnim.Push(3)
+        Spells.pulseAnim.Push(4)
+        Spells.pulseAnim.Push(6)
+        Spells.pulseAnim.Push(3)
+        Spells.pulseAnim.Push(3)
+
+        Spells.spellSlot1 = SpellType.None
+        Spells.spellSlot2 = SpellType.None
+
+        ' Instantiates it again?
+        Spells.spellCoolKills = New StringMap<Int>()
     End Function
 
     Function InitLearnedSpells: Void()
@@ -138,5 +173,11 @@ Class FireballData
     Field x: Int
     Field y: Int
     Field duration: Int
+
+End Class
+
+Class SpellType
+
+    Const None: String = "spell_none"
 
 End Class
