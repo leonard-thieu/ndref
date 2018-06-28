@@ -10,6 +10,7 @@ Import gui.controller_popup
 Import familiar
 Import familiar_fixed.soul_familiar
 Import level
+Import audio2
 Import bouncer
 Import camera
 Import entity
@@ -177,7 +178,11 @@ Class Player Extends MobileEntity
     End Function
 
     Function PlayersHaveMovedThisBeat: Bool()
-        Debug.TraceNotImplemented("Player.PlayersHaveMovedThisBeat()")
+        If Audio.fixedBeatNum = -64
+            Debug.TraceNotImplemented("Player.PlayersHaveMovedThisBeat()")
+        End If
+
+        Return controller_game.incrementFixedBeatNum
     End Function
 
     Function PlayVOPlayer1: Void(voSound: String)

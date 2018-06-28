@@ -59,6 +59,7 @@ Import enemy.wraith
 Import enemy.yeti
 Import enemy.zombie
 Import enemy.zombie_electric
+Import audio2
 Import beatanimationdata
 Import entity
 Import logger
@@ -132,11 +133,23 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function EnemiesHaveMovedThisBeat: Bool()
-        Debug.TraceNotImplemented("Enemy.EnemiesHaveMovedThisBeat()")
+        If Audio.fixedBeatNum = -64
+            Return Audio.GetCurrentBeatNumberIncludingLoops(0, True) <= controller_game.lastEnemyMoveBeat
+        End If
+
+        Return Audio.GetCurrentBeatNumberIncludingLoops(0, True) < controller_game.lastEnemyMoveBeat
     End Function
 
     Function EnemiesMovingThisFrame: Bool()
-        Debug.TraceNotImplemented("Enemy.EnemiesMovingThisFrame()")
+        If Enemy.movesBehind > 0
+            Return True
+        End If
+
+        If Not Player.PlayersHaveMovedThisBeat()
+            Return False
+        End If
+
+        Return Not Enemy.EnemiesHaveMovedThisBeat()
     End Function
 
     Function FreezeEnemiesNear: Void(xVal: Int, yVal: Int, duration: Int, allEnemies: Bool)
