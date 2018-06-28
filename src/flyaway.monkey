@@ -1,12 +1,13 @@
 'Strict
 
+Import monkey.list
 Import logger
 Import sprite
 Import textsprite
 
 Class Flyaway
 
-    Global activeFlyaways: Object
+    Global activeFlyaways: List<Flyaway> = New List<Flyaway>()
     Global temporarilyDisableNewFlyaways: Int
 
     Function RenderAll: Void()
@@ -18,7 +19,13 @@ Class Flyaway
     End Function
 
     Function UpdateAll: Void()
-        Debug.TraceNotImplemented("Flyaway.UpdateAll()")
+        If Flyaway.temporarilyDisableNewFlyaways > 0
+            Flyaway.temporarilyDisableNewFlyaways -= 1
+        End If
+
+        For Local flyaway := EachIn Flyaway.activeFlyaways
+            flyaway.Update()
+        End For
     End Function
 
     Function _EditorFix: Void() End
