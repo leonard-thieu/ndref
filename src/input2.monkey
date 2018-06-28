@@ -120,7 +120,33 @@ Class Input
     End Function
 
     Function ResetMovementCounters: Void()
-        Debug.TraceNotImplemented("Input.ResetMovementCounters()")
+        Input.Init()
+
+        controller_game.lastEnemyMoveBeat = 0
+
+        Enemy.movesBehind = 0
+        Enemy.lastWraithSpawnBeat = 0
+
+        Audio.fixedBeatNum = -64
+
+        If (Not Level.isReplaying And
+            Util.IsCharacterActive(Character.Bard)) Or
+           (GameData.GetLobbyMove() And
+            (controller_game.currentLevel = LevelType.Lobby Or
+            (LevelType.MinLobbyArea <= controller_game.currentLevel And controller_game.currentLevel <= LevelType.MaxLobbyArea)))
+            Audio.fixedBeatNum = 1
+        End If
+
+        For Local i := 0 Until controller_game.numPlayers
+            controller_game.lastPlayerMoveBeat[i] = -1
+
+            Local player := controller_game.players[i]
+            If player <> Null
+                player.queuedMoveBeat = -1
+            End If
+        End For
+
+        Input.lastBeatSkippedFlyaway = -1
     End Function
 
     Function SpawnDebugItem: Void(type: Int)
