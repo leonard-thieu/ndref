@@ -3,6 +3,7 @@
 Import monkey.list
 Import monkey.map
 Import gui.controller_cutscene
+Import gui.controller_game
 Import logger
 Import sounddata
 Import sprite
@@ -222,7 +223,9 @@ Class Audio
     End Function
 
     Function PastLastBeat: Bool()
-        Debug.TraceNotImplemented("Audio.PastLastBeat()")
+        Local lastBeat := controller_game.beatData[controller_game.beatData.Length - 1]
+        
+        Return Audio.GetSongPosition() > lastBeat
     End Function
 
     Function PauseSong: Void(pause: Bool)
