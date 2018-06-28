@@ -1,6 +1,12 @@
 'Strict
 
+Import monkey.list
+Import monkey.map
+Import gui.controller_cutscene
 Import logger
+Import sounddata
+Import sprite
+Import xml
 
 Class Audio
 
@@ -8,48 +14,59 @@ Class Audio
     Global BEAT_TARGET_Y: Int
 
     Global bansheeEffectEnabled: Bool
-    Global beatDataString: Int
-    Global beatMarker: Object
-    Global beatMarkerGreen: Object
-    Global beatMarkerRed: Object
-    Global beatTarget: Object
-    Global cachedSongPosition: Int
-    Global cachedSongPositionFrame: Int
-    Global curSubtitle: Object
+    Global beatDataString: String
+    Global beatDataString2: String
+    Global beatIndicatorData: Int[]
+    Global beatIndicatorFade: Int[]
+    Global beatMarker: Sprite
+    Global beatMarkerGreen: Sprite
+    Global beatMarkerRed: Sprite
+    Global beatTarget: Sprite
+    Global cachedSongPosition: Int = -1
+    Global cachedSongPositionFrame: Int = -1
+    Global cheatingDetected: Bool
+    Global curSubtitle: SubtitleData
+    Global customPlaylist: String
     Global debugEnablePlaceholders: Bool = True
-    Global delayList: Object
-    Global fadeFactor: Float
-    Global fadeFrames: Int
-    Global firstUpdate: Bool
-    Global fixedBeatNum: Int
+    Global delayList: List<SoundData> = New List<SoundData>()
+    Global fadeFactor: Float = 1.0
+    Global fadeFrames: Int = -1
+    Global firstUpdate: Bool = 1
+    Global fixedBeatNum: Int = -64
     Global includeVideoLatency: Bool
-    Global lastBeatNum: Int
-    Global lastRndSnd: Object
-    Global lastSFXChannel: Int
-    Global lastSoundTime: Object
-    Global loadedSong: Int
-    Global loadedSongHot: Int
+    Global lastBeatNum: Int = -1
+    Global lastRndSnd: StringMap<Int> = New StringMap<Int>()
+    Global lastSFXChannel: Int = 5
+    Global lastSongName: String = "NULL"
+    Global lastSoundTime: StringMap<Int> = New StringMap<Int>()
+    Global loadedSong: Int = -1
+    Global loadedSongHot: Int = -1
     Global musicPitchSemitones: Int
-    Global musicSpeed: Float
+    Global musicSpeed: Float = 1.0
     Global musicTransitionStartBeat: Int
+    Global musicVol: Float
     Global necrodancerSong2Active: Bool
     Global numLoops: Int
+    Global shopkeeperVolAdjustment: Float = 1.0
+    Global songAverageMillisecondsPerBeat: Float
     Global songDuration: Int
-    Global songFortissimole: Int
-    Global songLoops: Bool
-    Global songNecrodancer: Int
+    Global songFortissimole: Int = -1
+    Global songLoops: Int
+    Global songName: String = "NONE"
+    Global songNecrodancer: Int = -1
     Global songPaused: Bool
-    Global songRiff0: Int
-    Global songRiff1: Int
-    Global songRiff2: Int
-    Global songRiff3: Int
-    Global songRiff4: Int
+    Global songRiff0: Int = -1
+    Global songRiff1: Int = -1
+    Global songRiff2: Int = -1
+    Global songRiff3: Int = -1
+    Global songRiff4: Int = -1
     Global songShopOpen: Bool
-    Global songShopkeeper: Int
-    Global soundData: Object
-    Global soundMap: Object
-    Global startFadeFrames: Int
-    Global subtitleImg: Object
+    Global songShopkeeper: Int = -1
+    Global soundData: XMLDoc
+    Global soundMap: StringMap<Int> = New StringMap<Int>()
+    Global startFadeFrames: Int = -1
+    Global startSong: Bool
+    Global subtitleImg: Sprite
     Global subtitleStartTime: Int
 
     Function _PlayGameSound: Void(snd: String, ch: Int, loop: Bool, pan: Float, vol: Float, rememberMusicChannel: Int, rememberVOChannel: Int, startPaused: Bool, isMusic: Bool)
@@ -78,6 +95,10 @@ Class Audio
 
     Function CloserToNextBeatThanPrevious: Bool()
         Debug.TraceNotImplemented("Audio.CloserToNextBeatThanPrevious()")
+    End Function
+
+    Function DoingNecrodancerTransition: Bool()
+        Debug.TraceNotImplemented("Audio.DoingNecrodancerTransition()")
     End Function
 
     Function EndBansheeEffect: Void()
@@ -160,6 +181,10 @@ Class Audio
         Debug.TraceNotImplemented("Audio.GetSoundFromFilename(Int)")
     End Function
 
+    Function HasSongEnded: Bool()
+        Debug.TraceNotImplemented("Audio.HasSongEnded()")
+    End Function
+
     Function HitBeat: Void(bNum: Int)
         Debug.TraceNotImplemented("Audio.HitBeat(Int)")
     End Function
@@ -194,6 +219,10 @@ Class Audio
 
     Function ModifyMusicSpeed: Void(spd: Float)
         Debug.TraceNotImplemented("Audio.ModifyMusicSpeed(Float)")
+    End Function
+
+    Function PastLastBeat: Bool()
+        Debug.TraceNotImplemented("Audio.PastLastBeat()")
     End Function
 
     Function PauseSong: Void(pause: Bool)
@@ -278,6 +307,10 @@ Class Audio
 
     Function UpdateShopkeeperVolume: Void(xVal: Int, yVal: Int)
         Debug.TraceNotImplemented("Audio.UpdateShopkeeperVolume(Int, Int)")
+    End Function
+
+    Function UpdateNumLoops: Void()
+        Debug.TraceNotImplemented("Audio.UpdateNumLoops()")
     End Function
 
     Function UpdateZone3Volume: Void(xVal: Int, yVal: Int)

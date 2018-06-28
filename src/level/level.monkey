@@ -13490,6 +13490,9 @@ Class LevelType
     Const NoReturnMode: Int = -52
     Const SwarmMode: Int = -51
     Const StoryMode: Int = -50
+
+    Const MinLobbyArea: Int = -22
+    Const MaxLobbyArea: Int = -12
     Const AllCharactersDLCCharacterSelect: Int = -22
     Const BeastmasterZone5: Int = -21
     Const ExtraModesSelect: Int = -20
@@ -13501,6 +13504,7 @@ Class LevelType
     Const BeastmasterZone2: Int = -14
     Const BeastmasterZone1: Int = -13
     Const CharacterSelect: Int = -12
+
     Const ToggleCoOpMode: Int = -11
     Const SeededAllZonesMode: Int = -10
     Const DailyChallenge: Int = -9

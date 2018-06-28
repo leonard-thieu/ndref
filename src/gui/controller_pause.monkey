@@ -49,6 +49,10 @@ Class ControllerPause Extends Controller
         Debug.TraceNotImplemented("ControllerPause.GUICallback(Int, Bool)")
     End Method
 
+    Method RegainFocus: Void()
+        Debug.TraceNotImplemented("ControllerPause.RegainFocus()")
+    End Method
+
     Method Render: Void()
         Debug.TraceNotImplemented("ControllerPause.Render()")
     End Method

@@ -14,6 +14,10 @@ Class CrystalShards Extends Entity
         Debug.TraceNotImplemented("CrystalShards.AnyAt(Int, Int)")
     End Function
 
+    Function MoveAll: Void()
+        Debug.TraceNotImplemented("CrystalShards.MoveAll()")
+    End Function
+
     Function _EditorFix: Void() End
 
     Method New(x_: Int, y_: Int)

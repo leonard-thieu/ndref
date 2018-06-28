@@ -135,6 +135,10 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.EnemiesHaveMovedThisBeat()")
     End Function
 
+    Function EnemiesMovingThisFrame: Bool()
+        Debug.TraceNotImplemented("Enemy.EnemiesMovingThisFrame()")
+    End Function
+
     Function FreezeEnemiesNear: Void(xVal: Int, yVal: Int, duration: Int, allEnemies: Bool)
         Debug.TraceNotImplemented("Enemy.FreezeEnemiesNear(Int, Int, Int, Bool)")
     End Function

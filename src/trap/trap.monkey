@@ -43,6 +43,10 @@ Class Trap Extends Entity Abstract
         Return False
     End Function
 
+    Function MoveAll: Void()
+        Debug.TraceNotImplemented("Trap.MoveAll()")
+    End Function
+
     Function RemoveAll: Void()
         Debug.TraceNotImplemented("Trap.RemoveAll()")
     End Function

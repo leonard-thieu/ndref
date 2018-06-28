@@ -2,11 +2,14 @@
 
 Import gui.controller_game
 Import gui.controller_popup
+Import enemy
 Import level
+Import audio
 Import gamedata
 Import input2
 Import logger
 Import necrodancergame
+Import player_class
 
 Class Input
 
@@ -39,6 +42,8 @@ Class Input
 
     Function GameUpdate: Bool()
         Debug.TraceNotImplemented("Input.GameUpdate()")
+
+        Return True
     End Function
 
     Function GetDefaultHUDText: Int(moveDir: Int, num: Int)

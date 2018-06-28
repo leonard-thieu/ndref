@@ -7,6 +7,10 @@ Class Doppelganger
 
     Global doppelgangers: Object
 
+    Function UpdateAll: Void()
+        Debug.TraceNotImplemented("Doppelganger.UpdateAll()")
+    End Function
+
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, l: Int)
