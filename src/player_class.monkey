@@ -1217,7 +1217,9 @@ Class Player Extends MobileEntity
     End Method
 
     Method SetTotallyBlank: Void()
-        Debug.TraceNotImplemented("Player.SetTotallyBlank()")
+        Self.weapon = New Weapon(Item.NoItem)
+        Self.numBombs = 0
+        Self.EmptyAllSlots(False)
     End Method
 
     Method StopFalling: Void()
