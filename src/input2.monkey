@@ -257,7 +257,10 @@ Class Input
     End Function
 
     Function UpdateKeysHit: Void()
-        Debug.TraceNotImplemented("Input.UpdateKeysHit()")
+        For Local i := 0 Until 512
+            Input.keysHit2FramesAgo[i] = Input.keysHitLastFrame[i]
+            Input.keysHitLastFrame[i] = input.KeyHit(i) > 0
+        End For
     End Function
 
     Function _EditorFix: Void() End
