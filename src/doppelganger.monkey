@@ -1,14 +1,17 @@
 'Strict
 
+Import monkey.list
 Import enemy
 Import logger
 
 Class Doppelganger
 
-    Global doppelgangers: Object
+    Global doppelgangers: List<Doppelganger> = New List<Doppelganger>()
 
     Function UpdateAll: Void()
-        Debug.TraceNotImplemented("Doppelganger.UpdateAll()")
+        For Local doppelganger := EachIn Doppelganger.doppelgangers
+            doppelganger.Update()
+        End For
     End Function
 
     Function _EditorFix: Void() End
