@@ -20,7 +20,18 @@ Class ParticleSystem Extends Tweenable
     End Function
 
     Function UpdateAll: Void()
-        Debug.TraceNotImplemented("ParticleSystem.UpdateAll()")
+        For Local system := EachIn ParticleSystem.systems
+            If system.visible
+                system.Update()
+            End If
+        End For
+
+        For Local system := EachIn ParticleSystem.systems
+            If system.visible And
+               Not system.active
+                ParticleSystem.systems.Remove(system)
+            End If
+        End For
     End Function
 
     Function _EditorFix: Void() End
