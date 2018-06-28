@@ -127,7 +127,15 @@ Class Audio
     End Function
 
     Function GetClosestBeatNum: Int(useFixed: Bool)
-        Debug.TraceNotImplemented("Audio.GetClosestBeatNum(Bool)")
+        Local beatNum := Audio.GetCurrentBeatNumberIncludingLoops(0, useFixed)
+        Local timeUntilPreviousBeat := Audio.TimeUntilSpecificBeat(beatNum - 1)
+        Local timeUntilCurrentBeat := Audio.TimeUntilSpecificBeat(beatNum)
+
+        If math.Abs(timeUntilCurrentBeat) > math.Abs(timeUntilPreviousBeat)
+            beatNum = Audio.GetCurrentBeatNumberIncludingLoops(-1, useFixed)
+        End If
+
+        Return beatNum
     End Function
 
     Function GetCurrentBeatNumber: Int(beatOffset: Int, useFixed: Bool)
