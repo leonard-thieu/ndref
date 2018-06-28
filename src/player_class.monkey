@@ -61,7 +61,18 @@ Class Player Extends MobileEntity
     End Function
 
     Function AllPlayersPerished: Bool()
-        Debug.TraceNotImplemented("Player.AllPlayersPerished()")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.perished And
+               Not player.isHelper
+                If player.helper = Null Or
+                   Not player.helper.perished
+                    Return False
+                End If
+            End If
+        End For
+
+        Return True
     End Function
 
     Function AnyPlayerInSpecialRoom: Bool()
