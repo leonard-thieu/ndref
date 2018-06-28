@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import gui.controller_game
 Import camera
 Import entity
 Import logger
@@ -45,7 +46,28 @@ Class RenderableObject Abstract
     End Function
 
     Function UpdateAll: Void()
-        Debug.TraceNotImplemented("RenderableObject.UpdateAll()")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            
+            If player.helper <> Null
+                player.helper.Update()
+            End If
+
+            player.Update()
+        End For
+
+        For Local renderableObj := EachIn RenderableObject.renderableObjectList
+            If renderableObj.isPlayer
+                Continue
+            End If
+
+            renderableObj.Update()
+        End For
+
+        For Local renderableObj := EachIn RenderableObject.renderableObjectList
+            renderableObj.lastFrameX = renderableObj.x
+            renderableObj.lastFrameY = renderableObj.y
+        End For
     End Function
 
     Function _EditorFix: Void() End
