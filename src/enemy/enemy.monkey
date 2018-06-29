@@ -76,7 +76,7 @@ Class Enemy Extends MobileEntity Abstract
 
     Global enemiesFearfulDuration: Int
     Global enemiesPaused: Bool
-    Global enemyList: List<Enemy> = New List<Enemy>()
+    Global enemyList: EnemyList = New EnemyList()
     Global heartEmptySmall: Sprite
     Global heartSmall: Sprite
     Global killingAllEnemies: Bool
