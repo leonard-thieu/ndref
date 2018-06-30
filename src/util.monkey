@@ -4,6 +4,7 @@ Import monkey.list
 Import monkey.map
 Import monkey.math
 Import monkey.random
+Import mojo.input
 Import gui.controller_game
 Import level
 Import camera
@@ -377,22 +378,19 @@ Class Util
     End Function
 
     Function ParseTextSeed: Int(randSeedString: String)
-        Const NUMBER_9 := 57
-        Const NUMBER_0 := 48
-
         Local seed := 0
 
-        For Local i := 1 Until randSeedString.Length()
+        For Local i := 1 Until randSeedString.Length
             seed += i * randSeedString[i - 1]
         End For
 
-        For Local j := 0 Until randSeedString.Length()
-            If randSeedString[j] > NUMBER_9 Then Return seed
+        For Local j := 0 Until randSeedString.Length
+            If randSeedString[j] > input.KEY_9 Then Return seed
         End For
 
         seed = 0
-        For Local k := 0 Until randSeedString.Length()
-            seed = (10 * seed) + (randSeedString[k] - NUMBER_0)
+        For Local k := 0 Until randSeedString.Length
+            seed = (10 * seed) + (randSeedString[k] - input.KEY_0)
         End For
 
         Return seed
