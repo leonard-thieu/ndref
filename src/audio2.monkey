@@ -2,6 +2,7 @@
 
 Import monkey.list
 Import monkey.map
+Import monkey.math
 Import gui.controller_cutscene
 Import gui.controller_game
 Import logger
@@ -123,7 +124,23 @@ Class Audio
     End Function
 
     Function GetBeatAnimFrame4: Int()
-        Debug.TraceNotImplemented("Audio.GetBeatAnimFrame4()")
+        Audio.includeVideoLatency = True
+        Local percentDist := Audio.GetPercentDistanceFromNextBeat()
+        Audio.includeVideoLatency = False
+
+        If percentDist < 0.09 Or percentDist >= 0.99
+            Return 0
+        End If
+
+        If percentDist >= 0.69
+            Return 1
+        End If
+
+        If percentDist >= 0.39
+            Return 2
+        End If
+
+        Return 3
     End Function
 
     Function GetClosestBeatNum: Int(useFixed: Bool)
@@ -139,11 +156,52 @@ Class Audio
     End Function
 
     Function GetCurrentBeatNumber: Int(beatOffset: Int, useFixed: Bool)
-        Debug.TraceNotImplemented("Audio.GetCurrentBeatNumber(Int, Bool)")
+        If useFixed
+            If Audio.fixedBeatNum <> -64
+                Return Audio.fixedBeatNum
+            End If
+        End If
+
+        Local songPosition := Audio.GetSongPosition()
+
+        Local beatNumber := 0
+        For beatNumber = beatNumber Until controller_game.beatData.Length
+            Local beatData := controller_game.beatData[beatNumber]
+            If songPosition < beatData
+                Exit
+            End If
+        End For
+
+        beatNumber += beatOffset
+
+        If beatNumber < controller_game.beatData.Length
+            beatNumber = math.Max(0, beatNumber)
+        Else If Audio.songLoops
+            beatNumber = beatNumber Mod controller_game.beatData.Length
+        Else
+            beatNumber = controller_game.beatData.Length - 1
+        End If
+
+        Return beatNumber
     End Function
 
     Function GetCurrentBeatNumberIncludingLoops: Int(beatOffset: Int, useFixed: Bool)
-        Debug.TraceNotImplemented("Audio.GetCurrentBeatNumberIncludingLoops(Int, Bool)")
+        If useFixed
+            If Audio.fixedBeatNum <> -64
+                Return Audio.fixedBeatNum
+            End If
+        End If
+
+        Local beatNumber := Audio.GetCurrentBeatNumber(beatOffset, useFixed)
+        If Audio.songLoops And
+           Audio.numLoops > 0
+            beatNumber = beatOffset + Audio.GetCurrentBeatNumber(0, useFixed)
+        End If
+
+        Local beatNumberIncludingLoops := beatNumber + (Audio.numLoops * controller_game.beatData.Length)
+        beatNumberIncludingLoops = math.Max(0, beatNumberIncludingLoops)
+
+        Return beatNumberIncludingLoops
     End Function
 
     Function GetCustomMusicFolder: Int(forList: Bool)
@@ -159,7 +217,18 @@ Class Audio
     End Function
 
     Function GetNextBeatDuration: Int()
-        Debug.TraceNotImplemented("Audio.GetNextBeatDuration()")
+        Local currentBeatNumber := Audio.GetCurrentBeatNumberIncludingLoops(0, False)
+        Local timeUntilCurrentBeat := Audio.TimeUntilSpecificBeat(currentBeatNumber)
+
+        Local previousBeatNumber := currentBeatNumber - 1
+        Local timeUntilPreviousBeat := Audio.TimeUntilSpecificBeat(previousBeatNumber)
+
+        Local duration := timeUntilCurrentBeat - timeUntilPreviousBeat
+        If duration = 0
+            duration = 1
+        End If
+
+        Return duration
     End Function
 
     Function GetNonAbsoluteDistanceFromNearestBeat: Int()
@@ -167,7 +236,17 @@ Class Audio
     End Function
 
     Function GetPercentDistanceFromNextBeat: Float()
-        Debug.TraceNotImplemented("Audio.GetPercentDistanceFromNextBeat()")
+        Local currentBeatNumber := Audio.GetCurrentBeatNumberIncludingLoops(0, False)
+        Local timeUntilCurrentBeat := Audio.TimeUntilSpecificBeat(currentBeatNumber)
+
+        Local duration := Audio.GetNextBeatDuration()
+
+        Local percentDist := timeUntilCurrentBeat / Float(duration)
+        If percentDist >= 1.0
+            percentDist = 0.0
+        End If
+
+        Return percentDist
     End Function
 
     Function GetPlaylist: Int()
@@ -301,7 +380,33 @@ Class Audio
     End Function
 
     Function TimeUntilSpecificBeat: Int(beatNum: Int)
-        Debug.TraceNotImplemented("Audio.TimeUntilSpecificBeat(Int)")
+        beatNum = math.Max(0, beatNum)
+
+        If beatNum >= controller_game.beatData.Length
+            If Audio.songLoops
+                beatNum = beatNum Mod controller_game.beatData.Length
+            Else
+                beatNum = controller_game.beatData.Length - 1
+            End If
+        End If
+
+        Local timeUntilSpecificBeat := controller_game.beatData[beatNum] - Audio.GetSongPosition()
+
+        If Not Audio.songLoops
+            Return timeUntilSpecificBeat
+        End If
+
+        If timeUntilSpecificBeat < 0
+            If -timeUntilSpecificBeat >= math.Abs(timeUntilSpecificBeat + Audio.songDuration)
+                timeUntilSpecificBeat += Audio.songDuration
+            End If
+        Else If timeUntilSpecificBeat > 0
+            If timeUntilSpecificBeat >= math.Abs(timeUntilSpecificBeat - Audio.songDuration)
+                timeUntilSpecificBeat -= Audio.songDuration
+            End If
+        End If
+
+        Return timeUntilSpecificBeat
     End Function
 
     Function ToggleSongPause: Void()

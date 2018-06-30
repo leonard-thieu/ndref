@@ -1,5 +1,6 @@
 'Strict
 
+Import monkey.list
 Import monkey.map
 Import monkey.math
 Import monkey.random
@@ -114,6 +115,7 @@ Import necrodancer
 Import necrodancergame
 Import particles
 Import player_class
+Import point
 Import rect
 Import renderableobject
 Import replay
@@ -281,7 +283,23 @@ Class Level
     End Function
 
     Function ActuallyGetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Debug.TraceNotImplemented("Level.ActuallyGetMapTileLightValue(Int, Int, Bool)")
+        If xVal < Level.minLevelX Or
+           xVal > Level.maxLevelX
+            Return 0.0
+        End If
+
+        If yVal < Level.minLevelY Or
+           yVal > Level.maxLevelY
+            Return 0.0
+        End If
+
+        Local i := xVal + (yVal - Level.minLevelY) * (Level.maxLevelX - Level.minLevelX) - Level.minLevelX
+
+        If forVision
+            Return Level.constMapLightValues[i]
+        End If
+
+        Return Level.mapLightValues[i]
     End Function
 
     Function AddCrackedWall: Void(roomType: Int)
@@ -1038,7 +1056,60 @@ Class Level
     End Function
 
     Function CheckLOS: Bool(x1: Int, y1: Int, x2: Int, y2: Int, includeOffscreen: Bool)
-        Debug.TraceNotImplemented("Level.CheckLOS(Int, Int, Int, Int, Bool)")
+        Local p1_x := x1 + 0.5
+        Local p1_y := y1 + 0.5
+        Local notLineSegmentTileIntersect0 := True
+        Local notLineSegmentTileIntersect1 := True
+        Local notLineSegmentTileIntersect2 := True
+        Local notLineSegmentTileIntersect3 := True
+        Local notLineSegmentTileIntersect4 := True
+
+        For Local tileObstruction := EachIn Level.GetTileObstructionList(False)
+            If tileObstruction.x = x2 And
+               tileObstruction.y = y2
+                Continue
+            End If
+
+            If tileObstruction.x > x2 And
+               tileObstruction.x > p1_x
+                Continue
+            End If
+            If tileObstruction.x < x2 - 1 And
+               tileObstruction.x < p1_x - 1.0
+                Continue
+            End If
+
+            If tileObstruction.y > y2 And
+               tileObstruction.y > p1_y
+                Continue
+            End If
+            If tileObstruction.y < y2 - 1 And
+               tileObstruction.y < p1_y - 1.0
+                Continue
+            End If
+
+            If notLineSegmentTileIntersect0
+                notLineSegmentTileIntersect0 = Not Util.LineSegmentTileIntersect(x2 - 0.01, y2 - 0.01, p1_x, p1_y, tileObstruction.x, tileObstruction.y)
+            End If
+            If notLineSegmentTileIntersect1
+                notLineSegmentTileIntersect1 = Not Util.LineSegmentTileIntersect(x2 - 1.01, y2 - 0.01, p1_x, p1_y, tileObstruction.x, tileObstruction.y)
+            End If
+            If notLineSegmentTileIntersect2
+                notLineSegmentTileIntersect2 = Not Util.LineSegmentTileIntersect(x2 - 1.01, y2 - 1.01, p1_x, p1_y, tileObstruction.x, tileObstruction.y)
+            End If
+            If notLineSegmentTileIntersect3
+                notLineSegmentTileIntersect3 = Not Util.LineSegmentTileIntersect(x2 - 0.01, y2 - 1.01, p1_x, p1_y, tileObstruction.x, tileObstruction.y)
+            End If
+            If notLineSegmentTileIntersect4
+                notLineSegmentTileIntersect4 = Not Util.LineSegmentTileIntersect(x2 - 0.50, y2 - 0.50, p1_x, p1_y, tileObstruction.x, tileObstruction.y)
+            End If
+        End For
+
+        Return notLineSegmentTileIntersect0 Or
+               notLineSegmentTileIntersect1 Or
+               notLineSegmentTileIntersect2 Or
+               notLineSegmentTileIntersect3 Or
+               notLineSegmentTileIntersect4
     End Function
 
     Function CheckMapConsistency: Void()
@@ -6156,7 +6227,41 @@ Class Level
     End Function
 
     Function GetMapTileLightValue: Float(xVal: Int, yVal: Int, forVision: Bool)
-        Debug.TraceNotImplemented("Level.GetMapTileLightValue(Int, Int, Bool)")
+        If Level.mapLightValuesCachedFrame <> necrodancergame.globalFrameCounter
+            Local xDiff := Level.maxLevelX - Level.minLevelX
+            Local yDiff := Level.maxLevelY - Level.minLevelY
+
+            If Not Level.mapLightValuesInitialized
+                Local length := (xDiff + 1) * (yDiff + 1)
+                Level.mapLightValues = Level.mapLightValues.Resize(length)
+                Level.constMapLightValues = Level.constMapLightValues.Resize(length)
+                Level.mapLightValuesInitialized = True
+            End If
+
+            Level.mapLightValuesCachedFrame = necrodancergame.globalFrameCounter
+
+            ' TODO: Double check this.
+            Local i := 0
+            For Local x := Level.minLevelX To Level.maxLevelX
+                For Local y := Level.minLevelY To Level.maxLevelY
+                    Level.constMapLightValues[i] = 0.0
+                    Level.mapLightValues[i] = 0.0
+
+                    i += 1
+                End For
+            End For
+
+            For Local lightSource := EachIn RenderableObject.lightSourceList
+                If Shrine.darknessShrineActive And
+                   Not lightSource.isPlayer
+                    Continue
+                End If
+            End For
+
+            Debug.TraceNotImplemented("Level.GetMapTileLightValue(Int, Int, Bool)")
+        End If
+
+        Return Level.ActuallyGetMapTileLightValue(xVal, yVal, forVision)
     End Function
 
     Function GetMaxDepth: Int()
@@ -6382,8 +6487,20 @@ Class Level
         Debug.TraceNotImplemented("Level.GetTileFlyawayAt(Int, Int)")
     End Function
 
-    Function GetTileObstructionList: Object(includeOffscreen: Bool)
-        Debug.TraceNotImplemented("Level.GetTileObstructionList(Bool)")
+    Function GetTileObstructionList: List<Point>(includeOffscreen: Bool)
+        Level.tileObstructionList.Clear()
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                If tile.IsWall(False, False, True, False) And
+                   (includeOffscreen Or tile.IsOnScreen())
+                    Level.tileObstructionList.AddLast(tile.GetLocation())
+                End If
+            End For
+        End For
+
+        Return Level.tileObstructionList
     End Function
 
     Function GetTileTypeAt: Int(xVal: Int, yVal: Int)
@@ -13185,11 +13302,58 @@ Class Level
     End Function
 
     Function RefreshLineOfSightTiles: Void()
-        Debug.TraceNotImplemented("Level.RefreshLineOfSightTiles()")
+        Local refreshLOS := False
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished() And
+               (Level.lastTileCount <> Tile.totalTilesCreatedOrDestroyed Or
+                player.x <> player.lastLOSX Or
+                player.y <> player.lastLOSY)
+                refreshLOS = True
+
+                Exit
+            End If
+        End For
+
+        If Not refreshLOS
+            Return
+        End If
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value()
+                Local tile := tileNode.Value()
+                tile.cachedTrueLOS = False
+                tile.cachedTrueLOSFrame = necrodancergame.globalFrameCounter
+            End For
+        End For
+
+        Level.lastTileCount = Tile.totalTilesCreatedOrDestroyed
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished() Or
+               (controller_game.player1 <> (player.playerID = 0))
+                player.lastLOSX = player.x
+                player.lastLOSY = player.y
+
+                For Local tilesOnXNode := EachIn Level.tiles
+                    For Local tileNode := EachIn tilesOnXNode.Value()
+                        Local tile := tileNode.Value()
+
+                        If tile.IsOnScreen()
+                            If Level.CheckLOS(player.x, player.y, tile.x, tile.y, False)
+                                tile.cachedTrueLOS = True
+                            End If
+                        End If
+                    End For
+                End For
+            End If
+        End For
     End Function
 
     Function RemoveExit: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.RemoveExit(Int, Int)")
+        Level.exits.Remove(New Point(xVal, yVal))
     End Function
 
     Function RemoveSomeWallsAwayFromCorridors: Void(percentToRemove: Float, includeCorridors: Bool, maxHealth: Int)

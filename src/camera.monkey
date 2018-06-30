@@ -1,6 +1,8 @@
 'Strict
 
+Import level
 Import logger
+Import necrodancergame
 
 Class Camera
 
@@ -39,6 +41,28 @@ Class Camera
         Debug.TraceNotImplemented("Camera.FadeOutThenExecute(Int, Object)")
     End Function
 
+    Function GetFixedHeight: Int()
+        If Level.isReplaying
+            Local curReplayData := Level.replay.curReplayData
+            If curReplayData <> Null
+                Return curReplayData.Value().cameraHeight
+            End If
+        End If
+
+        Return necrodancergame.FIXED_HEIGHT
+    End Function
+
+    Function GetFixedWidth: Int()
+        If Level.isReplaying
+            Local curReplayData := Level.replay.curReplayData
+            If curReplayData <> Null
+                Return curReplayData.Value().cameraWidth
+            End If
+        End If
+
+        Return necrodancergame.FIXED_WIDTH
+    End Function
+
     Function Init: Void()
         Debug.TraceNotImplemented("Camera.Init()")
     End Function
@@ -63,8 +87,8 @@ Class Camera
         Debug.TraceNotImplemented("Camera.SetFreezeFrames(Int, Int, Int, Int)")
     End Function
 
-    Function Shake2: Void(type: Int, xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Camera.Shake2(Int, Int, Int)")
+    Function Shake: Void(type: Int, xVal: Int, yVal: Int)
+        Debug.TraceNotImplemented("Camera.Shake(Int, Int, Int)")
     End Function
 
     Function Update: Void()

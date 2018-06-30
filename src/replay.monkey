@@ -94,15 +94,15 @@ Class ReplayData
 
     Function _EditorFix: Void() End
 
-    Field randList1: List<Int>
-    Field randList2: List<Int>
+    Field randList1: List<Int> = New List<Int>()
+    Field randList2: List<Int> = New List<Int>()
     Field cameraWidth: Int
     Field cameraHeight: Int
     Field randSeed: Int
     Field numPlayers: Int
     Field lastBeat: Int
-    Field charID: Int[]
-    Field playerInputs: IntMap<Object>[]
-    Field missedBeats: List<Int>[]
+    Field charID: Int[4]
+    Field playerInputs: IntMap<Int>[4]
+    Field missedBeats: List<Int>[4]
 
 End Class

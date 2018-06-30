@@ -6,9 +6,12 @@ Import monkey.math
 Import monkey.random
 Import gui.controller_game
 Import level
+Import camera
 Import logger
 Import player_class
 Import point
+Import rect
+Import renderableobject
 Import stack_ex
 
 Class Util
@@ -134,6 +137,10 @@ Class Util
         Debug.TraceNotImplemented("Util.GetDistSqFromClosestPlayer(Int, Int, Bool, Bool)")
     End Function
 
+    Function GetDistSqFromObject: Float(xVal: Int, yVal: Int, obj: RenderableObject)
+        Return Util.GetDistSq(obj.x, obj.y, xVal, yVal)
+    End Function
+
     Function GetLanguagesFolderPath: Int()
         Debug.TraceNotImplemented("Util.GetLanguagesFolderPath()")
     End Function
@@ -162,12 +169,23 @@ Class Util
         Debug.TraceNotImplemented("Util.GetPlayerLocation(Int)")
     End Function
 
-    Function GetPlayersAt: Object(where: Object)
-        Debug.TraceNotImplemented("Util.GetPlayersAt(Object)")
+    Function GetPlayersAt: List<Player>(where: Rect)
+        Local playersAt := New List<Player>()
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished()
+                If where.Contains(player.GetLocation())
+                    playersAt.AddLast(player)
+                End If
+            End If
+        End for
+
+        Return playersAt
     End Function
 
-    Function GetPlayersAt: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.GetPlayersAt(Int, Int)")
+    Function GetPlayersAt: List<Player>(xVal: Int, yVal: Int)
+        Return Util.GetPlayersAt(New Rect(xVal, yVal, 0, 0))
     End Function
 
     Function GetPointFromDir: Point(dir: Int)
@@ -320,7 +338,29 @@ Class Util
     End Function
 
     Function IsOnScreen: Bool(xVal: Int, yVal: Int, cameraSeekX: Float, cameraSeekY: Float)
-        Debug.TraceNotImplemented("Util.IsOnScreen(Int, Int, Float, Float)")
+        Local yDiff := yVal - (cameraSeekY / 24.0)
+        Local fixedHeight := Camera.GetFixedHeight()
+
+        If (fixedHeight / -48) - 1 > yDiff
+            Return False
+        End If
+
+        If (fixedHeight / 48) + 1 < yDiff
+            Return False
+        End If
+
+        Local xDiff := xVal - (cameraSeekX / 24.0)
+        Local fixedWidth := Camera.GetFixedWidth()
+
+        If (fixedWidth / -48) - 1 > xDiff
+            Return False
+        End If
+
+        If (fixedWidth / 48) + 1 < xDiff
+            Return False
+        End If
+
+        Return True
     End Function
 
     Function IsWeaponlessCharacterActive: Bool()
@@ -330,6 +370,10 @@ Class Util
         End For
 
         Return False
+    End Function
+
+    Function LineSegmentTileIntersect: Bool(p0_x: Float, p0_y: Float, p1_x: Float, p1_y: Float, p2_x: Float, p2_y: Float)
+        Debug.TraceNotImplemented("Util.LineSegmentTileIntersect(Float, Float, Float, Float, Float, Float)")
     End Function
 
     Function ParseTextSeed: Int(randSeedString: String)

@@ -85,7 +85,15 @@ Class Player Extends MobileEntity
     End Function
 
     Function AnyPlayerTemporaryMapSight: Bool()
-        Debug.TraceNotImplemented("Player.AnyPlayerTemporaryMapSight()")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished() And
+               player.temporaryMapSight
+                Return True
+            End If
+        End For
+
+        Return False
     End Function
 
     Function CheckAllModeCompletion: Void()
@@ -572,7 +580,22 @@ Class Player Extends MobileEntity
     End Method
 
     Method CalcMinVisibility: Int()
-        Debug.TraceNotImplemented("Player.CalcMinVisibility()")
+        Local minVisibility := 1
+
+        If Not Self.HasItemOfType("ring_shadows", False)
+            Return minVisibility
+        End If
+
+        Local torchLevel := Self.GetTorchLevel()
+        If torchLevel > 0
+            minVisibility = torchLevel + 2
+        End If
+
+        If Self.HasItemOfType("head_miners_cap", False)
+            minVisibility = math.Max(3, minVisibility)
+        End If
+
+        Return minVisibility
     End Method
 
     Method CancelTween: Void()
@@ -799,8 +822,13 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.GetLightSourceMin()")
     End Method
 
-    Method GetMinVisibility: Int()
-        Debug.TraceNotImplemented("Player.GetMinVisibility()")
+    Method GetMinVisibility: Float()
+        If Self.minVisibilityCachedFrame <> necrodancergame.globalFrameCounter
+            Self.minVisibilityCached = Self.CalcMinVisibility()
+            Self.minVisibilityCachedFrame = necrodancergame.globalFrameCounter
+        End If
+
+        Return Self.minVisibilityCached
     End Method
 
     Method GetMoveLastBeat: Int()

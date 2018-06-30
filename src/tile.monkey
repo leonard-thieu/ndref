@@ -1,16 +1,30 @@
 'Strict
 
 Import monkey.list
+Import monkey.math
 Import mojo.graphics
 Import gui.controller_game
+Import enemy
+Import enemy.nightmare
+Import enemy.sarcophagus
+Import familiar
 Import level
+Import audio2
+Import camera
 Import entity
+Import flyaway
 Import logger
+Import minimap
+Import necrodancergame
+Import particles
 Import player_class
+Import point
 Import renderableobject
+Import shrine
 Import sprite
 Import textsprite
 Import tile
+Import util
 
 Class Tile Extends RenderableObject
 
@@ -20,7 +34,7 @@ Class Tile Extends RenderableObject
     Global anyPlayerHaveMonocleCachedFrame: Int
     Global anyPlayerHaveRingOfLuckCached: Bool
     Global anyPlayerHaveRingOfLuckCachedFrame: Int
-    Global anyPlayerHaveRingOfShadowsCached: Int
+    Global anyPlayerHaveRingOfShadowsCached: Bool
     Global anyPlayerHaveRingOfShadowsCachedFrame: Int
     Global anyPlayerHaveSunglassesCached: Bool
     Global anyPlayerHaveSunglassesCachedFrame: Int
@@ -34,11 +48,21 @@ Class Tile Extends RenderableObject
     Global totalTilesCreatedOrDestroyed: Int
 
     Function AnyPlayerHaveCompass: Bool()
-        Debug.TraceNotImplemented("Tile.AnyPlayerHaveCompass()")
+        If Tile.anyPlayerHaveCompassCachedFrame <> necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveCompassCachedFrame = necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveCompassCached = Player.DoesAnyPlayerHaveItemOfType("misc_compass", False)
+        End If
+
+        Return Tile.anyPlayerHaveCompassCached
     End Function
 
     Function AnyPlayerHaveMonocle: Bool()
-        Debug.TraceNotImplemented("Tile.AnyPlayerHaveMonocle()")
+        If Tile.anyPlayerHaveMonocleCachedFrame <> necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveMonocleCachedFrame = necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveMonocleCached = Player.DoesAnyPlayerHaveItemOfType("head_monocle", False)
+        End If
+
+        Return Tile.anyPlayerHaveMonocleCached
     End Function
 
     Function AnyPlayerHaveRingOfLuck: Bool()
@@ -50,11 +74,21 @@ Class Tile Extends RenderableObject
     End Function
 
     Function AnyPlayerHaveZoneMap: Bool()
-        Debug.TraceNotImplemented("Tile.AnyPlayerHaveZoneMap()")
+        If Tile.anyPlayerHaveZoneMapCachedFrame <> necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveZoneMapCachedFrame = necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveZoneMapCached = Player.DoesAnyPlayerHaveItemOfType("misc_map", False)
+        End If
+
+        Return Tile.anyPlayerHaveZoneMapCached
     End Function
 
     Function CheckRingOfShadows: Bool()
-        Debug.TraceNotImplemented("Tile.CheckRingOfShadows()")
+        If Tile.anyPlayerHaveRingOfShadowsCachedFrame <> necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveRingOfShadowsCachedFrame = necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveRingOfShadowsCached = Player.DoesAnyPlayerHaveItemOfType("ring_shadows", False)
+        End If
+
+        Return Tile.anyPlayerHaveRingOfShadowsCached
     End Function
 
     Function CleanUpPendingTiles: Void()
@@ -88,7 +122,11 @@ Class Tile Extends RenderableObject
     End Function
 
     Function IsNearNightmare: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Tile.IsNearNightmare(Int, Int)")
+        If Nightmare.nightmare = Null
+            Return False
+        End If
+
+        Return Nightmare.nightmare.NIGHTMARE_DARKNESS_RADIUS > Util.GetDist(xVal, yVal, Nightmare.nightmare.x, Nightmare.nightmare.y)
     End Function
 
     Function MoveAll: Void()
@@ -680,11 +718,76 @@ Class Tile Extends RenderableObject
     End Method
 
     Method CalculateTileAlpha: Float()
-        Debug.TraceNotImplemented("Tile.CalculateTileAlpha()")
+        If controller_game.DEBUG_ALL_TILES_VISIBLE
+            Return 1.0
+        End If
+
+        If Level.isLevelEditor
+            Return 1.0
+        End If
+
+        If Self.IsNecrodancerPlatform()
+            Return 1.0
+        End If
+
+        If Self.hasResource = 1 And
+           Tile.AnyPlayerHaveMonocle()
+            Return 1.0
+        End If
+
+        If Self.isCracked And
+           Tile.AnyPlayerHaveMonocle() And
+           Level.secretAtX = Self.x And
+           Level.secretAtY = Self.y
+            Return 1.0
+        End If
+
+        Local alpha := 0.36
+        If Self.IsNearNightmare()
+            alpha = 0.1
+        End If
+
+        If Not Self.IsInAnyPlayerLineOfSight()
+            If Tile.CheckRingOfShadows() Or
+               Not Self.HasTileBeenSeen()
+                Return 0.0
+            End If
+
+            Return alpha
+        End If
+
+        ' TODO: Double check these.
+        Local lightValue := Self.CalculateTileLightValue(False)
+        Self.constAlpha = Self.CalculateTileLightValue(True)
+
+        lightValue = math.Min(1.0, lightValue)
+
+        If lightValue >= 0.36
+            Self.hasBeenSeen = True
+
+            Minimap.AddDirty(Self.x, Self.y)
+        End If
+
+        If alpha > lightValue And
+           Self.HasTileBeenSeen()
+            Return alpha
+        End If
+
+        Return lightValue
     End Method
 
     Method CalculateTileLightValue: Float(forVision: Bool)
-        Debug.TraceNotImplemented("Tile.CalculateTileLightValue(Bool)")
+        If Self.lightValueFrameNum <> necrodancergame.globalFrameCounter
+            Self.lightValueFrameNum = necrodancergame.globalFrameCounter
+            Self.constLightValueCached = Level.GetMapTileLightValue(Self.x, Self.y, True)
+            Self.lightValueCached = Level.GetMapTileLightValue(Self.x, Self.y, False)
+        End If
+
+        If forVision
+            Return Self.constLightValueCached
+        End If
+
+        Return Self.lightValueCached
     End Method
 
     Method ClearTextLabel: Void()
@@ -823,7 +926,26 @@ Class Tile Extends RenderableObject
     End Method
 
     Method HasTileBeenSeen: Bool()
-        Debug.TraceNotImplemented("Tile.HasTileBeenSeen()")
+        If Tile.AnyPlayerHaveZoneMap()
+            Return True
+        End If
+
+        If Player.AnyPlayerTemporaryMapSight()
+            Return True
+        End If
+
+        If Self.IsWall() And
+           Entity.AnyPlayerHaveWallsTorch() And
+           Self.type <> TileType.IndestructibleBorder
+            Return True
+        End If
+
+        If Self.type = TileType.Stairs And
+           Tile.AnyPlayerHaveCompass()
+            Return True
+        End If
+
+        Return Self.hasBeenSeen
     End Method
 
     Method HasTorch: Bool()
@@ -884,11 +1006,47 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
-        Debug.TraceNotImplemented("Tile.IsInAnyPlayerLineOfSight()")
+        If (Self.hasResource = 1 And Tile.AnyPlayerHaveMonocle()) Or
+           (Self.isCracked And Level.secretAtX = Self.x And Level.secretAtY = Self.y)
+            Return True
+        End If
+
+        Local hasRingOfShadows := Tile.CheckRingOfShadows()
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            
+            If Not player.Perished()
+                Local minVisibilitySq := 6.25
+                If Not hasRingOfShadows
+                    Local minVisibility := player.GetMinVisibility()
+                    minVisibilitySq = minVisibility * minVisibility
+                End If
+
+                If Util.GetDistSqFromObject(Self.x, Self.y, player) <= minVisibilitySq
+                    Self.cachedLOS = True
+                    Self.cachedLOSFrame = necrodancergame.globalFrameCounter
+
+                    Return True
+                End If
+            End If
+        End For
+
+        If Not hasRingOfShadows 
+            Local isInAnyPlayerTrueLineOfSight := Self.IsInAnyPlayerTrueLineOfSight()
+            Self.cachedLOS = isInAnyPlayerTrueLineOfSight
+            Self.cachedLOSFrame = necrodancergame.globalFrameCounter
+
+            Return isInAnyPlayerTrueLineOfSight
+        End If
+
+        Return False
     End Method
 
     Method IsInAnyPlayerTrueLineOfSight: Bool()
-        Debug.TraceNotImplemented("Tile.IsInAnyPlayerTrueLineOfSight()")
+        Level.RefreshLineOfSightTiles()
+
+        Return Self.cachedTrueLOS
     End Method
 
     Method IsMetalDoorOpen: Bool()
@@ -896,7 +1054,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsNearNightmare: Bool()
-        Debug.TraceNotImplemented("Tile.IsNearNightmare()")
+        Return Tile.IsNearNightmare(Self.x, Self.y)
     End Method
 
     Method IsNecrodancerPlatform: Bool()
@@ -1154,7 +1312,242 @@ Class Tile Extends RenderableObject
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Tile.Update()")
+        ' Is this value actually shared by all these branches?
+        Local lightValue: Float
+
+        Select Self.type
+            Case TileType.LockedStairsMiniboss
+                If Enemy.GetNumStairLockingMinibosses() = 0 Or
+                   Level.pacifismModeOn
+                    If Sarcophagus.sarcophagi.Count() > 0
+                        ' Seems backwards?
+                        If Not Util.IsCharacterActive(Character.Aria) And
+                           Not Util.IsCharacterActive(Character.Coda)
+                            Self.flyawayText = "|180|DESTROY THE SARCOPHAGUS!|"
+                        Else
+                            Level.RemoveExit(Self.x, Self.y)
+                            Level.AddExit(Self.x, Self.y, LevelType.NextLevel, controller_game.currentZone)
+                            
+                            Self.image = New Sprite("level/stairs.png", 1, Image.DefaultFlags)
+                            Self.image.SetZ(-1001.0)
+                            Self.image.SetAlphaValue(0.0)
+
+                            Audio.PlayGameSoundAt("mini", Self.x, Self.y, False, -1, False)
+
+                            Camera.overlayWhiteDuration = 5
+                            Camera.Shake(1, Self.x, Self.y)
+
+                            Local player1 := controller_game.players[controller_game.player1]
+                            Local exitStairsUnlockedFlyaway := New Flyaway("|234|EXIT STAIRS UNLOCKED!|", player1.x, player1.y, 0, -6, True, 0.0, 0.2, True, 120)
+                            exitStairsUnlockedFlyaway.CenterX()
+                        End If
+                    End If
+                End If
+            Case TileType.Geyser
+                If Self.nextEruptionBeat <= Audio.GetClosestBeatNum(True)
+                    lightValue = 24.0 * (Self.x + 0.5)
+                    Local particleSystemY := 24.0 * (Self.y + 0.75)
+                    New ParticleSystem(lightValue, particleSystemY, ParticleSystemData.GEYSER, -1, "")
+
+                    RenderableObject.HitTile("geyser", Self.x, Self.y, 2, Direction.None, Null, False, False, False, False, False)
+
+                    Self.nextEruptionBeat = Audio.GetClosestBeatNum(True) + 4
+                End If
+            Case TileType.MetalDoor
+                If Self.IsMetalDoorOpen() And
+                   (Self.metalDoorOpenedBeat + 2 < controller_game.lastEnemyMoveBeat) And
+                   Not Util.IsGlobalCollisionAt(Self.x, Self.y, False, False, False, False) And
+                   Not Util.IsAnyPlayerAt(Self.x, Self.y) And
+                   Not Familiar.IsAnyAt(Self.x, Self.y)
+                    Self.metalDoorOpenedBeat = -1
+                    Self.collides = True
+
+                    Tile.totalTilesCreatedOrDestroyed += 1
+
+                    Audio.PlayGameSoundAt("metalDoorClose", Self.x, Self.y, False, -1, False)
+                End If
+        End Select
+
+        If Shrine.noReturnShrineActive Or
+           Self.type = TileType.Crystal
+            If Shrine.noReturnShrinePlayer <> Null And
+               Shrine.noReturnShrinePlayer.x = Self.x And
+               Shrine.noReturnShrinePlayer.y = Self.y
+                If Self.playerWasOnTileAtBeat = Audio.GetClosestBeatNum(True) - 1 And
+                   Not Self.playerWasOnTileLastFrame And
+                   Self.playerWasOnTileLastFrame > 0 And
+                   Shrine.noReturnShrineActive
+                    Shrine.noReturnShrinePlayer.Hit("SHRINE OF NO RETURN", 1, -1, Null, False, 0)
+                    Shrine.noReturnShrineActive = False
+                End If
+
+                Self.playerWasOnTileAtBeat = Audio.GetClosestBeatNum(True)
+                Self.playerWasOnTileLastFrame = True
+            Else
+                Self.playerWasOnTileLastFrame = False
+            End If
+        End If
+
+        If Level.isNoReturnMode
+            Local playersAt := Util.GetPlayersAt(Self.x, Self.y)
+            For Local player := EachIn playersAt
+                If Self.playerWasOnTileAtBeat = Audio.GetClosestBeatNum(True) - 1 And
+                   Not Self.playerWasOnTileLastFrame And
+                   Self.playerWasOnTileLastFrame > 0 And
+                   Shrine.noReturnShrineActive
+                    Shrine.noReturnShrinePlayer.Hit("NO RETURN MODE", 1, -1, Null, False, 0)
+                    Shrine.noReturnShrineActive = False
+                End If
+            End for
+
+            If Not playersAt.IsEmpty()
+                Self.playerWasOnTileAtBeat = Audio.GetClosestBeatNum(True)
+                Self.playerWasOnTileLastFrame = True
+            Else
+                Self.playerWasOnTileLastFrame = False
+            End If
+        End If
+
+        If Self.trigger <> 0
+            Local playersAt := Util.GetPlayersAt(Self.x, Self.y)
+            For Local player := EachIn playersAt
+                If player <> Self.triggerPlayer
+                    Level.ActivateTrigger(Self.trigger, player, Null)
+                End If
+
+                Self.triggerPlayer = player
+            End for
+
+            If playersAt.IsEmpty()
+                Self.triggerPlayer = Null
+            End If
+        End If
+
+        If Self.torchDir <> 0
+            If Self.animateTorch
+                Self.torchImage.SetFrame(Audio.GetBeatAnimFrame4())
+            End If
+
+            If Shrine.darknessShrineActive
+                Self.lightSourceMin = 0.01
+                Self.lightSourceMax = 0.01
+            Else
+                If Tile.CheckRingOfShadows()
+                    Self.lightSourceMin = 0.01
+                    Self.lightSourceMax = 0.01
+                Else
+                    If Self.torchFlickerNext > necrodancergame.globalFrameCounter
+                        Return
+                    End If
+
+                    Local flickerRandom := Util.RndIntRangeFromZero(11, False)
+                    Self.torchFlickerNext = necrodancergame.globalFrameCounter + flickerRandom + 8
+
+                    Local lightSourceBrightnessRandom := Util.RndFloatRange(0.0, 0.4, False)
+                    Self.lightSourceBrightness = lightSourceBrightnessRandom + 0.8
+                    Self.lightSourceBrightness = math.Min(1.0, Self.lightSourceBrightness)
+
+                    Self.lightSourceMin = Self.TORCH_LIGHT_MIN
+
+                    Local lightSourceMaxRandom := Util.RndFloatRange(0.0, 2.5, False)
+                    Self.lightSourceMax = lightSourceMaxRandom + Self.TORCH_LIGHT_MAX
+
+                    lightValue = Self.TORCH_LIGHT_MAX + 1.25
+                    Self.constLightSourceMax = lightValue
+                End If
+            End If
+        End If
+
+        If Self.IsTileset(TilesetType.Zone2) And
+           Self.image1HasBeenLoadedWithFloor
+            ' TODO: Clean this up.
+            If Self.wasInLOS Or
+               Not Self.IsInAnyPlayerLineOfSight()
+                If Self.IsInAnyPlayerLineOfSight()
+                    Local grassValueBase := 1.0 * Self.grassValue
+                    Self.CalculateTileLightValue(False)
+                    lightValue = 1.0001 * grassValueBase
+                    Self.grassValue = lightValue
+                End If
+            Else
+                Self.CalculateTileLightValue(False)
+                Self.grassValue = lightValue
+            End If
+        End If
+
+        Self.wasInLOS = Self.IsInAnyPlayerLineOfSight()
+        Self.CalculateTileAlpha()
+
+        Local finalAlpha := lightValue
+
+        If Self.IsNearNightmare() And
+           Self.IsWall() And
+           Self.hasBeenSeen
+            finalAlpha = 0.36
+        End If
+
+        Self.image.SetAlphaTweenFromCurrent(finalAlpha, 10)
+
+        If Self.image2 <> Null
+            Self.image2.SetAlphaTweenFromCurrent(finalAlpha, 10)
+        End If
+
+        If Self.imageWire <> Null
+            Local wireFrame := Self.SelectWireFrame()
+
+            If Self.imageWireSilhouette <> Null
+                Self.imageWireSilhouette.SetFrame(wireFrame)
+            End If
+
+            If Self.imageWireFlash <> Null
+                Self.wireFlashDelay -= 1
+                If Self.wireFlashDelay <= 0
+                    Self.wireFlashAnimDelay -= 1
+                    If Self.wireFlashAnimDelay <= 0
+                        Self.wireFlashAnimDelay = 3
+
+                        Local nextFrame := Self.imageWireFlash.GetFrame() + 1
+                        If nextFrame < Self.imageWireFlash.GetNumFrames()
+                            Self.imageWireFlash.SetFrame(nextFrame)
+                        Else
+                            Self.imageWireFlash.SetFrame(0)
+                            Self.wireFlashDelay = Util.RndIntRange(1800, 3600, False)
+                        End If
+                    End If
+                End If
+            End If
+
+            Local imageWireFrameFactor := 1
+            Select Audio.GetBeatAnimFrame4()
+                Case 1
+                    imageWireFrameFactor = 2
+                Case 2
+                    imageWireFrameFactor = 3
+                Case 3
+                    imageWireFrameFactor = 0
+            End Select
+
+            Local imageWireFrame := 16 * imageWireFrameFactor + wireFrame
+            Select Self.type
+                Case TileType.ConductorWirePhase1
+                    imageWireFrame = 28 + wireFrame
+                    If Self.activatedConductorWire
+                        imageWireFrame = 7 * imageWireFrameFactor + wireFrame
+                    End If
+
+                    Local wireFlip := Self.SelectWireFlip()
+                    Self.imageWire.FlipX(wireFlip, True)
+                Case TileType.ConductorWirePhase2
+                    imageWireFrame = 3 * imageWireFrameFactor + imageWireFrameFactor
+            End Select
+
+            Self.imageWire.SetFrame(imageWireFrame)
+            Self.imageWire.SetAlphaTweenFromCurrent(finalAlpha, 10)
+        End If
+
+        If Self.torchDir <> 0
+            Self.torchImage.SetAlphaTweenFromCurrent(lightValue, 10)
+        End If
     End Method
 
 End Class
