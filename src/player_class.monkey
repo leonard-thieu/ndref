@@ -187,7 +187,23 @@ Class Player Extends MobileEntity
 
     Function PlayersHaveMovedThisBeat: Bool()
         If Audio.fixedBeatNum = -64
+            ' TODO: Double check this.
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                If Not player.Perished() And
+                   controller_game.lastPlayerMoveBeat[i] < Audio.GetClosestBeatNum(True) And
+                   player.lastIceSlideBeat < Audio.GetClosestBeatNum(True) And
+                   player.queuedMoveBeat < Audio.GetClosestBeatNum(True) And
+                   Not player.queuedMove
+                    Local percentDist := Audio.GetDistanceFromNearestBeat() / Audio.GetNextBeatDuration()
+
+                    Return percentDist > 1.0
+                End If
+            End For
+
             Debug.TraceNotImplemented("Player.PlayersHaveMovedThisBeat()")
+
+            Return True
         End If
 
         Return controller_game.incrementFixedBeatNum
