@@ -209,7 +209,11 @@ Class Audio
     End Function
 
     Function GetDistanceFromNearestBeat: Int()
-        Debug.TraceNotImplemented("Audio.GetDistanceFromNearestBeat()")
+        Local beatNum := Audio.GetCurrentBeatNumberIncludingLoops(0, False)
+        Local timeUntilPreviousBeat := Audio.TimeUntilSpecificBeat(beatNum - 1)
+        Local timeUntilCurrentBeat := Audio.TimeUntilSpecificBeat(beatNum)
+
+        Return math.Min(math.Abs(timeUntilCurrentBeat), math.Abs(timeUntilPreviousBeat))
     End Function
 
     Function GetDistanceFromNearestHalfBeat: Int()
