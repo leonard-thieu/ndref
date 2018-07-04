@@ -1089,14 +1089,14 @@ Class Item Extends Entity
 
             Self.hintText = New TextSprite(2)
             Self.hintText.SetText(hint, False)
-            Self.hintText.InWorld(True)
+            Self.hintText.InWorld = True
         End If
 
         Local flyaway := Self.GetFlyawayText()
         If flyaway <> ""
             Self.nameText = New TextSprite(2)
             Self.nameText.SetText(flyaway, False)
-            Self.nameText.InWorld(True)
+            Self.nameText.InWorld = True
         End If
 
         If Self.IsItemOfType("isStackable") And

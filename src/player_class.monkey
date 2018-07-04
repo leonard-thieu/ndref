@@ -344,7 +344,7 @@ Class Player Extends MobileEntity
 
             For Local i := 0 Until Self.numHudSlots
                 Self.hudSlot[i] = New Sprite("gui/hud_slot_" + (i + 1) + ".png", 1, Image.DefaultFlags)
-                Self.hudSlot[i].InWorld(False)
+                Self.hudSlot[i].InWorld = False
                 Self.hudSlot[i].SetZ(9999.0)
             End For
 
@@ -400,56 +400,56 @@ Class Player Extends MobileEntity
         Self.tempoHeartText.zVal = 10002
 
         If Player.hudCoins = Null Then Player.hudCoins = New Sprite("gui/hud_coins.png", 1, Image.DefaultFlags)
-        Player.hudCoins.InWorld(False)
+        Player.hudCoins.InWorld = False
         Player.hudCoins.SetZ(10000.0)
         If Player.hudDiamonds = Null Then Player.hudDiamonds = New Sprite("gui/diamond.png", 1, Image.DefaultFlags)
-        Player.hudDiamonds.InWorld(False)
+        Player.hudDiamonds.InWorld = False
         Player.hudDiamonds.SetZ(10000.0)
 
         If Self.hudSlotAction1 = Null Then Self.hudSlotAction1 = New Sprite("gui/hud_slot_action1.png", 1, Image.DefaultFlags)
-        Self.hudSlotAction1.InWorld(False)
+        Self.hudSlotAction1.InWorld = False
         Self.hudSlotAction1.SetZ(10001.0)
         If Self.hudSlotAction2 = Null Then Self.hudSlotAction2 = New Sprite("gui/hud_slot_action2.png", 1, Image.DefaultFlags)
-        Self.hudSlotAction2.InWorld(False)
+        Self.hudSlotAction2.InWorld = False
         Self.hudSlotAction2.SetZ(10001.0)
         If Self.hudSlotAction2Empty = Null Then Self.hudSlotAction2Empty = New Sprite("gui/hud_slot_action2_empty.png", 1, Image.DefaultFlags)
-        Self.hudSlotAction2Empty.InWorld(False)
+        Self.hudSlotAction2Empty.InWorld = False
         Self.hudSlotAction2Empty.SetZ(10001.0)
         If Self.hudSlotWeapon2 = Null Then Self.hudSlotWeapon2 = New Sprite("gui/hud_slot_weapon2.png", 1, Image.DefaultFlags)
-        Self.hudSlotWeapon2.InWorld(False)
+        Self.hudSlotWeapon2.InWorld = False
         Self.hudSlotWeapon2.SetZ(10001.0)
         If Self.hudSlotWeapon2Empty = Null Then Self.hudSlotWeapon2Empty = New Sprite("gui/hud_slot_weapon2_empty.png", 1, Image.DefaultFlags)
-        Self.hudSlotWeapon2Empty.InWorld(False)
+        Self.hudSlotWeapon2Empty.InWorld = False
         Self.hudSlotWeapon2Empty.SetZ(10001.0)
         If Self.hudSlotWeaponReload = Null Then Self.hudSlotWeaponReload = New Sprite("gui/hud_slot_reload.png", 1, Image.DefaultFlags)
-        Self.hudSlotWeaponReload.InWorld(False)
+        Self.hudSlotWeaponReload.InWorld = False
         Self.hudSlotWeaponReload.SetZ(10001.0)
         If Self.hudSlotWeaponThrow = Null Then Self.hudSlotWeaponThrow = New Sprite("gui/hud_slot_throw.png", 1, Image.DefaultFlags)
-        Self.hudSlotWeaponThrow.InWorld(False)
+        Self.hudSlotWeaponThrow.InWorld = False
         Self.hudSlotWeaponThrow.SetZ(10001.0)
         If Self.hudSlotWeaponThrow2 = Null Then Self.hudSlotWeaponThrow2 = New Sprite("gui/hud_slot_throw2.png", 1, Image.DefaultFlags)
-        Self.hudSlotWeaponThrow2.InWorld(False)
+        Self.hudSlotWeaponThrow2.InWorld = False
         Self.hudSlotWeaponThrow2.SetZ(10001.0)
         If Self.hudSlotBoots = Null Then Self.hudSlotBoots = New Sprite("gui/hud_slot_boots.png", 1, Image.DefaultFlags)
-        Self.hudSlotBoots.InWorld(False)
+        Self.hudSlotBoots.InWorld = False
         Self.hudSlotBoots.SetZ(10001.0)
         If Self.hudSlotBoots2 = Null Then Self.hudSlotBoots2 = New Sprite("gui/hud_slot_boots2.png", 1, Image.DefaultFlags)
-        Self.hudSlotBoots2.InWorld(False)
+        Self.hudSlotBoots2.InWorld = False
         Self.hudSlotBoots2.SetZ(10001.0)
         If Self.hudSlotBoots3 = Null Then Self.hudSlotBoots3 = New Sprite("gui/hud_slot_boots3.png", 1, Image.DefaultFlags)
-        Self.hudSlotBoots3.InWorld(False)
+        Self.hudSlotBoots3.InWorld = False
         Self.hudSlotBoots3.SetZ(10001.0)
         If Self.hudSlotBomb = Null Then Self.hudSlotBomb = New Sprite("gui/hud_slot_bomb.png", 1, Image.DefaultFlags)
-        Self.hudSlotBomb.InWorld(False)
+        Self.hudSlotBomb.InWorld = False
         Self.hudSlotBomb.SetZ(10001.0)
         If Self.hudSlotSpell1 = Null Then Self.hudSlotSpell1 = New Sprite("gui/hud_slot_spell1.png", 1, Image.DefaultFlags)
-        Self.hudSlotSpell1.InWorld(False)
+        Self.hudSlotSpell1.InWorld = False
         Self.hudSlotSpell1.SetZ(10001.0)
         If Self.hudSlotSpell2 = Null Then Self.hudSlotSpell2 = New Sprite("gui/hud_slot_spell2.png", 1, Image.DefaultFlags)
-        Self.hudSlotSpell2.InWorld(False)
+        Self.hudSlotSpell2.InWorld = False
         Self.hudSlotSpell2.SetZ(10001.0)
         If Self.hudDiamondForFlying = Null Then Self.hudDiamondForFlying = New Sprite("gui/diamond.png", 1, Image.DefaultFlags)
-        Self.hudDiamondForFlying.InWorld(False)
+        Self.hudDiamondForFlying.InWorld = False
         Self.hudDiamondForFlying.SetZ(10001.0)
 
         If Self.mysteryWeaponImage = Null Then Self.mysteryWeaponImage = New Sprite("items/weapon_uncertainty.png", 24, 25, 2, Image.DefaultFlags)
@@ -470,22 +470,22 @@ Class Player Extends MobileEntity
 
         If Not Player.heartsLoaded
             Player.heart = New Sprite("gui/heart.png", 1, Image.DefaultFlags)
-            Player.heart.InWorld(False)
+            Player.heart.InWorld = False
             Player.heart.SetZ(10000.0)
             Player.heartEmpty = New Sprite("gui/heart_empty.png", 1, Image.DefaultFlags)
-            Player.heartEmpty.InWorld(False)
+            Player.heartEmpty.InWorld = False
             Player.heartEmpty.SetZ(10000.0)
             Player.heartHalf = New Sprite("gui/heart_half.png", 1, Image.DefaultFlags)
-            Player.heartHalf.InWorld(False)
+            Player.heartHalf.InWorld = False
             Player.heartHalf.SetZ(10000.0)
             Player.cursedHeart = New Sprite("gui/cursed_heart.png", 1, Image.DefaultFlags)
-            Player.cursedHeart.InWorld(False)
+            Player.cursedHeart.InWorld = False
             Player.cursedHeart.SetZ(10000.0)
             Player.cursedHeartEmpty = New Sprite("gui/cursed_heart_empty.png", 1, Image.DefaultFlags)
-            Player.cursedHeartEmpty.InWorld(False)
+            Player.cursedHeartEmpty.InWorld = False
             Player.cursedHeartEmpty.SetZ(10000.0)
             Player.cursedHeartHalf = New Sprite("gui/cursed_heart_half.png", 1, Image.DefaultFlags)
-            Player.cursedHeartHalf.InWorld(False)
+            Player.cursedHeartHalf.InWorld = False
             Player.cursedHeartHalf.SetZ(10000.0)
         End If
 
@@ -1272,7 +1272,7 @@ Class Player Extends MobileEntity
         Self.image = Player.MakeBodyImage(Self.characterID, idSuffix, alternateSkin)
         Self.headImage = Player.MakeHeadImage(Self.characterID, idSuffix, alternateSkin)
         Self.headImageForHUD = Player.MakeHeadImage(Self.characterID, idSuffix, alternateSkin)
-        Self.headImageForHUD.InWorld(False)
+        Self.headImageForHUD.InWorld = False
         Self.headImageForHUD.SetZ(10000.0)
         Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1, Image.DefaultFlags)
         Self.xOff = 0.0

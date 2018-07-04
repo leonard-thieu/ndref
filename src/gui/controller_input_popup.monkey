@@ -30,7 +30,7 @@ Class ControllerInputPopup Extends Controller
 
         Self.overlayBlack = New Sprite("gui/TEMP_overlay_black.png", 1, Image.DefaultFlags)
         Self.overlayBlack.SetZ(20000.0)
-        Self.overlayBlack.InWorld(False)
+        Self.overlayBlack.InWorld = False
 
         Self.popupText = 20002
         Self.popupText2 = 20002
