@@ -8,8 +8,8 @@ Class TextLabel Extends GuiComponent
 
     Function _EditorFix: Void() End
 
-    Method New(t: Int, j: Int, sc: Float, left: Bool)
-        Debug.TraceNotImplemented("TextLabel.New(Int, Int, Float, Bool)")
+    Method New(t: String, j: Int, sc: Float, left: Bool)
+        Debug.TraceNotImplemented("TextLabel.New(String, Int, Float, Bool)")
     End Method
 
     Field justification: Int
@@ -57,8 +57,8 @@ Class TextLabel Extends GuiComponent
         Debug.TraceNotImplemented("TextLabel.SetLocalizationOffset(Int, Int)")
     End Method
 
-    Method SetText2: Object(t: Int)
-        Debug.TraceNotImplemented("TextLabel.SetText2(Int)")
+    Method SetText: TextLabel(t: String)
+        Debug.TraceNotImplemented("TextLabel.SetText(String)")
     End Method
 
 End Class

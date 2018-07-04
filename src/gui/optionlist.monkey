@@ -19,8 +19,8 @@ Class OptionList
     Field options: GuiComponent[]
     Field selectedIndex: Int
 
-    Method Add5: Void(g: Object)
-        Debug.TraceNotImplemented("OptionList.Add5(Object)")
+    Method Add: Void(g: GuiComponent)
+        Debug.TraceNotImplemented("OptionList.Add(GuiComponent)")
     End Method
 
     Method Cancel: Void()
