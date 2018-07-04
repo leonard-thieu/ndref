@@ -1309,8 +1309,260 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.KillAllNonNecroDancerEnemies()")
     End Function
 
-    Function LoadBestiarySprite: Object(type: Int)
-        Debug.TraceNotImplemented("Enemy.LoadBestiarySprite(Int)")
+    Function LoadBestiarySprite: Sprite(type: Int)
+        Local sprite: Sprite
+
+        ' NOTE: This function is split into multiple functions to work around an MSVC compiler limit (hard limit of 128 nesting levels).
+        '       Monkey X transpiles `Select` statements into chained `else-if` clauses when targeting C++. This causes the deep nesting.
+        sprite = Enemy.LoadBestiarySprite1(type)
+        If sprite <> Null Then Return sprite
+
+        sprite = Enemy.LoadBestiarySprite2(type)
+        If sprite <> Null Then Return sprite
+
+        Return sprite
+    End Function
+
+    Function LoadBestiarySprite1: Sprite(type: Int)
+        Local sprite: Sprite
+
+        Select type
+            Case EnemyType.GreenSlime
+                sprite = New Sprite("bestiary_greenslime.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlueSlime
+                sprite = New Sprite("bestiary/bestiary_blueslime.png", 1, Image.DefaultFlags)
+            Case EnemyType.OrangeSlime
+                sprite = New Sprite("bestiary/bestiary_orangeslime.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteSkeleton
+                sprite = New Sprite("bestiary/bestiary_skeleton.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowSkeleton
+                sprite = New Sprite("bestiary/bestiary_yellowskeleton.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackSkeleton
+                sprite = New Sprite("bestiary/bestiary_blackskeleton.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlueBat
+                sprite = New Sprite("bestiary/bestiary_bluebat.png", 1, Image.DefaultFlags)
+            Case EnemyType.RedBat
+                sprite = New Sprite("bestiary/bestiary_redbat.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenBat
+                sprite = New Sprite("bestiary/bestiary_greenbat.png", 1, Image.DefaultFlags)
+            Case EnemyType.PurpleMonkey
+                sprite = New Sprite("bestiary/bestiary_purplemonkey.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteMonkey
+                sprite = New Sprite("bestiary/bestiary_whitemonkey.png", 1, Image.DefaultFlags)
+            Case EnemyType.Ghost
+                sprite = New Sprite("bestiary/bestiary_ghost.png", 1, Image.DefaultFlags)
+            Case EnemyType.Zombie
+                sprite = New Sprite("bestiary/bestiary_zombie.png", 1, Image.DefaultFlags)
+            Case EnemyType.Wraith
+                sprite = New Sprite("bestiary/bestiary_wraith.png", 1, Image.DefaultFlags)
+            Case EnemyType.ChestMimic
+                sprite = New Sprite("bestiary/bestiary_trapchest.png", 1, Image.DefaultFlags)
+            Case EnemyType.LockedChestMimic
+                sprite = New Sprite("bestiary/bestiary_trapchest.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteChestMimic
+                sprite = New Sprite("bestiary/bestiary_trapchest.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteArmoredSkeleton
+                sprite = New Sprite("bestiary/bestiary_armoredskeleton.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowArmoredSkeleton
+                sprite = New Sprite("bestiary/bestiary_yellowarmoredskeleton.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackArmoredSkeleton
+                sprite = New Sprite("bestiary/bestiary_blackarmoredskeleton.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteSkeletonMage
+                sprite = New Sprite("bestiary/bestiary_skeletonmage.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowSkeletonMage
+                sprite = New Sprite("bestiary/bestiary_yellowskeletonmage.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackSkeletonMage
+                sprite = New Sprite("bestiary/bestiary_blackskeletonmage.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlueMushroom
+                sprite = New Sprite("bestiary/bestiary_mushroom.png", 1, Image.DefaultFlags)
+            Case EnemyType.PurpleMushroom
+                sprite = New Sprite("bestiary/bestiary_purplemushroom.png", 1, Image.DefaultFlags)
+            Case EnemyType.LightGolem
+                sprite = New Sprite("bestiary/bestiary_dirtgolem.png", 1, Image.DefaultFlags)
+            Case EnemyType.DarkGolem
+                sprite = New Sprite("bestiary/bestiary_darkgolem.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteArmadillo
+                sprite = New Sprite("bestiary/bestiary_whitearmadillo.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowArmadillo
+                sprite = New Sprite("bestiary/bestiary_yellowarmadillo.png", 1, Image.DefaultFlags)
+            Case EnemyType.Clone
+                sprite = New Sprite("bestiary/bestiary_clone.png", 1, Image.DefaultFlags)
+            Case EnemyType.TarMonster
+                sprite = New Sprite("bestiary/bestiary_tarmonster.png", 1, Image.DefaultFlags)
+            Case EnemyType.Mole
+                sprite = New Sprite("bestiary/bestiary_mole.png", 1, Image.DefaultFlags)
+            Case EnemyType.Wight
+                sprite = New Sprite("bestiary/bestiary_wight.png", 1, Image.DefaultFlags)
+            Case EnemyType.WallMimic
+                sprite = New Sprite("bestiary/bestiary_fakewall.png", 1, Image.DefaultFlags)
+            Case EnemyType.FireSlime
+                sprite = New Sprite("bestiary/bestiary_fireslime.png", 1, Image.DefaultFlags)
+            Case EnemyType.IceSlime
+                sprite = New Sprite("bestiary/bestiary_iceslime.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteSkeletonKnight
+                sprite = New Sprite("bestiary/bestiary_skeletonknight.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowSkeletonKnight
+                sprite = New Sprite("bestiary/bestiary_yellowskeletonknight.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackSkeletonKnight
+                sprite = New Sprite("bestiary/bestiary_blackskeletonknight.png", 1, Image.DefaultFlags)
+            Case EnemyType.FireElemental
+                sprite = New Sprite("bestiary/bestiary_fireelemental.png", 1, Image.DefaultFlags)
+            Case EnemyType.IceElemental
+                sprite = New Sprite("bestiary/bestiary_iceelemental.png", 1, Image.DefaultFlags)
+            Case EnemyType.PurpleGoblin
+                sprite = New Sprite("bestiary/bestiary_goblin.png", 1, Image.DefaultFlags)
+            Case EnemyType.GrayGoblin
+                sprite = New Sprite("bestiary/bestiary_greygoblin.png", 1, Image.DefaultFlags)
+            Case EnemyType.FireBeetle
+                sprite = New Sprite("bestiary/bestiary_firebeetle.png", 1, Image.DefaultFlags)
+            Case EnemyType.IceBeetle
+                sprite = New Sprite("bestiary/bestiary_icebeetle.png", 1, Image.DefaultFlags)
+            Case EnemyType.Hellhound
+                sprite = New Sprite("bestiary/bestiary_hellhound.png", 1, Image.DefaultFlags)
+            Case EnemyType.ShoveMonster
+                sprite = New Sprite("bestiary/bestiary_shovemonster.png", 1, Image.DefaultFlags)
+            Case EnemyType.GrayShoveMonster
+                sprite = New Sprite("bestiary/bestiary_greyshovemonster.png", 1, Image.DefaultFlags)
+            Case EnemyType.Yeti
+                sprite = New Sprite("bestiary/bestiary_yeti.png", 1, Image.DefaultFlags)
+            Case EnemyType.Ghast
+                sprite = New Sprite("bestiary/bestiary_ghast.png", 1, Image.DefaultFlags)
+            Case EnemyType.FireCauldronMimic
+                sprite = New Sprite("bestiary/bestiary_trapcauldron.png", 1, Image.DefaultFlags)
+            Case EnemyType.IceCauldronMimic
+                sprite = New Sprite("bestiary/bestiary_trapcauldron.png", 1, Image.DefaultFlags)
+            Case EnemyType.GoblinBomber
+                sprite = New Sprite("bestiary/bestiary_goblinbomber.png", 1, Image.DefaultFlags)
+            Case EnemyType.GoblinSentry
+                sprite = New Sprite("bestiary/bestiary_goblinsentry.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackBat
+                sprite = New Sprite("bestiary/bestiary_blackbat.png", 1, Image.DefaultFlags)
+            Case EnemyType.OrangeArmadillo
+                sprite = New Sprite("bestiary/bestiary_orangearmadillo.png", 1, Image.DefaultFlags)
+            Case EnemyType.ApprenticeBlademaster
+                sprite = New Sprite("bestiary/bestiary_blademaster.png", 1, Image.DefaultFlags)
+            Case EnemyType.Blademaster
+                sprite = New Sprite("bestiary/bestiary_orangeblademaster.png", 1, Image.DefaultFlags)
+            Case EnemyType.Ghoul
+                sprite = New Sprite("bestiary/bestiary_ghoul.png", 1, Image.DefaultFlags)
+            Case EnemyType.OozeGolem
+                sprite = New Sprite("bestiary/bestiary_oozegolem.png", 1, Image.DefaultFlags)
+            Case EnemyType.Harpy
+                sprite = New Sprite("bestiary/bestiary_harpy.png", 1, Image.DefaultFlags)
+            Case EnemyType.Lich
+                sprite = New Sprite("bestiary/bestiary_lich.png", 1, Image.DefaultFlags)
+            Case EnemyType.RedLich
+                sprite = New Sprite("bestiary/bestiary_redlich.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackLich
+                sprite = New Sprite("bestiary/bestiary_blacklich.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenMonkey
+                sprite = New Sprite("bestiary/bestiary_greenmonkey.png", 1, Image.DefaultFlags)
+            Case EnemyType.MagicMonkey
+                sprite = New Sprite("bestiary/bestiary_magicmonkey.png", 1, Image.DefaultFlags)
+            Case EnemyType.Pixie
+                sprite = New Sprite("bestiary/bestiary_pixie.png", 1, Image.DefaultFlags)
+            Case EnemyType.Sarcophagus
+                sprite = New Sprite("bestiary/bestiary_sarcophagus.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowSarcophagus
+                sprite = New Sprite("bestiary/bestiary_yellowsarcophagus.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackSarcophagus
+                sprite = New Sprite("bestiary/bestiary_blacksarcophagus.png", 1, Image.DefaultFlags)
+            Case EnemyType.Spider
+                sprite = New Sprite("bestiary/bestiary_spider.png", 1, Image.DefaultFlags)
+            Case EnemyType.Warlock
+                sprite = New Sprite("bestiary/bestiary_warlock.png", 1, Image.DefaultFlags)
+            Case EnemyType.WhiteSkull
+                sprite = New Sprite("bestiary/bestiary_skull.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowSkull
+                sprite = New Sprite("bestiary/bestiary_yellowskull.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlackSkull
+                sprite = New Sprite("bestiary/bestiary_blackskull.png", 1, Image.DefaultFlags)
+            Case EnemyType.WaterBall
+                sprite = New Sprite("bestiary/bestiary_waterball.png", 1, Image.DefaultFlags)
+            Case EnemyType.PurpleElectricMage
+                sprite = New Sprite("bestiary/bestiary_electricmage.png", 1, Image.DefaultFlags)
+            Case EnemyType.RedElectricMage
+                sprite = New Sprite("bestiary/bestiary_redelectricmage.png", 1, Image.DefaultFlags)
+            Case EnemyType.GoldElectricMage
+                sprite = New Sprite("bestiary/bestiary_goldelectricmage.png", 1, Image.DefaultFlags)
+            Case EnemyType.ElectricZombie
+                sprite = New Sprite("bestiary/bestiary_electriczombie.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenEvilEye
+                sprite = New Sprite("bestiary/bestiary_evileye.png", 1, Image.DefaultFlags)
+            Case EnemyType.PinkEvilEye
+                sprite = New Sprite("bestiary/bestiary_pinkevileye.png", 1, Image.DefaultFlags)
+        End Select
+
+        Return sprite
+    End Function
+
+    Function LoadBestiarySprite2: Sprite(type: Int)
+        Local sprite: Sprite
+
+        Select type
+            Case EnemyType.GreenGorgon
+                sprite = New Sprite("bestiary/bestiary_gorgon.png", 1, Image.DefaultFlags)
+            Case EnemyType.GoldGorgon
+                sprite = New Sprite("bestiary/bestiary_goldgorgon.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenOrc
+                sprite = New Sprite("bestiary/bestiary_orc.png", 1, Image.DefaultFlags)
+            Case EnemyType.PinkOrc
+                sprite = New Sprite("bestiary/bestiary_pinkorc.png", 1, Image.DefaultFlags)
+            Case EnemyType.PurpleOrc
+                sprite = New Sprite("bestiary/bestiary_purpleorc.png", 1, Image.DefaultFlags)
+            Case EnemyType.RedDevil
+                sprite = New Sprite("bestiary/bestiary_devil.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenDevil
+                sprite = New Sprite("bestiary/bestiary_greendevil.png", 1, Image.DefaultFlags)
+            Case EnemyType.PurpleSlime
+                sprite = New Sprite("bestiary/bestiary_purpleslime.png", 1, Image.DefaultFlags)
+            Case EnemyType.CursedWraith
+                sprite = New Sprite("bestiary/bestiary_cursedwraith.png", 1, Image.DefaultFlags)
+            Case EnemyType.CrateMimic
+                sprite = New Sprite("bestiary/bestiary_cratemimic.png", 1, Image.DefaultFlags)
+            Case EnemyType.ShopWallMimic
+                sprite = New Sprite("bestiary/bestiary_shopwall.png", 1, Image.DefaultFlags)
+            Case EnemyType.BarrelMimic
+                sprite = New Sprite("bestiary/bestiary_barrelmimic.png", 1, Image.DefaultFlags)
+            Case EnemyType.ShrineMimic
+                sprite = New Sprite("bestiary/bestiary_shrinemimic.png", 1, Image.DefaultFlags)
+            Case EnemyType.NeonWarlock
+                sprite = New Sprite("bestiary/bestiary_neonwarlock.png", 1, Image.DefaultFlags)
+            Case EnemyType.YellowDireBat
+                sprite = New Sprite("bestiary/bestiary_direbat.png", 1, Image.DefaultFlags)
+            Case EnemyType.BrownDireBat
+                sprite = New Sprite("bestiary/bestiary_greydirebat.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenDragon
+                sprite = New Sprite("bestiary/bestiary_greendragon.png", 1, Image.DefaultFlags)
+            Case EnemyType.RedDragon
+                sprite = New Sprite("bestiary/bestiary_reddragon.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlueDragon
+                sprite = New Sprite("bestiary/bestiary_bluedragon.png", 1, Image.DefaultFlags)
+            Case EnemyType.EarthDragon
+                sprite = New Sprite("bestiary/bestiary_earthdragon.png", 1, Image.DefaultFlags)
+            Case EnemyType.BlueBanshee
+                sprite = New Sprite("bestiary/bestiary_banshee.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenBanshee
+                sprite = New Sprite("bestiary/bestiary_greenbanshee.png", 1, Image.DefaultFlags)
+            Case EnemyType.LightMinotaur
+                sprite = New Sprite("bestiary/bestiary_minotaur.png", 1, Image.DefaultFlags)
+            Case EnemyType.DarkMinotaur
+                sprite = New Sprite("bestiary/bestiary_greyminotaur.png", 1, Image.DefaultFlags)
+            Case EnemyType.DarkNightmare
+                sprite = New Sprite("bestiary/bestiary_nightmare.png", 1, Image.DefaultFlags)
+            Case EnemyType.BloodNightmare
+                sprite = New Sprite("bestiary/bestiary_bloodnightmare.png", 1, Image.DefaultFlags)
+            Case EnemyType.TheMommy
+                sprite = New Sprite("bestiary/bestiary_mommy.png", 1, Image.DefaultFlags)
+            Case EnemyType.Ogre
+                sprite = New Sprite("bestiary/bestiary_ogre.png", 1, Image.DefaultFlags)
+            Case EnemyType.GoldMetroGnome
+                sprite = New Sprite("bestiary/bestiary_metrognome.png", 1, Image.DefaultFlags)
+            Case EnemyType.GreenMetroGnome
+                sprite = New Sprite("bestiary/bestiary_greenmetrognome.png", 1, Image.DefaultFlags)
+        End Select
+
+        Return sprite
     End Function
 
     Function MakeEnemy: Enemy(xVal: Int, yVal: Int, type: Int)
