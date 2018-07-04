@@ -84,8 +84,810 @@ Class Enemy Extends MobileEntity Abstract
     Global movesBehind: Int
     Global randomizerXML: XMLDoc
 
-    Function AddTagsToEnemyName: Int(eName: Int, size: Int)
-        Debug.TraceNotImplemented("Enemy.AddTagsToEnemyName(Int, Int)")
+    Function AddTagsToEnemyName: String(eName: String, size: Int)
+        eName = eName.ToUpper()
+
+        Local enemyName: String
+
+        ' NOTE: This function is split into multiple functions to work around an MSVC compiler limit (hard limit of 128 nesting levels).
+        '       Monkey X transpiles `Select` statements into chained `else-if` clauses when targeting C++. This causes the deep nesting.
+        Select size
+            Case 1
+                enemyName = Enemy.AddTagsToEnemyName_Size1(eName)
+            Default
+                enemyName = Enemy.AddTagsToEnemyName_SizeDefault(eName)
+        End Select
+
+        If enemyName = ""
+            Debug.Log("WARNING: Missing localization tags for enemy name ~q" + eName + "~q")
+
+            enemyName = eName
+        End If
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_Size1: String(eName: String)
+        Local enemyName: String
+
+        enemyName = Enemy.AddTagsToEnemyName_Size1_1(eName)
+        If enemyName <> "" Then Return enemyName
+
+        enemyName = Enemy.AddTagsToEnemyName_Size1_2(eName)
+        If enemyName <> "" Then Return enemyName
+
+        enemyName = Enemy.AddTagsToEnemyName_Size1_3(eName)
+        If enemyName <> "" Then Return enemyName
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_Size1_1: String(eName: String)
+        Local enemyName: String
+
+        Select eName
+            Case "WHITE ARMADILLO"
+                enemyName = "|4000|WHITE ARMADILLO|"
+            Case "YELLOW ARMADILLO"
+                enemyName = "|4001|YELLOW ARMADILLO|"
+            Case "ORANGE ARMADILLO"
+                enemyName = "|4002|ORANGE ARMADILLO|"
+            Case "WHITE ARMORED SKELETON"
+                enemyName = "|4003|WHITE ARMORED SKELETON|"
+            Case "YELLOW ARMORED SKELETON"
+                enemyName = "|4004|YELLOW ARMORED SKELETON|"
+            Case "BLACK ARMORED SKELETON"
+                enemyName = "|4005|BLACK ARMORED SKELETON|"
+            Case "BLUE BANSHEE"
+                enemyName = "|4006|BLUE BANSHEE|"
+            Case "GREEN BANSHEE"
+                enemyName = "|4007|GREEN BANSHEE|"
+            Case "BLUE BAT"
+                enemyName = "|4008|BLUE BAT|"
+            Case "RED BAT"
+                enemyName = "|4009|RED BAT|"
+            Case "GREEN BAT"
+                enemyName = "|4010|GREEN BAT|"
+            Case "BLACK BAT"
+                enemyName = "|4011|BLACK BAT|"
+            Case "YELLOW DIREBAT"
+                enemyName = "|4012|YELLOW DIREBAT|"
+            Case "BROWN DIREBAT"
+                enemyName = "|4013|BROWN DIREBAT|"
+            Case "FIRE BEETLE"
+                enemyName = "|4014|FIRE BEETLE|"
+            Case "ICE BEETLE"
+                enemyName = "|4015|ICE BEETLE|"
+            Case "BISHOP"
+                enemyName = "|4016|BISHOP|"
+            Case "RED BISHOP"
+                enemyName = "|4017|RED BISHOP|"
+            Case "APPRENTICE BLADEMASTER"
+                enemyName = "|4018|APPRENTICE BLADEMASTER|"
+            Case "BLADEMASTER"
+                enemyName = "|4019|BLADEMASTER|"
+            Case "CLONE"
+                enemyName = "|4020|CLONE|"
+            Case "CORAL RIFF"
+                enemyName = "|4021|CORAL RIFF|"
+            Case "BARREL"
+                enemyName = "|4022|BARREL|"
+            Case "DEAD RINGER"
+                enemyName = "|4023|DEAD RINGER|"
+            Case "DEATH METAL"
+                enemyName = "|4024|DEATH METAL|"
+            Case "GREEN DRAGON"
+                enemyName = "|4025|GREEN DRAGON|"
+            Case "RED DRAGON"
+                enemyName = "|4026|RED DRAGON|"
+            Case "BLUE DRAGON"
+                enemyName = "|4027|BLUE DRAGON|"
+            Case "WALL MIMIC"
+                enemyName = "|4028|WALL MIMIC|"
+            Case "FIRE ELEMENTAL"
+                enemyName = "|4029|FIRE ELEMENTAL|"
+            Case "GARGOYLE"
+                enemyName = "|4030|GARGOYLE|"
+            Case "GHAST"
+                enemyName = "|4031|GHAST|"
+            Case "GHOST"
+                enemyName = "|4032|GHOST|"
+            Case "GHOUL"
+                enemyName = "|4033|GHOUL|"
+            Case "PURPLE GOBLIN"
+                enemyName = "|4034|PURPLE GOBLIN|"
+            Case "GRAY GOBLIN"
+                enemyName = "|4035|GRAY GOBLIN|"
+            Case "GOBLIN BOMBER"
+                enemyName = "|4036|GOBLIN BOMBER|"
+            Case "LIGHT GOLEM"
+                enemyName = "|4037|LIGHT GOLEM|"
+            Case "DARK GOLEM"
+                enemyName = "|4038|DARK GOLEM|"
+            Case "OOZE GOLEM"
+                enemyName = "|4039|OOZE GOLEM|"
+            Case "HARPY"
+                enemyName = "|4040|HARPY|"
+            Case "HELLHOUND"
+                enemyName = "|4041|HELLHOUND|"
+            Case "ICE ELEMENTAL"
+                enemyName = "|4042|ICE ELEMENTAL|"
+            Case "KING"
+                enemyName = "|4043|KING|"
+            Case "RED KING"
+                enemyName = "|4044|RED KING|"
+            Case "KING CONGA"
+                enemyName = "|4045|KING CONGA|"
+            Case "KNIGHT"
+                enemyName = "|4046|KNIGHT|"
+            Case "RED KNIGHT"
+                enemyName = "|4047|RED KNIGHT|"
+            Case "LEPRECHAUN"
+                enemyName = "|4048|LEPRECHAUN|"
+            Case "LICH"
+                enemyName = "|4049|LICH|"
+            Case "RED LICH"
+                enemyName = "|4050|RED LICH|"
+            Case "BLACK LICH"
+                enemyName = "|4051|BLACK LICH|"
+            Case "THE GOLDEN LUTE"
+                enemyName = "|4052|THE GOLDEN LUTE|"
+            Case "LIGHT MINOTAUR"
+                enemyName = "|4053|LIGHT MINOTAUR|"
+            Case "DARK MINOTAUR"
+                enemyName = "|4054|DARK MINOTAUR|"
+            Case "MOLE"
+                enemyName = "|4055|MOLE|"
+            Case "PURPLE MONKEY"
+                enemyName = "|4056|PURPLE MONKEY|"
+            Case "WHITE MONKEY"
+                enemyName = "|4057|WHITE MONKEY|"
+            Case "GREEN MONKEY"
+                enemyName = "|4058|GREEN MONKEY|"
+            Case "MAGIC MONKEY"
+                enemyName = "|4059|MAGIC MONKEY|"
+            Case "THE MOMMY"
+                enemyName = "|4060|THE MOMMY|"
+            Case "MUMMY"
+                enemyName = "|4061|MUMMY|"
+            Case "BLUE MUSHROOM"
+                enemyName = "|4062|BLUE MUSHROOM|"
+            Case "PURPLE MUSHROOM"
+                enemyName = "|4063|PURPLE MUSHROOM|"
+            Case "EXPLODING MUSHROOM"
+                enemyName = "|4064|EXPLODING MUSHROOM|"
+            Case "THE NECRODANCER"
+                enemyName = "|4065|THE NECRODANCER|"
+            Case "DARK NIGHTMARE"
+                enemyName = "|4066|DARK NIGHTMARE|"
+            Case "BLOOD NIGHTMARE"
+                enemyName = "|4067|BLOOD NIGHTMARE|"
+            Case "OGRE"
+                enemyName = "|4068|OGRE|"
+            Case "PAWN"
+                enemyName = "|4069|PAWN|"
+            Case "RED PAWN"
+                enemyName = "|4070|RED PAWN|"
+            Case "PIXIE"
+                enemyName = "|4071|PIXIE|"
+            Case "QUEEN"
+                enemyName = "|4072|QUEEN|"
+            Case "RED QUEEN"
+                enemyName = "|4073|RED QUEEN|"
+            Case "ROOK"
+                enemyName = "|4074|ROOK|"
+            Case "RED ROOK"
+                enemyName = "|4075|RED ROOK|"
+            Case "SARCOPHAGUS"
+                enemyName = "|4076|SARCOPHAGUS|"
+            Case "YELLOW SARCOPHAGUS"
+                enemyName = "|4077|YELLOW SARCOPHAGUS|"
+            Case "BLACK SARCOPHAGUS"
+                enemyName = "|4078|BLACK SARCOPHAGUS|"
+            Case "SHOPKEEPER"
+                enemyName = "|4079|SHOPKEEPER|"
+            Case "MONSTROUS SHOPKEEPER"
+                enemyName = "|4080|MONSTROUS SHOPKEEPER|"
+            Case "SHOPKEEPER GHOST"
+                enemyName = "|4081|SHOPKEEPER GHOST|"
+        End Select
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_Size1_2: String(eName: String)
+        Local enemyName: String
+
+        Select eName
+            Case "SHOVEMONSTER"
+                enemyName = "|4082|SHOVEMONSTER|"
+            Case "WHITE SKELETON"
+                enemyName = "|4083|WHITE SKELETON|"
+            Case "YELLOW SKELETON"
+                enemyName = "|4084|YELLOW SKELETON|"
+            Case "BLACK SKELETON"
+                enemyName = "|4085|BLACK SKELETON|"
+            Case "WHITE SKELETON KNIGHT"
+                enemyName = "|4086|WHITE SKELETON KNIGHT|"
+            Case "YELLOW SKELETON KNIGHT"
+                enemyName = "|4087|YELLOW SKELETON KNIGHT|"
+            Case "BLACK SKELETON KNIGHT"
+                enemyName = "|4088|BLACK SKELETON KNIGHT|"
+            Case "WHITE SKELETON MAGE"
+                enemyName = "|4089|WHITE SKELETON MAGE|"
+            Case "YELLOW SKELETON MAGE"
+                enemyName = "|4090|YELLOW SKELETON MAGE|"
+            Case "BLACK SKELETON MAGE"
+                enemyName = "|4091|BLACK SKELETON MAGE|"
+            Case "GOBLIN SENTRY"
+                enemyName = "|4092|GOBLIN SENTRY|"
+            Case "GREEN SLIME"
+                enemyName = "|4093|GREEN SLIME|"
+            Case "BLUE SLIME"
+                enemyName = "|4094|BLUE SLIME|"
+            Case "ORANGE SLIME"
+                enemyName = "|4095|ORANGE SLIME|"
+            Case "ICE SLIME"
+                enemyName = "|4096|ICE SLIME|"
+            Case "FIRE SLIME"
+                enemyName = "|4097|FIRE SLIME|"
+            Case "SPIDER"
+                enemyName = "|4098|SPIDER|"
+            Case "TARMONSTER"
+                enemyName = "|4099|TARMONSTER|"
+            Case "TENTACLE"
+                enemyName = "|4100|TENTACLE|"
+            Case "CHEST MIMIC"
+                enemyName = "|4101|CHEST MIMIC|"
+            Case "LOCKED CHEST MIMIC"
+                enemyName = "|4102|LOCKED CHEST MIMIC|"
+            Case "WHITE CHEST MIMIC"
+                enemyName = "|4103|WHITE CHEST MIMIC|"
+            Case "FIRE CAULDRON MIMIC"
+                enemyName = "|4104|FIRE CAULDRON MIMIC|"
+            Case "ICE CAULDRON MIMIC"
+                enemyName = "|4105|ICE CAULDRON MIMIC|"
+            Case "WARLOCK"
+                enemyName = "|4106|WARLOCK|"
+            Case "NEON WARLOCK"
+                enemyName = "|4107|NEON WARLOCK|"
+            Case "WIGHT"
+                enemyName = "|4108|WIGHT|"
+            Case "WRAITH"
+                enemyName = "|4109|WRAITH|"
+            Case "YETI"
+                enemyName = "|4110|YETI|"
+            Case "ZOMBIE"
+                enemyName = "|4111|ZOMBIE|"
+            Case "CONGA LINE"
+                enemyName = "|4112|CONGA LINE|"
+            Case "SPIKETRAP"
+                enemyName = "|4113|SPIKETRAP|"
+            Case "BLOOD MAGIC"
+                enemyName = "|4114|BLOOD MAGIC|"
+            Case "BLOOD SHOVEL"
+                enemyName = "|4115|BLOOD SHOVEL|"
+            Case "BLOOD DRUM"
+                enemyName = "|4116|BLOOD DRUM|"
+            Case "BLOOD DEBT"
+                enemyName = "|4117|BLOOD DEBT|"
+            Case "BOOTS OF PAIN"
+                enemyName = "|4118|BOOTS OF PAIN|"
+            Case "CROWNOFTHORNS"
+                enemyName = "|4119|CROWNOFTHORNS|"
+            Case "COWARDICE"
+                enemyName = "|4120|COWARDICE|"
+            Case "VOW OF POVERTY"
+                enemyName = "|4121|VOW OF POVERTY|"
+            Case "HOTCOAL"
+                enemyName = "|4122|HOTCOAL|"
+            Case "LAVA"
+                enemyName = "|4123|LAVA|"
+            Case "DORIAN'S CURSE"
+                enemyName = "|4124|DORIAN'S CURSE|"
+            Case "SHOVE"
+                enemyName = "|4125|SHOVE|"
+            Case "CRYSTALTILE"
+                enemyName = "|4126|CRYSTALTILE|"
+            Case "SHRINE OF PACE"
+                enemyName = "|4127|SHRINE OF PACE|"
+            Case "SHRINE OF NO RETURN"
+                enemyName = "|4128|SHRINE OF NO RETURN|"
+            Case "SHRINE OF RISK"
+                enemyName = "|4129|SHRINE OF RISK|"
+            Case "TRAP WALLS"
+                enemyName = "|4130|TRAP WALLS|"
+            Case "BOMB"
+                enemyName = "|4131|BOMB|"
+            Case "MISSED BEAT",
+                 "MISSEDBEAT"
+                enemyName = "|4132|MISSED BEAT|"
+                enemyName = "|4132|MISSEDBEAT|"
+            Case "GRAY SHOVEMONSTER"
+                enemyName = "|4133|GRAY SHOVEMONSTER|"
+            Case "DEEP BLUES"
+                enemyName = "|4134|DEEP BLUES|"
+            Case "FIREBALL"
+                enemyName = "|4135|FIREBALL|"
+            Case "RING OF PAIN"
+                enemyName = "|11500|RING OF PAIN|"
+            Case "GREEN GORGON STATUE"
+                enemyName = "|11501|GREEN GORGON STATUE|"
+            Case "GOLD GORGON STATUE"
+                enemyName = "|11502|GOLD GORGON STATUE|"
+            Case "RED DEVIL"
+                enemyName = "|11503|RED DEVIL|"
+            Case "GREEN DEVIL"
+                enemyName = "|11504|GREEN DEVIL|"
+            Case "PURPLE ELECTRIC MAGE"
+                enemyName = "|11505|PURPLE ELECTRIC MAGE|"
+            Case "RED ELECTRIC MAGE"
+                enemyName = "|11506|RED ELECTRIC MAGE|"
+            Case "GOLD ELECTRIC MAGE"
+                enemyName = "|11507|GOLD ELECTRIC MAGE|"
+            Case "GREEN EVIL EYE"
+                enemyName = "|11508|GREEN EVIL EYE|"
+            Case "PINK EVIL EYE"
+                enemyName = "|11509|PINK EVIL EYE|"
+            Case "SHOP WALL MIMIC"
+                enemyName = "|11510|SHOP WALL MIMIC|"
+            Case "FORTISSIMOLE"
+                enemyName = "|11511|FORTISSIMOLE|"
+            Case "GREEN GORGON"
+                enemyName = "|11512|GREEN GORGON|"
+            Case "GOLD GORGON"
+                enemyName = "|11513|GOLD GORGON|"
+            Case "GOLD METROGNOME"
+                enemyName = "|11514|GOLD METROGNOME|"
+            Case "GREEN METROGNOME"
+                enemyName = "|11515|GREEN METROGNOME|"
+            Case "GREEN ORC"
+                enemyName = "|11516|GREEN ORC|"
+            Case "PINK ORC"
+                enemyName = "|11517|PINK ORC|"
+            Case "PURPLE ORC"
+                enemyName = "|11518|PURPLE ORC|"
+            Case "PURPLE ELECTRIC ORB"
+                enemyName = "|11519|PURPLE ELECTRIC ORB|"
+            Case "RED ELECTRIC ORB"
+                enemyName = "|11520|RED ELECTRIC ORB|"
+            Case "GOLD ELECTRIC ORB"
+                enemyName = "|11521|GOLD ELECTRIC ORB|"
+            Case "WHITE SKULL"
+                enemyName = "|11522|WHITE SKULL|"
+            Case "YELLOW SKULL"
+                enemyName = "|11523|YELLOW SKULL|"
+            Case "BLACK SKULL"
+                enemyName = "|11524|BLACK SKULL|"
+            Case "PURPLE SLIME"
+                enemyName = "|11525|PURPLE SLIME|"
+            Case "CRATE MIMIC"
+                enemyName = "|11526|CRATE MIMIC|"
+            Case "BARREL MIMIC"
+                enemyName = "|11527|BARREL MIMIC|"
+        End Select
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_Size1_3: String(eName: String)
+        Local enemyName: String
+
+        Select eName
+            Case "SHRINE MIMIC"
+                enemyName = "|11528|SHRINE MIMIC|"
+            Case "WATER BALL"
+                enemyName = "|11529|WATER BALL|"
+            Case "CURSED WRAITH"
+                enemyName = "|11530|CURSED WRAITH|"
+            Case "EARTH DRAGON"
+                enemyName = "|11531|EARTH DRAGON|"
+            Case "NO RETURN MODE"
+                enemyName = "|11532|NO RETURN MODE|"
+            Case "FRANKENSTEINWAY"
+                enemyName = "|11533|FRANKENSTEINWAY|"
+            Case "THE CONDUCTOR"
+                enemyName = "|11534|THE CONDUCTOR|"
+            Case "TEMPO'S CURSE"
+                enemyName = "|11535|TEMPO'S CURSE|"
+            Case "MARY'S CURSE"
+                enemyName = "|11536|MARY'S CURSE|"
+            Case "ELECTRIC ZOMBIE"
+                enemyName = "|11537|ELECTRIC ZOMBIE|"
+        End Select
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_SizeDefault: String(eName: String)
+        Local enemyName: String
+
+        enemyName = Enemy.AddTagsToEnemyName_SizeDefault_1(eName)
+        If enemyName <> "" Then Return enemyName
+
+        enemyName = Enemy.AddTagsToEnemyName_SizeDefault_2(eName)
+        If enemyName <> "" Then Return enemyName
+
+        enemyName = Enemy.AddTagsToEnemyName_SizeDefault_3(eName)
+        If enemyName <> "" Then Return enemyName
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_SizeDefault_1: String(eName: String)
+        Local enemyName: String
+
+        Select eName
+            Case "WHITE ARMADILLO"
+                enemyName = "|6000|WHITE ARMADILLO|"
+            Case "YELLOW ARMADILLO"
+                enemyName = "|6001|YELLOW ARMADILLO|"
+            Case "ORANGE ARMADILLO"
+                enemyName = "|6002|ORANGE ARMADILLO|"
+            Case "WHITE ARMORED SKELETON"
+                enemyName = "|6003|WHITE ARMORED SKELETON|"
+            Case "YELLOW ARMORED SKELETON"
+                enemyName = "|6004|YELLOW ARMORED SKELETON|"
+            Case "BLACK ARMORED SKELETON"
+                enemyName = "|6005|BLACK ARMORED SKELETON|"
+            Case "BLUE BANSHEE"
+                enemyName = "|6006|BLUE BANSHEE|"
+            Case "GREEN BANSHEE"
+                enemyName = "|6007|GREEN BANSHEE|"
+            Case "BLUE BAT"
+                enemyName = "|6008|BLUE BAT|"
+            Case "RED BAT"
+                enemyName = "|6009|RED BAT|"
+            Case "GREEN BAT"
+                enemyName = "|6010|GREEN BAT|"
+            Case "BLACK BAT"
+                enemyName = "|6011|BLACK BAT|"
+            Case "YELLOW DIREBAT"
+                enemyName = "|6012|YELLOW DIREBAT|"
+            Case "BROWN DIREBAT"
+                enemyName = "|6013|BROWN DIREBAT|"
+            Case "FIRE BEETLE"
+                enemyName = "|6014|FIRE BEETLE|"
+            Case "ICE BEETLE"
+                enemyName = "|6015|ICE BEETLE|"
+            Case "BISHOP"
+                enemyName = "|6016|BISHOP|"
+            Case "RED BISHOP"
+                enemyName = "|6017|RED BISHOP|"
+            Case "APPRENTICE BLADEMASTER"
+                enemyName = "|6018|APPRENTICE BLADEMASTER|"
+            Case "BLADEMASTER"
+                enemyName = "|6019|BLADEMASTER|"
+            Case "CLONE"
+                enemyName = "|6020|CLONE|"
+            Case "CORAL RIFF"
+                enemyName = "|6021|CORAL RIFF|"
+            Case "BARREL"
+                enemyName = "|6022|BARREL|"
+            Case "DEAD RINGER"
+                enemyName = "|6023|DEAD RINGER|"
+            Case "DEATH METAL"
+                enemyName = "|6024|DEATH METAL|"
+            Case "GREEN DRAGON"
+                enemyName = "|6025|GREEN DRAGON|"
+            Case "RED DRAGON"
+                enemyName = "|6026|RED DRAGON|"
+            Case "BLUE DRAGON"
+                enemyName = "|6027|BLUE DRAGON|"
+            Case "WALL MIMIC"
+                enemyName = "|6028|WALL MIMIC|"
+            Case "FIRE ELEMENTAL"
+                enemyName = "|6029|FIRE ELEMENTAL|"
+            Case "GARGOYLE"
+                enemyName = "|6030|GARGOYLE|"
+            Case "GHAST"
+                enemyName = "|6031|GHAST|"
+            Case "GHOST"
+                enemyName = "|6032|GHOST|"
+            Case "GHOUL"
+                enemyName = "|6033|GHOUL|"
+            Case "PURPLE GOBLIN"
+                enemyName = "|6034|PURPLE GOBLIN|"
+            Case "GRAY GOBLIN"
+                enemyName = "|6035|GRAY GOBLIN|"
+            Case "GOBLIN BOMBER"
+                enemyName = "|6036|GOBLIN BOMBER|"
+            Case "LIGHT GOLEM"
+                enemyName = "|6037|LIGHT GOLEM|"
+            Case "DARK GOLEM"
+                enemyName = "|6038|DARK GOLEM|"
+            Case "OOZE GOLEM"
+                enemyName = "|6039|OOZE GOLEM|"
+            Case "HARPY"
+                enemyName = "|6040|HARPY|"
+            Case "HELLHOUND"
+                enemyName = "|6041|HELLHOUND|"
+            Case "ICE ELEMENTAL"
+                enemyName = "|6042|ICE ELEMENTAL|"
+            Case "KING"
+                enemyName = "|6043|KING|"
+            Case "RED KING"
+                enemyName = "|6044|RED KING|"
+            Case "KING CONGA"
+                enemyName = "|6045|KING CONGA|"
+            Case "KNIGHT"
+                enemyName = "|6046|KNIGHT|"
+            Case "RED KNIGHT"
+                enemyName = "|6047|RED KNIGHT|"
+            Case "LEPRECHAUN"
+                enemyName = "|6048|LEPRECHAUN|"
+            Case "LICH"
+                enemyName = "|6049|LICH|"
+            Case "RED LICH"
+                enemyName = "|6050|RED LICH|"
+            Case "BLACK LICH"
+                enemyName = "|6051|BLACK LICH|"
+            Case "THE GOLDEN LUTE"
+                enemyName = "|6052|THE GOLDEN LUTE|"
+            Case "LIGHT MINOTAUR"
+                enemyName = "|6053|LIGHT MINOTAUR|"
+            Case "DARK MINOTAUR"
+                enemyName = "|6054|DARK MINOTAUR|"
+            Case "MOLE"
+                enemyName = "|6055|MOLE|"
+            Case "PURPLE MONKEY"
+                enemyName = "|6056|PURPLE MONKEY|"
+            Case "WHITE MONKEY"
+                enemyName = "|6057|WHITE MONKEY|"
+            Case "GREEN MONKEY"
+                enemyName = "|6058|GREEN MONKEY|"
+            Case "MAGIC MONKEY"
+                enemyName = "|6059|MAGIC MONKEY|"
+            Case "THE MOMMY"
+                enemyName = "|6060|THE MOMMY|"
+            Case "MUMMY"
+                enemyName = "|6061|MUMMY|"
+            Case "BLUE MUSHROOM"
+                enemyName = "|6062|BLUE MUSHROOM|"
+            Case "PURPLE MUSHROOM"
+                enemyName = "|6063|PURPLE MUSHROOM|"
+            Case "EXPLODING MUSHROOM"
+                enemyName = "|6064|EXPLODING MUSHROOM|"
+            Case "THE NECRODANCER"
+                enemyName = "|6065|THE NECRODANCER|"
+            Case "DARK NIGHTMARE"
+                enemyName = "|6066|DARK NIGHTMARE|"
+            Case "BLOOD NIGHTMARE"
+                enemyName = "|6067|BLOOD NIGHTMARE|"
+            Case "OGRE"
+                enemyName = "|6068|OGRE|"
+            Case "PAWN"
+                enemyName = "|6069|PAWN|"
+            Case "RED PAWN"
+                enemyName = "|6070|RED PAWN|"
+            Case "PIXIE"
+                enemyName = "|6071|PIXIE|"
+            Case "QUEEN"
+                enemyName = "|6072|QUEEN|"
+            Case "RED QUEEN"
+                enemyName = "|6073|RED QUEEN|"
+            Case "ROOK"
+                enemyName = "|6074|ROOK|"
+            Case "RED ROOK"
+                enemyName = "|6075|RED ROOK|"
+            Case "SARCOPHAGUS"
+                enemyName = "|6076|SARCOPHAGUS|"
+            Case "YELLOW SARCOPHAGUS"
+                enemyName = "|6077|YELLOW SARCOPHAGUS|"
+            Case "BLACK SARCOPHAGUS"
+                enemyName = "|6078|BLACK SARCOPHAGUS|"
+            Case "SHOPKEEPER"
+                enemyName = "|6079|SHOPKEEPER|"
+            Case "MONSTROUS SHOPKEEPER"
+                enemyName = "|6080|MONSTROUS SHOPKEEPER|"
+            Case "SHOPKEEPER GHOST"
+                enemyName = "|6081|SHOPKEEPER GHOST|"
+        End Select
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_SizeDefault_2: String(eName: String)
+        Local enemyName: String
+
+        Select eName
+            Case "SHOVEMONSTER"
+                enemyName = "|6082|SHOVEMONSTER|"
+            Case "WHITE SKELETON"
+                enemyName = "|6083|WHITE SKELETON|"
+            Case "YELLOW SKELETON"
+                enemyName = "|6084|YELLOW SKELETON|"
+            Case "BLACK SKELETON"
+                enemyName = "|6085|BLACK SKELETON|"
+            Case "WHITE SKELETON KNIGHT"
+                enemyName = "|6086|WHITE SKELETON KNIGHT|"
+            Case "YELLOW SKELETON KNIGHT"
+                enemyName = "|6087|YELLOW SKELETON KNIGHT|"
+            Case "BLACK SKELETON KNIGHT"
+                enemyName = "|6088|BLACK SKELETON KNIGHT|"
+            Case "WHITE SKELETON MAGE"
+                enemyName = "|6089|WHITE SKELETON MAGE|"
+            Case "YELLOW SKELETON MAGE"
+                enemyName = "|6090|YELLOW SKELETON MAGE|"
+            Case "BLACK SKELETON MAGE"
+                enemyName = "|6091|BLACK SKELETON MAGE|"
+            Case "GOBLIN SENTRY"
+                enemyName = "|6092|GOBLIN SENTRY|"
+            Case "GREEN SLIME"
+                enemyName = "|6093|GREEN SLIME|"
+            Case "BLUE SLIME"
+                enemyName = "|6094|BLUE SLIME|"
+            Case "ORANGE SLIME"
+                enemyName = "|6095|ORANGE SLIME|"
+            Case "ICE SLIME"
+                enemyName = "|6096|ICE SLIME|"
+            Case "FIRE SLIME"
+                enemyName = "|6097|FIRE SLIME|"
+            Case "SPIDER"
+                enemyName = "|6098|SPIDER|"
+            Case "TARMONSTER"
+                enemyName = "|6099|TARMONSTER|"
+            Case "TENTACLE"
+                enemyName = "|6100|TENTACLE|"
+            Case "CHEST MIMIC"
+                enemyName = "|6101|CHEST MIMIC|"
+            Case "LOCKED CHEST MIMIC"
+                enemyName = "|6102|LOCKED CHEST MIMIC|"
+            Case "WHITE CHEST MIMIC"
+                enemyName = "|6103|WHITE CHEST MIMIC|"
+            Case "FIRE CAULDRON MIMIC"
+                enemyName = "|6104|FIRE CAULDRON MIMIC|"
+            Case "ICE CAULDRON MIMIC"
+                enemyName = "|6105|ICE CAULDRON MIMIC|"
+            Case "WARLOCK"
+                enemyName = "|6106|WARLOCK|"
+            Case "NEON WARLOCK"
+                enemyName = "|6107|NEON WARLOCK|"
+            Case "WIGHT"
+                enemyName = "|6108|WIGHT|"
+            Case "WRAITH"
+                enemyName = "|6109|WRAITH|"
+            Case "YETI"
+                enemyName = "|6110|YETI|"
+            Case "ZOMBIE"
+                enemyName = "|6111|ZOMBIE|"
+            Case "CONGA LINE"
+                enemyName = "|6112|CONGA LINE|"
+            Case "SPIKETRAP"
+                enemyName = "|6113|SPIKETRAP|"
+            Case "BLOOD MAGIC"
+                enemyName = "|6114|BLOOD MAGIC|"
+            Case "BLOOD SHOVEL"
+                enemyName = "|6115|BLOOD SHOVEL|"
+            Case "BLOOD DRUM"
+                enemyName = "|6116|BLOOD DRUM|"
+            Case "BLOOD DEBT"
+                enemyName = "|6117|BLOOD DEBT|"
+            Case "BOOTS OF PAIN"
+                enemyName = "|6118|BOOTS OF PAIN|"
+            Case "CROWNOFTHORNS"
+                enemyName = "|6119|CROWNOFTHORNS|"
+            Case "COWARDICE"
+                enemyName = "|6120|COWARDICE|"
+            Case "VOW OF POVERTY"
+                enemyName = "|6121|VOW OF POVERTY|"
+            Case "HOTCOAL"
+                enemyName = "|6122|HOTCOAL|"
+            Case "LAVA"
+                enemyName = "|6123|LAVA|"
+            Case "DORIAN'S CURSE"
+                enemyName = "|6124|DORIAN'S CURSE|"
+            Case "SHOVE"
+                enemyName = "|6125|SHOVE|"
+            Case "CRYSTALTILE"
+                enemyName = "|6126|CRYSTALTILE|"
+            Case "SHRINE OF PACE"
+                enemyName = "|6127|SHRINE OF PACE|"
+            Case "SHRINE OF NO RETURN"
+                enemyName = "|6128|SHRINE OF NO RETURN|"
+            Case "SHRINE OF RISK"
+                enemyName = "|6129|SHRINE OF RISK|"
+            Case "TRAP WALLS"
+                enemyName = "|6130|TRAP WALLS|"
+            Case "BOMB"
+                enemyName = "|6131|BOMB|"
+            Case "MISSED BEAT",
+                 "MISSEDBEAT"
+                enemyName = "|6132|MISSEDBEAT|"
+            Case "GRAY SHOVEMONSTER"
+                enemyName = "|6133|GRAY SHOVEMONSTER|"
+            Case "DEEP BLUES"
+                enemyName = "|6134|DEEP BLUES|"
+            Case "FIREBALL"
+                enemyName = "|6135|FIREBALL|"
+            Case "RING OF PAIN"
+                enemyName = "|12500|RING OF PAIN|"
+            Case "GREEN GORGON STATUE"
+                enemyName = "|12501|GREEN GORGON STATUE|"
+            Case "GOLD GORGON STATUE"
+                enemyName = "|12502|GOLD GORGON STATUE|"
+            Case "RED DEVIL"
+                enemyName = "|12503|RED DEVIL|"
+            Case "GREEN DEVIL"
+                enemyName = "|12504|GREEN DEVIL|"
+            Case "PURPLE ELECTRIC MAGE"
+                enemyName = "|12505|PURPLE ELECTRIC MAGE|"
+            Case "RED ELECTRIC MAGE"
+                enemyName = "|12506|RED ELECTRIC MAGE|"
+            Case "GOLD ELECTRIC MAGE"
+                enemyName = "|12507|GOLD ELECTRIC MAGE|"
+            Case "GREEN EVIL EYE"
+                enemyName = "|12508|GREEN EVIL EYE|"
+            Case "PINK EVIL EYE"
+                enemyName = "|12509|PINK EVIL EYE|"
+            Case "SHOP WALL MIMIC"
+                enemyName = "|12510|SHOP WALL MIMIC|"
+            Case "FORTISSIMOLE"
+                enemyName = "|12511|FORTISSIMOLE|"
+            Case "GREEN GORGON"
+                enemyName = "|12512|GREEN GORGON|"
+            Case "GOLD GORGON"
+                enemyName = "|12513|GOLD GORGON|"
+            Case "GOLD METROGNOME"
+                enemyName = "|12514|GOLD METROGNOME|"
+            Case "GREEN METROGNOME"
+                enemyName = "|12515|GREEN METROGNOME|"
+            Case "GREEN ORC"
+                enemyName = "|12516|GREEN ORC|"
+            Case "PINK ORC"
+                enemyName = "|12517|PINK ORC|"
+            Case "PURPLE ORC"
+                enemyName = "|12518|PURPLE ORC|"
+            Case "PURPLE ELECTRIC ORB"
+                enemyName = "|12519|PURPLE ELECTRIC ORB|"
+            Case "RED ELECTRIC ORB"
+                enemyName = "|12520|RED ELECTRIC ORB|"
+            Case "GOLD ELECTRIC ORB"
+                enemyName = "|12521|GOLD ELECTRIC ORB|"
+            Case "WHITE SKULL"
+                enemyName = "|12522|WHITE SKULL|"
+            Case "YELLOW SKULL"
+                enemyName = "|12523|YELLOW SKULL|"
+            Case "BLACK SKULL"
+                enemyName = "|12524|BLACK SKULL|"
+            Case "PURPLE SLIME"
+                enemyName = "|12525|PURPLE SLIME|"
+            Case "CRATE MIMIC"
+                enemyName = "|12526|CRATE MIMIC|"
+            Case "BARREL MIMIC"
+                enemyName = "|12527|BARREL MIMIC|"
+        End Select
+
+        Return enemyName
+    End Function
+
+    Function AddTagsToEnemyName_SizeDefault_3: String(eName: String)
+        Local enemyName: String
+
+        Select eName
+            Case "SHRINE MIMIC"
+                enemyName = "|12528|SHRINE MIMIC|"
+            Case "WATER BALL"
+                enemyName = "|12529|WATER BALL|"
+            Case "CURSED WRAITH"
+                enemyName = "|12530|CURSED WRAITH|"
+            Case "EARTH DRAGON"
+                enemyName = "|12531|EARTH DRAGON|"
+            Case "NO RETURN MODE"
+                enemyName = "|12532|NO RETURN MODE|"
+            Case "FRANKENSTEINWAY"
+                enemyName = "|12533|FRANKENSTEINWAY|"
+            Case "THE CONDUCTOR"
+                enemyName = "|12534|THE CONDUCTOR|"
+            Case "TEMPO'S CURSE"
+                enemyName = "|12535|TEMPO'S CURSE|"
+            Case "MARY'S CURSE"
+                enemyName = "|12536|MARY'S CURSE|"
+            Case "ELECTRIC ZOMBIE"
+                enemyName = "|12537|ELECTRIC ZOMBIE|"
+        End Select
+
+        Return enemyName
     End Function
 
     Function ApplyMonkeyPawAll: Void()
@@ -194,12 +996,253 @@ Class Enemy Extends MobileEntity Abstract
         Return Null
     End Function
 
-    Function GetEnemyName: Int(type: Int)
-        Debug.TraceNotImplemented("Enemy.GetEnemyName(Int)")
+    Function GetEnemyName: String(type: Int)
+        Local enemyName := Enemy.GetEnemyNameHelper(type)
+
+        Return Enemy.AddTagsToEnemyName(enemyName.ToUpper(), 2)
     End Function
 
-    Function GetEnemyNameHelper: Int(type: Int)
-        Debug.TraceNotImplemented("Enemy.GetEnemyNameHelper(Int)")
+    Function GetEnemyNameHelper: String(type: Int)
+        Local enemyName: String
+
+        ' NOTE: This function is split into multiple functions to work around an MSVC compiler limit (hard limit of 128 nesting levels).
+        '       Monkey X transpiles `Select` statements into chained `else-if` clauses when targeting C++. This causes the deep nesting.
+        enemyName = Enemy.GetEnemyNameHelper1(type)
+        If enemyName <> "" Then Return enemyName
+
+        enemyName = Enemy.GetEnemyNameHelper2(type)
+        If enemyName <> "" Then Return enemyName
+
+        Local enemiesNode := necrodancergame.xmlData.GetChildAtPath("enemies")
+        Local enemyNodes := enemiesNode.GetChildrenWithAttributes("id=" + type)
+        If Not enemyNodes.IsEmpty()
+            Local enemyNode := enemyNodes.First()
+            enemyName = enemyNode.GetAttribute("friendlyName", enemyNode.name)
+        Else
+            enemyName = "Unknown Enemy"
+        End If
+
+        Return enemyName
+    End Function
+
+    Function GetEnemyNameHelper1: String(type: Int)
+        Local enemyName: String
+
+        Select type
+            Case EnemyType.GreenSlime
+                enemyName = "Green Slime"
+            Case EnemyType.OrangeSlime
+                enemyName = "Orange Slime"
+            Case EnemyType.WhiteSkeleton
+                enemyName = "White Skeleton"
+            Case EnemyType.YellowSkeleton
+                enemyName = "Yellow Skeleton"
+            Case EnemyType.BlackSkeleton
+                enemyName = "Black Skeleton"
+            Case EnemyType.BlueBat
+                enemyName = "Blue Bat"
+            Case EnemyType.RedBat
+                enemyName = "Red Bat"
+            Case EnemyType.GreenBat
+                enemyName = "Green Bat"
+            Case EnemyType.PurpleMonkey
+                enemyName = "Purple Monkey"
+            Case EnemyType.WhiteMonkey
+                enemyName = "White Monkey"
+            Case EnemyType.Ghost
+                enemyName = "Ghost"
+            Case EnemyType.Zombie
+                enemyName = "Zombie"
+            Case EnemyType.Wraith
+                enemyName = "Wraith"
+            Case EnemyType.ChestMimic
+                enemyName = "Chest Mimic"
+            Case EnemyType.LockedChestMimic
+                enemyName = "Locked Chest Mimic"
+            Case EnemyType.WhiteChestMimic
+                enemyName = "White Chest Mimic"
+            Case EnemyType.WhiteArmoredSkeleton
+                enemyName = "White Armored Skeleton"
+            Case EnemyType.YellowArmoredSkeleton
+                enemyName = "Yellow Armored Skeleton"
+            Case EnemyType.BlackArmoredSkeleton
+                enemyName = "Black Armored Skeleton"
+            Case EnemyType.WhiteSkeletonMage
+                enemyName = "White Skeleton Mage"
+            Case EnemyType.YellowSkeletonMage
+                enemyName = "Yellow Skeleton Mage"
+            Case EnemyType.BlackSkeletonMage
+                enemyName = "Black Skeleton Mage"
+            Case EnemyType.BlueMushroom
+                enemyName = "Blue Mushroom"
+            Case EnemyType.PurpleMushroom
+                enemyName = "Purple Mushroom"
+            Case EnemyType.LightGolem
+                enemyName = "Light Golem"
+            Case EnemyType.DarkGolem
+                enemyName = "Dark Golem"
+            Case EnemyType.WhiteArmadillo
+                enemyName = "White Armadillo"
+            Case EnemyType.YellowArmadillo
+                enemyName = "Yellow Armadillo"
+            Case EnemyType.Clone
+                enemyName = "Clone"
+            Case EnemyType.TarMonster
+                enemyName = "Tarmonster"
+            Case EnemyType.Mole
+                enemyName = "Mole"
+            Case EnemyType.Wight
+                enemyName = "Wight"
+            Case EnemyType.WallMimic
+                enemyName = "Wall Mimic"
+            Case EnemyType.MushroomLight,
+                 EnemyType.ExplodingMushroom
+                enemyName = "Mushroom Light"
+            Case EnemyType.FireSlime
+                enemyName = "Fire Slime"
+            Case EnemyType.IceSlime
+                enemyName = "Ice Slime"
+            Case EnemyType.WhiteSkeletonKnight
+                enemyName = "White Skeleton Knight"
+            Case EnemyType.YellowSkeletonKnight
+                enemyName = "Yellow Skeleton Knight"
+            Case EnemyType.BlackSkeletonKnight
+                enemyName = "Black Skeleton Knight"
+            Case EnemyType.FireElemental
+                enemyName = "Fire Elemental"
+            Case EnemyType.IceElemental
+                enemyName = "Ice Elemental"
+            Case EnemyType.PurpleGoblin
+                enemyName = "Purple Goblin"
+            Case EnemyType.GrayGoblin
+                enemyName = "Gray Goblin"
+            Case EnemyType.FireBeetle
+                enemyName = "Fire Beetle"
+            Case EnemyType.IceBeetle
+                enemyName = "Ice Beetle"
+            Case EnemyType.Hellhound
+                enemyName = "Hellhound"
+            Case EnemyType.ShoveMonster
+                enemyName = "Shovemonster"
+            Case EnemyType.GrayShoveMonster
+                enemyName = "Gray Shovemonster"
+            Case EnemyType.Yeti
+                enemyName = "Yeti"
+            Case EnemyType.Ghast
+                enemyName = "Ghast"
+            Case EnemyType.FireCauldronMimic
+                enemyName = "Fire Cauldron Mimic"
+            Case EnemyType.IceCauldronMimic
+                enemyName = "Ice Cauldron Mimic"
+            Case EnemyType.FireCauldron,
+                 EnemyType.IceCauldron
+                enemyName = "Cauldron"
+            Case EnemyType.GoblinBomber
+                enemyName = "Goblin Bomber"
+            Case EnemyType.GoblinSentry
+                enemyName = "Goblin Sentry"
+            Case EnemyType.BlackBat
+                enemyName = "Black Bat"
+            Case EnemyType.OrangeArmadillo
+                enemyName = "Orange Armadillo"
+            Case EnemyType.ApprenticeBlademaster
+                enemyName = "Apprentice Blademaster"
+            Case EnemyType.Blademaster
+                enemyName = "Blademaster"
+            Case EnemyType.Ghoul
+                enemyName = "Ghoul"
+            Case EnemyType.OozeGolem
+                enemyName = "Ooze Golem"
+            Case EnemyType.Harpy
+                enemyName = "Harpy"
+            Case EnemyType.Lich
+                enemyName = "Lich"
+            Case EnemyType.RedLich
+                enemyName = "Red Lich"
+            Case EnemyType.BlackLich
+                enemyName = "Black Lich"
+            Case EnemyType.GreenMonkey
+                enemyName = "Green Monkey"
+            Case EnemyType.MagicMonkey
+                enemyName = "Magic Monkey"
+            Case EnemyType.Pixie
+                enemyName = "Pixie"
+            Case EnemyType.Sarcophagus
+                enemyName = "Sarcophagus"
+            Case EnemyType.YellowSarcophagus
+                enemyName = "Yellow Sarcophagus"
+            Case EnemyType.BlackSarcophagus
+                enemyName = "Black Sarcophagus"
+            Case EnemyType.Spider
+                enemyName = "Spider"
+            Case EnemyType.Warlock
+                enemyName = "Warlock"
+            Case EnemyType.NeonWarlock
+                enemyName = "Neon Warlock"
+            Case EnemyType.YellowDireBat
+                enemyName = "Yellow Direbat"
+            Case EnemyType.BrownDireBat
+                enemyName = "Brown Direbat"
+            Case EnemyType.GreenDragon
+                enemyName = "Green Dragon"
+            Case EnemyType.RedDragon
+                enemyName = "Red Dragon"
+            Case EnemyType.BlueDragon
+                enemyName = "Blue Dragon"
+            Case EnemyType.BlueBanshee
+                enemyName = "Blue Banshee"
+            Case EnemyType.GreenBanshee
+                enemyName = "Green Banshee"
+            Case EnemyType.LightMinotaur
+                enemyName = "Light Minotaur"
+        End Select
+
+        Return enemyName
+    End Function
+
+    Function GetEnemyNameHelper2: String(type: Int)
+        Local enemyName: String
+
+        Select type
+            Case EnemyType.DarkMinotaur
+                enemyName = "Dark Minotaur"
+            Case EnemyType.DarkNightmare
+                enemyName = "Dark Nightmare"
+            Case EnemyType.BloodNightmare
+                enemyName = "Blood Nightmare"
+            Case EnemyType.TheMommy
+                enemyName = "The Mommy"
+            Case EnemyType.Ogre
+                enemyName = "Ogre"
+            Case EnemyType.KingConga
+                enemyName = "King Conga"
+            Case EnemyType.DeathMetal
+                enemyName = "Death Metal"
+            Case EnemyType.DeepBlues
+                enemyName = "Deep Blues"
+            Case EnemyType.CoralRiff
+                enemyName = "Coral Riff"
+            Case EnemyType.Fortissimole
+                enemyName = "Fortissimole"
+            Case EnemyType.DeadRinger
+                enemyName = "Dead Ringer"
+            Case EnemyType.TheNecroDancer,
+                 EnemyType.TheNecroDancer2
+                enemyName = "The Necrodancer"
+            Case EnemyType.TheGoldenLute
+                enemyName = "The Golden Lute"
+            Case EnemyType.Frankensteinway
+                enemyName = "Frankensteinway"
+            Case EnemyType.TheConductor
+                enemyName = "The Conductor"
+            Case EnemyType.Shopkeeper1,
+                 EnemyType.Shopkeeper2,
+                 EnemyType.Shopkeeper3,
+                 EnemyType.Shopkeeper4
+                enemyName = "Shopkeeper"
+        End Select
+
+        Return enemyName
     End Function
 
     Function GetEnemyXML: XMLNode(name: String, level: Int)
