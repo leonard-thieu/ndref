@@ -1,12 +1,14 @@
 'Strict
 
 Import monkey.list
+Import level
 Import bouncer
 Import logger
 Import necrodancergame
 Import particles
 Import renderableobject
 Import sprite
+Import tile
 
 Class Entity Extends RenderableObject Abstract
 
@@ -202,11 +204,28 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method IsFrozen: Bool(ignoreLastBeat: Bool)
-        Debug.TraceNotImplemented("Entity.IsFrozen(Bool)")
+        If Self.frozenPermanently
+            Return True
+        End If
+
+        If ignoreLastBeat
+            Return Self.frozenDuration > 1
+        End If
+
+        Return Self.frozenDuration > 0
     End Method
 
     Method IsInAnyPlayerLineOfSight: Bool()
-        Debug.TraceNotImplemented("Entity.IsInAnyPlayerLineOfSight()")
+        If Self.invisible
+            Return False
+        End If
+
+        Local tile := Level.GetTileAt(Self.x, Self.y)
+        If tile = Null
+            Return False
+        End If
+
+        Return tile.IsInAnyPlayerLineOfSight()
     End Method
 
     Method IsVisible: Bool()
@@ -242,7 +261,39 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Entity.Update()")
+        If Self.flaggedForDeath And
+           Self.flaggedForDeathCounter <= 0
+            Self.Die()
+
+            Return
+        End If
+
+        Self.flaggedForDeathCounter -= 1
+
+        If Self.bounce <> Null And
+           Not Self.IsFrozen(False)
+            Self.bounce.Update()
+        End If
+
+        If Self.flickerTimer > 0
+            Self.flickerTimer -= 1
+            Self.flickerCurrentTimer -= 1
+
+            If Self.flickerCurrentTimer <= 0 Or
+               Self.flickerHide
+                Self.flickerHide = Not Self.flickerHide
+                Self.flickerCurrentTimer = 4
+            End If
+        Else
+            Self.flickerHide = False
+        End If
+
+        If Tile.IsNearNightmare(Self.x, Self.y) And
+           Self.IsInAnyPlayerLineOfSight()
+            Self.hasBeenVisible = True
+        End If
+
+        Self.wasTeleported = False
     End Method
 
 End Class
