@@ -8,11 +8,11 @@ Class TextInput Extends TextLabel
 
     Function _EditorFix: Void() End
 
-    Method New(t: Int, j: Int, sc: Float, size: Int)
-        Debug.TraceNotImplemented("TextInput.New(Int, Int, Float, Int)")
+    Method New(t: String, j: Int, sc: Float, size: Int)
+        Debug.TraceNotImplemented("TextInput.New(String, Int, Float, Int)")
     End Method
 
-    Field maxSize: Int
+    Field maxSize: Int = 10
     Field caretSpr: Sprite
 
     Method Append: Void(c: Int)
