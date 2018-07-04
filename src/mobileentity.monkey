@@ -6,6 +6,7 @@ Import entity
 Import logger
 Import particles
 Import tile
+Import util
 
 Class MobileEntity Extends Entity Abstract
 
@@ -30,7 +31,7 @@ Class MobileEntity Extends Entity Abstract
     Field distancePerMovement: Int = 1
 
     Method IsSlidingOnIce: Bool()
-        Debug.TraceNotImplemented("MobileEntity.IsSlidingOnIce()")
+        Return Self.slidingDir <> Direction.None
     End Method
 
     Method IsStandingStill: Bool()

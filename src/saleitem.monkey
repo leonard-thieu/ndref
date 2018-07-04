@@ -36,7 +36,18 @@ Class SaleItem Extends Item
     End Function
 
     Function GetMinCost: Int()
-        Debug.TraceNotImplemented("SaleItem.GetMinCost()")
+        Local minCost := 999999
+
+        For Local currentSaleItem := EachIn SaleItem.currentSaleItems
+            Local cost := currentSaleItem.GetCost()
+            If cost < minCost And
+               Not currentSaleItem.janitorItem And
+               Not currentSaleItem.diamondDealerItem
+                minCost = cost
+            End If
+        End for
+
+        Return minCost
     End Function
 
     Function GetRandomItem: String(level: Int, randType: String)
@@ -53,7 +64,7 @@ Class SaleItem Extends Item
                 Local player := controller_game.players[j]
 
                 If Level.randSeed = -1
-                    If player.HasItemOfType(itemClass, False)
+                    If player.HasItemOfType(itemClass)
                         isValid = False
                         Exit
                     End If
@@ -165,8 +176,8 @@ Class SaleItem Extends Item
         Debug.TraceNotImplemented("SaleItem.GetCost()")
     End Method
 
-    Method Pickup: Int(player: Object)
-        Debug.TraceNotImplemented("SaleItem.Pickup(Object)")
+    Method Pickup: String(player: Player)
+        Debug.TraceNotImplemented("SaleItem.Pickup(Player)")
     End Method
 
     Method Render: Void()

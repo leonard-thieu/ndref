@@ -2,7 +2,11 @@
 
 Import monkey.list
 Import monkey.map
+Import monkey.math
 Import monkey.set
+Import mojo.app
+Import mojo.graphics
+Import enemy
 Import enemy.enemyclamper
 Import gui.controller_game
 Import gui.controller_input_popup
@@ -10,12 +14,15 @@ Import gui.controller_popup
 Import familiar
 Import familiar_fixed.soul_familiar
 Import level
+Import level.advancelevel_callback
 Import audio2
 Import bouncer
 Import camera
+Import chain
 Import entity
 Import familiar
 Import familiar_fixed
+Import flyaway
 Import gamedata
 Import item
 Import logger
@@ -23,9 +30,11 @@ Import mobileentity
 Import necrodancergame
 Import player_health
 Import point
+Import shrine
 Import spells
 Import sprite
 Import textsprite
+Import util
 Import weapon
 Import zap
 
@@ -53,8 +62,8 @@ Class Player Extends MobileEntity
     Global playerTempCount: Int
     Global sessionMaxCoins: Int
 
-    Function ActuallyPlayVO: Void(voSound: Int, player: Object)
-        Debug.TraceNotImplemented("Player.ActuallyPlayVO(Int, Object)")
+    Function ActuallyPlayVO: Void(voSound: String, player: Player)
+        Debug.TraceNotImplemented("Player.ActuallyPlayVO(String, Player)")
     End Function
 
     Function AddCoins: Void(tmpNum: Int)
@@ -97,18 +106,25 @@ Class Player Extends MobileEntity
     End Function
 
     Function CheckAllModeCompletion: Void()
-        Debug.TraceNotImplemented("Player.CheckAllModeCompletion()")
+        If GameData.GetStoryModeComplete() And
+           GameData.GetPhasingModeComplete() And
+           GameData.GetMysteryModeComplete() And
+           GameData.GetRandomizerModeComplete() And
+           GameData.GetHardModeComplete() And
+           GameData.GetNoReturnModeComplete()
+            Util.IncrementSteamStat("AllModeCompletion", True, True)
+        End If
+    End Function
+
+    Function CheckCoinXOR: Bool()
+        Return Player.coinXOR = Player.numCoins ~ $1D69
     End Function
 
     Function ChooseNewPlayer1: Void()
         Debug.TraceNotImplemented("Player.ChooseNewPlayer1()")
     End Function
 
-    Function DoesAnyPlayerHaveItemOfType: Bool(it: String)
-        Return Player.DoesAnyPlayerHaveItemOfType(it, False)
-    End Function
-
-    Function DoesAnyPlayerHaveItemOfType: Bool(it: String, overrideBatForm: Bool)
+    Function DoesAnyPlayerHaveItemOfType: Bool(it: String, overrideBatForm: Bool = False)
         For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
             If player.HasItemOfType(it, overrideBatForm) Then Return True
@@ -120,7 +136,7 @@ Class Player Extends MobileEntity
     Function DoesPlayer1HaveItemOfType: Bool(i: String)
         Local player1 := controller_game.players[controller_game.player1]
 
-        Return player1.HasItemOfType(i, False)
+        Return player1.HasItemOfType(i)
     End Function
 
     Function GetCharacterName: Int(charNum: Int, tagType: Int)
@@ -156,11 +172,31 @@ Class Player Extends MobileEntity
     End Function
 
     Function IsLastLevel: Bool()
-        Debug.TraceNotImplemented("Player.IsLastLevel()")
+        Select controller_game.currentLevel
+            Case LevelType.FinalBossBattle
+                Return True
+            Case LevelType.BossBattle
+                Return Util.IsCharacterActive(Character.Cadence) Or
+                       Util.IsCharacterActive(Character.Melody) Or
+                       Util.IsCharacterActive(Character.Aria) Or
+                       Util.IsCharacterActive(Character.Nocturna)
+            Case LevelType.Level3
+                Return Util.IsCharacterActive(Character.Dove) And
+                       Player.IsSolo()
+        End Select
+
+        Return False
     End Function
 
     Function IsSolo: Bool()
-        Debug.TraceNotImplemented("Player.IsSolo()")
+        Select controller_game.numPlayers
+            Case 1
+                Return True
+            Case 2
+                Return controller_game.players[1].isHelper
+        End Select
+
+        Return False
     End Function
 
     Function IsUnpreventableDamage: Bool(damageSource: Int)
@@ -168,7 +204,58 @@ Class Player Extends MobileEntity
     End Function
 
     Function MakeBodyImage: Sprite(characterID: Int, idSuffix: String, altSkin: Int)
-        Debug.TraceNotImplemented("Player.MakeBodyImage(Int, String, Int)")
+        Local path: String
+        Local frameW: Int
+        Local frameH: Int
+        Local numFrames: Int
+
+        Select altSkin
+            Case 0
+                Select characterID
+                    Case Character.Cadence
+                        path = "entities/player" + idSuffix + "_armor_body.png"
+                        frameW = 24
+                        frameH = 24
+                        numFrames = 224
+                    Case Character.Dorian
+                        path = "entities/char" + characterID + "_armor_body.png"
+                        frameW = 33
+                        frameH = 32
+                        numFrames = 16
+                    Case Character.Eli
+                        path = "entities/char" + characterID + "_armor_body.png"
+                        frameW = 33
+                        frameH = 28
+                        numFrames = 224
+                    Case Character.Coda
+                        path = "entities/char" + characterID + "_armor_body.png"
+                        frameW = 33
+                        frameH = 30
+                        numFrames = 224
+                    Case Character.Nocturna
+                        path = "entities/char" + characterID + "_armor_body.png"
+                        frameW = 25
+                        frameH = 27
+                        numFrames = 240
+                    Default
+                        path = "entities/char" + characterID + "_armor_body.png"
+                        frameW = 24
+                        frameH = 24
+                        numFrames = 224
+                End Select
+            Case 3
+                path = "entities/jp" + altSkin + "_armor_body.png"
+                frameW = 33
+                frameH = 32
+                numFrames = 16
+            Default
+                path = "entities/jp" + altSkin + "_armor_body.png"
+                frameW = 24
+                frameH = 24
+                numFrames = 224
+        End Select
+
+        Return New Sprite(path, frameW, frameH, numFrames, Image.MidHandle)
     End Function
 
     Function MakeHeadImage: Sprite(characterID: Int, idSuffix: String, altSkin: Int)
@@ -182,7 +269,8 @@ Class Player Extends MobileEntity
     End Function
 
     Function OffsetCoins: Void(tmpNum: Int)
-        Debug.TraceNotImplemented("Player.OffsetCoins(Int)")
+        Local coins := math.Max(0, Player.numCoins + tmpNum)
+        Player.SetCoins(coins, True)
     End Function
 
     Function PlayersHaveMovedThisBeat: Bool()
@@ -215,7 +303,7 @@ Class Player Extends MobileEntity
 
     Function SetCoins: Void(tmpNum: Int, allowAchievement: Bool)
         Player.numCoins = tmpNum
-        Player.coinXOR = tmpNum ~ $1D69
+        Player.SetCoinXOR()
 
         If tmpNum > Player.sessionMaxCoins
             If allowAchievement
@@ -224,6 +312,10 @@ Class Player Extends MobileEntity
 
             Player.sessionMaxCoins = tmpNum
         End If
+    End Function
+
+    Function SetCoinXOR: Void()
+        Player.coinXOR = Player.numCoins ~ $1D69
     End Function
 
     Function UpdateAll: Void()
@@ -598,7 +690,7 @@ Class Player Extends MobileEntity
     Method CalcMinVisibility: Int()
         Local minVisibility := 1
 
-        If Not Self.HasItemOfType("ring_shadows", False)
+        If Not Self.HasItemOfType("ring_shadows")
             Return minVisibility
         End If
 
@@ -607,7 +699,7 @@ Class Player Extends MobileEntity
             minVisibility = torchLevel + 2
         End If
 
-        If Self.HasItemOfType("head_miners_cap", False)
+        If Self.HasItemOfType("head_miners_cap")
             minVisibility = math.Max(3, minVisibility)
         End If
 
@@ -623,7 +715,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method CheckFloating: Void()
-        Self.floating = Self.HasItemOfType("feet_boots_winged", False) Or
+        Self.floating = Self.HasItemOfType("feet_boots_winged") Or
                         Self.batFormActive
 
         If Self.floating
@@ -798,7 +890,28 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetElectricStrength: Int()
-        Debug.TraceNotImplemented("Player.GetElectricStrength()")
+        Local electricStrength := 0
+
+        If Self.characterID = Character.Dove
+            Return electricStrength
+        End If
+
+        If Not Self.floating And
+           (Level.GetTileTypeAt(Self.x, Self.y) = TileType.Wire Or
+            Level.GetTileTypeAt(Self.x, Self.y) = TileType.WiredDoor)
+            electricStrength += 1
+        End If
+
+        Local weapon := Self.GetWeapon(False)
+        If weapon.type = "weapon_dagger_electric"
+            electricStrength += 1
+        End If
+
+        If Self.conductorWireActive
+            electricStrength += 1
+        End If
+
+        Return electricStrength
     End Method
 
     Method GetHUDQuantityText: Object(slot: Int)
@@ -831,7 +944,17 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetLightSourceMax: Float()
-        Debug.TraceNotImplemented("Player.GetLightSourceMax()")
+        If Self.HasItemOfType("ring_shadows")
+            Return 1.25
+        End If
+
+        If Self.torchType = Item.NoItem
+            Return 1.75
+        End If
+
+        Local torchValue := Item.GetValue(Self.torchType)
+
+        Return (torchValue * 1.25) + 1.75
     End Method
 
     Method GetLightSourceMin: Float()
@@ -848,15 +971,26 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetMoveLastBeat: Int()
-        Debug.TraceNotImplemented("Player.GetMoveLastBeat()")
+        Local lastPlayerMoveBeat := controller_game.lastPlayerMoveBeat[Self.playerID]
+        Local lastBeatNumber := Audio.GetCurrentBeatNumberIncludingLoops(0, True) - 1
+
+        If lastPlayerMoveBeat >= lastBeatNumber
+            Return Self.lastMove
+        End If
+
+        Return -1
     End Method
 
     Method GetNewWeapon: Void(w: Int)
         Debug.TraceNotImplemented("Player.GetNewWeapon(Int)")
     End Method
 
-    Method GetPositionLastBeat: Object()
-        Debug.TraceNotImplemented("Player.GetPositionLastBeat()")
+    Method GetPositionLastBeat: Point()
+        If Self.GetMoveLastBeat() = -1
+            Return New Point(Self.x, Self.y)
+        End If
+
+        Return New Point(Self.lastX, Self.lastY)
     End Method
 
     Method GetShovelDamage: Int(fromMinersCap: Bool)
@@ -871,8 +1005,13 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.GetTorchLevel()")
     End Method
 
-    Method GetWeapon: Object(overrideBatForm: Bool)
-        Debug.TraceNotImplemented("Player.GetWeapon(Bool)")
+    Method GetWeapon: Weapon(overrideBatForm: Bool)
+        If Self.batFormActive And
+           Not overrideBatForm
+            Return Self.batWeapon
+        End If
+
+        Return Self.weapon
     End Method
 
     Method GiveInitialEquipment: Void(resetHealth: Bool)
@@ -906,7 +1045,7 @@ Class Player Extends MobileEntity
         End If
 
         If Level.isSoulMode
-            If Not Self.HasItemOfType("charm_nazar", False)
+            If Not Self.HasItemOfType("charm_nazar")
                 Self.AddItemOfType("charm_nazar", Null, True, True)
             End If
 
@@ -964,7 +1103,7 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.HasCouponLike()")
     End Method
 
-    Method HasItemOfType: Bool(i: String, overrideBatForm: Bool)
+    Method HasItemOfType: Bool(i: String, overrideBatForm: Bool = False)
         If Not Self.batFormActive Or overrideBatForm
             If Self.characterID = Character.Tempo
                 If i = "head_sonar" Then Return True
@@ -1056,8 +1195,19 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.IsShieldActive_Flicker()")
     End Method
 
-    Method IsShrunk: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Player.IsShrunk(Int, Int)")
+    Method IsShrunk: Bool(xVal: Int = -9999, yVal: Int = -9999)
+        If xVal = -9999
+            xVal = Self.x
+        End If
+
+        If yVal = -9999
+            yVal = Self.y
+        End If
+
+        Return Level.GetTileTypeAt(xVal, yVal) = TileType.Ooze And
+               Not Self.IsLordCrownActive() And
+               Not Self.floating And
+               Not Self.FeetIgnoreOoze()
     End Method
 
     Method IsSlotCursed: Bool(sl: String)
@@ -1157,7 +1307,7 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.PerformTween(Int, Int, Int, Int, Int, Int, Bool)")
     End Method
 
-    Method Perished: Bool()
+    Method Perished: Bool() Property
         Return Self.perished
     End Method
 
@@ -1165,8 +1315,8 @@ Class Player Extends MobileEntity
         Debug.TraceNotImplemented("Player.PermitMoveFail()")
     End Method
 
-    Method PlayVO: Void(voSound: Int)
-        Debug.TraceNotImplemented("Player.PlayVO(Int)")
+    Method PlayVO: Void(voSound: String)
+        Debug.TraceNotImplemented("Player.PlayVO(String)")
     End Method
 
     Method ProcessDropMystery: Void(item: Object, slot: Int)
@@ -1174,6 +1324,37 @@ Class Player Extends MobileEntity
     End Method
 
     Method ProcessMoveQueue: Void()
+        If Not Self.queuedMove
+            Return
+        End If
+
+        If Self.queuedMoveBeat < Audio.GetClosestBeatNum(True)
+            Self.queuedMove = False
+
+            Return
+        End If
+
+        ' TODO: Double check condition that's supposed to be here.
+
+        Local newX := Self.x + Self.queuedMoveX
+        Local newY := Self.y + Self.queuedMoveY
+
+        If Not Util.IsAnyPlayerAt(newX, newY) Or
+           Self.clampedEnemy <> Null Or
+           Util.GetAnyPlayerAt(newX, newY).clampedEnemy <> Null
+            Self.ImmediatelyMoveTo(Self.queuedMoveX, Self.queuedMoveY, True, False, False, False, False)
+        End If
+
+        ' TODO: Double check condition that's supposed to be here.
+
+        If Util.IsAnyPlayerAt(newX, newY) And
+           Self.lastMoveOntoPlayerInCoopModeBeat < Audio.GetClosestBeatNum(True)
+            Local bounceTo := New Point(Self.queuedMoveX, Self.queuedMoveY)
+            Self.BounceToward(bounceTo, False)
+
+            Self.lastMoveOntoPlayerInCoopModeBeat = Audio.GetClosestBeatNum(True)
+        End If
+
         Debug.TraceNotImplemented("Player.ProcessMoveQueue()")
     End Method
 
@@ -1278,12 +1459,33 @@ Class Player Extends MobileEntity
         End If
     End Method
 
-    Method SubtractItemOfType: Bool(i: Int)
-        Debug.TraceNotImplemented("Player.SubtractItemOfType(Int)")
+    Method SubtractItemOfType: Bool(i: String)
+        Local slot := Item.GetSlot(i)
+
+        If slot = "misc"
+            Local numRemoved := Self.miscItems.RemoveEach(i)
+
+            Return numRemoved > 0
+        End If
+
+        Local ownedItem := Self.ownedItems.Get(slot)
+        If i = ownedItem
+            Self.ownedItems.Set(slot, Item.NoItem)
+
+            Return True
+        End If
+
+        Return False
     End Method
 
     Method SubtractKey: Bool()
-        Debug.TraceNotImplemented("Player.SubtractKey()")
+        If Self.HasItemOfType("misc_key")
+            Self.SubtractItemOfType("misc_key")
+
+            Return True
+        End If
+
+        Return False
     End Method
 
     Method SwapWeapons: Bool()
@@ -1311,12 +1513,845 @@ Class Player Extends MobileEntity
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Player.Update()")
+        If Self.Perished
+            Return
+        End If
+
+        Local v3: Bool
+
+        If Self.popUpController <> Null
+            Select Self.popUpController.retval
+                Case -1
+                    ' Do nothing
+                Case 1
+                    Self.warnState = 0
+                    Self.ImmediatelyMoveTo(Self.lastX - Self.x, Self.lastY - Self.y, True, False, False, False, True)
+                    Self.popUpController = Null
+                Default
+                    v3 = True
+                    Self.popUpController = Null
+            End Select
+        End If
+
+        If Self.hintsController <> Null
+            Select Self.hintsController.retval
+                Case -1
+                    Self.ImmediatelyMoveTo(Self.lastX - Self.x, Self.lastY - Self.y, False, False, False, False, False)
+                Case 1
+                    v3 = True
+                    GameData.SetShowHints(True)
+                Default
+                    v3 = True
+                    GameData.SetShowHints(False)
+            End Select
+
+            Self.hintsController = Null
+        End If
+
+        Local hasEnteredSeed: Bool
+
+        If Self.seedController <> Null
+            If Self.seedController.result <> ""
+                hasEnteredSeed = True
+                Level.randSeedString = Self.seedController.result
+                Self.seedController = Null
+            End If
+        End If
+
+        If Not Player.CheckCoinXOR()
+            controller_game.gamePaused = True
+            Audio.PauseSong(True)
+            Self.popUpController = New ControllerPopUp(
+                controller_game.controllerGamePointer,
+                "|902|SCORE CHEATING DETECTED|",
+                "",
+                "",
+                "",
+                "",
+                True,
+                True,
+                "")
+
+            Return
+        End If
+
+        If Audio.cheatingDetected
+            controller_game.gamePaused = True
+            Audio.PauseSong(True)
+            Self.popUpController = New ControllerPopUp(
+                controller_game.controllerGamePointer,
+                "|903|AUDIO CHEATING DETECTED|",
+                "",
+                "",
+                "",
+                "",
+                True,
+                True,
+                "")
+
+            Return
+        End If
+
+        Local closestBeatNum := Audio.GetClosestBeatNum(True)
+        If Self.lastHitBeat > closestBeatNum
+            Self.lastHitBeat = -1
+        End If
+        If Self.lastKillBeat > closestBeatNum
+            Self.lastKillBeat = -1
+        End If
+        If Self.crownOfGreedBeat > closestBeatNum
+            Self.crownOfGreedBeat = -1
+        End If
+        If Self.lastWarDrumBeat > closestBeatNum
+            Self.lastWarDrumBeat = -1
+        End If
+        If Self.lastBloodDrumBeat > closestBeatNum
+            Self.lastBloodDrumBeat = -1
+        End If
+        If Self.coinPickupBeat > closestBeatNum
+            Self.coinPickupBeat = -2
+        End If
+        If Self.courageRingBeat > closestBeatNum
+            Self.courageRingBeat = -1
+        End If
+        If Self.courageShovelBeat > closestBeatNum
+            Self.courageShovelBeat = -1
+        End If
+        If closestBeatNum = 0
+            If Self.paceBeat > closestBeatNum
+                Self.paceBeat = -1
+            End If
+        End If
+
+        If Shrine.paceShrineActive And
+           closestBeatNum > 64 And
+           Self.paceBeat = -1 And
+           Not Self.falling
+            Self.Hit("SHRINE OF PACE", 1, -1, Null, False, 0)
+
+            Local slothFlyaway := New Flyaway("|255|SLOTH! (SHRINE OF PACE)|", Self.x, Self.y, 0, -22, True, 0.0, 0.2, True, 120)
+            slothFlyaway.CenterX()
+        End If
+
+        If Chain.waitingForFirstMovement[Self.playerID]
+            Self.lastKillBeat = closestBeatNum
+        End If
+
+        Self.ProcessMoveQueue()
+
+        If Self.IsSlidingOnIce() And
+           Self.IsStandingStill() And
+           Audio.GetNonAbsoluteDistanceFromNearestBeat() <= 0 And
+           Self.lastIceSlideBeat <> Audio.GetClosestBeatNum(False)
+            Local slidingDir := Util.GetPointFromDir(Self.slidingDir)
+            Self.slidingDir = Direction.None
+            Self.ImmediatelyMoveTo(slidingDir.x, slidingDir.y, False, False, False, False, False)
+
+            Self.lastIceSlideBeat = Audio.GetClosestBeatNum(False)
+            controller_game.incrementFixedBeatNum = True
+        End If
+
+        Self.moveLastBeat = Self.GetMoveLastBeat()
+
+        Local lastBeatPosition := Self.GetPositionLastBeat()
+        Self.lastBeatX = lastBeatPosition.x
+        Self.lastBeatY = lastBeatPosition.y
+
+        If Not Self.wasKnockedBack
+            If Self.lastX > Self.x
+                Self.image.FlipX(True, True)
+                Self.headImage.FlipX(True, True)
+            Else If Self.lastX < Self.x
+                Self.image.FlipX(False, True)
+                Self.headImage.FlipX(False, True)
+            End If
+        End If
+
+        If Not Self.HasItemOfType("ring_shadows")
+            Local flicker := 0.0
+            If Self.torchType <> Item.NoItem
+                flicker = Util.RndFloatRange(-0.5, 0.5, False)
+            End If
+
+            Self.lightSourceMax = Self.GetLightSourceMax() + flicker
+            Self.constLightSourceMax = Self.GetLightSourceMax()
+        End If
+
+        If Self.wasShrunk
+            If Not Self.IsShrunk()
+                Self.PlayVO("Hm2")
+            End If
+        Else
+            If Self.IsShrunk()
+                Self.PlayVO("IceSlide")
+
+                Local shrunkFlyaway := New Flyaway("|256|SHRUNK!|", Self.x, Self.y, 0, -8, True, 0.0, 0.2, True, 120)
+                shrunkFlyaway.CenterX()
+            End If
+        End If
+
+        Self.wasShrunk = Self.IsShrunk()
+
+        If Self.GetElectricStrength() > 0
+            Self.electricityCounter += 1
+        Else
+            Self.electricityCounter = 0
+        End If
+
+        Local exitValue := Level.GetExitValue(Self.x, Self.y)
+        Local exitValueX := exitValue.x
+
+        If exitValueX = LevelType.Unknown_4 Or
+           Level.isLevelEnding
+            Self.playedExitErrorSound = False
+
+            Self.Update2(closestBeatNum)
+
+            Return
+        End If
+
+        If Not Self.IsStandingStill()
+            Self.Update2(closestBeatNum)
+
+            Return
+        End If
+
+        If Level.IsLockedExit(Self.x, Self.y)
+            If Not Self.playedExitErrorSound
+                Audio.PlayGameSound("error", 2, 1.0)
+
+                Local exitFlyawayText := Level.GetTileFlyawayAt(Self.x, Self.y)
+                If exitFlyawayText = ""
+                    exitFlyawayText = "|257|EXIT LOCKED!|"
+                End If
+
+                Local exitFlyaway := New Flyaway(exitFlyawayText, Self.x, Self.y, 0, -12, True, 0.0, 0.2, True, 120)
+                exitFlyaway.CenterX()
+
+                Self.playedExitErrorSound = True
+            End If
+
+            Self.Update2(closestBeatNum)
+
+            Return
+        End If
+
+        If controller_game.currentLevel <> LevelType.Lobby And
+           (Util.IsCharacterActive(Character.Monk) Or
+            Util.IsCharacterActive(Character.Coda)) And
+           Not v3
+            Local numCoinsRemaining := Item.ConsumeCoinsRemainingOnLevel()
+            Player.OffsetCoins(numCoinsRemaining)
+        End If
+
+        If GameData.GetShowHints() < 0
+            controller_game.gamePaused = True
+            Audio.PauseSong(True)
+            Self.hintsController = New ControllerPopUp(
+                controller_game.controllerGamePointer,
+                "|904|This game contains many mysterious items!|",
+                "|905|Would you like item hints, or would|",
+                "|906|you prefer to figure things out as you go?|",
+                "|907|YES, GIVE HINTS|",
+                "|908|NO THANKS|",
+                True,
+                False,
+                "")
+
+            Return
+        End If
+
+        If controller_game.currentLevel = LevelType.Lobby
+            Player.lobbySaleItemMinCost = SaleItem.GetMinCost()
+        End If
+
+        Local clearNumDiamonds: Bool
+        If (controller_game.currentLevel = LevelType.Lobby And exitValueX >= LevelType.MinLobbyExit) Or
+           exitValueX = LevelType.CreateAllCharactersCharacterSelect Or
+           exitValueX = LevelType.CreateAllCharactersDLCCharacterSelect Or
+           exitValueX = LevelType.StoryMode Or
+           (exitValueX = LevelType.DeathlessMode And Not Level.isDeathlessMode)
+            If Player.numDiamonds >= Player.lobbySaleItemMinCost And
+               GameData.GetShowDiamondReminder() And
+               Self.warnState <= 0
+                controller_game.gamePaused = True
+                Audio.PauseSong(True)
+                Self.hintsController = New ControllerPopUp(
+                    controller_game.controllerGamePointer,
+                    "|909|You'll lose your unspent diamonds|",
+                    "|910|when you leaVe the lobby.|",
+                    "|911|Would you like To stay And spend them?|",
+                    "|912|Stay, spend diamonds|",
+                    "|913|LeaVe, lose diamonds|",
+                    True,
+                    False,
+                    "")
+
+                Self.warnState = 1
+
+                Return
+            End If
+
+            clearNumDiamonds = True
+        End If
+
+        If controller_game.currentLevel = LevelType.CharacterSelect And
+           Not v3
+            Local popUp := True
+
+            Local pText1: String
+            Local pText2: String
+            Local pText3: String
+            Local bestiaryImagePath: String
+
+            Select exitValueX
+                Case LevelType.SelectCharacterSelectCadence
+                    pText1 = "|914|CADENCE MODE!|"
+                    pText2 = "|915|NORMAL GAMEPLAY.|"
+                    bestiaryImagePath = "bestiary/bestiary_cadence.png"
+                Case LevelType.SelectCharacterSelectAria
+                    pText1 = "|917|ARIA MODE: DAGGER ONLY.|"
+                    pText2 = "|918|DIE IN A SINGLE HIT.|"
+                    pText3 = "|919|DIE ON MISSED BEAT!|"
+                    bestiaryImagePath = "bestiary/bestiary_aria.png"
+                Case LevelType.SelectCharacterSelectBolt
+                    pText1 = "|920|BOLT MODE!|"
+                    pText2 = "|921|DOUBLE SPEED GAMEPLAY.|"
+                    bestiaryImagePath = "bestiary/bestiary_bolt.png"
+                Case LevelType.SelectCharacterSelectBard
+                    pText1 = "|922|BARD MODE: NO BEATS!|"
+                    pText2 = "|923|MOVE AT ANY TIME.|"
+                    pText3 = "|924|ENEMIES MOVE AFTER YOU.|"
+                    bestiaryImagePath = "bestiary/bestiary_bard.png"
+                Case LevelType.SelectCharacterSelectMonk
+                    pText1 = "|925|MONK MODE: GOLD KILLS.|"
+                    pText2 = "|926|(VOW OF POVERTY!)|"
+                    pText3 = "|927|SHOPS GIVE FREE ITEMS.|"
+                    bestiaryImagePath = "bestiary/bestiary_monk.png"
+                Case LevelType.SelectCharacterSelectDove
+                    pText1 = "|928|DOVE MODE: PACIFISM!|"
+                    pText2 = "|929|YOU DO NO DAMAGE BUT|"
+                    pText3 = "|930|EXITS ARE UNLOCKED.|"
+                    bestiaryImagePath = "bestiary/bestiary_dove.png"
+                Case LevelType.SelectCharacterSelectEli
+                    pText1 = "|931|ELI MODE!|"
+                    pText2 = "|932|INFINITE BOMBS.|"
+                    pText3 = "|933|KICK BOMBS AT ENEMIES!|"
+                    bestiaryImagePath = "bestiary/bestiary_eli.png"
+                Case LevelType.SelectCharacterSelectDorian
+                    pText1 = "|934|DORIAN MODE!|"
+                    pText2 = "|935|CURSED BOOTS OF LEAPING.|"
+                    pText3 = "|936|MOVE SLOW: TAKE DAMAGE.|"
+                    bestiaryImagePath = "bestiary/bestiary_dorian.png"
+                Case LevelType.SelectCharacterSelectMelody
+                    pText1 = "|937|MELODY MODE!|"
+                    pText2 = "|938|MOVE NEXT TO ENEMIES|"
+                    pText3 = "|939|TO USE THE GOLDEN LUTE!|"
+                    bestiaryImagePath = "bestiary/bestiary_melody.png"
+                Case LevelType.SelectCharacterSelectCoda
+                    pText1 = "|940|CODA MODE!|"
+                    pText2 = "|941|ARIA + BOLT + MONK.|"
+                    pText3 = "|942|PROBABLY IMPOSSIBLE.|"
+                    bestiaryImagePath = "bestiary/bestiary_coda.png"
+                Case LevelType.SelectCharacterSelectNocturna
+                    pText1 = "|15500|NOCTURNA MODE!|"
+                    pText2 = "|15501|BECOME A BAT.|"
+                    pText3 = "|15502|ZONE 5 INVADES OTHER ZONES.|"
+                    bestiaryImagePath = "bestiary/bestiary_nocturna.png"
+                Case LevelType.SelectCharacterSelectDiamond
+                    pText1 = "|15503|DIAMOND MODE!|"
+                    pText2 = "|15504|USE KEY COMBOS|"
+                    pText3 = "|15505|TO MOVE DIAGONALLY.|"
+                    bestiaryImagePath = "bestiary/bestiary_diamond.png"
+                Case LevelType.SelectCharacterSelectReaper
+                    pText1 = "|15506|REAPER MODE!|"
+                    pText2 = "|15507|ACCUMULATE SOULS|"
+                    pText3 = "|15508|BY DEFEATING ENEMIES.|"
+                    bestiaryImagePath = "bestiary/bestiary_reaper.png"
+                Case LevelType.SelectCharacterSelectTempo
+                    pText1 = "|15509|TEMPO MODE!|"
+                    pText2 = "|15510|1 HIT KILLS!|"
+                    pText3 = "|15511|DEFEAT ENEMIES TO SURVIVE.|"
+                    bestiaryImagePath = "bestiary/bestiary_tempo.png"
+                Case LevelType.SelectCharacterSelectMary
+                    pText1 = "|15512|MARY MODE!|"
+                    pText2 = "|15513|PROTECT YOUR LAMB|"
+                    pText3 = "|15514|AT ALL COSTS!|"
+                    bestiaryImagePath = "bestiary/bestiary_mary.png"
+                Default
+                    popUp = False
+            End Select
+
+            If popUp
+                controller_game.gamePaused = True
+                Audio.PauseSong(True)
+                Self.popUpController = New ControllerPopUp(
+                    controller_game.controllerGamePointer,
+                    pText1,
+                    pText2,
+                    pText3,
+                    "|1004|No|",
+                    "|1003|Yes|",
+                    True,
+                    False,
+                    "|916|CONTINUE?|")
+                Self.popUpController.bestiaryImage = New Sprite(bestiaryImagePath, 1, Image.DefaultFlags)
+
+                Return
+            End If
+        End If
+
+        If Self.warnState <= 1
+            Local popUp := True
+
+            Local pText1: String
+            Local pText2: String
+            Local pText3: String
+
+            If (exitValueX = LevelType.CreateAllCharactersCharacterSelect Or
+                exitValueX = LevelType.CreateAllCharactersDLCCharacterSelect)
+                pText1 = "|943|ALL CHARACTERS MODE:|"
+                pText2 = "|944|PLAY ALL CHARACTERS IN A ROW,|"
+                pText3 = "|945|IN ALL ZONES MODE.|"
+            Else If exitValueX = LevelType.StoryMode
+                pText1 = "|946|STORY MODE!|"
+                pText2 = "|947|PLAY AS NOCTURNA, CADENCE, MELODY, THEN ARIA.|"
+                pText3 = "|948|COMPLETE THE WHOLE STORY IN ONE GO!|"
+            Else If exitValueX = LevelType.DeathlessMode And
+                    Not Level.isDeathlessMode
+                pText1 = "|949|DEATHLESS MODE:|"
+                pText2 = "|950|BEAT ALL ZONES REPEATEDLY WITHOUT DYING.|"
+            Else If exitValueX = LevelType.AllZonesMode And
+                    Not GameData.GetHavePlayedHardcore()
+                pText1 = "|951|ALL ZONES MODE: COMPLETE ALL ZONES IN ONE RUN!|"
+                pText2 = "|952|ALL LOBBY UPGRADES ARE UNLOCKED AND AVAILABLE,|"
+                pText3 = "|953|BUT YOU START WITH LOWER HEALTH.|"
+            Else If exitValueX = LevelType.DailyChallenge
+                pText1 = "|954|DAILY CHALLENGE: COMPLETE ALL ZONES IN ONE RUN!|"
+                pText2 = "|955|ALL PLAYERS GET THE SAME DUNGEON.|"
+                pText3 = "|956|RESETS DAILY AT MIDNIGHT GMT.|"
+            Else
+                popUp = False
+            End If
+
+            If popUp
+                controller_game.gamePaused = True
+                Audio.PauseSong(True)
+                Self.popUpController = New ControllerPopUp(
+                    controller_game.controllerGamePointer,
+                    pText1,
+                    pText2,
+                    pText3,
+                    "|1004|No|",
+                    "|1003|Yes|",
+                    True,
+                    False,
+                    "|916|CONTINUE?|")
+
+                Self.warnState = 2
+
+                Return
+            End If
+        End If
+
+        If Level.IsSeededMode(exitValueX) And
+           Not hasEnteredSeed
+            controller_game.gamePaused = True
+            Audio.PauseSong(True)
+            Self.seedController = New ControllerInputPopup(
+                controller_game.controllerGamePointer,
+                "|900|ENTER A TEXT SEED!|",
+                "|901|YOU CAN USE NUMBERS, LETTERS AND SPACES:|",
+                False)
+
+            Return
+        End If
+
+        If (LevelType.MinTrainingMinibossLevel <= exitValueX And exitValueX <= LevelType.MaxTrainingLevel) And
+           Not v3
+            Select Level.GetTileTypeAt(Self.x, Self.y)
+                Case TileType.LockedStairs,
+                     TileType.LockedStairs3Diamonds,
+                     TileType.LockedStairs9Diamonds
+                    controller_game.gamePaused = True
+                    Audio.PauseSong(True)
+
+                    Local pText1: String
+                    Local enemyID := exitValueX + 1000
+                    Local enemyName := Enemy.GetEnemyName(enemyID)
+
+                    If exitValueX <= LevelType.MaxTrainingMinibossLevel
+                        pText1 = "|960|MINIBOSS TRAINING!|"
+                    Else
+                        pText1 = "|957|BOSS TRAINING!|"
+                    End If
+
+                    Self.popUpController = New ControllerPopUp(
+                        controller_game.controllerGamePointer,
+                        pText1,
+                        "|961|Spend 3 diamonds to|",
+                        "|962|unlock |" + enemyName + "|969|?|",
+                        "|1004|No|",
+                        "|1003|Yes|",
+                        True,
+                        False,
+                        "")
+                    Self.popUpController.bestiaryImage = Enemy.LoadBestiarySprite(enemyID)
+
+                    Return
+            End Select
+        End If
+
+        If Not Level.isTrainingMode And
+           (LevelType.MinTrainingLevel <= exitValueX And exitValueX <= LevelType.MaxTrainingLevel) And
+           Not v3
+            Local pText1: String
+            Local pText2: String
+
+            If LevelType.MinTrainingBossLevel <= exitValueX And exitValueX <= LevelType.MaxTrainingBossLevel
+                pText1 = "|963|BOSS TRAINING!|"
+                pText2 = "|964|Practice against|"
+            Else If LevelType.MinTrainingAvailableMinibossLevel <= exitValueX And exitValueX <= LevelType.MaxTrainingAvailableMinibossLevel
+                pText1 = "|965|MINIBOSS TRAINING!|"
+                pText2 = "|966|Practice against|"
+            Else
+                pText1 = "|967|TRAINING!|"
+                pText2 = "|968|Practice against|"
+            End If
+
+            Local enemyID := exitValueX + 1000
+            Local enemyName := Enemy.GetEnemyName(enemyID)
+
+            controller_game.gamePaused = True
+            Audio.PauseSong(True)
+            Self.popUpController = New ControllerPopUp(
+                controller_game.controllerGamePointer,
+                pText1,
+                pText2,
+                enemyName + "|969|?|",
+                "|1004|No|",
+                "|1003|Yes|",
+                True,
+                False,
+                "")
+            Self.popUpController.bestiaryImage = Enemy.LoadBestiarySprite(enemyID)
+
+            Return
+        End If
+
+        Select controller_game.currentLevel
+            Case LevelType.Level1
+                If controller_game.currentDepth = 1 And
+                   Level.isHardcoreMode And
+                   Player.numCoins >= 9000 And
+                   Not Util.IsCharacterActive(Character.Aria)
+                    controller_game.gamePaused = True
+                    Audio.PauseSong(True)
+                    Self.popUpController = New ControllerPopUp(
+                        controller_game.controllerGamePointer,
+                        "|902|SCORE CHEATING DETECTED|",
+                        "",
+                        "",
+                        "",
+                        "",
+                        True,
+                        True,
+                        "")
+
+                    Return
+                End If
+            Case LevelType.BossBattle
+                Select controller_game.currentZone
+                    Case 1
+                        If Util.IsCharacterActive(Character.Cadence)
+                            Util.IncrementSteamStat("NumZone1Completions")
+                        End If
+                    Case 2
+                        If Util.IsCharacterActive(Character.Cadence)
+                            Util.IncrementSteamStat("NumZone2Completions")
+                        End If
+                    Case 3
+                        If Util.IsCharacterActive(Character.Cadence)
+                            Util.IncrementSteamStat("NumZone3Completions")
+                        End If
+                    Case 4
+                        If Util.IsCharacterActive(Character.Cadence)
+                            Util.IncrementSteamStat("NumZone4Completions")
+                        End If
+                    Case 5
+                        Util.IncrementSteamStat("NumZone5Completions")
+                End Select
+        End Select
+
+        If Level.isHardcoreMode And
+           controller_game.currentDepth = 5
+            If Player.IsSolo()
+                Select controller_game.currentLevel
+                    Case LevelType.Level3
+                        If Util.IsCharacterActive(Character.Dove)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsDove")
+                        End If
+                    Case LevelType.BossBattle
+                        If Util.IsCharacterActive(Character.Bard)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsBard")
+                        Else If Util.IsCharacterActive(Character.Bolt)
+                            Util.IncrementSteamStat("NumHardcoreCompletionBolt")
+                        Else If Util.IsCharacterActive(Character.Monk)
+                            Util.IncrementSteamStat("NumHardcoreCompletionMonk")
+                        Else If Util.IsCharacterActive(Character.Eli)
+                            Util.IncrementSteamStat("NumHardcoreCompletionEli")
+                        Else If Util.IsCharacterActive(Character.Dorian)
+                            Util.IncrementSteamStat("NumHardcoreCompletionDorian")
+                        Else If Util.IsCharacterActive(Character.Diamond)
+                            Util.IncrementSteamStat("NumHardcoreCompletionCoda")
+                        Else If Util.IsCharacterActive(Character.Coda)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsDiagonal")
+                        Else If Util.IsCharacterActive(Character.Mary)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsReaper")
+                        Else If Util.IsCharacterActive(Character.Tempo)
+                            Util.IncrementSteamStat("NumHardcoreCompletionTempo")
+                        End If
+                    Case LevelType.FinalBossBattle
+                        If Util.IsCharacterActive(Character.Cadence)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsCadence")
+                        Else If Util.IsCharacterActive(Character.Aria)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsAria")
+                        Else If Util.IsCharacterActive(Character.Melody)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsMelody")
+                        Else If Util.IsCharacterActive(Character.Nocturna)
+                            Util.IncrementSteamStat("NumHardcoreCompletionsNocturna")
+                        End If
+                End Select
+            End If
+        End If
+
+        If controller_game.numPlayers > 1 And
+           Not controller_game.players[1].isHelper And
+           Level.isHardcoreMode And
+           controller_game.currentDepth = 5
+            If Util.IsCharacterActive(Character.Aria) Or
+               Util.IsCharacterActive(Character.Melody) Or
+               Util.IsCharacterActive(Character.Cadence)
+                If controller_game.currentLevel = LevelType.FinalBossBattle
+                    Util.IncrementSteamStat("NumHardcoreCompletionsCoop", True, True)
+                End If
+            Else
+                If controller_game.currentLevel = LevelType.BossBattle
+                    Util.IncrementSteamStat("NumHardcoreCompletionsCoop", True, True)
+                End If
+            End If
+        End If
+
+        If controller_game.currentLevel = LevelType.FinalBossBattle And
+           controller_game.currentDepth = 5 And
+           Level.isHardcoreMode
+            If Level.isDailyChallenge
+                Util.IncrementSteamStat("NumDailyChallengeCompletions", True, True, True)
+            Else
+                If Player.IsSolo() And
+                   Not Level.isPhasingMode
+                    If Util.IsCharacterActive(Character.Cadence)
+                        If app.Millisecs() + controller_game.runPlaytimeMilliseconds - controller_game.runPlaytimeLastAdded <= 900000
+                            Util.IncrementSteamStat("NumSub8CadenceSpeedruns")
+                        End If
+                    Else If Util.IsCharacterActive(Character.Nocturna)
+                        If app.Millisecs() + controller_game.runPlaytimeMilliseconds - controller_game.runPlaytimeLastAdded <= 900000
+                            Util.IncrementSteamStat("NumSub10NocturnaSpeedruns")
+                        End If
+                    Else If Util.IsCharacterActive(Character.Aria)
+                        If Level.isRunNoItemsNoShrines
+                            Util.IncrementSteamStat("NumAriaLowPercentCompletions")
+                        End If
+                    End If
+                End If
+            End If
+        End If
+
+        If Player.IsLastLevel() And
+           controller_game.currentDepth = 5 And
+           Player.IsSolo()
+            If Level.isHardMode
+                If Util.IsCharacterActive(Character.Nocturna)
+                    Util.IncrementSteamStat("NumHardModeCompletionsNocturna", True, True, True)
+                End If
+
+                GameData.SetHardModeComplete()
+                Player.CheckAllModeCompletion()
+            Else If Level.isNoReturnMode
+                If Util.IsCharacterActive(Character.Cadence)
+                    Util.IncrementSteamStat("NumNoReturnCompletionsCadence", True, True, True)
+                End If
+
+                GameData.SetNoReturnModeComplete()
+                Player.CheckAllModeCompletion()
+            Else If Level.isPhasingMode
+                Util.IncrementSteamStat("NumPhasingModeCompletions", True, True, True)
+
+                GameData.SetPhasingModeComplete()
+                Player.CheckAllModeCompletion()
+            Else If Level.isRandomizerMode
+                Util.IncrementSteamStat("NumRandomizerModeCompletions", True, True, True)
+
+                GameData.SetRandomizerModeComplete()
+                Player.CheckAllModeCompletion()
+            Else If Level.isMysteryMode
+                Util.IncrementSteamStat("NumMysteryModeCompletions", True, True, True)
+
+                GameData.SetMysteryModeComplete()
+                Player.CheckAllModeCompletion()
+            Else If Level.isStoryMode
+                If Util.IsCharacterActive(Character.Aria) And
+                   Player.IsSolo()
+                    Util.IncrementSteamStat("NumStoryModeCompletions", True, True, True)
+
+                    GameData.SetStoryModeComplete()
+                    Player.CheckAllModeCompletion()
+                End If
+            End If
+        End If
+
+        Self.warnState = 0
+
+        If clearNumDiamonds
+            Player.numDiamonds = 0
+        End If
+
+        If controller_game.currentLevel = LevelType.Tutorial
+            GameData.SetTutorialComplete()
+            Self.SubtractKey()
+        End If
+
+        If exitValueX = LevelType.Lobby Or
+           (LevelType.MinLobbyArea <= exitValueX And exitValueX <= LevelType.MaxLobbyArea) Or
+           (exitValueX <= -1900 And exitValueX <> LevelType.DeathlessMode) Or
+           exitValueX = LevelType.CreateAllCharactersDLCCharacterSelect
+            Level.NewLevel(exitValueX, exitValue.y, Self.playerID)
+
+            Self.Update2(closestBeatNum)
+
+            Return
+        End If
+
+        advancelevel_callback.Stairs_callback.levelVal = exitValue.x
+        advancelevel_callback.Stairs_callback.zoneVal = exitValue.y
+        advancelevel_callback.Stairs_callback.playerVal = Self.playerID
+        advancelevel_callback.Stairs_callback.continuedRun = False
+
+        Local fadeFrames := necrodancergame.FRAMES_PER_SEC / 4
+        Local stairsCallback := New Stairs_callback()
+        Camera.FadeOutThenExecute(fadeFrames, stairsCallback)
+        Level.isLevelEnding = True
+        Audio.fadeFrames = fadeFrames
+        Audio.startFadeFrames = fadeFrames
+    End Method
+
+    Method Update2: Void(closestBeatNum: Int)
+        Local pickup := Item.GetPickupAt(Self.x, Self.y)
+        If pickup <> Null And
+           Not Self.Perished And
+           Not Level.isLevelEditor
+            Local pickupSlot := pickup.GetSlot()
+            If Not Self.IsSlotCursed(pickupSlot)
+                Local pickupName := pickup.Pickup(Self)
+                If pickupName <> Item.NoItem
+                    Self.AddItemOfType(pickupSlot, pickup, False, False)
+                End If
+            End If
+        End If
+
+        If Self.floating
+            Self.bounce.Enable()
+            Self.yOff = -4.0
+        Else
+            Self.bounce.Disable()
+            Self.yOff = 3.0
+        End If
+
+        If Self.clampedEnemy <> Null And
+           Self.clampedEnemy <> Self.lastClampedEnemy
+            Self.PlayVO("Grabbed")
+        End If
+
+        Self.lastClampedEnemy = Self.clampedEnemy
+
+        If Self.HasItemOfType("head_crown_of_greed") And
+           Self.crownOfGreedBeat < closestBeatNum
+            If Player.numCoins > 0
+                Player.OffsetCoins(-1)
+            End If
+
+            Self.crownOfGreedBeat = closestBeatNum
+        End If
+
+        If Self.lastWarDrumBeat + 1 < closestBeatNum
+            Self.lastWarDrumBeat = -1
+            Self.warDrumBeats = 0
+        End If
+
+        If Self.lastBloodDrumBeat + 1 < closestBeatNum
+            Self.lastBloodDrumBeat = -1
+            Self.bloodDrumBeats = 0
+        End If
+
+        If Self.heartTransplantTime <> -1 And
+           Audio.fixedBeatNum <> -64 And
+           Self.heartTransplantTime + 20000 < app.Millisecs()
+            If Not Level.isReplaying And
+               Level.replay <> Null
+                Level.replay.beatOffset += Audio.fixedBeatNum - Audio.GetClosestBeatNum(False) - 1
+            End If
+
+            Self.heartTransplantTime = -1
+            Audio.fixedBeatNum = -64
+            controller_game.lastEnemyMoveBeat = Audio.GetCurrentBeatNumberIncludingLoops(0, True)
+
+            If Not Self.IsSlidingOnIce()
+                Self.lastIceSlideBeat = -1
+            End If
+
+            For Local i := 0 Until controller_game.numPlayers
+                controller_game.lastPlayerMoveBeat[i] = closestBeatNum - 1
+            End For
+
+            Chain.waitingForFirstMovement[0] = True
+            Chain.waitingForFirstMovement[1] = True
+        End If
+
+        If Self.readyToThrow
+            Local weapon := Self.GetWeapon(False)
+            If weapon = Null Or
+               Not weapon.IsThrowable()
+                Self.readyToThrow = False
+            End If
+        End If
+
+        Self.wasClamped = Self.clampedEnemy <> Null
+
+        ' Anti-cheat (Coin) check again?
+        If Not Player.CheckCoinXOR()
+            controller_game.gamePaused = True
+            Audio.PauseSong(True)
+            ' No text?
+            Self.popUpController = New ControllerPopUp(
+                controller_game.controllerGamePointer,
+                "",
+                "",
+                "",
+                "",
+                "",
+                True,
+                True,
+                "")
+
+            Return
+        End If
+
+        Super.Update()
     End Method
 
     Method UpdateBonusHeart: Void()
-        If Self.HasItemOfType("ring_wonder", False) Or
-           Self.HasItemOfType("ring_peace", False)
+        If Self.HasItemOfType("ring_wonder") Or
+           Self.HasItemOfType("ring_peace")
             Self.health.GainBonusHeart()
         Else
             Self.health.LoseBonusHeart()

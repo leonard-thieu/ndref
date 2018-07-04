@@ -97,8 +97,18 @@ Class Util
         Debug.TraceNotImplemented("Util.GetAngleBetweenDirections(Int, Int)")
     End Function
 
-    Function GetAnyPlayerAt: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.GetAnyPlayerAt(Int, Int)")
+    Function GetAnyPlayerAt: Player(xVal: Int, yVal: Int)
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished
+                If player.x = xVal And
+                   player.y = yVal
+                    Return player
+                End If
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function GetClosestPlayer: Object(xVal: Int, yVal: Int)
@@ -242,7 +252,7 @@ Class Util
         Debug.TraceNotImplemented("Util.HasLeaderboardDownloaded()")
     End Function
 
-    Function IncrementSteamStat: Bool(statName: String, inGameplayOnly: Bool, allowCoop: Bool, allowSeeded: Bool, delayUntilLevelLoad: Bool)
+    Function IncrementSteamStat: Bool(statName: String, inGameplayOnly: Bool = True, allowCoop: Bool = False, allowSeeded: Bool = False, delayUntilLevelLoad: Bool = False)
         Debug.TraceNotImplemented("Util.IncrementSteamStat(String, Bool, Bool, Bool, Bool)")
     End Function
 

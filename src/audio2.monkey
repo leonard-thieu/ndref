@@ -236,16 +236,35 @@ Class Audio
     End Function
 
     Function GetNonAbsoluteDistanceFromNearestBeat: Int()
-        Debug.TraceNotImplemented("Audio.GetNonAbsoluteDistanceFromNearestBeat()")
+        Local currentBeatNumber := Audio.GetCurrentBeatNumberIncludingLoops(0, False)
+        Local previousBeatNumber := currentBeatNumber - 1
+
+        If math.Abs(Audio.TimeUntilSpecificBeat(previousBeatNumber)) < math.Abs(Audio.TimeUntilSpecificBeat(currentBeatNumber))
+            Return Audio.TimeUntilSpecificBeat(previousBeatNumber)
+        End If
+
+        Return Audio.TimeUntilSpecificBeat(currentBeatNumber)
+    End Function
+
+    Function GetPercentDistanceFromNearestBeat: Float()
+        Local dist := Audio.GetDistanceFromNearestBeat()
+        Local duration := Audio.GetNextBeatDuration()
+
+        Local percentDist := dist / Float(duration)
+        If percentDist >= 1.0
+            percentDist = 0.0
+        End If
+
+        Return percentDist
     End Function
 
     Function GetPercentDistanceFromNextBeat: Float()
         Local currentBeatNumber := Audio.GetCurrentBeatNumberIncludingLoops(0, False)
-        Local timeUntilCurrentBeat := Audio.TimeUntilSpecificBeat(currentBeatNumber)
+        Local dist := Audio.TimeUntilSpecificBeat(currentBeatNumber)
 
         Local duration := Audio.GetNextBeatDuration()
 
-        Local percentDist := timeUntilCurrentBeat / Float(duration)
+        Local percentDist := dist / Float(duration)
         If percentDist >= 1.0
             percentDist = 0.0
         End If

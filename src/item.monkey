@@ -1,9 +1,12 @@
 'Strict
 
 Import monkey.map
+Import monkey.math
 Import monkey.stack
 Import mojo.app
 Import gui.controller_game
+Import enemy.necrodancer_enemy
+Import audio2
 Import bomb
 Import chest
 Import entity
@@ -11,7 +14,9 @@ Import gamedata
 Import logger
 Import necrodancer
 Import necrodancergame
+Import player_class
 Import sprite
+Import util
 Import xml
 
 Function GetResourceCoinType: String(amount: Int)
@@ -65,12 +70,44 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.ChangeWeaponMaterial(Int, Int)")
     End Function
 
-    Function ClearAllSingleChoiceItems: Void(takenItem: Object)
-        Debug.TraceNotImplemented("Item.ClearAllSingleChoiceItems(Object)")
+    Function ClearAllSingleChoiceItems: Void(takenItem: Item)
+        If takenItem.x >= 150 Or
+           takenItem.y >= 150 Or
+           Not Player.DoesAnyPlayerHaveItemOfType("ring_shadows", False)
+
+            Local loop: Bool
+            Repeat
+                loop = False
+
+                For Local pickup := EachIn Item.pickupList
+                    If pickup.singleChoiceItem And
+                       pickup <> takenItem And
+                       Util.GetDist(pickup.x, pickup.y, takenItem.x, takenItem.y) < 5.0
+                        pickup.Die()
+                        loop = True
+
+                        Exit
+                    End If
+                End For
+            Until Not loop
+        End If
     End Function
 
     Function ConsumeCoinsRemainingOnLevel: Int()
-        Debug.TraceNotImplemented("Item.ConsumeCoinsRemainingOnLevel()")
+        Local numCoins: Int
+
+        For Local pickup := EachIn Item.pickupList
+            If Not pickup.flaggedForDeath And
+               Not pickup.dead And
+               pickup.pickupable And
+               pickup.IsItemOfType("isCoin")
+                numCoins += pickup.GetValue()
+
+                pickup.flaggedForDeath = True
+            End If
+        End For
+
+        Return numCoins
     End Function
 
     Function CreateAmountOfCoins: Void(xVal: Int, yVal: Int, amt: Int)
@@ -321,7 +358,7 @@ Class Item Extends Entity
         Return necrodancergame.xmlData.GetChildAtPath("items/" + i)
     End Function
 
-    Function GetPickupAt: Item(xVal: Int, yVal: Int, slf: Item)
+    Function GetPickupAt: Item(xVal: Int, yVal: Int, slf: Item = Null)
         For Local pickup := EachIn Item.pickupList
             If pickup.x = xVal And
                pickup.y = yVal
@@ -1153,8 +1190,10 @@ Class Item Extends Entity
         Return False
     End Method
 
-    Method IsItemOfClass: Bool(itemClass: Int)
-        Debug.TraceNotImplemented("Item.IsItemOfClass(Int)")
+    Method IsItemOfClass: Bool(itemClass: String)
+        Local itemNode := Item.GetItemXML(Self.itemType)
+
+        Return Item.IsItemOfClass(itemNode, itemClass)
     End Method
 
     Method IsItemOfType: Bool(query: String)
@@ -1169,8 +1208,109 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.Move()")
     End Method
 
-    Method Pickup: Int(player: Object)
-        Debug.TraceNotImplemented("Item.Pickup(Object)")
+    Method Pickup: String(player: Player)
+        If Self.dead
+            Return Item.NoItem
+        End If
+
+        Select Self.itemType
+            Case "misc_key",
+                 "misc_golden_key",
+                 "misc_golden_key2",
+                 "misc_golden_key3",
+                 "misc_glass_key"
+                If player.HasItemOfType(Self.itemType)
+                    Return Self.PickupFail(player)
+                End If
+        End Select
+
+        If Self.trainingWeapon
+            Select player.characterID
+                Case Character.Aria,
+                     Character.Melody,
+                     Character.Coda,
+                     Character.Dove,
+                     Character.Eli
+                    Return Self.PickupFail(player)
+            End Select
+        End If
+
+        If player.characterID = Character.Diamond
+            Select Self.itemType
+                Case "feet_boots_leaping",
+                     "feet_boots_lunging"
+                    Return Self.PickupFail(player)
+            End Select
+
+            Select Self.GetSlot()
+                Case "weapon"
+                    If Self.IsItemOfClass("isDagger") Or
+                       Self.IsItemOfClass("isLongsword") Or
+                       Self.IsItemOfClass("isSpear") Or
+                       Self.IsItemOfClass("isRapier") Or
+                       Self.IsItemOfClass("isBow") Or
+                       Self.IsItemOfClass("isHarp") Or
+                       Self.IsItemOfClass("isStaff") Or
+                       Self.IsItemOfClass("isCutlass")
+                        Return Self.PickupFail(player)
+                    End If
+                Case "spell"
+                    Return Self.PickupFail(player)
+            End Select
+        End If
+
+        If Self.itemType = "weapon_golden_lute"
+            If player.isHelper
+                Return Self.PickupFail(player)
+            End If
+
+            If Necrodancer.necrodancer <> Null And
+               Necrodancer.necrodancer.level = 1 And
+               Not Necrodancer.necrodancer.saidLutePhrase
+                Audio.PlayGameSound("necrodancerGiveMeThatLute", -1, 1.0)
+                Necrodancer.necrodancer.saidLutePhrase = True
+            End If
+        End If
+
+        If Self.singleChoiceItem
+            Item.ClearAllSingleChoiceItems(Self)
+        End If
+
+        If Not Self.droppedByPlayer
+            If Not Self.IsItemOfType("isCoin") And
+               Not Self.IsItemOfType("isDiamond")
+                player.lastKillBeat = Audio.GetClosestBeatNum(True)
+            End If
+        End If
+
+        Local pickupSound := "pickupGeneral"
+        If Self.itemType = "resource_diamond"
+            pickupSound = "pickupDiamond"
+        Else If Self.IsItemOfType("isCoin")
+            pickupSound = "pickupGold"
+        Else If Self.IsItemOfType("isWeapon")
+            pickupSound = "pickupWeapon"
+        Else If Self.IsItemOfType("isArmor")
+            pickupSound = "pickupArmor"
+        End If
+
+        Audio.PlayGameSound(pickupSound, 2, 1.0)
+
+        If Self.trainingWeapon
+            Self.dropX = Self.x
+            Self.dropY = Self.y
+        Else
+            Self.Die()
+        End If
+
+        Return Self.itemType
+    End Method
+
+    Method PickupFail: String(player: Player)
+        Audio.PlayGameSound("error", 2, 1.0)
+        player.ImmediatelyMoveTo(player.lastX - player.x, player.lastY - player.y, False, False, False, False, False)
+
+        Return Item.NoItem
     End Method
 
     Method Render: Void()

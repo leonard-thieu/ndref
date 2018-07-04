@@ -1,15 +1,16 @@
 'Strict
 
 Import level
+Import callback
 Import logger
 Import necrodancergame
 
 Class Camera
 
-    Global fadeInCallback: Object
+    Global fadeInCallback: Callback
     Global fadeInCurrent: Int
     Global fadeInDuration: Int
-    Global fadeOutCallback: Object
+    Global fadeOutCallback: Callback
     Global fadeOutCurrent: Int
     Global fadeOutDuration: Int
     Global fixed: Bool
@@ -37,8 +38,10 @@ Class Camera
         Debug.TraceNotImplemented("Camera.CaptureFreezeFrame()")
     End Function
 
-    Function FadeOutThenExecute: Void(dur: Int, cBack: Object)
-        Debug.TraceNotImplemented("Camera.FadeOutThenExecute(Int, Object)")
+    Function FadeOutThenExecute: Void(dur: Int, cBack: Callback)
+        Camera.fadeOutCallback = cBack
+        Camera.fadeOutDuration = dur
+        Camera.fadeOutCurrent = dur
     End Function
 
     Function GetFixedHeight: Int()

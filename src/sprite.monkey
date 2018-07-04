@@ -232,7 +232,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method UnsetCutoffY: Void()
-        Debug.TraceNotImplemented("Sprite.UnsetCutoffY()")
+        Self.cutoffYSet = False
     End Method
 
     Method UnSetZ: Void()

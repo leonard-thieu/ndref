@@ -31,7 +31,7 @@ Class Bouncer
     End Method
 
     Method Enable: Void()
-        Debug.TraceNotImplemented("Bouncer.Enable()")
+        Self.enabled = True
     End Method
 
     Method GetVal: Float()

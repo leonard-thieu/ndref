@@ -4852,7 +4852,7 @@ Class Level
         For Local i := 0 Until numPlayers
             Local player := players[i]
             If player.characterID <> Character.Melody
-                If player.HasItemOfType("weapon_golden_lute", False)
+                If player.HasItemOfType("weapon_golden_lute")
                     player.AddItemOfType("weapon_dagger", Null, True, True)
                 End If
             End If
@@ -6483,8 +6483,13 @@ Class Level
         Return Null
     End Function
 
-    Function GetTileFlyawayAt: Int(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.GetTileFlyawayAt(Int, Int)")
+    Function GetTileFlyawayAt: String(xVal: Int, yVal: Int)
+        Local tile := Level.GetTileAt(xVal, yVal)
+        If tile <> Null
+            Return tile.flyawayText
+        End If
+
+        Return ""
     End Function
 
     Function GetTileObstructionList: List<Point>(includeOffscreen: Bool)
@@ -6719,7 +6724,8 @@ Class Level
     End Function
 
     Function IsLockedExit: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsLockedExit(Int, Int)")
+        Return Level.GetExitValue(xVal, yVal).x = LevelType.LockedExit2 Or
+               Level.GetExitValue(xVal, yVal).x = LevelType.LockedExit1
     End Function
 
     Function IsNormalFloorAt: Bool(xVal: Int, yVal: Int)
@@ -6783,7 +6789,17 @@ Class Level
     End Function
 
     Function IsSeededMode: Bool(mode: Int)
-        Debug.TraceNotImplemented("Level.IsSeededMode(Int)")
+        Select mode
+            Case LevelType.SeededNoReturnMode,
+                 LevelType.SeededAllZonesMode,
+                 LevelType.SeededRandomizerMode,
+                 LevelType.SeededHardMode,
+                 LevelType.SeededPhasingMode,
+                 LevelType.SeededMysteryMode
+                Return True
+        End Select
+
+        Return False
     End Function
 
     Function IsSurroundedByDestructibleWalls: Bool(xVal: Int, yVal: Int)
@@ -8334,7 +8350,7 @@ Class Level
                 replay.startingGold = Player.numCoins
 
                 Local player1 := controller_game.players[controller_game.player1]
-                replay.hasBroadsword = player1.HasItemOfType("weapon_broadsword", False)
+                replay.hasBroadsword = player1.HasItemOfType("weapon_broadsword")
             End If
         End If
 
@@ -8385,8 +8401,8 @@ Class Level
 
         For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
-            If player.HasItemOfType("ring_regeneration", False) Or
-               player.HasItemOfType("ring_wonder", False)
+            If player.HasItemOfType("ring_regeneration") Or
+               player.HasItemOfType("ring_wonder")
                 player.Heal(2, False, True, False)
             End If
         End For
@@ -13628,6 +13644,12 @@ Class LevelType
 
     Const MinTrainingLevel: Int = -1000
     Const MaxTrainingLevel: Int = -101
+    Const MinTrainingMinibossLevel: Int = -600
+    Const MaxTrainingMinibossLevel: Int = -501
+    Const MinTrainingAvailableMinibossLevel: Int = -600
+    Const MaxTrainingAvailableMinibossLevel: Int = -585
+    Const MinTrainingBossLevel: Int = -500
+    Const MaxTrainingBossLevel: Int = -490
     Const TrainingCongaLineBattle: Int = -500
     Const TrainingDeathMetalBattle: Int = -499
     Const TrainingDeepBluesBattle: Int = -498
@@ -13670,6 +13692,8 @@ Class LevelType
     Const CharacterSelect: Int = -12
 
     Const ToggleCoOpMode: Int = -11
+
+    Const MinLobbyExit: Int = -10
     Const SeededAllZonesMode: Int = -10
     Const DailyChallenge: Int = -9
     Const DancePadMode: Int = -8

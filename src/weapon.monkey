@@ -677,7 +677,25 @@ Class Weapon
     End Method
 
     Method IsDagger: Bool()
-        Debug.TraceNotImplemented("Weapon.IsDagger()")
+        Select Self.type
+            Case "weapon_dagger",
+                 "weapon_golden_dagger",
+                 "weapon_titanium_dagger",
+                 "weapon_obsidian_dagger",
+                 "weapon_blood_dagger",
+                 "weapon_glass_dagger",
+                 "weapon_dagger_shard",
+                 "weapon_dagger_jeweled",
+                 "weapon_dagger_frost",
+                 "weapon_dagger_phasing",
+                 "weapon_flower",
+                 "weapon_fangs",
+                 "weapon_dagger_electric",
+                 "weapon_eli"
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method IsFlail: Bool()
@@ -717,7 +735,17 @@ Class Weapon
     End Method
 
     Method IsSpear: Bool()
-        Debug.TraceNotImplemented("Weapon.IsSpear()")
+        Select Self.type
+            Case "weapon_spear",
+                 "weapon_golden_spear",
+                 "weapon_titanium_spear",
+                 "weapon_obsidian_spear",
+                 "weapon_blood_spear",
+                 "weapon_glass_spear"
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method IsStaff: Bool()
@@ -725,7 +753,22 @@ Class Weapon
     End Method
 
     Method IsThrowable: Bool()
-        Debug.TraceNotImplemented("Weapon.IsThrowable()")
+        If Self.IsSpear()
+            Return True
+        End If
+
+        If Self.IsDagger()
+            Select Self.type
+                Case "weapon_flower",
+                     "weapon_fangs",
+                     "weapon_eli"
+                    Return False
+            End Select
+
+            Return True
+        End If
+
+        Return False
     End Method
 
     Method IsWarhammer: Bool()
