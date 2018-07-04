@@ -229,7 +229,15 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method IsVisible: Bool()
-        Debug.TraceNotImplemented("Entity.IsVisible()")
+        If Self.clampedOn
+            Return True
+        End If
+
+        If Self.invisible
+            Return False
+        End If
+
+        Return Level.IsVisibleTileAt(Self.x, Self.y)
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)

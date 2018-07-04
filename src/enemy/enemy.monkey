@@ -59,8 +59,10 @@ Import enemy.wraith
 Import enemy.yeti
 Import enemy.zombie
 Import enemy.zombie_electric
+Import level
 Import audio2
 Import beatanimationdata
+Import camera
 Import entity
 Import logger
 Import mobileentity
@@ -2145,6 +2147,38 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method AnimateToTheBeat: Void()
+        If Self.animOverrideState <> -1
+            Self.image.SetFrame(Self.animOverrideState)
+        End If
+
+        If Self.wasFrozen And
+           Self.IsFrozen(True)
+            Local frame := Self.image.GetFrame()
+            Local numFrames := Self.image.GetNumFrames()
+            If frame >= (numFrames / 2)
+                frame = Self.image.GetFrame()
+                numFrames = Self.image.GetNumFrames()
+                Self.image.SetFrame(frame - (numFrames / 2))
+            End If
+
+            Return
+        End If
+
+        Self.blinkDelay -= 1
+        Self.blinkDuration -= 1
+        If Self.blinkDelay <= 0
+            Self.blinkDelay = Util.RndIntRange(Self.blink_MIN, Self.blink_MAX, False)
+            Self.blinkDuration = Self.blink_DUR
+        End If
+
+        If Self.animOverride = -1
+            If Self.animNormal.IsEmpty()
+                Return
+            End If
+
+            Self.image.SetFrame(Self.animOffset)
+        End If
+
         Debug.TraceNotImplemented("Enemy.AnimateToTheBeat()")
     End Method
 
@@ -2589,7 +2623,35 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Enemy.Update()")
+        If Self.IsVisible() And
+           Camera.IsOnScreen(Self.x, Self.y) And
+           Not Self.executedCry And
+           Not Level.isLevelEditor
+            Self.executedCry = True
+
+            If Self.overrideCrySound <> ""
+                Audio.PlayGameSoundAt(Self.overrideCrySound, Self.x, Self.y, True, -1, False)
+            End If
+        End If
+
+        If Self.isDancer And
+           Not Level.IsWallAt(Self.x, Self.y)
+            Self.shadowYOff += 8
+            Self.isDancer = False
+            Self.yOff += 8.0
+            Self.image.SetZOff(Self.image.zOff - 124.0)
+            Self.shadow.SetZOff(0.0)
+            Self.shadow.SetZ(-990.0)
+            Self.currentMoveDelay = 2
+        End If
+
+        Self.AnimateToTheBeat()
+
+        Super.Update()
+
+        Self.wasKnockedBack = False
+        Self.justSpawned = False
+        Self.wasFrozen = Self.IsFrozen(False)
     End Method
 
 End Class

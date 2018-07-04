@@ -6835,7 +6835,10 @@ Class Level
     End Function
 
     Function IsVisibleTileAt: Bool(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.IsVisibleTileAt(Int, Int)")
+        Local tile := Level.GetTileAt(xVal, yVal)
+
+        Return tile <> Null And
+               tile.IsVisible()
     End Function
 
     Function IsWallAdjacent: Bool(xVal: Int, yVal: Int)

@@ -1114,7 +1114,31 @@ Class Tile Extends RenderableObject
     End Method
 
     Method IsVisible: Bool()
-        Debug.TraceNotImplemented("Tile.IsVisible()")
+        If controller_game.DEBUG_ALL_TILES_VISIBLE
+            Return True
+        End If
+
+        If Level.isLevelEditor
+            Return True
+        End If
+
+        If Self.IsNecrodancerPlatform()
+            Return True
+        End If
+
+        If Self.hasResource = 1 And
+           Tile.AnyPlayerHaveMonocle()
+            Return True
+        End If
+
+        If Self.isCracked And
+           Tile.AnyPlayerHaveMonocle() And
+           Level.secretAtX = Self.x And
+           Level.secretAtY = Self.y
+            Return True
+        End If
+
+        Return Self.constAlpha > 0.3
     End Method
 
     Method IsWall: Bool()
