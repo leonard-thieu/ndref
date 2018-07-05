@@ -2,6 +2,7 @@
 
 Import enemy.npc
 Import entity
+Import item
 Import logger
 
 Class Pawnbroker Extends NPC
@@ -17,7 +18,7 @@ Class Pawnbroker Extends NPC
     Method Die: Void()
         If Not Self.dead
             If Not Self.falling
-                New Item(Self.x, Self.y, "misc_coupon", False, -1, False)
+                New Item(Self.x, Self.y, ItemType.Coupon, False, -1, False)
             End If
 
             Super.Die()

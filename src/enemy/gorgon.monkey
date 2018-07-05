@@ -46,7 +46,7 @@ Class Gorgon Extends Enemy
                 type = Crate.TYPE_GOLD_GORGON_STATUE
             End If
 
-            Local crate := New Crate(Self.x, Self.y, type, Item.NoItem)
+            Local crate := New Crate(Self.x, Self.y, type, ItemType.NoItem)
             crate.gorgonFlipX = flipX
             crate.gorgonFlashFrames = Self.statueFlashFrames
         End If

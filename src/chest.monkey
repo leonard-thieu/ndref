@@ -32,7 +32,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                Not chest.secretChest And
-               chest.contents = Item.NoItem And
+               chest.contents = ItemType.NoItem And
                Not chest.invisible
                 Return chest
             End If
@@ -45,7 +45,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                chest.secretChest And
-               chest.contents = Item.NoItem And
+               chest.contents = ItemType.NoItem And
                Not chest.invisible
                 Return chest
             End If
@@ -60,7 +60,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                Not chest.secretChest And
-               chest.contents = Item.NoItem And
+               chest.contents = ItemType.NoItem And
                Not chest.invisible
                 numEmptyNonSecretChests += 1
             End If
@@ -75,7 +75,7 @@ Class Chest Extends Entity
         For Local chest := EachIn Chest.chestList
             If Not chest.saleChest And
                chest.secretChest And
-               chest.contents = Item.NoItem And
+               chest.contents = ItemType.NoItem And
                Not chest.invisible
                 numEmptySecretChests += 1
             End If
@@ -114,7 +114,7 @@ Class Chest Extends Entity
         Self.invisible = invis
         Self.contents = cont
 
-        If Self.contents = Item.NoItem And
+        If Self.contents = ItemType.NoItem And
            Level.randSeed <> -1
             If Not Self.lockChest
                 Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "chestChance", tmpColor, False, "", False)
@@ -129,7 +129,7 @@ Class Chest Extends Entity
             If isLocked
                 Self.chestColor = Chest.CHEST_COLOR_BLUE
             Else
-                If Self.contents <> Item.NoItem
+                If Self.contents <> ItemType.NoItem
                     If Chest.IsItemAppropriateForChestColor(Self.contents, Chest.CHEST_COLOR_BLACK)
                         Self.chestColor = Chest.CHEST_COLOR_BLACK
                     Else If Chest.IsItemAppropriateForChestColor(Self.contents, Chest.CHEST_COLOR_WHITE)
@@ -175,7 +175,7 @@ Class Chest Extends Entity
     End Method
 
     Field chestColor: Int = Chest.CHEST_COLOR_NONE
-    Field contents: String = Item.NoItem
+    Field contents: String = ItemType.NoItem
     Field singleChoiceChest: Bool
     Field secretChest: Bool
     Field saleChest: Bool
@@ -187,7 +187,7 @@ Class Chest Extends Entity
     Field bounce2: Bouncer
 
     Method AddKeyToContents: Void()
-        New Item(Self.x, Self.y, "misc_key", False, -1, False)
+        New Item(Self.x, Self.y, ItemType.Key, False, -1, False)
 
         Self.Die()
     End Method

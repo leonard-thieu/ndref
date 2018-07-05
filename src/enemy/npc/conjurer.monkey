@@ -56,11 +56,11 @@ Class Conjurer Extends NPC
 
         If Not Self.dead
             If Not Self.falling
-                Local bagOfHoldingNode := Item.GetItemXML("bag_holding")
+                Local bagOfHoldingNode := Item.GetItemXML(ItemType.PackOfHolding)
                 If Item.IsValidItemForCurrentChars(bagOfHoldingNode)
-                    New Item(Self.x, Self.y, "bag_holding", False, -1, False)
+                    New Item(Self.x, Self.y, ItemType.PackOfHolding, False, -1, False)
                 Else
-                    New Item(Self.x, Self.y, "food_2", False, -1, False)
+                    New Item(Self.x, Self.y, ItemType.Cheese, False, -1, False)
                 End If
             End If
 

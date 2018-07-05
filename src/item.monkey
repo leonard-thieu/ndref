@@ -25,8 +25,6 @@ End Function
 
 Class Item Extends Entity
 
-    Const NoItem: String = "no_item"
-
     Global debugTrailerMode: Bool
     Global diamondDealerItems1: Object
     Global diamondDealerItems2: Object
@@ -73,7 +71,7 @@ Class Item Extends Entity
     Function ClearAllSingleChoiceItems: Void(takenItem: Item)
         If takenItem.x >= 150 Or
            takenItem.y >= 150 Or
-           Not Player.DoesAnyPlayerHaveItemOfType("ring_shadows", False)
+           Not Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfShadows, False)
 
             Local loop: Bool
             Repeat
@@ -464,7 +462,7 @@ Class Item Extends Entity
 
         Debug.Log("GetRandomItemInClassByPredicate: NO VALID ITEM!  Spawning coins")
 
-        Return "resource_hoard_gold"
+        Return ItemType.GoldHoard
     End Function
 
     Function GetSet: Int(n: Object)
@@ -472,7 +470,7 @@ Class Item Extends Entity
     End Function
 
     Function GetSlot: String(n: XMLNode)
-        Return n.GetAttribute("slot", Item.NoItem)
+        Return n.GetAttribute("slot", ItemType.NoItem)
     End Function
 
     Function GetSlot: String(i: String)
@@ -515,8 +513,8 @@ Class Item Extends Entity
         Local name := n.name
 
         Select name
-            Case "ring_courage",
-                 "shovel_courage"
+            Case ItemType.RingOfCourage,
+                 ItemType.ShovelOfCourage
                 Return True
         End Select
 
@@ -527,21 +525,21 @@ Class Item Extends Entity
         Local name := n.name
 
         Select name
-            Case "blood_drum",
-                 "charm_risk",
-                 "charm_strength",
-                 "feet_boots_strength",
-                 "head_glass_jaw",
-                 "head_spiked_ears",
-                 "head_sunglasses",
-                 "ring_courage",
-                 "ring_frost",
-                 "ring_might",
-                 "ring_piercing",
-                 "ring_war",
-                 "shovel_battle",
-                 "torch_strength",
-                 "war_drum"
+            Case ItemType.BloodDrum,
+                 ItemType.RiskCharm,
+                 ItemType.StrengthCharm,
+                 ItemType.BootsOfStrength,
+                 ItemType.GlassJaw,
+                 ItemType.SpikedEars,
+                 ItemType.Sunglasses,
+                 ItemType.RingOfCourage,
+                 ItemType.RingOfFrost,
+                 ItemType.RingOfMight,
+                 ItemType.RingOfPiercing,
+                 ItemType.RingOfWar,
+                 ItemType.BattleShovel,
+                 ItemType.TorchOfStrength,
+                 ItemType.WarDrum
                 Return True
         End Select
 
@@ -552,16 +550,16 @@ Class Item Extends Entity
         Local name := n.name
 
         Select name
-            Case "armor_chainmail",
-                 "armor_heavyplate",
-                 "armor_leather",
-                 "armor_obsidian",
-                 "armor_platemail",
-                 "armor_quartz",
-                 "charm_protection",
-                 "feet_greaves",
-                 "head_helm",
-                 "ring_protection"
+            Case ItemType.Chainmail,
+                 ItemType.HeavyPlate,
+                 ItemType.LeatherArmor,
+                 ItemType.ObsidianArmor,
+                 ItemType.PlateArmor,
+                 ItemType.QuartzArmor,
+                 ItemType.ProtectionCharm,
+                 ItemType.Hargreaves,
+                 ItemType.Helm,
+                 ItemType.RingOfProtection
                 Return True
         End Select
 
@@ -572,7 +570,7 @@ Class Item Extends Entity
         If Not necrodancer.DEBUG_BUILD Or
            Not controller_game.debugEnablePrototypes
             Select item
-                Case "familiar_shield"
+                Case ItemType.ShieldFamiliar
                     Return True
             End Select
         End If
@@ -584,8 +582,8 @@ Class Item Extends Entity
         Local name := n.name
 
         Select name
-            Case "misc_coupon",
-                 "ring_charisma"
+            Case ItemType.Coupon,
+                 ItemType.RingOfCharisma
                 Return True
         End Select
 
@@ -596,9 +594,9 @@ Class Item Extends Entity
         Local name := n.name
 
         Select name
-            Case "familiar_shopkeeper",
-                 "ring_gold",
-                 "scroll_riches"
+            Case ItemType.ShopkeeperFamiliar,
+                 ItemType.RingOfGold,
+                 ItemType.RichesScroll
                 Return True
         End Select
 
@@ -611,17 +609,17 @@ Class Item Extends Entity
         Local name := n.name
 
         Select name
-            Case "charm_gluttony",
-                 "cursed_potion",
-                 "head_crown_of_thorns",
-                 "misc_heart_container",
-                 "misc_heart_container2",
-                 "misc_heart_container_cursed",
-                 "misc_heart_container_cursed2",
-                 "misc_heart_container_empty",
-                 "misc_heart_container_empty2",
-                 "ring_regeneration",
-                 "spell_heal"
+            Case ItemType.GluttonyCharm,
+                 ItemType.CursedPotion,
+                 ItemType.CrownOfThorns,
+                 ItemType.HeartContainer,
+                 ItemType.DoubleHeartContainer,
+                 ItemType.CursedHeartContainer,
+                 ItemType.CursedDoubleHeartContainer,
+                 ItemType.EmptyHeartContainer,
+                 ItemType.EmptyDoubleHeartContainer,
+                 ItemType.RingOfRegeneration,
+                 ItemType.HealSpell
                 Return True
         End Select
 
@@ -649,8 +647,8 @@ Class Item Extends Entity
         Local name := n.name
 
         Select name
-            Case "feet_boots_pain",
-                 "ring_pain"
+            Case ItemType.BootsOfPain,
+                 ItemType.RingOfPain
                 Return True
         End Select
 
@@ -675,14 +673,14 @@ Class Item Extends Entity
             If Item.IsPainItem(n) Then Return False
 
             Select name
-                Case "blood_drum",
-                     "charm_nazar",
-                     "charm_risk",
-                     "feet_ballet_shoes",
-                     "holster",
-                     "scroll_enchant_weapon",
-                     "shovel_blood",
-                     "war_drum"
+                Case ItemType.BloodDrum,
+                     ItemType.NazarCharm,
+                     ItemType.RiskCharm,
+                     ItemType.BalletShoes,
+                     ItemType.Holster,
+                     ItemType.EnchantWeaponScroll,
+                     ItemType.BloodShovel,
+                     ItemType.WarDrum
                     Return False
             End Select
         End If
@@ -693,10 +691,10 @@ Class Item Extends Entity
             If Item.IsItemOfClass(n, "isFamiliar") Then Return False
 
             Select name
-                Case "feet_boots_leaping",
-                     "feet_boots_lunging",
-                     "holster",
-                     "scroll_enchant_weapon"
+                Case ItemType.BootsOfLeaping,
+                     ItemType.BootsOfLunging,
+                     ItemType.Holster,
+                     ItemType.EnchantWeaponScroll
                     Return False
             End Select
         End If
@@ -710,13 +708,13 @@ Class Item Extends Entity
             If Item.IsDiscountItem(n) Then Return False
 
             Select name
-                Case "blood_drum",
-                     "charm_nazar",
-                     "feet_ballet_shoes",
-                     "holster",
-                     "ring_shadows",
-                     "scroll_enchant_weapon",
-                     "shovel_blood"
+                Case ItemType.BloodDrum,
+                     ItemType.NazarCharm,
+                     ItemType.BalletShoes,
+                     ItemType.Holster,
+                     ItemType.RingOfShadows,
+                     ItemType.EnchantWeaponScroll,
+                     ItemType.BloodShovel
                     Return False
             End Select
         End If
@@ -727,30 +725,30 @@ Class Item Extends Entity
             If Item.IsItemOfClass(n, "isShovel") Then Return False
 
             Select name
-                Case "charm_grenade",
-                     "familiar_dove",
-                     "familiar_rat",
-                     "feet_boots_lunging",
-                     "head_crown_of_thorns",
-                     "holster",
-                     "holy_water",
-                     "misc_coupon",
-                     "ring_gold",
-                     "ring_phasing",
-                     "ring_shadows",
-                     "scroll_earthquake",
-                     "scroll_enchant_weapon",
-                     "scroll_fireball",
-                     "scroll_pulse",
-                     "scroll_riches",
-                     "spell_earth",
-                     "spell_fireball",
-                     "spell_pulse",
-                     "throwing_stars",
-                     "tome_earth",
-                     "tome_fireball",
-                     "tome_pulse",
-                     "torch_infernal"
+                Case ItemType.GrenadeCharm,
+                     ItemType.DoveFamiliar,
+                     ItemType.RatFamiliar,
+                     ItemType.BootsOfLunging,
+                     ItemType.CrownOfThorns,
+                     ItemType.Holster,
+                     ItemType.HolyWater,
+                     ItemType.Coupon,
+                     ItemType.RingOfGold,
+                     ItemType.RingOfPhasing,
+                     ItemType.RingOfShadows,
+                     ItemType.EarthquakeScroll,
+                     ItemType.EnchantWeaponScroll,
+                     ItemType.FireballScroll,
+                     ItemType.PulseScroll,
+                     ItemType.RichesScroll,
+                     ItemType.EarthSpell,
+                     ItemType.FireballSpell,
+                     ItemType.PulseSpell,
+                     ItemType.ThrowingStars,
+                     ItemType.EarthTome,
+                     ItemType.FireballTome,
+                     ItemType.PulseTome,
+                     ItemType.InfernalTorch
                     Return False
             End Select
         End If
@@ -761,35 +759,35 @@ Class Item Extends Entity
             If Item.IsDamageBonusItem(n) Then Return False
 
             Select name
-                Case "bomb",
-                     "bomb3",
-                     "charm_bomb",
-                     "charm_grenade",
-                     "charm_nazar",
-                     "head_blast_helm",
-                     "head_crown_of_thorns",
-                     "holster",
-                     "ring_gold",
-                     "scroll_enchant_weapon",
-                     "spell_bomb"
+                Case ItemType.Bomb,
+                     ItemType.Bomb3,
+                     ItemType.BombCharm,
+                     ItemType.GrenadeCharm,
+                     ItemType.NazarCharm,
+                     ItemType.BlastHelm,
+                     ItemType.CrownOfThorns,
+                     ItemType.Holster,
+                     ItemType.RingOfGold,
+                     ItemType.EnchantWeaponScroll,
+                     ItemType.BombSpell
                     Return False
             End Select
         End If
 
         If Util.IsCharacterActive(Character.Bard)
             Select name
-                Case "double_heart_transplant",
-                     "feet_boots_speed",
-                     "heart_transplant"
+                Case ItemType.DoubleHeartTransplant,
+                     ItemType.BootsOfSpeed,
+                     ItemType.HeartTransplant
                     Return False
             End Select
         End If
 
         If Util.IsCharacterActive(Character.Bolt)
             Select name
-                Case "charm_nazar",
-                     "feet_ballet_shoes",
-                     "weapon_spear"
+                Case ItemType.NazarCharm,
+                     ItemType.BalletShoes,
+                     ItemType.Spear
                     Return False
             End Select
         End If
@@ -799,12 +797,12 @@ Class Item Extends Entity
             If slot = "body" Then Return False
 
             Select name
-                Case "misc_compass",
-                     "pickaxe",
-                     "ring_gold",
-                     "ring_might",
-                     "weapon_blunderbuss",
-                     "weapon_rifle"
+                Case ItemType.Compass,
+                     ItemType.Pickaxe,
+                     ItemType.RingOfGold,
+                     ItemType.RingOfMight,
+                     ItemType.Blunderbuss,
+                     ItemType.Rifle
                     Return False
             End Select
         End If
@@ -815,8 +813,8 @@ Class Item Extends Entity
             If Item.IsDiscountItem(n) Then Return False
 
             Select name
-                Case "ring_shadows",
-                     "shovel_blood"
+                Case ItemType.RingOfShadows,
+                     ItemType.BloodShovel
                     Return False
             End Select
         End If
@@ -837,15 +835,15 @@ Class Item Extends Entity
             If slot = "spell" Then Return False
 
             Select name
-                Case "charm_grenade",
-                     "feet_boots_leaping",
-                     "feet_boots_lunging",
-                     "holster",
-                     "hud_backpack",
-                     "ring_mana",
-                     "throwing_stars",
-                     "weapon_blunderbuss",
-                     "weapon_rifle"
+                Case ItemType.GrenadeCharm,
+                     ItemType.BootsOfLeaping,
+                     ItemType.BootsOfLunging,
+                     ItemType.Holster,
+                     ItemType.Backpack,
+                     ItemType.RingOfMana,
+                     ItemType.ThrowingStars,
+                     ItemType.Blunderbuss,
+                     ItemType.Rifle
                     Return False
             End Select
         End If
@@ -855,8 +853,8 @@ Class Item Extends Entity
             If name.Contains("familiar") Then Return False
 
             Select name
-                Case "feet_boots_leaping",
-                     "feet_boots_lunging"
+                Case ItemType.BootsOfLeaping,
+                     ItemType.BootsOfLunging
                     Return False
             End Select
         End If
@@ -870,9 +868,9 @@ Class Item Extends Entity
             If Item.IsDamageBonusItem(n) Then Return False
 
             Select name
-                Case "head_circlet_telepathy",
-                     "scroll_enchant_weapon",
-                     "weapon_dagger_jeweled"
+                Case ItemType.CircletOfTelepathy,
+                     ItemType.EnchantWeaponScroll,
+                     ItemType.JeweledDagger
                     Return False
                 Default
             End Select
@@ -882,8 +880,8 @@ Class Item Extends Entity
             If name.Contains("familiar") Then Return False
 
             Select name
-                Case "head_blast_helm",
-                     "weapon_spear"
+                Case ItemType.BlastHelm,
+                     ItemType.Spear
                     Return False
             End Select
         End If
@@ -898,19 +896,19 @@ Class Item Extends Entity
             End If
 
             Select name
-                Case "feet_boots_explorers",
-                     "feet_boots_winged",
-                     "feet_glass_slippers",
-                     "scroll_freeze_enemies",
-                     "spell_freeze_enemies",
-                     "tome_freeze"
+                Case ItemType.ExplorersBoots,
+                     ItemType.WingedBoots,
+                     ItemType.GlassSlippers,
+                     ItemType.FreezeEnemiesScroll,
+                     ItemType.FreezeEnemiesSpell,
+                     ItemType.FreezeTome
                     Return False
             End Select
         End If
 
         If Level.isPhasingMode
             Select name
-                Case "ring_phasing"
+                Case ItemType.RingOfPhasing
                     Return False
             End Select
         End If
@@ -924,8 +922,8 @@ Class Item Extends Entity
 
     Function IsValidRandomItem: Bool(t: String)
         Select t
-            Case Item.NoItem,
-                 "resource_hoard_gold"
+            Case ItemType.NoItem,
+                 ItemType.GoldHoard
                 Return False
         End Select
 
@@ -970,7 +968,7 @@ Class Item Extends Entity
         If Not itemNode.valid
             Debug.Log("ERROR: Unrecognized item type " + type)
 
-            type = "food_1"
+            type = ItemType.Apple
             itemNode = Item.GetItemXML(type)
         End If
 
@@ -1035,11 +1033,11 @@ Class Item Extends Entity
             End For
 
             If Self.utility >= 50
-                resourceCoinNode = Item.GetItemXML("resource_hoard_gold")
+                resourceCoinNode = Item.GetItemXML(ItemType.GoldHoard)
                 resourceCoinPath = "items/" + resourceCoinNode.value
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             Else If Self.utility >= 25
-                resourceCoinNode = Item.GetItemXML("resource_hoard_gold_small")
+                resourceCoinNode = Item.GetItemXML(ItemType.SmallGoldHoard)
                 resourceCoinPath = "items/" + resourceCoinNode.value
                 Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
             End If
@@ -1060,7 +1058,7 @@ Class Item Extends Entity
 
             Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1, Image.DefaultFlags)
 
-            If Self.itemType = "weapon_golden_lute"
+            If Self.itemType = ItemType.GoldenLute
                 Self.bounce = New Bouncer(-2.5, 0.0, 1.5, 40)
                 Self.yOff -= 18.0
                 Self.shadowYOff = -8
@@ -1081,7 +1079,7 @@ Class Item Extends Entity
         Local hint := itemNode.GetAttribute("hint", "")
         If hint <> ""
             If Level.isMysteryMode
-                If Self.itemType <> "bomb" And
+                If Self.itemType <> ItemType.Bomb And
                    Not Self.IsItemOfType("isCoin")
                     hint = "?"
                 End If
@@ -1104,13 +1102,13 @@ Class Item Extends Entity
             Self.quantityText = New TextSprite(1)
         End If
 
-        If Self.itemType = "weapon_golden_lute"
+        If Self.itemType = ItemType.GoldenLute
             Self.image = New Sprite("items/golden_lute_magic.png", 32, 33, 8, Image.DefaultFlags)
             Self.image.SetZOff(124.0)
         End If
 
         If Self.IsItemOfType("isTorch") Or
-           Self.itemType = "weapon_golden_lute"
+           Self.itemType = ItemType.GoldenLute
             Local lMax := Self.GetValue() + 0.5
             Self.ActivateLight(1.0, lMax)
         End If
@@ -1125,7 +1123,7 @@ Class Item Extends Entity
         Debug.WriteLine("Placed " + displayName + " at " + (New Point(Self.x, Self.y)).ToString())
     End Method
 
-    Field itemType: String = Item.NoItem
+    Field itemType: String = ItemType.NoItem
     Field singleChoiceItem: Bool
     Field hasBloodCost: Bool
     Field isSaleItem: Bool
@@ -1210,15 +1208,15 @@ Class Item Extends Entity
 
     Method Pickup: String(player: Player)
         If Self.dead
-            Return Item.NoItem
+            Return ItemType.NoItem
         End If
 
         Select Self.itemType
-            Case "misc_key",
-                 "misc_golden_key",
-                 "misc_golden_key2",
-                 "misc_golden_key3",
-                 "misc_glass_key"
+            Case ItemType.Key,
+                 ItemType.GoldenKey,
+                 ItemType.GoldenKey2,
+                 ItemType.GoldenKey3,
+                 ItemType.GlassKey
                 If player.HasItemOfType(Self.itemType)
                     Return Self.PickupFail(player)
                 End If
@@ -1237,8 +1235,8 @@ Class Item Extends Entity
 
         If player.characterID = Character.Diamond
             Select Self.itemType
-                Case "feet_boots_leaping",
-                     "feet_boots_lunging"
+                Case ItemType.BootsOfLeaping,
+                     ItemType.BootsOfLunging
                     Return Self.PickupFail(player)
             End Select
 
@@ -1259,7 +1257,7 @@ Class Item Extends Entity
             End Select
         End If
 
-        If Self.itemType = "weapon_golden_lute"
+        If Self.itemType = ItemType.GoldenLute
             If player.isHelper
                 Return Self.PickupFail(player)
             End If
@@ -1284,7 +1282,7 @@ Class Item Extends Entity
         End If
 
         Local pickupSound := "pickupGeneral"
-        If Self.itemType = "resource_diamond"
+        If Self.itemType = ItemType.Diamond
             pickupSound = "pickupDiamond"
         Else If Self.IsItemOfType("isCoin")
             pickupSound = "pickupGold"
@@ -1310,7 +1308,7 @@ Class Item Extends Entity
         Audio.PlayGameSound("error", 2, 1.0)
         player.ImmediatelyMoveTo(player.lastX - player.x, player.lastY - player.y, False, False, False, False, False)
 
-        Return Item.NoItem
+        Return ItemType.NoItem
     End Method
 
     Method Render: Void()
@@ -1421,5 +1419,303 @@ Class TransmutePredicate Implements IItemPredicate
     Method Call: Bool(n: XMLNode)
         Debug.TraceNotImplemented("TransmutePredicate.Call(XMLNode)")
     End Method
+
+End Class
+
+Class ItemType
+
+    Const NoItem: String = "no_item"
+
+    Const AddBlackChest: String = "addchest_black"
+    Const AddRedChest: String = "addchest_red"
+    Const AddPurpleChest: String = "addchest_white"
+    Const Chainmail: String = "armor_chainmail"
+    Const HeavyGlassArmor: String = "armor_heavyglass"
+    Const HeavyPlate: String = "armor_heavyplate"
+    Const LeatherArmor: String = "armor_leather"
+    Const PlateArmor: String = "armor_platemail"
+    Const PlateArmorDorian: String = "armor_platemail_dorian"
+    Const KarateGi: String = "armor_gi"
+    Const GlassArmor: String = "armor_glass"
+    Const ObsidianArmor: String = "armor_obsidian"
+    Const QuartzArmor: String = "armor_quartz"
+    Const CoinMultiplier1: String = "coins_x15"
+    Const CoinMultiplier2: String = "coins_x2"
+    Const CursedPotion: String = "cursed_potion"
+    Const BalletShoes: String = "feet_ballet_shoes"
+    Const BootsOfSpeed: String = "feet_boots_speed"
+    Const WingedBoots: String = "feet_boots_winged"
+    Const ExplorersBoots: String = "feet_boots_explorers"
+    Const LeadBoots: String = "feet_boots_lead"
+    Const BootsOfLeaping: String = "feet_boots_leaping"
+    Const BootsOfLunging: String = "feet_boots_lunging"
+    Const BootsOfPain: String = "feet_boots_pain"
+    Const Hargreaves: String = "feet_greaves"
+    Const BootsOfStrength: String = "feet_boots_strength"
+    Const GlassSlippers: String = "feet_glass_slippers"
+    Const Apple: String = "food_1"
+    Const Cheese: String = "food_2"
+    Const Drumstick: String = "food_3"
+    Const Ham: String = "food_4"
+    Const Carrot: String = "food_carrot"
+    Const Cookies: String = "food_cookies"
+    Const MagicApple: String = "food_magic_1"
+    Const MagicCheese: String = "food_magic_2"
+    Const MagicDrumstick: String = "food_magic_3"
+    Const MagicHam: String = "food_magic_4"
+    Const MagicCarrot: String = "food_magic_carrot"
+    Const MagicCookies: String = "food_magic_cookies"
+    Const HolyWater: String = "holy_water"
+    Const LordCrown: String = "lord_crown"
+    Const Bomb: String = "bomb"
+    Const Bomb3: String = "bomb_3"
+    Const Grenade: String = "bomb_grenade"
+    Const WarDrum: String = "war_drum"
+    Const BloodDrum: String = "blood_drum"
+    Const DoubleHeartTransplant: String = "double_heart_transplant"
+    Const HeartTransplant: String = "heart_transplant"
+    Const CrownOfThorns: String = "head_crown_of_thorns"
+    Const CrownOfGreed: String = "head_crown_of_greed"
+    Const CrownOfTeleportation: String = "head_crown_of_teleportation"
+    Const CircletOfTelepathy: String = "head_circlet_telepathy"
+    Const MinersCap: String = "head_miners_cap"
+    Const Monocle: String = "head_monocle"
+    Const NinjaMask: String = "head_ninja_mask"
+    Const Helm: String = "head_helm"
+    Const GlassJaw: String = "head_glass_jaw"
+    Const BlastHelm: String = "head_blast_helm"
+    Const SpikedEars: String = "head_spiked_ears"
+    Const Sunglasses: String = "head_sunglasses"
+    Const Sonar: String = "head_sonar"
+    Const Backpack: String = "hud_backpack"
+    Const Holster: String = "holster"
+    Const PackOfHolding: String = "bag_holding"
+    Const Compass: String = "misc_compass"
+    Const Coupon: String = "misc_coupon"
+    Const GoldenKey: String = "misc_golden_key"
+    Const GoldenKey2: String = "misc_golden_key2"
+    Const GoldenKey3: String = "misc_golden_key3"
+    Const GlassKey: String = "misc_glass_key"
+    Const HeartContainer: String = "misc_heart_container"
+    Const DoubleHeartContainer: String = "misc_heart_container2"
+    Const CursedHeartContainer: String = "misc_heart_container_cursed"
+    Const CursedDoubleHeartContainer: String = "misc_heart_container_cursed2"
+    Const EmptyHeartContainer: String = "misc_heart_container_empty"
+    Const EmptyDoubleHeartContainer: String = "misc_heart_container_empty2"
+    Const Key: String = "misc_key"
+    Const GoldMagnet: String = "misc_magnet"
+    Const Map: String = "misc_map"
+    Const MonkeysPaw: String = "misc_monkey_paw"
+    Const Potion: String = "misc_potion"
+    Const BombCharm: String = "charm_bomb"
+    Const FrostCharm: String = "charm_frost"
+    Const GluttonyCharm: String = "charm_gluttony"
+    Const GrenadeCharm: String = "charm_grenade"
+    Const LuckyCharm: String = "charm_luck"
+    Const NazarCharm: String = "charm_nazar"
+    Const ProtectionCharm: String = "charm_protection"
+    Const RiskCharm: String = "charm_risk"
+    Const StrengthCharm: String = "charm_strength"
+    Const PermanentHeartContainer2: String = "perm_heart2"
+    Const PermanentHeartContainer3: String = "perm_heart3"
+    Const PermanentHeartContainer4: String = "perm_heart4"
+    Const PermanentHeartContainer5: String = "perm_heart5"
+    Const PermanentHeartContainer6: String = "perm_heart6"
+    Const Coin0: String = "resource_coin0"
+    Const Coin1: String = "resource_coin1"
+    Const Coin2: String = "resource_coin2"
+    Const Coin3: String = "resource_coin3"
+    Const Coin4: String = "resource_coin4"
+    Const Coin5: String = "resource_coin5"
+    Const Coin6: String = "resource_coin6"
+    Const Coin7: String = "resource_coin7"
+    Const Coin8: String = "resource_coin8"
+    Const Coin9: String = "resource_coin9"
+    Const Coin10: String = "resource_coin10"
+    Const Coin50: String = "resource_coin50"
+    Const Coin100: String = "resource_coin100"
+    Const Coin150: String = "resource_coin150"
+    Const Diamond: String = "resource_diamond"
+    Const Diamond2: String = "resource_diamond2"
+    Const Diamond3: String = "resource_diamond3"
+    Const Diamond4: String = "resource_diamond4"
+    Const Diamonds5: String = "resource_hoard1"
+    Const Diamonds10: String = "resource_hoard2"
+    Const Diamonds15: String = "resource_hoard3"
+    Const Diamonds20: String = "resource_hoard4"
+    Const SmallGoldHoard: String = "resource_hoard_gold_small"
+    Const GoldHoard: String = "resource_hoard_gold"
+    Const RingOfCourage: String = "ring_courage"
+    Const RingOfWar: String = "ring_war"
+    Const RingOfPeace: String = "ring_peace"
+    Const RingOfMana: String = "ring_mana"
+    Const RingOfShadows: String = "ring_shadows"
+    Const RingOfMight: String = "ring_might"
+    Const RingOfCharisma: String = "ring_charisma"
+    Const RingOfLuck: String = "ring_luck"
+    Const RingOfGold: String = "ring_gold"
+    Const RingOfPhasing: String = "ring_phasing"
+    Const RingOfPiercing: String = "ring_piercing"
+    Const RingOfRegeneration: String = "ring_regeneration"
+    Const RingOfProtection: String = "ring_protection"
+    Const RingOfShielding: String = "ring_shielding"
+    Const RingOfBecoming: String = "ring_becoming"
+    Const RingOfWonder: String = "ring_wonder"
+    Const RingOfPain: String = "ring_pain"
+    Const RingOfFrost: String = "ring_frost"
+    Const EarthquakeScroll: String = "scroll_earthquake"
+    Const FearScroll: String = "scroll_fear"
+    Const FireballScroll: String = "scroll_fireball"
+    Const FreezeEnemiesScroll: String = "scroll_freeze_enemies"
+    Const GigantismScroll: String = "scroll_gigantism"
+    Const RichesScroll: String = "scroll_riches"
+    Const ShieldScroll: String = "scroll_shield"
+    Const EnchantWeaponScroll: String = "scroll_enchant_weapon"
+    Const ScrollOfNeed: String = "scroll_need"
+    Const PulseScroll: String = "scroll_pulse"
+    Const TransmuteScroll: String = "scroll_transmute"
+    Const CrystalShovel: String = "shovel_crystal"
+    Const BattleShovel: String = "shovel_battle"
+    Const TitaniumShovel: String = "shovel_titanium"
+    Const BloodShovel: String = "shovel_blood"
+    Const ObsidianShovel: String = "shovel_obsidian"
+    Const GlassShovel: String = "shovel_glass"
+    Const GlassShardShovel: String = "shovel_shard"
+    Const Shovel: String = "shovel_basic"
+    Const ShovelOfCourage: String = "shovel_courage"
+    Const ShovelOfStrength: String = "shovel_strength"
+    Const Pickaxe: String = "pickaxe"
+    Const EarthSpell: String = "spell_earth"
+    Const FireballSpell: String = "spell_fireball"
+    Const PulseSpell: String = "spell_pulse"
+    Const FreezeEnemiesSpell: String = "spell_freeze_enemies"
+    Const HealSpell: String = "spell_heal"
+    Const BombSpell: String = "spell_bomb"
+    Const ShieldSpell: String = "spell_shield"
+    Const TransmuteSpell: String = "spell_transmute"
+    Const CharmSpell: String = "spell_charm"
+    Const TransformSpell: String = "spell_transform"
+    Const ThrowingStars: String = "throwing_stars"
+    Const DoveFamiliar: String = "familiar_dove"
+    Const IceSpiritFamiliar: String = "familiar_ice_spirit"
+    Const ShopkeeperFamiliar: String = "familiar_shopkeeper"
+    Const ShieldFamiliar: String = "familiar_shield"
+    Const RatFamiliar: String = "familiar_rat"
+    Const EarthTome: String = "tome_earth"
+    Const FireballTome: String = "tome_fireball"
+    Const FreezeTome: String = "tome_freeze"
+    Const PulseTome: String = "tome_pulse"
+    Const ShieldTome: String = "tome_shield"
+    Const TransmuteTome: String = "tome_transmute"
+    Const Torch: String = "torch_1"
+    Const BrightTorch: String = "torch_2"
+    Const LuminousTorch: String = "torch_3"
+    Const TorchOfForesight: String = "torch_foresight"
+    Const GlassTorch: String = "torch_glass"
+    Const InfernalTorch: String = "torch_infernal"
+    Const ObsidianTorch: String = "torch_obsidian"
+    Const TorchOfStrength: String = "torch_strength"
+    Const TorchOfWalls: String = "torch_walls"
+    Const Eli: String = "weapon_eli"
+    Const Fangs: String = "weapon_fangs"
+    Const Flower: String = "weapon_flower"
+    Const GoldenLute: String = "weapon_golden_lute"
+    Const Dagger: String = "weapon_dagger"
+    Const GlassShardWeapon: String = "weapon_dagger_shard"
+    Const TitaniumDagger: String = "weapon_titanium_dagger"
+    Const ObsidianDagger: String = "weapon_obsidian_dagger"
+    Const GoldenDagger: String = "weapon_golden_dagger"
+    Const BloodDagger: String = "weapon_blood_dagger"
+    Const GlassDagger: String = "weapon_glass_dagger"
+    Const ElectricDagger: String = "weapon_dagger_electric"
+    Const JeweledDagger: String = "weapon_dagger_jeweled"
+    Const DaggerOfFrost: String = "weapon_dagger_frost"
+    Const DaggerOfPhasing: String = "weapon_dagger_phasing"
+    Const Broadsword: String = "weapon_broadsword"
+    Const TitaniumBroadsword: String = "weapon_titanium_broadsword"
+    Const ObsidianBroadsword: String = "weapon_obsidian_broadsword"
+    Const GoldenBroadsword: String = "weapon_golden_broadsword"
+    Const BloodBroadsword: String = "weapon_blood_broadsword"
+    Const GlassBroadsword: String = "weapon_glass_broadsword"
+    Const Longsword: String = "weapon_longsword"
+    Const TitaniumLongsword: String = "weapon_titanium_longsword"
+    Const ObsidianLongsword: String = "weapon_obsidian_longsword"
+    Const GoldenLongsword: String = "weapon_golden_longsword"
+    Const BloodLongsword: String = "weapon_blood_longsword"
+    Const GlassLongsword: String = "weapon_glass_longsword"
+    Const Whip: String = "weapon_whip"
+    Const TitaniumWhip: String = "weapon_titanium_whip"
+    Const ObsidianWhip: String = "weapon_obsidian_whip"
+    Const GoldenWhip: String = "weapon_golden_whip"
+    Const BloodWhip: String = "weapon_blood_whip"
+    Const GlassWhip: String = "weapon_glass_whip"
+    Const Spear: String = "weapon_spear"
+    Const TitaniumSpear: String = "weapon_titanium_spear"
+    Const ObsidianSpear: String = "weapon_obsidian_spear"
+    Const GoldenSpear: String = "weapon_golden_spear"
+    Const BloodSpear: String = "weapon_blood_spear"
+    Const GlassSpear: String = "weapon_glass_spear"
+    Const Rapier: String = "weapon_rapier"
+    Const TitaniumRapier: String = "weapon_titanium_rapier"
+    Const ObsidianRapier: String = "weapon_obsidian_rapier"
+    Const GoldenRapier: String = "weapon_golden_rapier"
+    Const BloodRapier: String = "weapon_blood_rapier"
+    Const GlassRapier: String = "weapon_glass_rapier"
+    Const Bow: String = "weapon_bow"
+    Const TitaniumBow: String = "weapon_titanium_bow"
+    Const ObsidianBow: String = "weapon_obsidian_bow"
+    Const GoldenBow: String = "weapon_golden_bow"
+    Const BloodBow: String = "weapon_blood_bow"
+    Const GlassBow: String = "weapon_glass_bow"
+    Const Crossbow: String = "weapon_crossbow"
+    Const TitaniumCrossbow: String = "weapon_titanium_crossbow"
+    Const ObsidianCrossbow: String = "weapon_obsidian_crossbow"
+    Const GoldenCrossbow: String = "weapon_golden_crossbow"
+    Const BloodCrossbow: String = "weapon_blood_crossbow"
+    Const GlassCrossbow: String = "weapon_glass_crossbow"
+    Const Flail: String = "weapon_flail"
+    Const TitaniumFlail: String = "weapon_titanium_flail"
+    Const ObsidianFlail: String = "weapon_obsidian_flail"
+    Const GoldenFlail: String = "weapon_golden_flail"
+    Const BloodFlail: String = "weapon_blood_flail"
+    Const GlassFlail: String = "weapon_glass_flail"
+    Const CatONineTails: String = "weapon_cat"
+    Const TitaniumCat: String = "weapon_titanium_cat"
+    Const ObsidianCat: String = "weapon_obsidian_cat"
+    Const GoldenCat: String = "weapon_golden_cat"
+    Const BloodCat: String = "weapon_blood_cat"
+    Const GlassCat: String = "weapon_glass_cat"
+    Const Blunderbuss: String = "weapon_blunderbuss"
+    Const Rifle: String = "weapon_rifle"
+    Const Axe: String = "weapon_axe"
+    Const TitaniumAxe: String = "weapon_titanium_axe"
+    Const ObsidianAxe: String = "weapon_obsidian_axe"
+    Const GoldenAxe: String = "weapon_golden_axe"
+    Const BloodAxe: String = "weapon_blood_axe"
+    Const GlassAxe: String = "weapon_glass_axe"
+    Const Harp: String = "weapon_harp"
+    Const TitaniumHarp: String = "weapon_titanium_harp"
+    Const ObsidianHarp: String = "weapon_obsidian_harp"
+    Const GoldenHarp: String = "weapon_golden_harp"
+    Const BloodHarp: String = "weapon_blood_harp"
+    Const GlassHarp: String = "weapon_glass_harp"
+    Const Warhammer: String = "weapon_warhammer"
+    Const TitaniumWarhammer: String = "weapon_titanium_warhammer"
+    Const ObsidianWarhammer: String = "weapon_obsidian_warhammer"
+    Const GoldenWarhammer: String = "weapon_golden_warhammer"
+    Const BloodWarhammer: String = "weapon_blood_warhammer"
+    Const GlassWarhammer: String = "weapon_glass_warhammer"
+    Const Staff: String = "weapon_staff"
+    Const TitaniumStaff: String = "weapon_titanium_staff"
+    Const ObsidianStaff: String = "weapon_obsidian_staff"
+    Const GoldenStaff: String = "weapon_golden_staff"
+    Const BloodStaff: String = "weapon_blood_staff"
+    Const GlassStaff: String = "weapon_glass_staff"
+    Const Cutlass: String = "weapon_cutlass"
+    Const TitaniumCutlass: String = "weapon_titanium_cutlass"
+    Const ObsidianCutlass: String = "weapon_obsidian_cutlass"
+    Const GoldenCutlass: String = "weapon_golden_cutlass"
+    Const BloodCutlass: String = "weapon_blood_cutlass"
+    Const GlassCutlass: String = "weapon_glass_cutlass"
 
 End Class

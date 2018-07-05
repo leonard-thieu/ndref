@@ -2,8 +2,11 @@
 
 Import gui.controller_game
 Import enemy.npc
+Import level
 Import entity
+Import item
 Import logger
+Import player_class
 Import point
 
 Class Transmogrifier Extends NPC
@@ -47,7 +50,7 @@ Class Transmogrifier Extends NPC
     Method Die: Void()
         If Not Self.dead
             If Not Self.falling
-                New Item(Self.x, Self.y, "scroll_transmute", False, -1, False)
+                New Item(Self.x, Self.y, ItemType.TransmuteScroll, False, -1, False)
             End If
 
             Super.Die()

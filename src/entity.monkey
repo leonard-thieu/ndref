@@ -3,6 +3,7 @@
 Import monkey.list
 Import level
 Import bouncer
+Import item
 Import logger
 Import necrodancergame
 Import particles
@@ -49,7 +50,7 @@ Class Entity Extends RenderableObject Abstract
     Function AnyPlayerHaveWallsTorch: Bool()
         If Entity.anyPlayerHaveWallsTorchCachedFrame <> necrodancergame.globalFrameCounter
             Entity.anyPlayerHaveWallsTorchCachedFrame = necrodancergame.globalFrameCounter
-            Entity.anyPlayerHaveWallsTorchCached = Player.DoesAnyPlayerHaveItemOfType("torch_walls", False)
+            Entity.anyPlayerHaveWallsTorchCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.TorchOfWalls, False)
         End If
 
         Return Entity.anyPlayerHaveWallsTorchCached

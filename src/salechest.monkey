@@ -4,6 +4,7 @@ Import monkey.list
 Import gui.controller_game
 Import level
 Import chest
+Import item
 Import logger
 Import player_class
 Import saleitem
@@ -69,8 +70,8 @@ Class SaleChest Extends Chest
             Self.cost = 0
         End If
 
-        If Player.DoesAnyPlayerHaveItemOfType("ring_charisma") Or
-           Player.DoesAnyPlayerHaveItemOfType("ring_wonder")
+        If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfCharisma) Or
+           Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfWonder)
             Self.cost *= SaleItem.CHARISMA_DISCOUNT
         End If
 

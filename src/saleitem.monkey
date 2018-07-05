@@ -23,8 +23,8 @@ Class SaleItem Extends Item
     Function GetCostMultiplier: Float()
         Local costMultiplier := 1.0
 
-        If Player.DoesAnyPlayerHaveItemOfType("ring_charisma") Or
-           Player.DoesAnyPlayerHaveItemOfType("ring_wonder")
+        If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfCharisma) Or
+           Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfWonder)
             costMultiplier = SaleItem.CHARISMA_DISCOUNT
         End If
 
@@ -70,7 +70,7 @@ Class SaleItem Extends Item
                     End If
 
                     Local itemInSlot := player.GetItemInSlot(itemClass, False)
-                    If itemInSlot <> Item.NoItem
+                    If itemInSlot <> ItemType.NoItem
                         If Item.GetIntAttribute(itemInSlot, "slotPriority", -1) >
                            Item.GetIntAttribute(itemName, "slotPriority", -1)
                             isValid = False
@@ -102,7 +102,7 @@ Class SaleItem Extends Item
 
         If i = 500
             ' Doesn't set item class?
-            itemName = "armor_heavyplate"
+            itemName = ItemType.HeavyPlate
         End If
 
         SaleItem.randomSaleItemList.AddLast(itemName)
@@ -193,8 +193,8 @@ Class SaleItem Extends Item
             If Self.coinCost >= 120 Then Self.bloodCost = 1.5
             If Self.coinCost >  400 Then Self.bloodCost = 2.0
 
-            If Player.DoesAnyPlayerHaveItemOfType("ring_charisma") Or
-               Player.DoesAnyPlayerHaveItemOfType("ring_wonder")
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfCharisma) Or
+               Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfWonder)
                 Self.bloodCost -= 1.0
             End If
 

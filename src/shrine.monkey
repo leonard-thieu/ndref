@@ -463,14 +463,14 @@ Class UncertaintyRingPredicate Implements IItemPredicate
         Local name := n.name
 
         Select name
-            Case "ring_peace",
-                 "ring_gold",
-                 "ring_charisma",
-                 "ring_regeneration",
-                 "ring_courage",
-                 "ring_might",
-                 "ring_war",
-                 "ring_frost"
+            Case ItemType.RingOfPeace,
+                 ItemType.RingOfGold,
+                 ItemType.RingOfCharisma,
+                 ItemType.RingOfRegeneration, 
+                 ItemType.RingOfCourage, 
+                 ItemType.RingOfMight, 
+                 ItemType.RingOfWar, 
+                 ItemType.RingOfFrost
                 Return True
         End Select
 

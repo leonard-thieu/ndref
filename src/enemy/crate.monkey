@@ -96,46 +96,46 @@ Class Crate Extends Enemy
 
         Local foodRoll := Util.RndIntRange(0, 150, False, replayConsistencyChannel)
         If foodRoll <= 40
-            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
-                Return "food_4"
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
+                Return ItemType.Ham
             End If
 
-            If Player.DoesAnyPlayerHaveItemOfType("charm_luck")
-                Return "food_2"
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.LuckyCharm)
+                Return ItemType.Cheese
             End If
 
-            Return "food_1"
+            Return ItemType.Apple
         End If
 
         If foodRoll <= 70
-            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
-                Return "food_4"
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
+                Return ItemType.Ham
             End If
 
-            If Player.DoesAnyPlayerHaveItemOfType("charm_luck")
-                Return "food_3"
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.LuckyCharm)
+                Return ItemType.Drumstick
             End If
 
-            Return "food_2"
+            Return ItemType.Cheese
         End If
 
         If foodRoll <= 90
-            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
-                Return "food_4"
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
+                Return ItemType.Ham
             End If
 
-            Return "food_3"
+            Return ItemType.Drumstick
         End If
 
         If foodRoll <= 100
-            Return "food_4"
+            Return ItemType.Ham
         End If
 
         If foodRoll <= 130
-            Return "food_carrot"
+            Return ItemType.Carrot
         End If
 
-        Return "food_cookies"
+        Return ItemType.Cookies
     End Function
 
     Function _EditorFix: Void() End
@@ -152,7 +152,7 @@ Class Crate Extends Enemy
         Self.crateType = type
 
         Self.contents = cont
-        If Self.contents = Item.NoItem And Level.randSeed <> -1
+        If Self.contents = ItemType.NoItem And Level.randSeed <> -1
             Self.DetermineContents()
         End If
 
@@ -162,10 +162,10 @@ Class Crate Extends Enemy
     End Method
 
     Field crateType: Int
-    Field contents: String = Item.NoItem
+    Field contents: String = ItemType.NoItem
     Field initialYOff: Int
-    Field contents2: String = Item.NoItem
-    Field contents3: String = Item.NoItem
+    Field contents2: String = ItemType.NoItem
+    Field contents3: String = ItemType.NoItem
     Field beEmpty: Bool
     Field emptyCoins: Int
     Field determinedContents: Bool
@@ -177,7 +177,7 @@ Class Crate Extends Enemy
 
     Method DecideIfStayingEmpty: Void()
         If Self.beEmpty Then Return
-        If Self.contents <> Item.NoItem Then Return
+        If Self.contents <> ItemType.NoItem Then Return
 
         Local replayConsistencyChannel := 1
         If Level.creatingMap Then replayConsistencyChannel = -1
@@ -196,7 +196,7 @@ Class Crate Extends Enemy
 
         If coinsRoll <= 10
             Self.emptyCoins = -3
-            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
                 Self.emptyCoins = -2
             End If
 
@@ -211,7 +211,7 @@ Class Crate Extends Enemy
 
         If coinsRoll <= 45
             Self.emptyCoins = -1
-            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
                 Self.emptyCoins = -2
             End If
 
@@ -220,11 +220,11 @@ Class Crate Extends Enemy
 
         If coinsRoll <= 75
             Self.emptyCoins = 10
-            If Player.DoesAnyPlayerHaveItemOfType("charm_luck")
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.LuckyCharm)
                 Self.emptyCoins = 30
             End If
 
-            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
                 Self.emptyCoins = 50
             End If
 
@@ -233,7 +233,7 @@ Class Crate Extends Enemy
 
         If coinsRoll > 98
             Self.emptyCoins = 30
-            If Player.DoesAnyPlayerHaveItemOfType("ring_luck")
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
                 Self.emptyCoins = 50
             End If
         End If
@@ -251,7 +251,7 @@ Class Crate Extends Enemy
                 Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "urnChance")
 
                 For Local requestedLevel := controller_game.currentLevel Until 0 Step -1
-                    If Self.contents2 <> Item.NoItem Then Exit
+                    If Self.contents2 <> ItemType.NoItem Then Exit
 
                     Self.contents2 = Item.GetRandomItemInClass("isSpell", requestedLevel, "chestChance")
                 End For

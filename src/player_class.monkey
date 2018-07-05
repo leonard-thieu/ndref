@@ -516,8 +516,8 @@ Class Player Extends MobileEntity
     Field itemQuantity: StringMap<Int> = New StringMap<Int>()
     Field weapon: Weapon
     Field armorAmount: Int
-    Field armorType: String = Item.NoItem
-    Field torchType: String = Item.NoItem
+    Field armorType: String = ItemType.NoItem
+    Field torchType: String = ItemType.NoItem
     Field hasPickedUpWonderThisRun: Bool
     Field hasPickedUpBlastHelmThisRun: Bool
     Field hasPickedUpGrenadeCharmThisRun: Bool
@@ -556,7 +556,7 @@ Class Player Extends MobileEntity
     Field lastAttackBeat: Int
     Field attackChain: Int
     Field shovelRenderTime: Int
-    Field shovelRenderType: String = Item.NoItem
+    Field shovelRenderType: String = ItemType.NoItem
     Field shovelRenderX: Int
     Field shovelRenderY: Int
     Field castingFireball: Bool
@@ -690,7 +690,7 @@ Class Player Extends MobileEntity
     Method CalcMinVisibility: Int()
         Local minVisibility := 1
 
-        If Not Self.HasItemOfType("ring_shadows")
+        If Not Self.HasItemOfType(ItemType.RingOfShadows)
             Return minVisibility
         End If
 
@@ -699,7 +699,7 @@ Class Player Extends MobileEntity
             minVisibility = torchLevel + 2
         End If
 
-        If Self.HasItemOfType("head_miners_cap")
+        If Self.HasItemOfType(ItemType.MinersCap)
             minVisibility = math.Max(3, minVisibility)
         End If
 
@@ -715,7 +715,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method CheckFloating: Void()
-        Self.floating = Self.HasItemOfType("feet_boots_winged") Or
+        Self.floating = Self.HasItemOfType(ItemType.WingedBoots) Or
                         Self.batFormActive
 
         If Self.floating
@@ -829,10 +829,10 @@ Class Player Extends MobileEntity
         Self.miscItems.Clear()
         Self.itemQuantity.Clear()
 
-        Self.weapon = New Weapon(Item.NoItem)
+        Self.weapon = New Weapon(ItemType.NoItem)
         Self.armorAmount = 0
-        Self.armorType = Item.NoItem
-        Self.torchType = Item.NoItem
+        Self.armorType = ItemType.NoItem
+        Self.torchType = ItemType.NoItem
 
         Self.hasPickedUpWonderThisRun = False
         Self.hasPickedUpBlastHelmThisRun = False
@@ -903,7 +903,7 @@ Class Player Extends MobileEntity
         End If
 
         Local weapon := Self.GetWeapon(False)
-        If weapon.type = "weapon_dagger_electric"
+        If weapon.type = ItemType.ElectricDagger
             electricStrength += 1
         End If
 
@@ -922,9 +922,9 @@ Class Player Extends MobileEntity
         If Self.batFormActive Or Not overrideBatForm
             Select sl
                 Case "weapon"
-                    Return "weapon_fangs"
+                    Return ItemType.Fangs
                 Case "head"
-                    Return "head_sonar"
+                    Return ItemType.Sonar
             End Select
         Else
             If Self.ownedItems.Contains(sl)
@@ -932,7 +932,7 @@ Class Player Extends MobileEntity
             End If
         End If
 
-        Return Item.NoItem
+        Return ItemType.NoItem
     End Method
 
     Method GetItemQuantity: Int(item: Int)
@@ -944,11 +944,11 @@ Class Player Extends MobileEntity
     End Method
 
     Method GetLightSourceMax: Float()
-        If Self.HasItemOfType("ring_shadows")
+        If Self.HasItemOfType(ItemType.RingOfShadows)
             Return 1.25
         End If
 
-        If Self.torchType = Item.NoItem
+        If Self.torchType = ItemType.NoItem
             Return 1.75
         End If
 
@@ -1045,8 +1045,8 @@ Class Player Extends MobileEntity
         End If
 
         If Level.isSoulMode
-            If Not Self.HasItemOfType("charm_nazar")
-                Self.AddItemOfType("charm_nazar", Null, True, True)
+            If Not Self.HasItemOfType(ItemType.NazarCharm)
+                Self.AddItemOfType(ItemType.NazarCharm, Null, True, True)
             End If
 
             New SoulFamiliar(Self.x, Self.y, Self)
@@ -1106,7 +1106,7 @@ Class Player Extends MobileEntity
     Method HasItemOfType: Bool(i: String, overrideBatForm: Bool = False)
         If Not Self.batFormActive Or overrideBatForm
             If Self.characterID = Character.Tempo
-                If i = "head_sonar" Then Return True
+                If i = ItemType.Sonar Then Return True
             End If
 
             Local slot := Item.GetSlot(i)
@@ -1126,8 +1126,8 @@ Class Player Extends MobileEntity
         End If
 
         Select i
-            Case "weapon_fangs",
-                 "head_sonar"
+            Case ItemType.Fangs,
+                 ItemType.Sonar
                 Return True
         End Select
 
@@ -1442,7 +1442,7 @@ Class Player Extends MobileEntity
     End Method
 
     Method SetTotallyBlank: Void()
-        Self.weapon = New Weapon(Item.NoItem)
+        Self.weapon = New Weapon(ItemType.NoItem)
         Self.numBombs = 0
         Self.EmptyAllSlots(False)
     End Method
@@ -1470,7 +1470,7 @@ Class Player Extends MobileEntity
 
         Local ownedItem := Self.ownedItems.Get(slot)
         If i = ownedItem
-            Self.ownedItems.Set(slot, Item.NoItem)
+            Self.ownedItems.Set(slot, ItemType.NoItem)
 
             Return True
         End If
@@ -1479,8 +1479,8 @@ Class Player Extends MobileEntity
     End Method
 
     Method SubtractKey: Bool()
-        If Self.HasItemOfType("misc_key")
-            Self.SubtractItemOfType("misc_key")
+        If Self.HasItemOfType(ItemType.Key)
+            Self.SubtractItemOfType(ItemType.Key)
 
             Return True
         End If
@@ -1667,9 +1667,9 @@ Class Player Extends MobileEntity
             End If
         End If
 
-        If Not Self.HasItemOfType("ring_shadows")
+        If Not Self.HasItemOfType(ItemType.RingOfShadows)
             Local flicker := 0.0
-            If Self.torchType <> Item.NoItem
+            If Self.torchType <> ItemType.NoItem
                 flicker = Util.RndFloatRange(-0.5, 0.5, False)
             End If
 
@@ -2253,7 +2253,7 @@ Class Player Extends MobileEntity
             Local pickupSlot := pickup.GetSlot()
             If Not Self.IsSlotCursed(pickupSlot)
                 Local pickupName := pickup.Pickup(Self)
-                If pickupName <> Item.NoItem
+                If pickupName <> ItemType.NoItem
                     Self.AddItemOfType(pickupSlot, pickup, False, False)
                 End If
             End If
@@ -2274,7 +2274,7 @@ Class Player Extends MobileEntity
 
         Self.lastClampedEnemy = Self.clampedEnemy
 
-        If Self.HasItemOfType("head_crown_of_greed") And
+        If Self.HasItemOfType(ItemType.CrownOfGreed) And
            Self.crownOfGreedBeat < closestBeatNum
             If Player.numCoins > 0
                 Player.OffsetCoins(-1)
@@ -2350,8 +2350,8 @@ Class Player Extends MobileEntity
     End Method
 
     Method UpdateBonusHeart: Void()
-        If Self.HasItemOfType("ring_wonder") Or
-           Self.HasItemOfType("ring_peace")
+        If Self.HasItemOfType(ItemType.RingOfWonder) Or
+           Self.HasItemOfType(ItemType.RingOfPeace)
             Self.health.GainBonusHeart()
         Else
             Self.health.LoseBonusHeart()

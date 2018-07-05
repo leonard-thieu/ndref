@@ -29,7 +29,7 @@ Class TrapChest Extends Enemy
         End If
     End Method
 
-    Field contents: String = Item.NoItem
+    Field contents: String = ItemType.NoItem
     Field hasMoved: Bool
     Field itemDropped: Bool
 
@@ -38,11 +38,11 @@ Class TrapChest Extends Enemy
     End Method
 
     Method DetermineContents: Void()
-        If Self.contents = Item.NoItem
+        If Self.contents = ItemType.NoItem
             If Self.level >= 6
                 Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "urnChance")
             Else If Self.level >= 4
-                Self.contents = "bomb"
+                Self.contents = ItemType.Bomb
             Else If Self.level >= 2
                 Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel + 1, "lockedChestChance")
             Else
@@ -64,7 +64,7 @@ Class TrapChest Extends Enemy
             If Not Level.isTrainingMode
                 Self.DetermineContents()
 
-                If Self.contents <> Item.NoItem
+                If Self.contents <> ItemType.NoItem
                     New Item(Self.x, Self.y, Self.contents, False, -1, False)
                 End If
             End If

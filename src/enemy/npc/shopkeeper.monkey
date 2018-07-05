@@ -3,6 +3,7 @@
 Import enemy.npc
 Import entity
 Import gamedata
+Import item
 Import logger
 Import point
 
@@ -60,10 +61,10 @@ Class Shopkeeper Extends NPC
                 Local itemName: String
 
                 Select Self.level
-                    Case 4  itemName = "charm_gluttony"
-                    Case 3  itemName = "head_glass_jaw"
-                    Case 2  itemName = "blood_drum"
-                    Default itemName = "head_crown_of_greed"
+                    Case 4  itemName = ItemType.GluttonyCharm
+                    Case 3  itemName = ItemType.GlassJaw
+                    Case 2  itemName = ItemType.BloodDrum
+                    Default itemName = ItemType.CrownOfGreed
                 End Select
 
                 New Item(Self.x, Self.y, itemName, False, -1, False)

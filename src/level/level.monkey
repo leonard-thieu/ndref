@@ -530,13 +530,13 @@ Class Level
                 Local heartContainerRoll := Util.RndIntRangeFromZero(100, True)
                 Local heartContainer: String
                 If heartContainerRoll <= 20
-                    heartContainer = "misc_heart_container"
+                    heartContainer = ItemType.HeartContainer
                 Else If heartContainerRoll <= 25
-                    heartContainer = "misc_heart_container2"
+                    heartContainer = ItemType.DoubleHeartContainer
                 Else If heartContainerRoll <= 50
-                    heartContainer = "misc_heart_container_empty2"
+                    heartContainer = ItemType.EmptyDoubleHeartContainer
                 Else
-                    heartContainer = "misc_heart_container_empty"
+                    heartContainer = ItemType.EmptyHeartContainer
                 End If
                 New SaleItem(entranceX + 1, entranceY - 2, heartContainer, False, shopkeeper, -1.0, Null)
 
@@ -623,10 +623,10 @@ Class Level
                 Local shopkeeper := New Shopkeeper(-197, -198, 3, False)
 
                 Local glassItems := New Stack<String>()
-                glassItems.Push("armor_glass")
-                glassItems.Push("shovel_glass")
-                glassItems.Push("torch_glass")
-                glassItems.Push("feet_glass_slippers")
+                glassItems.Push(ItemType.GlassArmor)
+                glassItems.Push(ItemType.GlassShovel)
+                glassItems.Push(ItemType.GlassTorch)
+                glassItems.Push(ItemType.GlassSlippers)
 
                 ' Decompilation is a little awkward in this section. Absolutely zero clue what's going on.
                 Local validGlassItems := New Stack<String>()
@@ -2286,13 +2286,13 @@ Class Level
         Local switch22 := New Switch(switch22X, -12, 34, switch21)
         switch21.pairedSwitch = switch22
 
-        Necrodancer.necrodancer.theLute = New Item(2, -15, "weapon_golden_lute", False, -1, False)
+        Necrodancer.necrodancer.theLute = New Item(2, -15, ItemType.GoldenLute, False, -1, False)
 
         Local weaponName: String
         Select Util.RndIntRangeFromZero(2, True)
-            Case 0  weaponName = "weapon_broadsword"
-            Case 1  weaponName = "weapon_flail"
-            Default weaponName = "weapon_longsword"
+            Case 0  weaponName = ItemType.Broadsword
+            Case 1  weaponName = ItemType.Flail
+            Default weaponName = ItemType.Longsword
         End Select
 
         New Item(3, -7, weaponName, False, -1, False)
@@ -4852,13 +4852,13 @@ Class Level
         For Local i := 0 Until numPlayers
             Local player := players[i]
             If player.characterID <> Character.Melody
-                If player.HasItemOfType("weapon_golden_lute")
-                    player.AddItemOfType("weapon_dagger", Null, True, True)
+                If player.HasItemOfType(ItemType.GoldenLute)
+                    player.AddItemOfType(ItemType.Dagger, Null, True, True)
                 End If
             End If
 
             If player.isHelper
-                player.AddItemOfType("weapon_dagger", Null, True, True)
+                player.AddItemOfType(ItemType.Dagger, Null, True, True)
             End If
         End For
 
@@ -5067,9 +5067,9 @@ Class Level
         If Level.isHardcoreMode Then Return False
 
         Select controller_game.currentLevel
-            Case 1 Return GameData.GetItemUnlocked("addchest_red",   True) And Not Level.placedAdditionalRedChest
-            Case 2 Return GameData.GetItemUnlocked("addchest_white", True) And Not Level.placedAdditionalWhiteChest
-            Case 3 Return GameData.GetItemUnlocked("addchest_black", True) And Not Level.placedAdditionalBlackChest
+            Case 1 Return GameData.GetItemUnlocked(ItemType.AddRedChest, True) And Not Level.placedAdditionalRedChest
+            Case 2 Return GameData.GetItemUnlocked(ItemType.AddPurpleChest, True) And Not Level.placedAdditionalWhiteChest
+            Case 3 Return GameData.GetItemUnlocked(ItemType.AddBlackChest, True) And Not Level.placedAdditionalBlackChest
         End Select
 
         Return False
@@ -5203,7 +5203,7 @@ Class Level
                     Continue
                 End If
 
-                New Item(room.x + 2, room.y + 2, "misc_potion", False, -1, False)
+                New Item(room.x + 2, room.y + 2, ItemType.Potion, False, -1, False)
 
                 Continue
             End If
@@ -5214,15 +5214,15 @@ Class Level
                     If Util.IsBomblessCharacterActive()
                         Local numCoinBonusFactor := math.Min(controller_game.currentDepth, 3)
                         Local numCoins := (numCoinBonusFactor * 10) + 15
-                        New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+                        New Item(point.x, point.y, ItemType.Coin0, False, numCoins, False)
 
                         Level.addKeyInSecretChest = False
                     Else
                         Local bombRoll := Util.RndIntRangeFromZero(100, True)
                         If bombRoll < 45
-                            New Item(point.x, point.y, "bomb_3", False, -1, False)
+                            New Item(point.x, point.y, ItemType.Bomb3, False, -1, False)
                         Else
-                            New Item(point.x, point.y, "bomb", False, -1, False)
+                            New Item(point.x, point.y, ItemType.Bomb, False, -1, False)
                         End If
                     End If
 
@@ -5235,7 +5235,7 @@ Class Level
             If placeGoldenKey
                 If Not Level.isHardcoreMode And
                    Not Level.isDDRMode
-                    New Item(room.x + 1, room.y + 1, "misc_golden_key", False, -1, False)
+                    New Item(room.x + 1, room.y + 1, ItemType.GoldenKey, False, -1, False)
                 End If
 
                 placeGoldenKey = False
@@ -5417,7 +5417,7 @@ Class Level
                         Local secretRoomVariantVariantVariantRoll := Util.RndIntRangeFromZero(100, True)
                         If secretRoomVariantVariantVariantRoll <= 34
                             If Not Util.IsBomblessCharacterActive()
-                                New Item(point.x, point.y, "bomb_3", False, -1, False)
+                                New Item(point.x, point.y, ItemType.Bomb3, False, -1, False)
 
                                 Continue
                             End If
@@ -5427,12 +5427,12 @@ Class Level
                            Util.IsBomblessCharacterActive()
                             Local coinBonusFactor := math.Min(controller_game.currentDepth, 3)
                             Local numCoins := (10 * coinBonusFactor) + 15
-                            New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+                            New Item(point.x, point.y, ItemType.Coin0, False, numCoins, False)
 
                             Continue
                         End If
 
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, ItemType.Bomb, False, -1, False)
                     End If
                 End If
             Else
@@ -5441,7 +5441,7 @@ Class Level
                     Local urnRoll := Util.RndIntRangeFromZero(40, True)
                     If urnRoll = 0 And
                        Not Level.placedUrnThisRun
-                        New Crate(point.x, point.y, Crate.TYPE_URN, Item.NoItem)
+                        New Crate(point.x, point.y, Crate.TYPE_URN, ItemType.NoItem)
                         Level.placedUrnThisRun = True
 
                         Continue
@@ -5479,7 +5479,7 @@ Class Level
 
                             New TrapChest(point.x, point.y, trapChestLevel)
                         Else
-                            New Chest(point.x, point.y, Item.NoItem, False, False, True, Chest.CHEST_COLOR_NONE)
+                            New Chest(point.x, point.y, ItemType.NoItem, False, False, True, Chest.CHEST_COLOR_NONE)
                         End If
 
                         Level.chestsStillToPlace -= 1
@@ -5530,7 +5530,7 @@ Class Level
                     End If
                 End If
 
-                New Item(room.x + 2, room.y + 2, "misc_potion", False, -1, False)
+                New Item(room.x + 2, room.y + 2, ItemType.Potion, False, -1, False)
 
                 Continue
             End If
@@ -5541,13 +5541,13 @@ Class Level
 
                 If Util.IsBomblessCharacterActive()
                         Local numCoins := Level.GetAppropriateCoins()
-                    New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+                    New Item(point.x, point.y, ItemType.Coin0, False, numCoins, False)
                 Else
                     Local bombRoll := Util.RndIntRangeFromZero(100, True)
                     If bombRoll >= 45
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, ItemType.Bomb, False, -1, False)
                     Else
-                        New Item(point.x, point.y, "bomb_3", False, -1, False)
+                        New Item(point.x, point.y, ItemType.Bomb3, False, -1, False)
                     End If
                 End If
 
@@ -5563,7 +5563,7 @@ Class Level
                     Continue
                 End If
 
-                New Item(room.x + 1, room.y + 1, "misc_glass_key", False, -1, False)
+                New Item(room.x + 1, room.y + 1, ItemType.GlassKey, False, -1, False)
 
                 placeGlassKey = False
 
@@ -5672,18 +5672,18 @@ Class Level
                     Local bombRoll := Util.RndIntRangeFromZero(100, True)
                     If Util.IsBomblessCharacterActive()
                         Local numCoins := Level.GetAppropriateCoins()
-                        New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+                        New Item(point.x, point.y, ItemType.Coin0, False, numCoins, False)
 
                         Continue
                     End If
 
                     If bombRoll < 45
-                        New Item(point.x, point.y, "bomb_3", False, -1, False)
+                        New Item(point.x, point.y, ItemType.Bomb3, False, -1, False)
                     Else If bombRoll < 80
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, ItemType.Bomb, False, -1, False)
                     Else
                         Local numCoins := Level.GetAppropriateCoins()
-                        New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+                        New Item(point.x, point.y, ItemType.Coin0, False, numCoins, False)
                     End If
 
                     Continue
@@ -5695,7 +5695,7 @@ Class Level
                 Local urnRoll := Util.RndIntRangeFromZero(40, True)
                 If urnRoll = 0 And
                    Not Level.placedUrnThisRun
-                    New Crate(point.x, point.y, Crate.TYPE_URN, Item.NoItem)
+                    New Crate(point.x, point.y, Crate.TYPE_URN, ItemType.NoItem)
                     Level.placedUrnThisRun = True
 
                     Continue
@@ -5738,7 +5738,7 @@ Class Level
                     Local trapChest := New TrapChest(point.x, point.y, trapChestLevel)
                     trapChest.inSecretRoom = True
                 Else
-                    New Chest(point.x, point.y, Item.NoItem, False, False, True, Chest.CHEST_COLOR_NONE)
+                    New Chest(point.x, point.y, ItemType.NoItem, False, False, True, Chest.CHEST_COLOR_NONE)
                 End If
 
                 Level.chestsStillToPlace -= 1
@@ -5776,7 +5776,7 @@ Class Level
                         End If
                 End Select
 
-                New Item(room.x + 2, room.y + 2, "misc_potion", False, -1, False)
+                New Item(room.x + 2, room.y + 2, ItemType.Potion, False, -1, False)
 
                 Continue
             End If
@@ -5787,13 +5787,13 @@ Class Level
 
                 If Util.IsBomblessCharacterActive()
                     Local numCoins := Level.GetAppropriateCoins()
-                    New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+                    New Item(point.x, point.y, ItemType.Coin0, False, numCoins, False)
                 Else
                     Local bombRoll := Util.RndIntRangeFromZero(100, True)
                     If bombRoll >= 45
-                        New Item(point.x, point.y, "bomb", False, -1, False)
+                        New Item(point.x, point.y, ItemType.Bomb, False, -1, False)
                     Else
-                        New Item(point.x, point.y, "bomb_3", False, -1, False)
+                        New Item(point.x, point.y, ItemType.Bomb3, False, -1, False)
                     End If
                 End If
 
@@ -5955,7 +5955,7 @@ Class Level
                     Local secretRoomVariantVariantVariantRoll := Util.RndIntRangeFromZero(100, True)
                     If secretRoomVariantVariantVariantRoll <= 34
                         If Not Util.IsBomblessCharacterActive()
-                            New Item(point.x, point.y, "bomb_3", False, -1, False)
+                            New Item(point.x, point.y, ItemType.Bomb3, False, -1, False)
 
                             Continue
                         End If
@@ -5964,12 +5964,12 @@ Class Level
                     If secretRoomVariantVariantVariantRoll >= 80 Or
                        Util.IsBomblessCharacterActive()
                         Local numCoins := Level.GetAppropriateCoins()
-                        New Item(point.x, point.y, "resource_coin0", False, numCoins, False)
+                        New Item(point.x, point.y, ItemType.Coin0, False, numCoins, False)
 
                         Continue
                     End If
 
-                    New Item(point.x, point.y, "bomb", False, -1, False)
+                    New Item(point.x, point.y, ItemType.Bomb, False, -1, False)
                 End If
             Else
                 Local point := Level.GetRandPointInRoomWithOptions(room, True, True, True)
@@ -5978,7 +5978,7 @@ Class Level
                 Local urnRoll := Util.RndIntRangeFromZero(40, True)
                 If urnRoll = 0 And
                    Not Level.placedUrnThisRun
-                    New Crate(point.x, point.y, Crate.TYPE_URN, Item.NoItem)
+                    New Crate(point.x, point.y, Crate.TYPE_URN, ItemType.NoItem)
                     Level.placedUrnThisRun = True
 
                     Continue
@@ -6022,7 +6022,7 @@ Class Level
                         Local trapChest := New TrapChest(point.x, point.y, trapChestLevel)
                         trapChest.inSecretRoom = True
                     Else
-                        New Chest(point.x, point.y, Item.NoItem, False, False, True, Chest.CHEST_COLOR_NONE)
+                        New Chest(point.x, point.y, ItemType.NoItem, False, False, True, Chest.CHEST_COLOR_NONE)
                     End If
 
                     Level.chestsStillToPlace -= 1
@@ -6196,7 +6196,7 @@ Class Level
     Function GetExtraEnemiesBase: Int()
         Local extraEnemies := 0
 
-        If Player.DoesAnyPlayerHaveItemOfType("ring_war", False) And Level.randSeed = -1
+        If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfWar, False) And Level.randSeed = -1
             extraEnemies = 1
         End If
 
@@ -6928,9 +6928,9 @@ Class Level
         dorian.isHelper = True
         dorian.SetTotallyBlank()
 
-        dorian.AddItemOfType("weapon_dagger", Null, True, False)
-        dorian.AddItemOfType("armor_platemail_dorian", Null, True, False)
-        dorian.AddItemOfType("ring_might", Null, True, False)
+        dorian.AddItemOfType(ItemType.Dagger, Null, True, False)
+        dorian.AddItemOfType(ItemType.PlateArmorDorian, Null, True, False)
+        dorian.AddItemOfType(ItemType.RingOfMight, Null, True, False)
     End Function
 
     Function MakeInvisibleChestAt: Void(tmpX: Int, tmpY: Int)
@@ -7207,7 +7207,7 @@ Class Level
 
                     If isTrainingLevel
                         If weaponType <> "" And
-                           weaponType <> Item.NoItem
+                           weaponType <> ItemType.NoItem
                             player.AddItemOfType(weaponType, Null, True, False)
                         End If
                     End If
@@ -8258,12 +8258,12 @@ Class Level
                 Local player := controller_game.players[i]
                 player.EmptyAllSlots(True)
                 player.GiveInitialEquipment(True)
-                player.AddItemOfType("bomb", Null, True, True)
+                player.AddItemOfType(ItemType.Bomb, Null, True, True)
 
                 If Level.isFloorIsLavaMode
                     If Not player.IsSlotCursed("weapon")
                         player.EmptySlot("weapon")
-                        player.AddItemOfType("weapon_cat", Null, True, True)
+                        player.AddItemOfType(ItemType.CatONineTails, Null, True, True)
                     End If
                 End If
             End For
@@ -8271,7 +8271,7 @@ Class Level
             For Local i := 0 Until controller_game.numPlayers
                 Local player := controller_game.players[i]
                 If player.numBombs = 0
-                    player.AddItemOfType("bomb", Null, True, True)
+                    player.AddItemOfType(ItemType.Bomb, Null, True, True)
                 End If
             End For
         End If
@@ -8290,25 +8290,25 @@ Class Level
                             Case Character.Aria,
                                  Character.Melody,
                                  Character.Coda
-                                player.AddItemOfType("armor_glass", Null, True, False)
-                                player.AddItemOfType("spell_fireball", Null, True, False)
-                                player.AddItemOfType("spell_heal", Null, True, False)
+                                player.AddItemOfType(ItemType.GlassArmor, Null, True, False)
+                                player.AddItemOfType(ItemType.FireballSpell, Null, True, False)
+                                player.AddItemOfType(ItemType.HealSpell, Null, True, False)
                             Case Character.Eli,
                                  Character.Nocturna
                                 player.health.Reset(10)
-                                player.AddItemOfType("spell_fireball", Null, True, False)
-                                player.AddItemOfType("spell_heal", Null, True, False)
+                                player.AddItemOfType(ItemType.FireballSpell, Null, True, False)
+                                player.AddItemOfType(ItemType.HealSpell, Null, True, False)
                             Case Character.Dove
                                 player.health.Reset(10)
-                                player.AddItemOfType("spell_heal", Null, True, False)
+                                player.AddItemOfType(ItemType.HealSpell, Null, True, False)
                             Case Character.Diamond
                                 player.health.Reset(10)
                             Default
-                                player.ownedItems.Set("weapon", Item.NoItem)
-                                player.AddItemOfType("weapon_broadsword", Null, True, False)
+                                player.ownedItems.Set("weapon", ItemType.NoItem)
+                                player.AddItemOfType(ItemType.Broadsword, Null, True, False)
                                 player.health.Reset(10)
-                                player.AddItemOfType("spell_fireball", Null, True, False)
-                                player.AddItemOfType("spell_heal", Null, True, False)
+                                player.AddItemOfType(ItemType.FireballSpell, Null, True, False)
+                                player.AddItemOfType(ItemType.HealSpell, Null, True, False)
                         End Select
                     End If
                 End For
@@ -8353,7 +8353,7 @@ Class Level
                 replay.startingGold = Player.numCoins
 
                 Local player1 := controller_game.players[controller_game.player1]
-                replay.hasBroadsword = player1.HasItemOfType("weapon_broadsword")
+                replay.hasBroadsword = player1.HasItemOfType(ItemType.Broadsword)
             End If
         End If
 
@@ -8371,7 +8371,7 @@ Class Level
             For Local item := EachIn diamondDealerItems
                 Select item
                     Case "",
-                         Item.NoItem
+                         ItemType.NoItem
                         Continue
                 End Select
 
@@ -8404,8 +8404,8 @@ Class Level
 
         For Local i := 0 Until controller_game.numPlayers
             Local player := controller_game.players[i]
-            If player.HasItemOfType("ring_regeneration") Or
-               player.HasItemOfType("ring_wonder")
+            If player.HasItemOfType(ItemType.RingOfRegeneration) Or
+               player.HasItemOfType(ItemType.RingOfWonder)
                 player.Heal(2, False, True, False)
             End If
         End For
@@ -8631,7 +8631,7 @@ Class Level
                 End If
         End Select
 
-        If Player.DoesPlayer1HaveItemOfType("weapon_broadsword") Then freeBroadsword = False
+        If Player.DoesPlayer1HaveItemOfType(ItemType.Broadsword) Then freeBroadsword = False
         If Util.IsCharacterActive(Character.Diamond) Then freeBroadsword = False
         If Level.isHardcoreMode Then freeBroadsword = False
 
@@ -8738,50 +8738,50 @@ Class Level
                 Local weaponTypeRoll := Util.RndIntRangeFromZero(99, True)
                 If weaponTypeRoll <= 40
                     Select weaponQuality
-                        Case 1  contents = "weapon_golden_broadsword"
-                        Case 2  contents = "weapon_blood_broadsword"
-                        Case 3  contents = "weapon_titanium_broadsword"
-                        Case 4  contents = "weapon_obsidian_broadsword"
-                        Default contents = "weapon_broadsword"
+                        Case 1  contents = ItemType.GoldenBroadsword
+                        Case 2  contents = ItemType.BloodBroadsword
+                        Case 3  contents = ItemType.TitaniumBroadsword
+                        Case 4  contents = ItemType.ObsidianBroadsword
+                        Default contents = ItemType.Broadsword
                     End Select
                 Else If weaponTypeRoll <= 55
-                    If Item.IsUnlocked("weapon_rapier")
+                    If Item.IsUnlocked(ItemType.Rapier)
                         Select weaponQuality
-                            Case 1  contents = "weapon_golden_rapier"
-                            Case 2  contents = "weapon_blood_rapier"
-                            Case 3  contents = "weapon_titanium_rapier"
-                            Case 4  contents = "weapon_obsidian_rapier"
-                            Default contents = "weapon_rapier"
+                            Case 1  contents = ItemType.GoldenRapier
+                            Case 2  contents = ItemType.BloodRapier
+                            Case 3  contents = ItemType.TitaniumRapier
+                            Case 4  contents = ItemType.ObsidianRapier
+                            Default contents = ItemType.Rapier
                         End Select
                     End If
                 Else If weaponTypeRoll <= 80 And
                      Not Util.IsCharacterActive(Character.Mary) And
                      Not Util.IsCharacterActive(Character.Bolt)
-                    If Item.IsUnlocked("weapon_spear")
+                    If Item.IsUnlocked(ItemType.Spear)
                         Select weaponQuality
-                            Case 1  contents = "weapon_golden_spear"
-                            Case 2  contents = "weapon_blood_spear"
-                            Case 3  contents = "weapon_titanium_spear"
-                            Case 4  contents = "weapon_obsidian_spear"
-                            Default contents = "weapon_spear"
+                            Case 1  contents = ItemType.GoldenSpear
+                            Case 2  contents = ItemType.BloodSpear
+                            Case 3  contents = ItemType.TitaniumSpear
+                            Case 4  contents = ItemType.ObsidianSpear
+                            Default contents = ItemType.Spear
                         End Select
                     End If
                 Else
-                    If Item.IsUnlocked("weapon_whip")
+                    If Item.IsUnlocked(ItemType.Whip)
                         Select weaponQuality
-                            Case 1  contents = "weapon_golden_whip"
-                            Case 2  contents = "weapon_blood_whip"
-                            Case 3  contents = "weapon_titanium_whip"
-                            Case 4  contents = "weapon_obsidian_whip"
-                            Default contents = "weapon_whip"
+                            Case 1  contents = ItemType.GoldenWhip
+                            Case 2  contents = ItemType.BloodWhip
+                            Case 3  contents = ItemType.TitaniumWhip
+                            Case 4  contents = ItemType.ObsidianWhip
+                            Default contents = ItemType.Whip
                         End Select
                     Else
                         Select weaponQuality
-                            Case 1  contents = "weapon_golden_broadsword"
-                            Case 2  contents = "weapon_blood_broadsword"
-                            Case 3  contents = "weapon_titanium_broadsword"
-                            Case 4  contents = "weapon_obsidian_broadsword"
-                            Default contents = "weapon_broadsword"
+                            Case 1  contents = ItemType.GoldenBroadsword
+                            Case 2  contents = ItemType.BloodBroadsword
+                            Case 3  contents = ItemType.TitaniumBroadsword
+                            Case 4  contents = ItemType.ObsidianBroadsword
+                            Default contents = ItemType.Broadsword
                         End Select
                     End If
                 End If
@@ -8795,7 +8795,7 @@ Class Level
 
             If placedDiamonds Or Level.isHardcoreMode
                 If Level.chestsStillToPlace > 0
-                    New Chest(point.x, point.y, Item.NoItem, False, False, False, Chest.CHEST_COLOR_NONE)
+                    New Chest(point.x, point.y, ItemType.NoItem, False, False, False, Chest.CHEST_COLOR_NONE)
                 End If
 
                 Level.chestsStillToPlace -= 1
@@ -8883,7 +8883,7 @@ Class Level
            Util.IsCharacterActive(Character.Bolt)
             Local maxEnemies := 0
 
-            If Player.DoesAnyPlayerHaveItemOfType("ring_war", False)
+            If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfWar, False)
                 maxEnemies = 5
             End If
 
@@ -8921,7 +8921,7 @@ Class Level
             Enemy.CreateLord()
         End If
 
-        If Player.DoesAnyPlayerHaveItemOfType("ring_peace", False) Or
+        If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfPeace, False) Or
            Level.isDDRMode
             Local i := 500
             Local numEnemiesToCull := 8
@@ -10503,8 +10503,8 @@ Class Level
             If Util.RndBool(True) Then level = 4
         End If
 
-        If Player.DoesAnyPlayerHaveItemOfType("ring_peace") Then level = 1
-        If Player.DoesAnyPlayerHaveItemOfType("ring_war") Then level = 2
+        If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfPeace) Then level = 1
+        If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfWar) Then level = 2
 
         If Level.isHardMode
             ' TODO: Hard Mode
@@ -11954,9 +11954,9 @@ Class Level
                     Local key: String
 
                     Select controller_game.currentLevel
-                        Case 1 key = "misc_golden_key"
-                        Case 2 key = "misc_golden_key3"
-                        Default key = "misc_golden_key2"
+                        Case 1 key = ItemType.GoldenKey
+                        Case 2 key = ItemType.GoldenKey3
+                        Default key = ItemType.GoldenKey2
                     End Select
 
                     New SaleItem(itemsXMid - 1, itemsY, key, False, Null, -1.0, Null)
@@ -11965,7 +11965,7 @@ Class Level
                     Local item1 := New SaleItem(itemsXMid - 1, itemsY, item1Name, False, Null, -1.0, Null)
                     item1.ApplyDiscount(0.5)
 
-                    If item1.itemType = "resource_hoard_gold"
+                    If item1.itemType = ItemType.GoldHoard
                         item1.Die()
                     End If
                 End If
@@ -11976,7 +11976,7 @@ Class Level
                     Local item2 := New SaleItem(itemsXMid + 0, itemsY, item2Name, False, Null, -1.0, Null)
                     item2.ApplyDiscount(0.5)
 
-                    If item2.itemType = "resource_hoard_gold"
+                    If item2.itemType = ItemType.GoldHoard
                         item2.Die()
                     End If
                 End If
@@ -11986,7 +11986,7 @@ Class Level
                 Local item3 := New SaleItem(itemsXMid + 1, itemsY, item3Name, False, Null, -1.0, Null)
                 item3.ApplyDiscount(0.5)
 
-                If item3.itemType = "resource_hoard_gold"
+                If item3.itemType = ItemType.GoldHoard
                     item3.Die()
                 End If
 
@@ -12039,15 +12039,15 @@ Class Level
                     Local key: String
 
                     Select controller_game.currentLevel
-                        Case 1 key = "misc_golden_key"
-                        Case 2 key = "misc_golden_key3"
-                        Default key = "misc_golden_key2"
+                        Case 1 key = ItemType.GoldenKey
+                        Case 2 key = ItemType.GoldenKey3
+                        Default key = ItemType.GoldenKey2
                     End Select
 
                     item1 = New SaleItem(itemsXMid - 1, itemsY, key, False, Null, -1.0, Null)
                 Else
                     If replaceWithChestPosition = 1
-                        item1 = New SaleChest(itemsXMid - 1, itemsY, Item.NoItem, False, False, False, chestColor)
+                        item1 = New SaleChest(itemsXMid - 1, itemsY, ItemType.NoItem, False, False, False, chestColor)
                     Else
                         Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "shopChance")
                         item1 = New SaleItem(itemsXMid - 1, itemsY, randomItemName, False, Null, -1.0, Null)
@@ -12062,7 +12062,7 @@ Class Level
                     Local item2: Entity
 
                     If replaceWithChestPosition = 2
-                        item2 = New SaleChest(itemsXMid + 0, itemsY, Item.NoItem, False, False, False, chestColor)
+                        item2 = New SaleChest(itemsXMid + 0, itemsY, ItemType.NoItem, False, False, False, chestColor)
                     Else
                         Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "shopChance")
                         item2 = New SaleItem(itemsXMid + 0, itemsY, randomItemName, False, Null, -1.0, Null)
@@ -12076,7 +12076,7 @@ Class Level
                 Local item3: Entity
 
                 If replaceWithChestPosition = 3
-                    item3 = New SaleChest(itemsXMid + 1, itemsY, Item.NoItem, False, False, False, chestColor)
+                    item3 = New SaleChest(itemsXMid + 1, itemsY, ItemType.NoItem, False, False, False, chestColor)
                 Else
                     Local randomItemName := SaleItem.GetRandomItem(controller_game.currentLevel, "shopChance")
                     item3 = New SaleItem(itemsXMid + 1, itemsY, randomItemName, False, Null, -1.0, Null)
@@ -13092,7 +13092,7 @@ Class Level
         End If
 
         Local crateType := Util.RndIntRangeFromZero(1, True)
-        New Crate(x, y, crateType, Item.NoItem)
+        New Crate(x, y, crateType, ItemType.NoItem)
     End Function
 
     Function PutEnemyZone5: Void(x: Int, y: Int)
@@ -13284,14 +13284,14 @@ Class Level
 
     Function RandomFood: String()
         Select Util.RndIntRangeFromZero(5, True)
-            Case 0 Return "food_1"
-            Case 1 Return "food_2"
-            Case 2 Return "food_3"
-            Case 3 Return "food_4"
-            Case 4 Return "food_carrot"
+            Case 0 Return ItemType.Apple
+            Case 1 Return ItemType.Cheese
+            Case 2 Return ItemType.Drumstick
+            Case 3 Return ItemType.Ham
+            Case 4 Return ItemType.Carrot
         End Select
 
-        Return "food_cookies"
+        Return ItemType.Cookies
     End Function
 
     Function RandomWalkOfTempTiles: Void(xVal: Int, yVal: Int, distCounter: Int)

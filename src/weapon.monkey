@@ -29,7 +29,7 @@ Class Weapon
         Self.startingRenderTime = 9
         Self.type = t
 
-        If Self.type <> Item.NoItem
+        If Self.type <> ItemType.NoItem
             Local itemNode := Item.GetItemXML(Self.type)
 
             Local numFrames := itemNode.GetAttribute("numFrames", 1)
@@ -40,18 +40,18 @@ Class Weapon
                 Local swipeImage: Sprite
 
                 Select Self.type
-                    Case "weapon_obsidian_dagger"
+                    Case ItemType.ObsidianDagger
                         swipeImage = New Sprite("swipes/swipe_dagger_obsidian.png", 24, 24, 9, Image.MidHandle)
                         Self.hasObsSwipe = True
-                    Case "weapon_blood_dagger"
+                    Case ItemType.BloodDagger
                         swipeImage = New Sprite("swipes/swipe_dagger_blood.png", 3, Image.MidHandle)
-                    Case "weapon_titanium_dagger"
+                    Case ItemType.TitaniumDagger
                         swipeImage = New Sprite("swipes/swipe_dagger_titanium.png", 3, Image.MidHandle)
-                    Case "weapon_glass_dagger"
+                    Case ItemType.GlassDagger
                         swipeImage = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
-                    Case "weapon_golden_dagger"
+                    Case ItemType.GoldenDagger
                         swipeImage = New Sprite("swipes/swipe_dagger_gold.png", 3, Image.MidHandle)
-                    Case "weapon_dagger_shard"
+                    Case ItemType.GlassShardWeapon
                         swipeImage = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
                     Default
                         swipeImage = New Sprite("swipes/swipe_dagger.png", 3, Image.MidHandle)
@@ -71,16 +71,16 @@ Class Weapon
                 Local swipeImage: Sprite
 
                 Select Self.type
-                    Case "weapon_obsidian_longsword"
+                    Case ItemType.ObsidianLongsword
                         swipeImage = New Sprite("swipes/swipe_longsword_obsidian.png", 48, 24, 12, Image.MidHandle)
                         Self.hasObsSwipe = True
-                    Case "weapon_blood_longsword"
+                    Case ItemType.BloodLongsword
                         swipeImage = New Sprite("swipes/swipe_longsword_blood.png", 4, Image.MidHandle)
-                    Case "weapon_titanium_longsword"
+                    Case ItemType.TitaniumLongsword
                         swipeImage = New Sprite("swipes/swipe_longsword_titanium.png", 4, Image.MidHandle)
-                    Case "weapon_glass_longsword"
+                    Case ItemType.GlassLongsword
                         swipeImage = New Sprite("swipes/swipe_longsword_glass.png", 4, Image.MidHandle)
-                    Case "weapon_golden_longsword"
+                    Case ItemType.GoldenLongsword
                         swipeImage = New Sprite("swipes/swipe_longsword_gold.png", 4, Image.MidHandle)
                     Default
                         swipeImage = New Sprite("swipes/swipe_longsword.png", 4, Image.MidHandle)
@@ -106,16 +106,16 @@ Class Weapon
                 Local swipeImage: Sprite
 
                 Select Self.type
-                    Case "weapon_obsidian_broadsword"
+                    Case ItemType.ObsidianBroadsword
                         swipeImage = New Sprite("swipes/swipe_broadsword_obsidian.png", 24, 72, 9, Image.MidHandle)
                         Self.hasObsSwipe = True
-                    Case "weapon_blood_broadsword"
+                    Case ItemType.BloodBroadsword
                         swipeImage = New Sprite("swipes/swipe_broadsword_blood.png", 3, Image.MidHandle)
-                    Case "weapon_titanium_broadsword"
+                    Case ItemType.TitaniumBroadsword
                         swipeImage = New Sprite("swipes/swipe_broadsword_titanium.png", 3, Image.MidHandle)
-                    Case "weapon_glass_broadsword"
+                    Case ItemType.GlassBroadsword
                         swipeImage = New Sprite("swipes/swipe_broadsword_glass.png", 3, Image.MidHandle)
-                    Case "weapon_golden_broadsword"
+                    Case ItemType.GoldenBroadsword
                         swipeImage = New Sprite("swipes/swipe_broadsword_gold.png", 3, Image.MidHandle)
                     Default
                         swipeImage = New Sprite("swipes/swipe_broadsword.png", 3, Image.MidHandle)
@@ -174,7 +174,7 @@ Class Weapon
                 Self.numSwipeFrames = 4
 
                 Select Self.type
-                    Case "weapon_golden_whip"
+                    Case ItemType.GoldenWhip
                         Local swipeImageA := New Sprite("swipes/swipe_whip_gold_A.png", 4, Image.MidHandle)
                         swipeImageA.SetZOff(1000.0)
                         Self.swipeImage.Set(0, swipeImageA)
@@ -190,7 +190,7 @@ Class Weapon
                         Local swipeImageE := New Sprite("swipes/swipe_whip_gold_E.png", 4, Image.MidHandle)
                         swipeImageE.SetZOff(1000.0)
                         Self.swipeImage.Set(4, swipeImageE)
-                    Case "weapon_obsidian_whip"
+                    Case ItemType.ObsidianWhip
                         Local swipeImageA := New Sprite("swipes/swipe_whip_obsidian_A.png", 24, 120, 12, Image.MidHandle)
                         swipeImageA.SetZOff(1000.0)
                         Self.swipeImage.Set(0, swipeImageA)
@@ -302,22 +302,22 @@ Class Weapon
                 Local swipeImage2: Sprite
 
                 Select Self.type
-                    Case "weapon_obsidian_rapier"
+                    Case ItemType.ObsidianRapier
                         swipeImage = New Sprite("swipes/swipe_rapier_obsidian.png", 48, 24, 12, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_obsidian.png", 24, 24, 9, Image.MidHandle)
 
                         Self.hasObsSwipe = True
                         Self.hasObsSwipe2 = True
-                    Case "weapon_blood_rapier"
+                    Case ItemType.BloodRapier
                         swipeImage = New Sprite("swipes/swipe_rapier_blood.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_blood.png", 3, Image.MidHandle)
-                    Case "weapon_titanium_rapier"
+                    Case ItemType.TitaniumRapier
                         swipeImage = New Sprite("swipes/swipe_rapier_titanium.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_titanium.png", 3, Image.MidHandle)
-                    Case "weapon_glass_rapier"
+                    Case ItemType.GlassRapier
                         swipeImage = New Sprite("swipes/swipe_rapier_glass.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
-                    Case "weapon_golden_rapier"
+                    Case ItemType.GoldenRapier
                         swipeImage = New Sprite("swipes/swipe_rapier_golden.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_golden.png", 3, Image.MidHandle)
                     Default
@@ -349,22 +349,22 @@ Class Weapon
                 Local swipeImage2: Sprite
 
                 Select Self.type
-                    Case "weapon_obsidian_spear"
+                    Case ItemType.ObsidianSpear
                         swipeImage = New Sprite("swipes/swipe_spear_obsidian.png", 48, 24, 12, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_obsidian.png", 24, 24, 9, Image.MidHandle)
 
                         Self.hasObsSwipe = True
                         Self.hasObsSwipe2 = True
-                    Case "weapon_blood_spear"
+                    Case ItemType.BloodSpear
                         swipeImage = New Sprite("swipes/swipe_spear_blood.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_blood.png", 3, Image.MidHandle)
-                    Case "weapon_titanium_spear"
+                    Case ItemType.TitaniumSpear
                         swipeImage = New Sprite("swipes/swipe_spear_titanium.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_titanium.png", 3, Image.MidHandle)
-                    Case "weapon_glass_spear"
+                    Case ItemType.GlassSpear
                         swipeImage = New Sprite("swipes/swipe_spear_glass.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_glass.png", 3, Image.MidHandle)
-                    Case "weapon_golden_spear"
+                    Case ItemType.GoldenSpear
                         swipeImage = New Sprite("swipes/swipe_spear_golden.png", 4, Image.MidHandle)
                         swipeImage2 = New Sprite("swipes/swipe_dagger_golden.png", 3, Image.MidHandle)
                     Default
@@ -579,7 +579,7 @@ Class Weapon
         End If
     End Method
 
-    Field type: String = "weapon_dagger"
+    Field type: String = ItemType.Dagger
     Field startingRenderTime: Int
     Field hasObsSwipe: Bool
     Field swipeImage: IntMap<Sprite> = New IntMap<Sprite>()
@@ -678,20 +678,20 @@ Class Weapon
 
     Method IsDagger: Bool()
         Select Self.type
-            Case "weapon_dagger",
-                 "weapon_golden_dagger",
-                 "weapon_titanium_dagger",
-                 "weapon_obsidian_dagger",
-                 "weapon_blood_dagger",
-                 "weapon_glass_dagger",
-                 "weapon_dagger_shard",
-                 "weapon_dagger_jeweled",
-                 "weapon_dagger_frost",
-                 "weapon_dagger_phasing",
-                 "weapon_flower",
-                 "weapon_fangs",
-                 "weapon_dagger_electric",
-                 "weapon_eli"
+            Case ItemType.Dagger,
+                 ItemType.GoldenDagger,
+                 ItemType.TitaniumDagger,
+                 ItemType.ObsidianDagger,
+                 ItemType.BloodDagger,
+                 ItemType.GlassDagger,
+                 ItemType.GlassShardWeapon,
+                 ItemType.JeweledDagger,
+                 ItemType.DaggerOfFrost,
+                 ItemType.DaggerOfPhasing,
+                 ItemType.Flower,
+                 ItemType.Fangs,
+                 ItemType.ElectricDagger,
+                 ItemType.Eli
                 Return True
         End Select
 
@@ -736,12 +736,12 @@ Class Weapon
 
     Method IsSpear: Bool()
         Select Self.type
-            Case "weapon_spear",
-                 "weapon_golden_spear",
-                 "weapon_titanium_spear",
-                 "weapon_obsidian_spear",
-                 "weapon_blood_spear",
-                 "weapon_glass_spear"
+            Case ItemType.Spear,
+                 ItemType.GoldenSpear,
+                 ItemType.TitaniumSpear,
+                 ItemType.ObsidianSpear,
+                 ItemType.BloodSpear,
+                 ItemType.GlassSpear
                 Return True
         End Select
 
@@ -759,9 +759,9 @@ Class Weapon
 
         If Self.IsDagger()
             Select Self.type
-                Case "weapon_flower",
-                     "weapon_fangs",
-                     "weapon_eli"
+                Case ItemType.Flower,
+                     ItemType.Fangs,
+                     ItemType.Eli
                     Return False
             End Select
 

@@ -13,6 +13,7 @@ Import audio2
 Import camera
 Import entity
 Import flyaway
+Import item
 Import logger
 Import minimap
 Import necrodancergame
@@ -50,7 +51,7 @@ Class Tile Extends RenderableObject
     Function AnyPlayerHaveCompass: Bool()
         If Tile.anyPlayerHaveCompassCachedFrame <> necrodancergame.globalFrameCounter
             Tile.anyPlayerHaveCompassCachedFrame = necrodancergame.globalFrameCounter
-            Tile.anyPlayerHaveCompassCached = Player.DoesAnyPlayerHaveItemOfType("misc_compass", False)
+            Tile.anyPlayerHaveCompassCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.Compass, False)
         End If
 
         Return Tile.anyPlayerHaveCompassCached
@@ -59,7 +60,7 @@ Class Tile Extends RenderableObject
     Function AnyPlayerHaveMonocle: Bool()
         If Tile.anyPlayerHaveMonocleCachedFrame <> necrodancergame.globalFrameCounter
             Tile.anyPlayerHaveMonocleCachedFrame = necrodancergame.globalFrameCounter
-            Tile.anyPlayerHaveMonocleCached = Player.DoesAnyPlayerHaveItemOfType("head_monocle", False)
+            Tile.anyPlayerHaveMonocleCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.Monocle, False)
         End If
 
         Return Tile.anyPlayerHaveMonocleCached
@@ -76,7 +77,7 @@ Class Tile Extends RenderableObject
     Function AnyPlayerHaveZoneMap: Bool()
         If Tile.anyPlayerHaveZoneMapCachedFrame <> necrodancergame.globalFrameCounter
             Tile.anyPlayerHaveZoneMapCachedFrame = necrodancergame.globalFrameCounter
-            Tile.anyPlayerHaveZoneMapCached = Player.DoesAnyPlayerHaveItemOfType("misc_map", False)
+            Tile.anyPlayerHaveZoneMapCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.Map, False)
         End If
 
         Return Tile.anyPlayerHaveZoneMapCached
@@ -85,7 +86,7 @@ Class Tile Extends RenderableObject
     Function CheckRingOfShadows: Bool()
         If Tile.anyPlayerHaveRingOfShadowsCachedFrame <> necrodancergame.globalFrameCounter
             Tile.anyPlayerHaveRingOfShadowsCachedFrame = necrodancergame.globalFrameCounter
-            Tile.anyPlayerHaveRingOfShadowsCached = Player.DoesAnyPlayerHaveItemOfType("ring_shadows", False)
+            Tile.anyPlayerHaveRingOfShadowsCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfShadows, False)
         End If
 
         Return Tile.anyPlayerHaveRingOfShadowsCached
