@@ -11,6 +11,7 @@ Import enemy.enemyclamper
 Import gui.controller_game
 Import gui.controller_input_popup
 Import gui.controller_popup
+Import gui.flyaway
 Import familiar
 Import familiar_fixed.soul_familiar
 Import level
@@ -22,7 +23,6 @@ Import chain
 Import entity
 Import familiar
 Import familiar_fixed
-Import flyaway
 Import gamedata
 Import item
 Import logger

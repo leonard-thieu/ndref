@@ -71,10 +71,12 @@ Import enemy.zombiesnake
 Import gui.controller
 Import gui.controller_boss_intro
 Import gui.controller_cutscene
+Import gui.flyaway
 Import gui.controller_game
 Import gui.controller_level_editor
 Import gui.controller_popup
 Import gui.controller_postgame
+Import gui.minimap
 Import level.advancelevel_callback
 Import level.blob_room
 Import level.exitmap
@@ -103,14 +105,12 @@ Import camera
 Import chain
 Import chest
 Import entity
-Import flyaway
 import gamedata
 Import input2
 Import intpointlist
 Import intpointset
 Import intpointstack
 Import logger
-Import minimap
 Import necrodancer
 Import necrodancergame
 Import particles

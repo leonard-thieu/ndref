@@ -4,6 +4,8 @@ Import monkey.list
 Import monkey.math
 Import mojo.graphics
 Import gui.controller_game
+Import gui.flyaway
+Import gui.minimap
 Import enemy
 Import enemy.nightmare
 Import enemy.sarcophagus
@@ -12,10 +14,8 @@ Import level
 Import audio2
 Import camera
 Import entity
-Import flyaway
 Import item
 Import logger
-Import minimap
 Import necrodancergame
 Import particles
 Import player_class

@@ -6,6 +6,7 @@ Import mojo.graphics
 Import mojo.input
 Import gui.controller
 Import gui.controller_pause
+Import gui.flyaway
 Import gui.gui_gameplay
 Import enemy
 Import level
@@ -17,7 +18,6 @@ Import bouncer
 Import crystal_shards
 Import doppelganger
 Import entity
-Import flyaway
 Import gamedata
 Import input2
 Import item
