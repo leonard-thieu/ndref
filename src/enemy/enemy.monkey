@@ -401,9 +401,9 @@ Class Enemy Extends MobileEntity Abstract
                 enemyName = "|4130|TRAP WALLS|"
             Case "BOMB"
                 enemyName = "|4131|BOMB|"
-            Case "MISSED BEAT",
-                 "MISSEDBEAT"
+            Case "MISSED BEAT"
                 enemyName = "|4132|MISSED BEAT|"
+            Case "MISSEDBEAT"
                 enemyName = "|4132|MISSEDBEAT|"
             Case "GRAY SHOVEMONSTER"
                 enemyName = "|4133|GRAY SHOVEMONSTER|"
@@ -793,8 +793,9 @@ Class Enemy Extends MobileEntity Abstract
                 enemyName = "|6130|TRAP WALLS|"
             Case "BOMB"
                 enemyName = "|6131|BOMB|"
-            Case "MISSED BEAT",
-                 "MISSEDBEAT"
+            Case "MISSED BEAT"
+                enemyName = "|6132|MISSED BEAT|"
+            Case "MISSEDBEAT"
                 enemyName = "|6132|MISSEDBEAT|"
             Case "GRAY SHOVEMONSTER"
                 enemyName = "|6133|GRAY SHOVEMONSTER|"
