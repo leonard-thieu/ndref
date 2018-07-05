@@ -465,8 +465,6 @@ Class Enemy Extends MobileEntity Abstract
                 enemyName = "|11525|PURPLE SLIME|"
             Case "CRATE MIMIC"
                 enemyName = "|11526|CRATE MIMIC|"
-            Case "BARREL MIMIC"
-                enemyName = "|11527|BARREL MIMIC|"
         End Select
 
         Return enemyName
@@ -476,6 +474,8 @@ Class Enemy Extends MobileEntity Abstract
         Local enemyName: String
 
         Select eName
+            Case "BARREL MIMIC"
+                enemyName = "|11527|BARREL MIMIC|"
             Case "SHRINE MIMIC"
                 enemyName = "|11528|SHRINE MIMIC|"
             Case "WATER BALL"
@@ -857,8 +857,6 @@ Class Enemy Extends MobileEntity Abstract
                 enemyName = "|12525|PURPLE SLIME|"
             Case "CRATE MIMIC"
                 enemyName = "|12526|CRATE MIMIC|"
-            Case "BARREL MIMIC"
-                enemyName = "|12527|BARREL MIMIC|"
         End Select
 
         Return enemyName
@@ -868,6 +866,8 @@ Class Enemy Extends MobileEntity Abstract
         Local enemyName: String
 
         Select eName
+            Case "BARREL MIMIC"
+                enemyName = "|12527|BARREL MIMIC|"
             Case "SHRINE MIMIC"
                 enemyName = "|12528|SHRINE MIMIC|"
             Case "WATER BALL"
