@@ -13,10 +13,12 @@ CPPFLAGS=$(CCOPTS) \
 -I../openal/include \
 -I../stb \
 -D_GLFW_HAS_GLXGETPROCADDRESS \
--pthread
+-pthread \
+-m32 \
+-g1
 
 LD=g++
-LDFLAGS=
+LDFLAGS=-m32
 LDLIBS=-lGL -lopenal -lX11 -lXxf86vm -lXi -lXrandr -lXinerama -lXcursor -lpthread -ldl
 
 vpath %.c ../glfw3/src

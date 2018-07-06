@@ -18,7 +18,6 @@ install:
   - g++ -O3 -DNDEBUG -o ./tools/monkey/bin/transcc_linux ./tools/monkey/src/transcc/transcc.build/cpptool/main.cpp -lpthread
 
 build_script:
-  - cp ./Makefile ./tools/monkey/targets/glfw3/template/gcc_linux/
   - ./tools/monkey/bin/transcc_linux -config=release -target="Desktop_Game_(Glfw3)" ./src/necrodancer.monkey
 
 artifacts:
