@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="String">
+    <DisplayString>length = {rep-&gt;length}, {rep-&gt;data}</DisplayString>
+  </Type>
+
+  <Type Name="c_List">
+    <AlternativeType Name="c_List2"/>
+    <AlternativeType Name="c_List3"/>
+    <AlternativeType Name="c_List4"/>
+    <AlternativeType Name="c_List5"/>
+    <AlternativeType Name="c_List6"/>
+    <AlternativeType Name="c_List7"/>
+    <AlternativeType Name="c_List8"/>
+    <AlternativeType Name="c_List9"/>
+    <AlternativeType Name="c_List10"/>
+    <AlternativeType Name="c_List11"/>
+    <AlternativeType Name="c_List12"/>
+    <AlternativeType Name="c_List13"/>
+    <AlternativeType Name="c_List14"/>
+    <AlternativeType Name="c_List15"/>
+    <AlternativeType Name="c_List16"/>
+    <AlternativeType Name="c_List17"/>
+    <AlternativeType Name="c_List18"/>
+    <AlternativeType Name="c_List19"/>
+    <AlternativeType Name="c_List20"/>
+    <AlternativeType Name="c_List21"/>
+    <AlternativeType Name="c_List22"/>
+    <AlternativeType Name="c_List23"/>
+    <AlternativeType Name="c_List24"/>
+    <AlternativeType Name="c_List25"/>
+    <AlternativeType Name="c_List26"/>
+    <AlternativeType Name="c_List27"/>
+    <AlternativeType Name="c_List28"/>
+    <AlternativeType Name="c_List29"/>
+    <AlternativeType Name="c_List30"/>
+    <AlternativeType Name="c_List31"/>
+    <Expand>
+      <LinkedListItems>
+        <HeadPointer>m__head-&gt;m__succ</HeadPointer>
+        <NextPointer>m__succ</NextPointer>
+        <ValueNode>m__data</ValueNode>
+      </LinkedListItems>
+    </Expand>
+  </Type>
+
+  <Type Name="c_Map">
+    <AlternativeType Name="c_Map2"/>
+    <AlternativeType Name="c_Map3"/>
+    <AlternativeType Name="c_Map4"/>
+    <AlternativeType Name="c_Map5"/>
+    <AlternativeType Name="c_Map6"/>
+    <AlternativeType Name="c_Map7"/>
+    <AlternativeType Name="c_Map8"/>
+    <AlternativeType Name="c_Map9"/>
+    <AlternativeType Name="c_Map10"/>
+    <AlternativeType Name="c_Map11"/>
+    <AlternativeType Name="c_Map12"/>
+    <Expand>
+      <TreeItems>
+        <HeadPointer>m_root</HeadPointer>
+        <LeftPointer>m_left</LeftPointer>
+        <RightPointer>m_right</RightPointer>
+        <ValueNode>this</ValueNode>
+      </TreeItems>
+    </Expand>
+  </Type>
+  
+  <Type Name="c_Set">
+    <AlternativeType Name="c_Set2"/>
+    <Expand>
+      <TreeItems>
+        <HeadPointer>m_map-&gt;m_root</HeadPointer>
+        <LeftPointer>m_left</LeftPointer>
+        <RightPointer>m_right</RightPointer>
+        <ValueNode>m_key</ValueNode>
+      </TreeItems>
+    </Expand>
+  </Type>
+
+  <Type Name="c_RenderableObject">
+    <DisplayString>({m_x},{m_y})</DisplayString>
+  </Type>
+
+  <Type Name="c_Tile">
+    <DisplayString>({m_x},{m_y}) type = {m_type}</DisplayString>
+  </Type>
+
+  <Type Name="c_RoomData">
+    <DisplayString>({m_x},{m_y}) {m_w}x{m_h} type = {m_type}</DisplayString>
+  </Type>
+
+  <Type Name="c_JsonObject">
+    <DisplayString>{m__data}</DisplayString>
+  </Type>
+
+  <Type Name="c_JsonValue">
+    <AlternativeType Name="c_JsonString"/>
+    <AlternativeType Name="c_JsonBool"/>
+    <AlternativeType Name="c_JsonNumber"/>
+    <DisplayString>{m__value}</DisplayString>
+  </Type>
+
+  <Type Name="c_JsonNull">
+    <DisplayString>NULL</DisplayString>
+  </Type>
+
+  <Type Name="c_Enumerator22">
+    <AlternativeType Name="c_Enumerator23"/>
+    <AlternativeType Name="c_Enumerator24"/>
+    <AlternativeType Name="c_Enumerator25"/>
+    <Expand>
+      <ArrayItems>
+        <Size>m_stack-&gt;m_length</Size>
+        <ValuePointer>m_stack-&gt;m_data.rep-&gt;data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="c_PortalSeg">
+    <DisplayString>({m_origin-&gt;m_x}, {m_origin-&gt;m_y}) length = {m_length}</DisplayString>
+  </Type>
+</AutoVisualizer>

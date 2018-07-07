@@ -1,3 +1,5 @@
 *.sublime-workspace
-necrodancer.build*/
 .idea/
+
+src/necrodancer.buildv87a/glfw3/msvc/**/
+src/necrodancer.buildv87a/glfw3/msvc/*.user
