@@ -1,14 +1,17 @@
 'Strict
 
+Import "native/util.cpp"
 Import monkey.list
 Import monkey.map
 Import monkey.math
 Import monkey.random
+Import os
 Import mojo.input
 Import gui.controller_game
 Import level
 Import camera
 Import logger
+Import necrodancer
 Import player_class
 Import point
 Import rect
@@ -156,8 +159,8 @@ Class Util
         Debug.TraceNotImplemented("Util.GetLanguagesFolderPath()")
     End Function
 
-    Function GetLeaderboardScores: Void(rangeStart: Int, rangeEnd: Int, dayOffset: Int, specificLeaderboard: Int, useTodaysSeed: Bool, friendsOnly: Bool, playerOnly: Bool)
-        Debug.TraceNotImplemented("Util.GetLeaderboardScores(Int, Int, Int, Int, Bool, Bool, Bool)")
+    Function GetLeaderboardScores: Void(rangeStart: Int, rangeEnd: Int, dayOffset: Int, specificLeaderboard: String, useTodaysSeed: Bool, friendsOnly: Bool, playerOnly: Bool)
+        Debug.TraceNotImplemented("Util.GetLeaderboardScores(Int, Int, Int, String, Bool, Bool, Bool)")
     End Function
 
     Function GetLeaderboardSetPrefix: Int()
@@ -244,8 +247,17 @@ Class Util
         Debug.TraceNotImplemented("Util.GetTimeStringFromMilliseconds(Int, Bool, Bool)")
     End Function
 
-    Function GetVersionString: Int()
-        Debug.TraceNotImplemented("Util.GetVersionString()")
+    Function GetVersionString: String()
+        Const MAJOR_VERSION: Int = 2
+        Const MINOR_VERSION: Int = 59
+
+        Local versionStr := "v" + MAJOR_VERSION + "." + MINOR_VERSION
+
+        If necrodancer.DEBUG_BUILD
+            versionStr += "_DEBUG"
+        End If
+
+        Return versionStr
     End Function
 
     Function HasLeaderboardDownloaded: Bool()
@@ -489,7 +501,13 @@ Class Util
     End Function
 
     Function SetAppFolder: Void()
-        Debug.TraceNotImplemented("Util.SetAppFolder()")
+        Local appPath := os.AppPath()
+
+        appPath = Util.StringLeft(appPath, appPath.FindLast(".app"))
+        appPath = Util.StringLeft(appPath, appPath.FindLast("/"))
+        appPath += "/"
+
+        util.globalAppFolder = appPath
     End Function
 
     Function SetSteamIntStat: Bool(statName: String, val: Int, inGameplayOnly: Bool, allowCoop: Bool, delayUntilLevelLoad: Bool)
@@ -500,8 +518,10 @@ Class Util
         Debug.TraceNotImplemented("Util.SongNameSoundtrackId(Int)")
     End Function
 
-    Function StringLeft: Int(str: Int, n: Int)
-        Debug.TraceNotImplemented("Util.StringLeft(Int, Int)")
+    Function StringLeft: String(str: String, n: Int)
+        n = math.Min(n, str.Length)
+
+        Return str[..n]
     End Function
 
     Function SubmitDailyHardcoreScore: Void(score: Int, z: Int, l: Int, suffix: Int, killedBy: Int, replayData: Int)
@@ -567,3 +587,13 @@ Class Direction
     Const UpRight: Int = 7
 
 End Class
+
+Function SetVSync: Void(v: Int)
+    Debug.TraceNotImplemented("SetVSync(Int)")
+End Function
+
+Extern
+
+Global globalAppFolder: String
+
+Function GetAppFolder: String()

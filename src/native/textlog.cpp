@@ -1,10 +1,3 @@
-String globalAppFolder;
-
-String GetAppFolder()
-{
-    return globalAppFolder;
-}
-
 std::vector<unsigned char> logBuffer;
 
 void AppendToLog(const String &line, const String &path, bool flush)
