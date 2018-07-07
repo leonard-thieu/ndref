@@ -12336,9 +12336,8 @@ int c_NecroDancerGame::p_OnCreate(){
 	bb_app_SetUpdateRate(bb_necrodancergame_FRAMES_PER_SEC);
 	c_TextLog::m_Message(String(L"GLOBAL_SCALE_FACTOR: ",21)+String(bb_necrodancergame_GLOBAL_SCALE_FACTOR));
 	if(true){
-		c_TextLog::m_Message(String(L"Loading ControllerMainMenu...",29));
-		(new c_ControllerMainMenu)->m_new();
-		c_TextLog::m_Message(String(L"ControllerMainMenu LOADED",25));
+		c_GameData::m_LoadGameDataXML(true);
+		(new c_ControllerGame)->m_new();
 	}
 	return 0;
 }

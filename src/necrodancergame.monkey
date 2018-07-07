@@ -18,7 +18,7 @@ Import textlog
 Import util
 Import xml
 
-Const LOAD_CONTROLLER_GAME: Bool = False
+Const LOAD_CONTROLLER_GAME: Bool = True
 
 Global CHRISTMAS_MODE: Bool
 Global DEBUG_DISABLE_CLOUD_SAVES: Bool
