@@ -1,0 +1,8 @@
+src/necrodancer.buildv87a/glfw3/glfw3/ linguist-vendored
+src/necrodancer.buildv87a/glfw3/openal/ linguist-vendored
+src/necrodancer.buildv87a/glfw3/stb/ linguist-vendored
+
+src/necrodancer.buildv87a/glfw3/msvc/main.cpp linguist-generated=true
+src/necrodancer.buildv87a/glfw3/msvc/main.h linguist-generated=true
+src/necrodancer.buildv87a/glfw3/msvc/main.mm linguist-generated=true
+
