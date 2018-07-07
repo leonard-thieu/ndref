@@ -5,6 +5,7 @@
 #define CFG_BINARY_FILES *.bin|*.dat
 #define CFG_BRL_DATABUFFER_IMPLEMENTED 1
 #define CFG_BRL_FILESTREAM_IMPLEMENTED 1
+#define CFG_BRL_FILESYSTEM_IMPLEMENTED 1
 #define CFG_BRL_GAMETARGET_IMPLEMENTED 1
 #define CFG_BRL_OS_IMPLEMENTED 1
 #define CFG_BRL_STREAM_IMPLEMENTED 1
@@ -4216,6 +4217,341 @@ int gxtkSample::Discard(){
 	return 0;
 }
 
+// Stdcpp trans.system runtime.
+//
+// Placed into the public domain 24/02/2011.
+// No warranty implied; use as your own risk.
+
+#if _WIN32
+
+#ifndef PATH_MAX
+#define PATH_MAX MAX_PATH
+#endif
+
+typedef WCHAR OS_CHAR;
+typedef struct _stat stat_t;
+
+#define mkdir( X,Y ) _wmkdir( X )
+#define rmdir _wrmdir
+#define remove _wremove
+#define rename _wrename
+#define stat _wstat
+#define _fopen _wfopen
+#define putenv _wputenv
+#define getenv _wgetenv
+#define system _wsystem
+#define chdir _wchdir
+#define getcwd _wgetcwd
+#define realpath(X,Y) _wfullpath( Y,X,PATH_MAX )	//Note: first args SWAPPED to be posix-like!
+#define opendir _wopendir
+#define readdir _wreaddir
+#define closedir _wclosedir
+#define DIR _WDIR
+#define dirent _wdirent
+
+#elif __APPLE__
+
+typedef char OS_CHAR;
+typedef struct stat stat_t;
+
+#define _fopen fopen
+
+#elif __linux
+
+/*
+#include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+*/
+
+typedef char OS_CHAR;
+typedef struct stat stat_t;
+
+#define _fopen fopen
+
+#endif
+
+static String _appPath;
+static Array<String> _appArgs;
+
+static String::CString<char> C_STR( const String &t ){
+	return t.ToCString<char>();
+}
+
+static String::CString<OS_CHAR> OS_STR( const String &t ){
+	return t.ToCString<OS_CHAR>();
+}
+
+String HostOS(){
+#if _WIN32
+	return "winnt";
+#elif __APPLE__
+	return "macos";
+#elif __linux
+	return "linux";
+#else
+	return "";
+#endif
+}
+
+String RealPath( String path ){
+	std::vector<OS_CHAR> buf( PATH_MAX+1 );
+	if( realpath( OS_STR( path ),&buf[0] ) ){}
+	buf[buf.size()-1]=0;
+	for( int i=0;i<PATH_MAX && buf[i];++i ){
+		if( buf[i]=='\\' ) buf[i]='/';
+		
+	}
+	return String( &buf[0] );
+}
+
+String AppPath(){
+
+	if( _appPath.Length() ) return _appPath;
+	
+#if _WIN32
+
+	OS_CHAR buf[PATH_MAX+1];
+	GetModuleFileNameW( GetModuleHandleW(0),buf,PATH_MAX );
+	buf[PATH_MAX]=0;
+	_appPath=String( buf );
+	
+#elif __APPLE__
+
+	char buf[PATH_MAX];
+	uint32_t size=sizeof( buf );
+	_NSGetExecutablePath( buf,&size );
+	buf[PATH_MAX-1]=0;
+	_appPath=String( buf );
+	
+#elif __linux
+
+	char lnk[PATH_MAX],buf[PATH_MAX];
+	pid_t pid=getpid();
+	sprintf( lnk,"/proc/%i/exe",pid );
+	int i=readlink( lnk,buf,PATH_MAX );
+	if( i>0 && i<PATH_MAX ){
+		buf[i]=0;
+		_appPath=String( buf );
+	}
+
+#endif
+
+	_appPath=RealPath( _appPath );
+	return _appPath;
+}
+
+Array<String> AppArgs(){
+	if( _appArgs.Length() ) return _appArgs;
+	_appArgs=Array<String>( argc );
+	for( int i=0;i<argc;++i ){
+		_appArgs[i]=String( argv[i] );
+	}
+	return _appArgs;
+}
+	
+int FileType( String path ){
+	stat_t st;
+	if( stat( OS_STR(path),&st ) ) return 0;
+	switch( st.st_mode & S_IFMT ){
+	case S_IFREG : return 1;
+	case S_IFDIR : return 2;
+	}
+	return 0;
+}
+
+int FileSize( String path ){
+	stat_t st;
+	if( stat( OS_STR(path),&st ) ) return -1;
+	return st.st_size;
+}
+
+int FileTime( String path ){
+	stat_t st;
+	if( stat( OS_STR(path),&st ) ) return -1;
+	return st.st_mtime;
+}
+
+String LoadString( String path ){
+	if( FILE *fp=_fopen( OS_STR(path),OS_STR("rb") ) ){
+		String str=String::Load( fp );
+		if( _str_load_err ){
+			bbPrint( String( _str_load_err )+" in file: "+path );
+		}
+		fclose( fp );
+		return str;
+	}
+	return "";
+}
+	
+int SaveString( String str,String path ){
+	if( FILE *fp=_fopen( OS_STR(path),OS_STR("wb") ) ){
+		bool ok=str.Save( fp );
+		fclose( fp );
+		return ok ? 0 : -2;
+	}else{
+//		printf( "FOPEN 'wb' for SaveString '%s' failed\n",C_STR( path ) );
+		fflush( stdout );
+	}
+	return -1;
+}
+
+Array<String> LoadDir( String path ){
+	std::vector<String> files;
+	
+#if _WIN32
+
+	WIN32_FIND_DATAW filedata;
+	HANDLE handle=FindFirstFileW( OS_STR(path+"/*"),&filedata );
+	if( handle!=INVALID_HANDLE_VALUE ){
+		do{
+			String f=filedata.cFileName;
+			if( f=="." || f==".." ) continue;
+			files.push_back( f );
+		}while( FindNextFileW( handle,&filedata ) );
+		FindClose( handle );
+	}else{
+//		printf( "FindFirstFileW for LoadDir(%s) failed\n",C_STR(path) );
+		fflush( stdout );
+	}
+	
+#else
+
+	if( DIR *dir=opendir( OS_STR(path) ) ){
+		while( dirent *ent=readdir( dir ) ){
+			String f=ent->d_name;
+			if( f=="." || f==".." ) continue;
+			files.push_back( f );
+		}
+		closedir( dir );
+	}else{
+//		printf( "opendir for LoadDir(%s) failed\n",C_STR(path) );
+		fflush( stdout );
+	}
+
+#endif
+
+	return files.size() ? Array<String>( &files[0],files.size() ) : Array<String>();
+}
+	
+int CopyFile( String srcpath,String dstpath ){
+
+#if _WIN32
+
+	if( CopyFileW( OS_STR(srcpath),OS_STR(dstpath),FALSE ) ) return 1;
+	return 0;
+	
+#elif __APPLE__
+
+	// Would like to use COPY_ALL here, but it breaks trans on MacOS - produces weird 'pch out of date' error with copied projects.
+	//
+	// Ranlib strikes back!
+	//
+	if( copyfile( OS_STR(srcpath),OS_STR(dstpath),0,COPYFILE_DATA )>=0 ) return 1;
+	return 0;
+	
+#else
+
+	int err=-1;
+	if( FILE *srcp=_fopen( OS_STR( srcpath ),OS_STR( "rb" ) ) ){
+		err=-2;
+		if( FILE *dstp=_fopen( OS_STR( dstpath ),OS_STR( "wb" ) ) ){
+			err=0;
+			char buf[1024];
+			while( int n=fread( buf,1,1024,srcp ) ){
+				if( fwrite( buf,1,n,dstp )!=n ){
+					err=-3;
+					break;
+				}
+			}
+			fclose( dstp );
+		}else{
+//			printf( "FOPEN 'wb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) );
+			fflush( stdout );
+		}
+		fclose( srcp );
+	}else{
+//		printf( "FOPEN 'rb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) );
+		fflush( stdout );
+	}
+	return err==0;
+	
+#endif
+}
+
+int ChangeDir( String path ){
+	return chdir( OS_STR(path) );
+}
+
+String CurrentDir(){
+	std::vector<OS_CHAR> buf( PATH_MAX+1 );
+	if( getcwd( &buf[0],buf.size() ) ){}
+	buf[buf.size()-1]=0;
+	return String( &buf[0] );
+}
+
+int CreateDir( String path ){
+	mkdir( OS_STR( path ),0777 );
+	return FileType(path)==2;
+}
+
+int DeleteDir( String path ){
+	rmdir( OS_STR(path) );
+	return FileType(path)==0;
+}
+
+int DeleteFile( String path ){
+	remove( OS_STR(path) );
+	return FileType(path)==0;
+}
+
+int SetEnv( String name,String value ){
+#if _WIN32
+	return putenv( OS_STR( name+"="+value ) );
+#else
+	if( value.Length() ) return setenv( OS_STR( name ),OS_STR( value ),1 );
+	unsetenv( OS_STR( name ) );
+	return 0;
+#endif
+}
+
+String GetEnv( String name ){
+	if( OS_CHAR *p=getenv( OS_STR(name) ) ) return String( p );
+	return "";
+}
+
+int Execute( String cmd ){
+
+#if _WIN32
+
+	cmd=String("cmd /S /C \"")+cmd+"\"";
+
+	PROCESS_INFORMATION pi={0};
+	STARTUPINFOW si={sizeof(si)};
+
+	if( !CreateProcessW( 0,(WCHAR*)(const OS_CHAR*)OS_STR(cmd),0,0,1,CREATE_DEFAULT_ERROR_MODE,0,0,&si,&pi ) ) return -1;
+
+	WaitForSingleObject( pi.hProcess,INFINITE );
+
+	int res=GetExitCodeProcess( pi.hProcess,(DWORD*)&res ) ? res : -1;
+
+	CloseHandle( pi.hProcess );
+	CloseHandle( pi.hThread );
+
+	return res;
+
+#else
+
+	return system( OS_STR(cmd) );
+
+#endif
+}
+
+int ExitApp( int retcode ){
+	exit( retcode );
+	return 0;
+}
+
 
 // ***** thread.h *****
 
@@ -4635,6 +4971,14 @@ int BBFileStream::Write( BBDataBuffer *buffer,int offset,int count ){
 	return n;
 }
 
+String globalAppFolder;
+
+String GetAppFolder()
+{
+    return globalAppFolder;
+}
+
+
 // Stdcpp trans.system runtime.
 //
 // Placed into the public domain 24/02/2011.
@@ -4642,332 +4986,202 @@ int BBFileStream::Write( BBDataBuffer *buffer,int offset,int count ){
 
 #if _WIN32
 
-#ifndef PATH_MAX
-#define PATH_MAX MAX_PATH
-#endif
-
-typedef WCHAR OS_CHAR;
-typedef struct _stat stat_t;
-
 #define mkdir( X,Y ) _wmkdir( X )
 #define rmdir _wrmdir
 #define remove _wremove
 #define rename _wrename
 #define stat _wstat
 #define _fopen _wfopen
-#define putenv _wputenv
-#define getenv _wgetenv
-#define system _wsystem
-#define chdir _wchdir
-#define getcwd _wgetcwd
-#define realpath(X,Y) _wfullpath( Y,X,PATH_MAX )	//Note: first args SWAPPED to be posix-like!
-#define opendir _wopendir
-#define readdir _wreaddir
-#define closedir _wclosedir
-#define DIR _WDIR
-#define dirent _wdirent
 
-#elif __APPLE__
-
-typedef char OS_CHAR;
-typedef struct stat stat_t;
+#else
 
 #define _fopen fopen
 
-#elif __linux
+#endif
 
-/*
-#include <unistd.h>
-#include <sys/stat.h>
-#include <dirent.h>
+class BBFileSystem{
+
+#if _WIN32
+	typedef wchar_t OS_CHAR;
+	typedef struct _stat stat_t;
+#else
+	typedef char OS_CHAR;
+	typedef struct stat stat_t;
+#endif
+
+	static String::CString<char> C_STR( const String &t ){
+		return t.ToCString<char>();
+	}
+	
+	static String::CString<OS_CHAR> OS_STR( const String &t ){
+		return t.ToCString<OS_CHAR>();
+	}
+	
+	public:
+	
+	static String FixPath( String path ){
+		return BBGame::Game()->PathToFilePath( path );
+	}
+	
+	static String RealPath( String path ){
+#if _WIN32
+		OS_CHAR buf[ MAX_PATH+1 ];
+		GetFullPathNameW( OS_STR(path),MAX_PATH,buf,0 );
+		return String( buf );
+#else
+		OS_CHAR buf[ PATH_MAX+1 ];
+		realpath( OS_STR( path ),buf );
+		return String( buf );
+/*		
+		std::vector<OS_CHAR> buf( PATH_MAX+1 );
+		if( realpath( OS_STR( path ),&buf[0] ) ){}
+		buf[buf.size()-1]=0;
+		for( int i=0;i<PATH_MAX && buf[i];++i ){
+			if( buf[i]=='\\' ) buf[i]='/';
+			
+		}
+		return String( &buf[0] );
 */
-
-typedef char OS_CHAR;
-typedef struct stat stat_t;
-
-#define _fopen fopen
-
 #endif
-
-static String _appPath;
-static Array<String> _appArgs;
-
-static String::CString<char> C_STR( const String &t ){
-	return t.ToCString<char>();
-}
-
-static String::CString<OS_CHAR> OS_STR( const String &t ){
-	return t.ToCString<OS_CHAR>();
-}
-
-String HostOS(){
-#if _WIN32
-	return "winnt";
-#elif __APPLE__
-	return "macos";
-#elif __linux
-	return "linux";
-#else
-	return "";
-#endif
-}
-
-String RealPath( String path ){
-	std::vector<OS_CHAR> buf( PATH_MAX+1 );
-	if( realpath( OS_STR( path ),&buf[0] ) ){}
-	buf[buf.size()-1]=0;
-	for( int i=0;i<PATH_MAX && buf[i];++i ){
-		if( buf[i]=='\\' ) buf[i]='/';
+	}
+	
+	static int FileType( String path ){
+		stat_t st;
+		if( stat( OS_STR(path),&st ) ) return 0;
+		switch( st.st_mode & S_IFMT ){
+		case S_IFREG : return 1;
+		case S_IFDIR : return 2;
+		}
+		return 0;
+	}
+	
+	static int FileSize( String path ){
+		stat_t st;
+		if( stat( OS_STR(path),&st ) ) return 0;
+		return st.st_size;
+	}
+	
+	static int FileTime( String path ){
+		stat_t st;
+		if( stat( OS_STR(path),&st ) ) return 0;
+		return st.st_mtime;
+	}
+	
+	static bool DeleteFile( String path ){
+		remove( OS_STR(path) );
+		return FileType(path)==0;
+	}
 		
-	}
-	return String( &buf[0] );
-}
-
-String AppPath(){
-
-	if( _appPath.Length() ) return _appPath;
+	static bool CopyFile( String srcpath,String dstpath ){
 	
 #if _WIN32
-
-	OS_CHAR buf[PATH_MAX+1];
-	GetModuleFileNameW( GetModuleHandleW(0),buf,PATH_MAX );
-	buf[PATH_MAX]=0;
-	_appPath=String( buf );
-	
+		return CopyFileW( OS_STR(srcpath),OS_STR(dstpath),FALSE );
 #elif __APPLE__
-
-	char buf[PATH_MAX];
-	uint32_t size=sizeof( buf );
-	_NSGetExecutablePath( buf,&size );
-	buf[PATH_MAX-1]=0;
-	_appPath=String( buf );
 	
-#elif __linux
-
-	char lnk[PATH_MAX],buf[PATH_MAX];
-	pid_t pid=getpid();
-	sprintf( lnk,"/proc/%i/exe",pid );
-	int i=readlink( lnk,buf,PATH_MAX );
-	if( i>0 && i<PATH_MAX ){
-		buf[i]=0;
-		_appPath=String( buf );
-	}
-
-#endif
-
-	_appPath=RealPath( _appPath );
-	return _appPath;
-}
-
-Array<String> AppArgs(){
-	if( _appArgs.Length() ) return _appArgs;
-	_appArgs=Array<String>( argc );
-	for( int i=0;i<argc;++i ){
-		_appArgs[i]=String( argv[i] );
-	}
-	return _appArgs;
-}
-	
-int FileType( String path ){
-	stat_t st;
-	if( stat( OS_STR(path),&st ) ) return 0;
-	switch( st.st_mode & S_IFMT ){
-	case S_IFREG : return 1;
-	case S_IFDIR : return 2;
-	}
-	return 0;
-}
-
-int FileSize( String path ){
-	stat_t st;
-	if( stat( OS_STR(path),&st ) ) return -1;
-	return st.st_size;
-}
-
-int FileTime( String path ){
-	stat_t st;
-	if( stat( OS_STR(path),&st ) ) return -1;
-	return st.st_mtime;
-}
-
-String LoadString( String path ){
-	if( FILE *fp=_fopen( OS_STR(path),OS_STR("rb") ) ){
-		String str=String::Load( fp );
-		if( _str_load_err ){
-			bbPrint( String( _str_load_err )+" in file: "+path );
-		}
-		fclose( fp );
-		return str;
-	}
-	return "";
-}
-	
-int SaveString( String str,String path ){
-	if( FILE *fp=_fopen( OS_STR(path),OS_STR("wb") ) ){
-		bool ok=str.Save( fp );
-		fclose( fp );
-		return ok ? 0 : -2;
-	}else{
-//		printf( "FOPEN 'wb' for SaveString '%s' failed\n",C_STR( path ) );
-		fflush( stdout );
-	}
-	return -1;
-}
-
-Array<String> LoadDir( String path ){
-	std::vector<String> files;
-	
-#if _WIN32
-
-	WIN32_FIND_DATAW filedata;
-	HANDLE handle=FindFirstFileW( OS_STR(path+"/*"),&filedata );
-	if( handle!=INVALID_HANDLE_VALUE ){
-		do{
-			String f=filedata.cFileName;
-			if( f=="." || f==".." ) continue;
-			files.push_back( f );
-		}while( FindNextFileW( handle,&filedata ) );
-		FindClose( handle );
-	}else{
-//		printf( "FindFirstFileW for LoadDir(%s) failed\n",C_STR(path) );
-		fflush( stdout );
-	}
-	
+		// Would like to use COPY_ALL here, but it breaks trans on MacOS - produces weird 'pch out of date' error with copied projects.
+		//
+		// Ranlib strikes back!
+		//
+		return copyfile( OS_STR(srcpath),OS_STR(dstpath),0,COPYFILE_DATA )>=0;
 #else
-
-	if( DIR *dir=opendir( OS_STR(path) ) ){
-		while( dirent *ent=readdir( dir ) ){
-			String f=ent->d_name;
-			if( f=="." || f==".." ) continue;
-			files.push_back( f );
-		}
-		closedir( dir );
-	}else{
-//		printf( "opendir for LoadDir(%s) failed\n",C_STR(path) );
-		fflush( stdout );
-	}
-
-#endif
-
-	return files.size() ? Array<String>( &files[0],files.size() ) : Array<String>();
-}
-	
-int CopyFile( String srcpath,String dstpath ){
-
-#if _WIN32
-
-	if( CopyFileW( OS_STR(srcpath),OS_STR(dstpath),FALSE ) ) return 1;
-	return 0;
-	
-#elif __APPLE__
-
-	// Would like to use COPY_ALL here, but it breaks trans on MacOS - produces weird 'pch out of date' error with copied projects.
-	//
-	// Ranlib strikes back!
-	//
-	if( copyfile( OS_STR(srcpath),OS_STR(dstpath),0,COPYFILE_DATA )>=0 ) return 1;
-	return 0;
-	
-#else
-
-	int err=-1;
-	if( FILE *srcp=_fopen( OS_STR( srcpath ),OS_STR( "rb" ) ) ){
-		err=-2;
-		if( FILE *dstp=_fopen( OS_STR( dstpath ),OS_STR( "wb" ) ) ){
-			err=0;
-			char buf[1024];
-			while( int n=fread( buf,1,1024,srcp ) ){
-				if( fwrite( buf,1,n,dstp )!=n ){
-					err=-3;
-					break;
+		int err=-1;
+		if( FILE *srcp=_fopen( OS_STR( srcpath ),OS_STR("rb") ) ){
+			err=-2;
+			if( FILE *dstp=_fopen( OS_STR( dstpath ),OS_STR("wb") ) ){
+				err=0;
+				char buf[1024];
+				while( int n=fread( buf,1,1024,srcp ) ){
+					if( fwrite( buf,1,n,dstp )!=n ){
+						err=-3;
+						break;
+					}
 				}
+				fclose( dstp );
+			}else{
+//				printf( "FOPEN 'wb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) );
+				fflush( stdout );
 			}
-			fclose( dstp );
+			fclose( srcp );
 		}else{
-//			printf( "FOPEN 'wb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) );
+//			printf( "FOPEN 'rb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) )
+;			fflush( stdout );
+		}
+		return err==0;
+#endif
+	}
+	
+	static bool CreateFile( String path ){
+		if( FILE *f=_fopen( OS_STR( path ),OS_STR( "wb" ) ) ){
+			fclose( f );
+			return true;
+		}
+		return false;
+	}
+	
+	static bool CreateDir( String path ){
+		mkdir( OS_STR( path ),0777 );
+		return FileType(path)==2;
+	}
+	
+	static bool DeleteDir( String path ){
+		rmdir( OS_STR(path) );
+		return FileType(path)==0;
+	}
+	
+	static Array<String> LoadDir( String path ){
+		std::vector<String> files;
+		
+#if _WIN32
+		WIN32_FIND_DATAW filedata;
+		HANDLE handle=FindFirstFileW( OS_STR(path+"/*"),&filedata );
+		if( handle!=INVALID_HANDLE_VALUE ){
+			do{
+				String f=filedata.cFileName;
+				if( f=="." || f==".." ) continue;
+				files.push_back( f );
+			}while( FindNextFileW( handle,&filedata ) );
+			FindClose( handle );
+		}else{
+//			printf( "FindFirstFileW for LoadDir(%s) failed\n",C_STR(path) );
 			fflush( stdout );
 		}
-		fclose( srcp );
-	}else{
-//		printf( "FOPEN 'rb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) );
-		fflush( stdout );
+#else
+		if( DIR *dir=opendir( OS_STR(path) ) ){
+			while( dirent *ent=readdir( dir ) ){
+				String f=ent->d_name;
+				if( f=="." || f==".." ) continue;
+				files.push_back( f );
+			}
+			closedir( dir );
+		}else{
+//			printf( "opendir for LoadDir(%s) failed\n",C_STR(path) );
+			fflush( stdout );
+		}
+#endif
+		return files.size() ? Array<String>( &files[0],files.size() ) : Array<String>();
 	}
-	return err==0;
-	
-#endif
-}
+};
 
-int ChangeDir( String path ){
-	return chdir( OS_STR(path) );
-}
+std::vector<unsigned char> logBuffer;
 
-String CurrentDir(){
-	std::vector<OS_CHAR> buf( PATH_MAX+1 );
-	if( getcwd( &buf[0],buf.size() ) ){}
-	buf[buf.size()-1]=0;
-	return String( &buf[0] );
-}
+void AppendToLog(const String &line, const String &path, bool flush)
+{
+    line.Save(logBuffer);
 
-int CreateDir( String path ){
-	mkdir( OS_STR( path ),0777 );
-	return FileType(path)==2;
-}
-
-int DeleteDir( String path ){
-	rmdir( OS_STR(path) );
-	return FileType(path)==0;
-}
-
-int DeleteFile( String path ){
-	remove( OS_STR(path) );
-	return FileType(path)==0;
-}
-
-int SetEnv( String name,String value ){
-#if _WIN32
-	return putenv( OS_STR( name+"="+value ) );
-#else
-	if( value.Length() ) return setenv( OS_STR( name ),OS_STR( value ),1 );
-	unsetenv( OS_STR( name ) );
-	return 0;
-#endif
-}
-
-String GetEnv( String name ){
-	if( OS_CHAR *p=getenv( OS_STR(name) ) ) return String( p );
-	return "";
-}
-
-int Execute( String cmd ){
-
-#if _WIN32
-
-	cmd=String("cmd /S /C \"")+cmd+"\"";
-
-	PROCESS_INFORMATION pi={0};
-	STARTUPINFOW si={sizeof(si)};
-
-	if( !CreateProcessW( 0,(WCHAR*)(const OS_CHAR*)OS_STR(cmd),0,0,1,CREATE_DEFAULT_ERROR_MODE,0,0,&si,&pi ) ) return -1;
-
-	WaitForSingleObject( pi.hProcess,INFINITE );
-
-	int res=GetExitCodeProcess( pi.hProcess,(DWORD*)&res ) ? res : -1;
-
-	CloseHandle( pi.hProcess );
-	CloseHandle( pi.hThread );
-
-	return res;
-
-#else
-
-	return system( OS_STR(cmd) );
-
-#endif
-}
-
-int ExitApp( int retcode ){
-	exit( retcode );
-	return 0;
+    if (flush)
+    {
+        String modes = String("ab");
+        FILE *file = fopen(path.ToCString<char>(), modes.ToCString<char>());
+        if (file)
+        {
+            line.Save(file);
+        }
+        else
+        {
+            printf("FOPENFOPEN 'ab' for AppendToLog '%s' failed\n", path.ToCString<char>());
+            fflush(stdout);
+        }
+    }
 }
 
 class c_App;
@@ -4984,8 +5198,9 @@ class c_IntMap;
 class c_Stack;
 class c_Node;
 class c_BBGameEvent;
+class c_Util;
+class c_TextLog;
 class c_GameData;
-class c_XMLError;
 class c_Logger;
 class c_Stream;
 class c_FileStream;
@@ -4993,6 +5208,7 @@ class c_LogLevel;
 class c_DataBuffer;
 class c_StreamError;
 class c_StreamWriteError;
+class c_XMLError;
 class c_XMLNode;
 class c_XMLDoc;
 class c_XMLStringBuffer;
@@ -5079,7 +5295,6 @@ class c_Flyaway;
 class c_Camera;
 class c_Callback;
 class c_BossBattleType;
-class c_Util;
 class c_Stairs_callback;
 class c_ControllerCutscene;
 class c_Map8;
@@ -5427,6 +5642,9 @@ class c_TextLabel;
 class c_OptionList;
 class c_ControllerPostGame;
 class c_ControllerBossIntro;
+class c_ControllerMainMenu;
+class c_ISteamApps;
+class c_ControllerIntro;
 class c_ControllerInputPopup;
 class c_Enumerator30;
 class c_TextInput;
@@ -5475,6 +5693,7 @@ class c_NecroDancerGame : public c_App{
 	public:
 	c_NecroDancerGame();
 	c_NecroDancerGame* m_new();
+	static void m_UpdateScreenSize(bool);
 	int p_OnCreate();
 	int p_OnRender();
 	int p_OnResume();
@@ -5691,9 +5910,56 @@ class c_BBGameEvent : public Object{
 	void mark();
 };
 void bb_app_EndApp();
+class c_Util : public Object{
+	public:
+	c_Util();
+	static String m_GetVersionString();
+	static String m_StringLeft(String,int);
+	static void m_SetAppFolder();
+	static bool m_IsCharacterActive(int);
+	static int m_storedSeed;
+	static Float m_RndFloatRange(Float,Float,bool);
+	static int m_RndIntRange(int,int,bool,int);
+	static int m_RndIntRangeFromZero(int,bool);
+	static bool m_RndBool(bool);
+	static int m_ParseTextSeed(String);
+	static int m_SeedRnd(int);
+	static void m_AddMetric(String,String,bool,bool,bool);
+	static int m_GetDistSq(int,int,int,int);
+	static Float m_GetDist(int,int,int,int);
+	static bool m_AreAriaOrCodaActive();
+	static Float m_GetDistFromClosestPlayer(int,int,bool);
+	static bool m_IsGlobalCollisionAt(int,int,bool,bool,bool,bool,bool);
+	static bool m_IsGlobalCollisionAt2(int,int,bool,bool,bool,bool);
+	static bool m_IsAnyPlayerAt(int,int);
+	static bool m_IsWeaponlessCharacterActive();
+	static c_Point* m_GetPointFromDir(int);
+	static int m_GetL1Dist(int,int,int,int);
+	static bool m_IsBomblessCharacterActive();
+	static String m_DirToString(int);
+	static String m_GetTimeStringFromMilliseconds(int,bool,bool);
+	static bool m_IncrementSteamStat(String,bool,bool,bool,bool);
+	static bool m_SetSteamIntStat(String,int,bool,bool,bool);
+	static c_Point* m_FindClosestTrulyUnoccupiedSpace(int,int,bool);
+	static void m_GetLeaderboardScores(int,int,int,String,bool,bool,bool);
+	static Float m_GetDistSqFromObject(int,int,c_RenderableObject*);
+	static bool m_IsOnScreen(int,int,Float,Float);
+	static bool m_LineSegmentTileIntersect(Float,Float,Float,Float,Float,Float);
+	static c_Player* m_GetAnyPlayerAt(int,int);
+	static c_List39* m_GetPlayersAt(c_Rect*);
+	static c_List39* m_GetPlayersAt2(int,int);
+	void mark();
+};
+class c_TextLog : public Object{
+	public:
+	c_TextLog();
+	static void m_Message(String);
+	void mark();
+};
 class c_GameData : public Object{
 	public:
 	c_GameData();
+	static bool m_GetDebugLogging();
 	static bool m_modGamedataChanges;
 	static String m_activeMod;
 	static bool m_gameDataLoaded;
@@ -5737,6 +6003,15 @@ class c_GameData : public Object{
 	static String m_GetDiamondDealerItems();
 	static void m_EraseDiamondDealerItems();
 	static bool m_GetEnableBossIntros();
+	static bool m_LoadPlayerDataXML(bool);
+	static int m_GetDefaultMod();
+	static bool m_GetShownNocturnaIntro();
+	static void m_SetShownNocturnaIntro(bool);
+	static bool m_GetVSync();
+	static bool m_GetFullscreen();
+	static int m_GetResolutionW();
+	static int m_GetResolutionH();
+	static bool m_GetShownSeizureWarning();
 	static void m_SetLobbyMove(bool);
 	static void m_SetShowHints(int);
 	static int m_GetShowHints();
@@ -5757,20 +6032,6 @@ class c_GameData : public Object{
 	static void m_SetTutorialComplete();
 	static int m_GetKeyBinding(int,int);
 	static void m_SetKilledEnemy(String,int,bool);
-	void mark();
-};
-class c_XMLError : public Object{
-	public:
-	bool m_error;
-	String m_message;
-	int m_line;
-	int m_column;
-	int m_offset;
-	c_XMLError();
-	c_XMLError* m_new();
-	void p_Reset();
-	void p_Set2(String,int,int,int);
-	String p_ToString();
 	void mark();
 };
 class c_Logger : public Object{
@@ -5839,6 +6100,39 @@ class c_StreamWriteError : public c_StreamError{
 	void mark();
 };
 extern c_Logger* bb_logger_Debug;
+extern bool bb_necrodancergame_DEBUG_LOG_OUTPUT;
+extern String bb_textlog_logTimestamp;
+void bb_app_GetDate(Array<int >);
+Array<int > bb_app_GetDate2();
+String bb_textlog_GetTimeString(bool);
+String bb_filesystem_FixPath(String);
+bool bb_filesystem_CreateDir(String);
+String bb_textlog_GetMonthString(int,bool);
+String bb_textlog_GetDateString(bool);
+void bb_textlog_ForceMessageGlobal(String,bool);
+void bb_textlog_MessageGlobal(String,bool);
+int bb_math_Min(int,int);
+Float bb_math_Min2(Float,Float);
+void bb_steam_SteamInit();
+void bb_fmod_StartFMOD();
+extern int bb_necrodancergame_FRAMES_PER_SEC;
+extern int bb_app__updateRate;
+void bb_app_SetUpdateRate(int);
+extern Float bb_necrodancergame_GLOBAL_SCALE_FACTOR;
+class c_XMLError : public Object{
+	public:
+	bool m_error;
+	String m_message;
+	int m_line;
+	int m_column;
+	int m_offset;
+	c_XMLError();
+	c_XMLError* m_new();
+	void p_Reset();
+	void p_Set2(String,int,int,int);
+	String p_ToString();
+	void mark();
+};
 String bb_app_LoadString(String);
 class c_XMLNode : public Object{
 	public:
@@ -6177,7 +6471,8 @@ class c_Sprite : public c_Tweenable{
 	static bool m_scaleToFitScreen;
 	c_Sprite* m_new(String,int,int,int,int);
 	c_Sprite* m_new2(String,int,int);
-	c_Sprite* m_new3();
+	c_Sprite* m_new3(c_Image*);
+	c_Sprite* m_new4();
 	void p_SetZ(Float);
 	void p_InWorld(bool);
 	void p_SetZOff(Float);
@@ -6192,6 +6487,7 @@ class c_Sprite : public c_Tweenable{
 	void p_SetAlphaTweenFromCurrent(Float,int);
 	void p_UnSetZ();
 	Float p_GetAlphaValue();
+	void p_SetScale(Float);
 	void p_SetCutoffY(int);
 	int p_GetFrame();
 	int p_GetNumFrames();
@@ -7862,42 +8158,6 @@ class c_BossBattleType : public Object{
 	c_BossBattleType();
 	void mark();
 };
-class c_Util : public Object{
-	public:
-	c_Util();
-	static bool m_IsCharacterActive(int);
-	static int m_storedSeed;
-	static Float m_RndFloatRange(Float,Float,bool);
-	static int m_RndIntRange(int,int,bool,int);
-	static int m_RndIntRangeFromZero(int,bool);
-	static bool m_RndBool(bool);
-	static int m_ParseTextSeed(String);
-	static int m_SeedRnd(int);
-	static void m_AddMetric(String,String,bool,bool,bool);
-	static int m_GetDistSq(int,int,int,int);
-	static Float m_GetDist(int,int,int,int);
-	static bool m_AreAriaOrCodaActive();
-	static Float m_GetDistFromClosestPlayer(int,int,bool);
-	static bool m_IsGlobalCollisionAt(int,int,bool,bool,bool,bool,bool);
-	static bool m_IsGlobalCollisionAt2(int,int,bool,bool,bool,bool);
-	static bool m_IsAnyPlayerAt(int,int);
-	static bool m_IsWeaponlessCharacterActive();
-	static c_Point* m_GetPointFromDir(int);
-	static int m_GetL1Dist(int,int,int,int);
-	static bool m_IsBomblessCharacterActive();
-	static String m_DirToString(int);
-	static String m_GetTimeStringFromMilliseconds(int,bool,bool);
-	static bool m_IncrementSteamStat(String,bool,bool,bool,bool);
-	static bool m_SetSteamIntStat(String,int,bool,bool,bool);
-	static c_Point* m_FindClosestTrulyUnoccupiedSpace(int,int,bool);
-	static Float m_GetDistSqFromObject(int,int,c_RenderableObject*);
-	static bool m_IsOnScreen(int,int,Float,Float);
-	static bool m_LineSegmentTileIntersect(Float,Float,Float,Float,Float,Float);
-	static c_Player* m_GetAnyPlayerAt(int,int);
-	static c_List39* m_GetPlayersAt(c_Rect*);
-	static c_List39* m_GetPlayersAt2(int,int);
-	void mark();
-};
 class c_Stairs_callback : public Object,public virtual c_Callback{
 	public:
 	c_Stairs_callback();
@@ -7913,6 +8173,7 @@ class c_ControllerCutscene : public c_Controller{
 	c_ControllerCutscene();
 	c_ControllerCutscene* m_new(int,int,int);
 	c_ControllerCutscene* m_new2();
+	static void m_InitSubtitles();
 	void p_RegainFocus();
 	void p_Update();
 	void mark();
@@ -8231,8 +8492,6 @@ class c_PlayerHealth : public Object{
 	void p_Damage(int);
 	void mark();
 };
-int bb_math_Min(int,int);
-Float bb_math_Min2(Float,Float);
 class c_Map12 : public Object{
 	public:
 	c_Node21* m_root;
@@ -8321,6 +8580,7 @@ class c_Audio : public Object{
 	static int m_songDuration;
 	static int m_TimeUntilSpecificBeat(int);
 	static int m_GetClosestBeatNum(bool);
+	static void m_Init();
 	static void m_UpdateNumLoops();
 	static void m_Update(bool);
 	static void m_PlayGameSoundAt(String,int,int,bool,int,bool);
@@ -8383,6 +8643,7 @@ class c_TextSprite : public Object{
 	void p_Discard();
 	void p_SetText(String,bool);
 	void p_InWorld(bool);
+	static void m_Init();
 	void mark();
 };
 class c_Bouncer : public Object{
@@ -8547,7 +8808,6 @@ class c_Enumerator6 : public Object{
 	int p_NextObject();
 	void mark();
 };
-extern int bb_necrodancergame_FRAMES_PER_SEC;
 extern int bb_controller_game_lastEnemyMoveBeat;
 class c_Tile : public c_RenderableObject{
 	public:
@@ -11693,6 +11953,44 @@ class c_ControllerBossIntro : public c_Controller{
 	void p_Update();
 	void mark();
 };
+class c_ControllerMainMenu : public c_Controller{
+	public:
+	bool m_showCloudSavePopup;
+	String m_mainmenuSongName;
+	String m_mainmenuTitlescreen;
+	c_Sprite* m_mainMenu;
+	c_Sprite* m_continueImage;
+	c_Sprite* m_alphaWarning;
+	bool m_haveShownAlphaWarning;
+	c_Sprite* m_seizureWarning;
+	bool m_haveShownSeizureWarning;
+	c_ControllerMainMenu();
+	c_ControllerMainMenu* m_new();
+	void p_RegainFocus();
+	void p_Update();
+	void mark();
+};
+void bb_util_SetVSync(int);
+extern Object* bb_steam_g_SteamLeaderboards;
+class c_ISteamApps : public virtual gc_interface{
+	public:
+	virtual bool p_BIsDlcInstalled(int)=0;
+};
+c_ISteamApps* bb_steam_SteamApps();
+class c_ControllerIntro : public c_Controller{
+	public:
+	c_Sprite* m_splashScreen;
+	c_Image* m_videoImg;
+	String m_introVideoName;
+	String m_introSongName;
+	c_ControllerIntro();
+	static c_Sprite* m_videoSpr;
+	c_ControllerIntro* m_new();
+	void p_RegainFocus();
+	void p_Update();
+	void mark();
+};
+c_Image* bb_graphics_CreateImage(int,int,int,int);
 extern int bb_necrodancergame_lastFrameTimeUpdate;
 extern int bb_necrodancergame_globalFrameCounter;
 extern int bb_necrodancergame_lastFrameCountUpdate;
@@ -12019,10 +12317,28 @@ c_NecroDancerGame* c_NecroDancerGame::m_new(){
 	c_App::m_new();
 	return this;
 }
+void c_NecroDancerGame::m_UpdateScreenSize(bool t_force){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.UpdateScreenSize(Bool)",38));
+}
 int c_NecroDancerGame::p_OnCreate(){
-	c_GameData::m_LoadGameDataXML(true);
-	(new c_ControllerGame)->m_new();
-	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.OnCreate()",26));
+	c_TextLog::m_Message(String(L"NecroDancer version ",20)+c_Util::m_GetVersionString()+String(L" loading...",11));
+	c_TextLog::m_Message(String(L"OnCreate: Initializing Steam",28));
+	c_Util::m_SetAppFolder();
+	CreateDir(GetAppFolder()+String(L"downloaded_dungeons",19));
+	CreateDir(GetAppFolder()+String(L"mods",4));
+	CreateDir(GetAppFolder()+String(L"downloaded_mods",15));
+	bb_steam_SteamInit();
+	c_TextLog::m_Message(String(L"OnCreate: Updating screen size",30));
+	m_UpdateScreenSize(false);
+	c_TextLog::m_Message(String(L"OnCreate: Starting FMOD",23));
+	bb_fmod_StartFMOD();
+	c_TextLog::m_Message(String(L"OnCreate: Setting update rate",29));
+	bb_app_SetUpdateRate(bb_necrodancergame_FRAMES_PER_SEC);
+	c_TextLog::m_Message(String(L"GLOBAL_SCALE_FACTOR: ",21)+String(bb_necrodancergame_GLOBAL_SCALE_FACTOR));
+	if(true){
+		c_GameData::m_LoadGameDataXML(true);
+		(new c_ControllerGame)->m_new();
+	}
 	return 0;
 }
 int c_NecroDancerGame::p_OnRender(){
@@ -12883,7 +13199,383 @@ void c_BBGameEvent::mark(){
 void bb_app_EndApp(){
 	bbError(String());
 }
+c_Util::c_Util(){
+}
+String c_Util::m_GetVersionString(){
+	String t_versionStr=String(L"v2.59",5);
+	if(true){
+		t_versionStr=t_versionStr+String(L"_DEBUG",6);
+	}
+	return t_versionStr;
+}
+String c_Util::m_StringLeft(String t_str,int t_n){
+	t_n=bb_math_Min(t_n,t_str.Length());
+	return t_str.Slice(0,t_n);
+}
+void c_Util::m_SetAppFolder(){
+	String t_appPath=AppPath();
+	t_appPath=m_StringLeft(t_appPath,t_appPath.FindLast(String(L".app",4)));
+	t_appPath=m_StringLeft(t_appPath,t_appPath.FindLast(String(L"/",1)));
+	t_appPath=t_appPath+String(L"/",1);
+	globalAppFolder=t_appPath;
+}
+bool c_Util::m_IsCharacterActive(int t_charID){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(((t_player)!=0) && t_player->m_characterID==t_charID){
+			return true;
+		}
+	}
+	return false;
+}
+int c_Util::m_storedSeed;
+Float c_Util::m_RndFloatRange(Float t_low,Float t_high,bool t_useSeed){
+	if(t_useSeed){
+		if(m_storedSeed!=-1){
+			bb_random_Seed=m_storedSeed;
+			m_storedSeed=-1;
+		}
+	}else{
+		m_storedSeed=bb_random_Seed;
+	}
+	return bb_random_Rnd2(t_low,t_high);
+}
+int c_Util::m_RndIntRange(int t_low,int t_high,bool t_useSeed,int t_replayConsistencyChannel){
+	int t_value=int((Float)floor(m_RndFloatRange(Float(t_low),Float(t_high+1),t_useSeed)));
+	t_value=bb_math_Clamp(t_value,t_low,t_high);
+	if(t_replayConsistencyChannel>=0){
+		if(c_Level::m_isReplaying){
+			if(!c_Level::m_creatingMap){
+				t_value=c_Level::m_replay->p_GetRand(t_replayConsistencyChannel);
+				if(t_value<t_low || t_value>t_high){
+					return t_low;
+				}
+			}
+		}else{
+			if((c_Level::m_replay)!=0){
+				c_Level::m_replay->p_RecordRand(t_replayConsistencyChannel,t_value);
+			}
+		}
+	}
+	return t_value;
+}
+int c_Util::m_RndIntRangeFromZero(int t_high,bool t_useSeed){
+	return m_RndIntRange(0,t_high,t_useSeed,-1);
+}
+bool c_Util::m_RndBool(bool t_useSeed){
+	return Float(m_RndIntRangeFromZero(1,t_useSeed))==FLOAT(0.0);
+}
+int c_Util::m_ParseTextSeed(String t_randSeedString){
+	int t_seed=0;
+	for(int t_i=1;t_i<t_randSeedString.Length();t_i=t_i+1){
+		t_seed+=t_i*(int)t_randSeedString[t_i-1];
+	}
+	for(int t_j=0;t_j<t_randSeedString.Length();t_j=t_j+1){
+		if((int)t_randSeedString[t_j]>57){
+			return t_seed;
+		}
+	}
+	t_seed=0;
+	for(int t_k=0;t_k<t_randSeedString.Length();t_k=t_k+1){
+		t_seed=10*t_seed+((int)t_randSeedString[t_k]-48);
+	}
+	return t_seed;
+}
+int c_Util::m_SeedRnd(int t_seed){
+	m_storedSeed=-1;
+	bb_random_Seed=t_seed;
+	return 0;
+}
+void c_Util::m_AddMetric(String t_key,String t_value,bool t_send,bool t_blocking,bool t_isNumber){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.AddMetric(String, String, Bool, Bool, Bool)",48));
+}
+int c_Util::m_GetDistSq(int t_x,int t_y,int t_x2,int t_y2){
+	return (t_x2-t_x)*(t_x2-t_x)+(t_y2-t_y)*(t_y2-t_y);
+}
+Float c_Util::m_GetDist(int t_x,int t_y,int t_x2,int t_y2){
+	return (Float)sqrt(Float(m_GetDistSq(t_x,t_y,t_x2,t_y2)));
+}
+bool c_Util::m_AreAriaOrCodaActive(){
+	return m_IsCharacterActive(2) || m_IsCharacterActive(7);
+}
+Float c_Util::m_GetDistFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDistFromClosestPlayer(Int, Int, Bool)",45));
+	return 0;
+}
+bool c_Util::m_IsGlobalCollisionAt(int t_xVal,int t_yVal,bool t_isPlayer,bool t_ignoreWalls,bool t_includeTheNothing,bool t_includeShopWallsDespiteIgnoringWalls,bool t_skipIgnoreWalls){
+	if(t_includeTheNothing && c_Level::m_GetTileAt(t_xVal,t_yVal)==0){
+		return true;
+	}
+	if(t_includeShopWallsDespiteIgnoringWalls){
+		int t_3=c_Level::m_GetTileTypeAt(t_xVal,t_yVal);
+		if(t_3==104 || t_3==105 || t_3==109){
+			return true;
+		}
+	}
+	c_Enumerator5* t_=c_RenderableObject::m_renderableObjectList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_RenderableObject* t_renderableObj=t_->p_NextObject();
+		if(t_renderableObj->m_collides){
+			if(t_renderableObj->m_isPlayer && dynamic_cast<c_Player*>(t_renderableObj)->p_Perished()){
+				continue;
+			}
+			if(t_isPlayer && t_renderableObj->m_playerOverrideCollide){
+				continue;
+			}
+			if(t_ignoreWalls){
+				c_Tile* t_tile=dynamic_cast<c_Tile*>(t_renderableObj);
+				if(t_tile!=0 && t_tile->p_GetType()==102){
+					continue;
+				}
+			}
+			if(t_skipIgnoreWalls){
+				c_Entity* t_entity=dynamic_cast<c_Entity*>(t_renderableObj);
+				if(t_entity!=0 && t_entity->m_ignoreWalls){
+					continue;
+				}
+			}
+			if(t_renderableObj->m_x<=t_xVal && t_xVal<t_renderableObj->m_x+t_renderableObj->m_width && (t_renderableObj->m_y<=t_yVal && t_yVal<t_renderableObj->m_y+t_renderableObj->m_height)){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+bool c_Util::m_IsGlobalCollisionAt2(int t_xVal,int t_yVal,bool t_isPlayer,bool t_ignoreWalls,bool t_includeShopWallsDespiteIgnoringWalls,bool t_skipIgnoreWalls){
+	return m_IsGlobalCollisionAt(t_xVal,t_yVal,t_isPlayer,t_ignoreWalls,false,t_includeShopWallsDespiteIgnoringWalls,t_skipIgnoreWalls);
+}
+bool c_Util::m_IsAnyPlayerAt(int t_xVal,int t_yVal){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(t_player->p_Perished()){
+			continue;
+		}
+		if(t_player->m_x==t_xVal && t_player->m_y==t_yVal){
+			return true;
+		}
+	}
+	return false;
+}
+bool c_Util::m_IsWeaponlessCharacterActive(){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(t_player->p_IsWeaponlessCharacter()){
+			return true;
+		}
+	}
+	return false;
+}
+c_Point* c_Util::m_GetPointFromDir(int t_dir){
+	int t_x=0;
+	int t_y=0;
+	int t_2=t_dir;
+	if(t_2==0){
+		t_x=1;
+		t_y=0;
+	}else{
+		if(t_2==1){
+			t_x=0;
+			t_y=1;
+		}else{
+			if(t_2==2){
+				t_x=-1;
+				t_y=0;
+			}else{
+				if(t_2==3){
+					t_x=0;
+					t_y=-1;
+				}else{
+					if(t_2==4){
+						t_x=1;
+						t_y=1;
+					}else{
+						if(t_2==5){
+							t_x=-1;
+							t_y=1;
+						}else{
+							if(t_2==6){
+								t_x=-1;
+								t_y=-1;
+							}else{
+								if(t_2==7){
+									t_x=1;
+									t_y=-1;
+								}else{
+									t_x=0;
+									t_y=0;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return (new c_Point)->m_new(t_x,t_y);
+}
+int c_Util::m_GetL1Dist(int t_x1,int t_y1,int t_x2,int t_y2){
+	return bb_math_Abs(t_x1-t_x2)+bb_math_Abs(t_y1-t_y2);
+}
+bool c_Util::m_IsBomblessCharacterActive(){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(t_player!=0 && t_player->p_IsBomblessCharacter()){
+			return true;
+		}
+	}
+	return false;
+}
+String c_Util::m_DirToString(int t_dir){
+	int t_1=t_dir;
+	if(t_1==-1){
+		return String(L"DIR_NONE",8);
+	}else{
+		if(t_1==0){
+			return String(L"DIR_RIGHT",9);
+		}else{
+			if(t_1==1){
+				return String(L"DIR_DOWN",8);
+			}else{
+				if(t_1==2){
+					return String(L"DIR_LEFT",8);
+				}else{
+					if(t_1==3){
+						return String(L"DIR_UP",6);
+					}else{
+						if(t_1==4){
+							return String(L"DIR_DOWNRIGHT",13);
+						}else{
+							if(t_1==5){
+								return String(L"DIR_DOWNLEFT",12);
+							}else{
+								if(t_1==6){
+									return String(L"DIR_UPLEFT",10);
+								}else{
+									if(t_1==7){
+										return String(L"DIR_UPRIGHT",11);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return String(L"Unrecognized direction ",23)+String(t_dir);
+}
+String c_Util::m_GetTimeStringFromMilliseconds(int t_msecs,bool t_secondsOnly,bool t_padSeconds){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetTimeStringFromMilliseconds(Int, Bool, Bool)",51));
+	return String();
+}
+bool c_Util::m_IncrementSteamStat(String t_statName,bool t_inGameplayOnly,bool t_allowCoop,bool t_allowSeeded,bool t_delayUntilLevelLoad){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.IncrementSteamStat(String, Bool, Bool, Bool, Bool)",55));
+	return false;
+}
+bool c_Util::m_SetSteamIntStat(String t_statName,int t_val,bool t_inGameplayOnly,bool t_allowCoop,bool t_delayUntilLevelLoad){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.SetSteamIntStat(String, Int, Bool, Bool, Bool)",51));
+	return false;
+}
+c_Point* c_Util::m_FindClosestTrulyUnoccupiedSpace(int t_xVal,int t_yVal,bool t_ignoreWalls){
+	int t_[]={t_xVal,t_yVal};
+	int t_2[]={t_xVal-1,t_yVal};
+	int t_3[]={t_xVal+1,t_yVal};
+	int t_4[]={t_xVal,t_yVal-1};
+	int t_5[]={t_xVal,t_yVal+1};
+	int t_6[]={t_xVal-1,t_yVal-1};
+	int t_7[]={t_xVal+1,t_yVal-1};
+	int t_8[]={t_xVal-1,t_yVal+1};
+	int t_9[]={t_xVal+1,t_yVal+1};
+	int t_10[]={t_xVal-2,t_yVal};
+	int t_11[]={t_xVal+2,t_yVal};
+	int t_12[]={t_xVal,t_yVal-2};
+	int t_13[]={t_xVal,t_yVal+2};
+	Array<int > t_14[]={Array<int >(t_,2),Array<int >(t_2,2),Array<int >(t_3,2),Array<int >(t_4,2),Array<int >(t_5,2),Array<int >(t_6,2),Array<int >(t_7,2),Array<int >(t_8,2),Array<int >(t_9,2),Array<int >(t_10,2),Array<int >(t_11,2),Array<int >(t_12,2),Array<int >(t_13,2)};
+	Array<Array<int > > t_points=Array<Array<int > >(t_14,13);
+	Array<Array<int > > t_15=t_points;
+	int t_16=0;
+	while(t_16<t_15.Length()){
+		Array<int > t_p=t_15[t_16];
+		t_16=t_16+1;
+		int t_x=t_p[0];
+		int t_y=t_p[1];
+		if(c_Level::m_GetTileAt(t_x,t_y)!=0 && !m_IsGlobalCollisionAt2(t_x,t_y,false,t_ignoreWalls,false,false) && !m_IsAnyPlayerAt(t_x,t_y) && c_Entity::m_GetEntityAt(t_x,t_y,true)==0){
+			return (new c_Point)->m_new(t_x,t_y);
+		}
+	}
+	return 0;
+}
+void c_Util::m_GetLeaderboardScores(int t_rangeStart,int t_rangeEnd,int t_dayOffset,String t_specificLeaderboard,bool t_useTodaysSeed,bool t_friendsOnly,bool t_playerOnly){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetLeaderboardScores(Int, Int, Int, String, Bool, Bool, Bool)",66));
+}
+Float c_Util::m_GetDistSqFromObject(int t_xVal,int t_yVal,c_RenderableObject* t_obj){
+	return Float(m_GetDistSq(t_obj->m_x,t_obj->m_y,t_xVal,t_yVal));
+}
+bool c_Util::m_IsOnScreen(int t_xVal,int t_yVal,Float t_cameraSeekX,Float t_cameraSeekY){
+	Float t_yDiff=Float(t_yVal)-t_cameraSeekY/FLOAT(24.0);
+	int t_fixedHeight=c_Camera::m_GetFixedHeight();
+	if(Float(t_fixedHeight/-48-1)>t_yDiff){
+		return false;
+	}
+	if(Float(t_fixedHeight/48+1)<t_yDiff){
+		return false;
+	}
+	Float t_xDiff=Float(t_xVal)-t_cameraSeekX/FLOAT(24.0);
+	int t_fixedWidth=c_Camera::m_GetFixedWidth();
+	if(Float(t_fixedWidth/-48-1)>t_xDiff){
+		return false;
+	}
+	if(Float(t_fixedWidth/48+1)<t_xDiff){
+		return false;
+	}
+	return true;
+}
+bool c_Util::m_LineSegmentTileIntersect(Float t_p0_x,Float t_p0_y,Float t_p1_x,Float t_p1_y,Float t_p2_x,Float t_p2_y){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.LineSegmentTileIntersect(Float, Float, Float, Float, Float, Float)",71));
+	return false;
+}
+c_Player* c_Util::m_GetAnyPlayerAt(int t_xVal,int t_yVal){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(!t_player->p_Perished()){
+			if(t_player->m_x==t_xVal && t_player->m_y==t_yVal){
+				return t_player;
+			}
+		}
+	}
+	return 0;
+}
+c_List39* c_Util::m_GetPlayersAt(c_Rect* t_where){
+	c_List39* t_playersAt=(new c_List39)->m_new();
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(!t_player->p_Perished()){
+			if(t_where->p_Contains5(t_player->p_GetLocation())){
+				t_playersAt->p_AddLast39(t_player);
+			}
+		}
+	}
+	return t_playersAt;
+}
+c_List39* c_Util::m_GetPlayersAt2(int t_xVal,int t_yVal){
+	return m_GetPlayersAt((new c_Rect)->m_new(t_xVal,t_yVal,0,0));
+}
+void c_Util::mark(){
+	Object::mark();
+}
+c_TextLog::c_TextLog(){
+}
+void c_TextLog::m_Message(String t_str){
+	bb_textlog_MessageGlobal(t_str,false);
+}
+void c_TextLog::mark(){
+	Object::mark();
+}
 c_GameData::c_GameData(){
+}
+bool c_GameData::m_GetDebugLogging(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetDebugLogging()",26));
+	return false;
 }
 bool c_GameData::m_modGamedataChanges;
 String c_GameData::m_activeMod;
@@ -13045,6 +13737,41 @@ bool c_GameData::m_GetEnableBossIntros(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetEnableBossIntros()",30));
 	return false;
 }
+bool c_GameData::m_LoadPlayerDataXML(bool t_forceCloud){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.LoadPlayerDataXML(Bool)",32));
+	return false;
+}
+int c_GameData::m_GetDefaultMod(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetDefaultMod()",24));
+	return 0;
+}
+bool c_GameData::m_GetShownNocturnaIntro(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetShownNocturnaIntro()",32));
+	return false;
+}
+void c_GameData::m_SetShownNocturnaIntro(bool t_b){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetShownNocturnaIntro(Bool)",36));
+}
+bool c_GameData::m_GetVSync(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetVSync()",19));
+	return false;
+}
+bool c_GameData::m_GetFullscreen(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetFullscreen()",24));
+	return false;
+}
+int c_GameData::m_GetResolutionW(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetResolutionW()",25));
+	return 0;
+}
+int c_GameData::m_GetResolutionH(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetResolutionH()",25));
+	return 0;
+}
+bool c_GameData::m_GetShownSeizureWarning(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetShownSeizureWarning()",33));
+	return false;
+}
 void c_GameData::m_SetLobbyMove(bool t_m){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetLobbyMove(Bool)",27));
 }
@@ -13116,64 +13843,6 @@ void c_GameData::m_SetKilledEnemy(String t_enemyName,int t_type,bool t_val){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetKilledEnemy(String, Int, Bool)",42));
 }
 void c_GameData::mark(){
-	Object::mark();
-}
-c_XMLError::c_XMLError(){
-	m_error=false;
-	m_message=String();
-	m_line=0;
-	m_column=0;
-	m_offset=0;
-}
-c_XMLError* c_XMLError::m_new(){
-	return this;
-}
-void c_XMLError::p_Reset(){
-	m_error=false;
-	m_message=String();
-	m_line=-1;
-	m_column=-1;
-	m_offset=-1;
-}
-void c_XMLError::p_Set2(String t_message,int t_line,int t_column,int t_offset){
-	m_error=true;
-	this->m_message=t_message;
-	this->m_line=t_line;
-	this->m_column=t_column;
-	this->m_offset=t_offset;
-}
-String c_XMLError::p_ToString(){
-	if(m_error==false){
-		return String();
-	}
-	c_XMLStringBuffer* t_buffer=(new c_XMLStringBuffer)->m_new(256);
-	t_buffer->p_Add2(String(L"XMLError: ",10));
-	if((m_message.Length())!=0){
-		t_buffer->p_Add2(m_message);
-	}else{
-		t_buffer->p_Add2(String(L"unknown error",13));
-	}
-	t_buffer->p_Add2(String(L" [line:",7));
-	if(m_line>-1){
-		t_buffer->p_Add2(String(m_line));
-	}else{
-		t_buffer->p_Add2(String(L"??",2));
-	}
-	t_buffer->p_Add2(String(L"  column:",9));
-	if(m_column>-1){
-		t_buffer->p_Add2(String(m_column));
-	}else{
-		t_buffer->p_Add2(String(L"??",2));
-	}
-	t_buffer->p_Add2(String(L"  offset:",9));
-	if(m_offset>-1){
-		t_buffer->p_Add2(String(m_offset)+String(L"]",1));
-	}else{
-		t_buffer->p_Add2(String(L"??]",3));
-	}
-	return t_buffer->p_value();
-}
-void c_XMLError::mark(){
 	Object::mark();
 }
 c_Logger::c_Logger(){
@@ -13389,6 +14058,276 @@ void c_StreamWriteError::mark(){
 	c_StreamError::mark();
 }
 c_Logger* bb_logger_Debug;
+bool bb_necrodancergame_DEBUG_LOG_OUTPUT;
+String bb_textlog_logTimestamp;
+void bb_app_GetDate(Array<int > t_date){
+	bb_app__game->GetDate(t_date);
+}
+Array<int > bb_app_GetDate2(){
+	Array<int > t_date=Array<int >(7);
+	bb_app_GetDate(t_date);
+	return t_date;
+}
+String bb_textlog_GetTimeString(bool t_nicerFormat){
+	Array<int > t_date=bb_app_GetDate2();
+	int t_hour=t_date[3];
+	int t_minute=t_date[4];
+	int t_second=t_date[5];
+	String t_hourStr=String(t_hour);
+	if(t_hour<10){
+		t_hourStr=String(L"0",1)+t_hourStr;
+	}
+	String t_minuteStr=String(t_minute);
+	if(t_minute<10){
+		t_minuteStr=String(L"0",1)+t_minuteStr;
+	}
+	String t_secondStr=String(t_second);
+	if(t_second<10){
+		t_secondStr=String(L"0",1)+t_secondStr;
+	}
+	String t_timeStr=String();
+	if(t_nicerFormat){
+		t_timeStr=t_hourStr+String(L"h",1)+t_minuteStr+String(L"m",1)+t_secondStr+String(L"s",1);
+	}else{
+		t_timeStr=t_hourStr+String(L"_",1)+t_minuteStr+String(L"_",1)+t_secondStr;
+	}
+	return t_timeStr;
+}
+String bb_filesystem_FixPath(String t_path){
+	return BBFileSystem::FixPath(t_path);
+}
+bool bb_filesystem_CreateDir(String t_path){
+	return BBFileSystem::CreateDir(bb_filesystem_FixPath(t_path));
+}
+String bb_textlog_GetMonthString(int t_month,bool t_addTags){
+	String t_monthStr=String();
+	if(t_addTags){
+		int t_1=t_month;
+		if(t_1==0){
+			t_monthStr=String(L"|2009|JAN|",10);
+		}else{
+			if(t_1==1){
+				t_monthStr=String(L"|2010|FEB|",10);
+			}else{
+				if(t_1==2){
+					t_monthStr=String(L"|2011|MAR|",10);
+				}else{
+					if(t_1==3){
+						t_monthStr=String(L"|2012|APR|",10);
+					}else{
+						if(t_1==4){
+							t_monthStr=String(L"|2013|MAY|",10);
+						}else{
+							if(t_1==5){
+								t_monthStr=String(L"|2014|JUN|",10);
+							}else{
+								if(t_1==6){
+									t_monthStr=String(L"|2015|JUL|",10);
+								}else{
+									if(t_1==7){
+										t_monthStr=String(L"|2016|AUG|",10);
+									}else{
+										if(t_1==8){
+											t_monthStr=String(L"|2017|SEP|",10);
+										}else{
+											if(t_1==9){
+												t_monthStr=String(L"|2018|OCT|",10);
+											}else{
+												if(t_1==10){
+													t_monthStr=String(L"|2019|NOV|",10);
+												}else{
+													if(t_1==11){
+														t_monthStr=String(L"|2020|DEC|",10);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}else{
+		int t_2=t_month;
+		if(t_2==0){
+			t_monthStr=String(L"JAN",3);
+		}else{
+			if(t_2==1){
+				t_monthStr=String(L"FEB",3);
+			}else{
+				if(t_2==2){
+					t_monthStr=String(L"MAR",3);
+				}else{
+					if(t_2==3){
+						t_monthStr=String(L"APR",3);
+					}else{
+						if(t_2==4){
+							t_monthStr=String(L"MAY",3);
+						}else{
+							if(t_2==5){
+								t_monthStr=String(L"JUN",3);
+							}else{
+								if(t_2==6){
+									t_monthStr=String(L"JUL",3);
+								}else{
+									if(t_2==7){
+										t_monthStr=String(L"AUG",3);
+									}else{
+										if(t_2==8){
+											t_monthStr=String(L"SEP",3);
+										}else{
+											if(t_2==9){
+												t_monthStr=String(L"OCT",3);
+											}else{
+												if(t_2==10){
+													t_monthStr=String(L"NOV",3);
+												}else{
+													if(t_2==11){
+														t_monthStr=String(L"DEC",3);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return t_monthStr;
+}
+String bb_textlog_GetDateString(bool t_useNumericMonth){
+	Array<int > t_date=bb_app_GetDate2();
+	int t_year=t_date[0];
+	int t_month=t_date[1];
+	int t_day=t_date[2];
+	String t_yearStr=String(t_year);
+	String t_monthStr=String(t_month);
+	if(t_month<10){
+		t_monthStr=String(L"0",1)+t_monthStr;
+	}
+	String t_dayStr=String(t_day);
+	if(t_day<10){
+		t_dayStr=String(L"0",1)+t_dayStr;
+	}
+	String t_dateStr=String();
+	if(t_useNumericMonth){
+		t_dateStr=t_yearStr+String(L"_",1)+t_monthStr+String(L"_",1)+t_dayStr;
+	}else{
+		t_monthStr=bb_textlog_GetMonthString(t_month,false);
+		t_dateStr=t_yearStr+String(L"_",1)+t_monthStr+String(L"_",1)+t_dayStr;
+	}
+	return t_dateStr;
+}
+void bb_textlog_ForceMessageGlobal(String t_str,bool t_flush){
+	if(bb_textlog_logTimestamp==String()){
+		bb_textlog_logTimestamp=bb_textlog_GetTimeString(true);
+	}
+	bbDebugLog(t_str);
+	bb_filesystem_CreateDir(GetAppFolder()+String(L"logs",4));
+	t_str=t_str+String(L"\r",1);
+	String t_dateStr=bb_textlog_GetDateString(false);
+	String t_filePath=GetAppFolder()+String(L"logs/necrodancer_log_",21)+t_dateStr+String(L"_",1)+bb_textlog_logTimestamp+String(L".txt",4);
+	AppendToLog(t_str,t_filePath,t_flush);
+}
+void bb_textlog_MessageGlobal(String t_str,bool t_forceLog){
+	if(true || c_GameData::m_GetDebugLogging()){
+		bool t_flush=false;
+		if(bb_necrodancergame_DEBUG_LOG_OUTPUT || t_forceLog || c_GameData::m_GetDebugLogging()){
+			t_flush=true;
+		}
+		bb_textlog_ForceMessageGlobal(t_str,t_flush);
+	}
+}
+int bb_math_Min(int t_x,int t_y){
+	if(t_x<t_y){
+		return t_x;
+	}
+	return t_y;
+}
+Float bb_math_Min2(Float t_x,Float t_y){
+	if(t_x<t_y){
+		return t_x;
+	}
+	return t_y;
+}
+void bb_steam_SteamInit(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamInit()",11));
+}
+void bb_fmod_StartFMOD(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"StartFMOD()",11));
+}
+int bb_necrodancergame_FRAMES_PER_SEC;
+int bb_app__updateRate;
+void bb_app_SetUpdateRate(int t_hertz){
+	bb_app__updateRate=t_hertz;
+	bb_app__game->SetUpdateRate(t_hertz);
+}
+Float bb_necrodancergame_GLOBAL_SCALE_FACTOR;
+c_XMLError::c_XMLError(){
+	m_error=false;
+	m_message=String();
+	m_line=0;
+	m_column=0;
+	m_offset=0;
+}
+c_XMLError* c_XMLError::m_new(){
+	return this;
+}
+void c_XMLError::p_Reset(){
+	m_error=false;
+	m_message=String();
+	m_line=-1;
+	m_column=-1;
+	m_offset=-1;
+}
+void c_XMLError::p_Set2(String t_message,int t_line,int t_column,int t_offset){
+	m_error=true;
+	this->m_message=t_message;
+	this->m_line=t_line;
+	this->m_column=t_column;
+	this->m_offset=t_offset;
+}
+String c_XMLError::p_ToString(){
+	if(m_error==false){
+		return String();
+	}
+	c_XMLStringBuffer* t_buffer=(new c_XMLStringBuffer)->m_new(256);
+	t_buffer->p_Add2(String(L"XMLError: ",10));
+	if((m_message.Length())!=0){
+		t_buffer->p_Add2(m_message);
+	}else{
+		t_buffer->p_Add2(String(L"unknown error",13));
+	}
+	t_buffer->p_Add2(String(L" [line:",7));
+	if(m_line>-1){
+		t_buffer->p_Add2(String(m_line));
+	}else{
+		t_buffer->p_Add2(String(L"??",2));
+	}
+	t_buffer->p_Add2(String(L"  column:",9));
+	if(m_column>-1){
+		t_buffer->p_Add2(String(m_column));
+	}else{
+		t_buffer->p_Add2(String(L"??",2));
+	}
+	t_buffer->p_Add2(String(L"  offset:",9));
+	if(m_offset>-1){
+		t_buffer->p_Add2(String(m_offset)+String(L"]",1));
+	}else{
+		t_buffer->p_Add2(String(L"??]",3));
+	}
+	return t_buffer->p_value();
+}
+void c_XMLError::mark(){
+	Object::mark();
+}
 String bb_app_LoadString(String t_path){
 	return bb_app__game->LoadString(bb_data_FixDataPath(t_path));
 }
@@ -15693,7 +16632,11 @@ c_Sprite* c_Sprite::m_new2(String t_p,int t_frames,int t_flags){
 	c_Tweenable::m_new();
 	return this;
 }
-c_Sprite* c_Sprite::m_new3(){
+c_Sprite* c_Sprite::m_new3(c_Image* t_img){
+	c_Tweenable::m_new();
+	return this;
+}
+c_Sprite* c_Sprite::m_new4(){
 	c_Tweenable::m_new();
 	return this;
 }
@@ -15742,6 +16685,9 @@ void c_Sprite::p_UnSetZ(){
 }
 Float c_Sprite::p_GetAlphaValue(){
 	return this->m_alpha;
+}
+void c_Sprite::p_SetScale(Float t_scaleVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetScale(Float)",22));
 }
 void c_Sprite::p_SetCutoffY(int t_cY){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetCutoffY(Int)",22));
@@ -29370,7 +30316,7 @@ c_Sprite* c_Player::m_MakeBodyImage(int t_characterID,String t_idSuffix,int t_al
 }
 c_Sprite* c_Player::m_MakeHeadImage(int t_characterID,String t_idSuffix,int t_altSkin){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.MakeHeadImage(Int, String, Int)",38));
-	return (new c_Sprite)->m_new3();
+	return (new c_Sprite)->m_new4();
 }
 void c_Player::p_LoadImages(){
 	String t_idSuffix=String();
@@ -33567,8 +34513,8 @@ c_XMLNode* c_Enemy::m_GetEnemyXML(String t_name,int t_level){
 	return t_enemyNode;
 }
 void c_Enemy::p_InitImage(c_XMLNode* t_enemyXML,String t_overrideSpriteName,int t_overrideFrameW,int t_overrideFrameH){
-	gc_assign(this->m_image,(new c_Sprite)->m_new3());
-	gc_assign(this->m_shadow,(new c_Sprite)->m_new3());
+	gc_assign(this->m_image,(new c_Sprite)->m_new4());
+	gc_assign(this->m_shadow,(new c_Sprite)->m_new4());
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.InitImage(XMLNode, String, Int, Int)",42));
 }
 c_Sprite* c_Enemy::m_heartSmall;
@@ -37965,349 +38911,6 @@ c_BossBattleType::c_BossBattleType(){
 void c_BossBattleType::mark(){
 	Object::mark();
 }
-c_Util::c_Util(){
-}
-bool c_Util::m_IsCharacterActive(int t_charID){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(((t_player)!=0) && t_player->m_characterID==t_charID){
-			return true;
-		}
-	}
-	return false;
-}
-int c_Util::m_storedSeed;
-Float c_Util::m_RndFloatRange(Float t_low,Float t_high,bool t_useSeed){
-	if(t_useSeed){
-		if(m_storedSeed!=-1){
-			bb_random_Seed=m_storedSeed;
-			m_storedSeed=-1;
-		}
-	}else{
-		m_storedSeed=bb_random_Seed;
-	}
-	return bb_random_Rnd2(t_low,t_high);
-}
-int c_Util::m_RndIntRange(int t_low,int t_high,bool t_useSeed,int t_replayConsistencyChannel){
-	int t_value=int((Float)floor(m_RndFloatRange(Float(t_low),Float(t_high+1),t_useSeed)));
-	t_value=bb_math_Clamp(t_value,t_low,t_high);
-	if(t_replayConsistencyChannel>=0){
-		if(c_Level::m_isReplaying){
-			if(!c_Level::m_creatingMap){
-				t_value=c_Level::m_replay->p_GetRand(t_replayConsistencyChannel);
-				if(t_value<t_low || t_value>t_high){
-					return t_low;
-				}
-			}
-		}else{
-			if((c_Level::m_replay)!=0){
-				c_Level::m_replay->p_RecordRand(t_replayConsistencyChannel,t_value);
-			}
-		}
-	}
-	return t_value;
-}
-int c_Util::m_RndIntRangeFromZero(int t_high,bool t_useSeed){
-	return m_RndIntRange(0,t_high,t_useSeed,-1);
-}
-bool c_Util::m_RndBool(bool t_useSeed){
-	return Float(m_RndIntRangeFromZero(1,t_useSeed))==FLOAT(0.0);
-}
-int c_Util::m_ParseTextSeed(String t_randSeedString){
-	int t_seed=0;
-	for(int t_i=1;t_i<t_randSeedString.Length();t_i=t_i+1){
-		t_seed+=t_i*(int)t_randSeedString[t_i-1];
-	}
-	for(int t_j=0;t_j<t_randSeedString.Length();t_j=t_j+1){
-		if((int)t_randSeedString[t_j]>57){
-			return t_seed;
-		}
-	}
-	t_seed=0;
-	for(int t_k=0;t_k<t_randSeedString.Length();t_k=t_k+1){
-		t_seed=10*t_seed+((int)t_randSeedString[t_k]-48);
-	}
-	return t_seed;
-}
-int c_Util::m_SeedRnd(int t_seed){
-	m_storedSeed=-1;
-	bb_random_Seed=t_seed;
-	return 0;
-}
-void c_Util::m_AddMetric(String t_key,String t_value,bool t_send,bool t_blocking,bool t_isNumber){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.AddMetric(String, String, Bool, Bool, Bool)",48));
-}
-int c_Util::m_GetDistSq(int t_x,int t_y,int t_x2,int t_y2){
-	return (t_x2-t_x)*(t_x2-t_x)+(t_y2-t_y)*(t_y2-t_y);
-}
-Float c_Util::m_GetDist(int t_x,int t_y,int t_x2,int t_y2){
-	return (Float)sqrt(Float(m_GetDistSq(t_x,t_y,t_x2,t_y2)));
-}
-bool c_Util::m_AreAriaOrCodaActive(){
-	return m_IsCharacterActive(2) || m_IsCharacterActive(7);
-}
-Float c_Util::m_GetDistFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDistFromClosestPlayer(Int, Int, Bool)",45));
-	return 0;
-}
-bool c_Util::m_IsGlobalCollisionAt(int t_xVal,int t_yVal,bool t_isPlayer,bool t_ignoreWalls,bool t_includeTheNothing,bool t_includeShopWallsDespiteIgnoringWalls,bool t_skipIgnoreWalls){
-	if(t_includeTheNothing && c_Level::m_GetTileAt(t_xVal,t_yVal)==0){
-		return true;
-	}
-	if(t_includeShopWallsDespiteIgnoringWalls){
-		int t_3=c_Level::m_GetTileTypeAt(t_xVal,t_yVal);
-		if(t_3==104 || t_3==105 || t_3==109){
-			return true;
-		}
-	}
-	c_Enumerator5* t_=c_RenderableObject::m_renderableObjectList->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_RenderableObject* t_renderableObj=t_->p_NextObject();
-		if(t_renderableObj->m_collides){
-			if(t_renderableObj->m_isPlayer && dynamic_cast<c_Player*>(t_renderableObj)->p_Perished()){
-				continue;
-			}
-			if(t_isPlayer && t_renderableObj->m_playerOverrideCollide){
-				continue;
-			}
-			if(t_ignoreWalls){
-				c_Tile* t_tile=dynamic_cast<c_Tile*>(t_renderableObj);
-				if(t_tile!=0 && t_tile->p_GetType()==102){
-					continue;
-				}
-			}
-			if(t_skipIgnoreWalls){
-				c_Entity* t_entity=dynamic_cast<c_Entity*>(t_renderableObj);
-				if(t_entity!=0 && t_entity->m_ignoreWalls){
-					continue;
-				}
-			}
-			if(t_renderableObj->m_x<=t_xVal && t_xVal<t_renderableObj->m_x+t_renderableObj->m_width && (t_renderableObj->m_y<=t_yVal && t_yVal<t_renderableObj->m_y+t_renderableObj->m_height)){
-				return true;
-			}
-		}
-	}
-	return false;
-}
-bool c_Util::m_IsGlobalCollisionAt2(int t_xVal,int t_yVal,bool t_isPlayer,bool t_ignoreWalls,bool t_includeShopWallsDespiteIgnoringWalls,bool t_skipIgnoreWalls){
-	return m_IsGlobalCollisionAt(t_xVal,t_yVal,t_isPlayer,t_ignoreWalls,false,t_includeShopWallsDespiteIgnoringWalls,t_skipIgnoreWalls);
-}
-bool c_Util::m_IsAnyPlayerAt(int t_xVal,int t_yVal){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(t_player->p_Perished()){
-			continue;
-		}
-		if(t_player->m_x==t_xVal && t_player->m_y==t_yVal){
-			return true;
-		}
-	}
-	return false;
-}
-bool c_Util::m_IsWeaponlessCharacterActive(){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(t_player->p_IsWeaponlessCharacter()){
-			return true;
-		}
-	}
-	return false;
-}
-c_Point* c_Util::m_GetPointFromDir(int t_dir){
-	int t_x=0;
-	int t_y=0;
-	int t_2=t_dir;
-	if(t_2==0){
-		t_x=1;
-		t_y=0;
-	}else{
-		if(t_2==1){
-			t_x=0;
-			t_y=1;
-		}else{
-			if(t_2==2){
-				t_x=-1;
-				t_y=0;
-			}else{
-				if(t_2==3){
-					t_x=0;
-					t_y=-1;
-				}else{
-					if(t_2==4){
-						t_x=1;
-						t_y=1;
-					}else{
-						if(t_2==5){
-							t_x=-1;
-							t_y=1;
-						}else{
-							if(t_2==6){
-								t_x=-1;
-								t_y=-1;
-							}else{
-								if(t_2==7){
-									t_x=1;
-									t_y=-1;
-								}else{
-									t_x=0;
-									t_y=0;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return (new c_Point)->m_new(t_x,t_y);
-}
-int c_Util::m_GetL1Dist(int t_x1,int t_y1,int t_x2,int t_y2){
-	return bb_math_Abs(t_x1-t_x2)+bb_math_Abs(t_y1-t_y2);
-}
-bool c_Util::m_IsBomblessCharacterActive(){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(t_player!=0 && t_player->p_IsBomblessCharacter()){
-			return true;
-		}
-	}
-	return false;
-}
-String c_Util::m_DirToString(int t_dir){
-	int t_1=t_dir;
-	if(t_1==-1){
-		return String(L"DIR_NONE",8);
-	}else{
-		if(t_1==0){
-			return String(L"DIR_RIGHT",9);
-		}else{
-			if(t_1==1){
-				return String(L"DIR_DOWN",8);
-			}else{
-				if(t_1==2){
-					return String(L"DIR_LEFT",8);
-				}else{
-					if(t_1==3){
-						return String(L"DIR_UP",6);
-					}else{
-						if(t_1==4){
-							return String(L"DIR_DOWNRIGHT",13);
-						}else{
-							if(t_1==5){
-								return String(L"DIR_DOWNLEFT",12);
-							}else{
-								if(t_1==6){
-									return String(L"DIR_UPLEFT",10);
-								}else{
-									if(t_1==7){
-										return String(L"DIR_UPRIGHT",11);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return String(L"Unrecognized direction ",23)+String(t_dir);
-}
-String c_Util::m_GetTimeStringFromMilliseconds(int t_msecs,bool t_secondsOnly,bool t_padSeconds){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetTimeStringFromMilliseconds(Int, Bool, Bool)",51));
-	return String();
-}
-bool c_Util::m_IncrementSteamStat(String t_statName,bool t_inGameplayOnly,bool t_allowCoop,bool t_allowSeeded,bool t_delayUntilLevelLoad){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.IncrementSteamStat(String, Bool, Bool, Bool, Bool)",55));
-	return false;
-}
-bool c_Util::m_SetSteamIntStat(String t_statName,int t_val,bool t_inGameplayOnly,bool t_allowCoop,bool t_delayUntilLevelLoad){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.SetSteamIntStat(String, Int, Bool, Bool, Bool)",51));
-	return false;
-}
-c_Point* c_Util::m_FindClosestTrulyUnoccupiedSpace(int t_xVal,int t_yVal,bool t_ignoreWalls){
-	int t_[]={t_xVal,t_yVal};
-	int t_2[]={t_xVal-1,t_yVal};
-	int t_3[]={t_xVal+1,t_yVal};
-	int t_4[]={t_xVal,t_yVal-1};
-	int t_5[]={t_xVal,t_yVal+1};
-	int t_6[]={t_xVal-1,t_yVal-1};
-	int t_7[]={t_xVal+1,t_yVal-1};
-	int t_8[]={t_xVal-1,t_yVal+1};
-	int t_9[]={t_xVal+1,t_yVal+1};
-	int t_10[]={t_xVal-2,t_yVal};
-	int t_11[]={t_xVal+2,t_yVal};
-	int t_12[]={t_xVal,t_yVal-2};
-	int t_13[]={t_xVal,t_yVal+2};
-	Array<int > t_14[]={Array<int >(t_,2),Array<int >(t_2,2),Array<int >(t_3,2),Array<int >(t_4,2),Array<int >(t_5,2),Array<int >(t_6,2),Array<int >(t_7,2),Array<int >(t_8,2),Array<int >(t_9,2),Array<int >(t_10,2),Array<int >(t_11,2),Array<int >(t_12,2),Array<int >(t_13,2)};
-	Array<Array<int > > t_points=Array<Array<int > >(t_14,13);
-	Array<Array<int > > t_15=t_points;
-	int t_16=0;
-	while(t_16<t_15.Length()){
-		Array<int > t_p=t_15[t_16];
-		t_16=t_16+1;
-		int t_x=t_p[0];
-		int t_y=t_p[1];
-		if(c_Level::m_GetTileAt(t_x,t_y)!=0 && !m_IsGlobalCollisionAt2(t_x,t_y,false,t_ignoreWalls,false,false) && !m_IsAnyPlayerAt(t_x,t_y) && c_Entity::m_GetEntityAt(t_x,t_y,true)==0){
-			return (new c_Point)->m_new(t_x,t_y);
-		}
-	}
-	return 0;
-}
-Float c_Util::m_GetDistSqFromObject(int t_xVal,int t_yVal,c_RenderableObject* t_obj){
-	return Float(m_GetDistSq(t_obj->m_x,t_obj->m_y,t_xVal,t_yVal));
-}
-bool c_Util::m_IsOnScreen(int t_xVal,int t_yVal,Float t_cameraSeekX,Float t_cameraSeekY){
-	Float t_yDiff=Float(t_yVal)-t_cameraSeekY/FLOAT(24.0);
-	int t_fixedHeight=c_Camera::m_GetFixedHeight();
-	if(Float(t_fixedHeight/-48-1)>t_yDiff){
-		return false;
-	}
-	if(Float(t_fixedHeight/48+1)<t_yDiff){
-		return false;
-	}
-	Float t_xDiff=Float(t_xVal)-t_cameraSeekX/FLOAT(24.0);
-	int t_fixedWidth=c_Camera::m_GetFixedWidth();
-	if(Float(t_fixedWidth/-48-1)>t_xDiff){
-		return false;
-	}
-	if(Float(t_fixedWidth/48+1)<t_xDiff){
-		return false;
-	}
-	return true;
-}
-bool c_Util::m_LineSegmentTileIntersect(Float t_p0_x,Float t_p0_y,Float t_p1_x,Float t_p1_y,Float t_p2_x,Float t_p2_y){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.LineSegmentTileIntersect(Float, Float, Float, Float, Float, Float)",71));
-	return false;
-}
-c_Player* c_Util::m_GetAnyPlayerAt(int t_xVal,int t_yVal){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(!t_player->p_Perished()){
-			if(t_player->m_x==t_xVal && t_player->m_y==t_yVal){
-				return t_player;
-			}
-		}
-	}
-	return 0;
-}
-c_List39* c_Util::m_GetPlayersAt(c_Rect* t_where){
-	c_List39* t_playersAt=(new c_List39)->m_new();
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(!t_player->p_Perished()){
-			if(t_where->p_Contains5(t_player->p_GetLocation())){
-				t_playersAt->p_AddLast39(t_player);
-			}
-		}
-	}
-	return t_playersAt;
-}
-c_List39* c_Util::m_GetPlayersAt2(int t_xVal,int t_yVal){
-	return m_GetPlayersAt((new c_Rect)->m_new(t_xVal,t_yVal,0,0));
-}
-void c_Util::mark(){
-	Object::mark();
-}
 c_Stairs_callback::c_Stairs_callback(){
 }
 int c_Stairs_callback::m_levelVal;
@@ -38330,6 +38933,9 @@ c_ControllerCutscene* c_ControllerCutscene::m_new(int t_cutsceneChar,int t_cutsc
 c_ControllerCutscene* c_ControllerCutscene::m_new2(){
 	c_Controller::m_new();
 	return this;
+}
+void c_ControllerCutscene::m_InitSubtitles(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.InitSubtitles()",34));
 }
 void c_ControllerCutscene::p_RegainFocus(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.RegainFocus()",32));
@@ -39990,18 +40596,6 @@ void c_PlayerHealth::p_Damage(int t_damage){
 void c_PlayerHealth::mark(){
 	Object::mark();
 }
-int bb_math_Min(int t_x,int t_y){
-	if(t_x<t_y){
-		return t_x;
-	}
-	return t_y;
-}
-Float bb_math_Min2(Float t_x,Float t_y){
-	if(t_x<t_y){
-		return t_x;
-	}
-	return t_y;
-}
 c_Map12::c_Map12(){
 	m_root=0;
 }
@@ -40360,6 +40954,9 @@ int c_Audio::m_GetClosestBeatNum(bool t_useFixed){
 	}
 	return t_beatNum;
 }
+void c_Audio::m_Init(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.Init()",12));
+}
 void c_Audio::m_UpdateNumLoops(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.UpdateNumLoops()",22));
 }
@@ -40553,6 +41150,9 @@ void c_TextSprite::p_InWorld(bool t_b){
 		c_Sprite* t_containedSpriteShadow=t_2->p_NextObject();
 		t_containedSpriteShadow->p_InWorld(t_b);
 	}
+}
+void c_TextSprite::m_Init(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.Init()",17));
 }
 void c_TextSprite::mark(){
 	Object::mark();
@@ -40948,7 +41548,6 @@ void c_Enumerator6::mark(){
 	Object::mark();
 	gc_mark_q(m_stack);
 }
-int bb_necrodancergame_FRAMES_PER_SEC;
 int bb_controller_game_lastEnemyMoveBeat;
 c_Tile::c_Tile(){
 	m_textLabel=0;
@@ -51717,6 +52316,141 @@ void c_ControllerBossIntro::p_Update(){
 void c_ControllerBossIntro::mark(){
 	c_Controller::mark();
 }
+c_ControllerMainMenu::c_ControllerMainMenu(){
+	m_showCloudSavePopup=false;
+	m_mainmenuSongName=String(L"zone1_3",7);
+	m_mainmenuTitlescreen=String(L"mainmenu/mainmenu.png",21);
+	m_mainMenu=0;
+	m_continueImage=0;
+	m_alphaWarning=0;
+	m_haveShownAlphaWarning=false;
+	m_seizureWarning=0;
+	m_haveShownSeizureWarning=false;
+}
+c_ControllerMainMenu* c_ControllerMainMenu::m_new(){
+	c_Controller::m_new();
+	c_Sprite::m_scaleToFitScreen=true;
+	c_GameData::m_LoadGameDataXML(false);
+	this->m_showCloudSavePopup=c_GameData::m_LoadPlayerDataXML(true);
+	if(String(c_GameData::m_GetDefaultMod())!=String()){
+		c_GameData::m_activeMod=String(c_GameData::m_GetDefaultMod());
+		c_GameData::m_LoadGameDataXML(false);
+	}
+	if(c_GameData::m_GetShownNocturnaIntro() || !c_GameData::m_GetDLCPlayed() && c_GameData::m_GetZone2Unlocked(0) || c_GameData::m_IsCharUnlocked(1)){
+		c_GameData::m_SetShownNocturnaIntro(true);
+		this->m_mainmenuSongName=String(L"zone5_3",7);
+		this->m_mainmenuTitlescreen=String(L"mainmenu/amplified_titlescreen.png",34);
+	}
+	bb_util_SetVSync((c_GameData::m_GetVSync())?1:0);
+	c_GameData::m_GetFullscreen();
+	if(c_GameData::m_GetResolutionW()>0){
+		c_GameData::m_GetResolutionH();
+		c_GameData::m_GetResolutionW();
+	}
+	if(bb_steam_g_SteamLeaderboards!=0){
+		c_Util::m_GetLeaderboardScores(1,1,0,String(),true,false,true);
+	}
+	c_TextSprite::m_Init();
+	c_ControllerCutscene::m_InitSubtitles();
+	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading images1...",38));
+	gc_assign(this->m_mainMenu,(new c_Sprite)->m_new2(this->m_mainmenuTitlescreen,1,c_Image::m_DefaultFlags));
+	this->m_mainMenu->p_SetZ(FLOAT(9998.0));
+	this->m_mainMenu->p_InWorld(false);
+	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading images3...",38));
+	gc_assign(this->m_continueImage,(new c_Sprite)->m_new2(String(L"mainmenu/continue.png",21),1,c_Image::m_DefaultFlags));
+	this->m_continueImage->p_SetZ(FLOAT(9999.0));
+	this->m_continueImage->p_InWorld(false);
+	if(bb_steam_SteamApps()!=0 && bb_steam_SteamApps()->p_BIsDlcInstalled(379400)){
+		gc_assign(this->m_alphaWarning,(new c_Sprite)->m_new2(String(L"mainmenu/collectors_edition.png",31),1,c_Image::m_DefaultFlags));
+	}else{
+		if(bb_steam_SteamApps()!=0 && bb_steam_SteamApps()->p_BIsDlcInstalled(314680)){
+			gc_assign(this->m_alphaWarning,(new c_Sprite)->m_new2(String(L"mainmenu/soundtrack_edition.png",31),1,c_Image::m_DefaultFlags));
+		}else{
+			this->m_haveShownAlphaWarning=true;
+		}
+	}
+	if(this->m_alphaWarning!=0){
+		this->m_alphaWarning->p_SetZ(FLOAT(10000.0));
+		this->m_alphaWarning->p_InWorld(false);
+	}
+	gc_assign(this->m_seizureWarning,(new c_Sprite)->m_new2(String(L"mainmenu/seizure_warning.png",28),1,c_Image::m_DefaultFlags));
+	if(c_GameData::m_GetShownSeizureWarning()){
+		this->m_haveShownSeizureWarning=true;
+	}
+	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading ControllerIntro...",46));
+	(new c_ControllerIntro)->m_new();
+	return this;
+}
+void c_ControllerMainMenu::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerMainMenu.RegainFocus()",32));
+}
+void c_ControllerMainMenu::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerMainMenu.Update()",27));
+}
+void c_ControllerMainMenu::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_mainMenu);
+	gc_mark_q(m_continueImage);
+	gc_mark_q(m_alphaWarning);
+	gc_mark_q(m_seizureWarning);
+}
+void bb_util_SetVSync(int t_v){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SetVSync(Int)",13));
+}
+Object* bb_steam_g_SteamLeaderboards;
+c_ISteamApps* bb_steam_SteamApps(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamApps()",11));
+	return 0;
+}
+c_ControllerIntro::c_ControllerIntro(){
+	m_splashScreen=0;
+	m_videoImg=0;
+	m_introVideoName=String(L"intro_silent",12);
+	m_introSongName=String(L"intro",5);
+}
+c_Sprite* c_ControllerIntro::m_videoSpr;
+c_ControllerIntro* c_ControllerIntro::m_new(){
+	c_Controller::m_new();
+	c_Sprite::m_scaleToFitScreen=true;
+	gc_assign(this->m_splashScreen,(new c_Sprite)->m_new2(String(L"mainmenu/splash_screen.png",26),1,c_Image::m_DefaultFlags));
+	this->m_splashScreen->p_SetZ(FLOAT(10002.0));
+	this->m_splashScreen->p_InWorld(false);
+	c_TextLog::m_Message(String(L"ControllerIntro: Loading images1...",35));
+	gc_assign(this->m_videoImg,bb_graphics_CreateImage(960,640,1,c_Image::m_DefaultFlags));
+	c_TextLog::m_Message(String(L"ControllerIntro: Loading images2...",35));
+	gc_assign(m_videoSpr,(new c_Sprite)->m_new3(this->m_videoImg));
+	m_videoSpr->p_InWorld(false);
+	m_videoSpr->p_SetZ(FLOAT(10000.0));
+	m_videoSpr->p_SetScale(FLOAT(0.5));
+	c_TextLog::m_Message(String(L"ControllerIntro: Initializing Audio...",38));
+	c_Audio::m_Init();
+	if(c_GameData::m_GetShownNocturnaIntro() || !c_GameData::m_GetDLCPlayed() && c_GameData::m_GetZone2Unlocked(0) || c_GameData::m_IsCharUnlocked(1)){
+		c_GameData::m_SetShownNocturnaIntro(true);
+		this->m_introVideoName=String(L"intro_dlc_silent",16);
+		this->m_introSongName=String(L"intro_dlc",9);
+	}
+	c_TextLog::m_Message(String(L"ControllerIntro: Loading video...",33));
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.New() (Video)",29));
+	return this;
+}
+void c_ControllerIntro::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.RegainFocus()",29));
+}
+void c_ControllerIntro::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.Update()",24));
+}
+void c_ControllerIntro::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_splashScreen);
+	gc_mark_q(m_videoImg);
+}
+c_Image* bb_graphics_CreateImage(int t_width,int t_height,int t_frameCount,int t_flags){
+	gxtkSurface* t_surf=bb_graphics_device->CreateSurface(t_width*t_frameCount,t_height);
+	if((t_surf)!=0){
+		return ((new c_Image)->m_new())->p_Init(t_surf,t_frameCount,t_flags);
+	}
+	return 0;
+}
 int bb_necrodancergame_lastFrameTimeUpdate;
 int bb_necrodancergame_globalFrameCounter;
 int bb_necrodancergame_lastFrameCountUpdate;
@@ -52349,9 +53083,14 @@ int bbInit(){
 	bb_app__displayModes=Array<c_DisplayMode* >();
 	bb_app__desktopMode=0;
 	bb_graphics_renderDevice=0;
+	bb_logger_Debug=(new c_Logger)->m_new();
+	bb_necrodancergame_DEBUG_LOG_OUTPUT=true;
+	bb_textlog_logTimestamp=String();
+	bb_necrodancergame_FRAMES_PER_SEC=60;
+	bb_app__updateRate=0;
+	bb_necrodancergame_GLOBAL_SCALE_FACTOR=FLOAT(1.0);
 	c_GameData::m_modGamedataChanges=false;
 	c_GameData::m_activeMod=String();
-	bb_logger_Debug=(new c_Logger)->m_new();
 	bb_necrodancergame_xmlData=0;
 	c_GameData::m_gameDataLoaded=false;
 	c_Controller::m_currentController=0;
@@ -52536,7 +53275,6 @@ int bbInit(){
 	c_Level::m_bossNumber=1;
 	c_Camera::m_seekX=FLOAT(.0);
 	c_Camera::m_seekY=FLOAT(.0);
-	bb_necrodancergame_FRAMES_PER_SEC=60;
 	c_Camera::m_fixed=false;
 	bb_controller_game_lastEnemyMoveBeat=0;
 	c_Enemy::m_movesBehind=0;
@@ -52691,6 +53429,8 @@ int bbInit(){
 	c_Entity::m_anyPlayerHaveNazarCharmCachedFrame=0;
 	c_Level::m_todaysRandSeedString=String();
 	c_Chain::m_waitingForFirstMovement=Array<bool >(4);
+	bb_steam_g_SteamLeaderboards=0;
+	c_ControllerIntro::m_videoSpr=0;
 	bb_necrodancergame_lastFrameTimeUpdate=0;
 	bb_necrodancergame_globalFrameCounter=0;
 	bb_necrodancergame_lastFrameCountUpdate=0;
@@ -52876,6 +53616,8 @@ void gc_mark(){
 	gc_mark_q(c_Switch::m_switches);
 	gc_mark_q(c_Level::m_popUpController);
 	gc_mark_q(c_Chain::m_waitingForFirstMovement);
+	gc_mark_q(bb_steam_g_SteamLeaderboards);
+	gc_mark_q(c_ControllerIntro::m_videoSpr);
 	gc_mark_q(c_Input::m_popUpController);
 	gc_mark_q(c_Level::m_tileObstructionList);
 	gc_mark_q(c_ParticleSystemData::m_WATER_SPLASH_IN);

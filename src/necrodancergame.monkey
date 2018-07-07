@@ -2,23 +2,29 @@
 
 Import mojo.app
 Import mojo.graphics
+Import os
 Import gui.controller
 Import gui.controller_game
+Import gui.controller_mainmenu
 Import level
+Import fmod
 Import gamedata
 Import input2
 Import logger
 Import necrodancergame
-Import os
 Import player_class
+Import steam
+Import textlog
 Import util
 Import xml
+
+Const LOAD_CONTROLLER_GAME: Bool = True
 
 Global CHRISTMAS_MODE: Bool
 Global DEBUG_DISABLE_CLOUD_SAVES: Bool
 Global DEBUG_DISCOFLOOR_ON: Bool
 Global DEBUG_GO_STRAIGHT_TO_GAMEPLAY: Bool
-Global DEBUG_LOG_OUTPUT: Bool
+Global DEBUG_LOG_OUTPUT: Bool = True
 Global DEBUG_OUTPUT: Bool
 Global DEBUG_STOP_ENEMY_MOVEMENT: Bool
 Global FIXED_HEIGHT: Int
@@ -54,11 +60,36 @@ Class NecroDancerGame Extends App
     Function _EditorFix: Void() End
 
     Method OnCreate: Int()
-        GameData.LoadGameDataXML(True)
+        TextLog.Message("NecroDancer version " + Util.GetVersionString() + " loading...")
 
-        New ControllerGame()
-        
-        Debug.TraceNotImplemented("NecroDancerGame.OnCreate()")
+        TextLog.Message("OnCreate: Initializing Steam")
+
+        Util.SetAppFolder()
+        os.CreateDir(textlog.GetAppFolder() + "downloaded_dungeons")
+        os.CreateDir(textlog.GetAppFolder() + "mods")
+        os.CreateDir(textlog.GetAppFolder() + "downloaded_mods")
+        steam.SteamInit()
+
+        TextLog.Message("OnCreate: Updating screen size")
+        NecroDancerGame.UpdateScreenSize(False)
+
+        TextLog.Message("OnCreate: Starting FMOD")
+        fmod.StartFMOD()
+
+        TextLog.Message("OnCreate: Setting update rate")
+        app.SetUpdateRate(necrodancergame.FRAMES_PER_SEC)
+
+        TextLog.Message("GLOBAL_SCALE_FACTOR: " + necrodancergame.GLOBAL_SCALE_FACTOR)
+
+        If necrodancergame.LOAD_CONTROLLER_GAME
+            GameData.LoadGameDataXML(True)
+
+            New ControllerGame()
+        Else
+            TextLog.Message("Loading ControllerMainMenu...")
+            New ControllerMainMenu()
+            TextLog.Message("ControllerMainMenu LOADED")
+        End If
 
         Return 0
     End Method

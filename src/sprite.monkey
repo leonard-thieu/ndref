@@ -60,6 +60,10 @@ Class Sprite Extends Tweenable
         'Self.InitSprite(p, 0, 0, frames, flags)
     End Method
 
+    Method New(img: Image)
+        'Self.InitSprite(img)
+    End Method
+
     Field path: String
     Field zSet: Bool
     Field z: Float
@@ -138,8 +142,8 @@ Class Sprite Extends Tweenable
         Debug.TraceNotImplemented("Sprite.InitSprite(Int)")
     End Method
 
-    Method InitSprite: Void(img: Object)
-        Debug.TraceNotImplemented("Sprite.InitSprite(Object)")
+    Method InitSprite: Void(img: Image)
+        Debug.TraceNotImplemented("Sprite.InitSprite(Image)")
     End Method
 
     Method InitSprite: Void(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int)

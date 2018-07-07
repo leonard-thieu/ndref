@@ -43,14 +43,14 @@ Function ForceMessageGlobal: Void(str: String, flush: Bool)
 
     DebugLog(str)
     
-    filesystem.CreateDir(GetAppFolder() + "logs")
+    filesystem.CreateDir(util.GetAppFolder() + "logs")
 
     str += "~r"
 
     Local dateStr := textlog.GetDateString(False)
-    Local filePath := GetAppFolder() + "logs/necrodancer_log_" + dateStr + "_" + textlog.logTimestamp + ".txt"
+    Local filePath := util.GetAppFolder() + "logs/necrodancer_log_" + dateStr + "_" + textlog.logTimestamp + ".txt"
 
-    AppendToLog(str, filePath, flush)
+    textlog.AppendToLog(str, filePath, flush)
 End Function
 
 Function GetDateString: String(useNumericMonth: Bool)
@@ -189,7 +189,5 @@ Class TextLog
 End Class
 
 Extern
-
-Function GetAppFolder: String()
 
 Function AppendToLog: Void(line: String, path: String, flush: Bool)
