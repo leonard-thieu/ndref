@@ -5942,6 +5942,7 @@ class c_Util : public Object{
 	static bool m_SetSteamIntStat(String,int,bool,bool,bool);
 	static c_Point* m_FindClosestTrulyUnoccupiedSpace(int,int,bool);
 	static void m_GetLeaderboardScores(int,int,int,String,bool,bool,bool);
+	static void m_Pump();
 	static Float m_GetDistSqFromObject(int,int,c_RenderableObject*);
 	static bool m_IsOnScreen(int,int,Float,Float);
 	static bool m_LineSegmentTileIntersect(Float,Float,Float,Float,Float,Float);
@@ -11996,6 +11997,8 @@ extern int bb_necrodancergame_globalFrameCounter;
 extern int bb_necrodancergame_lastFrameCountUpdate;
 extern int bb_necrodancergame_lastFPSUpdate;
 extern bool bb_controller_game_DEBUG_MOUSE_COORDS;
+void bb_fmod_UpdateFMOD();
+void bb_steam_SteamPump();
 extern int bb_necrodancergame_FIXED_HEIGHT;
 extern int bb_necrodancergame_FIXED_WIDTH;
 class c_ControllerInputPopup : public c_Controller{
@@ -12379,7 +12382,7 @@ void c_NecroDancerGame::p_TestSeededAllZonesMode(int t_character,String t_randSe
 	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 }
 int c_NecroDancerGame::p_OnUpdate(){
-	if(bb_app_Millisecs()-bb_necrodancergame_lastFrameTimeUpdate>999){
+	if(bb_app_Millisecs()-bb_necrodancergame_lastFrameTimeUpdate>=1000){
 		bb_necrodancergame_lastFrameTimeUpdate=bb_app_Millisecs();
 		bb_necrodancergame_lastFPSUpdate=bb_necrodancergame_globalFrameCounter-bb_necrodancergame_lastFrameCountUpdate;
 		bb_necrodancergame_lastFrameCountUpdate=bb_necrodancergame_globalFrameCounter;
@@ -12389,8 +12392,9 @@ int c_NecroDancerGame::p_OnUpdate(){
 		this->p_TestSeededAllZonesMode(0,String(L"1",1));
 		c_Controller::m_currentController->p_Update();
 	}
-	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.OnUpdate() (FMOD)",33));
-	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.OnUpdate() (Steam API)",38));
+	bb_fmod_UpdateFMOD();
+	bb_steam_SteamPump();
+	c_Util::m_Pump();
 	bb_app_EndApp();
 	return 0;
 }
@@ -13507,6 +13511,9 @@ c_Point* c_Util::m_FindClosestTrulyUnoccupiedSpace(int t_xVal,int t_yVal,bool t_
 }
 void c_Util::m_GetLeaderboardScores(int t_rangeStart,int t_rangeEnd,int t_dayOffset,String t_specificLeaderboard,bool t_useTodaysSeed,bool t_friendsOnly,bool t_playerOnly){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetLeaderboardScores(Int, Int, Int, String, Bool, Bool, Bool)",66));
+}
+void c_Util::m_Pump(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.Pump()",11));
 }
 Float c_Util::m_GetDistSqFromObject(int t_xVal,int t_yVal,c_RenderableObject* t_obj){
 	return Float(m_GetDistSq(t_obj->m_x,t_obj->m_y,t_xVal,t_yVal));
@@ -52456,6 +52463,12 @@ int bb_necrodancergame_globalFrameCounter;
 int bb_necrodancergame_lastFrameCountUpdate;
 int bb_necrodancergame_lastFPSUpdate;
 bool bb_controller_game_DEBUG_MOUSE_COORDS;
+void bb_fmod_UpdateFMOD(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"UpdateFMOD()",12));
+}
+void bb_steam_SteamPump(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamPump()",11));
+}
 int bb_necrodancergame_FIXED_HEIGHT;
 int bb_necrodancergame_FIXED_WIDTH;
 c_ControllerInputPopup::c_ControllerInputPopup(){

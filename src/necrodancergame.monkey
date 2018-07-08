@@ -107,7 +107,7 @@ Class NecroDancerGame Extends App
     End Method
 
     Method OnUpdate: Int()
-        If app.Millisecs() - necrodancergame.lastFrameTimeUpdate > 999
+        If app.Millisecs() - necrodancergame.lastFrameTimeUpdate >= 1000
             necrodancergame.lastFrameTimeUpdate = app.Millisecs()
             necrodancergame.lastFPSUpdate = necrodancergame.globalFrameCounter - necrodancergame.lastFrameCountUpdate
             necrodancergame.lastFrameCountUpdate = necrodancergame.globalFrameCounter
@@ -116,15 +116,16 @@ Class NecroDancerGame Extends App
         Input.Update()
 
         If Controller.currentController <> Null
-            Self.TestSeededAllZonesMode(Character.Cadence, "1")
+            Self.TestSeededAllZonesMode(Character.Cadence, "1") ' For testing only.
             
             Controller.currentController.Update()
         End If
 
-        Debug.TraceNotImplemented("NecroDancerGame.OnUpdate() (FMOD)")
-        Debug.TraceNotImplemented("NecroDancerGame.OnUpdate() (Steam API)")
+        fmod.UpdateFMOD()
+        steam.SteamPump()
+        Util.Pump()
 
-        app.EndApp()
+        app.EndApp() ' For testing only.
 
         Return 0
     End Method

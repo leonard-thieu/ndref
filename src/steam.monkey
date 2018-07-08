@@ -12,6 +12,10 @@ Function SteamInit: Void()
     Debug.TraceNotImplemented("SteamInit()")
 End Function
 
+Function SteamPump: Void()
+    Debug.TraceNotImplemented("SteamPump()")
+End Function
+
 Function SteamShutdown: Void()
     Debug.TraceNotImplemented("SteamShutdown()")
 End Function
