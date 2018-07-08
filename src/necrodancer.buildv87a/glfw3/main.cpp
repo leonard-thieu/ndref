@@ -5983,6 +5983,9 @@ class c_GameData : public Object{
 	static int m_GetPlayerDiamonds();
 	static bool m_IsCharUnlocked(int);
 	static bool m_GetLobbyMove();
+	static int m_GetAudioLatency();
+	static int m_GetAutocalibration();
+	static int m_GetVideoLatency();
 	static int m_GetNumPendingSpawnItems();
 	static bool m_GetDaoustVocals();
 	static bool m_GetNPCUnlock(String);
@@ -8579,8 +8582,12 @@ class c_Audio : public Object{
 	static bool m_songShopOpen;
 	static int m_fixedBeatNum;
 	static bool m_debugEnablePlaceholders;
-	static int m_GetSongPosition();
+	static int m_cachedSongPositionFrame;
+	static int m_cachedSongPosition;
+	static bool m_necrodancerSong2Active;
+	static bool m_includeVideoLatency;
 	static int m_songLoops;
+	static int m_GetSongPosition();
 	static int m_GetCurrentBeatNumber(int,bool);
 	static int m_numLoops;
 	static int m_GetCurrentBeatNumberIncludingLoops(int,bool);
@@ -8604,7 +8611,6 @@ class c_Audio : public Object{
 	static bool m_startSong;
 	static int m_GetDistanceFromNearestBeat();
 	static int m_GetNextBeatDuration();
-	static bool m_includeVideoLatency;
 	static Float m_GetPercentDistanceFromNextBeat();
 	static int m_GetBeatAnimFrame4();
 	void mark();
@@ -9864,6 +9870,8 @@ class c_Monkey : public c_EnemyClamper{
 	void p_Update();
 	void mark();
 };
+extern int bb_necrodancergame_globalFrameCounter;
+Float bb_fmod_GetSongPositionFMOD(int);
 extern Array<int > bb_controller_game_beatData;
 class c_Enumerator9 : public Object{
 	public:
@@ -11999,7 +12007,6 @@ class c_ControllerIntro : public c_Controller{
 };
 c_Image* bb_graphics_CreateImage(int,int,int,int);
 extern int bb_necrodancergame_lastFrameTimeUpdate;
-extern int bb_necrodancergame_globalFrameCounter;
 extern int bb_necrodancergame_lastFrameCountUpdate;
 extern int bb_necrodancergame_lastFPSUpdate;
 extern bool bb_controller_game_DEBUG_MOUSE_COORDS;
@@ -13678,6 +13685,18 @@ bool c_GameData::m_IsCharUnlocked(int t_charNum){
 bool c_GameData::m_GetLobbyMove(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetLobbyMove()",23));
 	return false;
+}
+int c_GameData::m_GetAudioLatency(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetAudioLatency()",26));
+	return 0;
+}
+int c_GameData::m_GetAutocalibration(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetAutocalibration()",29));
+	return 0;
+}
+int c_GameData::m_GetVideoLatency(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetVideoLatency()",26));
+	return 0;
 }
 int c_GameData::m_GetNumPendingSpawnItems(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetNumPendingSpawnItems()",34));
@@ -40921,11 +40940,31 @@ c_Audio::c_Audio(){
 bool c_Audio::m_songShopOpen;
 int c_Audio::m_fixedBeatNum;
 bool c_Audio::m_debugEnablePlaceholders;
-int c_Audio::m_GetSongPosition(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.GetSongPosition()",23));
-	return 0;
-}
+int c_Audio::m_cachedSongPositionFrame;
+int c_Audio::m_cachedSongPosition;
+bool c_Audio::m_necrodancerSong2Active;
+bool c_Audio::m_includeVideoLatency;
 int c_Audio::m_songLoops;
+int c_Audio::m_GetSongPosition(){
+	if(m_cachedSongPositionFrame==bb_necrodancergame_globalFrameCounter){
+		return m_cachedSongPosition;
+	}
+	int t_ch=1;
+	if(m_necrodancerSong2Active){
+		t_ch=2;
+	}
+	Float t_songPosition=bb_fmod_GetSongPositionFMOD(t_ch);
+	t_songPosition=t_songPosition-Float(c_GameData::m_GetAudioLatency());
+	t_songPosition=t_songPosition-Float(c_GameData::m_GetAutocalibration());
+	if(m_includeVideoLatency){
+		t_songPosition=t_songPosition-Float(c_GameData::m_GetVideoLatency());
+	}
+	if(t_songPosition>Float(m_cachedSongPosition) || Float(m_cachedSongPosition)>t_songPosition+FLOAT(10000.0) && ((m_songLoops)!=0)){
+		m_cachedSongPosition=int(t_songPosition);
+	}
+	m_cachedSongPositionFrame=bb_necrodancergame_globalFrameCounter;
+	return m_cachedSongPosition;
+}
 int c_Audio::m_GetCurrentBeatNumber(int t_beatOffset,bool t_useFixed){
 	if(t_useFixed){
 		if(m_fixedBeatNum!=-64){
@@ -41065,7 +41104,6 @@ int c_Audio::m_GetNextBeatDuration(){
 	}
 	return t_duration;
 }
-bool c_Audio::m_includeVideoLatency;
 Float c_Audio::m_GetPercentDistanceFromNextBeat(){
 	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
 	int t_dist=m_TimeUntilSpecificBeat(t_currentBeatNumber);
@@ -46149,6 +46187,11 @@ void c_Monkey::p_Update(){
 void c_Monkey::mark(){
 	c_EnemyClamper::mark();
 	gc_mark_q(m_clampedOnto);
+}
+int bb_necrodancergame_globalFrameCounter;
+Float bb_fmod_GetSongPositionFMOD(int t_ch){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GetSongPositionFMOD(Int)",24));
+	return 0;
 }
 Array<int > bb_controller_game_beatData;
 c_Enumerator9::c_Enumerator9(){
@@ -52501,7 +52544,6 @@ c_Image* bb_graphics_CreateImage(int t_width,int t_height,int t_frameCount,int t
 	return 0;
 }
 int bb_necrodancergame_lastFrameTimeUpdate;
-int bb_necrodancergame_globalFrameCounter;
 int bb_necrodancergame_lastFrameCountUpdate;
 int bb_necrodancergame_lastFPSUpdate;
 bool bb_controller_game_DEBUG_MOUSE_COORDS;
@@ -53391,8 +53433,13 @@ int bbInit(){
 	c_KingConga::m_theKing=0;
 	c_Audio::m_debugEnablePlaceholders=true;
 	c_Enemy::m_killingAllEnemies=false;
-	bb_controller_game_beatData=Array<int >();
+	c_Audio::m_cachedSongPositionFrame=-1;
+	bb_necrodancergame_globalFrameCounter=0;
+	c_Audio::m_cachedSongPosition=-1;
+	c_Audio::m_necrodancerSong2Active=false;
+	c_Audio::m_includeVideoLatency=false;
 	c_Audio::m_songLoops=0;
+	bb_controller_game_beatData=Array<int >();
 	c_Audio::m_numLoops=0;
 	c_Audio::m_songDuration=0;
 	c_Item::m_pickupList=(new c_List20)->m_new();
@@ -53488,7 +53535,6 @@ int bbInit(){
 	bb_steam_g_SteamLeaderboards=0;
 	c_ControllerIntro::m_videoSpr=0;
 	bb_necrodancergame_lastFrameTimeUpdate=0;
-	bb_necrodancergame_globalFrameCounter=0;
 	bb_necrodancergame_lastFrameCountUpdate=0;
 	bb_necrodancergame_lastFPSUpdate=0;
 	bb_controller_game_DEBUG_MOUSE_COORDS=false;
@@ -53517,7 +53563,6 @@ int bbInit(){
 	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
-	c_Audio::m_includeVideoLatency=false;
 	c_Level::m_maxLevelX=0;
 	c_Level::m_minLevelX=0;
 	c_Level::m_maxLevelY=0;

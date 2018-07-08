@@ -6,6 +6,10 @@ Function EndFMOD: Void()
     Debug.TraceNotImplemented("EndFMOD()")
 End Function
 
+Function GetSongPositionFMOD: Float(ch: Int)
+    Debug.TraceNotImplemented("GetSongPositionFMOD(Int)")
+End Function
+
 Function StartFMOD: Void()
     Debug.TraceNotImplemented("StartFMOD()")
 End Function

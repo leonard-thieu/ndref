@@ -5,7 +5,10 @@ Import monkey.map
 Import monkey.math
 Import gui.controller_cutscene
 Import gui.controller_game
+Import fmod
+Import gamedata
 Import logger
+Import necrodancergame
 Import sounddata
 Import sprite
 Import xml
@@ -285,7 +288,32 @@ Class Audio
     End Function
 
     Function GetSongPosition: Int()
-        Debug.TraceNotImplemented("Audio.GetSongPosition()")
+        If Audio.cachedSongPositionFrame = necrodancergame.globalFrameCounter
+            Return Audio.cachedSongPosition
+        End If
+
+        Local ch := 1
+        If Audio.necrodancerSong2Active
+            ch = 2
+        End If
+
+        Local songPosition := fmod.GetSongPositionFMOD(ch)
+        songPosition -= GameData.GetAudioLatency()
+        songPosition -= GameData.GetAutocalibration()
+
+        If Audio.includeVideoLatency
+            songPosition -= GameData.GetVideoLatency()
+        End If
+
+        If songPosition > Audio.cachedSongPosition Or
+           (Audio.cachedSongPosition > songPosition + 10000 And
+            Audio.songLoops)
+            Audio.cachedSongPosition = songPosition
+        End If
+
+        Audio.cachedSongPositionFrame = necrodancergame.globalFrameCounter
+
+        Return Audio.cachedSongPosition
     End Function
 
     Function GetSoundFromFilename: Int(snd: Int)
