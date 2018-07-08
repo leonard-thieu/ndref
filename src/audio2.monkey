@@ -36,7 +36,7 @@ Class Audio
     Global delayList: List<SoundData> = New List<SoundData>()
     Global fadeFactor: Float = 1.0
     Global fadeFrames: Int = -1
-    Global firstUpdate: Bool = 1
+    Global firstUpdate: Bool = True
     Global fixedBeatNum: Int = -64
     Global includeVideoLatency: Bool
     Global lastBeatNum: Int = -1
