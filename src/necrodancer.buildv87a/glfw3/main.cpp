@@ -4971,13 +4971,6 @@ int BBFileStream::Write( BBDataBuffer *buffer,int offset,int count ){
 	return n;
 }
 
-String globalAppFolder;
-
-String GetAppFolder()
-{
-    return globalAppFolder;
-}
-
 
 // Stdcpp trans.system runtime.
 //
@@ -5182,6 +5175,13 @@ void AppendToLog(const String &line, const String &path, bool flush)
             fflush(stdout);
         }
     }
+}
+
+String globalAppFolder;
+
+String GetAppFolder()
+{
+    return globalAppFolder;
 }
 
 class c_App;
@@ -5916,6 +5916,7 @@ class c_Util : public Object{
 	static String m_GetVersionString();
 	static String m_StringLeft(String,int);
 	static void m_SetAppFolder();
+	static void m_AddMetric(String,String,bool,bool,bool);
 	static bool m_IsCharacterActive(int);
 	static int m_storedSeed;
 	static Float m_RndFloatRange(Float,Float,bool);
@@ -5924,7 +5925,6 @@ class c_Util : public Object{
 	static bool m_RndBool(bool);
 	static int m_ParseTextSeed(String);
 	static int m_SeedRnd(int);
-	static void m_AddMetric(String,String,bool,bool,bool);
 	static int m_GetDistSq(int,int,int,int);
 	static Float m_GetDist(int,int,int,int);
 	static bool m_AreAriaOrCodaActive();
@@ -5955,6 +5955,7 @@ class c_TextLog : public Object{
 	public:
 	c_TextLog();
 	static void m_Message(String);
+	static void m_ExitGame(String);
 	void mark();
 };
 class c_GameData : public Object{
@@ -5963,6 +5964,7 @@ class c_GameData : public Object{
 	static bool m_GetDebugLogging();
 	static bool m_modGamedataChanges;
 	static String m_activeMod;
+	static void m_Save();
 	static bool m_gameDataLoaded;
 	static void m_LoadGameDataXML(bool);
 	static void m_SetCharUnlocked(int,bool);
@@ -5980,7 +5982,6 @@ class c_GameData : public Object{
 	static void m_SetDLCPlayed();
 	static int m_GetPlayerDiamonds();
 	static bool m_IsCharUnlocked(int);
-	static void m_Save();
 	static bool m_GetLobbyMove();
 	static int m_GetNumPendingSpawnItems();
 	static bool m_GetDaoustVocals();
@@ -6135,6 +6136,11 @@ class c_XMLError : public Object{
 	void mark();
 };
 String bb_app_LoadString(String);
+int bb_util_CalcChecksum(String);
+extern int bb_controller_game_totalPlaytimeMilliseconds;
+void bb_fmod_EndFMOD();
+void bb_steam_SteamShutdown();
+void bb_textlog_ExitGameGlobal(String,bool);
 class c_XMLNode : public Object{
 	public:
 	String m_fullValue;
@@ -13223,6 +13229,9 @@ void c_Util::m_SetAppFolder(){
 	t_appPath=t_appPath+String(L"/",1);
 	globalAppFolder=t_appPath;
 }
+void c_Util::m_AddMetric(String t_key,String t_value,bool t_send,bool t_blocking,bool t_isNumber){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.AddMetric(String, String, Bool, Bool, Bool)",48));
+}
 bool c_Util::m_IsCharacterActive(int t_charID){
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
 		c_Player* t_player=bb_controller_game_players[t_i];
@@ -13289,9 +13298,6 @@ int c_Util::m_SeedRnd(int t_seed){
 	m_storedSeed=-1;
 	bb_random_Seed=t_seed;
 	return 0;
-}
-void c_Util::m_AddMetric(String t_key,String t_value,bool t_send,bool t_blocking,bool t_isNumber){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.AddMetric(String, String, Bool, Bool, Bool)",48));
 }
 int c_Util::m_GetDistSq(int t_x,int t_y,int t_x2,int t_y2){
 	return (t_x2-t_x)*(t_x2-t_x)+(t_y2-t_y)*(t_y2-t_y);
@@ -13575,6 +13581,9 @@ c_TextLog::c_TextLog(){
 void c_TextLog::m_Message(String t_str){
 	bb_textlog_MessageGlobal(t_str,false);
 }
+void c_TextLog::m_ExitGame(String t_errorString){
+	bb_textlog_ExitGameGlobal(t_errorString,true);
+}
 void c_TextLog::mark(){
 	Object::mark();
 }
@@ -13586,20 +13595,28 @@ bool c_GameData::m_GetDebugLogging(){
 }
 bool c_GameData::m_modGamedataChanges;
 String c_GameData::m_activeMod;
+void c_GameData::m_Save(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.Save()",15));
+}
 bool c_GameData::m_gameDataLoaded;
 void c_GameData::m_LoadGameDataXML(bool t_bypassChecksum){
 	c_XMLError* t_error=(new c_XMLError)->m_new();
+	String t_gameDataXMLPath=String(L"necrodancer.xml",15);
 	m_modGamedataChanges=false;
 	if(m_activeMod!=String()){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.LoadGameDataXML(Bool) (Mods)",37));
+		if(FileType(GetAppFolder()+m_activeMod+String(L"/",1)+t_gameDataXMLPath)==1){
+			t_gameDataXMLPath=GetAppFolder()+m_activeMod+String(L"/",1)+t_gameDataXMLPath;
+			m_modGamedataChanges=true;
+		}
 	}
-	String t_xmlStr=bb_app_LoadString(String(L"necrodancer.xml",15));
+	String t_xmlStr=bb_app_LoadString(t_gameDataXMLPath);
 	if(true){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.LoadGameDataXML(Bool) (Debug-only checksum)",52));
+		int t_checksum=bb_util_CalcChecksum(t_xmlStr);
+		bbDebugLog(String(L"Checksum: ",10)+String(t_checksum));
 	}
 	gc_assign(bb_necrodancergame_xmlData,bb_xml_ParseXML(t_xmlStr,t_error,1));
 	if(bb_necrodancergame_xmlData==0 && t_error->m_error){
-		bb_logger_Debug->p_Log(String(L"NECRODANCER INIT XML PARSE ERROR: ",34)+t_error->p_ToString());
+		c_TextLog::m_ExitGame(String(L"NECRODANCER INIT XML PARSE ERROR: ",34)+(t_error->p_ToString()));
 	}
 	m_gameDataLoaded=true;
 }
@@ -13657,9 +13674,6 @@ int c_GameData::m_GetPlayerDiamonds(){
 bool c_GameData::m_IsCharUnlocked(int t_charNum){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.IsCharUnlocked(Int)",28));
 	return false;
-}
-void c_GameData::m_Save(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.Save()",15));
 }
 bool c_GameData::m_GetLobbyMove(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetLobbyMove()",23));
@@ -14337,6 +14351,34 @@ void c_XMLError::mark(){
 }
 String bb_app_LoadString(String t_path){
 	return bb_app__game->LoadString(bb_data_FixDataPath(t_path));
+}
+int bb_util_CalcChecksum(String t_fileContents){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"CalcChecksum(String)",20));
+	return 1495719624;
+}
+int bb_controller_game_totalPlaytimeMilliseconds;
+void bb_fmod_EndFMOD(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"EndFMOD()",9));
+}
+void bb_steam_SteamShutdown(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamShutdown()",15));
+}
+void bb_textlog_ExitGameGlobal(String t_errorString,bool t_doExit){
+	bb_textlog_MessageGlobal(t_errorString,true);
+	c_GameData::m_Save();
+	c_Util::m_AddMetric(String(L"event",5),String(L"necrodancerShutdown",19),false,false,false);
+	if(bb_controller_game_totalPlaytimeMilliseconds<15000){
+		c_Util::m_AddMetric(String(L"shutdownMessage",15),t_errorString,true,true,false);
+	}else{
+		c_Util::m_AddMetric(String(L"shutdownMessage",15),t_errorString,false,false,false);
+		int t_playTimeInSeconds=bb_controller_game_totalPlaytimeMilliseconds/1000;
+		c_Util::m_AddMetric(String(L"playTimeInSeconds",17),String(t_playTimeInSeconds),true,true,true);
+	}
+	bb_fmod_EndFMOD();
+	bb_steam_SteamShutdown();
+	if(t_doExit){
+		bbError(t_errorString);
+	}
 }
 c_XMLNode::c_XMLNode(){
 	m_fullValue=String();
@@ -53104,6 +53146,7 @@ int bbInit(){
 	bb_necrodancergame_GLOBAL_SCALE_FACTOR=FLOAT(1.0);
 	c_GameData::m_modGamedataChanges=false;
 	c_GameData::m_activeMod=String();
+	bb_controller_game_totalPlaytimeMilliseconds=0;
 	bb_necrodancergame_xmlData=0;
 	c_GameData::m_gameDataLoaded=false;
 	c_Controller::m_currentController=0;

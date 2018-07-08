@@ -1,8 +1,13 @@
 'Strict
 
+Import os
 Import logger
 Import necrodancergame
+Import textlog
+Import util
 Import xml
+
+Const NECRODANCER_XML_CHECKSUM: Int = 1495719624
 
 Class GameData
 
@@ -396,27 +401,35 @@ Class GameData
     Function LoadGameDataXML: Void(bypassChecksum: Bool)
         Local error := New XMLError()
 
+        Local gameDataXMLPath := "necrodancer.xml"
         GameData.modGamedataChanges = False
 
         If GameData.activeMod <> ""
-            Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool) (Mods)")
+            If os.FileType(util.GetAppFolder() + GameData.activeMod + "/" + gameDataXMLPath) = os.FILETYPE_FILE
+                gameDataXMLPath = util.GetAppFolder() + GameData.activeMod + "/" + gameDataXMLPath
+                GameData.modGamedataChanges = True
+            End If
         End If
 
-        Local xmlStr := app.LoadString("necrodancer.xml")
+        Local xmlStr := app.LoadString(gameDataXMLPath)
 
         If necrodancer.DEBUG_BUILD
-            Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool) (Debug-only checksum)")
+            Local checksum := util.CalcChecksum(xmlStr)
+            DebugLog("Checksum: " + checksum)
         Else
             If Not bypassChecksum And
                Not GameData.modGamedataChanges
-                Debug.TraceNotImplemented("GameData.LoadGameDataXML(Bool) (Release-only checksum)")
+                Local checksum := util.CalcChecksum(xmlStr)
+                If checksum <> gamedata.NECRODANCER_XML_CHECKSUM
+                    TextLog.ExitGame("NECRODANCER INIT XML CHECKSUM ERROR!")
+                End If
             End If
         End If
 
         necrodancergame.xmlData = xml.ParseXML(xmlStr, error)
         If necrodancergame.xmlData = Null And
            error.error
-            Debug.Log("NECRODANCER INIT XML PARSE ERROR: " + error.ToString())
+            TextLog.ExitGame("NECRODANCER INIT XML PARSE ERROR: " + error)
         End If
 
         GameData.gameDataLoaded = True

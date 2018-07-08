@@ -10,6 +10,7 @@ Import mojo.input
 Import gui.controller_game
 Import level
 Import camera
+Import gamedata
 Import logger
 Import necrodancer
 Import player_class
@@ -587,6 +588,12 @@ Class Direction
     Const UpRight: Int = 7
 
 End Class
+
+Function CalcChecksum: Int(fileContents: String)
+    Debug.TraceNotImplemented("CalcChecksum(String)")
+
+    Return gamedata.NECRODANCER_XML_CHECKSUM
+End Function
 
 Function SetVSync: Void(v: Int)
     Debug.TraceNotImplemented("SetVSync(Int)")
