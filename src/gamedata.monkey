@@ -1,8 +1,13 @@
 'Strict
 
 Import os
+Import mojo.app
+Import gui.controller_game
+Import level
+Import input2
 Import logger
 Import necrodancergame
+Import player_class
 Import textlog
 Import util
 Import xml
@@ -45,15 +50,41 @@ Class GameData
     End Function
 
     Function GetAlternateSkin: Int(charID: Int)
-        Debug.TraceNotImplemented("GameData.GetAlternateSkin(Int)")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return GameData.xmlSaveData.GetChild("game").GetAttribute("skinNum" + charID, 0)
     End Function
 
     Function GetAudioLatency: Int()
-        Debug.TraceNotImplemented("GameData.GetAudioLatency()")
+        If GameData.xmlSaveData = Null Or
+           Level.isReplaying
+            Return 0
+        End If
+
+        If Not GameData.cachedAudioLatency
+            Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+            GameData.cachedAudioLatencyVal = gameNode.GetAttribute("audioLatency", 0)
+            GameData.cachedAudioLatency = True
+        End If
+
+        Return GameData.cachedAudioLatencyVal
     End Function
 
     Function GetAutocalibration: Int()
-        Debug.TraceNotImplemented("GameData.GetAutocalibration()")
+        If GameData.xmlSaveData = Null Or
+           Level.isReplaying
+            Return 0
+        End If
+
+        If Not GameData.cachedAutocalibration
+            Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+            GameData.cachedAutocalibrationVal = gameNode.GetAttribute("autocalibration", 0)
+            GameData.cachedAutocalibration = True
+        End If
+
+        Return GameData.cachedAutocalibrationVal
     End Function
 
     Function GetBossTraining: Bool(bossName: Int)
@@ -69,7 +100,9 @@ Class GameData
     End Function
 
     Function GetDaoustVocals: Bool()
-        Debug.TraceNotImplemented("GameData.GetDaoustVocals()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("daoustVocals", False)
     End Function
 
     Function GetDebugLogging: Bool()
@@ -77,15 +110,22 @@ Class GameData
     End Function
 
     Function GetDefaultCharacter: Int()
-        Debug.TraceNotImplemented("GameData.GetDefaultCharacter()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Local defaultCharacter := gameNode.GetAttribute("defaultCharacterV2", Character.Cadence)
+        If defaultCharacter < 0 Or defaultCharacter >= Player.NumEnabledCharacters()
+            defaultCharacter = Character.Cadence
+        End If
+
+        Return defaultCharacter
     End Function
 
     Function GetDefaultHUDKeys: Bool()
         Debug.TraceNotImplemented("GameData.GetDefaultHUDKeys()")
     End Function
 
-    Function GetDefaultMod: Int()
-        Debug.TraceNotImplemented("GameData.GetDefaultMod()")
+    Function GetDefaultMod: String()
+        Return GameData.xmlSaveData.GetChild("game").GetAttribute("defaultMod", "")
     End Function
 
     Function GetDiamondDealerItems: String()
@@ -101,7 +141,9 @@ Class GameData
     End Function
 
     Function GetDLCPlayed: Bool()
-        Debug.TraceNotImplemented("GameData.GetDLCPlayed()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("DLCPlayed", False)
     End Function
 
     Function GetDoubleSpeed: Bool(index: Int)
@@ -109,11 +151,15 @@ Class GameData
     End Function
 
     Function GetEnableBossIntros: Bool()
-        Debug.TraceNotImplemented("GameData.GetEnableBossIntros()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("enableBossIntros", True)
     End Function
 
     Function GetEnableCutscenes: Bool()
-        Debug.TraceNotImplemented("GameData.GetEnableCutscenes()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("enableCutscenes", True)
     End Function
 
     Function GetEnableSubtitles: Bool()
@@ -125,7 +171,7 @@ Class GameData
     End Function
 
     Function GetFullscreen: Bool()
-        Debug.TraceNotImplemented("GameData.GetFullscreen()")
+        Return GameData.xmlSaveData.GetChild("game").GetAttribute("fullscreen", False)
     End Function
 
     Function GetHalfSpeed: Bool(index: Int)
@@ -157,7 +203,9 @@ Class GameData
     End Function
 
     Function GetKeyBinding: Int(player: Int, index: Int)
-        Debug.TraceNotImplemented("GameData.GetKeyBinding(Int, Int)")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("keybinding" + player + "_" + index, InputValue.Default_)
     End Function
 
     Function GetLanguage: Int()
@@ -169,7 +217,9 @@ Class GameData
     End Function
 
     Function GetLobbyMove: Bool()
-        Debug.TraceNotImplemented("GameData.GetLobbyMove()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("lobbyMove", False)
     End Function
 
     Function GetMentorLevelClear: Bool(num: Int)
@@ -197,7 +247,17 @@ Class GameData
     End Function
 
     Function GetNPCUnlock: Bool(npcName: String)
-        Debug.TraceNotImplemented("GameData.GetNPCUnlock(String)")
+        Local saveData: XMLDoc
+        If Level.isReplaying And
+           GameData.replaySaveData <> Null
+            saveData = GameData.replaySaveData
+        Else
+            saveData = GameData.xmlSaveData
+        End If
+
+        Local npcNode := saveData.GetChild("npc")
+
+        Return npcNode.GetAttribute(npcName, False)
     End Function
 
     Function GetNPCVisited: Bool(npcName: String)
@@ -225,11 +285,23 @@ Class GameData
     End Function
 
     Function GetPlayerDiamonds: Int()
-        Debug.TraceNotImplemented("GameData.GetPlayerDiamonds()")
+        Local playerNode := GameData.xmlSaveData.GetChild("player")
+
+        Return playerNode.GetAttribute("numDiamonds", 0)
     End Function
 
     Function GetPlayerHealthMax: Int()
-        Debug.TraceNotImplemented("GameData.GetPlayerHealthMax()")
+        Local saveData: XMLDoc
+        If Level.isReplaying And
+           GameData.replaySaveData <> Null
+            saveData = GameData.replaySaveData
+        Else
+            saveData = GameData.xmlSaveData
+        End If
+
+        Local playerNode := saveData.GetChild("player")
+
+        Return playerNode.GetAttribute("maxHealth", 9)
     End Function
 
     Function GetPostDeathReplay: Bool()
@@ -249,7 +321,7 @@ Class GameData
     End Function
 
     Function GetResolutionW: Int()
-        Debug.TraceNotImplemented("GameData.GetResolutionW()")
+        Return GameData.xmlSaveData.GetChild("game").GetAttribute("resolutionW", 0)
     End Function
 
     Function GetScreenShake: Bool()
@@ -273,11 +345,11 @@ Class GameData
     End Function
 
     Function GetShownNocturnaIntro: Bool()
-        Debug.TraceNotImplemented("GameData.GetShownNocturnaIntro()")
+        Return GameData.xmlSaveData.GetChild("game").GetAttribute("shownNocturnaIntro", False)
     End Function
 
     Function GetShownSeizureWarning: Bool()
-        Debug.TraceNotImplemented("GameData.GetShownSeizureWarning()")
+        Return GameData.xmlSaveData.GetChild("game").GetAttribute("shownSeizureWarning", False)
     End Function
 
     Function GetSoundtrackId: Int(i: Int)
@@ -301,13 +373,15 @@ Class GameData
     End Function
 
     Function GetTutorialComplete: Bool()
-        Debug.TraceNotImplemented("GameData.GetTutorialComplete()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
 
-        Return True
+        Return gameNode.GetAttribute("tutorialComplete", False)
     End Function
 
     Function GetUseChoral: Bool()
-        Debug.TraceNotImplemented("GameData.GetUseChoral()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("useChoral", False)
     End Function
 
     Function GetVideoLatency: Int()
@@ -319,7 +393,9 @@ Class GameData
     End Function
 
     Function GetVSync: Bool()
-        Debug.TraceNotImplemented("GameData.GetVSync()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("enableVsync", False)
     End Function
 
     Function GetZone1UnlockedCurrentCharacters: Bool()
@@ -327,27 +403,88 @@ Class GameData
     End Function
 
     Function GetZone2Unlocked: Bool(characterID: Int)
-        Debug.TraceNotImplemented("GameData.GetZone2Unlocked(Int)")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Local attributeName := "Zone2Unlocked"
+        If characterID <> Character.Cadence
+            attributeName += characterID
+        End If
+
+        Return gameNode.GetAttribute(attributeName, False)
     End Function
 
     Function GetZone2UnlockedCurrentCharacters: Bool()
-        Debug.TraceNotImplemented("GameData.GetZone2UnlockedCurrentCharacters()")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            Select player.characterID
+                Case Character.Aria
+                    If GameData.GetZone3Unlocked(Character.Aria)
+                        Return True
+                    End If
+                Default
+                    If GameData.GetZone2Unlocked(player.characterID)
+                        Return True
+                    End If
+            End Select
+        End For
+
+        Return False
     End Function
 
     Function GetZone3Unlocked: Bool(characterID: Int)
-        Debug.TraceNotImplemented("GameData.GetZone3Unlocked(Int)")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Local attributeName := "Zone3Unlocked"
+        If characterID <> Character.Cadence
+            attributeName += characterID
+        End If
+
+        Return gameNode.GetAttribute(attributeName, False)
     End Function
 
     Function GetZone3UnlockedCurrentCharacters: Bool()
-        Debug.TraceNotImplemented("GameData.GetZone3UnlockedCurrentCharacters()")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            Select player.characterID
+                Case Character.Aria
+                    If GameData.GetZone2Unlocked(Character.Aria)
+                        Return True
+                    End If
+                Default
+                    If GameData.GetZone3Unlocked(player.characterID)
+                        Return True
+                    End If
+            End Select
+        End For
+
+        Return False
     End Function
 
     Function GetZone4Unlocked: Bool(characterID: Int)
-        Debug.TraceNotImplemented("GameData.GetZone4Unlocked(Int)")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Local attributeName := "Zone4Unlocked"
+        If characterID <> Character.Cadence
+            attributeName += characterID
+        End If
+
+        Return gameNode.GetAttribute(attributeName, False)
     End Function
 
     Function GetZone4UnlockedCurrentCharacters: Bool()
-        Debug.TraceNotImplemented("GameData.GetZone4UnlockedCurrentCharacters()")
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            Select player.characterID
+                Case Character.Aria
+                    ' Do nothing
+                Default
+                    If GameData.GetZone3Unlocked(player.characterID)
+                        Return True
+                    End If
+            End Select
+        End For
+
+        Return False
     End Function
 
     Function GetZone5Visited: Bool()
@@ -395,7 +532,9 @@ Class GameData
     End Function
 
     Function IsCharUnlocked: Bool(charNum: Int)
-        Debug.TraceNotImplemented("GameData.IsCharUnlocked(Int)")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("charUnlocked" + charNum, False)
     End Function
 
     Function LoadGameDataXML: Void(bypassChecksum: Bool)

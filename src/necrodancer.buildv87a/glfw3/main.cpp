@@ -5969,9 +5969,11 @@ class c_GameData : public Object{
 	static void m_LoadGameDataXML(bool);
 	static void m_SetCharUnlocked(int,bool);
 	static void m_SetMentorLevelClear(int);
+	static c_XMLDoc* m_xmlSaveData;
 	static bool m_GetEnableCutscenes();
 	static int m_GetAlternateSkin(int);
 	static bool m_GetUseChoral();
+	static c_XMLDoc* m_replaySaveData;
 	static int m_GetPlayerHealthMax();
 	static void m_SetPlayerCoins(int);
 	static void m_SetPlayerDiamonds(int);
@@ -5983,7 +5985,11 @@ class c_GameData : public Object{
 	static int m_GetPlayerDiamonds();
 	static bool m_IsCharUnlocked(int);
 	static bool m_GetLobbyMove();
+	static bool m_cachedAudioLatency;
+	static int m_cachedAudioLatencyVal;
 	static int m_GetAudioLatency();
+	static bool m_cachedAutocalibration;
+	static int m_cachedAutocalibrationVal;
 	static int m_GetAutocalibration();
 	static int m_GetVideoLatency();
 	static int m_GetNumPendingSpawnItems();
@@ -5997,6 +6003,7 @@ class c_GameData : public Object{
 	static void m_SetHavePlayedHardcore(bool);
 	static bool m_HasFoughtNecrodancer();
 	static void m_SetFoughtNecrodancer();
+	static bool m_GetZone3Unlocked(int);
 	static bool m_GetZone2UnlockedCurrentCharacters();
 	static void m_SetZone2UnlockedCurrentCharacters();
 	static bool m_GetZone3UnlockedCurrentCharacters();
@@ -6009,7 +6016,7 @@ class c_GameData : public Object{
 	static void m_EraseDiamondDealerItems();
 	static bool m_GetEnableBossIntros();
 	static bool m_LoadPlayerDataXML(bool);
-	static int m_GetDefaultMod();
+	static String m_GetDefaultMod();
 	static bool m_GetShownNocturnaIntro();
 	static void m_SetShownNocturnaIntro(bool);
 	static bool m_GetVSync();
@@ -6186,17 +6193,17 @@ class c_XMLNode : public Object{
 	String p_name();
 	void p_name2(String);
 	c_XMLNode* p_AddChild2(c_XMLNode*,bool);
-	c_XMLNode* p_GetChildAtPath(String);
+	c_XMLNode* p_GetChild(bool);
+	c_XMLNode* p_GetChild2(String,bool);
 	c_XMLAttribute* p_GetXMLAttribute(String);
-	c_XMLNode* p_GetChildAtPath2(String,String);
+	c_XMLNode* p_GetChild3(String,String,bool);
 	String p_GetAttribute(String);
 	bool p_GetAttribute2(String,bool);
 	int p_GetAttribute3(String,int);
 	Float p_GetAttribute4(String,Float);
 	String p_GetAttribute5(String,String);
-	c_XMLNode* p_GetChild(bool);
-	c_XMLNode* p_GetChild2(String,bool);
-	c_XMLNode* p_GetChild3(String,String,bool);
+	c_XMLNode* p_GetChildAtPath(String);
+	c_XMLNode* p_GetChildAtPath2(String,String);
 	c_List* p_GetChildren(c_List*,bool);
 	c_List* p_GetChildren2(String,c_List*,bool);
 	c_List* p_GetChildren3(String,String,c_List*,bool);
@@ -7276,6 +7283,7 @@ class c_Player : public c_MobileEntity{
 	static int m_numDiamonds;
 	bool p_Perished();
 	static int m_playerTempCount;
+	static int m_NumEnabledCharacters();
 	static c_Sprite* m_hudCoins;
 	static c_Sprite* m_hudDiamonds;
 	static int m_heartsLoaded;
@@ -7289,7 +7297,6 @@ class c_Player : public c_MobileEntity{
 	c_Player* m_new2();
 	void p_WarpFamiliars();
 	void p_SetTotallyBlank();
-	static int m_NumEnabledCharacters();
 	void p_StopFalling();
 	void p_CheckConductorWire();
 	void p_CheckFloating();
@@ -12052,12 +12059,12 @@ class c_TextInput : public c_TextLabel{
 	c_TextInput* m_new2();
 	void mark();
 };
-int bb_input_KeyHit(int);
 class c_InputValue : public Object{
 	public:
 	c_InputValue();
 	void mark();
 };
+int bb_input_KeyHit(int);
 class c_ControllerPause : public c_Controller{
 	public:
 	c_ControllerPause();
@@ -12352,8 +12359,9 @@ int c_NecroDancerGame::p_OnCreate(){
 	bb_app_SetUpdateRate(bb_necrodancergame_FRAMES_PER_SEC);
 	c_TextLog::m_Message(String(L"GLOBAL_SCALE_FACTOR: ",21)+String(bb_necrodancergame_GLOBAL_SCALE_FACTOR));
 	if(true){
-		c_GameData::m_LoadGameDataXML(true);
-		(new c_ControllerGame)->m_new();
+		c_TextLog::m_Message(String(L"Loading ControllerMainMenu...",29));
+		(new c_ControllerMainMenu)->m_new();
+		c_TextLog::m_Message(String(L"ControllerMainMenu LOADED",25));
 	}
 	return 0;
 }
@@ -13633,21 +13641,29 @@ void c_GameData::m_SetCharUnlocked(int t_charNum,bool t_val){
 void c_GameData::m_SetMentorLevelClear(int t_num){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetMentorLevelClear(Int)",33));
 }
+c_XMLDoc* c_GameData::m_xmlSaveData;
 bool c_GameData::m_GetEnableCutscenes(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetEnableCutscenes()",29));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"enableCutscenes",15),true);
 }
 int c_GameData::m_GetAlternateSkin(int t_charID){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetAlternateSkin(Int)",30));
-	return 0;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute3(String(L"skinNum",7)+String(t_charID),0);
 }
 bool c_GameData::m_GetUseChoral(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetUseChoral()",23));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"useChoral",9),false);
 }
+c_XMLDoc* c_GameData::m_replaySaveData;
 int c_GameData::m_GetPlayerHealthMax(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetPlayerHealthMax()",29));
-	return 0;
+	c_XMLDoc* t_saveData=0;
+	if(c_Level::m_isReplaying && m_replaySaveData!=0){
+		t_saveData=m_replaySaveData;
+	}else{
+		t_saveData=m_xmlSaveData;
+	}
+	c_XMLNode* t_playerNode=t_saveData->p_GetChild2(String(L"player",6),false);
+	return t_playerNode->p_GetAttribute3(String(L"maxHealth",9),9);
 }
 void c_GameData::m_SetPlayerCoins(int t_val){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetPlayerCoins(Int)",28));
@@ -13656,43 +13672,69 @@ void c_GameData::m_SetPlayerDiamonds(int t_val){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetPlayerDiamonds(Int)",31));
 }
 bool c_GameData::m_GetTutorialComplete(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetTutorialComplete()",30));
-	return true;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"tutorialComplete",16),false);
 }
 int c_GameData::m_GetDefaultCharacter(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetDefaultCharacter()",30));
-	return 0;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	int t_defaultCharacter=t_gameNode->p_GetAttribute3(String(L"defaultCharacterV2",18),0);
+	if(t_defaultCharacter<0 || t_defaultCharacter>=c_Player::m_NumEnabledCharacters()){
+		t_defaultCharacter=0;
+	}
+	return t_defaultCharacter;
 }
 bool c_GameData::m_GetDLCPlayed(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetDLCPlayed()",23));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"DLCPlayed",9),false);
 }
 bool c_GameData::m_GetZone2Unlocked(int t_characterID){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetZone2Unlocked(Int)",30));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	String t_attributeName=String(L"Zone2Unlocked",13);
+	if(t_characterID!=0){
+		t_attributeName=t_attributeName+String(t_characterID);
+	}
+	return t_gameNode->p_GetAttribute2(t_attributeName,false);
 }
 void c_GameData::m_SetDLCPlayed(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetDLCPlayed()",23));
 }
 int c_GameData::m_GetPlayerDiamonds(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetPlayerDiamonds()",28));
-	return 0;
+	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
+	return t_playerNode->p_GetAttribute3(String(L"numDiamonds",11),0);
 }
 bool c_GameData::m_IsCharUnlocked(int t_charNum){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.IsCharUnlocked(Int)",28));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"charUnlocked",12)+String(t_charNum),false);
 }
 bool c_GameData::m_GetLobbyMove(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetLobbyMove()",23));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"lobbyMove",9),false);
 }
+bool c_GameData::m_cachedAudioLatency;
+int c_GameData::m_cachedAudioLatencyVal;
 int c_GameData::m_GetAudioLatency(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetAudioLatency()",26));
-	return 0;
+	if(m_xmlSaveData==0 || c_Level::m_isReplaying){
+		return 0;
+	}
+	if(!m_cachedAudioLatency){
+		c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+		m_cachedAudioLatencyVal=t_gameNode->p_GetAttribute3(String(L"audioLatency",12),0);
+		m_cachedAudioLatency=true;
+	}
+	return m_cachedAudioLatencyVal;
 }
+bool c_GameData::m_cachedAutocalibration;
+int c_GameData::m_cachedAutocalibrationVal;
 int c_GameData::m_GetAutocalibration(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetAutocalibration()",29));
-	return 0;
+	if(m_xmlSaveData==0 || c_Level::m_isReplaying){
+		return 0;
+	}
+	if(!m_cachedAutocalibration){
+		c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+		m_cachedAutocalibrationVal=t_gameNode->p_GetAttribute3(String(L"autocalibration",15),0);
+		m_cachedAutocalibration=true;
+	}
+	return m_cachedAutocalibrationVal;
 }
 int c_GameData::m_GetVideoLatency(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetVideoLatency()",26));
@@ -13703,12 +13745,18 @@ int c_GameData::m_GetNumPendingSpawnItems(){
 	return 0;
 }
 bool c_GameData::m_GetDaoustVocals(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetDaoustVocals()",26));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"daoustVocals",12),false);
 }
 bool c_GameData::m_GetNPCUnlock(String t_npcName){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetNPCUnlock(String)",29));
-	return false;
+	c_XMLDoc* t_saveData=0;
+	if(c_Level::m_isReplaying && m_replaySaveData!=0){
+		t_saveData=m_replaySaveData;
+	}else{
+		t_saveData=m_xmlSaveData;
+	}
+	c_XMLNode* t_npcNode=t_saveData->p_GetChild2(String(L"npc",3),false);
+	return t_npcNode->p_GetAttribute2(t_npcName,false);
 }
 bool c_GameData::m_HasFoughtDeadRinger(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.HasFoughtDeadRinger()",30));
@@ -13738,22 +13786,63 @@ bool c_GameData::m_HasFoughtNecrodancer(){
 void c_GameData::m_SetFoughtNecrodancer(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetFoughtNecrodancer()",31));
 }
+bool c_GameData::m_GetZone3Unlocked(int t_characterID){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	String t_attributeName=String(L"Zone3Unlocked",13);
+	if(t_characterID!=0){
+		t_attributeName=t_attributeName+String(t_characterID);
+	}
+	return t_gameNode->p_GetAttribute2(t_attributeName,false);
+}
 bool c_GameData::m_GetZone2UnlockedCurrentCharacters(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetZone2UnlockedCurrentCharacters()",44));
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		int t_1=t_player->m_characterID;
+		if(t_1==2){
+			if(m_GetZone3Unlocked(2)){
+				return true;
+			}
+		}else{
+			if(m_GetZone2Unlocked(t_player->m_characterID)){
+				return true;
+			}
+		}
+	}
 	return false;
 }
 void c_GameData::m_SetZone2UnlockedCurrentCharacters(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetZone2UnlockedCurrentCharacters()",44));
 }
 bool c_GameData::m_GetZone3UnlockedCurrentCharacters(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetZone3UnlockedCurrentCharacters()",44));
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		int t_2=t_player->m_characterID;
+		if(t_2==2){
+			if(m_GetZone2Unlocked(2)){
+				return true;
+			}
+		}else{
+			if(m_GetZone3Unlocked(t_player->m_characterID)){
+				return true;
+			}
+		}
+	}
 	return false;
 }
 void c_GameData::m_SetZone3UnlockedCurrentCharacters(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetZone3UnlockedCurrentCharacters()",44));
 }
 bool c_GameData::m_GetZone4UnlockedCurrentCharacters(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetZone4UnlockedCurrentCharacters()",44));
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		int t_3=t_player->m_characterID;
+		if(t_3==2){
+		}else{
+			if(m_GetZone3Unlocked(t_player->m_characterID)){
+				return true;
+			}
+		}
+	}
 	return false;
 }
 void c_GameData::m_SetZone4UnlockedCurrentCharacters(){
@@ -13774,43 +13863,38 @@ void c_GameData::m_EraseDiamondDealerItems(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.EraseDiamondDealerItems()",34));
 }
 bool c_GameData::m_GetEnableBossIntros(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetEnableBossIntros()",30));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"enableBossIntros",16),true);
 }
 bool c_GameData::m_LoadPlayerDataXML(bool t_forceCloud){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.LoadPlayerDataXML(Bool)",32));
 	return false;
 }
-int c_GameData::m_GetDefaultMod(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetDefaultMod()",24));
-	return 0;
+String c_GameData::m_GetDefaultMod(){
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute5(String(L"defaultMod",10),String());
 }
 bool c_GameData::m_GetShownNocturnaIntro(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetShownNocturnaIntro()",32));
-	return false;
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"shownNocturnaIntro",18),false);
 }
 void c_GameData::m_SetShownNocturnaIntro(bool t_b){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetShownNocturnaIntro(Bool)",36));
 }
 bool c_GameData::m_GetVSync(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetVSync()",19));
-	return false;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"enableVsync",11),false);
 }
 bool c_GameData::m_GetFullscreen(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetFullscreen()",24));
-	return false;
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"fullscreen",10),false);
 }
 int c_GameData::m_GetResolutionW(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetResolutionW()",25));
-	return 0;
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute3(String(L"resolutionW",11),0);
 }
 int c_GameData::m_GetResolutionH(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetResolutionH()",25));
 	return 0;
 }
 bool c_GameData::m_GetShownSeizureWarning(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetShownSeizureWarning()",33));
-	return false;
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"shownSeizureWarning",19),false);
 }
 void c_GameData::m_SetLobbyMove(bool t_m){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetLobbyMove(Bool)",27));
@@ -13876,8 +13960,8 @@ void c_GameData::m_SetTutorialComplete(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetTutorialComplete()",30));
 }
 int c_GameData::m_GetKeyBinding(int t_player,int t_index){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetKeyBinding(Int, Int)",32));
-	return 0;
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute3(String(L"keybinding",10)+String(t_player)+String(L"_",1)+String(t_index),-1);
 }
 void c_GameData::m_SetKilledEnemy(String t_enemyName,int t_type,bool t_val){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetKilledEnemy(String, Int, Bool)",42));
@@ -14685,35 +14769,51 @@ c_XMLNode* c_XMLNode::p_AddChild2(c_XMLNode* t_node,bool t_recurse){
 	}
 	return t_child;
 }
-c_XMLNode* c_XMLNode::p_GetChildAtPath(String t_path){
-	if(t_path.Length()==0){
+c_XMLNode* c_XMLNode::p_GetChild(bool t_text){
+	if(m_firstChild==0){
 		return m_doc->m_nullNode;
 	}
-	c_List* t_pathList=m_doc->m_paths->p_Get(this->m_path+String(L"/",1)+t_path);
-	if(t_pathList==0 || t_pathList->p_IsEmpty()){
+	if(t_text || m_firstChild->m_text==false){
+		return m_firstChild;
+	}
+	c_XMLNode* t_child=m_firstChild;
+	while((t_child)!=0){
+		if(t_child->m_text==false){
+			return t_child;
+		}
+		t_child=t_child->m_nextSibling;
+	}
+	return m_doc->m_nullNode;
+}
+c_XMLNode* c_XMLNode::p_GetChild2(String t_name,bool t_text){
+	if(m_firstChild==0){
 		return m_doc->m_nullNode;
 	}
-	return t_pathList->p_First();
+	t_name=t_name.ToLower();
+	c_XMLNode* t_child=m_firstChild;
+	while((t_child)!=0){
+		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false)){
+			return t_child;
+		}
+		t_child=t_child->m_nextSibling;
+	}
+	return m_doc->m_nullNode;
 }
 c_XMLAttribute* c_XMLNode::p_GetXMLAttribute(String t_id){
 	return m_attributes->p_Get(t_id.ToLower());
 }
-c_XMLNode* c_XMLNode::p_GetChildAtPath2(String t_path,String t_attributes){
-	if(t_path.Length()==0){
+c_XMLNode* c_XMLNode::p_GetChild3(String t_name,String t_attributes,bool t_text){
+	if(m_firstChild==0){
 		return m_doc->m_nullNode;
 	}
+	t_name=t_name.ToLower();
 	c_XMLAttributeQuery* t_query=(new c_XMLAttributeQuery)->m_new(t_attributes);
-	c_List* t_pathList=m_doc->m_paths->p_Get(this->m_path+String(L"/",1)+t_path);
-	if(t_pathList==0 || t_pathList->p_IsEmpty()){
-		return m_doc->m_nullNode;
-	}
-	c_Enumerator3* t_=t_pathList->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_XMLNode* t_node=t_->p_NextObject();
-		if(t_query->p_Test(t_node)){
-			return t_node;
+	c_XMLNode* t_child=m_firstChild;
+	while((t_child)!=0){
+		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false) && t_query->p_Test(t_child)){
+			return t_child;
 		}
-		t_node=t_node->m_nextSibling;
+		t_child=t_child->m_nextSibling;
 	}
 	return m_doc->m_nullNode;
 }
@@ -14757,48 +14857,32 @@ String c_XMLNode::p_GetAttribute5(String t_id,String t_defaultValue){
 	}
 	return t_attribute->m_value;
 }
-c_XMLNode* c_XMLNode::p_GetChild(bool t_text){
-	if(m_firstChild==0){
+c_XMLNode* c_XMLNode::p_GetChildAtPath(String t_path){
+	if(t_path.Length()==0){
 		return m_doc->m_nullNode;
 	}
-	if(t_text || m_firstChild->m_text==false){
-		return m_firstChild;
+	c_List* t_pathList=m_doc->m_paths->p_Get(this->m_path+String(L"/",1)+t_path);
+	if(t_pathList==0 || t_pathList->p_IsEmpty()){
+		return m_doc->m_nullNode;
 	}
-	c_XMLNode* t_child=m_firstChild;
-	while((t_child)!=0){
-		if(t_child->m_text==false){
-			return t_child;
-		}
-		t_child=t_child->m_nextSibling;
-	}
-	return m_doc->m_nullNode;
+	return t_pathList->p_First();
 }
-c_XMLNode* c_XMLNode::p_GetChild2(String t_name,bool t_text){
-	if(m_firstChild==0){
+c_XMLNode* c_XMLNode::p_GetChildAtPath2(String t_path,String t_attributes){
+	if(t_path.Length()==0){
 		return m_doc->m_nullNode;
 	}
-	t_name=t_name.ToLower();
-	c_XMLNode* t_child=m_firstChild;
-	while((t_child)!=0){
-		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false)){
-			return t_child;
-		}
-		t_child=t_child->m_nextSibling;
-	}
-	return m_doc->m_nullNode;
-}
-c_XMLNode* c_XMLNode::p_GetChild3(String t_name,String t_attributes,bool t_text){
-	if(m_firstChild==0){
-		return m_doc->m_nullNode;
-	}
-	t_name=t_name.ToLower();
 	c_XMLAttributeQuery* t_query=(new c_XMLAttributeQuery)->m_new(t_attributes);
-	c_XMLNode* t_child=m_firstChild;
-	while((t_child)!=0){
-		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false) && t_query->p_Test(t_child)){
-			return t_child;
+	c_List* t_pathList=m_doc->m_paths->p_Get(this->m_path+String(L"/",1)+t_path);
+	if(t_pathList==0 || t_pathList->p_IsEmpty()){
+		return m_doc->m_nullNode;
+	}
+	c_Enumerator3* t_=t_pathList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_XMLNode* t_node=t_->p_NextObject();
+		if(t_query->p_Test(t_node)){
+			return t_node;
 		}
-		t_child=t_child->m_nextSibling;
+		t_node=t_node->m_nextSibling;
 	}
 	return m_doc->m_nullNode;
 }
@@ -30594,6 +30678,9 @@ bool c_Player::p_Perished(){
 	return this->m_perished;
 }
 int c_Player::m_playerTempCount;
+int c_Player::m_NumEnabledCharacters(){
+	return 14;
+}
 c_Sprite* c_Player::m_hudCoins;
 c_Sprite* c_Player::m_hudDiamonds;
 int c_Player::m_heartsLoaded;
@@ -30811,10 +30898,6 @@ void c_Player::p_SetTotallyBlank(){
 	gc_assign(this->m_weapon,(new c_Weapon)->m_new(String(L"no_item",7)));
 	this->m_numBombs=0;
 	this->p_EmptyAllSlots(false);
-}
-int c_Player::m_NumEnabledCharacters(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.NumEnabledCharacters()",29));
-	return 0;
 }
 void c_Player::p_StopFalling(){
 	if(this->m_falling){
@@ -52424,8 +52507,8 @@ c_ControllerMainMenu* c_ControllerMainMenu::m_new(){
 	c_Sprite::m_scaleToFitScreen=true;
 	c_GameData::m_LoadGameDataXML(false);
 	this->m_showCloudSavePopup=c_GameData::m_LoadPlayerDataXML(true);
-	if(String(c_GameData::m_GetDefaultMod())!=String()){
-		c_GameData::m_activeMod=String(c_GameData::m_GetDefaultMod());
+	if(c_GameData::m_GetDefaultMod()!=String()){
+		c_GameData::m_activeMod=c_GameData::m_GetDefaultMod();
 		c_GameData::m_LoadGameDataXML(false);
 	}
 	if(c_GameData::m_GetShownNocturnaIntro() || !c_GameData::m_GetDLCPlayed() && c_GameData::m_GetZone2Unlocked(0) || c_GameData::m_IsCharUnlocked(1)){
@@ -52649,13 +52732,13 @@ c_TextInput* c_TextInput::m_new2(){
 void c_TextInput::mark(){
 	c_TextLabel::mark();
 }
-int bb_input_KeyHit(int t_key){
-	return bb_input_device->p_KeyHit(t_key);
-}
 c_InputValue::c_InputValue(){
 }
 void c_InputValue::mark(){
 	Object::mark();
+}
+int bb_input_KeyHit(int t_key){
+	return bb_input_device->p_KeyHit(t_key);
 }
 c_ControllerPause::c_ControllerPause(){
 }
@@ -53333,6 +53416,7 @@ int bbInit(){
 	c_Camera::m_fadeInCurrent=0;
 	c_Camera::m_fadeInCallback=0;
 	c_Level::m_forceBoss=-1;
+	c_GameData::m_xmlSaveData=0;
 	c_Stairs_callback::m_levelVal=-1;
 	c_Stairs_callback::m_zoneVal=-1;
 	c_Stairs_callback::m_playerVal=-1;
@@ -53340,6 +53424,7 @@ int bbInit(){
 	c_Item::m_itemImages=(new c_StringMap7)->m_new();
 	c_Entity::m_entityCount=0;
 	c_Familiar::m_familiarList=(new c_List10)->m_new();
+	c_GameData::m_replaySaveData=0;
 	c_Level::m_isLevelEditor=false;
 	bb_controller_game_dailyChallengeSuccessScore=-1;
 	bb_controller_game_speedrunSuccessScore=-1;
@@ -53437,6 +53522,10 @@ int bbInit(){
 	bb_necrodancergame_globalFrameCounter=0;
 	c_Audio::m_cachedSongPosition=-1;
 	c_Audio::m_necrodancerSong2Active=false;
+	c_GameData::m_cachedAudioLatency=false;
+	c_GameData::m_cachedAudioLatencyVal=0;
+	c_GameData::m_cachedAutocalibration=false;
+	c_GameData::m_cachedAutocalibrationVal=0;
 	c_Audio::m_includeVideoLatency=false;
 	c_Audio::m_songLoops=0;
 	bb_controller_game_beatData=Array<int >();
@@ -53637,8 +53726,10 @@ void gc_mark(){
 	gc_mark_q(c_SaleItem::m_randomSaleItemList);
 	gc_mark_q(c_Camera::m_fadeOutCallback);
 	gc_mark_q(c_Camera::m_fadeInCallback);
+	gc_mark_q(c_GameData::m_xmlSaveData);
 	gc_mark_q(c_Item::m_itemImages);
 	gc_mark_q(c_Familiar::m_familiarList);
+	gc_mark_q(c_GameData::m_replaySaveData);
 	gc_mark_q(c_Player::m_hudCoins);
 	gc_mark_q(c_Player::m_hudDiamonds);
 	gc_mark_q(c_Level::m_replay);

@@ -265,7 +265,7 @@ Class Player Extends MobileEntity
     End Function
 
     Function NumEnabledCharacters: Int()
-        Debug.TraceNotImplemented("Player.NumEnabledCharacters()")
+        Return 14
     End Function
 
     Function OffsetCoins: Void(tmpNum: Int)
