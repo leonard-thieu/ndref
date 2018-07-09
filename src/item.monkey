@@ -127,10 +127,11 @@ Class Item Extends Entity
         Local unlockedItemsChances := New IntStack()
         Local itemPoolCandidates := New Stack<XMLNode>()
 
+        Const jLength := item.NUM_ITEM_POOLS + 1
         For Local i := 0 Until 2
-            For Local j := 0 To 7
+            For Local j := 0 Until jLength
                 Local kMax := 1
-                If j <> 7
+                If j <> jLength - 1
                     kMax = 6
                 End If
 
@@ -139,7 +140,7 @@ Class Item Extends Entity
 
                     ' Select the pool to fill.
                     Local itemPool: List<XMLNode>
-                    If j <> 7
+                    If j <> jLength - 1
                         Select k
                             Case 0
                                 itemPool = Item.itemPoolChest[j]
@@ -197,7 +198,7 @@ Class Item Extends Entity
                             Local chanceIndexMax := math.Min(j, chancesStrs.Length() - 1)
                             Local chance := Int(chancesStrs[chanceIndexMax])
                             If chance = 0
-                                If j = 7
+                                If j = jLength - 1
                                     chance = Int(chancesStrs[0])
                                 End If
                             End If
@@ -207,7 +208,7 @@ Class Item Extends Entity
                                    Item.IsUnlocked(itemNode.GetAttribute("name", ""))
                                     unlockedItems.Push(itemNode)
 
-                                    If j = 7
+                                    If j = jLength - 1
                                         unlockedItemsChances.Push(1)
                                     Else
                                         If m > 0
@@ -271,7 +272,7 @@ Class Item Extends Entity
                     If necrodancer.DUMP_ITEM_POOLS
                         Debug.WriteLine()
                         Local itemPoolName: String
-                        If j <> 7
+                        If j <> jLength - 1
                             Select k
                                 Case 0  itemPoolName = "itemPoolChest"
                                 Case 1  itemPoolName = "itemPoolLockedChest"
@@ -285,7 +286,7 @@ Class Item Extends Entity
                         End If
 
                         If i = 1 Then itemPoolName += "2"
-                        If j <> 7 Then itemPoolName += "[" + j + "]"
+                        If j <> jLength - 1 Then itemPoolName += "[" + j + "]"
 
                         Debug.WriteLine(itemPoolName)
                         For Local itemNode := EachIn itemPool
