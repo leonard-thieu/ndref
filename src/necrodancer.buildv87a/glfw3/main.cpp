@@ -5646,8 +5646,9 @@ class c_ControllerPostGame;
 class c_ControllerBossIntro;
 class c_GUI_gameplay;
 class c_ControllerChangeLog;
-class c_ControllerInputPopup;
 class c_Enumerator30;
+class c_ControllerInputPopup;
+class c_Enumerator31;
 class c_TextInput;
 class c_InputValue;
 class c_ControllerPause;
@@ -5655,19 +5656,19 @@ class c_Doppelganger;
 class c_List37;
 class c_Node55;
 class c_HeadNode37;
-class c_Enumerator31;
+class c_Enumerator32;
 class c_List38;
 class c_Node56;
 class c_HeadNode38;
-class c_Enumerator32;
 class c_Enumerator33;
+class c_Enumerator34;
 class c_Swarm;
 class c_CrystalShards;
 class c_Minimap;
 class c_List39;
 class c_Node57;
 class c_HeadNode39;
-class c_Enumerator34;
+class c_Enumerator35;
 class c_List40;
 class c_Node58;
 class c_HeadNode40;
@@ -7538,6 +7539,7 @@ class c_Player : public c_MobileEntity{
 	static bool m_DoesAnyPlayerHaveItemOfType(String,bool);
 	static void m_PlayVOPlayer1(String);
 	bool p_IsWeaponlessCharacter();
+	static bool m_ArePrototypesEnabled();
 	bool p_IsBomblessCharacter();
 	static bool m_DoesPlayer1HaveItemOfType(String);
 	bool p_IsSlotCursed(String);
@@ -7869,6 +7871,16 @@ class c_Item : public c_Entity{
 	void p_Die();
 	static c_Item* m_GetPickupAt(int,int,c_Item*);
 	static int m_RandomHardModeHelperItem();
+	static c_List7* m_hephItems1;
+	static c_List7* m_hephItems2;
+	static c_List7* m_hephItems3;
+	static c_List7* m_merlinItems1;
+	static c_List7* m_merlinItems2;
+	static c_List7* m_merlinItems3;
+	static c_List7* m_diamondDealerItems1;
+	static c_List7* m_diamondDealerItems2;
+	static c_List7* m_diamondDealerItems3;
+	static void m_FilterDisabledItems(c_List7*);
 	static void m_InitAll();
 	String p_PickupFail(c_Player*);
 	static void m_ClearAllSingleChoiceItems(c_Item*);
@@ -8194,7 +8206,9 @@ class c_List7 : public Object{
 	int p_Clear();
 	bool p_Equals6(String,String);
 	bool p_Contains4(String);
+	c_Enumerator30* p_ObjectEnumerator();
 	int p_RemoveEach4(String);
+	void p_Remove2(String);
 	void mark();
 };
 class c_Node12 : public Object{
@@ -9397,7 +9411,7 @@ class c_List16 : public Object{
 	c_Node31* p_AddLast16(c_ParticleSystem*);
 	c_List16* m_new2(Array<c_ParticleSystem* >);
 	int p_Clear();
-	c_Enumerator33* p_ObjectEnumerator();
+	c_Enumerator34* p_ObjectEnumerator();
 	bool p_Equals13(c_ParticleSystem*,c_ParticleSystem*);
 	int p_RemoveEach8(c_ParticleSystem*);
 	void p_Remove4(c_ParticleSystem*);
@@ -11122,7 +11136,7 @@ class c_List27 : public Object{
 	c_List27* m_new2(Array<c_SaleItem* >);
 	bool p_Equals19(c_SaleItem*,c_SaleItem*);
 	int p_RemoveEach14(c_SaleItem*);
-	c_Enumerator30* p_ObjectEnumerator();
+	c_Enumerator31* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node44 : public Object{
@@ -12092,6 +12106,17 @@ class c_ControllerChangeLog : public c_Controller{
 	void p_Update();
 	void mark();
 };
+class c_Enumerator30 : public Object{
+	public:
+	c_List7* m__list;
+	c_Node12* m__curr;
+	c_Enumerator30();
+	c_Enumerator30* m_new(c_List7*);
+	c_Enumerator30* m_new2();
+	bool p_HasNext();
+	String p_NextObject();
+	void mark();
+};
 class c_ControllerInputPopup : public c_Controller{
 	public:
 	String m_result;
@@ -12114,13 +12139,13 @@ class c_ControllerInputPopup : public c_Controller{
 	void mark();
 };
 extern bool bb_controller_game_incrementFixedBeatNum;
-class c_Enumerator30 : public Object{
+class c_Enumerator31 : public Object{
 	public:
 	c_List27* m__list;
 	c_Node44* m__curr;
-	c_Enumerator30();
-	c_Enumerator30* m_new(c_List27*);
-	c_Enumerator30* m_new2();
+	c_Enumerator31();
+	c_Enumerator31* m_new(c_List27*);
+	c_Enumerator31* m_new2();
 	bool p_HasNext();
 	c_SaleItem* p_NextObject();
 	void mark();
@@ -12164,7 +12189,7 @@ class c_List37 : public Object{
 	c_List37* m_new();
 	c_Node55* p_AddLast37(c_Doppelganger*);
 	c_List37* m_new2(Array<c_Doppelganger* >);
-	c_Enumerator31* p_ObjectEnumerator();
+	c_Enumerator32* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node55 : public Object{
@@ -12183,13 +12208,13 @@ class c_HeadNode37 : public c_Node55{
 	c_HeadNode37* m_new();
 	void mark();
 };
-class c_Enumerator31 : public Object{
+class c_Enumerator32 : public Object{
 	public:
 	c_List37* m__list;
 	c_Node55* m__curr;
-	c_Enumerator31();
-	c_Enumerator31* m_new(c_List37*);
-	c_Enumerator31* m_new2();
+	c_Enumerator32();
+	c_Enumerator32* m_new(c_List37*);
+	c_Enumerator32* m_new2();
 	bool p_HasNext();
 	c_Doppelganger* p_NextObject();
 	void mark();
@@ -12201,7 +12226,7 @@ class c_List38 : public Object{
 	c_List38* m_new();
 	c_Node56* p_AddLast38(c_Flyaway*);
 	c_List38* m_new2(Array<c_Flyaway* >);
-	c_Enumerator32* p_ObjectEnumerator();
+	c_Enumerator33* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node56 : public Object{
@@ -12220,24 +12245,24 @@ class c_HeadNode38 : public c_Node56{
 	c_HeadNode38* m_new();
 	void mark();
 };
-class c_Enumerator32 : public Object{
+class c_Enumerator33 : public Object{
 	public:
 	c_List38* m__list;
 	c_Node56* m__curr;
-	c_Enumerator32();
-	c_Enumerator32* m_new(c_List38*);
-	c_Enumerator32* m_new2();
+	c_Enumerator33();
+	c_Enumerator33* m_new(c_List38*);
+	c_Enumerator33* m_new2();
 	bool p_HasNext();
 	c_Flyaway* p_NextObject();
 	void mark();
 };
-class c_Enumerator33 : public Object{
+class c_Enumerator34 : public Object{
 	public:
 	c_List16* m__list;
 	c_Node31* m__curr;
-	c_Enumerator33();
-	c_Enumerator33* m_new(c_List16*);
-	c_Enumerator33* m_new2();
+	c_Enumerator34();
+	c_Enumerator34* m_new(c_List16*);
+	c_Enumerator34* m_new2();
 	bool p_HasNext();
 	c_ParticleSystem* p_NextObject();
 	void mark();
@@ -12274,7 +12299,7 @@ class c_List39 : public Object{
 	c_List39* m_new();
 	c_Node57* p_AddLast39(c_Player*);
 	c_List39* m_new2(Array<c_Player* >);
-	c_Enumerator34* p_ObjectEnumerator();
+	c_Enumerator35* p_ObjectEnumerator();
 	bool p_IsEmpty();
 	void mark();
 };
@@ -12294,13 +12319,13 @@ class c_HeadNode39 : public c_Node57{
 	c_HeadNode39* m_new();
 	void mark();
 };
-class c_Enumerator34 : public Object{
+class c_Enumerator35 : public Object{
 	public:
 	c_List39* m__list;
 	c_Node57* m__curr;
-	c_Enumerator34();
-	c_Enumerator34* m_new(c_List39*);
-	c_Enumerator34* m_new2();
+	c_Enumerator35();
+	c_Enumerator35* m_new(c_List39*);
+	c_Enumerator35* m_new2();
 	bool p_HasNext();
 	c_Player* p_NextObject();
 	void mark();
@@ -31966,6 +31991,9 @@ bool c_Player::p_IsWeaponlessCharacter(){
 	}
 	return false;
 }
+bool c_Player::m_ArePrototypesEnabled(){
+	return true && bb_controller_game_debugEnablePrototypes;
+}
 bool c_Player::p_IsBomblessCharacter(){
 	int t_10=this->m_characterID;
 	if(t_10==4){
@@ -33293,14 +33321,14 @@ void c_ParticleSystem::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ParticleSystem.Update()",23));
 }
 void c_ParticleSystem::m_UpdateAll(){
-	c_Enumerator33* t_=m_systems->p_ObjectEnumerator();
+	c_Enumerator34* t_=m_systems->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_ParticleSystem* t_system=t_->p_NextObject();
 		if(t_system->m_visible){
 			t_system->p_Update();
 		}
 	}
-	c_Enumerator33* t_2=m_systems->p_ObjectEnumerator();
+	c_Enumerator34* t_2=m_systems->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_ParticleSystem* t_system2=t_2->p_NextObject();
 		if(t_system2->m_visible && !t_system2->m_active){
@@ -34209,7 +34237,7 @@ bool c_Item::m_IsValidItemForCurrentChars2(String t_name){
 	return false;
 }
 bool c_Item::m_IsDisabled(String t_item){
-	if(false || !bb_controller_game_debugEnablePrototypes){
+	if(!c_Player::m_ArePrototypesEnabled()){
 		String t_7=t_item;
 		if(t_7==String(L"familiar_shield",15)){
 			return true;
@@ -34226,7 +34254,7 @@ void c_Item::m_CreateItemPools(){
 	c_IntStack* t_unlockedItemsChances=(new c_IntStack)->m_new2();
 	c_Stack5* t_itemPoolCandidates=(new c_Stack5)->m_new();
 	for(int t_i=0;t_i<2;t_i=t_i+1){
-		for(int t_j=0;t_j<=7;t_j=t_j+1){
+		for(int t_j=0;t_j<8;t_j=t_j+1){
 			int t_kMax=1;
 			if(t_j!=7){
 				t_kMax=6;
@@ -34447,8 +34475,216 @@ int c_Item::m_RandomHardModeHelperItem(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.RandomHardModeHelperItem()",31));
 	return 0;
 }
+c_List7* c_Item::m_hephItems1;
+c_List7* c_Item::m_hephItems2;
+c_List7* c_Item::m_hephItems3;
+c_List7* c_Item::m_merlinItems1;
+c_List7* c_Item::m_merlinItems2;
+c_List7* c_Item::m_merlinItems3;
+c_List7* c_Item::m_diamondDealerItems1;
+c_List7* c_Item::m_diamondDealerItems2;
+c_List7* c_Item::m_diamondDealerItems3;
+void c_Item::m_FilterDisabledItems(c_List7* t_list){
+	c_Enumerator30* t_=t_list->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		String t_itemName=t_->p_NextObject();
+		if(m_IsDisabled(t_itemName)){
+			t_list->p_Remove2(t_itemName);
+		}
+	}
+}
 void c_Item::m_InitAll(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.InitAll()",14));
+	for(int t_i=0;t_i<7;t_i=t_i+1){
+		gc_assign(m_itemPoolChest[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolLockedChest[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolAnyChest[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolShop[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolLockedShop[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolUrn[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolChest2[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolLockedChest2[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolAnyChest2[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolShop2[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolLockedShop2[t_i],(new c_List)->m_new());
+		gc_assign(m_itemPoolUrn2[t_i],(new c_List)->m_new());
+	}
+	m_hephItems1->p_AddLast7(String(L"armor_chainmail",15));
+	m_hephItems1->p_AddLast7(String(L"armor_platemail",15));
+	m_hephItems1->p_AddLast7(String(L"armor_obsidian",14));
+	m_hephItems1->p_AddLast7(String(L"armor_gi",8));
+	m_hephItems1->p_AddLast7(String(L"armor_glass",11));
+	m_hephItems1->p_AddLast7(String(L"head_helm",9));
+	m_hephItems1->p_AddLast7(String(L"feet_greaves",12));
+	m_hephItems1->p_AddLast7(String(L"armor_heavyplate",16));
+	m_hephItems1->p_AddLast7(String(L"head_blast_helm",15));
+	m_hephItems1->p_AddLast7(String(L"head_sunglasses",15));
+	m_hephItems1->p_AddLast7(String(L"head_glass_jaw",14));
+	m_hephItems1->p_AddLast7(String(L"head_spiked_ears",16));
+	m_hephItems1->p_AddLast7(String(L"armor_quartz",12));
+	m_hephItems1->p_AddLast7(String(L"armor_heavyglass",16));
+	m_hephItems2->p_AddLast7(String(L"food_2",6));
+	m_hephItems2->p_AddLast7(String(L"torch_2",7));
+	m_hephItems2->p_AddLast7(String(L"holster",7));
+	m_hephItems2->p_AddLast7(String(L"food_3",6));
+	m_hephItems2->p_AddLast7(String(L"pickaxe",7));
+	m_hephItems2->p_AddLast7(String(L"head_crown_of_thorns",20));
+	m_hephItems2->p_AddLast7(String(L"torch_obsidian",14));
+	m_hephItems2->p_AddLast7(String(L"war_drum",8));
+	m_hephItems2->p_AddLast7(String(L"torch_3",7));
+	m_hephItems2->p_AddLast7(String(L"bag_holding",11));
+	m_hephItems2->p_AddLast7(String(L"shovel_obsidian",15));
+	m_hephItems2->p_AddLast7(String(L"blood_drum",10));
+	m_hephItems2->p_AddLast7(String(L"torch_infernal",14));
+	m_hephItems2->p_AddLast7(String(L"food_4",6));
+	m_hephItems2->p_AddLast7(String(L"shovel_glass",12));
+	m_hephItems2->p_AddLast7(String(L"holy_water",10));
+	m_hephItems2->p_AddLast7(String(L"torch_glass",11));
+	m_hephItems2->p_AddLast7(String(L"heart_transplant",16));
+	m_hephItems2->p_AddLast7(String(L"torch_foresight",15));
+	m_hephItems2->p_AddLast7(String(L"food_carrot",11));
+	m_hephItems2->p_AddLast7(String(L"food_cookies",12));
+	m_hephItems2->p_AddLast7(String(L"torch_strength",14));
+	m_hephItems2->p_AddLast7(String(L"shovel_courage",14));
+	m_hephItems2->p_AddLast7(String(L"shovel_strength",15));
+	m_hephItems2->p_AddLast7(String(L"cursed_potion",13));
+	m_hephItems2->p_AddLast7(String(L"familiar_rat",12));
+	m_hephItems2->p_AddLast7(String(L"familiar_dove",13));
+	m_hephItems2->p_AddLast7(String(L"throwing_stars",14));
+	m_hephItems2->p_AddLast7(String(L"familiar_ice_spirit",19));
+	m_hephItems2->p_AddLast7(String(L"torch_walls",11));
+	m_hephItems2->p_AddLast7(String(L"familiar_shopkeeper",19));
+	m_hephItems2->p_AddLast7(String(L"familiar_shield",15));
+	m_hephItems2->p_AddLast7(String(L"shovel_battle",13));
+	m_hephItems3->p_AddLast7(String(L"weapon_spear",12));
+	m_hephItems3->p_AddLast7(String(L"weapon_whip",11));
+	m_hephItems3->p_AddLast7(String(L"weapon_rapier",13));
+	m_hephItems3->p_AddLast7(String(L"weapon_longsword",16));
+	m_hephItems3->p_AddLast7(String(L"weapon_flail",12));
+	m_hephItems3->p_AddLast7(String(L"weapon_cat",10));
+	m_hephItems3->p_AddLast7(String(L"shovel_blood",12));
+	m_hephItems3->p_AddLast7(String(L"weapon_rifle",12));
+	m_hephItems3->p_AddLast7(String(L"weapon_axe",10));
+	m_hephItems3->p_AddLast7(String(L"weapon_harp",11));
+	m_hephItems3->p_AddLast7(String(L"weapon_warhammer",16));
+	m_hephItems3->p_AddLast7(String(L"weapon_staff",12));
+	m_merlinItems1->p_AddLast7(String(L"spell_freeze_enemies",20));
+	m_merlinItems1->p_AddLast7(String(L"spell_heal",10));
+	m_merlinItems1->p_AddLast7(String(L"spell_shield",12));
+	m_merlinItems1->p_AddLast7(String(L"spell_bomb",10));
+	m_merlinItems1->p_AddLast7(String(L"spell_transmute",15));
+	m_merlinItems2->p_AddLast7(String(L"ring_luck",9));
+	m_merlinItems2->p_AddLast7(String(L"ring_gold",9));
+	m_merlinItems2->p_AddLast7(String(L"ring_peace",10));
+	m_merlinItems2->p_AddLast7(String(L"ring_might",10));
+	m_merlinItems2->p_AddLast7(String(L"ring_courage",12));
+	m_merlinItems2->p_AddLast7(String(L"ring_war",8));
+	m_merlinItems2->p_AddLast7(String(L"ring_mana",9));
+	m_merlinItems2->p_AddLast7(String(L"ring_shadows",12));
+	m_merlinItems2->p_AddLast7(String(L"ring_regeneration",17));
+	m_merlinItems2->p_AddLast7(String(L"ring_protection",15));
+	m_merlinItems2->p_AddLast7(String(L"ring_shielding",14));
+	m_merlinItems2->p_AddLast7(String(L"ring_pain",9));
+	m_merlinItems2->p_AddLast7(String(L"ring_frost",10));
+	m_merlinItems2->p_AddLast7(String(L"ring_piercing",13));
+	m_merlinItems3->p_AddLast7(String(L"scroll_riches",13));
+	m_merlinItems3->p_AddLast7(String(L"scroll_enchant_weapon",21));
+	m_merlinItems3->p_AddLast7(String(L"scroll_transmute",16));
+	m_merlinItems3->p_AddLast7(String(L"scroll_fear",11));
+	m_merlinItems3->p_AddLast7(String(L"scroll_need",11));
+	m_merlinItems3->p_AddLast7(String(L"scroll_earthquake",17));
+	m_merlinItems3->p_AddLast7(String(L"feet_boots_pain",15));
+	m_merlinItems3->p_AddLast7(String(L"tome_earth",10));
+	m_merlinItems3->p_AddLast7(String(L"tome_fireball",13));
+	m_merlinItems3->p_AddLast7(String(L"tome_freeze",11));
+	m_merlinItems3->p_AddLast7(String(L"tome_shield",11));
+	m_merlinItems3->p_AddLast7(String(L"tome_transmute",14));
+	m_merlinItems3->p_AddLast7(String(L"tome_pulse",10));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_spear",12));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_spear",12));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_spear",12));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_broadsword",17));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_broadsword",17));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_rapier",13));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_rapier",13));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_titanium_dagger",22));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_obsidian_dagger",22));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_blood_dagger",19));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_glass_dagger",19));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_golden_spear",19));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_bow",10));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_titanium_bow",19));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_crossbow",15));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_obsidian_crossbow",24));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_longsword",16));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_glass_longsword",22));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_cat",10));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_golden_cat",17));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_flail",12));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_blood_flail",18));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_obsidian_rapier",22));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_titanium_broadsword",26));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_whip",11));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_golden_whip",18));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_axe",10));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_harp",11));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_warhammer",16));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_staff",12));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_cutlass",14));
+	m_diamondDealerItems1->p_AddLast7(String(L"weapon_titanium_cutlass",23));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_1",6));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_1",6));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_2",6));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_2",6));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_3",6));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_4",6));
+	m_diamondDealerItems2->p_AddLast7(String(L"holy_water",10));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_carrot",11));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_carrot",11));
+	m_diamondDealerItems2->p_AddLast7(String(L"food_cookies",12));
+	m_diamondDealerItems2->p_AddLast7(String(L"cursed_potion",13));
+	m_diamondDealerItems2->p_AddLast7(String(L"throwing_stars",14));
+	m_diamondDealerItems3->p_AddLast7(String(L"armor_leather",13));
+	m_diamondDealerItems3->p_AddLast7(String(L"armor_platemail",15));
+	m_diamondDealerItems3->p_AddLast7(String(L"armor_gi",8));
+	m_diamondDealerItems3->p_AddLast7(String(L"feet_boots_winged",17));
+	m_diamondDealerItems3->p_AddLast7(String(L"feet_boots_explorers",20));
+	m_diamondDealerItems3->p_AddLast7(String(L"feet_boots_leaping",18));
+	m_diamondDealerItems3->p_AddLast7(String(L"war_drum",8));
+	m_diamondDealerItems3->p_AddLast7(String(L"head_miners_cap",15));
+	m_diamondDealerItems3->p_AddLast7(String(L"head_monocle",12));
+	m_diamondDealerItems3->p_AddLast7(String(L"misc_compass",12));
+	m_diamondDealerItems3->p_AddLast7(String(L"ring_courage",12));
+	m_diamondDealerItems3->p_AddLast7(String(L"ring_luck",9));
+	m_diamondDealerItems3->p_AddLast7(String(L"ring_war",8));
+	m_diamondDealerItems3->p_AddLast7(String(L"ring_peace",10));
+	m_diamondDealerItems3->p_AddLast7(String(L"scroll_riches",13));
+	m_diamondDealerItems3->p_AddLast7(String(L"scroll_shield",13));
+	m_diamondDealerItems3->p_AddLast7(String(L"scroll_need",11));
+	m_diamondDealerItems3->p_AddLast7(String(L"shovel_titanium",15));
+	m_diamondDealerItems3->p_AddLast7(String(L"pickaxe",7));
+	m_diamondDealerItems3->p_AddLast7(String(L"spell_fireball",14));
+	m_diamondDealerItems3->p_AddLast7(String(L"spell_transmute",15));
+	m_diamondDealerItems3->p_AddLast7(String(L"torch_2",7));
+	m_diamondDealerItems3->p_AddLast7(String(L"torch_infernal",14));
+	m_diamondDealerItems3->p_AddLast7(String(L"familiar_rat",12));
+	m_diamondDealerItems3->p_AddLast7(String(L"familiar_dove",13));
+	m_diamondDealerItems3->p_AddLast7(String(L"feet_glass_slippers",19));
+	m_diamondDealerItems3->p_AddLast7(String(L"spell_earth",11));
+	m_diamondDealerItems3->p_AddLast7(String(L"familiar_ice_spirit",19));
+	m_diamondDealerItems3->p_AddLast7(String(L"familiar_shopkeeper",19));
+	m_diamondDealerItems3->p_AddLast7(String(L"familiar_shield",15));
+	m_diamondDealerItems3->p_AddLast7(String(L"ring_piercing",13));
+	m_diamondDealerItems3->p_AddLast7(String(L"shovel_battle",13));
+	m_diamondDealerItems3->p_AddLast7(String(L"spell_pulse",11));
+	m_FilterDisabledItems(m_hephItems1);
+	m_FilterDisabledItems(m_hephItems2);
+	m_FilterDisabledItems(m_hephItems3);
+	m_FilterDisabledItems(m_merlinItems1);
+	m_FilterDisabledItems(m_merlinItems2);
+	m_FilterDisabledItems(m_merlinItems3);
+	m_FilterDisabledItems(m_diamondDealerItems1);
+	m_FilterDisabledItems(m_diamondDealerItems2);
+	m_FilterDisabledItems(m_diamondDealerItems3);
 }
 String c_Item::p_PickupFail(c_Player* t_player){
 	c_Audio::m_PlayGameSound(String(L"error",5),2,FLOAT(1.0));
@@ -34742,7 +34978,7 @@ Float c_SaleItem::p_GetCost(){
 }
 int c_SaleItem::m_GetMinCost(){
 	int t_minCost=999999;
-	c_Enumerator30* t_=m_currentSaleItems->p_ObjectEnumerator();
+	c_Enumerator31* t_=m_currentSaleItems->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_SaleItem* t_currentSaleItem=t_->p_NextObject();
 		Float t_cost=t_currentSaleItem->p_GetCost();
@@ -39194,6 +39430,9 @@ bool c_List7::p_Contains4(String t_value){
 	}
 	return false;
 }
+c_Enumerator30* c_List7::p_ObjectEnumerator(){
+	return (new c_Enumerator30)->m_new(this);
+}
 int c_List7::p_RemoveEach4(String t_value){
 	c_Node12* t_node=m__head->m__succ;
 	while(t_node!=m__head){
@@ -39204,6 +39443,9 @@ int c_List7::p_RemoveEach4(String t_value){
 		t_node=t_succ;
 	}
 	return 0;
+}
+void c_List7::p_Remove2(String t_value){
+	p_RemoveEach4(t_value);
 }
 void c_List7::mark(){
 	Object::mark();
@@ -39318,7 +39560,7 @@ void c_Flyaway::m_UpdateAll(){
 	if(m_temporarilyDisableNewFlyaways>0){
 		m_temporarilyDisableNewFlyaways-=1;
 	}
-	c_Enumerator32* t_=m_activeFlyaways->p_ObjectEnumerator();
+	c_Enumerator33* t_=m_activeFlyaways->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Flyaway* t_flyaway=t_->p_NextObject();
 		t_flyaway->p_Update();
@@ -43583,7 +43825,7 @@ void c_Tile::p_Update(){
 	}
 	if(c_Level::m_isNoReturnMode){
 		c_List39* t_playersAt=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
-		c_Enumerator34* t_=t_playersAt->p_ObjectEnumerator();
+		c_Enumerator35* t_=t_playersAt->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_Player* t_player=t_->p_NextObject();
 			if(this->m_playerWasOnTileAtBeat==c_Audio::m_GetClosestBeatNum(true)-1 && !this->m_playerWasOnTileLastFrame && ((this->m_playerWasOnTileLastFrame)?1:0)>0 && c_Shrine::m_noReturnShrineActive){
@@ -43600,7 +43842,7 @@ void c_Tile::p_Update(){
 	}
 	if(this->m_trigger!=0){
 		c_List39* t_playersAt2=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
-		c_Enumerator34* t_2=t_playersAt2->p_ObjectEnumerator();
+		c_Enumerator35* t_2=t_playersAt2->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
 			c_Player* t_player2=t_2->p_NextObject();
 			if(t_player2!=this->m_triggerPlayer){
@@ -44815,8 +45057,8 @@ int c_List16::p_Clear(){
 	gc_assign(m__head->m__pred,m__head);
 	return 0;
 }
-c_Enumerator33* c_List16::p_ObjectEnumerator(){
-	return (new c_Enumerator33)->m_new(this);
+c_Enumerator34* c_List16::p_ObjectEnumerator(){
+	return (new c_Enumerator34)->m_new(this);
 }
 bool c_List16::p_Equals13(c_ParticleSystem* t_lhs,c_ParticleSystem* t_rhs){
 	return t_lhs==t_rhs;
@@ -50502,8 +50744,8 @@ int c_List27::p_RemoveEach14(c_SaleItem* t_value){
 	}
 	return 0;
 }
-c_Enumerator30* c_List27::p_ObjectEnumerator(){
-	return (new c_Enumerator30)->m_new(this);
+c_Enumerator31* c_List27::p_ObjectEnumerator(){
+	return (new c_Enumerator31)->m_new(this);
 }
 void c_List27::mark(){
 	Object::mark();
@@ -53107,6 +53349,34 @@ void c_ControllerChangeLog::p_Update(){
 void c_ControllerChangeLog::mark(){
 	c_Controller::mark();
 }
+c_Enumerator30::c_Enumerator30(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator30* c_Enumerator30::m_new(c_List7* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator30* c_Enumerator30::m_new2(){
+	return this;
+}
+bool c_Enumerator30::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+String c_Enumerator30::p_NextObject(){
+	String t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator30::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
 c_ControllerInputPopup::c_ControllerInputPopup(){
 	m_result=String();
 	m_cGame=0;
@@ -53165,30 +53435,30 @@ void c_ControllerInputPopup::mark(){
 	gc_mark_q(m_popupText2);
 }
 bool bb_controller_game_incrementFixedBeatNum;
-c_Enumerator30::c_Enumerator30(){
+c_Enumerator31::c_Enumerator31(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator30* c_Enumerator30::m_new(c_List27* t_list){
+c_Enumerator31* c_Enumerator31::m_new(c_List27* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator30* c_Enumerator30::m_new2(){
+c_Enumerator31* c_Enumerator31::m_new2(){
 	return this;
 }
-bool c_Enumerator30::p_HasNext(){
+bool c_Enumerator31::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_SaleItem* c_Enumerator30::p_NextObject(){
+c_SaleItem* c_Enumerator31::p_NextObject(){
 	c_SaleItem* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator30::mark(){
+void c_Enumerator31::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -53248,7 +53518,7 @@ void c_Doppelganger::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Doppelganger.Update()",21));
 }
 void c_Doppelganger::m_UpdateAll(){
-	c_Enumerator31* t_=m_doppelgangers->p_ObjectEnumerator();
+	c_Enumerator32* t_=m_doppelgangers->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Doppelganger* t_doppelganger=t_->p_NextObject();
 		t_doppelganger->p_Update();
@@ -53276,8 +53546,8 @@ c_List37* c_List37::m_new2(Array<c_Doppelganger* > t_data){
 	}
 	return this;
 }
-c_Enumerator31* c_List37::p_ObjectEnumerator(){
-	return (new c_Enumerator31)->m_new(this);
+c_Enumerator32* c_List37::p_ObjectEnumerator(){
+	return (new c_Enumerator32)->m_new(this);
 }
 void c_List37::mark(){
 	Object::mark();
@@ -53316,30 +53586,30 @@ c_HeadNode37* c_HeadNode37::m_new(){
 void c_HeadNode37::mark(){
 	c_Node55::mark();
 }
-c_Enumerator31::c_Enumerator31(){
+c_Enumerator32::c_Enumerator32(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator31* c_Enumerator31::m_new(c_List37* t_list){
+c_Enumerator32* c_Enumerator32::m_new(c_List37* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator31* c_Enumerator31::m_new2(){
+c_Enumerator32* c_Enumerator32::m_new2(){
 	return this;
 }
-bool c_Enumerator31::p_HasNext(){
+bool c_Enumerator32::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Doppelganger* c_Enumerator31::p_NextObject(){
+c_Doppelganger* c_Enumerator32::p_NextObject(){
 	c_Doppelganger* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator31::mark(){
+void c_Enumerator32::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -53363,8 +53633,8 @@ c_List38* c_List38::m_new2(Array<c_Flyaway* > t_data){
 	}
 	return this;
 }
-c_Enumerator32* c_List38::p_ObjectEnumerator(){
-	return (new c_Enumerator32)->m_new(this);
+c_Enumerator33* c_List38::p_ObjectEnumerator(){
+	return (new c_Enumerator33)->m_new(this);
 }
 void c_List38::mark(){
 	Object::mark();
@@ -53403,39 +53673,11 @@ c_HeadNode38* c_HeadNode38::m_new(){
 void c_HeadNode38::mark(){
 	c_Node56::mark();
 }
-c_Enumerator32::c_Enumerator32(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator32* c_Enumerator32::m_new(c_List38* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator32* c_Enumerator32::m_new2(){
-	return this;
-}
-bool c_Enumerator32::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_Flyaway* c_Enumerator32::p_NextObject(){
-	c_Flyaway* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator32::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
 c_Enumerator33::c_Enumerator33(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator33* c_Enumerator33::m_new(c_List16* t_list){
+c_Enumerator33* c_Enumerator33::m_new(c_List38* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
@@ -53449,12 +53691,40 @@ bool c_Enumerator33::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_ParticleSystem* c_Enumerator33::p_NextObject(){
-	c_ParticleSystem* t_data=m__curr->m__data;
+c_Flyaway* c_Enumerator33::p_NextObject(){
+	c_Flyaway* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
 void c_Enumerator33::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_Enumerator34::c_Enumerator34(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator34* c_Enumerator34::m_new(c_List16* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator34* c_Enumerator34::m_new2(){
+	return this;
+}
+bool c_Enumerator34::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_ParticleSystem* c_Enumerator34::p_NextObject(){
+	c_ParticleSystem* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator34::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -53527,8 +53797,8 @@ c_List39* c_List39::m_new2(Array<c_Player* > t_data){
 	}
 	return this;
 }
-c_Enumerator34* c_List39::p_ObjectEnumerator(){
-	return (new c_Enumerator34)->m_new(this);
+c_Enumerator35* c_List39::p_ObjectEnumerator(){
+	return (new c_Enumerator35)->m_new(this);
 }
 bool c_List39::p_IsEmpty(){
 	return m__head->m__succ==m__head;
@@ -53570,30 +53840,30 @@ c_HeadNode39* c_HeadNode39::m_new(){
 void c_HeadNode39::mark(){
 	c_Node57::mark();
 }
-c_Enumerator34::c_Enumerator34(){
+c_Enumerator35::c_Enumerator35(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator34* c_Enumerator34::m_new(c_List39* t_list){
+c_Enumerator35* c_Enumerator35::m_new(c_List39* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator34* c_Enumerator34::m_new2(){
+c_Enumerator35* c_Enumerator35::m_new2(){
 	return this;
 }
-bool c_Enumerator34::p_HasNext(){
+bool c_Enumerator35::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Player* c_Enumerator34::p_NextObject(){
+c_Player* c_Enumerator35::p_NextObject(){
 	c_Player* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator34::mark(){
+void c_Enumerator35::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -54036,30 +54306,18 @@ int bbInit(){
 	c_Wraith::m_theCursedWraith=0;
 	c_Item::m_itemPoolRandom=(new c_List)->m_new();
 	c_Item::m_itemPoolRandom2=(new c_List)->m_new();
-	c_List* t_[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolChest=Array<c_List* >(t_,7);
-	c_List* t_2[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolChest2=Array<c_List* >(t_2,7);
-	c_List* t_3[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolLockedChest=Array<c_List* >(t_3,7);
-	c_List* t_4[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolLockedChest2=Array<c_List* >(t_4,7);
-	c_List* t_5[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolAnyChest=Array<c_List* >(t_5,7);
-	c_List* t_6[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolAnyChest2=Array<c_List* >(t_6,7);
-	c_List* t_7[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolShop=Array<c_List* >(t_7,7);
-	c_List* t_8[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolShop2=Array<c_List* >(t_8,7);
-	c_List* t_9[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolLockedShop=Array<c_List* >(t_9,7);
-	c_List* t_10[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolLockedShop2=Array<c_List* >(t_10,7);
-	c_List* t_11[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolUrn=Array<c_List* >(t_11,7);
-	c_List* t_12[]={(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new(),(new c_List)->m_new()};
-	c_Item::m_itemPoolUrn2=Array<c_List* >(t_12,7);
+	c_Item::m_itemPoolChest=Array<c_List* >(7);
+	c_Item::m_itemPoolChest2=Array<c_List* >(7);
+	c_Item::m_itemPoolLockedChest=Array<c_List* >(7);
+	c_Item::m_itemPoolLockedChest2=Array<c_List* >(7);
+	c_Item::m_itemPoolAnyChest=Array<c_List* >(7);
+	c_Item::m_itemPoolAnyChest2=Array<c_List* >(7);
+	c_Item::m_itemPoolShop=Array<c_List* >(7);
+	c_Item::m_itemPoolShop2=Array<c_List* >(7);
+	c_Item::m_itemPoolLockedShop=Array<c_List* >(7);
+	c_Item::m_itemPoolLockedShop2=Array<c_List* >(7);
+	c_Item::m_itemPoolUrn=Array<c_List* >(7);
+	c_Item::m_itemPoolUrn2=Array<c_List* >(7);
 	c_ParticleSystemData::m_MOLE_DIG=0;
 	c_Necrodancer::m_necrodancer=0;
 	c_Nightmare::m_nightmare=0;
@@ -54128,6 +54386,15 @@ int bbInit(){
 	c_Spells::m_pulseAnim=(new c_Stack2)->m_new();
 	c_ControllerIntro::m_quitIntro=false;
 	c_NecroDancerGame::m_textFont=0;
+	c_Item::m_hephItems1=(new c_List7)->m_new();
+	c_Item::m_hephItems2=(new c_List7)->m_new();
+	c_Item::m_hephItems3=(new c_List7)->m_new();
+	c_Item::m_merlinItems1=(new c_List7)->m_new();
+	c_Item::m_merlinItems2=(new c_List7)->m_new();
+	c_Item::m_merlinItems3=(new c_List7)->m_new();
+	c_Item::m_diamondDealerItems1=(new c_List7)->m_new();
+	c_Item::m_diamondDealerItems2=(new c_List7)->m_new();
+	c_Item::m_diamondDealerItems3=(new c_List7)->m_new();
 	c_Tile::m_anyPlayerHaveMonocleCached=false;
 	c_Tile::m_anyPlayerHaveRingOfShadowsCached=false;
 	c_Level::m_lastTileCount=-1;
@@ -54310,6 +54577,15 @@ void gc_mark(){
 	gc_mark_q(c_Spells::m_pulseInWorld);
 	gc_mark_q(c_Spells::m_pulseAnim);
 	gc_mark_q(c_NecroDancerGame::m_textFont);
+	gc_mark_q(c_Item::m_hephItems1);
+	gc_mark_q(c_Item::m_hephItems2);
+	gc_mark_q(c_Item::m_hephItems3);
+	gc_mark_q(c_Item::m_merlinItems1);
+	gc_mark_q(c_Item::m_merlinItems2);
+	gc_mark_q(c_Item::m_merlinItems3);
+	gc_mark_q(c_Item::m_diamondDealerItems1);
+	gc_mark_q(c_Item::m_diamondDealerItems2);
+	gc_mark_q(c_Item::m_diamondDealerItems3);
 	gc_mark_q(c_Level::m_tileObstructionList);
 	gc_mark_q(c_ParticleSystemData::m_WATER_SPLASH_IN);
 	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_IN);

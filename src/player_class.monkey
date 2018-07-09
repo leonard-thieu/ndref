@@ -27,6 +27,7 @@ Import gamedata
 Import item
 Import logger
 Import mobileentity
+Import necrodancer
 Import necrodancergame
 Import player_health
 Import point
@@ -103,6 +104,11 @@ Class Player Extends MobileEntity
         End For
 
         Return False
+    End Function
+
+    Function ArePrototypesEnabled: Bool()
+        Return necrodancer.DEBUG_BUILD And
+               controller_game.debugEnablePrototypes
     End Function
 
     Function CheckAllModeCompletion: Void()

@@ -21,6 +21,8 @@ Import sprite
 Import util
 Import xml
 
+Const NUM_ITEM_POOLS: Int = 7
+
 Function GetResourceCoinType: String(amount: Int)
     Return "resource_coin" + math.Clamp(amount, 1, 10)
 End Function
@@ -28,32 +30,32 @@ End Function
 Class Item Extends Entity
 
     Global debugTrailerMode: Bool
-    Global diamondDealerItems1: Object
-    Global diamondDealerItems2: Object
-    Global diamondDealerItems3: Object
-    Global hephItems1: Object
-    Global hephItems2: Object
-    Global hephItems3: Object
+    Global diamondDealerItems1: List<String> = New List<String>()
+    Global diamondDealerItems2: List<String> = New List<String>()
+    Global diamondDealerItems3: List<String> = New List<String>()
+    Global hephItems1: List<String> = New List<String>()
+    Global hephItems2: List<String> = New List<String>()
+    Global hephItems3: List<String> = New List<String>()
     Global itemImages: StringMap<Sprite> = New StringMap<Sprite>()
-    Global itemPoolAnyChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolAnyChest2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolChest2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolLockedChest: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolLockedChest2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolLockedShop: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolLockedShop2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolAnyChest: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolAnyChest2: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolChest: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolChest2: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolLockedChest: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolLockedChest2: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolLockedShop: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolLockedShop2: List<XMLNode>[NUM_ITEM_POOLS]
     Global itemPoolRandom: List<XMLNode> = New List<XMLNode>()
     Global itemPoolRandom2: List<XMLNode> = New List<XMLNode>()
-    Global itemPoolShop: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolShop2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolUrn: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
-    Global itemPoolUrn2: List<XMLNode>[] = [New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>(), New List<XMLNode>()]
+    Global itemPoolShop: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolShop2: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolUrn: List<XMLNode>[NUM_ITEM_POOLS]
+    Global itemPoolUrn2: List<XMLNode>[NUM_ITEM_POOLS]
     Global lastChestItemClass1: String
     Global lastChestItemClass2: String
-    Global merlinItems1: Object
-    Global merlinItems2: Object
-    Global merlinItems3: Object
+    Global merlinItems1: List<String> = New List<String>()
+    Global merlinItems2: List<String> = New List<String>()
+    Global merlinItems3: List<String> = New List<String>()
     Global pickupList: List<Item> = New List<Item>()
     Global seenItems: StringMap<Int> = New StringMap<Int>()
 
@@ -309,8 +311,12 @@ Class Item Extends Entity
         Debug.TraceNotImplemented("Item.DropItem(Int, Int, Int)")
     End Function
 
-    Function FilterDisabledItems: Void(list: Object)
-        Debug.TraceNotImplemented("Item.FilterDisabledItems(Object)")
+    Function FilterDisabledItems: Void(list: List<String>)
+        For Local itemName := EachIn list
+            If Item.IsDisabled(itemName)
+                list.Remove(itemName)
+            End If
+        End For
     End Function
 
     Function FindAllGoldPiles: Object()
@@ -508,7 +514,210 @@ Class Item Extends Entity
     End Function
 
     Function InitAll: Void()
-        Debug.TraceNotImplemented("Item.InitAll()")
+        ' SKIPPED: Load item images.
+
+        For Local i := 0 Until item.NUM_ITEM_POOLS
+            Item.itemPoolChest[i] = New List<XMLNode>()
+            Item.itemPoolLockedChest[i] = New List<XMLNode>()
+            Item.itemPoolAnyChest[i] = New List<XMLNode>()
+            Item.itemPoolShop[i] = New List<XMLNode>()
+            Item.itemPoolLockedShop[i] = New List<XMLNode>()
+            Item.itemPoolUrn[i] = New List<XMLNode>()
+            
+            Item.itemPoolChest2[i] = New List<XMLNode>()
+            Item.itemPoolLockedChest2[i] = New List<XMLNode>()
+            Item.itemPoolAnyChest2[i] = New List<XMLNode>()
+            Item.itemPoolShop2[i] = New List<XMLNode>()
+            Item.itemPoolLockedShop2[i] = New List<XMLNode>()
+            Item.itemPoolUrn2[i] = New List<XMLNode>()
+        End For
+
+        Item.hephItems1.AddLast("armor_chainmail")
+        Item.hephItems1.AddLast("armor_platemail")
+        Item.hephItems1.AddLast("armor_obsidian")
+        Item.hephItems1.AddLast("armor_gi")
+        Item.hephItems1.AddLast("armor_glass")
+        Item.hephItems1.AddLast("head_helm")
+        Item.hephItems1.AddLast("feet_greaves")
+        Item.hephItems1.AddLast("armor_heavyplate")
+        Item.hephItems1.AddLast("head_blast_helm")
+        Item.hephItems1.AddLast("head_sunglasses")
+        Item.hephItems1.AddLast("head_glass_jaw")
+        Item.hephItems1.AddLast("head_spiked_ears")
+        Item.hephItems1.AddLast("armor_quartz")
+        Item.hephItems1.AddLast("armor_heavyglass")
+
+        Item.hephItems2.AddLast("food_2")
+        Item.hephItems2.AddLast("torch_2")
+        Item.hephItems2.AddLast("holster")
+        Item.hephItems2.AddLast("food_3")
+        Item.hephItems2.AddLast("pickaxe")
+        Item.hephItems2.AddLast("head_crown_of_thorns")
+        Item.hephItems2.AddLast("torch_obsidian")
+        Item.hephItems2.AddLast("war_drum")
+        Item.hephItems2.AddLast("torch_3")
+        Item.hephItems2.AddLast("bag_holding")
+        Item.hephItems2.AddLast("shovel_obsidian")
+        Item.hephItems2.AddLast("blood_drum")
+        Item.hephItems2.AddLast("torch_infernal")
+        Item.hephItems2.AddLast("food_4")
+        Item.hephItems2.AddLast("shovel_glass")
+        Item.hephItems2.AddLast("holy_water")
+        Item.hephItems2.AddLast("torch_glass")
+        Item.hephItems2.AddLast("heart_transplant")
+        Item.hephItems2.AddLast("torch_foresight")
+        Item.hephItems2.AddLast("food_carrot")
+        Item.hephItems2.AddLast("food_cookies")
+        Item.hephItems2.AddLast("torch_strength")
+        Item.hephItems2.AddLast("shovel_courage")
+        Item.hephItems2.AddLast("shovel_strength")
+        Item.hephItems2.AddLast("cursed_potion")
+        Item.hephItems2.AddLast("familiar_rat")
+        Item.hephItems2.AddLast("familiar_dove")
+        Item.hephItems2.AddLast("throwing_stars")
+        Item.hephItems2.AddLast("familiar_ice_spirit")
+        Item.hephItems2.AddLast("torch_walls")
+        Item.hephItems2.AddLast("familiar_shopkeeper")
+        Item.hephItems2.AddLast("familiar_shield")
+        Item.hephItems2.AddLast("shovel_battle")
+
+        Item.hephItems3.AddLast("weapon_spear")
+        Item.hephItems3.AddLast("weapon_whip")
+        Item.hephItems3.AddLast("weapon_rapier")
+        Item.hephItems3.AddLast("weapon_longsword")
+        Item.hephItems3.AddLast("weapon_flail")
+        Item.hephItems3.AddLast("weapon_cat")
+        Item.hephItems3.AddLast("shovel_blood")
+        Item.hephItems3.AddLast("weapon_rifle")
+        Item.hephItems3.AddLast("weapon_axe")
+        Item.hephItems3.AddLast("weapon_harp")
+        Item.hephItems3.AddLast("weapon_warhammer")
+        Item.hephItems3.AddLast("weapon_staff")
+
+        Item.merlinItems1.AddLast("spell_freeze_enemies")
+        Item.merlinItems1.AddLast("spell_heal")
+        Item.merlinItems1.AddLast("spell_shield")
+        Item.merlinItems1.AddLast("spell_bomb")
+        Item.merlinItems1.AddLast("spell_transmute")
+
+        Item.merlinItems2.AddLast("ring_luck")
+        Item.merlinItems2.AddLast("ring_gold")
+        Item.merlinItems2.AddLast("ring_peace")
+        Item.merlinItems2.AddLast("ring_might")
+        Item.merlinItems2.AddLast("ring_courage")
+        Item.merlinItems2.AddLast("ring_war")
+        Item.merlinItems2.AddLast("ring_mana")
+        Item.merlinItems2.AddLast("ring_shadows")
+        Item.merlinItems2.AddLast("ring_regeneration")
+        Item.merlinItems2.AddLast("ring_protection")
+        Item.merlinItems2.AddLast("ring_shielding")
+        Item.merlinItems2.AddLast("ring_pain")
+        Item.merlinItems2.AddLast("ring_frost")
+        Item.merlinItems2.AddLast("ring_piercing")
+
+        Item.merlinItems3.AddLast("scroll_riches")
+        Item.merlinItems3.AddLast("scroll_enchant_weapon")
+        Item.merlinItems3.AddLast("scroll_transmute")
+        Item.merlinItems3.AddLast("scroll_fear")
+        Item.merlinItems3.AddLast("scroll_need")
+        Item.merlinItems3.AddLast("scroll_earthquake")
+        Item.merlinItems3.AddLast("feet_boots_pain")
+        Item.merlinItems3.AddLast("tome_earth")
+        Item.merlinItems3.AddLast("tome_fireball")
+        Item.merlinItems3.AddLast("tome_freeze")
+        Item.merlinItems3.AddLast("tome_shield")
+        Item.merlinItems3.AddLast("tome_transmute")
+        Item.merlinItems3.AddLast("tome_pulse")
+
+        Item.diamondDealerItems1.AddLast("weapon_spear")
+        Item.diamondDealerItems1.AddLast("weapon_spear")
+        Item.diamondDealerItems1.AddLast("weapon_spear")
+        Item.diamondDealerItems1.AddLast("weapon_broadsword")
+        Item.diamondDealerItems1.AddLast("weapon_broadsword")
+        Item.diamondDealerItems1.AddLast("weapon_rapier")
+        Item.diamondDealerItems1.AddLast("weapon_rapier")
+        Item.diamondDealerItems1.AddLast("weapon_titanium_dagger")
+        Item.diamondDealerItems1.AddLast("weapon_obsidian_dagger")
+        Item.diamondDealerItems1.AddLast("weapon_blood_dagger")
+        Item.diamondDealerItems1.AddLast("weapon_glass_dagger")
+        Item.diamondDealerItems1.AddLast("weapon_golden_spear")
+        Item.diamondDealerItems1.AddLast("weapon_bow")
+        Item.diamondDealerItems1.AddLast("weapon_titanium_bow")
+        Item.diamondDealerItems1.AddLast("weapon_crossbow")
+        Item.diamondDealerItems1.AddLast("weapon_obsidian_crossbow")
+        Item.diamondDealerItems1.AddLast("weapon_longsword")
+        Item.diamondDealerItems1.AddLast("weapon_glass_longsword")
+        Item.diamondDealerItems1.AddLast("weapon_cat")
+        Item.diamondDealerItems1.AddLast("weapon_golden_cat")
+        Item.diamondDealerItems1.AddLast("weapon_flail")
+        Item.diamondDealerItems1.AddLast("weapon_blood_flail")
+        Item.diamondDealerItems1.AddLast("weapon_obsidian_rapier")
+        Item.diamondDealerItems1.AddLast("weapon_titanium_broadsword")
+        Item.diamondDealerItems1.AddLast("weapon_whip")
+        Item.diamondDealerItems1.AddLast("weapon_golden_whip")
+        Item.diamondDealerItems1.AddLast("weapon_axe")
+        Item.diamondDealerItems1.AddLast("weapon_harp")
+        Item.diamondDealerItems1.AddLast("weapon_warhammer")
+        Item.diamondDealerItems1.AddLast("weapon_staff")
+        Item.diamondDealerItems1.AddLast("weapon_cutlass")
+        Item.diamondDealerItems1.AddLast("weapon_titanium_cutlass")
+
+        Item.diamondDealerItems2.AddLast("food_1")
+        Item.diamondDealerItems2.AddLast("food_1")
+        Item.diamondDealerItems2.AddLast("food_2")
+        Item.diamondDealerItems2.AddLast("food_2")
+        Item.diamondDealerItems2.AddLast("food_3")
+        Item.diamondDealerItems2.AddLast("food_4")
+        Item.diamondDealerItems2.AddLast("holy_water")
+        Item.diamondDealerItems2.AddLast("food_carrot")
+        Item.diamondDealerItems2.AddLast("food_carrot")
+        Item.diamondDealerItems2.AddLast("food_cookies")
+        Item.diamondDealerItems2.AddLast("cursed_potion")
+        Item.diamondDealerItems2.AddLast("throwing_stars")
+
+        Item.diamondDealerItems3.AddLast("armor_leather")
+        Item.diamondDealerItems3.AddLast("armor_platemail")
+        Item.diamondDealerItems3.AddLast("armor_gi")
+        Item.diamondDealerItems3.AddLast("feet_boots_winged")
+        Item.diamondDealerItems3.AddLast("feet_boots_explorers")
+        Item.diamondDealerItems3.AddLast("feet_boots_leaping")
+        Item.diamondDealerItems3.AddLast("war_drum")
+        Item.diamondDealerItems3.AddLast("head_miners_cap")
+        Item.diamondDealerItems3.AddLast("head_monocle")
+        Item.diamondDealerItems3.AddLast("misc_compass")
+        Item.diamondDealerItems3.AddLast("ring_courage")
+        Item.diamondDealerItems3.AddLast("ring_luck")
+        Item.diamondDealerItems3.AddLast("ring_war")
+        Item.diamondDealerItems3.AddLast("ring_peace")
+        Item.diamondDealerItems3.AddLast("scroll_riches")
+        Item.diamondDealerItems3.AddLast("scroll_shield")
+        Item.diamondDealerItems3.AddLast("scroll_need")
+        Item.diamondDealerItems3.AddLast("shovel_titanium")
+        Item.diamondDealerItems3.AddLast("pickaxe")
+        Item.diamondDealerItems3.AddLast("spell_fireball")
+        Item.diamondDealerItems3.AddLast("spell_transmute")
+        Item.diamondDealerItems3.AddLast("torch_2")
+        Item.diamondDealerItems3.AddLast("torch_infernal")
+        Item.diamondDealerItems3.AddLast("familiar_rat")
+        Item.diamondDealerItems3.AddLast("familiar_dove")
+        Item.diamondDealerItems3.AddLast("feet_glass_slippers")
+        Item.diamondDealerItems3.AddLast("spell_earth")
+        Item.diamondDealerItems3.AddLast("familiar_ice_spirit")
+        Item.diamondDealerItems3.AddLast("familiar_shopkeeper")
+        Item.diamondDealerItems3.AddLast("familiar_shield")
+        Item.diamondDealerItems3.AddLast("ring_piercing")
+        Item.diamondDealerItems3.AddLast("shovel_battle")
+        Item.diamondDealerItems3.AddLast("spell_pulse")
+
+        Item.FilterDisabledItems(Item.hephItems1)
+        Item.FilterDisabledItems(Item.hephItems2)
+        Item.FilterDisabledItems(Item.hephItems3)
+        Item.FilterDisabledItems(Item.merlinItems1)
+        Item.FilterDisabledItems(Item.merlinItems2)
+        Item.FilterDisabledItems(Item.merlinItems3)
+        Item.FilterDisabledItems(Item.diamondDealerItems1)
+        Item.FilterDisabledItems(Item.diamondDealerItems2)
+        Item.FilterDisabledItems(Item.diamondDealerItems3)
     End Function
 
     Function IsCourageItem: Bool(n: XMLNode)
@@ -569,8 +778,7 @@ Class Item Extends Entity
     End Function
 
     Function IsDisabled: Bool(item: String)
-        If Not necrodancer.DEBUG_BUILD Or
-           Not controller_game.debugEnablePrototypes
+        If Not Player.ArePrototypesEnabled()
             Select item
                 Case ItemType.ShieldFamiliar
                     Return True
