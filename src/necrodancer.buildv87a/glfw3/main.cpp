@@ -8691,6 +8691,8 @@ class c_Map12 : public Object{
 	int p_RotateRight11(c_Node21*);
 	int p_InsertFixup11(c_Node21*);
 	bool p_Set12(String,c_Sprite*);
+	int p_Clear();
+	bool p_Add5(String,c_Sprite*);
 	void mark();
 };
 class c_StringMap7 : public c_Map12{
@@ -8824,7 +8826,7 @@ class c_Point : public Object{
 	c_Point* m_new2();
 	String p_ToString();
 	static c_Point* m_Add(c_Point*,c_Point*);
-	c_Point* p_Add5(c_Point*);
+	c_Point* p_Add6(c_Point*);
 	c_Point* p_Add4(int,int);
 	c_Point* p_RotateCWAbout(c_Point*);
 	c_Point* p_Scale(int);
@@ -9548,7 +9550,7 @@ class c_Map15 : public Object{
 	int p_RotateRight14(c_Node33*);
 	int p_InsertFixup14(c_Node33*);
 	bool p_Set15(c_Point*,c_Point*);
-	bool p_Add6(c_Point*,c_Point*);
+	bool p_Add7(c_Point*,c_Point*);
 	c_Node33* p_FindNode3(c_Point*);
 	bool p_Contains5(c_Point*);
 	c_Point* p_Get4(c_Point*);
@@ -12061,7 +12063,7 @@ class c_OptionList : public Object{
 	c_OptionList();
 	c_OptionList* m_new(Object*,bool,int);
 	c_OptionList* m_new2();
-	void p_Add7(c_GuiComponent*);
+	void p_Add8(c_GuiComponent*);
 	void mark();
 };
 class c_ControllerPostGame : public c_Controller{
@@ -17970,9 +17972,9 @@ c_ControllerPopUp* c_ControllerPopUp::m_new(c_Controller* t_game,String t_pText,
 		this->m_option2Text->m_selectedSpr->m_scaleVal*=FLOAT(1.25);
 	}
 	gc_assign(this->m_gui,(new c_OptionList)->m_new((this),false,0));
-	this->m_gui->p_Add7(this->m_option1Text);
+	this->m_gui->p_Add8(this->m_option1Text);
 	if(this->m_option2Exists){
-		this->m_gui->p_Add7(this->m_option2Text);
+		this->m_gui->p_Add8(this->m_option2Text);
 	}
 	return this;
 }
@@ -20603,7 +20605,7 @@ void c_Level::m_PlaceConnectedWireDoor(c_Point* t_p){
 	c_Tile* t_wiredDoor=m_PlaceTileRemovingExistingTiles2(t_p->m_x,t_p->m_y,118);
 	for(int t_d=0;t_d<3;t_d=t_d+1){
 		c_Point* t_offset=c_Util::m_GetPointFromDir(t_d);
-		c_Point* t_connectionPoint=t_p->p_Add5(t_offset);
+		c_Point* t_connectionPoint=t_p->p_Add6(t_offset);
 		if(m_IsFloorAt(t_connectionPoint->m_x,t_connectionPoint->m_y)){
 			t_wiredDoor->p_AddWireConnection(t_d);
 		}
@@ -20618,7 +20620,7 @@ bool c_Level::m_IsDoorAdjacent(int t_x,int t_y){
 	c_Point* t_center=(new c_Point)->m_new(t_x,t_y);
 	for(int t_i=0;t_i<=3;t_i=t_i+1){
 		c_Point* t_offset=c_Util::m_GetPointFromDir(t_i);
-		c_Point* t_adjacent=t_center->p_Add5(t_offset);
+		c_Point* t_adjacent=t_center->p_Add6(t_offset);
 		if(m_IsDoorAt(t_adjacent->m_x,t_adjacent->m_y)){
 			return true;
 		}
@@ -20872,11 +20874,11 @@ c_RoomWithDoor* c_Level::m_PlaceRoomZone5(c_PortalSeg* t_pseg,int t_width,int t_
 	c_StackEx4* t_rooms=(new c_StackEx4)->m_new();
 	for(int t_i=3;t_i<t_faceScalar+t_length-2;t_i=t_i+1){
 		c_Point* t_scaledFaceVector1=t_faceVector->p_Scale(t_i);
-		c_Point* t_offsetOrigin1=t_origin->p_Add5(t_scaledFaceVector1);
+		c_Point* t_offsetOrigin1=t_origin->p_Add6(t_scaledFaceVector1);
 		c_Point* t_scaledNormal=t_normal->p_Scale(t_normalScalar);
-		c_Point* t_offsetOrigin2=t_offsetOrigin1->p_Add5(t_scaledNormal);
+		c_Point* t_offsetOrigin2=t_offsetOrigin1->p_Add6(t_scaledNormal);
 		c_Point* t_scaledFaceVector2=t_faceVector->p_Scale(-t_faceScalar);
-		t_offsetOrigin2=t_offsetOrigin2->p_Add5(t_scaledFaceVector2);
+		t_offsetOrigin2=t_offsetOrigin2->p_Add6(t_scaledFaceVector2);
 		int t_bodyX=bb_math_Min(t_offsetOrigin1->m_x,t_offsetOrigin2->m_x);
 		int t_bodyY=bb_math_Min(t_offsetOrigin1->m_y,t_offsetOrigin2->m_y);
 		int t_bodyXMax=bb_math_Max(t_offsetOrigin1->m_x,t_offsetOrigin2->m_x);
@@ -20887,9 +20889,9 @@ c_RoomWithDoor* c_Level::m_PlaceRoomZone5(c_PortalSeg* t_pseg,int t_width,int t_
 			if(t_firstRoomBounds->p_GetL1Dist2(t_body)>=t_minEntryDist){
 				for(int t_j=1;t_j<t_length-1;t_j=t_j+1){
 					c_Point* t_scaledFaceVector3=t_faceVector->p_Scale(t_j);
-					c_Point* t_offsetOrigin3=t_origin->p_Add5(t_scaledFaceVector3);
+					c_Point* t_offsetOrigin3=t_origin->p_Add6(t_scaledFaceVector3);
 					c_Point* t_scaledFaceVector4=t_faceVector->p_Scale(2);
-					c_Point* t_offsetOrigin4=t_offsetOrigin3->p_Add5(t_scaledFaceVector4);
+					c_Point* t_offsetOrigin4=t_offsetOrigin3->p_Add6(t_scaledFaceVector4);
 					int t_doorX=bb_math_Min(t_offsetOrigin3->m_x,t_offsetOrigin4->m_x);
 					int t_doorY=bb_math_Min(t_offsetOrigin3->m_y,t_offsetOrigin4->m_y);
 					int t_doorXMax=bb_math_Max(t_offsetOrigin3->m_x,t_offsetOrigin4->m_x);
@@ -20950,16 +20952,16 @@ bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 	bb_logger_Debug->p_Log(String(L"PLACEWIRE: Wiring ",18)+t_src->p_ToString()+String(L" to ",4)+t_dst->p_ToString());
 	c_IntPointMap2* t_connections=(new c_IntPointMap2)->m_new();
 	c_List26* t_wirePoints=(new c_List26)->m_new();
-	t_connections->p_Add6(t_src,0);
+	t_connections->p_Add7(t_src,0);
 	t_wirePoints->p_AddLast26(t_src);
 	while(t_wirePoints->p_Count()>0){
 		c_Point* t_wirePoint=t_wirePoints->p_RemoveFirst();
 		for(int t_dir=0;t_dir<=3;t_dir=t_dir+1){
 			c_Point* t_offset=c_Util::m_GetPointFromDir(t_dir);
-			c_Point* t_wirePointCandidate=t_wirePoint->p_Add5(t_offset);
+			c_Point* t_wirePointCandidate=t_wirePoint->p_Add6(t_offset);
 			if(t_wirePointCandidate->p_Equals7(t_dst) || !m_IsWallAdjacent8(t_wirePointCandidate->m_x,t_wirePointCandidate->m_y)){
 				if(m_IsFloorAt(t_wirePointCandidate->m_x,t_wirePointCandidate->m_y) && !t_connections->p_Contains5(t_wirePointCandidate)){
-					t_connections->p_Add6(t_wirePointCandidate,t_wirePoint);
+					t_connections->p_Add7(t_wirePointCandidate,t_wirePoint);
 					t_wirePoints->p_AddLast26(t_wirePointCandidate);
 				}
 			}
@@ -25618,9 +25620,9 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 			int t_scalar=c_Util::m_RndIntRangeFromZero(t_intersection->m_length-2,false);
 			c_Point* t_origin=t_intersection->p_GetOrigin();
 			c_Point* t_faceVector=t_intersection->p_GetFaceVector()->p_Scale(t_scalar);
-			c_Point* t_offsetOrigin=t_origin->p_Add5(t_faceVector);
+			c_Point* t_offsetOrigin=t_origin->p_Add6(t_faceVector);
 			c_Point* t_faceVector2=t_intersection->p_GetFaceVector()->p_Scale(2);
-			c_Point* t_offsetOrigin2=t_offsetOrigin->p_Add5(t_faceVector2);
+			c_Point* t_offsetOrigin2=t_offsetOrigin->p_Add6(t_faceVector2);
 			int t_x=bb_math_Min(t_offsetOrigin->m_x,t_offsetOrigin2->m_x);
 			int t_y=bb_math_Min(t_offsetOrigin->m_y,t_offsetOrigin2->m_y);
 			int t_w=bb_math_Max(t_offsetOrigin->m_x,t_offsetOrigin2->m_x);
@@ -25740,7 +25742,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 				c_Tile* t_wire=m_PlaceTileRemovingExistingTiles2(t_roomFloorPoint->m_x,t_roomFloorPoint->m_y,20);
 				for(int t_dir=0;t_dir<3;t_dir=t_dir+1){
 					c_Point* t_offset=c_Util::m_GetPointFromDir(t_dir);
-					c_Point* t_connectionPoint=t_roomFloorPoint->p_Add5(t_offset);
+					c_Point* t_connectionPoint=t_roomFloorPoint->p_Add6(t_offset);
 					if(m_GetTileTypeAt(t_connectionPoint->m_x,t_connectionPoint->m_y)==118){
 						t_wire->p_AddWireConnection(t_dir);
 					}
@@ -28347,7 +28349,7 @@ bool c_Level::m_IsPassable(){
 		c_Point* t_point=t_points->p_RemoveFirst();
 		for(int t_dir=0;t_dir<=3;t_dir=t_dir+1){
 			c_Point* t_offset=c_Util::m_GetPointFromDir(t_dir);
-			c_Point* t_nextPoint=t_point->p_Add5(t_offset);
+			c_Point* t_nextPoint=t_point->p_Add6(t_offset);
 			int t_x=t_nextPoint->m_x;
 			int t_y=t_nextPoint->m_y;
 			if(!t_visitedPoints->p_Contains5(t_nextPoint)){
@@ -34494,6 +34496,21 @@ void c_Item::m_FilterDisabledItems(c_List7* t_list){
 	}
 }
 void c_Item::m_InitAll(){
+	m_itemImages->p_Clear();
+	c_XMLNode* t_itemsNode=bb_necrodancergame_xmlData->p_GetChild2(String(L"items",5),false);
+	c_Enumerator* t_=t_itemsNode->p_GetChildren(0,false)->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_XMLNode* t_itemNode=t_->p_NextObject();
+		String t_name=t_itemNode->p_name();
+		String t_path=t_itemNode->p_value();
+		int t_frameW=t_itemNode->p_GetAttribute3(String(L"imageW",6),24);
+		int t_frameH=t_itemNode->p_GetAttribute3(String(L"imageH",6),24);
+		int t_numFrames=t_itemNode->p_GetAttribute3(String(L"numFrames",9),1);
+		c_Sprite* t_itemImage=(new c_Sprite)->m_new(String(L"items/",6)+t_path,t_frameW,t_frameH,2*t_numFrames,c_Image::m_DefaultFlags);
+		m_itemImages->p_Add5(t_name,t_itemImage);
+	}
+	c_Sprite* t_mysteryItemImage=(new c_Sprite)->m_new(String(L"entities/mystery_item.png",25),18,21,2,c_Image::m_DefaultFlags);
+	m_itemImages->p_Add5(String(L"mystery",7),t_mysteryItemImage);
 	for(int t_i=0;t_i<7;t_i=t_i+1){
 		gc_assign(m_itemPoolChest[t_i],(new c_List)->m_new());
 		gc_assign(m_itemPoolLockedChest[t_i],(new c_List)->m_new());
@@ -41777,6 +41794,40 @@ bool c_Map12::p_Set12(String t_key,c_Sprite* t_value){
 	}
 	return true;
 }
+int c_Map12::p_Clear(){
+	m_root=0;
+	return 0;
+}
+bool c_Map12::p_Add5(String t_key,c_Sprite* t_value){
+	c_Node21* t_node=m_root;
+	c_Node21* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare2(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node21)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup11(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
 void c_Map12::mark(){
 	Object::mark();
 	gc_mark_q(m_root);
@@ -42058,7 +42109,7 @@ c_Point* c_Point::m_Add(c_Point* t_a,c_Point* t_b){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Point.Add(Point, Point)",23));
 	return 0;
 }
-c_Point* c_Point::p_Add5(c_Point* t_other){
+c_Point* c_Point::p_Add6(c_Point* t_other){
 	int t_x=this->m_x+t_other->m_x;
 	int t_y=this->m_y+t_other->m_y;
 	return (new c_Point)->m_new(t_x,t_y);
@@ -43497,7 +43548,7 @@ void c_Tile::m_GenerateWireConnections(){
 			if(t_tile->p_IsWire()){
 				t_tile->m_wireMask=0;
 				for(int t_i=0;t_i<=4;t_i=t_i+1){
-					c_Point* t_adjacentLocation=t_tile->p_GetLocation()->p_Add5(c_Util::m_GetPointFromDir(t_i));
+					c_Point* t_adjacentLocation=t_tile->p_GetLocation()->p_Add6(c_Util::m_GetPointFromDir(t_i));
 					c_Tile* t_adjacentTile=c_Level::m_GetTileAt(t_adjacentLocation->m_x,t_adjacentLocation->m_y);
 					if((t_adjacentTile)!=0){
 						int t_adjacentTileType=t_adjacentTile->p_GetType();
@@ -45559,7 +45610,7 @@ bool c_Map15::p_Set15(c_Point* t_key,c_Point* t_value){
 	}
 	return true;
 }
-bool c_Map15::p_Add6(c_Point* t_key,c_Point* t_value){
+bool c_Map15::p_Add7(c_Point* t_key,c_Point* t_value){
 	c_Node33* t_node=m_root;
 	c_Node33* t_parent=0;
 	int t_cmp=0;
@@ -52389,7 +52440,7 @@ c_Point* c_PortalSeg::p_GetFaceVector(){
 }
 c_Rect* c_PortalSeg::p_GetBounds(){
 	c_Point* t_vector=this->p_GetFaceVector()->p_Scale(this->m_length);
-	c_Point* t_positionedVector=this->m_origin->p_Add5(t_vector);
+	c_Point* t_positionedVector=this->m_origin->p_Add6(t_vector);
 	int t_x=bb_math_Min(this->m_origin->m_x,t_positionedVector->m_x);
 	int t_y=bb_math_Min(this->m_origin->m_y,t_positionedVector->m_y);
 	int t_w=bb_math_Max(this->m_origin->m_x,t_positionedVector->m_x);
@@ -52401,7 +52452,7 @@ c_Point* c_PortalSeg::p_GetOrigin(){
 }
 c_Point* c_PortalSeg::p_GetTerminus(){
 	c_Point* t_scaledFaceVector=this->p_GetFaceVector()->p_Scale(this->m_length);
-	return this->p_GetOrigin()->p_Add5(t_scaledFaceVector);
+	return this->p_GetOrigin()->p_Add6(t_scaledFaceVector);
 }
 c_PortalSeg* c_PortalSeg::p_Intersect(c_PortalSeg* t_other){
 	c_PortalSeg* t_intersection=(new c_PortalSeg)->m_new(this->m_origin->m_x,this->m_origin->m_y,this->m_faceDir,this->m_normalDir);
@@ -52412,7 +52463,7 @@ c_PortalSeg* c_PortalSeg::p_Intersect(c_PortalSeg* t_other){
 	c_Rect* t_otherBounds=t_other->p_GetBounds();
 	while(!t_otherBounds->p_Contains5(t_intersection->p_GetOrigin())){
 		c_Point* t_faceVector=t_intersection->p_GetFaceVector();
-		gc_assign(t_intersection->m_origin,t_intersection->p_GetOrigin()->p_Add5(t_faceVector));
+		gc_assign(t_intersection->m_origin,t_intersection->p_GetOrigin()->p_Add6(t_faceVector));
 		t_intersection->m_length-=1;
 		if(t_intersection->m_length<0){
 			return 0;
@@ -53255,7 +53306,7 @@ c_OptionList* c_OptionList::m_new(Object* t_c,bool t_w,int t_cOff){
 c_OptionList* c_OptionList::m_new2(){
 	return this;
 }
-void c_OptionList::p_Add7(c_GuiComponent* t_g){
+void c_OptionList::p_Add8(c_GuiComponent* t_g){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"OptionList.Add(GuiComponent)",28));
 }
 void c_OptionList::mark(){

@@ -515,7 +515,23 @@ Class Item Extends Entity
     End Function
 
     Function InitAll: Void()
-        ' SKIPPED: Load item images.
+        ' Turns out you can't skip implementing `Item.itemImages`.
+        Item.itemImages.Clear()
+
+        Local itemsNode := necrodancergame.xmlData.GetChild("items")
+        For Local itemNode := EachIn itemsNode.GetChildren()
+            Local name := itemNode.name
+            Local path := itemNode.value
+            Local frameW := itemNode.GetAttribute("imageW", 24)
+            Local frameH := itemNode.GetAttribute("imageH", 24)
+            Local numFrames := itemNode.GetAttribute("numFrames", 1)
+            Local itemImage := New Sprite("items/" + path, frameW, frameH, 2 * numFrames)
+
+            Item.itemImages.Add(name, itemImage)
+        End For
+
+        Local mysteryItemImage := New Sprite("entities/mystery_item.png", 18, 21, 2)
+        Item.itemImages.Add("mystery", mysteryItemImage)
 
         For Local i := 0 Until item.NUM_ITEM_POOLS
             Item.itemPoolChest[i] = New List<XMLNode>()
