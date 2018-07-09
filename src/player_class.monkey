@@ -265,9 +265,57 @@ Class Player Extends MobileEntity
     End Function
 
     Function MakeHeadImage: Sprite(characterID: Int, idSuffix: String, altSkin: Int)
-        Debug.TraceNotImplemented("Player.MakeHeadImage(Int, String, Int)")
+        Local path: String
+        Local frameW: Int
+        Local frameH: Int
+        Local numFrames: Int
 
-        Return New Sprite()
+        If altSkin <> 0
+            path = "entities/jp" + altSkin + "_heads.png"
+            frameW = Player.AltHeadWidths[altSkin]
+            frameH = Player.AltHeadHeights[altSkin]
+            numFrames = 32
+        Else
+            Select characterID
+                Case Character.Cadence
+                    path = "entities/player" + idSuffix + "_heads.png"
+                    frameW = 24
+                    frameH = 24
+                    numFrames = 32
+                Case Character.Dove
+                    path = "entities/char" + characterID + "_heads.png"
+                    frameW = 24
+                    frameH = 28
+                    numFrames = 32
+                Case Character.Dorian
+                    path = "entities/char" + characterID + "_heads.png"
+                    frameW = 33
+                    frameH = 32
+                    numFrames = 32
+                Case Character.Eli
+                    path = "entities/char" + characterID + "_heads.png"
+                    frameW = 33
+                    frameH = 28
+                    numFrames = 32
+                Case Character.Coda
+                    path = "entities/char" + characterID + "_heads.png"
+                    frameW = 33
+                    frameH = 30
+                    numFrames = 32
+                Case Character.Nocturna
+                    path = "entities/char" + characterID + "_heads.png"
+                    frameW = 25
+                    frameH = 27
+                    numFrames = 32
+                Default
+                    path = "entities/char" + characterID + "_heads.png"
+                    frameW = 24
+                    frameH = 24
+                    numFrames = 32
+            End Select
+        End If
+
+        Return New Sprite(path, frameW, frameH, numFrames, Image.MidHandle)
     End Function
 
     Function NumEnabledCharacters: Int()

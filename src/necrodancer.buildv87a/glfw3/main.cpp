@@ -7505,6 +7505,8 @@ class c_Player : public c_MobileEntity{
 	static int m_sessionMaxCoins;
 	static void m_SetCoins(int,bool);
 	static c_Sprite* m_MakeBodyImage(int,String,int);
+	static Array<int > m_AltHeadWidths;
+	static Array<int > m_AltHeadHeights;
 	static c_Sprite* m_MakeHeadImage(int,String,int);
 	void p_LoadImages();
 	String p_GetItemInSlot(String,bool);
@@ -31504,9 +31506,68 @@ c_Sprite* c_Player::m_MakeBodyImage(int t_characterID,String t_idSuffix,int t_al
 	}
 	return (new c_Sprite)->m_new(t_path,t_frameW,t_frameH,t_numFrames,1);
 }
+Array<int > c_Player::m_AltHeadWidths;
+Array<int > c_Player::m_AltHeadHeights;
 c_Sprite* c_Player::m_MakeHeadImage(int t_characterID,String t_idSuffix,int t_altSkin){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.MakeHeadImage(Int, String, Int)",38));
-	return (new c_Sprite)->m_new4();
+	String t_path=String();
+	int t_frameW=0;
+	int t_frameH=0;
+	int t_numFrames=0;
+	if(t_altSkin!=0){
+		t_path=String(L"entities/jp",11)+String(t_altSkin)+String(L"_heads.png",10);
+		t_frameW=m_AltHeadWidths[t_altSkin];
+		t_frameH=m_AltHeadHeights[t_altSkin];
+		t_numFrames=32;
+	}else{
+		int t_5=t_characterID;
+		if(t_5==0){
+			t_path=String(L"entities/player",15)+t_idSuffix+String(L"_heads.png",10);
+			t_frameW=24;
+			t_frameH=24;
+			t_numFrames=32;
+		}else{
+			if(t_5==6){
+				t_path=String(L"entities/char",13)+String(t_characterID)+String(L"_heads.png",10);
+				t_frameW=24;
+				t_frameH=28;
+				t_numFrames=32;
+			}else{
+				if(t_5==3){
+					t_path=String(L"entities/char",13)+String(t_characterID)+String(L"_heads.png",10);
+					t_frameW=33;
+					t_frameH=32;
+					t_numFrames=32;
+				}else{
+					if(t_5==4){
+						t_path=String(L"entities/char",13)+String(t_characterID)+String(L"_heads.png",10);
+						t_frameW=33;
+						t_frameH=28;
+						t_numFrames=32;
+					}else{
+						if(t_5==7){
+							t_path=String(L"entities/char",13)+String(t_characterID)+String(L"_heads.png",10);
+							t_frameW=33;
+							t_frameH=30;
+							t_numFrames=32;
+						}else{
+							if(t_5==10){
+								t_path=String(L"entities/char",13)+String(t_characterID)+String(L"_heads.png",10);
+								t_frameW=25;
+								t_frameH=27;
+								t_numFrames=32;
+							}else{
+								t_path=String(L"entities/char",13)+String(t_characterID)+String(L"_heads.png",10);
+								t_frameW=24;
+								t_frameH=24;
+								t_numFrames=32;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return (new c_Sprite)->m_new(t_path,t_frameW,t_frameH,t_numFrames,1);
 }
 void c_Player::p_LoadImages(){
 	String t_idSuffix=String();
@@ -31523,17 +31584,17 @@ void c_Player::p_LoadImages(){
 		this->m_UsingDorianAltSkin=true;
 	}else{
 		if(t_alternateSkin!=0){
-			int t_12=this->m_characterID;
-			if(t_12==1){
+			int t_13=this->m_characterID;
+			if(t_13==1){
 				this->m_UsingMelodyAltSkin=true;
 			}else{
-				if(t_12==6){
+				if(t_13==6){
 					this->m_UsingDoveAltSkin=true;
 				}else{
-					if(t_12==7){
+					if(t_13==7){
 						this->m_UsingCodaAltSkin=true;
 					}else{
-						if(t_12==4){
+						if(t_13==4){
 							this->m_UsingEliAltSkin=true;
 						}
 					}
@@ -31552,11 +31613,11 @@ void c_Player::p_LoadImages(){
 }
 String c_Player::p_GetItemInSlot(String t_sl,bool t_overrideBatForm){
 	if(this->m_batFormActive || !t_overrideBatForm){
-		String t_5=t_sl;
-		if(t_5==String(L"weapon",6)){
+		String t_6=t_sl;
+		if(t_6==String(L"weapon",6)){
 			return String(L"weapon_fangs",12);
 		}else{
-			if(t_5==String(L"head",4)){
+			if(t_6==String(L"head",4)){
 				return String(L"head_sonar",10);
 			}
 		}
@@ -31575,11 +31636,11 @@ bool c_Player::p_HasItemOfType(String t_i,bool t_overrideBatForm){
 			}
 		}
 		String t_slot=c_Item::m_GetSlot2(t_i);
-		String t_8=t_slot;
-		if(t_8==String(L"misc",4)){
+		String t_9=t_slot;
+		if(t_9==String(L"misc",4)){
 			return this->m_miscItems->p_Contains4(t_i);
 		}else{
-			if(t_8==String(L"action",6)){
+			if(t_9==String(L"action",6)){
 				if(t_i==this->p_GetItemInSlot(String(L"action1",7),false)){
 					return true;
 				}
@@ -31587,7 +31648,7 @@ bool c_Player::p_HasItemOfType(String t_i,bool t_overrideBatForm){
 					return true;
 				}
 			}else{
-				if(t_8==String(L"spell",5)){
+				if(t_9==String(L"spell",5)){
 					if(t_i==this->p_GetItemInSlot(String(L"spell1",6),false)){
 						return true;
 					}
@@ -31599,8 +31660,8 @@ bool c_Player::p_HasItemOfType(String t_i,bool t_overrideBatForm){
 		}
 		return t_i==this->m_ownedItems->p_Get(t_slot);
 	}
-	String t_9=t_i;
-	if(t_9==String(L"weapon_fangs",12) || t_9==String(L"head_sonar",10)){
+	String t_10=t_i;
+	if(t_10==String(L"weapon_fangs",12) || t_10==String(L"head_sonar",10)){
 		return true;
 	}
 	return false;
@@ -31646,8 +31707,8 @@ void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 		c_Enumerator* t_=t_initialEquipmentsNode->p_GetChildren(0,false)->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_XMLNode* t_initialEquipmentNode=t_->p_NextObject();
-			String t_6=t_initialEquipmentNode->p_name();
-			if(t_6==String(L"item",4)){
+			String t_7=t_initialEquipmentNode->p_name();
+			if(t_7==String(L"item",4)){
 				String t_itemType=t_initialEquipmentNode->p_GetAttribute(String(L"type",4));
 				if(c_Item::m_itemImages->p_Contains4(t_itemType)){
 					this->p_AddItemOfType(t_itemType,0,true,true);
@@ -31655,7 +31716,7 @@ void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 					bb_logger_Debug->p_Log(String(L"ERROR: Unrecognized item type ",30)+t_itemType);
 				}
 			}else{
-				if(t_6==String(L"cursed",6)){
+				if(t_7==String(L"cursed",6)){
 					String t_cursedSlot=t_initialEquipmentNode->p_GetAttribute(String(L"slot",4));
 					this->p_SetSlotCursed(t_cursedSlot,true);
 				}else{
@@ -31676,22 +31737,22 @@ void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 		gc_assign(this->m_lambFamiliar,(new c_Familiar)->m_new(this));
 	}
 	if(t_resetHealth){
-		int t_7=this->m_characterID;
-		if(t_7==1 || t_7==9 || t_7==5){
+		int t_8=this->m_characterID;
+		if(t_8==1 || t_8==9 || t_8==5){
 			this->m_health->p_Reset2(4);
 		}else{
-			if(t_7==8 || t_7==4){
+			if(t_8==8 || t_8==4){
 				this->m_health->p_Reset2(6);
 			}else{
-				if(t_7==3){
+				if(t_8==3){
 					this->m_health->p_Reset2(8);
 				}else{
-					if(t_7==6){
+					if(t_8==6){
 						this->m_health->p_Reset2(4);
 						this->p_UpdateBonusHeart();
 						this->m_health->p_Heal2(2,false);
 					}else{
-						if(t_7==7 || t_7==2 || t_7==15){
+						if(t_8==7 || t_8==2 || t_8==15){
 							this->m_health->p_ResetFragile();
 						}else{
 							this->m_health->p_Reset2(6);
@@ -31987,8 +32048,8 @@ void c_Player::m_PlayVOPlayer1(String t_voSound){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.PlayVOPlayer1(String)",28));
 }
 bool c_Player::p_IsWeaponlessCharacter(){
-	int t_11=this->m_characterID;
-	if(t_11==1 || t_11==2 || t_11==4 || t_11==6 || t_11==7){
+	int t_12=this->m_characterID;
+	if(t_12==1 || t_12==2 || t_12==4 || t_12==6 || t_12==7){
 		return true;
 	}
 	return false;
@@ -31997,8 +32058,8 @@ bool c_Player::m_ArePrototypesEnabled(){
 	return true && bb_controller_game_debugEnablePrototypes;
 }
 bool c_Player::p_IsBomblessCharacter(){
-	int t_10=this->m_characterID;
-	if(t_10==4){
+	int t_11=this->m_characterID;
+	if(t_11==4){
 		return true;
 	}
 	return false;
@@ -32271,10 +32332,10 @@ void c_Player::p_Update(){
 	}
 	bool t_v3=false;
 	if(this->m_popUpController!=0){
-		int t_13=this->m_popUpController->m_retval;
-		if(t_13==-1){
+		int t_14=this->m_popUpController->m_retval;
+		if(t_14==-1){
 		}else{
-			if(t_13==1){
+			if(t_14==1){
 				this->m_warnState=0;
 				this->p_ImmediatelyMoveTo(this->m_lastX-this->m_x,this->m_lastY-this->m_y,true,false,false,false,true);
 				this->m_popUpController=0;
@@ -32285,11 +32346,11 @@ void c_Player::p_Update(){
 		}
 	}
 	if(this->m_hintsController!=0){
-		int t_14=this->m_hintsController->m_retval;
-		if(t_14==-1){
+		int t_15=this->m_hintsController->m_retval;
+		if(t_15==-1){
 			this->p_ImmediatelyMoveTo(this->m_lastX-this->m_x,this->m_lastY-this->m_y,false,false,false,false,false);
 		}else{
-			if(t_14==1){
+			if(t_15==1){
 				t_v3=true;
 				c_GameData::m_SetShowHints(1);
 			}else{
@@ -32460,90 +32521,90 @@ void c_Player::p_Update(){
 		String t_pText2=String();
 		String t_pText3=String();
 		String t_bestiaryImagePath=String();
-		int t_15=t_exitValueX;
-		if(t_15==-2000){
+		int t_16=t_exitValueX;
+		if(t_16==-2000){
 			t_pText1=String(L"|914|CADENCE MODE!|",19);
 			t_pText2=String(L"|915|NORMAL GAMEPLAY.|",22);
 			t_bestiaryImagePath=String(L"bestiary/bestiary_cadence.png",29);
 		}else{
-			if(t_15==-1998){
+			if(t_16==-1998){
 				t_pText1=String(L"|917|ARIA MODE: DAGGER ONLY.|",29);
 				t_pText2=String(L"|918|DIE IN A SINGLE HIT.|",26);
 				t_pText3=String(L"|919|DIE ON MISSED BEAT!|",25);
 				t_bestiaryImagePath=String(L"bestiary/bestiary_aria.png",26);
 			}else{
-				if(t_15==-1992){
+				if(t_16==-1992){
 					t_pText1=String(L"|920|BOLT MODE!|",16);
 					t_pText2=String(L"|921|DOUBLE SPEED GAMEPLAY.|",28);
 					t_bestiaryImagePath=String(L"bestiary/bestiary_bolt.png",26);
 				}else{
-					if(t_15==-1991){
+					if(t_16==-1991){
 						t_pText1=String(L"|922|BARD MODE: NO BEATS!|",26);
 						t_pText2=String(L"|923|MOVE AT ANY TIME.|",23);
 						t_pText3=String(L"|924|ENEMIES MOVE AFTER YOU.|",29);
 						t_bestiaryImagePath=String(L"bestiary/bestiary_bard.png",26);
 					}else{
-						if(t_15==-1995){
+						if(t_16==-1995){
 							t_pText1=String(L"|925|MONK MODE: GOLD KILLS.|",28);
 							t_pText2=String(L"|926|(VOW OF POVERTY!)|",23);
 							t_pText3=String(L"|927|SHOPS GIVE FREE ITEMS.|",28);
 							t_bestiaryImagePath=String(L"bestiary/bestiary_monk.png",26);
 						}else{
-							if(t_15==-1994){
+							if(t_16==-1994){
 								t_pText1=String(L"|928|DOVE MODE: PACIFISM!|",26);
 								t_pText2=String(L"|929|YOU DO NO DAMAGE BUT|",26);
 								t_pText3=String(L"|930|EXITS ARE UNLOCKED.|",25);
 								t_bestiaryImagePath=String(L"bestiary/bestiary_dove.png",26);
 							}else{
-								if(t_15==-1996){
+								if(t_16==-1996){
 									t_pText1=String(L"|931|ELI MODE!|",15);
 									t_pText2=String(L"|932|INFINITE BOMBS.|",21);
 									t_pText3=String(L"|933|KICK BOMBS AT ENEMIES!|",28);
 									t_bestiaryImagePath=String(L"bestiary/bestiary_eli.png",25);
 								}else{
-									if(t_15==-1997){
+									if(t_16==-1997){
 										t_pText1=String(L"|934|DORIAN MODE!|",18);
 										t_pText2=String(L"|935|CURSED BOOTS OF LEAPING.|",30);
 										t_pText3=String(L"|936|MOVE SLOW: TAKE DAMAGE.|",29);
 										t_bestiaryImagePath=String(L"bestiary/bestiary_dorian.png",28);
 									}else{
-										if(t_15==-1999){
+										if(t_16==-1999){
 											t_pText1=String(L"|937|MELODY MODE!|",18);
 											t_pText2=String(L"|938|MOVE NEXT TO ENEMIES|",26);
 											t_pText3=String(L"|939|TO USE THE GOLDEN LUTE!|",29);
 											t_bestiaryImagePath=String(L"bestiary/bestiary_melody.png",28);
 										}else{
-											if(t_15==-1993){
+											if(t_16==-1993){
 												t_pText1=String(L"|940|CODA MODE!|",16);
 												t_pText2=String(L"|941|ARIA + BOLT + MONK.|",25);
 												t_pText3=String(L"|942|PROBABLY IMPOSSIBLE.|",26);
 												t_bestiaryImagePath=String(L"bestiary/bestiary_coda.png",26);
 											}else{
-												if(t_15==-1990){
+												if(t_16==-1990){
 													t_pText1=String(L"|15500|NOCTURNA MODE!|",22);
 													t_pText2=String(L"|15501|BECOME A BAT.|",21);
 													t_pText3=String(L"|15502|ZONE 5 INVADES OTHER ZONES.|",35);
 													t_bestiaryImagePath=String(L"bestiary/bestiary_nocturna.png",30);
 												}else{
-													if(t_15==-1989){
+													if(t_16==-1989){
 														t_pText1=String(L"|15503|DIAMOND MODE!|",21);
 														t_pText2=String(L"|15504|USE KEY COMBOS|",22);
 														t_pText3=String(L"|15505|TO MOVE DIAGONALLY.|",27);
 														t_bestiaryImagePath=String(L"bestiary/bestiary_diamond.png",29);
 													}else{
-														if(t_15==-1986){
+														if(t_16==-1986){
 															t_pText1=String(L"|15506|REAPER MODE!|",20);
 															t_pText2=String(L"|15507|ACCUMULATE SOULS|",24);
 															t_pText3=String(L"|15508|BY DEFEATING ENEMIES.|",29);
 															t_bestiaryImagePath=String(L"bestiary/bestiary_reaper.png",28);
 														}else{
-															if(t_15==-1987){
+															if(t_16==-1987){
 																t_pText1=String(L"|15509|TEMPO MODE!|",19);
 																t_pText2=String(L"|15510|1 HIT KILLS!|",20);
 																t_pText3=String(L"|15511|DEFEAT ENEMIES TO SURVIVE.|",34);
 																t_bestiaryImagePath=String(L"bestiary/bestiary_tempo.png",27);
 															}else{
-																if(t_15==-1988){
+																if(t_16==-1988){
 																	t_pText1=String(L"|15512|MARY MODE!|",18);
 																	t_pText2=String(L"|15513|PROTECT YOUR LAMB|",25);
 																	t_pText3=String(L"|15514|AT ALL COSTS!|",21);
@@ -32623,8 +32684,8 @@ void c_Player::p_Update(){
 		return;
 	}
 	if(-600<=t_exitValueX && t_exitValueX<=-101 && !t_v3){
-		int t_16=c_Level::m_GetTileTypeAt(this->m_x,this->m_y);
-		if(t_16==6 || t_16==15 || t_16==16){
+		int t_17=c_Level::m_GetTileTypeAt(this->m_x,this->m_y);
+		if(t_17==6 || t_17==15 || t_17==16){
 			bb_controller_game_gamePaused=true;
 			c_Audio::m_PauseSong(true);
 			String t_pText13=String();
@@ -32663,8 +32724,8 @@ void c_Player::p_Update(){
 		gc_assign(this->m_popUpController->m_bestiaryImage,c_Enemy::m_LoadBestiarySprite(t_enemyID2));
 		return;
 	}
-	int t_17=bb_controller_game_currentLevel;
-	if(t_17==1){
+	int t_18=bb_controller_game_currentLevel;
+	if(t_18==1){
 		if(bb_controller_game_currentDepth==1 && c_Level::m_isHardcoreMode && m_numCoins>=9000 && !c_Util::m_IsCharacterActive(2)){
 			bb_controller_game_gamePaused=true;
 			c_Audio::m_PauseSong(true);
@@ -32672,29 +32733,29 @@ void c_Player::p_Update(){
 			return;
 		}
 	}else{
-		if(t_17==4){
-			int t_18=bb_controller_game_currentZone;
-			if(t_18==1){
+		if(t_18==4){
+			int t_19=bb_controller_game_currentZone;
+			if(t_19==1){
 				if(c_Util::m_IsCharacterActive(0)){
 					c_Util::m_IncrementSteamStat(String(L"NumZone1Completions",19),true,false,false,false);
 				}
 			}else{
-				if(t_18==2){
+				if(t_19==2){
 					if(c_Util::m_IsCharacterActive(0)){
 						c_Util::m_IncrementSteamStat(String(L"NumZone2Completions",19),true,false,false,false);
 					}
 				}else{
-					if(t_18==3){
+					if(t_19==3){
 						if(c_Util::m_IsCharacterActive(0)){
 							c_Util::m_IncrementSteamStat(String(L"NumZone3Completions",19),true,false,false,false);
 						}
 					}else{
-						if(t_18==4){
+						if(t_19==4){
 							if(c_Util::m_IsCharacterActive(0)){
 								c_Util::m_IncrementSteamStat(String(L"NumZone4Completions",19),true,false,false,false);
 							}
 						}else{
-							if(t_18==5){
+							if(t_19==5){
 								c_Util::m_IncrementSteamStat(String(L"NumZone5Completions",19),true,false,false,false);
 							}
 						}
@@ -32705,13 +32766,13 @@ void c_Player::p_Update(){
 	}
 	if(c_Level::m_isHardcoreMode && bb_controller_game_currentDepth==5){
 		if(m_IsSolo()){
-			int t_19=bb_controller_game_currentLevel;
-			if(t_19==3){
+			int t_20=bb_controller_game_currentLevel;
+			if(t_20==3){
 				if(c_Util::m_IsCharacterActive(6)){
 					c_Util::m_IncrementSteamStat(String(L"NumHardcoreCompletionsDove",26),true,false,false,false);
 				}
 			}else{
-				if(t_19==4){
+				if(t_20==4){
 					if(c_Util::m_IsCharacterActive(9)){
 						c_Util::m_IncrementSteamStat(String(L"NumHardcoreCompletionsBard",26),true,false,false,false);
 					}else{
@@ -32748,7 +32809,7 @@ void c_Player::p_Update(){
 						}
 					}
 				}else{
-					if(t_19==5){
+					if(t_20==5){
 						if(c_Util::m_IsCharacterActive(0)){
 							c_Util::m_IncrementSteamStat(String(L"NumHardcoreCompletionsCadence",29),true,false,false,false);
 						}else{
@@ -54213,6 +54274,10 @@ int bbInit(){
 	c_Stairs_callback::m_zoneVal=-1;
 	c_Stairs_callback::m_playerVal=-1;
 	c_Stairs_callback::m_continuedRun=false;
+	int t_[]={24,24,24,32,24,28,28,28,28,28,24,28,28,28};
+	c_Player::m_AltHeadWidths=Array<int >(t_,14);
+	int t_2[]={24,24,24,33,24,24,24,24,24,24,24,24,24,24};
+	c_Player::m_AltHeadHeights=Array<int >(t_2,14);
 	c_Spells::m_spellSlot1=String(L"spell_none",10);
 	c_Spells::m_spellSlot2=String(L"spell_none",10);
 	c_Spells::m_spellCoolKills=(new c_StringMap6)->m_new();
@@ -54516,6 +54581,8 @@ void gc_mark(){
 	gc_mark_q(c_SaleItem::m_randomSaleItemList);
 	gc_mark_q(c_Camera::m_fadeOutCallback);
 	gc_mark_q(c_Camera::m_fadeInCallback);
+	gc_mark_q(c_Player::m_AltHeadWidths);
+	gc_mark_q(c_Player::m_AltHeadHeights);
 	gc_mark_q(c_Spells::m_spellCoolKills);
 	gc_mark_q(c_Item::m_itemImages);
 	gc_mark_q(c_Familiar::m_familiarList);
