@@ -8,6 +8,7 @@ Import input2
 Import logger
 Import necrodancergame
 Import player_class
+Import steam
 Import textlog
 Import util
 Import xml
@@ -15,6 +16,8 @@ Import xml
 Const NECRODANCER_XML_CHECKSUM: Int = 1495719624
 
 Class GameData
+
+    Const GAMEDATA_VERSION: String = String(2)
 
     Global activeMod: String
     Global cachedAudioLatency: Bool
@@ -166,8 +169,8 @@ Class GameData
         Debug.TraceNotImplemented("GameData.GetEnableSubtitles()")
     End Function
 
-    Function GetFreshString: Int()
-        Debug.TraceNotImplemented("GameData.GetFreshString()")
+    Function GetFreshString: String()
+        Return "<necrodancer><player v=~q" + GameData.GAMEDATA_VERSION + "~q></player><game></game><npc></npc></necrodancer>"
     End Function
 
     Function GetFullscreen: Bool()
@@ -575,7 +578,109 @@ Class GameData
     End Function
 
     Function LoadPlayerDataXML: Bool(forceCloud: Bool)
-        Debug.TraceNotImplemented("GameData.LoadPlayerDataXML(Bool)")
+        Local xmlSaveDataFreshStr := GameData.GetFreshString()
+        Local error := New XMLError()
+
+        GameData.playerDataLoadPending = False
+
+        Local playerID := steam.GetPlayerID()
+        Local xmlSaveDataPath := "save_data" + playerID + ".xml"
+        Local xmlSaveDataStr := app.LoadString(xmlSaveDataPath)
+        If xmlSaveDataStr = ""
+            xmlSaveDataStr = app.LoadString("save_data.xml")
+        End If
+
+        Local cloudTimestamp := steam.GetCloudSaveTimestamp()
+        TextLog.Message("LoadPlayerDataXML(), cloudTimestamp=" + cloudTimestamp)
+
+        Local loadedCloudSave: Bool
+
+        If xmlSaveDataStr = ""
+            If Not necrodancergame.DEBUG_DISABLE_CLOUD_SAVES And
+               cloudTimestamp <> 0 And
+               os.FileType("data/played.dat") <> os.FILETYPE_NONE
+                xmlSaveDataStr = steam.LoadCloudSave()
+                loadedCloudSave = True
+            Else
+                xmlSaveDataStr = xmlSaveDataFreshStr
+            End If
+        End If
+
+        If forceCloud
+            xmlSaveDataStr = steam.LoadCloudSave()
+            loadedCloudSave = True
+        End If
+
+        GameData.xmlSaveData = xml.ParseXML(xmlSaveDataStr, error)
+
+        If GameData.xmlSaveData = Null
+            TextLog.Message("ERROR: Failed to load save data because of an XML parsing error")
+            TextLog.Message(error)
+            
+            Local invalidSaveDataPath := "data/invalid_save_data.xml"
+            TextLog.Message("Dumping the invalid save data to path :  " + invalidSaveDataPath)
+            os.SaveString(xmlSaveDataStr, invalidSaveDataPath)
+
+            TextLog.Message("Loading fresh save data instead")
+            error = New XMLError()
+            GameData.xmlSaveData = xml.ParseXML(xmlSaveDataFreshStr, error)
+            Debug.Assert(GameData.xmlSaveData <> Null)
+        End If
+
+        If loadedCloudSave
+            GameData.xmlSaveData.SetAttribute("cloudTimestamp", cloudTimestamp)
+        End If
+
+        If Not necrodancergame.DEBUG_DISABLE_CLOUD_SAVES And
+           Not loadedCloudSave And
+           cloudTimestamp <> 0
+            Local localCloudTimestamp := GameData.xmlSaveData.GetAttribute("cloudTimestamp", 0)
+            If localCloudTimestamp <> cloudTimestamp
+                GameData.playerDataLoadPending = True
+            End If
+        End If
+
+        Local playerNode := GameData.xmlSaveData.GetChild("player")
+        Local dataVersion := playerNode.GetAttribute("v", String(0))
+        TextLog.Message("DATA VERSION: " + dataVersion)
+
+        If dataVersion <> GameData.GAMEDATA_VERSION
+            Local oldXMLSaveDataPath := "data/save_data_OLD" + dataVersion + ".xml"
+            Local oldXMLSaveDataStr := GameData.xmlSaveData.Export(xml.XML_STRIP_WHITESPACE)
+            os.SaveString(oldXMLSaveDataStr, oldXMLSaveDataPath)
+
+            error = New XMLError()
+            GameData.xmlSaveData = xml.ParseXML(xmlSaveDataFreshStr, error)
+        End If
+
+        If GameData.xmlSaveData = Null
+            If error.error
+                TextLog.ExitGame("GAMEDATA XML PARSE ERROR: " + error)
+            End If
+        End If
+
+        GameData.playerDataLoaded = True
+
+        playerNode.RemoveAttribute("diamondDealerItems")
+        playerNode.RemoveAttribute("diamondDealerSoldItem")
+        playerNode.RemoveAttribute("diamondDealerSoldItem")
+        playerNode.RemoveAttribute("diamondDealerSoldItem")
+
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+        gameNode.RemoveAttribute("numPendingSpawnItems")
+
+        While gameNode.HasAttribute("pendingSpawnItem")
+            gameNode.RemoveAttribute("pendingSpawnItem")
+        End While
+
+        If gameNode.HasAttribute("defaultCharacter")
+            Local defaultCharacter := gameNode.GetAttribute("defaultCharacter", Character.Cadence)
+            GameData.SetDefaultCharacter(defaultCharacter)
+
+            gameNode.RemoveAttribute("defaultCharacter")
+        End If
+
+        Return GameData.playerDataLoadPending
     End Function
 
     Function LoadReplayPlayerDataXML: Void(data: Int)

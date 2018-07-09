@@ -6015,6 +6015,10 @@ class c_GameData : public Object{
 	static String m_GetDiamondDealerItems();
 	static void m_EraseDiamondDealerItems();
 	static bool m_GetEnableBossIntros();
+	static String m_GetFreshString();
+	static bool m_playerDataLoadPending;
+	static bool m_playerDataLoaded;
+	static void m_SetDefaultCharacter(int);
 	static bool m_LoadPlayerDataXML(bool);
 	static String m_GetDefaultMod();
 	static bool m_GetShownNocturnaIntro();
@@ -6213,6 +6217,7 @@ class c_XMLNode : public Object{
 	virtual String p_Export(int);
 	void p_Export2(int,c_XMLStringBuffer*,int);
 	void p_RemoveChild(c_XMLNode*);
+	void p_RemoveAttribute(String);
 	void mark();
 };
 class c_XMLDoc : public c_XMLNode{
@@ -6371,6 +6376,9 @@ class c_Map3 : public Object{
 	c_MapValues* p_Values();
 	c_Node4* p_FirstNode();
 	c_MapKeys2* p_Keys();
+	int p_DeleteFixup(c_Node4*,c_Node4*);
+	int p_RemoveNode(c_Node4*);
+	int p_Remove2(String);
 	void mark();
 };
 class c_StringMap2 : public c_Map3{
@@ -6615,7 +6623,7 @@ class c_Stack2 : public Object{
 	void p_Length2(int);
 	int p_Length();
 	int p_Get2(int);
-	void p_Remove2(int);
+	void p_Remove3(int);
 	void p_Set6(int,int);
 	int p_Pop();
 	virtual bool p_Equals2(int,int);
@@ -9261,7 +9269,7 @@ class c_List16 : public Object{
 	c_Enumerator33* p_ObjectEnumerator();
 	bool p_Equals13(c_ParticleSystem*,c_ParticleSystem*);
 	int p_RemoveEach8(c_ParticleSystem*);
-	void p_Remove3(c_ParticleSystem*);
+	void p_Remove4(c_ParticleSystem*);
 	void mark();
 };
 class c_Node31 : public Object{
@@ -9399,9 +9407,9 @@ class c_Map15 : public Object{
 	c_Node33* p_FindNode3(c_Point*);
 	bool p_Contains5(c_Point*);
 	c_Point* p_Get4(c_Point*);
-	int p_DeleteFixup(c_Node33*,c_Node33*);
-	int p_RemoveNode(c_Node33*);
-	int p_Remove4(c_Point*);
+	int p_DeleteFixup2(c_Node33*,c_Node33*);
+	int p_RemoveNode2(c_Node33*);
+	int p_Remove5(c_Point*);
 	void mark();
 };
 class c_ExitMap : public c_Map15{
@@ -10681,7 +10689,7 @@ class c_Stack4 : public Object{
 	void p_Length2(int);
 	int p_Length();
 	void p_Set17(int,c_Point*);
-	void p_Remove2(int);
+	void p_Remove3(int);
 	c_Point* p_Pop();
 	void mark();
 };
@@ -10713,7 +10721,7 @@ class c_Stack5 : public Object{
 	void p_Push15(Array<c_XMLNode* >,int);
 	bool p_IsEmpty();
 	c_XMLNode* p_Get2(int);
-	void p_Remove2(int);
+	void p_Remove3(int);
 	c_Enumerator13* p_ObjectEnumerator();
 	void p_Length2(int);
 	int p_Length();
@@ -11992,6 +12000,10 @@ class c_ControllerMainMenu : public c_Controller{
 	void p_Update();
 	void mark();
 };
+String bb_steam_GetPlayerID();
+int bb_steam_GetCloudSaveTimestamp();
+extern bool bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES;
+String bb_steam_LoadCloudSave();
 void bb_util_SetVSync(int);
 extern Object* bb_steam_g_SteamLeaderboards;
 class c_ISteamApps : public virtual gc_interface{
@@ -12359,9 +12371,8 @@ int c_NecroDancerGame::p_OnCreate(){
 	bb_app_SetUpdateRate(bb_necrodancergame_FRAMES_PER_SEC);
 	c_TextLog::m_Message(String(L"GLOBAL_SCALE_FACTOR: ",21)+String(bb_necrodancergame_GLOBAL_SCALE_FACTOR));
 	if(true){
-		c_TextLog::m_Message(String(L"Loading ControllerMainMenu...",29));
-		(new c_ControllerMainMenu)->m_new();
-		c_TextLog::m_Message(String(L"ControllerMainMenu LOADED",25));
+		c_GameData::m_LoadGameDataXML(true);
+		(new c_ControllerGame)->m_new();
 	}
 	return 0;
 }
@@ -13866,9 +13877,91 @@ bool c_GameData::m_GetEnableBossIntros(){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
 	return t_gameNode->p_GetAttribute2(String(L"enableBossIntros",16),true);
 }
+String c_GameData::m_GetFreshString(){
+	return String(L"<necrodancer><player v=\"2\"></player><game></game><npc></npc></necrodancer>",74);
+}
+bool c_GameData::m_playerDataLoadPending;
+bool c_GameData::m_playerDataLoaded;
+void c_GameData::m_SetDefaultCharacter(int t_c){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetDefaultCharacter(Int)",33));
+}
 bool c_GameData::m_LoadPlayerDataXML(bool t_forceCloud){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.LoadPlayerDataXML(Bool)",32));
-	return false;
+	String t_xmlSaveDataFreshStr=m_GetFreshString();
+	c_XMLError* t_error=(new c_XMLError)->m_new();
+	m_playerDataLoadPending=false;
+	String t_playerID=bb_steam_GetPlayerID();
+	String t_xmlSaveDataPath=String(L"save_data",9)+t_playerID+String(L".xml",4);
+	String t_xmlSaveDataStr=bb_app_LoadString(t_xmlSaveDataPath);
+	if(t_xmlSaveDataStr==String()){
+		t_xmlSaveDataStr=bb_app_LoadString(String(L"save_data.xml",13));
+	}
+	int t_cloudTimestamp=bb_steam_GetCloudSaveTimestamp();
+	c_TextLog::m_Message(String(L"LoadPlayerDataXML(), cloudTimestamp=",36)+String(t_cloudTimestamp));
+	bool t_loadedCloudSave=false;
+	if(t_xmlSaveDataStr==String()){
+		if(!bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES && t_cloudTimestamp!=0 && FileType(String(L"data/played.dat",15))!=0){
+			t_xmlSaveDataStr=bb_steam_LoadCloudSave();
+			t_loadedCloudSave=true;
+		}else{
+			t_xmlSaveDataStr=t_xmlSaveDataFreshStr;
+		}
+	}
+	if(t_forceCloud){
+		t_xmlSaveDataStr=bb_steam_LoadCloudSave();
+		t_loadedCloudSave=true;
+	}
+	gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataStr,t_error,1));
+	if(m_xmlSaveData==0){
+		c_TextLog::m_Message(String(L"ERROR: Failed to load save data because of an XML parsing error",63));
+		c_TextLog::m_Message(t_error->p_ToString());
+		String t_invalidSaveDataPath=String(L"data/invalid_save_data.xml",26);
+		c_TextLog::m_Message(String(L"Dumping the invalid save data to path :  ",41)+t_invalidSaveDataPath);
+		SaveString(t_xmlSaveDataStr,t_invalidSaveDataPath);
+		c_TextLog::m_Message(String(L"Loading fresh save data instead",31));
+		t_error=(new c_XMLError)->m_new();
+		gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataFreshStr,t_error,1));
+		bb_logger_Debug->p_Assert(m_xmlSaveData!=0,String());
+	}
+	if(t_loadedCloudSave){
+		m_xmlSaveData->p_SetAttribute3(String(L"cloudTimestamp",14),t_cloudTimestamp);
+	}
+	if(!bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES && !t_loadedCloudSave && t_cloudTimestamp!=0){
+		int t_localCloudTimestamp=m_xmlSaveData->p_GetAttribute3(String(L"cloudTimestamp",14),0);
+		if(t_localCloudTimestamp!=t_cloudTimestamp){
+			m_playerDataLoadPending=true;
+		}
+	}
+	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
+	String t_dataVersion=t_playerNode->p_GetAttribute5(String(L"v",1),String(L"0",1));
+	c_TextLog::m_Message(String(L"DATA VERSION: ",14)+t_dataVersion);
+	if(t_dataVersion!=String(L"2",1)){
+		String t_oldXMLSaveDataPath=String(L"data/save_data_OLD",18)+t_dataVersion+String(L".xml",4);
+		String t_oldXMLSaveDataStr=m_xmlSaveData->p_Export(1);
+		SaveString(t_oldXMLSaveDataStr,t_oldXMLSaveDataPath);
+		t_error=(new c_XMLError)->m_new();
+		gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataFreshStr,t_error,1));
+	}
+	if(m_xmlSaveData==0){
+		if(t_error->m_error){
+			c_TextLog::m_ExitGame(String(L"GAMEDATA XML PARSE ERROR: ",26)+(t_error->p_ToString()));
+		}
+	}
+	m_playerDataLoaded=true;
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerItems",18));
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	t_gameNode->p_RemoveAttribute(String(L"numPendingSpawnItems",20));
+	while(t_gameNode->p_HasAttribute(String(L"pendingSpawnItem",16))){
+		t_gameNode->p_RemoveAttribute(String(L"pendingSpawnItem",16));
+	}
+	if(t_gameNode->p_HasAttribute(String(L"defaultCharacter",16))){
+		int t_defaultCharacter=t_gameNode->p_GetAttribute3(String(L"defaultCharacter",16),0);
+		m_SetDefaultCharacter(t_defaultCharacter);
+		t_gameNode->p_RemoveAttribute(String(L"defaultCharacter",16));
+	}
+	return m_playerDataLoadPending;
 }
 String c_GameData::m_GetDefaultMod(){
 	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute5(String(L"defaultMod",10),String());
@@ -15040,6 +15133,12 @@ void c_XMLNode::p_RemoveChild(c_XMLNode* t_child){
 	}
 	t_child->p_Free();
 }
+void c_XMLNode::p_RemoveAttribute(String t_id){
+	if(m_valid==false){
+		return;
+	}
+	m_attributes->p_Remove2(t_id);
+}
 void c_XMLNode::mark(){
 	Object::mark();
 	gc_mark_q(m_doc);
@@ -15878,6 +15977,111 @@ c_Node4* c_Map3::p_FirstNode(){
 }
 c_MapKeys2* c_Map3::p_Keys(){
 	return (new c_MapKeys2)->m_new(this);
+}
+int c_Map3::p_DeleteFixup(c_Node4* t_node,c_Node4* t_parent){
+	while(t_node!=m_root && (!((t_node)!=0) || t_node->m_color==1)){
+		if(t_node==t_parent->m_left){
+			c_Node4* t_sib=t_parent->m_right;
+			if(t_sib->m_color==-1){
+				t_sib->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateLeft3(t_parent);
+				t_sib=t_parent->m_right;
+			}
+			if((!((t_sib->m_left)!=0) || t_sib->m_left->m_color==1) && (!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1)){
+				t_sib->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
+			}else{
+				if(!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1){
+					t_sib->m_left->m_color=1;
+					t_sib->m_color=-1;
+					p_RotateRight3(t_sib);
+					t_sib=t_parent->m_right;
+				}
+				t_sib->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib->m_right->m_color=1;
+				p_RotateLeft3(t_parent);
+				t_node=m_root;
+			}
+		}else{
+			c_Node4* t_sib2=t_parent->m_left;
+			if(t_sib2->m_color==-1){
+				t_sib2->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateRight3(t_parent);
+				t_sib2=t_parent->m_left;
+			}
+			if((!((t_sib2->m_right)!=0) || t_sib2->m_right->m_color==1) && (!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1)){
+				t_sib2->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
+			}else{
+				if(!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1){
+					t_sib2->m_right->m_color=1;
+					t_sib2->m_color=-1;
+					p_RotateLeft3(t_sib2);
+					t_sib2=t_parent->m_left;
+				}
+				t_sib2->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib2->m_left->m_color=1;
+				p_RotateRight3(t_parent);
+				t_node=m_root;
+			}
+		}
+	}
+	if((t_node)!=0){
+		t_node->m_color=1;
+	}
+	return 0;
+}
+int c_Map3::p_RemoveNode(c_Node4* t_node){
+	c_Node4* t_splice=0;
+	c_Node4* t_child=0;
+	if(!((t_node->m_left)!=0)){
+		t_splice=t_node;
+		t_child=t_node->m_right;
+	}else{
+		if(!((t_node->m_right)!=0)){
+			t_splice=t_node;
+			t_child=t_node->m_left;
+		}else{
+			t_splice=t_node->m_left;
+			while((t_splice->m_right)!=0){
+				t_splice=t_splice->m_right;
+			}
+			t_child=t_splice->m_left;
+			t_node->m_key=t_splice->m_key;
+			gc_assign(t_node->m_value,t_splice->m_value);
+		}
+	}
+	c_Node4* t_parent=t_splice->m_parent;
+	if((t_child)!=0){
+		gc_assign(t_child->m_parent,t_parent);
+	}
+	if(!((t_parent)!=0)){
+		gc_assign(m_root,t_child);
+		return 0;
+	}
+	if(t_splice==t_parent->m_left){
+		gc_assign(t_parent->m_left,t_child);
+	}else{
+		gc_assign(t_parent->m_right,t_child);
+	}
+	if(t_splice->m_color==1){
+		p_DeleteFixup(t_child,t_parent);
+	}
+	return 0;
+}
+int c_Map3::p_Remove2(String t_key){
+	c_Node4* t_node=p_FindNode2(t_key);
+	if(!((t_node)!=0)){
+		return 0;
+	}
+	p_RemoveNode(t_node);
+	return 1;
 }
 void c_Map3::mark(){
 	Object::mark();
@@ -17384,7 +17588,7 @@ int c_Stack2::p_Length(){
 int c_Stack2::p_Get2(int t_index){
 	return m_data[t_index];
 }
-void c_Stack2::p_Remove2(int t_index){
+void c_Stack2::p_Remove3(int t_index){
 	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
 		m_data[t_i]=m_data[t_i+1];
 	}
@@ -25135,7 +25339,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 		}
 	}
 	c_Point* t_exitPoint=t_points->p_Get2(t_pointsIndex);
-	t_points->p_Remove2(t_pointsIndex);
+	t_points->p_Remove3(t_pointsIndex);
 	m_CreateExit(t_exitPoint->m_x,t_exitPoint->m_y);
 	t_points->p_Shuffle(true);
 	bb_logger_Debug->p_Log(String(L"CREATEMAPZONE5: Place wire",26));
@@ -29632,7 +29836,7 @@ bool c_Level::m_IsVisibleTileAt(int t_xVal,int t_yVal){
 	return t_tile!=0 && t_tile->p_IsVisible();
 }
 void c_Level::m_RemoveExit(int t_xVal,int t_yVal){
-	m_exits->p_Remove4((new c_Point)->m_new(t_xVal,t_yVal));
+	m_exits->p_Remove5((new c_Point)->m_new(t_xVal,t_yVal));
 }
 int c_Level::m_maxLevelX;
 int c_Level::m_minLevelX;
@@ -32945,7 +33149,7 @@ void c_ParticleSystem::m_UpdateAll(){
 	while(t_2->p_HasNext()){
 		c_ParticleSystem* t_system2=t_2->p_NextObject();
 		if(t_system2->m_visible && !t_system2->m_active){
-			m_systems->p_Remove3(t_system2);
+			m_systems->p_Remove4(t_system2);
 		}
 	}
 }
@@ -33997,8 +34201,8 @@ void c_Item::m_CreateItemPools(){
 					}
 					c_XMLNode* t_itemPoolCandidate=t_unlockedItems->p_Get2(t_n);
 					t_itemPoolCandidates->p_Push13(t_itemPoolCandidate);
-					t_unlockedItems->p_Remove2(t_n);
-					t_unlockedItemsChances->p_Remove2(t_n);
+					t_unlockedItems->p_Remove3(t_n);
+					t_unlockedItemsChances->p_Remove3(t_n);
 				}
 				c_Enumerator13* t_4=t_itemPoolCandidates->p_ObjectEnumerator();
 				while(t_4->p_HasNext()){
@@ -44154,7 +44358,7 @@ int c_List16::p_RemoveEach8(c_ParticleSystem* t_value){
 	}
 	return 0;
 }
-void c_List16::p_Remove3(c_ParticleSystem* t_value){
+void c_List16::p_Remove4(c_ParticleSystem* t_value){
 	p_RemoveEach8(t_value);
 }
 void c_List16::mark(){
@@ -44695,7 +44899,7 @@ c_Point* c_Map15::p_Get4(c_Point* t_key){
 	}
 	return 0;
 }
-int c_Map15::p_DeleteFixup(c_Node33* t_node,c_Node33* t_parent){
+int c_Map15::p_DeleteFixup2(c_Node33* t_node,c_Node33* t_parent){
 	while(t_node!=m_root && (!((t_node)!=0) || t_node->m_color==1)){
 		if(t_node==t_parent->m_left){
 			c_Node33* t_sib=t_parent->m_right;
@@ -44754,7 +44958,7 @@ int c_Map15::p_DeleteFixup(c_Node33* t_node,c_Node33* t_parent){
 	}
 	return 0;
 }
-int c_Map15::p_RemoveNode(c_Node33* t_node){
+int c_Map15::p_RemoveNode2(c_Node33* t_node){
 	c_Node33* t_splice=0;
 	c_Node33* t_child=0;
 	if(!((t_node->m_left)!=0)){
@@ -44788,16 +44992,16 @@ int c_Map15::p_RemoveNode(c_Node33* t_node){
 		gc_assign(t_parent->m_right,t_child);
 	}
 	if(t_splice->m_color==1){
-		p_DeleteFixup(t_child,t_parent);
+		p_DeleteFixup2(t_child,t_parent);
 	}
 	return 0;
 }
-int c_Map15::p_Remove4(c_Point* t_key){
+int c_Map15::p_Remove5(c_Point* t_key){
 	c_Node33* t_node=p_FindNode3(t_key);
 	if(!((t_node)!=0)){
 		return 0;
 	}
-	p_RemoveNode(t_node);
+	p_RemoveNode2(t_node);
 	return 1;
 }
 void c_Map15::mark(){
@@ -49081,7 +49285,7 @@ int c_Stack4::p_Length(){
 void c_Stack4::p_Set17(int t_index,c_Point* t_value){
 	gc_assign(m_data[t_index],t_value);
 }
-void c_Stack4::p_Remove2(int t_index){
+void c_Stack4::p_Remove3(int t_index){
 	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
 		gc_assign(m_data[t_i],m_data[t_i+1]);
 	}
@@ -49171,7 +49375,7 @@ bool c_Stack5::p_IsEmpty(){
 c_XMLNode* c_Stack5::p_Get2(int t_index){
 	return m_data[t_index];
 }
-void c_Stack5::p_Remove2(int t_index){
+void c_Stack5::p_Remove3(int t_index){
 	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
 		gc_assign(m_data[t_i],m_data[t_i+1]);
 	}
@@ -52569,6 +52773,19 @@ void c_ControllerMainMenu::mark(){
 	gc_mark_q(m_alphaWarning);
 	gc_mark_q(m_seizureWarning);
 }
+String bb_steam_GetPlayerID(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GetPlayerID()",13));
+	return String();
+}
+int bb_steam_GetCloudSaveTimestamp(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GetCloudSaveTimestamp()",23));
+	return 0;
+}
+bool bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES;
+String bb_steam_LoadCloudSave(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"LoadCloudSave()",15));
+	return String();
+}
 void bb_util_SetVSync(int t_v){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SetVSync(Int)",13));
 }
@@ -53621,6 +53838,9 @@ int bbInit(){
 	c_Entity::m_anyPlayerHaveNazarCharmCachedFrame=0;
 	c_Level::m_todaysRandSeedString=String();
 	c_Chain::m_waitingForFirstMovement=Array<bool >(4);
+	c_GameData::m_playerDataLoadPending=false;
+	bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES=false;
+	c_GameData::m_playerDataLoaded=false;
 	bb_steam_g_SteamLeaderboards=0;
 	c_ControllerIntro::m_videoSpr=0;
 	bb_necrodancergame_lastFrameTimeUpdate=0;

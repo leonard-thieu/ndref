@@ -4,6 +4,18 @@ Import logger
 
 Global g_SteamLeaderboards: Object
 
+Function GetCloudSaveTimestamp: Int()
+    Debug.TraceNotImplemented("GetCloudSaveTimestamp()")
+End Function
+
+Function GetPlayerID: String()
+    Debug.TraceNotImplemented("GetPlayerID()")
+End Function
+
+Function LoadCloudSave: String()
+    Debug.TraceNotImplemented("LoadCloudSave()")
+End Function
+
 Function SteamApps: ISteamApps()
     Debug.TraceNotImplemented("SteamApps()")
 End Function
