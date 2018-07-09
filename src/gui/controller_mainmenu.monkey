@@ -1,16 +1,24 @@
 'Strict
 
+Import mojo.app
 Import mojo.graphics
 Import gui.controller
+Import gui.controller_changelog
 Import gui.controller_cutscene
 Import gui.controller_intro
 Import gui.controller_popup
+Import camera
 Import gamedata
+Import item
 Import logger
+Import necrodancergame
+Import particles
 Import player_class
 Import sprite
 Import steam
+Import textlog
 Import textsprite
+Import util
 
 Class ControllerMainMenu Extends Controller
 
@@ -114,7 +122,20 @@ Class ControllerMainMenu Extends Controller
     End Method
 
     Method LoadGame: Void()
-        Debug.TraceNotImplemented("ControllerMainMenu.LoadGame()")
+        TextLog.Message("NECRODANCER INIT: Loading game")
+
+        Util.AddMetric("event", "necrodancerLoad", True, True)
+
+        NecroDancerGame.textFont = graphics.LoadImage("TEMP_font.png", 96, Image.XYPadding)
+        graphics.SetFont(NecroDancerGame.textFont)
+
+        Camera.Init()
+        ParticleSystem.Init()
+        Item.InitAll()
+
+        ' SKIPPED: Preload assets.
+
+        Self.startedWaitingForStatsCallback = app.Millisecs()
     End Method
 
     Method PassFocusToNextController: Void()
@@ -122,15 +143,82 @@ Class ControllerMainMenu Extends Controller
     End Method
 
     Method RegainFocus: Void()
-        Debug.TraceNotImplemented("ControllerMainMenu.RegainFocus()")
+        Sprite.scaleToFitScreen = True
+
+        If Self.passingToCalibration
+            Self.passingToCalibration = False
+
+            If GameData.GetChangeLogShownForCurrentVersion()
+                New ControllerGame()
+                Self.hasSentToGameplay = True
+            Else
+                GameData.SetChangeLogShownForCurrentVersion()
+                New ControllerChangeLog()
+            End If
+
+            Self.loaded = False
+        Else
+            If Self.popUpController <> Null
+                Self.showCloudSavePopup = False
+
+                If Self.popUpController.retval = 1
+                    GameData.LoadPlayerDataXML(True)
+                End If
+
+                Self.popUpController = Null
+                GameData.playerDataLoadPending = False
+
+                Self.PassFocusToNextController()
+            End If
+
+            Self.loaded = False
+        End If
     End Method
 
     Method Render: Void()
-        Debug.TraceNotImplemented("ControllerMainMenu.Render()")
+        ' SKIPPED: Show alpha warning.
+        ' SKIPPED: Show seizure warning.
+        ' SKIPPED: Draw main menu.
+        ' SKIPPED: Draw video sprite.
+        ' SKIPPED: Draw version image.
+
+        If Self.firstRun > 0
+            Self.firstRun -= 1
+        End If
+
+        ' SKIPPED: Draw continue image.
+        ' SKIPPED: Draw loading image.
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("ControllerMainMenu.Update()")
+        ' SKIPPED: Steam Stats
+
+        If Self.firstRun > 0
+            Return
+        End If
+
+        If Not Self.loaded
+            ' SKIPPED: On quit intro
+            ' SKIPPED: Video sprite
+
+            ControllerIntro.quitIntro = True
+            Self.loaded = True
+        end If
+
+        Audio.Update(False)
+
+        ' SKIPPED: Main menu song
+
+        ' SKIPPED: Check intro video finished.
+        If Not Self.gameLoaded
+            Self.gameLoaded = True
+            Self.LoadGame()
+        End If
+
+        ' SKIPPED: Main menu input handling
+
+        New ControllerGame()
+        Self.hasSentToGameplay = True
     End Method
 
 End Class

@@ -46,8 +46,7 @@ Class ControllerIntro Extends Controller
             Self.introSongName = "intro_dlc"
         End If
 
-        TextLog.Message("ControllerIntro: Loading video...")
-        Debug.TraceNotImplemented("ControllerIntro.New() (Video)")
+        ' SKIPPED: Load video.
     End Method
 
     Field splashScreen: Sprite
@@ -67,7 +66,9 @@ Class ControllerIntro Extends Controller
     Field splashAlpha: Float = 1.0
 
     Method Destructor: Void()
-        Debug.TraceNotImplemented("ControllerIntro.Destructor()")
+        ' SKIPPED: Clean up video-related.
+
+        Sprite.scaleToFitScreen = False
     End Method
 
     Method DrawFrame: Void()
@@ -83,7 +84,12 @@ Class ControllerIntro Extends Controller
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("ControllerIntro.Update()")
+        ' SKIPPED: Input handling.
+        ' SKIPPED: Play intro.
+
+        ControllerIntro.quitIntro = True
+        Audio.PauseSong(True)
+        Self.ReleaseFocus()
     End Method
 
 End Class

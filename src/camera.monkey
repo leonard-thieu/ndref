@@ -1,9 +1,11 @@
 'Strict
 
+Import mojo.graphics
 Import level
 Import callback
 Import logger
 Import necrodancergame
+Import sprite
 
 Class Camera
 
@@ -16,13 +18,13 @@ Class Camera
     Global fixed: Bool
     Global freezeFrameDelay: Int = -1
     Global freezeFrameNum: Int = -1
-    Global freezeImage: Object
+    Global freezeImage: Image
     Global lastFreezeFrameH: Int
     Global lastFreezeFrameW: Int
-    Global overlayBlack: Object
-    Global overlayRed: Object
+    Global overlayBlack: Sprite
+    Global overlayRed: Sprite
     Global overlayRedDuration: Int
-    Global overlayWhite: Object
+    Global overlayWhite: Sprite
     Global overlayWhiteDuration: Int
     Global seekX: Float
     Global seekY: Float

@@ -12,6 +12,10 @@ Class ControllerChangeLog Extends Controller
 
     Function _EditorFix: Void() End
 
+    Method New()
+        Debug.TraceNotImplemented("ControllerChangeLog.New()")
+    End Method
+
     Field numPages: Int
     Field pageNum: Int
     Field overlayBlack: Sprite
@@ -40,6 +44,10 @@ Class ControllerChangeLog Extends Controller
 
     Method GUICallback: Void(index: Int, left: Bool)
         Debug.TraceNotImplemented("ControllerChangeLog.GUICallback(Int, Bool)")
+    End Method
+    
+    Method RegainFocus: Void()
+        Debug.TraceNotImplemented("ControllerChangeLog.RegainFocus()")
     End Method
 
     Method Render: Void()

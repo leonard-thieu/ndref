@@ -392,7 +392,9 @@ Class GameData
     End Function
 
     Function GetViewMultiplier: Int()
-        Debug.TraceNotImplemented("GameData.GetViewMultiplier()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+
+        Return gameNode.GetAttribute("viewMultiplier", 0)
     End Function
 
     Function GetVSync: Bool()

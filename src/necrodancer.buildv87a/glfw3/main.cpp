@@ -5208,70 +5208,69 @@ class c_LogLevel;
 class c_DataBuffer;
 class c_StreamError;
 class c_StreamWriteError;
-class c_XMLError;
 class c_XMLNode;
 class c_XMLDoc;
-class c_XMLStringBuffer;
-class c_List;
-class c_Node2;
-class c_HeadNode;
-class c_Map2;
-class c_StringMap;
-class c_Node3;
 class c_XMLAttributeQuery;
+class c_XMLStringBuffer;
 class c_XMLAttributeQueryItem;
 class c_XMLAttribute;
+class c_Map2;
+class c_StringMap;
+class c_Node2;
+class c_GuiContainer;
+class c_Controller;
+class c_ControllerMainMenu;
+class c_Tweenable;
+class c_Sprite;
+class c_XMLError;
+class c_List;
+class c_Node3;
+class c_HeadNode;
 class c_Map3;
 class c_StringMap2;
 class c_Node4;
 class c_MapValues;
 class c_ValueEnumerator;
-class c_GuiContainer;
-class c_Controller;
-class c_ControllerGame;
-class c_Tweenable;
-class c_Sprite;
-class c_GUI_gameplay;
-class c_Input;
+class c_MapKeys;
+class c_KeyEnumerator;
+class c_Enumerator;
 class c_Character;
-class c_Spells;
-class c_Map4;
-class c_StringMap3;
-class c_Stack2;
-class c_SpellType;
-class c_LevelType;
+class c_TextSprite;
+class c_ControllerCutscene;
+class c_ISteamApps;
+class c_ControllerIntro;
+class c_Audio;
+class c_Camera;
+class c_Input;
+class c_ControllerPopUp;
 class c_Level;
-class c_LevelObject;
-class c_RenderableObject;
-class c_Entity;
-class c_MobileEntity;
-class c_Player;
 class c_ControllerLevelEditor;
-class c_Map5;
+class c_Map4;
 class c_IntMap2;
 class c_Node5;
-class c_Map6;
-class c_IntMap3;
-class c_Node6;
+class c_RenderableObject;
+class c_Entity;
 class c_Shrine;
+class c_MobileEntity;
+class c_Player;
 class c_Set;
 class c_IntSet;
-class c_Map7;
-class c_IntMap4;
-class c_Node7;
+class c_Map5;
+class c_IntMap3;
+class c_Node6;
 class c_RNG;
 class c_List2;
-class c_Node8;
+class c_Node7;
 class c_HeadNode2;
 class c_ParticleSystem;
 class c_List3;
-class c_Node9;
+class c_Node8;
 class c_HeadNode3;
 class c_FamiliarFixed;
 class c_List4;
-class c_Node10;
+class c_Node9;
 class c_HeadNode4;
-class c_Enumerator;
+class c_Enumerator2;
 class c_Familiar;
 class c_Item;
 class c_SaleItem;
@@ -5279,40 +5278,44 @@ class c_Chest;
 class c_Enemy;
 class c_Crate;
 class c_List5;
-class c_Node11;
+class c_Node10;
 class c_HeadNode5;
 class c_Gargoyle;
 class c_List6;
-class c_Node12;
+class c_Node11;
 class c_HeadNode6;
 class c_List7;
-class c_Node13;
+class c_Node12;
 class c_HeadNode7;
 class c_Leprechaun;
 class c_Chain;
-class c_Enumerator2;
+class c_Enumerator3;
 class c_Flyaway;
-class c_Camera;
 class c_Callback;
+class c_LevelType;
+class c_LevelObject;
+class c_Map6;
+class c_IntMap4;
+class c_Node13;
 class c_BossBattleType;
 class c_Stairs_callback;
-class c_ControllerCutscene;
+class c_Map7;
+class c_StringMap3;
+class c_Node14;
 class c_Map8;
 class c_StringMap4;
-class c_Node14;
-class c_Map9;
-class c_StringMap5;
 class c_Node15;
 class c_Set2;
 class c_StringSet;
-class c_Map10;
-class c_StringMap6;
+class c_Map9;
+class c_StringMap5;
 class c_Node16;
 class c_ItemList;
+class c_Map10;
+class c_StringMap6;
 class c_Node17;
 class c_Weapon;
 class c_ItemType;
-class c_Enumerator3;
 class c_Map11;
 class c_IntMap5;
 class c_Node18;
@@ -5324,6 +5327,8 @@ class c_List9;
 class c_Node20;
 class c_HeadNode9;
 class c_PlayerHealth;
+class c_Spells;
+class c_SpellType;
 class c_Map12;
 class c_StringMap7;
 class c_Node21;
@@ -5331,13 +5336,12 @@ class c_SoulFamiliar;
 class c_List10;
 class c_Node22;
 class c_HeadNode10;
-class c_Audio;
 class c_Point2;
 class c_ItemData;
-class c_TextSprite;
 class c_Bouncer;
 class c_Replay;
 class c_Point;
+class c_Stack2;
 class c_StackEx;
 class c_List11;
 class c_EnemyList;
@@ -5349,6 +5353,7 @@ class c_ReplayData;
 class c_Node24;
 class c_IntStack;
 class c_Enumerator6;
+class c_ControllerGame;
 class c_Tile;
 class c_Map13;
 class c_IntMap6;
@@ -5596,8 +5601,8 @@ class c_IntPointSet;
 class c_Map17;
 class c_IntPointMap;
 class c_Node53;
-class c_KeyEnumerator;
-class c_MapKeys;
+class c_KeyEnumerator2;
+class c_MapKeys2;
 class c_Stack7;
 class c_Enumerator22;
 class c_RectRoom;
@@ -5627,8 +5632,6 @@ class c_DiamondDealer;
 class c_Beastmaster;
 class c_Merlin;
 class c_Bossmaster;
-class c_MapKeys2;
-class c_KeyEnumerator2;
 class c_BackwardsStack;
 class c_BackwardsEnumerator;
 class c_DecorativeFireTrap;
@@ -5636,15 +5639,13 @@ class c_Switch;
 class c_List36;
 class c_Node54;
 class c_HeadNode36;
-class c_ControllerPopUp;
 class c_GuiComponent;
 class c_TextLabel;
 class c_OptionList;
 class c_ControllerPostGame;
 class c_ControllerBossIntro;
-class c_ControllerMainMenu;
-class c_ISteamApps;
-class c_ControllerIntro;
+class c_GUI_gameplay;
+class c_ControllerChangeLog;
 class c_ControllerInputPopup;
 class c_Enumerator30;
 class c_TextInput;
@@ -5693,13 +5694,16 @@ class c_NecroDancerGame : public c_App{
 	public:
 	c_NecroDancerGame();
 	c_NecroDancerGame* m_new();
+	static int m_lastViewMultiplier;
+	static int m_lastDeviceHeight;
+	static int m_lastDeviceWidth;
 	static void m_UpdateScreenSize(bool);
 	int p_OnCreate();
 	int p_OnRender();
 	int p_OnResume();
 	int p_OnSuspend();
-	void p_TestSeededAllZonesMode(int,String);
 	int p_OnUpdate();
+	static c_Image* m_textFont;
 	void mark();
 };
 extern c_App* bb_app__app;
@@ -5917,6 +5921,7 @@ class c_Util : public Object{
 	static String m_StringLeft(String,int);
 	static void m_SetAppFolder();
 	static void m_AddMetric(String,String,bool,bool,bool);
+	static void m_GetLeaderboardScores(int,int,int,String,bool,bool,bool);
 	static bool m_IsCharacterActive(int);
 	static int m_storedSeed;
 	static Float m_RndFloatRange(Float,Float,bool);
@@ -5941,7 +5946,6 @@ class c_Util : public Object{
 	static bool m_IncrementSteamStat(String,bool,bool,bool,bool);
 	static bool m_SetSteamIntStat(String,int,bool,bool,bool);
 	static c_Point* m_FindClosestTrulyUnoccupiedSpace(int,int,bool);
-	static void m_GetLeaderboardScores(int,int,int,String,bool,bool,bool);
 	static void m_Pump();
 	static Float m_GetDistSqFromObject(int,int,c_RenderableObject*);
 	static bool m_IsOnScreen(int,int,Float,Float);
@@ -5962,14 +5966,31 @@ class c_GameData : public Object{
 	public:
 	c_GameData();
 	static bool m_GetDebugLogging();
+	static bool m_playerDataLoaded;
+	static c_XMLDoc* m_xmlSaveData;
+	static int m_GetViewMultiplier();
 	static bool m_modGamedataChanges;
 	static String m_activeMod;
 	static void m_Save();
 	static bool m_gameDataLoaded;
 	static void m_LoadGameDataXML(bool);
-	static void m_SetCharUnlocked(int,bool);
+	static String m_GetFreshString();
+	static bool m_playerDataLoadPending;
+	static void m_SetDefaultCharacter(int);
+	static bool m_LoadPlayerDataXML(bool);
+	static String m_GetDefaultMod();
+	static bool m_GetShownNocturnaIntro();
+	static bool m_GetDLCPlayed();
+	static bool m_GetZone2Unlocked(int);
+	static bool m_IsCharUnlocked(int);
+	static void m_SetShownNocturnaIntro(bool);
+	static bool m_GetVSync();
+	static bool m_GetFullscreen();
+	static int m_GetResolutionW();
+	static int m_GetResolutionH();
+	static bool m_GetShownSeizureWarning();
+	static void m_SetLobbyMove(bool);
 	static void m_SetMentorLevelClear(int);
-	static c_XMLDoc* m_xmlSaveData;
 	static bool m_GetEnableCutscenes();
 	static int m_GetAlternateSkin(int);
 	static bool m_GetUseChoral();
@@ -5979,11 +6000,8 @@ class c_GameData : public Object{
 	static void m_SetPlayerDiamonds(int);
 	static bool m_GetTutorialComplete();
 	static int m_GetDefaultCharacter();
-	static bool m_GetDLCPlayed();
-	static bool m_GetZone2Unlocked(int);
 	static void m_SetDLCPlayed();
 	static int m_GetPlayerDiamonds();
-	static bool m_IsCharUnlocked(int);
 	static bool m_GetLobbyMove();
 	static bool m_cachedAudioLatency;
 	static int m_cachedAudioLatencyVal;
@@ -6015,20 +6033,9 @@ class c_GameData : public Object{
 	static String m_GetDiamondDealerItems();
 	static void m_EraseDiamondDealerItems();
 	static bool m_GetEnableBossIntros();
-	static String m_GetFreshString();
-	static bool m_playerDataLoadPending;
-	static bool m_playerDataLoaded;
-	static void m_SetDefaultCharacter(int);
-	static bool m_LoadPlayerDataXML(bool);
-	static String m_GetDefaultMod();
-	static bool m_GetShownNocturnaIntro();
-	static void m_SetShownNocturnaIntro(bool);
-	static bool m_GetVSync();
-	static bool m_GetFullscreen();
-	static int m_GetResolutionW();
-	static int m_GetResolutionH();
-	static bool m_GetShownSeizureWarning();
-	static void m_SetLobbyMove(bool);
+	static bool m_GetChangeLogShownForCurrentVersion();
+	static void m_SetCharUnlocked(int,bool);
+	static void m_SetChangeLogShownForCurrentVersion();
 	static void m_SetShowHints(int);
 	static int m_GetShowHints();
 	static bool m_GetShowDiamondReminder();
@@ -6060,8 +6067,8 @@ class c_Logger : public Object{
 	void p_WriteLine3();
 	c_Logger* m_new();
 	void p_TraceNotImplemented(String);
-	void p_Log(String);
 	void p_Assert(bool,String);
+	void p_Log(String);
 	void mark();
 };
 class c_Stream : public Object{
@@ -6130,54 +6137,38 @@ void bb_textlog_MessageGlobal(String,bool);
 int bb_math_Min(int,int);
 Float bb_math_Min2(Float,Float);
 void bb_steam_SteamInit();
-void bb_fmod_StartFMOD();
-extern int bb_necrodancergame_FRAMES_PER_SEC;
-extern int bb_app__updateRate;
-void bb_app_SetUpdateRate(int);
-extern Float bb_necrodancergame_GLOBAL_SCALE_FACTOR;
-class c_XMLError : public Object{
-	public:
-	bool m_error;
-	String m_message;
-	int m_line;
-	int m_column;
-	int m_offset;
-	c_XMLError();
-	c_XMLError* m_new();
-	void p_Reset();
-	void p_Set2(String,int,int,int);
-	String p_ToString();
-	void mark();
-};
-String bb_app_LoadString(String);
-int bb_util_CalcChecksum(String);
-extern int bb_controller_game_totalPlaytimeMilliseconds;
-void bb_fmod_EndFMOD();
-void bb_steam_SteamShutdown();
-void bb_textlog_ExitGameGlobal(String,bool);
 class c_XMLNode : public Object{
 	public:
+	c_XMLNode* m_firstChild;
+	c_XMLDoc* m_doc;
+	bool m_text;
+	c_XMLNode* m_nextSibling;
+	String m_nameLowerCase;
+	c_StringMap* m_attributes;
 	String m_fullValue;
 	bool m_valid;
-	bool m_text;
 	String m_nameNormalCase;
-	String m_nameLowerCase;
-	c_XMLDoc* m_doc;
 	c_XMLNode* m_parent;
 	c_XMLNode* m_lastChild;
-	c_XMLNode* m_nextSibling;
 	c_XMLNode* m_previousSibling;
-	c_XMLNode* m_firstChild;
 	c_List* m_children;
-	c_Node2* m_parentListNode;
+	c_Node3* m_parentListNode;
 	String m_path;
 	c_List* m_pathList;
-	c_Node2* m_pathListNode;
+	c_Node3* m_pathListNode;
 	int m_line;
 	int m_column;
 	int m_offset;
-	c_StringMap2* m_attributes;
 	c_XMLNode();
+	c_XMLNode* p_GetChild(bool);
+	c_XMLNode* p_GetChild2(String,bool);
+	c_XMLAttribute* p_GetXMLAttribute(String);
+	c_XMLNode* p_GetChild3(String,String,bool);
+	String p_GetAttribute(String);
+	bool p_GetAttribute2(String,bool);
+	int p_GetAttribute3(String,int);
+	Float p_GetAttribute4(String,Float);
+	String p_GetAttribute5(String,String);
 	c_XMLNode* m_new(String,bool);
 	c_XMLNode* m_new2();
 	c_XMLNode* p_AddText(String);
@@ -6197,27 +6188,18 @@ class c_XMLNode : public Object{
 	String p_name();
 	void p_name2(String);
 	c_XMLNode* p_AddChild2(c_XMLNode*,bool);
-	c_XMLNode* p_GetChild(bool);
-	c_XMLNode* p_GetChild2(String,bool);
-	c_XMLAttribute* p_GetXMLAttribute(String);
-	c_XMLNode* p_GetChild3(String,String,bool);
-	String p_GetAttribute(String);
-	bool p_GetAttribute2(String,bool);
-	int p_GetAttribute3(String,int);
-	Float p_GetAttribute4(String,Float);
-	String p_GetAttribute5(String,String);
+	bool p_HasChildren(bool);
+	virtual String p_Export(int);
+	void p_Export2(int,c_XMLStringBuffer*,int);
+	void p_RemoveAttribute(String);
+	bool p_HasAttribute(String);
 	c_XMLNode* p_GetChildAtPath(String);
 	c_XMLNode* p_GetChildAtPath2(String,String);
 	c_List* p_GetChildren(c_List*,bool);
 	c_List* p_GetChildren2(String,c_List*,bool);
 	c_List* p_GetChildren3(String,String,c_List*,bool);
 	c_List* p_GetChildrenWithAttributes(String,c_List*,bool);
-	bool p_HasAttribute(String);
-	bool p_HasChildren(bool);
-	virtual String p_Export(int);
-	void p_Export2(int,c_XMLStringBuffer*,int);
 	void p_RemoveChild(c_XMLNode*);
-	void p_RemoveAttribute(String);
 	void mark();
 };
 class c_XMLDoc : public c_XMLNode{
@@ -6225,11 +6207,23 @@ class c_XMLDoc : public c_XMLNode{
 	c_XMLNode* m_nullNode;
 	String m_version;
 	String m_encoding;
-	c_StringMap* m_paths;
+	c_StringMap2* m_paths;
 	c_XMLDoc();
 	c_XMLDoc* m_new(String,String,String);
 	c_XMLDoc* m_new2();
 	String p_Export(int);
+	void mark();
+};
+class c_XMLAttributeQuery : public Object{
+	public:
+	int m_count;
+	Array<c_XMLAttributeQueryItem* > m_items;
+	int m_chunk;
+	c_XMLAttributeQuery();
+	c_XMLAttributeQuery* m_new(String);
+	c_XMLAttributeQuery* m_new2();
+	bool p_Test(c_XMLNode*);
+	int p_Length();
 	void mark();
 };
 class c_XMLStringBuffer : public Object{
@@ -6241,101 +6235,14 @@ class c_XMLStringBuffer : public Object{
 	String m_cache;
 	c_XMLStringBuffer();
 	c_XMLStringBuffer* m_new(int);
-	int p_Length();
-	int p_Last(int);
 	void p_Add(int);
 	void p_Add2(String);
 	void p_Add3(String,int,int);
-	void p_Clear();
-	bool p_Trim();
-	String p_value();
-	void mark();
-};
-class c_List : public Object{
-	public:
-	c_Node2* m__head;
-	c_List();
-	c_List* m_new();
-	c_Node2* p_AddLast(c_XMLNode*);
-	c_List* m_new2(Array<c_XMLNode* >);
-	c_XMLNode* p_RemoveLast();
-	bool p_Equals(c_XMLNode*,c_XMLNode*);
-	c_Node2* p_FindLast(c_XMLNode*,c_Node2*);
-	c_Node2* p_FindLast2(c_XMLNode*);
-	void p_RemoveLast2(c_XMLNode*);
-	bool p_IsEmpty();
-	c_XMLNode* p_Last2();
-	c_XMLNode* p_First();
-	c_Enumerator3* p_ObjectEnumerator();
-	int p_Count();
-	int p_Clear();
-	void mark();
-};
-class c_Node2 : public Object{
-	public:
-	c_Node2* m__succ;
-	c_Node2* m__pred;
-	c_XMLNode* m__data;
-	c_Node2();
-	c_Node2* m_new(c_Node2*,c_Node2*,c_XMLNode*);
-	c_Node2* m_new2();
-	int p_Remove();
-	void mark();
-};
-class c_HeadNode : public c_Node2{
-	public:
-	c_HeadNode();
-	c_HeadNode* m_new();
-	void mark();
-};
-bool bb_xml_XMLHasStringAtOffset(String,String,int);
-int bb_xml_XMLFindNextAsc(String,int,int);
-int bb_xml_XMLFindStringNotInQuotes(String,String,int);
-class c_Map2 : public Object{
-	public:
-	c_Node3* m_root;
-	c_Map2();
-	c_Map2* m_new();
-	virtual int p_Compare2(String,String)=0;
-	int p_RotateLeft2(c_Node3*);
-	int p_RotateRight2(c_Node3*);
-	int p_InsertFixup2(c_Node3*);
-	bool p_Set3(String,c_List*);
-	bool p_Insert2(String,c_List*);
-	c_Node3* p_FindNode2(String);
-	c_List* p_Get(String);
-	void mark();
-};
-class c_StringMap : public c_Map2{
-	public:
-	c_StringMap();
-	c_StringMap* m_new();
-	int p_Compare2(String,String);
-	void mark();
-};
-class c_Node3 : public Object{
-	public:
-	String m_key;
-	c_Node3* m_right;
-	c_Node3* m_left;
-	c_List* m_value;
-	int m_color;
-	c_Node3* m_parent;
-	c_Node3();
-	c_Node3* m_new(String,c_List*,int,c_Node3*);
-	c_Node3* m_new2();
-	void mark();
-};
-class c_XMLAttributeQuery : public Object{
-	public:
-	int m_count;
-	Array<c_XMLAttributeQueryItem* > m_items;
-	int m_chunk;
-	c_XMLAttributeQuery();
-	c_XMLAttributeQuery* m_new(String);
-	c_XMLAttributeQuery* m_new2();
 	int p_Length();
-	bool p_Test(c_XMLNode*);
+	String p_value();
+	void p_Clear();
+	int p_Last(int);
+	bool p_Trim();
 	void mark();
 };
 class c_XMLAttributeQueryItem : public Object{
@@ -6351,78 +6258,66 @@ class c_XMLAttributeQueryItem : public Object{
 };
 class c_XMLAttribute : public Object{
 	public:
+	String m_value;
 	String m_idLowercase;
 	String m_idNormalCase;
-	String m_value;
 	c_XMLAttribute();
 	c_XMLAttribute* m_new(String,String);
 	c_XMLAttribute* m_new2();
 	void mark();
 };
-class c_Map3 : public Object{
+class c_Map2 : public Object{
 	public:
-	c_Node4* m_root;
-	c_Map3();
-	c_Map3* m_new();
+	c_Node2* m_root;
+	c_Map2();
+	c_Map2* m_new();
 	virtual int p_Compare2(String,String)=0;
-	c_Node4* p_FindNode2(String);
+	c_Node2* p_FindNode2(String);
 	c_XMLAttribute* p_Get(String);
-	int p_RotateLeft3(c_Node4*);
-	int p_RotateRight3(c_Node4*);
-	int p_InsertFixup3(c_Node4*);
-	bool p_Set4(String,c_XMLAttribute*);
-	bool p_Insert3(String,c_XMLAttribute*);
+	int p_RotateLeft2(c_Node2*);
+	int p_RotateRight2(c_Node2*);
+	int p_InsertFixup2(c_Node2*);
+	bool p_Set2(String,c_XMLAttribute*);
+	bool p_Insert2(String,c_XMLAttribute*);
 	bool p_IsEmpty();
 	c_MapValues* p_Values();
-	c_Node4* p_FirstNode();
-	c_MapKeys2* p_Keys();
-	int p_DeleteFixup(c_Node4*,c_Node4*);
-	int p_RemoveNode(c_Node4*);
+	c_Node2* p_FirstNode();
+	c_MapKeys* p_Keys();
+	int p_DeleteFixup(c_Node2*,c_Node2*);
+	int p_RemoveNode(c_Node2*);
 	int p_Remove2(String);
 	void mark();
 };
-class c_StringMap2 : public c_Map3{
+class c_StringMap : public c_Map2{
 	public:
-	c_StringMap2();
-	c_StringMap2* m_new();
+	c_StringMap();
+	c_StringMap* m_new();
 	int p_Compare2(String,String);
 	void mark();
 };
-class c_Node4 : public Object{
+class c_Node2 : public Object{
 	public:
 	String m_key;
-	c_Node4* m_right;
-	c_Node4* m_left;
+	c_Node2* m_right;
+	c_Node2* m_left;
 	c_XMLAttribute* m_value;
 	int m_color;
-	c_Node4* m_parent;
-	c_Node4();
-	c_Node4* m_new(String,c_XMLAttribute*,int,c_Node4*);
-	c_Node4* m_new2();
-	c_Node4* p_NextNode();
+	c_Node2* m_parent;
+	c_Node2();
+	c_Node2* m_new(String,c_XMLAttribute*,int,c_Node2*);
+	c_Node2* m_new2();
+	c_Node2* p_NextNode();
 	void mark();
 };
-class c_MapValues : public Object{
-	public:
-	c_Map3* m_map;
-	c_MapValues();
-	c_MapValues* m_new(c_Map3*);
-	c_MapValues* m_new2();
-	c_ValueEnumerator* p_ObjectEnumerator();
-	void mark();
-};
-class c_ValueEnumerator : public Object{
-	public:
-	c_Node4* m_node;
-	c_ValueEnumerator();
-	c_ValueEnumerator* m_new(c_Node4*);
-	c_ValueEnumerator* m_new2();
-	bool p_HasNext();
-	c_XMLAttribute* p_NextObject();
-	void mark();
-};
-c_XMLDoc* bb_xml_ParseXML(String,c_XMLError*,int);
-extern c_XMLDoc* bb_necrodancergame_xmlData;
+extern Float bb_necrodancergame_GLOBAL_SCALE_FACTOR;
+int bb_math_Max(int,int);
+Float bb_math_Max2(Float,Float);
+extern int bb_necrodancergame_FIXED_WIDTH;
+extern int bb_necrodancergame_FIXED_HEIGHT;
+void bb_fmod_StartFMOD();
+extern int bb_necrodancergame_FRAMES_PER_SEC;
+extern int bb_app__updateRate;
+void bb_app_SetUpdateRate(int);
 class c_GuiContainer : public Object{
 	public:
 	c_GuiContainer();
@@ -6435,36 +6330,43 @@ class c_Controller : public c_GuiContainer{
 	c_Controller();
 	static c_Controller* m_currentController;
 	c_Controller* m_new();
+	virtual void p_Render()=0;
 	virtual void p_RegainFocus()=0;
 	static void m_GiveFocus(c_Controller*);
 	virtual void p_Update()=0;
+	virtual void p_Destructor()=0;
+	void p_ReleaseFocus();
 	bool p_HasFocus();
 	void mark();
 };
-class c_ControllerGame : public c_Controller{
+class c_ControllerMainMenu : public c_Controller{
 	public:
-	bool m_specialScoreSubmit;
-	int m_coinVal;
-	int m_timeVal;
-	c_TextSprite* m_restartImage;
-	c_TextSprite* m_scoresImage;
-	c_TextSprite* m_scoresImage2;
-	c_TextSprite* m_songEndedImage;
-	c_TextSprite* m_songEndedImage2;
-	c_Bouncer* m_restartBounce;
-	c_TextSprite* m_replayInstructions;
-	bool m_ignoreInput;
-	int m_pendingScores;
-	c_ControllerGame();
-	void p_ResetPostDeathReplay();
-	c_ControllerGame* m_new();
+	bool m_showCloudSavePopup;
+	String m_mainmenuSongName;
+	String m_mainmenuTitlescreen;
+	c_Sprite* m_mainMenu;
+	c_Sprite* m_continueImage;
+	c_Sprite* m_alphaWarning;
+	bool m_haveShownAlphaWarning;
+	c_Sprite* m_seizureWarning;
+	bool m_haveShownSeizureWarning;
+	bool m_passingToCalibration;
+	bool m_hasSentToGameplay;
+	bool m_loaded;
+	c_ControllerPopUp* m_popUpController;
+	int m_firstRun;
+	bool m_gameLoaded;
+	int m_startedWaitingForStatsCallback;
+	c_ControllerMainMenu();
+	c_ControllerMainMenu* m_new();
+	void p_PassFocusToNextController();
 	void p_RegainFocus();
+	void p_Render();
+	void p_LoadGame();
 	void p_Update();
+	void p_Destructor();
 	void mark();
 };
-int bb_app_Millisecs();
-extern int bb_controller_game_totalPlaytimeLastAdded;
-extern c_ControllerGame* bb_controller_game_controllerGamePointer;
 class c_Tweenable : public Object{
 	public:
 	Float m_alphaTweenCurrentStep;
@@ -6500,6 +6402,7 @@ class c_Sprite : public c_Tweenable{
 	c_Sprite* m_new4();
 	void p_SetZ(Float);
 	void p_InWorld(bool);
+	void p_SetScale(Float);
 	void p_SetZOff(Float);
 	void p_SetHandle2(int,int);
 	int p_Width();
@@ -6512,22 +6415,314 @@ class c_Sprite : public c_Tweenable{
 	void p_SetAlphaTweenFromCurrent(Float,int);
 	void p_UnSetZ();
 	Float p_GetAlphaValue();
-	void p_SetScale(Float);
 	void p_SetCutoffY(int);
 	int p_GetFrame();
 	int p_GetNumFrames();
 	void mark();
 };
-extern Array<int > bb_controller_game_lastPlayerMoveBeat;
-class c_GUI_gameplay : public Object{
+class c_XMLError : public Object{
 	public:
-	c_GUI_gameplay();
-	static c_Sprite* m_errorKey;
+	bool m_error;
+	String m_message;
+	int m_line;
+	int m_column;
+	int m_offset;
+	c_XMLError();
+	c_XMLError* m_new();
+	void p_Reset();
+	void p_Set3(String,int,int,int);
+	String p_ToString();
 	void mark();
 };
+String bb_app_LoadString(String);
+int bb_util_CalcChecksum(String);
+extern int bb_controller_game_totalPlaytimeMilliseconds;
+void bb_fmod_EndFMOD();
+void bb_steam_SteamShutdown();
+void bb_textlog_ExitGameGlobal(String,bool);
+class c_List : public Object{
+	public:
+	c_Node3* m__head;
+	c_List();
+	c_List* m_new();
+	c_Node3* p_AddLast(c_XMLNode*);
+	c_List* m_new2(Array<c_XMLNode* >);
+	c_XMLNode* p_RemoveLast();
+	bool p_Equals(c_XMLNode*,c_XMLNode*);
+	c_Node3* p_FindLast(c_XMLNode*,c_Node3*);
+	c_Node3* p_FindLast2(c_XMLNode*);
+	void p_RemoveLast2(c_XMLNode*);
+	bool p_IsEmpty();
+	c_XMLNode* p_Last2();
+	c_Enumerator* p_ObjectEnumerator();
+	c_XMLNode* p_First();
+	int p_Count();
+	int p_Clear();
+	void mark();
+};
+class c_Node3 : public Object{
+	public:
+	c_Node3* m__succ;
+	c_Node3* m__pred;
+	c_XMLNode* m__data;
+	c_Node3();
+	c_Node3* m_new(c_Node3*,c_Node3*,c_XMLNode*);
+	c_Node3* m_new2();
+	int p_Remove();
+	void mark();
+};
+class c_HeadNode : public c_Node3{
+	public:
+	c_HeadNode();
+	c_HeadNode* m_new();
+	void mark();
+};
+bool bb_xml_XMLHasStringAtOffset(String,String,int);
+int bb_xml_XMLFindNextAsc(String,int,int);
+int bb_xml_XMLFindStringNotInQuotes(String,String,int);
+class c_Map3 : public Object{
+	public:
+	c_Node4* m_root;
+	c_Map3();
+	c_Map3* m_new();
+	virtual int p_Compare2(String,String)=0;
+	int p_RotateLeft3(c_Node4*);
+	int p_RotateRight3(c_Node4*);
+	int p_InsertFixup3(c_Node4*);
+	bool p_Set4(String,c_List*);
+	bool p_Insert3(String,c_List*);
+	c_Node4* p_FindNode2(String);
+	c_List* p_Get(String);
+	void mark();
+};
+class c_StringMap2 : public c_Map3{
+	public:
+	c_StringMap2();
+	c_StringMap2* m_new();
+	int p_Compare2(String,String);
+	void mark();
+};
+class c_Node4 : public Object{
+	public:
+	String m_key;
+	c_Node4* m_right;
+	c_Node4* m_left;
+	c_List* m_value;
+	int m_color;
+	c_Node4* m_parent;
+	c_Node4();
+	c_Node4* m_new(String,c_List*,int,c_Node4*);
+	c_Node4* m_new2();
+	void mark();
+};
+class c_MapValues : public Object{
+	public:
+	c_Map2* m_map;
+	c_MapValues();
+	c_MapValues* m_new(c_Map2*);
+	c_MapValues* m_new2();
+	c_ValueEnumerator* p_ObjectEnumerator();
+	void mark();
+};
+class c_ValueEnumerator : public Object{
+	public:
+	c_Node2* m_node;
+	c_ValueEnumerator();
+	c_ValueEnumerator* m_new(c_Node2*);
+	c_ValueEnumerator* m_new2();
+	bool p_HasNext();
+	c_XMLAttribute* p_NextObject();
+	void mark();
+};
+c_XMLDoc* bb_xml_ParseXML(String,c_XMLError*,int);
+extern c_XMLDoc* bb_necrodancergame_xmlData;
+String bb_steam_GetPlayerID();
+int bb_steam_GetCloudSaveTimestamp();
+extern bool bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES;
+String bb_steam_LoadCloudSave();
+class c_MapKeys : public Object{
+	public:
+	c_Map2* m_map;
+	c_MapKeys();
+	c_MapKeys* m_new(c_Map2*);
+	c_MapKeys* m_new2();
+	c_KeyEnumerator* p_ObjectEnumerator();
+	void mark();
+};
+class c_KeyEnumerator : public Object{
+	public:
+	c_Node2* m_node;
+	c_KeyEnumerator();
+	c_KeyEnumerator* m_new(c_Node2*);
+	c_KeyEnumerator* m_new2();
+	bool p_HasNext();
+	String p_NextObject();
+	void mark();
+};
+class c_Enumerator : public Object{
+	public:
+	c_List* m__list;
+	c_Node3* m__curr;
+	c_Enumerator();
+	c_Enumerator* m_new(c_List*);
+	c_Enumerator* m_new2();
+	bool p_HasNext();
+	c_XMLNode* p_NextObject();
+	void mark();
+};
+class c_Character : public Object{
+	public:
+	c_Character();
+	void mark();
+};
+void bb_util_SetVSync(int);
+extern Object* bb_steam_g_SteamLeaderboards;
+class c_TextSprite : public Object{
+	public:
+	int m_justification;
+	Float m_scaleVal;
+	int m_color;
+	int m_zVal;
+	bool m_showShadow;
+	int m_shadowColor;
+	int m_shadowOffX;
+	int m_shadowOffY;
+	int m_fontScale;
+	c_List21* m_containedSprites;
+	c_List21* m_containedSpriteShadows;
+	c_TextSprite();
+	static void m_Init();
+	c_TextSprite* m_new(int,Float,int,int,bool,int,int,int);
+	c_TextSprite* m_new2(int,Float,int,int);
+	c_TextSprite* m_new3(int,Float);
+	c_TextSprite* m_new4(int);
+	c_TextSprite* m_new5();
+	void p_Discard();
+	void p_SetText(String,bool);
+	void p_InWorld(bool);
+	void mark();
+};
+class c_ControllerCutscene : public c_Controller{
+	public:
+	c_ControllerCutscene();
+	static void m_InitSubtitles();
+	c_ControllerCutscene* m_new(int,int,int);
+	c_ControllerCutscene* m_new2();
+	void p_RegainFocus();
+	void p_Render();
+	void p_Update();
+	void p_Destructor();
+	void mark();
+};
+class c_ISteamApps : public virtual gc_interface{
+	public:
+	virtual bool p_BIsDlcInstalled(int)=0;
+};
+c_ISteamApps* bb_steam_SteamApps();
+class c_ControllerIntro : public c_Controller{
+	public:
+	c_Sprite* m_splashScreen;
+	c_Image* m_videoImg;
+	String m_introVideoName;
+	String m_introSongName;
+	c_ControllerIntro();
+	static c_Sprite* m_videoSpr;
+	c_ControllerIntro* m_new();
+	static bool m_quitIntro;
+	void p_RegainFocus();
+	void p_Render();
+	void p_Update();
+	void p_Destructor();
+	void mark();
+};
+c_Image* bb_graphics_CreateImage(int,int,int,int);
+class c_Audio : public Object{
+	public:
+	c_Audio();
+	static void m_Init();
+	static bool m_songShopOpen;
+	static int m_fixedBeatNum;
+	static bool m_debugEnablePlaceholders;
+	static int m_cachedSongPositionFrame;
+	static int m_cachedSongPosition;
+	static bool m_necrodancerSong2Active;
+	static bool m_includeVideoLatency;
+	static int m_songLoops;
+	static int m_GetSongPosition();
+	static int m_GetCurrentBeatNumber(int,bool);
+	static int m_numLoops;
+	static int m_GetCurrentBeatNumberIncludingLoops(int,bool);
+	static int m_songDuration;
+	static int m_TimeUntilSpecificBeat(int);
+	static int m_GetClosestBeatNum(bool);
+	static void m_Update(bool);
+	static void m_PauseSong(bool);
+	static void m_UpdateNumLoops();
+	static void m_PlayGameSoundAt(String,int,int,bool,int,bool);
+	static void m_PlayGameSoundAt2(String,int,int,int,bool,int,bool,Float);
+	static bool m_cheatingDetected;
+	static int m_GetNonAbsoluteDistanceFromNearestBeat();
+	static void m_PlayGameSound(String,int,Float);
+	static int m_fadeFrames;
+	static int m_startFadeFrames;
+	static bool m_PastLastBeat();
+	static bool m_HasSongEnded();
+	static bool m_DoingNecrodancerTransition();
+	static bool m_startSong;
+	static int m_GetDistanceFromNearestBeat();
+	static int m_GetNextBeatDuration();
+	static Float m_GetPercentDistanceFromNextBeat();
+	static int m_GetBeatAnimFrame4();
+	void mark();
+};
+class c_Camera : public Object{
+	public:
+	c_Camera();
+	static int m_freezeFrameDelay;
+	static int m_freezeFrameNum;
+	static void m_Update();
+	static void m_CaptureFreezeFrame();
+	static c_Image* m_freezeImage;
+	static int m_fadeOutDuration;
+	static int m_fadeOutCurrent;
+	static c_Callback* m_fadeOutCallback;
+	static int m_fadeInDuration;
+	static int m_fadeInCurrent;
+	static c_Callback* m_fadeInCallback;
+	static int m_x;
+	static int m_y;
+	static Float m_seekX;
+	static Float m_seekY;
+	static bool m_fixed;
+	static bool m_IsOnScreenStandardizedRelativeToPoint(int,int,int,int);
+	static void m_Init();
+	static int m_GetFixedHeight();
+	static int m_GetFixedWidth();
+	static void m_FadeOutThenExecute(int,c_Callback*);
+	static int m_overlayWhiteDuration;
+	static void m_Shake(int,int,int);
+	static Float m_shakeOffX;
+	static Float m_GetX();
+	static Float m_shakeOffY;
+	static Float m_GetY();
+	static bool m_IsOnScreen(int,int);
+	void mark();
+};
+extern int bb_necrodancergame_globalFrameCounter;
+int bb_app_Millisecs();
+extern int bb_necrodancergame_lastFrameTime;
+extern int bb_necrodancergame_lastFrameCount;
+extern int bb_necrodancergame_lastFPS;
+extern int bb_necrodancergame_lastGCAllocCount;
+extern int bb_necrodancergame_lastGCS;
+extern int bb_necrodancergame_lastFrameTimeUpdate;
+extern int bb_necrodancergame_lastFrameCountUpdate;
+extern int bb_necrodancergame_lastFPSUpdate;
 class c_Input : public Object{
 	public:
 	c_Input();
+	static c_ControllerPopUp* m_popUpController;
+	static int m_popupFrame;
 	static Array<bool > m_stickLeft;
 	static Array<bool > m_stickRight;
 	static Array<bool > m_stickUp;
@@ -6554,8 +6749,6 @@ class c_Input : public Object{
 	static void m_Init();
 	static int m_lastBeatSkippedFlyaway;
 	static void m_ResetMovementCounters();
-	static c_ControllerPopUp* m_popUpController;
-	static int m_popupFrame;
 	static void m_Update();
 	static bool m_GameUpdate();
 	static bool m_IsRedefined(int);
@@ -6563,82 +6756,33 @@ class c_Input : public Object{
 	static void m_UpdateKeysHit();
 	void mark();
 };
-extern bool bb_controller_game_gamePaused;
-class c_Character : public Object{
+extern bool bb_controller_game_DEBUG_MOUSE_COORDS;
+class c_ControllerPopUp : public c_Controller{
 	public:
-	c_Character();
-	void mark();
-};
-class c_Spells : public Object{
-	public:
-	c_Spells();
-	static c_StringMap3* m_spellCoolKills;
-	static Array<c_Sprite* > m_fireballInWorld;
-	static c_Sprite* m_pulseInWorld;
-	static c_Stack2* m_pulseAnim;
-	static String m_spellSlot1;
-	static String m_spellSlot2;
-	static void m_InitLearnedSpells();
-	static void m_Init();
-	void mark();
-};
-class c_Map4 : public Object{
-	public:
-	c_Node17* m_root;
-	c_Map4();
-	c_Map4* m_new();
-	int p_Clear();
-	virtual int p_Compare2(String,String)=0;
-	c_Node17* p_FindNode2(String);
-	bool p_Contains2(String);
-	int p_Get(String);
-	bool p_Update2(String,int);
-	int p_RotateLeft4(c_Node17*);
-	int p_RotateRight4(c_Node17*);
-	int p_InsertFixup4(c_Node17*);
-	bool p_Set5(String,int);
-	bool p_Insert4(String,int);
-	void mark();
-};
-class c_StringMap3 : public c_Map4{
-	public:
-	c_StringMap3();
-	c_StringMap3* m_new();
-	int p_Compare2(String,String);
-	void mark();
-};
-class c_Stack2 : public Object{
-	public:
-	Array<int > m_data;
-	int m_length;
-	c_Stack2();
-	c_Stack2* m_new();
-	c_Stack2* m_new2(Array<int >);
-	static int m_NIL;
-	void p_Clear();
-	void p_Push4(int);
-	void p_Push5(Array<int >,int,int);
-	void p_Push6(Array<int >,int);
-	c_Enumerator6* p_ObjectEnumerator();
-	void p_Length2(int);
-	int p_Length();
-	int p_Get2(int);
-	void p_Remove3(int);
-	void p_Set6(int,int);
-	int p_Pop();
-	virtual bool p_Equals2(int,int);
-	bool p_Contains(int);
-	c_BackwardsStack* p_Backwards();
-	void mark();
-};
-class c_SpellType : public Object{
-	public:
-	c_SpellType();
-	void mark();
-};
-class c_LevelType : public Object{
-	public:
-	c_LevelType();
+	bool m_ignoreInput;
+	int m_retval;
+	bool m_cachedScaleVal;
+	c_Controller* m_cGame;
+	bool m_option1Default;
+	bool m_option2Exists;
+	String m_popupTextVal;
+	String m_popupText2Val;
+	String m_popupText3Val;
+	String m_popupText4Val;
+	c_Sprite* m_overlayBlack;
+	c_TextSprite* m_popupText;
+	c_TextSprite* m_popupText2;
+	c_TextLabel* m_option1Text;
+	c_TextLabel* m_option2Text;
+	c_OptionList* m_gui;
+	c_Sprite* m_bestiaryImage;
+	c_ControllerPopUp();
+	c_ControllerPopUp* m_new(c_Controller*,String,String,String,String,String,bool,bool,String);
+	c_ControllerPopUp* m_new2();
+	void p_Destructor();
+	void p_RegainFocus();
+	void p_Render();
+	void p_Update();
 	void mark();
 };
 class c_Level : public Object{
@@ -6649,7 +6793,7 @@ class c_Level : public Object{
 	static bool m_shopkeeperDead;
 	static bool m_shopkeeperFell;
 	static int m_placeLordOnLevel;
-	static c_IntMap3* m_placeShrineOnLevel;
+	static c_IntMap2* m_placeShrineOnLevel;
 	static int m_placeTransmogrifierOnDepth;
 	static int m_placeTransmogrifierOnLevel;
 	static int m_placeArenaOnLevel;
@@ -6702,7 +6846,6 @@ class c_Level : public Object{
 	static int m_shopkeeperGhostLevel;
 	static int m_shopkeeperGhostDepth;
 	static void m_DoRestart_Common(bool,bool);
-	static void m_DoRestart();
 	static int m_forceBoss;
 	static int m_GetMaxDepth();
 	static bool m_HaveFinalBoss();
@@ -6990,6 +7133,7 @@ class c_Level : public Object{
 	static void m_RecalcLevelBoundaries();
 	static void m_LoadLevelSong(c_LevelObject*);
 	static void m_NewLevel(int,int,int,bool,c_LevelObject*,bool);
+	static void m_DoRestart();
 	static int m_lastTileCount;
 	static c_IntPointList* m_tileObstructionList;
 	static c_List26* m_GetTileObstructionList(bool);
@@ -7001,7 +7145,6 @@ class c_Level : public Object{
 	static void m_TakeActionAfterAllCharsScoreSubmit();
 	static void m_Update();
 	static c_Minimap* m_minimap;
-	static bool m_IsVisibleTileAt(int,int);
 	static void m_RemoveExit(int,int);
 	static int m_maxLevelX;
 	static int m_minLevelX;
@@ -7011,29 +7154,67 @@ class c_Level : public Object{
 	static Array<Float > m_constMapLightValues;
 	static Float m_ActuallyGetMapTileLightValue(int,int,bool);
 	static Float m_GetMapTileLightValue(int,int,bool);
+	static bool m_IsVisibleTileAt(int,int);
 	static void m_PlaceHotCoalTileAt(int,int);
 	static void m_PlaceIceTileAt(int,int);
 	static void m_PlaceTileTypeAt(int,int,int);
 	static void m_DryUpAllWater(int);
 	void mark();
 };
-class c_LevelObject : public Object{
+class c_ControllerLevelEditor : public c_Controller{
 	public:
-	int m_bossNum;
-	c_List24* m_tiles;
-	c_List25* m_traps;
-	c_List29* m_enemies;
-	c_List30* m_items;
-	c_List31* m_chests;
-	c_List34* m_crates;
-	c_List35* m_shrines;
-	c_LevelObject();
-	void p_CreateMap();
+	int m_numLevels;
+	c_IntMap4* m_levels;
+	c_ControllerLevelEditor();
+	static c_ControllerLevelEditor* m_storedEditor;
+	static int m_playingLevel;
+	static bool m_playingWholeDungeon;
+	c_ControllerLevelEditor* m_new();
+	void p_Destructor();
+	void p_RegainFocus();
+	void p_Render();
+	void p_Update();
 	void mark();
 };
-extern int bb_controller_game_currentLevel;
-extern int bb_controller_game_currentZone;
-extern int bb_controller_game_currentDepth;
+extern bool bb_controller_game_hasWon;
+extern bool bb_controller_game_showScoreMessage;
+class c_Map4 : public Object{
+	public:
+	c_Node5* m_root;
+	c_Map4();
+	c_Map4* m_new();
+	int p_Clear();
+	virtual int p_Compare(int,int)=0;
+	c_Node5* p_FindNode(int);
+	bool p_Contains(int);
+	int p_RotateLeft4(c_Node5*);
+	int p_RotateRight4(c_Node5*);
+	int p_InsertFixup4(c_Node5*);
+	bool p_Add4(int,int);
+	bool p_Set5(int,int);
+	int p_Get2(int);
+	void mark();
+};
+class c_IntMap2 : public c_Map4{
+	public:
+	c_IntMap2();
+	c_IntMap2* m_new();
+	int p_Compare(int,int);
+	void mark();
+};
+class c_Node5 : public Object{
+	public:
+	int m_key;
+	c_Node5* m_right;
+	c_Node5* m_left;
+	int m_value;
+	int m_color;
+	c_Node5* m_parent;
+	c_Node5();
+	c_Node5* m_new(int,int,int,c_Node5*);
+	c_Node5* m_new2();
+	void mark();
+};
 class c_RenderableObject : public Object{
 	public:
 	bool m_perished;
@@ -7140,9 +7321,54 @@ class c_Entity : public c_RenderableObject{
 	void p_Update();
 	void p_BounceToward(c_Point*,bool);
 	static void m_UpdateVisibility();
-	virtual bool p_IsVisible();
 	static bool m_anyPlayerHaveWallsTorchCached;
 	static bool m_AnyPlayerHaveWallsTorch();
+	virtual bool p_IsVisible();
+	void mark();
+};
+class c_Shrine : public c_Entity{
+	public:
+	int m_type;
+	bool m_isForSale;
+	c_RNG* m_rng;
+	String m_contents1;
+	String m_contents2;
+	String m_contents3;
+	String m_contents4;
+	String m_contents5;
+	String m_contents6;
+	int m_cost;
+	c_TextSprite* m_hintText;
+	c_Shrine();
+	static bool m_darknessShrineActive;
+	static bool m_rhythmShrineActive;
+	static bool m_riskShrineActive;
+	static c_Player* m_riskShrinePlayer;
+	static bool m_spaceShrineActive;
+	static bool m_warShrineActive;
+	static bool m_noReturnShrineActive;
+	static c_Player* m_noReturnShrinePlayer;
+	static bool m_paceShrineActive;
+	static bool m_bossShrineActive;
+	static c_IntSet* m_usedShrines;
+	static int m_usedShrinerInZone;
+	static void m_ResetShrines();
+	static bool m_IsValidShrine(int);
+	static int m_GetRandomShrineInt(bool,int,int);
+	static String m_GetHintText(int);
+	String p_RandomGlassWeapon();
+	void p_GenUncertaintyContents();
+	void p_GenBossContents();
+	void p_GenPainContents();
+	static c_List28* m_shrineList;
+	c_Shrine* m_new(int,int,int,c_RNG*,bool,bool);
+	c_Shrine* m_new2();
+	static void m_AddPendingShrinesToUsedList();
+	static c_Shrine* m_GetShrineAt(int,int);
+	void p_Die();
+	void p_SetCost();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_Update();
 	void mark();
 };
 class c_MobileEntity : public c_Entity{
@@ -7178,11 +7404,11 @@ class c_Player : public c_MobileEntity{
 	bool m_UsingAltSkin;
 	c_Sprite* m_headImage;
 	c_Sprite* m_headImageForHUD;
-	c_StringMap4* m_ownedItems;
-	c_StringMap5* m_cursedSlots;
+	c_StringMap3* m_ownedItems;
+	c_StringMap4* m_cursedSlots;
 	c_StringSet* m_mysterySlots;
 	c_ItemList* m_miscItems;
-	c_StringMap3* m_itemQuantity;
+	c_StringMap6* m_itemQuantity;
 	c_Weapon* m_weapon;
 	int m_armorAmount;
 	String m_armorType;
@@ -7270,13 +7496,13 @@ class c_Player : public c_MobileEntity{
 	bool m_readyToThrow;
 	bool m_wasClamped;
 	c_Player();
+	void p_ClearAllFamiliars(bool);
+	void p_Die();
 	static int m_numCoins;
 	static int m_coinXOR;
 	static void m_SetCoinXOR();
 	static int m_sessionMaxCoins;
 	static void m_SetCoins(int,bool);
-	void p_ClearAllFamiliars(bool);
-	void p_Die();
 	static c_Sprite* m_MakeBodyImage(int,String,int);
 	static c_Sprite* m_MakeHeadImage(int,String,int);
 	void p_LoadImages();
@@ -7335,7 +7561,7 @@ class c_Player : public c_MobileEntity{
 	c_Weapon* p_GetWeapon(bool);
 	int p_GetElectricStrength();
 	static void m_OffsetCoins(int);
-	void p_Update22(int);
+	void p_Update2(int);
 	static int m_lobbySaleItemMinCost;
 	static bool m_IsSolo();
 	static bool m_IsLastLevel();
@@ -7351,50 +7577,28 @@ class c_Player : public c_MobileEntity{
 	bool p_IsVisible();
 	void mark();
 };
-class c_ControllerLevelEditor : public c_Controller{
+class c_Set : public Object{
 	public:
-	int m_numLevels;
-	c_IntMap2* m_levels;
-	c_ControllerLevelEditor();
-	static int m_playingLevel;
-	static bool m_playingWholeDungeon;
-	static c_ControllerLevelEditor* m_storedEditor;
-	c_ControllerLevelEditor* m_new();
-	void p_RegainFocus();
-	void p_Update();
+	c_Map5* m_map;
+	c_Set();
+	c_Set* m_new(c_Map5*);
+	c_Set* m_new2();
+	int p_Clear();
+	bool p_Contains(int);
+	int p_Insert4(int);
+	void mark();
+};
+class c_IntSet : public c_Set{
+	public:
+	c_IntSet();
+	c_IntSet* m_new();
 	void mark();
 };
 class c_Map5 : public Object{
 	public:
-	c_Node5* m_root;
-	c_Map5();
-	virtual int p_Compare(int,int)=0;
-	c_Node5* p_FindNode(int);
-	c_LevelObject* p_Get2(int);
-	void mark();
-};
-class c_IntMap2 : public c_Map5{
-	public:
-	c_IntMap2();
-	int p_Compare(int,int);
-	void mark();
-};
-class c_Node5 : public Object{
-	public:
-	int m_key;
-	c_Node5* m_right;
-	c_Node5* m_left;
-	c_LevelObject* m_value;
-	c_Node5();
-	void mark();
-};
-extern bool bb_controller_game_hasWon;
-extern bool bb_controller_game_showScoreMessage;
-class c_Map6 : public Object{
-	public:
 	c_Node6* m_root;
-	c_Map6();
-	c_Map6* m_new();
+	c_Map5();
+	c_Map5* m_new();
 	int p_Clear();
 	virtual int p_Compare(int,int)=0;
 	c_Node6* p_FindNode(int);
@@ -7402,12 +7606,11 @@ class c_Map6 : public Object{
 	int p_RotateLeft5(c_Node6*);
 	int p_RotateRight5(c_Node6*);
 	int p_InsertFixup5(c_Node6*);
-	bool p_Add4(int,int);
-	bool p_Set6(int,int);
-	int p_Get2(int);
+	bool p_Set6(int,Object*);
+	bool p_Insert5(int,Object*);
 	void mark();
 };
-class c_IntMap3 : public c_Map6{
+class c_IntMap3 : public c_Map5{
 	public:
 	c_IntMap3();
 	c_IntMap3* m_new();
@@ -7419,110 +7622,12 @@ class c_Node6 : public Object{
 	int m_key;
 	c_Node6* m_right;
 	c_Node6* m_left;
-	int m_value;
+	Object* m_value;
 	int m_color;
 	c_Node6* m_parent;
 	c_Node6();
-	c_Node6* m_new(int,int,int,c_Node6*);
+	c_Node6* m_new(int,Object*,int,c_Node6*);
 	c_Node6* m_new2();
-	void mark();
-};
-class c_Shrine : public c_Entity{
-	public:
-	int m_type;
-	bool m_isForSale;
-	c_RNG* m_rng;
-	String m_contents1;
-	String m_contents2;
-	String m_contents3;
-	String m_contents4;
-	String m_contents5;
-	String m_contents6;
-	int m_cost;
-	c_TextSprite* m_hintText;
-	c_Shrine();
-	static bool m_darknessShrineActive;
-	static bool m_rhythmShrineActive;
-	static bool m_riskShrineActive;
-	static c_Player* m_riskShrinePlayer;
-	static bool m_spaceShrineActive;
-	static bool m_warShrineActive;
-	static bool m_noReturnShrineActive;
-	static c_Player* m_noReturnShrinePlayer;
-	static bool m_paceShrineActive;
-	static bool m_bossShrineActive;
-	static c_IntSet* m_usedShrines;
-	static int m_usedShrinerInZone;
-	static void m_ResetShrines();
-	static bool m_IsValidShrine(int);
-	static int m_GetRandomShrineInt(bool,int,int);
-	static String m_GetHintText(int);
-	String p_RandomGlassWeapon();
-	void p_GenUncertaintyContents();
-	void p_GenBossContents();
-	void p_GenPainContents();
-	static c_List28* m_shrineList;
-	c_Shrine* m_new(int,int,int,c_RNG*,bool,bool);
-	c_Shrine* m_new2();
-	static void m_AddPendingShrinesToUsedList();
-	static c_Shrine* m_GetShrineAt(int,int);
-	void p_Die();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
-	void p_Update();
-	void p_SetCost();
-	void mark();
-};
-class c_Set : public Object{
-	public:
-	c_Map7* m_map;
-	c_Set();
-	c_Set* m_new(c_Map7*);
-	c_Set* m_new2();
-	int p_Clear();
-	bool p_Contains(int);
-	int p_Insert5(int);
-	void mark();
-};
-class c_IntSet : public c_Set{
-	public:
-	c_IntSet();
-	c_IntSet* m_new();
-	void mark();
-};
-class c_Map7 : public Object{
-	public:
-	c_Node7* m_root;
-	c_Map7();
-	c_Map7* m_new();
-	int p_Clear();
-	virtual int p_Compare(int,int)=0;
-	c_Node7* p_FindNode(int);
-	bool p_Contains(int);
-	int p_RotateLeft6(c_Node7*);
-	int p_RotateRight6(c_Node7*);
-	int p_InsertFixup6(c_Node7*);
-	bool p_Set7(int,Object*);
-	bool p_Insert6(int,Object*);
-	void mark();
-};
-class c_IntMap4 : public c_Map7{
-	public:
-	c_IntMap4();
-	c_IntMap4* m_new();
-	int p_Compare(int,int);
-	void mark();
-};
-class c_Node7 : public Object{
-	public:
-	int m_key;
-	c_Node7* m_right;
-	c_Node7* m_left;
-	Object* m_value;
-	int m_color;
-	c_Node7* m_parent;
-	c_Node7();
-	c_Node7* m_new(int,Object*,int,c_Node7*);
-	c_Node7* m_new2();
 	void mark();
 };
 class c_RNG : public Object{
@@ -7541,28 +7646,28 @@ extern Array<c_Player* > bb_controller_game_players;
 extern int bb_controller_game_player1;
 class c_List2 : public Object{
 	public:
-	c_Node8* m__head;
+	c_Node7* m__head;
 	c_List2();
 	c_List2* m_new();
-	c_Node8* p_AddLast2(c_RenderableObject*);
+	c_Node7* p_AddLast2(c_RenderableObject*);
 	c_List2* m_new2(Array<c_RenderableObject* >);
-	bool p_Equals3(c_RenderableObject*,c_RenderableObject*);
+	bool p_Equals2(c_RenderableObject*,c_RenderableObject*);
 	int p_RemoveEach(c_RenderableObject*);
 	c_Enumerator5* p_ObjectEnumerator();
 	void mark();
 };
-class c_Node8 : public Object{
+class c_Node7 : public Object{
 	public:
-	c_Node8* m__succ;
-	c_Node8* m__pred;
+	c_Node7* m__succ;
+	c_Node7* m__pred;
 	c_RenderableObject* m__data;
-	c_Node8();
-	c_Node8* m_new(c_Node8*,c_Node8*,c_RenderableObject*);
-	c_Node8* m_new2();
+	c_Node7();
+	c_Node7* m_new(c_Node7*,c_Node7*,c_RenderableObject*);
+	c_Node7* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode2 : public c_Node8{
+class c_HeadNode2 : public c_Node7{
 	public:
 	c_HeadNode2();
 	c_HeadNode2* m_new();
@@ -7576,35 +7681,36 @@ class c_ParticleSystem : public c_Tweenable{
 	static c_List16* m_systems;
 	c_ParticleSystem* m_new(int,int,c_ParticleSystemData*,int,String);
 	c_ParticleSystem* m_new2();
+	static void m_Init();
 	void p_Update();
 	static void m_UpdateAll();
 	void mark();
 };
 class c_List3 : public Object{
 	public:
-	c_Node9* m__head;
+	c_Node8* m__head;
 	c_List3();
 	c_List3* m_new();
-	c_Node9* p_AddLast3(c_Entity*);
+	c_Node8* p_AddLast3(c_Entity*);
 	c_List3* m_new2(Array<c_Entity* >);
-	bool p_Equals4(c_Entity*,c_Entity*);
+	bool p_Equals3(c_Entity*,c_Entity*);
 	int p_RemoveEach2(c_Entity*);
-	c_Enumerator2* p_ObjectEnumerator();
+	c_Enumerator3* p_ObjectEnumerator();
 	int p_Clear();
 	void mark();
 };
-class c_Node9 : public Object{
+class c_Node8 : public Object{
 	public:
-	c_Node9* m__succ;
-	c_Node9* m__pred;
+	c_Node8* m__succ;
+	c_Node8* m__pred;
 	c_Entity* m__data;
-	c_Node9();
-	c_Node9* m_new(c_Node9*,c_Node9*,c_Entity*);
-	c_Node9* m_new2();
+	c_Node8();
+	c_Node8* m_new(c_Node8*,c_Node8*,c_Entity*);
+	c_Node8* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode3 : public c_Node9{
+class c_HeadNode3 : public c_Node8{
 	public:
 	c_HeadNode3();
 	c_HeadNode3* m_new();
@@ -7626,38 +7732,38 @@ class c_FamiliarFixed : public c_Entity{
 };
 class c_List4 : public Object{
 	public:
-	c_Node10* m__head;
+	c_Node9* m__head;
 	c_List4();
 	c_List4* m_new();
-	c_Node10* p_AddLast4(c_FamiliarFixed*);
+	c_Node9* p_AddLast4(c_FamiliarFixed*);
 	c_List4* m_new2(Array<c_FamiliarFixed* >);
-	c_Enumerator* p_ObjectEnumerator();
+	c_Enumerator2* p_ObjectEnumerator();
 	int p_Clear();
 	void mark();
 };
-class c_Node10 : public Object{
+class c_Node9 : public Object{
 	public:
-	c_Node10* m__succ;
-	c_Node10* m__pred;
+	c_Node9* m__succ;
+	c_Node9* m__pred;
 	c_FamiliarFixed* m__data;
-	c_Node10();
-	c_Node10* m_new(c_Node10*,c_Node10*,c_FamiliarFixed*);
-	c_Node10* m_new2();
+	c_Node9();
+	c_Node9* m_new(c_Node9*,c_Node9*,c_FamiliarFixed*);
+	c_Node9* m_new2();
 	void mark();
 };
-class c_HeadNode4 : public c_Node10{
+class c_HeadNode4 : public c_Node9{
 	public:
 	c_HeadNode4();
 	c_HeadNode4* m_new();
 	void mark();
 };
-class c_Enumerator : public Object{
+class c_Enumerator2 : public Object{
 	public:
 	c_List4* m__list;
-	c_Node10* m__curr;
-	c_Enumerator();
-	c_Enumerator* m_new(c_List4*);
-	c_Enumerator* m_new2();
+	c_Node9* m__curr;
+	c_Enumerator2();
+	c_Enumerator2* m_new(c_List4*);
+	c_Enumerator2* m_new2();
 	bool p_HasNext();
 	c_FamiliarFixed* p_NextObject();
 	void mark();
@@ -7671,9 +7777,9 @@ class c_Familiar : public c_MobileEntity{
 	c_Familiar* m_new(c_Player*);
 	c_Familiar* m_new2();
 	void p_Recall();
+	static bool m_IsAnyAt(int,int);
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
-	static bool m_IsAnyAt(int,int);
 	void mark();
 };
 class c_Item : public c_Entity{
@@ -7718,7 +7824,7 @@ class c_Item : public c_Entity{
 	int p_GetValue();
 	static int m_GetFlyawayText(int);
 	int p_GetFlyawayText();
-	static c_StringMap3* m_seenItems;
+	static c_StringMap6* m_seenItems;
 	static void m_AddToSeenItems(String);
 	c_Item* m_new(int,int,String,bool,int,bool);
 	c_Item* m_new2();
@@ -7763,14 +7869,15 @@ class c_Item : public c_Entity{
 	void p_Die();
 	static c_Item* m_GetPickupAt(int,int,c_Item*);
 	static int m_RandomHardModeHelperItem();
+	static void m_InitAll();
 	String p_PickupFail(c_Player*);
 	static void m_ClearAllSingleChoiceItems(c_Item*);
 	virtual String p_Pickup(c_Player*);
 	static int m_ConsumeCoinsRemainingOnLevel();
 	static void m_MoveAll();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
-	void p_Update();
 	bool p_IsVisible();
+	void p_Update();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void mark();
 };
 class c_SaleItem : public c_Item{
@@ -7958,9 +8065,9 @@ class c_Enemy : public c_MobileEntity{
 	static bool m_EnemiesHaveMovedThisBeat();
 	static bool m_EnemiesMovingThisFrame();
 	static void m_MoveAll();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_AnimateToTheBeat();
 	void p_Update();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	static void m_SetEnemiesToDropNoCoinsOverride();
 	static void m_KillAllEnemies();
 	void mark();
@@ -7995,34 +8102,34 @@ class c_Crate : public c_Enemy{
 };
 class c_List5 : public Object{
 	public:
-	c_Node11* m__head;
+	c_Node10* m__head;
 	c_List5();
 	c_List5* m_new();
-	c_Node11* p_AddLast5(c_Crate*);
+	c_Node10* p_AddLast5(c_Crate*);
 	c_List5* m_new2(Array<c_Crate* >);
 	int p_Clear();
 	int p_Count();
 	c_Crate* p_RemoveFirst();
-	bool p_Equals5(c_Crate*,c_Crate*);
-	c_Node11* p_Find(c_Crate*,c_Node11*);
-	c_Node11* p_Find2(c_Crate*);
+	bool p_Equals4(c_Crate*,c_Crate*);
+	c_Node10* p_Find(c_Crate*,c_Node10*);
+	c_Node10* p_Find2(c_Crate*);
 	void p_RemoveFirst2(c_Crate*);
-	bool p_Contains3(c_Crate*);
+	bool p_Contains2(c_Crate*);
 	int p_RemoveEach3(c_Crate*);
 	void mark();
 };
-class c_Node11 : public Object{
+class c_Node10 : public Object{
 	public:
-	c_Node11* m__succ;
-	c_Node11* m__pred;
+	c_Node10* m__succ;
+	c_Node10* m__pred;
 	c_Crate* m__data;
-	c_Node11();
-	c_Node11* m_new(c_Node11*,c_Node11*,c_Crate*);
-	c_Node11* m_new2();
+	c_Node10();
+	c_Node10* m_new(c_Node10*,c_Node10*,c_Crate*);
+	c_Node10* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode5 : public c_Node11{
+class c_HeadNode5 : public c_Node10{
 	public:
 	c_HeadNode5();
 	c_HeadNode5* m_new();
@@ -8045,33 +8152,33 @@ class c_Gargoyle : public c_Enemy{
 };
 class c_List6 : public Object{
 	public:
-	c_Node12* m__head;
+	c_Node11* m__head;
 	c_List6();
 	c_List6* m_new();
-	c_Node12* p_AddLast6(c_Gargoyle*);
+	c_Node11* p_AddLast6(c_Gargoyle*);
 	c_List6* m_new2(Array<c_Gargoyle* >);
 	int p_Clear();
 	int p_Count();
 	c_Gargoyle* p_RemoveFirst();
-	bool p_Equals6(c_Gargoyle*,c_Gargoyle*);
-	c_Node12* p_Find3(c_Gargoyle*,c_Node12*);
-	c_Node12* p_Find4(c_Gargoyle*);
+	bool p_Equals5(c_Gargoyle*,c_Gargoyle*);
+	c_Node11* p_Find3(c_Gargoyle*,c_Node11*);
+	c_Node11* p_Find4(c_Gargoyle*);
 	void p_RemoveFirst3(c_Gargoyle*);
-	bool p_Contains4(c_Gargoyle*);
+	bool p_Contains3(c_Gargoyle*);
 	void mark();
 };
-class c_Node12 : public Object{
+class c_Node11 : public Object{
 	public:
-	c_Node12* m__succ;
-	c_Node12* m__pred;
+	c_Node11* m__succ;
+	c_Node11* m__pred;
 	c_Gargoyle* m__data;
-	c_Node12();
-	c_Node12* m_new(c_Node12*,c_Node12*,c_Gargoyle*);
-	c_Node12* m_new2();
+	c_Node11();
+	c_Node11* m_new(c_Node11*,c_Node11*,c_Gargoyle*);
+	c_Node11* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode6 : public c_Node12{
+class c_HeadNode6 : public c_Node11{
 	public:
 	c_HeadNode6();
 	c_HeadNode6* m_new();
@@ -8079,29 +8186,29 @@ class c_HeadNode6 : public c_Node12{
 };
 class c_List7 : public Object{
 	public:
-	c_Node13* m__head;
+	c_Node12* m__head;
 	c_List7();
 	c_List7* m_new();
-	c_Node13* p_AddLast7(String);
+	c_Node12* p_AddLast7(String);
 	c_List7* m_new2(Array<String >);
 	int p_Clear();
-	bool p_Equals7(String,String);
-	bool p_Contains2(String);
+	bool p_Equals6(String,String);
+	bool p_Contains4(String);
 	int p_RemoveEach4(String);
 	void mark();
 };
-class c_Node13 : public Object{
+class c_Node12 : public Object{
 	public:
-	c_Node13* m__succ;
-	c_Node13* m__pred;
+	c_Node12* m__succ;
+	c_Node12* m__pred;
 	String m__data;
-	c_Node13();
-	c_Node13* m_new(c_Node13*,c_Node13*,String);
-	c_Node13* m_new2();
+	c_Node12();
+	c_Node12* m_new(c_Node12*,c_Node12*,String);
+	c_Node12* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode7 : public c_Node13{
+class c_HeadNode7 : public c_Node12{
 	public:
 	c_HeadNode7();
 	c_HeadNode7* m_new();
@@ -8122,13 +8229,13 @@ class c_Chain : public Object{
 	static Array<bool > m_waitingForFirstMovement;
 	void mark();
 };
-class c_Enumerator2 : public Object{
+class c_Enumerator3 : public Object{
 	public:
 	c_List3* m__list;
-	c_Node9* m__curr;
-	c_Enumerator2();
-	c_Enumerator2* m_new(c_List3*);
-	c_Enumerator2* m_new2();
+	c_Node8* m__curr;
+	c_Enumerator3();
+	c_Enumerator3* m_new(c_List3*);
+	c_Enumerator3* m_new2();
 	bool p_HasNext();
 	c_Entity* p_NextObject();
 	void mark();
@@ -8146,35 +8253,54 @@ class c_Flyaway : public Object{
 	static void m_UpdateAll();
 	void mark();
 };
-class c_Camera : public Object{
-	public:
-	c_Camera();
-	static int m_fadeOutDuration;
-	static int m_fadeOutCurrent;
-	static c_Callback* m_fadeOutCallback;
-	static int m_fadeInDuration;
-	static int m_fadeInCurrent;
-	static c_Callback* m_fadeInCallback;
-	static int m_x;
-	static int m_y;
-	static Float m_seekX;
-	static Float m_seekY;
-	static bool m_fixed;
-	static bool m_IsOnScreenStandardizedRelativeToPoint(int,int,int,int);
-	static int m_GetFixedHeight();
-	static int m_GetFixedWidth();
-	static void m_FadeOutThenExecute(int,c_Callback*);
-	static Float m_shakeOffX;
-	static Float m_GetX();
-	static Float m_shakeOffY;
-	static Float m_GetY();
-	static bool m_IsOnScreen(int,int);
-	static int m_overlayWhiteDuration;
-	static void m_Shake(int,int,int);
-	void mark();
-};
 class c_Callback : public virtual gc_interface{
 	public:
+};
+class c_LevelType : public Object{
+	public:
+	c_LevelType();
+	void mark();
+};
+class c_LevelObject : public Object{
+	public:
+	int m_bossNum;
+	c_List24* m_tiles;
+	c_List25* m_traps;
+	c_List29* m_enemies;
+	c_List30* m_items;
+	c_List31* m_chests;
+	c_List34* m_crates;
+	c_List35* m_shrines;
+	c_LevelObject();
+	void p_CreateMap();
+	void mark();
+};
+extern int bb_controller_game_currentLevel;
+extern int bb_controller_game_currentZone;
+extern int bb_controller_game_currentDepth;
+class c_Map6 : public Object{
+	public:
+	c_Node13* m_root;
+	c_Map6();
+	virtual int p_Compare(int,int)=0;
+	c_Node13* p_FindNode(int);
+	c_LevelObject* p_Get2(int);
+	void mark();
+};
+class c_IntMap4 : public c_Map6{
+	public:
+	c_IntMap4();
+	int p_Compare(int,int);
+	void mark();
+};
+class c_Node13 : public Object{
+	public:
+	int m_key;
+	c_Node13* m_right;
+	c_Node13* m_left;
+	c_LevelObject* m_value;
+	c_Node13();
+	void mark();
 };
 int bb_math_Abs(int);
 Float bb_math_Abs2(Float);
@@ -8193,36 +8319,26 @@ class c_Stairs_callback : public Object,public virtual c_Callback{
 	c_Stairs_callback* m_new();
 	void mark();
 };
-class c_ControllerCutscene : public c_Controller{
-	public:
-	c_ControllerCutscene();
-	c_ControllerCutscene* m_new(int,int,int);
-	c_ControllerCutscene* m_new2();
-	static void m_InitSubtitles();
-	void p_RegainFocus();
-	void p_Update();
-	void mark();
-};
-class c_Map8 : public Object{
+class c_Map7 : public Object{
 	public:
 	c_Node14* m_root;
-	c_Map8();
-	c_Map8* m_new();
+	c_Map7();
+	c_Map7* m_new();
 	int p_Clear();
 	virtual int p_Compare2(String,String)=0;
 	c_Node14* p_FindNode2(String);
-	bool p_Contains2(String);
+	bool p_Contains4(String);
 	String p_Get(String);
-	int p_RotateLeft7(c_Node14*);
-	int p_RotateRight7(c_Node14*);
-	int p_InsertFixup7(c_Node14*);
-	bool p_Set8(String,String);
+	int p_RotateLeft6(c_Node14*);
+	int p_RotateRight6(c_Node14*);
+	int p_InsertFixup6(c_Node14*);
+	bool p_Set7(String,String);
 	void mark();
 };
-class c_StringMap4 : public c_Map8{
+class c_StringMap3 : public c_Map7{
 	public:
-	c_StringMap4();
-	c_StringMap4* m_new();
+	c_StringMap3();
+	c_StringMap3* m_new();
 	int p_Compare2(String,String);
 	void mark();
 };
@@ -8239,23 +8355,23 @@ class c_Node14 : public Object{
 	c_Node14* m_new2();
 	void mark();
 };
-class c_Map9 : public Object{
+class c_Map8 : public Object{
 	public:
 	c_Node15* m_root;
-	c_Map9();
-	c_Map9* m_new();
+	c_Map8();
+	c_Map8* m_new();
 	int p_Clear();
 	virtual int p_Compare2(String,String)=0;
-	int p_RotateLeft8(c_Node15*);
-	int p_RotateRight8(c_Node15*);
-	int p_InsertFixup8(c_Node15*);
-	bool p_Set9(String,bool);
+	int p_RotateLeft7(c_Node15*);
+	int p_RotateRight7(c_Node15*);
+	int p_InsertFixup7(c_Node15*);
+	bool p_Set8(String,bool);
 	void mark();
 };
-class c_StringMap5 : public c_Map9{
+class c_StringMap4 : public c_Map8{
 	public:
-	c_StringMap5();
-	c_StringMap5* m_new();
+	c_StringMap4();
+	c_StringMap4* m_new();
 	int p_Compare2(String,String);
 	void mark();
 };
@@ -8274,13 +8390,13 @@ class c_Node15 : public Object{
 };
 class c_Set2 : public Object{
 	public:
-	c_Map10* m_map;
+	c_Map9* m_map;
 	c_Set2();
-	c_Set2* m_new(c_Map10*);
+	c_Set2* m_new(c_Map9*);
 	c_Set2* m_new2();
 	int p_Clear();
-	int p_Insert7(String);
-	bool p_Contains2(String);
+	int p_Insert6(String);
+	bool p_Contains4(String);
 	void mark();
 };
 class c_StringSet : public c_Set2{
@@ -8289,26 +8405,26 @@ class c_StringSet : public c_Set2{
 	c_StringSet* m_new();
 	void mark();
 };
-class c_Map10 : public Object{
+class c_Map9 : public Object{
 	public:
 	c_Node16* m_root;
-	c_Map10();
-	c_Map10* m_new();
+	c_Map9();
+	c_Map9* m_new();
 	int p_Clear();
 	virtual int p_Compare2(String,String)=0;
-	int p_RotateLeft9(c_Node16*);
-	int p_RotateRight9(c_Node16*);
-	int p_InsertFixup9(c_Node16*);
-	bool p_Set10(String,Object*);
-	bool p_Insert8(String,Object*);
+	int p_RotateLeft8(c_Node16*);
+	int p_RotateRight8(c_Node16*);
+	int p_InsertFixup8(c_Node16*);
+	bool p_Set9(String,Object*);
+	bool p_Insert7(String,Object*);
 	c_Node16* p_FindNode2(String);
-	bool p_Contains2(String);
+	bool p_Contains4(String);
 	void mark();
 };
-class c_StringMap6 : public c_Map10{
+class c_StringMap5 : public c_Map9{
 	public:
-	c_StringMap6();
-	c_StringMap6* m_new();
+	c_StringMap5();
+	c_StringMap5* m_new();
 	int p_Compare2(String,String);
 	void mark();
 };
@@ -8329,6 +8445,31 @@ class c_ItemList : public c_List7{
 	public:
 	c_ItemList();
 	c_ItemList* m_new();
+	void mark();
+};
+class c_Map10 : public Object{
+	public:
+	c_Node17* m_root;
+	c_Map10();
+	c_Map10* m_new();
+	int p_Clear();
+	virtual int p_Compare2(String,String)=0;
+	c_Node17* p_FindNode2(String);
+	bool p_Contains4(String);
+	int p_Get(String);
+	bool p_Update3(String,int);
+	int p_RotateLeft9(c_Node17*);
+	int p_RotateRight9(c_Node17*);
+	int p_InsertFixup9(c_Node17*);
+	bool p_Set10(String,int);
+	bool p_Insert8(String,int);
+	void mark();
+};
+class c_StringMap6 : public c_Map10{
+	public:
+	c_StringMap6();
+	c_StringMap6* m_new();
+	int p_Compare2(String,String);
 	void mark();
 };
 class c_Node17 : public Object{
@@ -8394,17 +8535,6 @@ class c_Weapon : public Object{
 class c_ItemType : public Object{
 	public:
 	c_ItemType();
-	void mark();
-};
-class c_Enumerator3 : public Object{
-	public:
-	c_List* m__list;
-	c_Node2* m__curr;
-	c_Enumerator3();
-	c_Enumerator3* m_new(c_List*);
-	c_Enumerator3* m_new2();
-	bool p_HasNext();
-	c_XMLNode* p_NextObject();
 	void mark();
 };
 class c_Map11 : public Object{
@@ -8517,6 +8647,24 @@ class c_PlayerHealth : public Object{
 	void p_Damage(int);
 	void mark();
 };
+class c_Spells : public Object{
+	public:
+	c_Spells();
+	static String m_spellSlot1;
+	static String m_spellSlot2;
+	static c_StringMap6* m_spellCoolKills;
+	static void m_InitLearnedSpells();
+	static Array<c_Sprite* > m_fireballInWorld;
+	static c_Sprite* m_pulseInWorld;
+	static c_Stack2* m_pulseAnim;
+	static void m_Init();
+	void mark();
+};
+class c_SpellType : public Object{
+	public:
+	c_SpellType();
+	void mark();
+};
 class c_Map12 : public Object{
 	public:
 	c_Node21* m_root;
@@ -8524,7 +8672,7 @@ class c_Map12 : public Object{
 	c_Map12* m_new();
 	virtual int p_Compare2(String,String)=0;
 	c_Node21* p_FindNode2(String);
-	bool p_Contains2(String);
+	bool p_Contains4(String);
 	int p_RotateLeft11(c_Node21*);
 	int p_RotateRight11(c_Node21*);
 	int p_InsertFixup11(c_Node21*);
@@ -8586,50 +8734,9 @@ class c_HeadNode10 : public c_Node22{
 	c_HeadNode10* m_new();
 	void mark();
 };
-int bb_math_Max(int,int);
-Float bb_math_Max2(Float,Float);
 extern int bb_controller_game_dailyChallengeSuccessScore;
 extern int bb_controller_game_speedrunSuccessScore;
 extern int bb_controller_game_hardcoreModeSuccessScore;
-class c_Audio : public Object{
-	public:
-	c_Audio();
-	static bool m_songShopOpen;
-	static int m_fixedBeatNum;
-	static bool m_debugEnablePlaceholders;
-	static int m_cachedSongPositionFrame;
-	static int m_cachedSongPosition;
-	static bool m_necrodancerSong2Active;
-	static bool m_includeVideoLatency;
-	static int m_songLoops;
-	static int m_GetSongPosition();
-	static int m_GetCurrentBeatNumber(int,bool);
-	static int m_numLoops;
-	static int m_GetCurrentBeatNumberIncludingLoops(int,bool);
-	static int m_songDuration;
-	static int m_TimeUntilSpecificBeat(int);
-	static int m_GetClosestBeatNum(bool);
-	static void m_Init();
-	static void m_UpdateNumLoops();
-	static void m_Update(bool);
-	static void m_PlayGameSoundAt(String,int,int,bool,int,bool);
-	static void m_PlayGameSoundAt2(String,int,int,int,bool,int,bool,Float);
-	static void m_PauseSong(bool);
-	static bool m_cheatingDetected;
-	static int m_GetNonAbsoluteDistanceFromNearestBeat();
-	static void m_PlayGameSound(String,int,Float);
-	static int m_fadeFrames;
-	static int m_startFadeFrames;
-	static bool m_PastLastBeat();
-	static bool m_HasSongEnded();
-	static bool m_DoingNecrodancerTransition();
-	static bool m_startSong;
-	static int m_GetDistanceFromNearestBeat();
-	static int m_GetNextBeatDuration();
-	static Float m_GetPercentDistanceFromNextBeat();
-	static int m_GetBeatAnimFrame4();
-	void mark();
-};
 class c_Point2 : public Object{
 	public:
 	c_Point2();
@@ -8647,31 +8754,6 @@ class c_ItemData : public Object{
 	c_ItemData();
 	c_ItemData* m_new(c_XMLNode*);
 	c_ItemData* m_new2();
-	void mark();
-};
-class c_TextSprite : public Object{
-	public:
-	int m_justification;
-	Float m_scaleVal;
-	int m_color;
-	int m_zVal;
-	bool m_showShadow;
-	int m_shadowColor;
-	int m_shadowOffX;
-	int m_shadowOffY;
-	int m_fontScale;
-	c_List21* m_containedSprites;
-	c_List21* m_containedSpriteShadows;
-	c_TextSprite();
-	c_TextSprite* m_new(int,Float,int,int,bool,int,int,int);
-	c_TextSprite* m_new2(int,Float,int,int);
-	c_TextSprite* m_new3(int,Float);
-	c_TextSprite* m_new4(int);
-	c_TextSprite* m_new5();
-	void p_Discard();
-	void p_SetText(String,bool);
-	void p_InWorld(bool);
-	static void m_Init();
 	void mark();
 };
 class c_Bouncer : public Object{
@@ -8732,7 +8814,31 @@ class c_Point : public Object{
 	c_Point* p_Add4(int,int);
 	c_Point* p_RotateCWAbout(c_Point*);
 	c_Point* p_Scale(int);
-	bool p_Equals8(c_Point*);
+	bool p_Equals7(c_Point*);
+	void mark();
+};
+class c_Stack2 : public Object{
+	public:
+	Array<int > m_data;
+	int m_length;
+	c_Stack2();
+	c_Stack2* m_new();
+	c_Stack2* m_new2(Array<int >);
+	static int m_NIL;
+	void p_Clear();
+	void p_Push4(int);
+	void p_Push5(Array<int >,int,int);
+	void p_Push6(Array<int >,int);
+	c_Enumerator6* p_ObjectEnumerator();
+	void p_Length2(int);
+	int p_Length();
+	int p_Get2(int);
+	void p_Remove3(int);
+	void p_Set5(int,int);
+	int p_Pop();
+	virtual bool p_Equals8(int,int);
+	bool p_Contains(int);
+	c_BackwardsStack* p_Backwards();
 	void mark();
 };
 class c_StackEx : public c_Stack2{
@@ -8794,7 +8900,7 @@ class c_Enumerator4 : public Object{
 class c_Enumerator5 : public Object{
 	public:
 	c_List2* m__list;
-	c_Node8* m__curr;
+	c_Node7* m__curr;
 	c_Enumerator5();
 	c_Enumerator5* m_new(c_List2*);
 	c_Enumerator5* m_new2();
@@ -8822,7 +8928,7 @@ class c_IntStack : public c_Stack2{
 	c_IntStack();
 	c_IntStack* m_new(Array<int >);
 	c_IntStack* m_new2();
-	bool p_Equals2(int,int);
+	bool p_Equals8(int,int);
 	void mark();
 };
 class c_Enumerator6 : public Object{
@@ -8837,6 +8943,31 @@ class c_Enumerator6 : public Object{
 	void mark();
 };
 extern int bb_controller_game_lastEnemyMoveBeat;
+extern Array<int > bb_controller_game_lastPlayerMoveBeat;
+class c_ControllerGame : public c_Controller{
+	public:
+	bool m_specialScoreSubmit;
+	int m_coinVal;
+	int m_timeVal;
+	c_TextSprite* m_restartImage;
+	c_TextSprite* m_scoresImage;
+	c_TextSprite* m_scoresImage2;
+	c_TextSprite* m_songEndedImage;
+	c_TextSprite* m_songEndedImage2;
+	c_Bouncer* m_restartBounce;
+	c_TextSprite* m_replayInstructions;
+	bool m_ignoreInput;
+	int m_pendingScores;
+	c_ControllerGame();
+	void p_ResetPostDeathReplay();
+	c_ControllerGame* m_new();
+	void p_Destructor();
+	void p_RegainFocus();
+	void p_Render();
+	void p_Update();
+	void mark();
+};
+extern c_ControllerGame* bb_controller_game_controllerGamePointer;
 class c_Tile : public c_RenderableObject{
 	public:
 	c_Sprite* m_textLabel;
@@ -8881,7 +9012,6 @@ class c_Tile : public c_RenderableObject{
 	int m_cachedLOSFrame;
 	bool m_cachedTrueLOS;
 	int m_cachedTrueLOSFrame;
-	Float m_constAlpha;
 	int m_nextEruptionBeat;
 	int m_playerWasOnTileAtBeat;
 	bool m_playerWasOnTileLastFrame;
@@ -8890,6 +9020,7 @@ class c_Tile : public c_RenderableObject{
 	bool m_wasInLOS;
 	Float m_grassValue;
 	Float m_constLightValueCached;
+	Float m_constAlpha;
 	bool m_activatedConductorWire;
 	c_Tile();
 	static c_List12* m_floorRisingList;
@@ -8956,7 +9087,6 @@ class c_Tile : public c_RenderableObject{
 	bool p_IsInAnyPlayerTrueLineOfSight();
 	bool p_IsInAnyPlayerLineOfSight();
 	static void m_MoveAll();
-	bool p_IsVisible();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	Float p_CalculateTileLightValue(bool);
 	static bool m_anyPlayerHaveZoneMapCached;
@@ -8968,6 +9098,7 @@ class c_Tile : public c_RenderableObject{
 	int p_SelectWireFrame();
 	bool p_SelectWireFlip();
 	void p_Update();
+	bool p_IsVisible();
 	void mark();
 };
 class c_Map13 : public Object{
@@ -9885,7 +10016,6 @@ class c_Monkey : public c_EnemyClamper{
 	void p_Update();
 	void mark();
 };
-extern int bb_necrodancergame_globalFrameCounter;
 Float bb_fmod_GetSongPositionFMOD(int);
 extern Array<int > bb_controller_game_beatData;
 class c_Enumerator9 : public Object{
@@ -11455,7 +11585,7 @@ class c_Set3 : public Object{
 	c_Set3* m_new2();
 	bool p_Contains5(c_Point*);
 	int p_Insert9(c_Point*);
-	c_KeyEnumerator* p_ObjectEnumerator();
+	c_KeyEnumerator2* p_ObjectEnumerator();
 	void mark();
 };
 class c_IntPointSet : public c_Set3{
@@ -11477,7 +11607,7 @@ class c_Map17 : public Object{
 	int p_InsertFixup16(c_Node53*);
 	bool p_Set19(c_Point*,Object*);
 	bool p_Insert10(c_Point*,Object*);
-	c_MapKeys* p_Keys();
+	c_MapKeys2* p_Keys();
 	c_Node53* p_FirstNode();
 	void mark();
 };
@@ -11502,23 +11632,23 @@ class c_Node53 : public Object{
 	c_Node53* p_NextNode();
 	void mark();
 };
-class c_KeyEnumerator : public Object{
+class c_KeyEnumerator2 : public Object{
 	public:
 	c_Node53* m_node;
-	c_KeyEnumerator();
-	c_KeyEnumerator* m_new(c_Node53*);
-	c_KeyEnumerator* m_new2();
+	c_KeyEnumerator2();
+	c_KeyEnumerator2* m_new(c_Node53*);
+	c_KeyEnumerator2* m_new2();
 	bool p_HasNext();
 	c_Point* p_NextObject();
 	void mark();
 };
-class c_MapKeys : public Object{
+class c_MapKeys2 : public Object{
 	public:
 	c_Map17* m_map;
-	c_MapKeys();
-	c_MapKeys* m_new(c_Map17*);
-	c_MapKeys* m_new2();
-	c_KeyEnumerator* p_ObjectEnumerator();
+	c_MapKeys2();
+	c_MapKeys2* m_new(c_Map17*);
+	c_MapKeys2* m_new2();
+	c_KeyEnumerator2* p_ObjectEnumerator();
 	void mark();
 };
 class c_Stack7 : public Object{
@@ -11832,25 +11962,6 @@ class c_Bossmaster : public c_NPC{
 extern int bb_controller_game_runPlaytimeLastAdded;
 extern int bb_controller_game_runPlaytimeMilliseconds;
 extern int bb_controller_game_subRunPlaytimeMilliseconds;
-class c_MapKeys2 : public Object{
-	public:
-	c_Map3* m_map;
-	c_MapKeys2();
-	c_MapKeys2* m_new(c_Map3*);
-	c_MapKeys2* m_new2();
-	c_KeyEnumerator2* p_ObjectEnumerator();
-	void mark();
-};
-class c_KeyEnumerator2 : public Object{
-	public:
-	c_Node4* m_node;
-	c_KeyEnumerator2();
-	c_KeyEnumerator2* m_new(c_Node4*);
-	c_KeyEnumerator2* m_new2();
-	bool p_HasNext();
-	String p_NextObject();
-	void mark();
-};
 class c_BackwardsStack : public Object{
 	public:
 	c_Stack2* m_stack;
@@ -11916,32 +12027,6 @@ class c_HeadNode36 : public c_Node54{
 	c_HeadNode36* m_new();
 	void mark();
 };
-class c_ControllerPopUp : public c_Controller{
-	public:
-	bool m_cachedScaleVal;
-	c_Controller* m_cGame;
-	bool m_option1Default;
-	bool m_option2Exists;
-	String m_popupTextVal;
-	String m_popupText2Val;
-	String m_popupText3Val;
-	bool m_ignoreInput;
-	String m_popupText4Val;
-	c_Sprite* m_overlayBlack;
-	c_TextSprite* m_popupText;
-	c_TextSprite* m_popupText2;
-	c_TextLabel* m_option1Text;
-	c_TextLabel* m_option2Text;
-	c_OptionList* m_gui;
-	int m_retval;
-	c_Sprite* m_bestiaryImage;
-	c_ControllerPopUp();
-	c_ControllerPopUp* m_new(c_Controller*,String,String,String,String,String,bool,bool,String);
-	c_ControllerPopUp* m_new2();
-	void p_RegainFocus();
-	void p_Update();
-	void mark();
-};
 class c_GuiComponent : public c_GuiContainer{
 	public:
 	c_GuiComponent();
@@ -11970,7 +12055,9 @@ class c_ControllerPostGame : public c_Controller{
 	c_ControllerPostGame();
 	c_ControllerPostGame* m_new(c_ControllerGame*,bool,bool,bool,bool,bool,int,int);
 	c_ControllerPostGame* m_new2();
+	void p_Destructor();
 	void p_RegainFocus();
+	void p_Render();
 	void p_Update();
 	void mark();
 };
@@ -11979,60 +12066,32 @@ class c_ControllerBossIntro : public c_Controller{
 	c_ControllerBossIntro();
 	c_ControllerBossIntro* m_new(Object*,int);
 	c_ControllerBossIntro* m_new2();
+	void p_Destructor();
 	void p_RegainFocus();
+	void p_Render();
 	void p_Update();
 	void mark();
 };
-class c_ControllerMainMenu : public c_Controller{
-	public:
-	bool m_showCloudSavePopup;
-	String m_mainmenuSongName;
-	String m_mainmenuTitlescreen;
-	c_Sprite* m_mainMenu;
-	c_Sprite* m_continueImage;
-	c_Sprite* m_alphaWarning;
-	bool m_haveShownAlphaWarning;
-	c_Sprite* m_seizureWarning;
-	bool m_haveShownSeizureWarning;
-	c_ControllerMainMenu();
-	c_ControllerMainMenu* m_new();
-	void p_RegainFocus();
-	void p_Update();
-	void mark();
-};
-String bb_steam_GetPlayerID();
-int bb_steam_GetCloudSaveTimestamp();
-extern bool bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES;
-String bb_steam_LoadCloudSave();
-void bb_util_SetVSync(int);
-extern Object* bb_steam_g_SteamLeaderboards;
-class c_ISteamApps : public virtual gc_interface{
-	public:
-	virtual bool p_BIsDlcInstalled(int)=0;
-};
-c_ISteamApps* bb_steam_SteamApps();
-class c_ControllerIntro : public c_Controller{
-	public:
-	c_Sprite* m_splashScreen;
-	c_Image* m_videoImg;
-	String m_introVideoName;
-	String m_introSongName;
-	c_ControllerIntro();
-	static c_Sprite* m_videoSpr;
-	c_ControllerIntro* m_new();
-	void p_RegainFocus();
-	void p_Update();
-	void mark();
-};
-c_Image* bb_graphics_CreateImage(int,int,int,int);
-extern int bb_necrodancergame_lastFrameTimeUpdate;
-extern int bb_necrodancergame_lastFrameCountUpdate;
-extern int bb_necrodancergame_lastFPSUpdate;
-extern bool bb_controller_game_DEBUG_MOUSE_COORDS;
 void bb_fmod_UpdateFMOD();
 void bb_steam_SteamPump();
-extern int bb_necrodancergame_FIXED_HEIGHT;
-extern int bb_necrodancergame_FIXED_WIDTH;
+extern int bb_controller_game_totalPlaytimeLastAdded;
+class c_GUI_gameplay : public Object{
+	public:
+	c_GUI_gameplay();
+	static c_Sprite* m_errorKey;
+	void mark();
+};
+extern bool bb_controller_game_gamePaused;
+class c_ControllerChangeLog : public c_Controller{
+	public:
+	c_ControllerChangeLog();
+	c_ControllerChangeLog* m_new();
+	void p_Destructor();
+	void p_RegainFocus();
+	void p_Render();
+	void p_Update();
+	void mark();
+};
 class c_ControllerInputPopup : public c_Controller{
 	public:
 	String m_result;
@@ -12048,7 +12107,9 @@ class c_ControllerInputPopup : public c_Controller{
 	c_ControllerInputPopup();
 	c_ControllerInputPopup* m_new(c_Controller*,String,String,bool);
 	c_ControllerInputPopup* m_new2();
+	void p_Destructor();
 	void p_RegainFocus();
+	void p_Render();
 	void p_Update();
 	void mark();
 };
@@ -12082,7 +12143,9 @@ class c_ControllerPause : public c_Controller{
 	c_ControllerPause();
 	c_ControllerPause* m_new(Object*);
 	c_ControllerPause* m_new2();
+	void p_Destructor();
 	void p_RegainFocus();
+	void p_Render();
 	void p_Update();
 	void mark();
 };
@@ -12204,7 +12267,6 @@ class c_Minimap : public Object{
 	static void m_AddDirty2(int,int);
 	void mark();
 };
-extern bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 class c_List39 : public Object{
 	public:
 	c_Node57* m__head;
@@ -12243,6 +12305,7 @@ class c_Enumerator34 : public Object{
 	c_Player* p_NextObject();
 	void mark();
 };
+extern bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 class c_List40 : public Object{
 	public:
 	c_Node58* m__head;
@@ -12352,8 +12415,31 @@ c_NecroDancerGame* c_NecroDancerGame::m_new(){
 	c_App::m_new();
 	return this;
 }
+int c_NecroDancerGame::m_lastViewMultiplier;
+int c_NecroDancerGame::m_lastDeviceHeight;
+int c_NecroDancerGame::m_lastDeviceWidth;
 void c_NecroDancerGame::m_UpdateScreenSize(bool t_force){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.UpdateScreenSize(Bool)",38));
+	bool t_viewMultiplierChanged=false;
+	if(c_GameData::m_playerDataLoaded && c_GameData::m_GetViewMultiplier()!=m_lastViewMultiplier){
+		t_viewMultiplierChanged=true;
+		m_lastViewMultiplier=c_GameData::m_GetViewMultiplier();
+	}
+	if(t_force || t_viewMultiplierChanged || m_lastDeviceHeight!=bb_app_DeviceHeight() || m_lastDeviceWidth!=bb_app_DeviceWidth()){
+		Float t_scaleFactorY=(Float)floor(Float(bb_app_DeviceHeight())/FLOAT(270.0));
+		Float t_scaleFactorX=(Float)floor(Float(bb_app_DeviceWidth())/FLOAT(480.0));
+		bb_necrodancergame_GLOBAL_SCALE_FACTOR=bb_math_Min2(t_scaleFactorX,t_scaleFactorY);
+		if(c_GameData::m_playerDataLoaded){
+			if(c_GameData::m_GetViewMultiplier()!=0){
+				bb_necrodancergame_GLOBAL_SCALE_FACTOR=Float(c_GameData::m_GetViewMultiplier());
+			}
+		}
+		bb_necrodancergame_GLOBAL_SCALE_FACTOR=bb_math_Max2(FLOAT(1.0),bb_necrodancergame_GLOBAL_SCALE_FACTOR);
+		bb_necrodancergame_FIXED_WIDTH=int(Float(bb_app_DeviceWidth())/bb_necrodancergame_GLOBAL_SCALE_FACTOR);
+		bb_necrodancergame_FIXED_HEIGHT=int(Float(bb_app_DeviceHeight())/bb_necrodancergame_GLOBAL_SCALE_FACTOR);
+		m_lastDeviceHeight=bb_app_DeviceHeight();
+		m_lastDeviceWidth=bb_app_DeviceWidth();
+		bb_textlog_MessageGlobal(String(L"Updating screen size: ",22)+String(bb_app_DeviceWidth())+String(L"x",1)+String(bb_app_DeviceHeight()),true);
+	}
 }
 int c_NecroDancerGame::p_OnCreate(){
 	c_TextLog::m_Message(String(L"NecroDancer version ",20)+c_Util::m_GetVersionString()+String(L" loading...",11));
@@ -12370,14 +12456,35 @@ int c_NecroDancerGame::p_OnCreate(){
 	c_TextLog::m_Message(String(L"OnCreate: Setting update rate",29));
 	bb_app_SetUpdateRate(bb_necrodancergame_FRAMES_PER_SEC);
 	c_TextLog::m_Message(String(L"GLOBAL_SCALE_FACTOR: ",21)+String(bb_necrodancergame_GLOBAL_SCALE_FACTOR));
-	if(true){
-		c_GameData::m_LoadGameDataXML(true);
-		(new c_ControllerGame)->m_new();
-	}
+	c_TextLog::m_Message(String(L"Loading ControllerMainMenu...",29));
+	(new c_ControllerMainMenu)->m_new();
+	c_TextLog::m_Message(String(L"ControllerMainMenu LOADED",25));
 	return 0;
 }
 int c_NecroDancerGame::p_OnRender(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.OnRender()",26));
+	m_UpdateScreenSize(false);
+	if(c_Camera::m_freezeFrameDelay>0){
+		c_Camera::m_freezeFrameDelay-=1;
+	}
+	if(c_Camera::m_freezeFrameDelay>=0 || c_Camera::m_freezeFrameNum<=0){
+		c_Camera::m_Update();
+		if(c_Controller::m_currentController!=0){
+			c_Controller::m_currentController->p_Render();
+		}
+		c_Camera::m_CaptureFreezeFrame();
+	}else{
+		if(c_Camera::m_freezeImage!=0){
+		}
+		c_Camera::m_freezeFrameNum-=1;
+	}
+	bb_necrodancergame_globalFrameCounter+=1;
+	if(bb_app_Millisecs()-bb_necrodancergame_lastFrameTime>=1000){
+		bb_necrodancergame_lastFrameTime=bb_app_Millisecs();
+		bb_necrodancergame_lastFPS=bb_necrodancergame_globalFrameCounter-bb_necrodancergame_lastFrameCount;
+		bb_necrodancergame_lastFrameCount=bb_necrodancergame_globalFrameCounter;
+		bb_necrodancergame_lastGCS=-bb_necrodancergame_lastGCAllocCount;
+		bb_necrodancergame_lastGCAllocCount=0;
+	}
 	return 0;
 }
 int c_NecroDancerGame::p_OnResume(){
@@ -12388,31 +12495,6 @@ int c_NecroDancerGame::p_OnSuspend(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.OnSuspend()",27));
 	return 0;
 }
-void c_NecroDancerGame::p_TestSeededAllZonesMode(int t_character,String t_randSeedString){
-	gc_assign(bb_controller_game_players[0],(new c_Player)->m_new(0,t_character));
-	c_Level::m_randSeedString=t_randSeedString;
-	c_Level::m_NewLevel(-10,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-}
 int c_NecroDancerGame::p_OnUpdate(){
 	if(bb_app_Millisecs()-bb_necrodancergame_lastFrameTimeUpdate>=1000){
 		bb_necrodancergame_lastFrameTimeUpdate=bb_app_Millisecs();
@@ -12421,15 +12503,17 @@ int c_NecroDancerGame::p_OnUpdate(){
 	}
 	c_Input::m_Update();
 	if(c_Controller::m_currentController!=0){
-		this->p_TestSeededAllZonesMode(0,String(L"1",1));
 		c_Controller::m_currentController->p_Update();
 	}
 	bb_fmod_UpdateFMOD();
 	bb_steam_SteamPump();
 	c_Util::m_Pump();
-	bb_app_EndApp();
+	if(dynamic_cast<c_ControllerGame*>(c_Controller::m_currentController)!=0){
+		bb_app_EndApp();
+	}
 	return 0;
 }
+c_Image* c_NecroDancerGame::m_textFont;
 void c_NecroDancerGame::mark(){
 	c_App::mark();
 }
@@ -13258,6 +13342,9 @@ void c_Util::m_SetAppFolder(){
 void c_Util::m_AddMetric(String t_key,String t_value,bool t_send,bool t_blocking,bool t_isNumber){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.AddMetric(String, String, Bool, Bool, Bool)",48));
 }
+void c_Util::m_GetLeaderboardScores(int t_rangeStart,int t_rangeEnd,int t_dayOffset,String t_specificLeaderboard,bool t_useTodaysSeed,bool t_friendsOnly,bool t_playerOnly){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetLeaderboardScores(Int, Int, Int, String, Bool, Bool, Bool)",66));
+}
 bool c_Util::m_IsCharacterActive(int t_charID){
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
 		c_Player* t_player=bb_controller_game_players[t_i];
@@ -13541,9 +13628,6 @@ c_Point* c_Util::m_FindClosestTrulyUnoccupiedSpace(int t_xVal,int t_yVal,bool t_
 	}
 	return 0;
 }
-void c_Util::m_GetLeaderboardScores(int t_rangeStart,int t_rangeEnd,int t_dayOffset,String t_specificLeaderboard,bool t_useTodaysSeed,bool t_friendsOnly,bool t_playerOnly){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetLeaderboardScores(Int, Int, Int, String, Bool, Bool, Bool)",66));
-}
 void c_Util::m_Pump(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.Pump()",11));
 }
@@ -13619,6 +13703,12 @@ bool c_GameData::m_GetDebugLogging(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetDebugLogging()",26));
 	return false;
 }
+bool c_GameData::m_playerDataLoaded;
+c_XMLDoc* c_GameData::m_xmlSaveData;
+int c_GameData::m_GetViewMultiplier(){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute3(String(L"viewMultiplier",14),0);
+}
 bool c_GameData::m_modGamedataChanges;
 String c_GameData::m_activeMod;
 void c_GameData::m_Save(){
@@ -13646,13 +13736,139 @@ void c_GameData::m_LoadGameDataXML(bool t_bypassChecksum){
 	}
 	m_gameDataLoaded=true;
 }
-void c_GameData::m_SetCharUnlocked(int t_charNum,bool t_val){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetCharUnlocked(Int, Bool)",35));
+String c_GameData::m_GetFreshString(){
+	return String(L"<necrodancer><player v=\"2\"></player><game></game><npc></npc></necrodancer>",74);
+}
+bool c_GameData::m_playerDataLoadPending;
+void c_GameData::m_SetDefaultCharacter(int t_c){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetDefaultCharacter(Int)",33));
+}
+bool c_GameData::m_LoadPlayerDataXML(bool t_forceCloud){
+	String t_xmlSaveDataFreshStr=m_GetFreshString();
+	c_XMLError* t_error=(new c_XMLError)->m_new();
+	m_playerDataLoadPending=false;
+	String t_playerID=bb_steam_GetPlayerID();
+	String t_xmlSaveDataPath=String(L"save_data",9)+t_playerID+String(L".xml",4);
+	String t_xmlSaveDataStr=bb_app_LoadString(t_xmlSaveDataPath);
+	if(t_xmlSaveDataStr==String()){
+		t_xmlSaveDataStr=bb_app_LoadString(String(L"save_data.xml",13));
+	}
+	int t_cloudTimestamp=bb_steam_GetCloudSaveTimestamp();
+	c_TextLog::m_Message(String(L"LoadPlayerDataXML(), cloudTimestamp=",36)+String(t_cloudTimestamp));
+	bool t_loadedCloudSave=false;
+	if(t_xmlSaveDataStr==String()){
+		if(!bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES && t_cloudTimestamp!=0 && FileType(String(L"data/played.dat",15))!=0){
+			t_xmlSaveDataStr=bb_steam_LoadCloudSave();
+			t_loadedCloudSave=true;
+		}else{
+			t_xmlSaveDataStr=t_xmlSaveDataFreshStr;
+		}
+	}
+	if(t_forceCloud){
+		t_xmlSaveDataStr=bb_steam_LoadCloudSave();
+		t_loadedCloudSave=true;
+	}
+	gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataStr,t_error,1));
+	if(m_xmlSaveData==0){
+		c_TextLog::m_Message(String(L"ERROR: Failed to load save data because of an XML parsing error",63));
+		c_TextLog::m_Message(t_error->p_ToString());
+		String t_invalidSaveDataPath=String(L"data/invalid_save_data.xml",26);
+		c_TextLog::m_Message(String(L"Dumping the invalid save data to path :  ",41)+t_invalidSaveDataPath);
+		SaveString(t_xmlSaveDataStr,t_invalidSaveDataPath);
+		c_TextLog::m_Message(String(L"Loading fresh save data instead",31));
+		t_error=(new c_XMLError)->m_new();
+		gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataFreshStr,t_error,1));
+		bb_logger_Debug->p_Assert(m_xmlSaveData!=0,String());
+	}
+	if(t_loadedCloudSave){
+		m_xmlSaveData->p_SetAttribute3(String(L"cloudTimestamp",14),t_cloudTimestamp);
+	}
+	if(!bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES && !t_loadedCloudSave && t_cloudTimestamp!=0){
+		int t_localCloudTimestamp=m_xmlSaveData->p_GetAttribute3(String(L"cloudTimestamp",14),0);
+		if(t_localCloudTimestamp!=t_cloudTimestamp){
+			m_playerDataLoadPending=true;
+		}
+	}
+	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
+	String t_dataVersion=t_playerNode->p_GetAttribute5(String(L"v",1),String(L"0",1));
+	c_TextLog::m_Message(String(L"DATA VERSION: ",14)+t_dataVersion);
+	if(t_dataVersion!=String(L"2",1)){
+		String t_oldXMLSaveDataPath=String(L"data/save_data_OLD",18)+t_dataVersion+String(L".xml",4);
+		String t_oldXMLSaveDataStr=m_xmlSaveData->p_Export(1);
+		SaveString(t_oldXMLSaveDataStr,t_oldXMLSaveDataPath);
+		t_error=(new c_XMLError)->m_new();
+		gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataFreshStr,t_error,1));
+	}
+	if(m_xmlSaveData==0){
+		if(t_error->m_error){
+			c_TextLog::m_ExitGame(String(L"GAMEDATA XML PARSE ERROR: ",26)+(t_error->p_ToString()));
+		}
+	}
+	m_playerDataLoaded=true;
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerItems",18));
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
+	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	t_gameNode->p_RemoveAttribute(String(L"numPendingSpawnItems",20));
+	while(t_gameNode->p_HasAttribute(String(L"pendingSpawnItem",16))){
+		t_gameNode->p_RemoveAttribute(String(L"pendingSpawnItem",16));
+	}
+	if(t_gameNode->p_HasAttribute(String(L"defaultCharacter",16))){
+		int t_defaultCharacter=t_gameNode->p_GetAttribute3(String(L"defaultCharacter",16),0);
+		m_SetDefaultCharacter(t_defaultCharacter);
+		t_gameNode->p_RemoveAttribute(String(L"defaultCharacter",16));
+	}
+	return m_playerDataLoadPending;
+}
+String c_GameData::m_GetDefaultMod(){
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute5(String(L"defaultMod",10),String());
+}
+bool c_GameData::m_GetShownNocturnaIntro(){
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"shownNocturnaIntro",18),false);
+}
+bool c_GameData::m_GetDLCPlayed(){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"DLCPlayed",9),false);
+}
+bool c_GameData::m_GetZone2Unlocked(int t_characterID){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	String t_attributeName=String(L"Zone2Unlocked",13);
+	if(t_characterID!=0){
+		t_attributeName=t_attributeName+String(t_characterID);
+	}
+	return t_gameNode->p_GetAttribute2(t_attributeName,false);
+}
+bool c_GameData::m_IsCharUnlocked(int t_charNum){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"charUnlocked",12)+String(t_charNum),false);
+}
+void c_GameData::m_SetShownNocturnaIntro(bool t_b){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetShownNocturnaIntro(Bool)",36));
+}
+bool c_GameData::m_GetVSync(){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute2(String(L"enableVsync",11),false);
+}
+bool c_GameData::m_GetFullscreen(){
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"fullscreen",10),false);
+}
+int c_GameData::m_GetResolutionW(){
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute3(String(L"resolutionW",11),0);
+}
+int c_GameData::m_GetResolutionH(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetResolutionH()",25));
+	return 0;
+}
+bool c_GameData::m_GetShownSeizureWarning(){
+	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"shownSeizureWarning",19),false);
+}
+void c_GameData::m_SetLobbyMove(bool t_m){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetLobbyMove(Bool)",27));
 }
 void c_GameData::m_SetMentorLevelClear(int t_num){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetMentorLevelClear(Int)",33));
 }
-c_XMLDoc* c_GameData::m_xmlSaveData;
 bool c_GameData::m_GetEnableCutscenes(){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
 	return t_gameNode->p_GetAttribute2(String(L"enableCutscenes",15),true);
@@ -13694,28 +13910,12 @@ int c_GameData::m_GetDefaultCharacter(){
 	}
 	return t_defaultCharacter;
 }
-bool c_GameData::m_GetDLCPlayed(){
-	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
-	return t_gameNode->p_GetAttribute2(String(L"DLCPlayed",9),false);
-}
-bool c_GameData::m_GetZone2Unlocked(int t_characterID){
-	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
-	String t_attributeName=String(L"Zone2Unlocked",13);
-	if(t_characterID!=0){
-		t_attributeName=t_attributeName+String(t_characterID);
-	}
-	return t_gameNode->p_GetAttribute2(t_attributeName,false);
-}
 void c_GameData::m_SetDLCPlayed(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetDLCPlayed()",23));
 }
 int c_GameData::m_GetPlayerDiamonds(){
 	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
 	return t_playerNode->p_GetAttribute3(String(L"numDiamonds",11),0);
-}
-bool c_GameData::m_IsCharUnlocked(int t_charNum){
-	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
-	return t_gameNode->p_GetAttribute2(String(L"charUnlocked",12)+String(t_charNum),false);
 }
 bool c_GameData::m_GetLobbyMove(){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
@@ -13877,120 +14077,15 @@ bool c_GameData::m_GetEnableBossIntros(){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
 	return t_gameNode->p_GetAttribute2(String(L"enableBossIntros",16),true);
 }
-String c_GameData::m_GetFreshString(){
-	return String(L"<necrodancer><player v=\"2\"></player><game></game><npc></npc></necrodancer>",74);
+bool c_GameData::m_GetChangeLogShownForCurrentVersion(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetChangeLogShownForCurrentVersion()",45));
+	return false;
 }
-bool c_GameData::m_playerDataLoadPending;
-bool c_GameData::m_playerDataLoaded;
-void c_GameData::m_SetDefaultCharacter(int t_c){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetDefaultCharacter(Int)",33));
+void c_GameData::m_SetCharUnlocked(int t_charNum,bool t_val){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetCharUnlocked(Int, Bool)",35));
 }
-bool c_GameData::m_LoadPlayerDataXML(bool t_forceCloud){
-	String t_xmlSaveDataFreshStr=m_GetFreshString();
-	c_XMLError* t_error=(new c_XMLError)->m_new();
-	m_playerDataLoadPending=false;
-	String t_playerID=bb_steam_GetPlayerID();
-	String t_xmlSaveDataPath=String(L"save_data",9)+t_playerID+String(L".xml",4);
-	String t_xmlSaveDataStr=bb_app_LoadString(t_xmlSaveDataPath);
-	if(t_xmlSaveDataStr==String()){
-		t_xmlSaveDataStr=bb_app_LoadString(String(L"save_data.xml",13));
-	}
-	int t_cloudTimestamp=bb_steam_GetCloudSaveTimestamp();
-	c_TextLog::m_Message(String(L"LoadPlayerDataXML(), cloudTimestamp=",36)+String(t_cloudTimestamp));
-	bool t_loadedCloudSave=false;
-	if(t_xmlSaveDataStr==String()){
-		if(!bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES && t_cloudTimestamp!=0 && FileType(String(L"data/played.dat",15))!=0){
-			t_xmlSaveDataStr=bb_steam_LoadCloudSave();
-			t_loadedCloudSave=true;
-		}else{
-			t_xmlSaveDataStr=t_xmlSaveDataFreshStr;
-		}
-	}
-	if(t_forceCloud){
-		t_xmlSaveDataStr=bb_steam_LoadCloudSave();
-		t_loadedCloudSave=true;
-	}
-	gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataStr,t_error,1));
-	if(m_xmlSaveData==0){
-		c_TextLog::m_Message(String(L"ERROR: Failed to load save data because of an XML parsing error",63));
-		c_TextLog::m_Message(t_error->p_ToString());
-		String t_invalidSaveDataPath=String(L"data/invalid_save_data.xml",26);
-		c_TextLog::m_Message(String(L"Dumping the invalid save data to path :  ",41)+t_invalidSaveDataPath);
-		SaveString(t_xmlSaveDataStr,t_invalidSaveDataPath);
-		c_TextLog::m_Message(String(L"Loading fresh save data instead",31));
-		t_error=(new c_XMLError)->m_new();
-		gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataFreshStr,t_error,1));
-		bb_logger_Debug->p_Assert(m_xmlSaveData!=0,String());
-	}
-	if(t_loadedCloudSave){
-		m_xmlSaveData->p_SetAttribute3(String(L"cloudTimestamp",14),t_cloudTimestamp);
-	}
-	if(!bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES && !t_loadedCloudSave && t_cloudTimestamp!=0){
-		int t_localCloudTimestamp=m_xmlSaveData->p_GetAttribute3(String(L"cloudTimestamp",14),0);
-		if(t_localCloudTimestamp!=t_cloudTimestamp){
-			m_playerDataLoadPending=true;
-		}
-	}
-	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
-	String t_dataVersion=t_playerNode->p_GetAttribute5(String(L"v",1),String(L"0",1));
-	c_TextLog::m_Message(String(L"DATA VERSION: ",14)+t_dataVersion);
-	if(t_dataVersion!=String(L"2",1)){
-		String t_oldXMLSaveDataPath=String(L"data/save_data_OLD",18)+t_dataVersion+String(L".xml",4);
-		String t_oldXMLSaveDataStr=m_xmlSaveData->p_Export(1);
-		SaveString(t_oldXMLSaveDataStr,t_oldXMLSaveDataPath);
-		t_error=(new c_XMLError)->m_new();
-		gc_assign(m_xmlSaveData,bb_xml_ParseXML(t_xmlSaveDataFreshStr,t_error,1));
-	}
-	if(m_xmlSaveData==0){
-		if(t_error->m_error){
-			c_TextLog::m_ExitGame(String(L"GAMEDATA XML PARSE ERROR: ",26)+(t_error->p_ToString()));
-		}
-	}
-	m_playerDataLoaded=true;
-	t_playerNode->p_RemoveAttribute(String(L"diamondDealerItems",18));
-	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
-	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
-	t_playerNode->p_RemoveAttribute(String(L"diamondDealerSoldItem",21));
-	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
-	t_gameNode->p_RemoveAttribute(String(L"numPendingSpawnItems",20));
-	while(t_gameNode->p_HasAttribute(String(L"pendingSpawnItem",16))){
-		t_gameNode->p_RemoveAttribute(String(L"pendingSpawnItem",16));
-	}
-	if(t_gameNode->p_HasAttribute(String(L"defaultCharacter",16))){
-		int t_defaultCharacter=t_gameNode->p_GetAttribute3(String(L"defaultCharacter",16),0);
-		m_SetDefaultCharacter(t_defaultCharacter);
-		t_gameNode->p_RemoveAttribute(String(L"defaultCharacter",16));
-	}
-	return m_playerDataLoadPending;
-}
-String c_GameData::m_GetDefaultMod(){
-	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute5(String(L"defaultMod",10),String());
-}
-bool c_GameData::m_GetShownNocturnaIntro(){
-	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"shownNocturnaIntro",18),false);
-}
-void c_GameData::m_SetShownNocturnaIntro(bool t_b){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetShownNocturnaIntro(Bool)",36));
-}
-bool c_GameData::m_GetVSync(){
-	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
-	return t_gameNode->p_GetAttribute2(String(L"enableVsync",11),false);
-}
-bool c_GameData::m_GetFullscreen(){
-	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"fullscreen",10),false);
-}
-int c_GameData::m_GetResolutionW(){
-	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute3(String(L"resolutionW",11),0);
-}
-int c_GameData::m_GetResolutionH(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetResolutionH()",25));
-	return 0;
-}
-bool c_GameData::m_GetShownSeizureWarning(){
-	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute2(String(L"shownSeizureWarning",19),false);
-}
-void c_GameData::m_SetLobbyMove(bool t_m){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetLobbyMove(Bool)",27));
+void c_GameData::m_SetChangeLogShownForCurrentVersion(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetChangeLogShownForCurrentVersion()",45));
 }
 void c_GameData::m_SetShowHints(int t_h){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetShowHints(Int)",26));
@@ -14088,9 +14183,6 @@ void c_Logger::p_TraceNotImplemented(String t_name){
 		this->p_WriteLine(String(L"[NI] ",5)+t_name,0);
 	}
 }
-void c_Logger::p_Log(String t_str){
-	this->p_WriteLine(t_str,1);
-}
 void c_Logger::p_Assert(bool t_assertion,String t_message){
 	if(!t_assertion){
 		String t_fullMessage=String(L"Assertion failed!",17);
@@ -14100,6 +14192,9 @@ void c_Logger::p_Assert(bool t_assertion,String t_message){
 		this->p_WriteLine(t_fullMessage,2);
 		bbError(t_fullMessage);
 	}
+}
+void c_Logger::p_Log(String t_str){
+	this->p_WriteLine(t_str,1);
 }
 void c_Logger::mark(){
 	Object::mark();
@@ -14477,117 +14572,19 @@ Float bb_math_Min2(Float t_x,Float t_y){
 void bb_steam_SteamInit(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamInit()",11));
 }
-void bb_fmod_StartFMOD(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"StartFMOD()",11));
-}
-int bb_necrodancergame_FRAMES_PER_SEC;
-int bb_app__updateRate;
-void bb_app_SetUpdateRate(int t_hertz){
-	bb_app__updateRate=t_hertz;
-	bb_app__game->SetUpdateRate(t_hertz);
-}
-Float bb_necrodancergame_GLOBAL_SCALE_FACTOR;
-c_XMLError::c_XMLError(){
-	m_error=false;
-	m_message=String();
-	m_line=0;
-	m_column=0;
-	m_offset=0;
-}
-c_XMLError* c_XMLError::m_new(){
-	return this;
-}
-void c_XMLError::p_Reset(){
-	m_error=false;
-	m_message=String();
-	m_line=-1;
-	m_column=-1;
-	m_offset=-1;
-}
-void c_XMLError::p_Set2(String t_message,int t_line,int t_column,int t_offset){
-	m_error=true;
-	this->m_message=t_message;
-	this->m_line=t_line;
-	this->m_column=t_column;
-	this->m_offset=t_offset;
-}
-String c_XMLError::p_ToString(){
-	if(m_error==false){
-		return String();
-	}
-	c_XMLStringBuffer* t_buffer=(new c_XMLStringBuffer)->m_new(256);
-	t_buffer->p_Add2(String(L"XMLError: ",10));
-	if((m_message.Length())!=0){
-		t_buffer->p_Add2(m_message);
-	}else{
-		t_buffer->p_Add2(String(L"unknown error",13));
-	}
-	t_buffer->p_Add2(String(L" [line:",7));
-	if(m_line>-1){
-		t_buffer->p_Add2(String(m_line));
-	}else{
-		t_buffer->p_Add2(String(L"??",2));
-	}
-	t_buffer->p_Add2(String(L"  column:",9));
-	if(m_column>-1){
-		t_buffer->p_Add2(String(m_column));
-	}else{
-		t_buffer->p_Add2(String(L"??",2));
-	}
-	t_buffer->p_Add2(String(L"  offset:",9));
-	if(m_offset>-1){
-		t_buffer->p_Add2(String(m_offset)+String(L"]",1));
-	}else{
-		t_buffer->p_Add2(String(L"??]",3));
-	}
-	return t_buffer->p_value();
-}
-void c_XMLError::mark(){
-	Object::mark();
-}
-String bb_app_LoadString(String t_path){
-	return bb_app__game->LoadString(bb_data_FixDataPath(t_path));
-}
-int bb_util_CalcChecksum(String t_fileContents){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"CalcChecksum(String)",20));
-	return 1495719624;
-}
-int bb_controller_game_totalPlaytimeMilliseconds;
-void bb_fmod_EndFMOD(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"EndFMOD()",9));
-}
-void bb_steam_SteamShutdown(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamShutdown()",15));
-}
-void bb_textlog_ExitGameGlobal(String t_errorString,bool t_doExit){
-	bb_textlog_MessageGlobal(t_errorString,true);
-	c_GameData::m_Save();
-	c_Util::m_AddMetric(String(L"event",5),String(L"necrodancerShutdown",19),false,false,false);
-	if(bb_controller_game_totalPlaytimeMilliseconds<15000){
-		c_Util::m_AddMetric(String(L"shutdownMessage",15),t_errorString,true,true,false);
-	}else{
-		c_Util::m_AddMetric(String(L"shutdownMessage",15),t_errorString,false,false,false);
-		int t_playTimeInSeconds=bb_controller_game_totalPlaytimeMilliseconds/1000;
-		c_Util::m_AddMetric(String(L"playTimeInSeconds",17),String(t_playTimeInSeconds),true,true,true);
-	}
-	bb_fmod_EndFMOD();
-	bb_steam_SteamShutdown();
-	if(t_doExit){
-		bbError(t_errorString);
-	}
-}
 c_XMLNode::c_XMLNode(){
+	m_firstChild=0;
+	m_doc=0;
+	m_text=false;
+	m_nextSibling=0;
+	m_nameLowerCase=String();
+	m_attributes=(new c_StringMap)->m_new();
 	m_fullValue=String();
 	m_valid=false;
-	m_text=false;
 	m_nameNormalCase=String();
-	m_nameLowerCase=String();
-	m_doc=0;
 	m_parent=0;
 	m_lastChild=0;
-	m_nextSibling=0;
 	m_previousSibling=0;
-	m_firstChild=0;
 	m_children=(new c_List)->m_new();
 	m_parentListNode=0;
 	m_path=String();
@@ -14596,7 +14593,94 @@ c_XMLNode::c_XMLNode(){
 	m_line=0;
 	m_column=0;
 	m_offset=0;
-	m_attributes=(new c_StringMap2)->m_new();
+}
+c_XMLNode* c_XMLNode::p_GetChild(bool t_text){
+	if(m_firstChild==0){
+		return m_doc->m_nullNode;
+	}
+	if(t_text || m_firstChild->m_text==false){
+		return m_firstChild;
+	}
+	c_XMLNode* t_child=m_firstChild;
+	while((t_child)!=0){
+		if(t_child->m_text==false){
+			return t_child;
+		}
+		t_child=t_child->m_nextSibling;
+	}
+	return m_doc->m_nullNode;
+}
+c_XMLNode* c_XMLNode::p_GetChild2(String t_name,bool t_text){
+	if(m_firstChild==0){
+		return m_doc->m_nullNode;
+	}
+	t_name=t_name.ToLower();
+	c_XMLNode* t_child=m_firstChild;
+	while((t_child)!=0){
+		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false)){
+			return t_child;
+		}
+		t_child=t_child->m_nextSibling;
+	}
+	return m_doc->m_nullNode;
+}
+c_XMLAttribute* c_XMLNode::p_GetXMLAttribute(String t_id){
+	return m_attributes->p_Get(t_id.ToLower());
+}
+c_XMLNode* c_XMLNode::p_GetChild3(String t_name,String t_attributes,bool t_text){
+	if(m_firstChild==0){
+		return m_doc->m_nullNode;
+	}
+	t_name=t_name.ToLower();
+	c_XMLAttributeQuery* t_query=(new c_XMLAttributeQuery)->m_new(t_attributes);
+	c_XMLNode* t_child=m_firstChild;
+	while((t_child)!=0){
+		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false) && t_query->p_Test(t_child)){
+			return t_child;
+		}
+		t_child=t_child->m_nextSibling;
+	}
+	return m_doc->m_nullNode;
+}
+String c_XMLNode::p_GetAttribute(String t_id){
+	t_id=t_id.ToLower();
+	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
+	if(t_attribute==0){
+		return String();
+	}
+	return t_attribute->m_value;
+}
+bool c_XMLNode::p_GetAttribute2(String t_id,bool t_defaultValue){
+	t_id=t_id.ToLower();
+	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
+	if(t_attribute==0){
+		return t_defaultValue;
+	}
+	return t_attribute->m_value==String(L"true",4) || (t_attribute->m_value).ToInt()==1;
+}
+int c_XMLNode::p_GetAttribute3(String t_id,int t_defaultValue){
+	t_id=t_id.ToLower();
+	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
+	if(t_attribute==0){
+		return t_defaultValue;
+	}
+	return (t_attribute->m_value).ToInt();
+}
+Float c_XMLNode::p_GetAttribute4(String t_id,Float t_defaultValue){
+	t_id=t_id.ToLower();
+	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
+	if(t_attribute==0){
+		return t_defaultValue;
+	}
+	return (t_attribute->m_value).ToFloat();
+}
+String c_XMLNode::p_GetAttribute5(String t_id,String t_defaultValue){
+	t_id=t_id.ToLower();
+	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
+	if(t_attribute==0){
+		return t_defaultValue;
+	}
+	return t_attribute->m_value;
 }
 c_XMLNode* c_XMLNode::m_new(String t_name,bool t_valid){
 	if((t_name.Length())!=0){
@@ -14637,7 +14721,7 @@ void c_XMLNode::p_SetAttribute(String t_id){
 	String t_lowerId=t_id.ToLower();
 	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_lowerId);
 	if(t_attribute==0){
-		m_attributes->p_Insert3(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String()));
+		m_attributes->p_Insert2(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String()));
 	}else{
 		t_attribute->m_idNormalCase=t_id;
 		t_attribute->m_value=String();
@@ -14650,7 +14734,7 @@ void c_XMLNode::p_SetAttribute2(String t_id,bool t_value){
 	String t_lowerId=t_id.ToLower();
 	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_lowerId);
 	if(t_attribute==0){
-		m_attributes->p_Insert3(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String((t_value)?1:0)));
+		m_attributes->p_Insert2(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String((t_value)?1:0)));
 	}else{
 		t_attribute->m_idNormalCase=t_id;
 		t_attribute->m_value=String((t_value)?1:0);
@@ -14663,7 +14747,7 @@ void c_XMLNode::p_SetAttribute3(String t_id,int t_value){
 	String t_lowerId=t_id.ToLower();
 	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_lowerId);
 	if(t_attribute==0){
-		m_attributes->p_Insert3(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String(t_value)));
+		m_attributes->p_Insert2(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String(t_value)));
 	}else{
 		t_attribute->m_idNormalCase=t_id;
 		t_attribute->m_value=String(t_value);
@@ -14676,7 +14760,7 @@ void c_XMLNode::p_SetAttribute4(String t_id,Float t_value){
 	String t_lowerId=t_id.ToLower();
 	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_lowerId);
 	if(t_attribute==0){
-		m_attributes->p_Insert3(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String(t_value)));
+		m_attributes->p_Insert2(t_lowerId,(new c_XMLAttribute)->m_new(t_id,String(t_value)));
 	}else{
 		t_attribute->m_idNormalCase=t_id;
 		t_attribute->m_value=String(t_value);
@@ -14689,7 +14773,7 @@ void c_XMLNode::p_SetAttribute5(String t_id,String t_value){
 	String t_lowerId=t_id.ToLower();
 	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_lowerId);
 	if(t_attribute==0){
-		m_attributes->p_Insert3(t_lowerId,(new c_XMLAttribute)->m_new(t_id,t_value));
+		m_attributes->p_Insert2(t_lowerId,(new c_XMLAttribute)->m_new(t_id,t_value));
 	}else{
 		t_attribute->m_idNormalCase=t_id;
 		t_attribute->m_value=t_value;
@@ -14707,7 +14791,7 @@ c_XMLNode* c_XMLNode::p_AddChild(String t_name,String t_attributes,String t_valu
 	gc_assign(t_child->m_pathList,m_doc->m_paths->p_Get(t_child->m_path));
 	if(t_child->m_pathList==0){
 		gc_assign(t_child->m_pathList,(new c_List)->m_new());
-		m_doc->m_paths->p_Set3(t_child->m_path,t_child->m_pathList);
+		m_doc->m_paths->p_Set4(t_child->m_path,t_child->m_pathList);
 	}
 	gc_assign(t_child->m_pathListNode,t_child->m_pathList->p_AddLast(t_child));
 	if((t_attributes.Length())!=0){
@@ -14832,7 +14916,7 @@ c_XMLNode* c_XMLNode::p_AddChild2(c_XMLNode* t_node,bool t_recurse){
 	gc_assign(t_child->m_pathList,m_doc->m_paths->p_Get(t_child->m_path));
 	if(t_child->m_pathList==0){
 		gc_assign(t_child->m_pathList,(new c_List)->m_new());
-		m_doc->m_paths->p_Set3(t_child->m_path,t_child->m_pathList);
+		m_doc->m_paths->p_Set4(t_child->m_path,t_child->m_pathList);
 	}
 	gc_assign(t_child->m_pathListNode,t_child->m_pathList->p_AddLast(t_child));
 	if(t_node->m_attributes->p_IsEmpty()==false){
@@ -14862,93 +14946,99 @@ c_XMLNode* c_XMLNode::p_AddChild2(c_XMLNode* t_node,bool t_recurse){
 	}
 	return t_child;
 }
-c_XMLNode* c_XMLNode::p_GetChild(bool t_text){
+bool c_XMLNode::p_HasChildren(bool t_text){
 	if(m_firstChild==0){
-		return m_doc->m_nullNode;
+		return false;
 	}
-	if(t_text || m_firstChild->m_text==false){
-		return m_firstChild;
+	if(t_text){
+		return true;
 	}
 	c_XMLNode* t_child=m_firstChild;
 	while((t_child)!=0){
 		if(t_child->m_text==false){
-			return t_child;
+			return true;
 		}
 		t_child=t_child->m_nextSibling;
 	}
-	return m_doc->m_nullNode;
+	return false;
 }
-c_XMLNode* c_XMLNode::p_GetChild2(String t_name,bool t_text){
-	if(m_firstChild==0){
-		return m_doc->m_nullNode;
+String c_XMLNode::p_Export(int t_options){
+	c_XMLStringBuffer* t_buffer=(new c_XMLStringBuffer)->m_new(1024);
+	p_Export2(t_options,t_buffer,0);
+	return t_buffer->p_value();
+}
+void c_XMLNode::p_Export2(int t_options,c_XMLStringBuffer* t_buffer,int t_depth){
+	if(t_buffer==0){
+		t_buffer=(new c_XMLStringBuffer)->m_new(1024);
 	}
-	t_name=t_name.ToLower();
-	c_XMLNode* t_child=m_firstChild;
-	while((t_child)!=0){
-		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false)){
-			return t_child;
+	int t_index=0;
+	bool t_hasNonTextNodes=false;
+	if(m_text){
+		for(t_index=0;t_index<m_fullValue.Length();t_index=t_index+1){
+			t_buffer->p_Add((int)m_fullValue[t_index]);
 		}
-		t_child=t_child->m_nextSibling;
-	}
-	return m_doc->m_nullNode;
-}
-c_XMLAttribute* c_XMLNode::p_GetXMLAttribute(String t_id){
-	return m_attributes->p_Get(t_id.ToLower());
-}
-c_XMLNode* c_XMLNode::p_GetChild3(String t_name,String t_attributes,bool t_text){
-	if(m_firstChild==0){
-		return m_doc->m_nullNode;
-	}
-	t_name=t_name.ToLower();
-	c_XMLAttributeQuery* t_query=(new c_XMLAttributeQuery)->m_new(t_attributes);
-	c_XMLNode* t_child=m_firstChild;
-	while((t_child)!=0){
-		if(t_child->m_nameLowerCase==t_name && (t_text || t_child->m_text==false) && t_query->p_Test(t_child)){
-			return t_child;
+	}else{
+		if((t_options&1)==0){
+			for(t_index=0;t_index<t_depth;t_index=t_index+1){
+				t_buffer->p_Add(9);
+			}
 		}
-		t_child=t_child->m_nextSibling;
+		t_buffer->p_Add(60);
+		t_buffer->p_Add2(m_nameNormalCase);
+		c_XMLAttribute* t_attribute=0;
+		c_KeyEnumerator* t_=m_attributes->p_Keys()->p_ObjectEnumerator();
+		while(t_->p_HasNext()){
+			String t_id=t_->p_NextObject();
+			t_attribute=m_attributes->p_Get(t_id);
+			t_buffer->p_Add(32);
+			t_buffer->p_Add2(t_attribute->m_idNormalCase);
+			t_buffer->p_Add(61);
+			t_buffer->p_Add(34);
+			t_buffer->p_Add2(t_attribute->m_value);
+			t_buffer->p_Add(34);
+		}
+		t_hasNonTextNodes=p_HasChildren(false);
+		if(!t_hasNonTextNodes && m_fullValue.Length()==0 && ((t_options&4)!=0)){
+			t_buffer->p_Add(32);
+			t_buffer->p_Add(47);
+			t_buffer->p_Add(62);
+			if((t_options&2)==0){
+				t_buffer->p_Add(10);
+			}
+		}else{
+			t_buffer->p_Add(62);
+			if((t_options&2)==0 && t_hasNonTextNodes){
+				t_buffer->p_Add(10);
+			}
+			c_Enumerator* t_2=m_children->p_ObjectEnumerator();
+			while(t_2->p_HasNext()){
+				c_XMLNode* t_child=t_2->p_NextObject();
+				t_child->p_Export2(t_options,t_buffer,t_depth+1);
+			}
+			if((t_options&1)==0 && t_hasNonTextNodes){
+				for(t_index=0;t_index<t_depth;t_index=t_index+1){
+					t_buffer->p_Add(9);
+				}
+			}
+			t_buffer->p_Add(60);
+			t_buffer->p_Add(47);
+			t_buffer->p_Add2(m_nameNormalCase);
+			t_buffer->p_Add(62);
+			if((t_options&2)==0){
+				t_buffer->p_Add(10);
+			}
+		}
 	}
-	return m_doc->m_nullNode;
 }
-String c_XMLNode::p_GetAttribute(String t_id){
-	t_id=t_id.ToLower();
-	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
-	if(t_attribute==0){
-		return String();
+void c_XMLNode::p_RemoveAttribute(String t_id){
+	if(m_valid==false){
+		return;
 	}
-	return t_attribute->m_value;
+	m_attributes->p_Remove2(t_id);
 }
-bool c_XMLNode::p_GetAttribute2(String t_id,bool t_defaultValue){
+bool c_XMLNode::p_HasAttribute(String t_id){
 	t_id=t_id.ToLower();
-	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
-	if(t_attribute==0){
-		return t_defaultValue;
-	}
-	return t_attribute->m_value==String(L"true",4) || (t_attribute->m_value).ToInt()==1;
-}
-int c_XMLNode::p_GetAttribute3(String t_id,int t_defaultValue){
-	t_id=t_id.ToLower();
-	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
-	if(t_attribute==0){
-		return t_defaultValue;
-	}
-	return (t_attribute->m_value).ToInt();
-}
-Float c_XMLNode::p_GetAttribute4(String t_id,Float t_defaultValue){
-	t_id=t_id.ToLower();
-	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
-	if(t_attribute==0){
-		return t_defaultValue;
-	}
-	return (t_attribute->m_value).ToFloat();
-}
-String c_XMLNode::p_GetAttribute5(String t_id,String t_defaultValue){
-	t_id=t_id.ToLower();
-	c_XMLAttribute* t_attribute=m_attributes->p_Get(t_id);
-	if(t_attribute==0){
-		return t_defaultValue;
-	}
-	return t_attribute->m_value;
+	return m_attributes->p_Get(t_id)!=0;
 }
 c_XMLNode* c_XMLNode::p_GetChildAtPath(String t_path){
 	if(t_path.Length()==0){
@@ -14969,7 +15059,7 @@ c_XMLNode* c_XMLNode::p_GetChildAtPath2(String t_path,String t_attributes){
 	if(t_pathList==0 || t_pathList->p_IsEmpty()){
 		return m_doc->m_nullNode;
 	}
-	c_Enumerator3* t_=t_pathList->p_ObjectEnumerator();
+	c_Enumerator* t_=t_pathList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_XMLNode* t_node=t_->p_NextObject();
 		if(t_query->p_Test(t_node)){
@@ -15039,125 +15129,31 @@ c_List* c_XMLNode::p_GetChildren3(String t_name,String t_attributes,c_List* t_re
 c_List* c_XMLNode::p_GetChildrenWithAttributes(String t_attributes,c_List* t_result,bool t_text){
 	return p_GetChildren3(String(),t_attributes,t_result,t_text);
 }
-bool c_XMLNode::p_HasAttribute(String t_id){
-	t_id=t_id.ToLower();
-	return m_attributes->p_Get(t_id)!=0;
-}
-bool c_XMLNode::p_HasChildren(bool t_text){
-	if(m_firstChild==0){
-		return false;
-	}
-	if(t_text){
-		return true;
-	}
-	c_XMLNode* t_child=m_firstChild;
-	while((t_child)!=0){
-		if(t_child->m_text==false){
-			return true;
-		}
-		t_child=t_child->m_nextSibling;
-	}
-	return false;
-}
-String c_XMLNode::p_Export(int t_options){
-	c_XMLStringBuffer* t_buffer=(new c_XMLStringBuffer)->m_new(1024);
-	p_Export2(t_options,t_buffer,0);
-	return t_buffer->p_value();
-}
-void c_XMLNode::p_Export2(int t_options,c_XMLStringBuffer* t_buffer,int t_depth){
-	if(t_buffer==0){
-		t_buffer=(new c_XMLStringBuffer)->m_new(1024);
-	}
-	int t_index=0;
-	bool t_hasNonTextNodes=false;
-	if(m_text){
-		for(t_index=0;t_index<m_fullValue.Length();t_index=t_index+1){
-			t_buffer->p_Add((int)m_fullValue[t_index]);
-		}
-	}else{
-		if((t_options&1)==0){
-			for(t_index=0;t_index<t_depth;t_index=t_index+1){
-				t_buffer->p_Add(9);
-			}
-		}
-		t_buffer->p_Add(60);
-		t_buffer->p_Add2(m_nameNormalCase);
-		c_XMLAttribute* t_attribute=0;
-		c_KeyEnumerator2* t_=m_attributes->p_Keys()->p_ObjectEnumerator();
-		while(t_->p_HasNext()){
-			String t_id=t_->p_NextObject();
-			t_attribute=m_attributes->p_Get(t_id);
-			t_buffer->p_Add(32);
-			t_buffer->p_Add2(t_attribute->m_idNormalCase);
-			t_buffer->p_Add(61);
-			t_buffer->p_Add(34);
-			t_buffer->p_Add2(t_attribute->m_value);
-			t_buffer->p_Add(34);
-		}
-		t_hasNonTextNodes=p_HasChildren(false);
-		if(!t_hasNonTextNodes && m_fullValue.Length()==0 && ((t_options&4)!=0)){
-			t_buffer->p_Add(32);
-			t_buffer->p_Add(47);
-			t_buffer->p_Add(62);
-			if((t_options&2)==0){
-				t_buffer->p_Add(10);
-			}
-		}else{
-			t_buffer->p_Add(62);
-			if((t_options&2)==0 && t_hasNonTextNodes){
-				t_buffer->p_Add(10);
-			}
-			c_Enumerator3* t_2=m_children->p_ObjectEnumerator();
-			while(t_2->p_HasNext()){
-				c_XMLNode* t_child=t_2->p_NextObject();
-				t_child->p_Export2(t_options,t_buffer,t_depth+1);
-			}
-			if((t_options&1)==0 && t_hasNonTextNodes){
-				for(t_index=0;t_index<t_depth;t_index=t_index+1){
-					t_buffer->p_Add(9);
-				}
-			}
-			t_buffer->p_Add(60);
-			t_buffer->p_Add(47);
-			t_buffer->p_Add2(m_nameNormalCase);
-			t_buffer->p_Add(62);
-			if((t_options&2)==0){
-				t_buffer->p_Add(10);
-			}
-		}
-	}
-}
 void c_XMLNode::p_RemoveChild(c_XMLNode* t_child){
 	if(m_valid==false || m_firstChild==0 || t_child==0 || t_child->m_parent!=this){
 		return;
 	}
 	t_child->p_Free();
 }
-void c_XMLNode::p_RemoveAttribute(String t_id){
-	if(m_valid==false){
-		return;
-	}
-	m_attributes->p_Remove2(t_id);
-}
 void c_XMLNode::mark(){
 	Object::mark();
+	gc_mark_q(m_firstChild);
 	gc_mark_q(m_doc);
+	gc_mark_q(m_nextSibling);
+	gc_mark_q(m_attributes);
 	gc_mark_q(m_parent);
 	gc_mark_q(m_lastChild);
-	gc_mark_q(m_nextSibling);
 	gc_mark_q(m_previousSibling);
-	gc_mark_q(m_firstChild);
 	gc_mark_q(m_children);
 	gc_mark_q(m_parentListNode);
 	gc_mark_q(m_pathList);
 	gc_mark_q(m_pathListNode);
-	gc_mark_q(m_attributes);
 }
 c_XMLDoc::c_XMLDoc(){
 	m_nullNode=0;
 	m_version=String();
 	m_encoding=String();
-	m_paths=(new c_StringMap)->m_new();
+	m_paths=(new c_StringMap2)->m_new();
 }
 c_XMLDoc* c_XMLDoc::m_new(String t_name,String t_version,String t_encoding){
 	c_XMLNode::m_new2();
@@ -15172,7 +15168,7 @@ c_XMLDoc* c_XMLDoc::m_new(String t_name,String t_version,String t_encoding){
 	m_path=t_name;
 	gc_assign(m_pathList,(new c_List)->m_new());
 	gc_assign(m_pathListNode,m_pathList->p_AddLast(this));
-	m_paths->p_Insert2(m_path,m_pathList);
+	m_paths->p_Insert3(m_path,m_pathList);
 	return this;
 }
 c_XMLDoc* c_XMLDoc::m_new2(){
@@ -15205,459 +15201,6 @@ void c_XMLDoc::mark(){
 	c_XMLNode::mark();
 	gc_mark_q(m_nullNode);
 	gc_mark_q(m_paths);
-}
-c_XMLStringBuffer::c_XMLStringBuffer(){
-	m_chunk=128;
-	m_count=0;
-	m_data=Array<int >();
-	m_dirty=0;
-	m_cache=String();
-}
-c_XMLStringBuffer* c_XMLStringBuffer::m_new(int t_chunk){
-	this->m_chunk=t_chunk;
-	return this;
-}
-int c_XMLStringBuffer::p_Length(){
-	return m_count;
-}
-int c_XMLStringBuffer::p_Last(int t_defaultValue){
-	if(m_count==0){
-		return t_defaultValue;
-	}
-	return m_data[m_count-1];
-}
-void c_XMLStringBuffer::p_Add(int t_asc){
-	if(m_count==m_data.Length()){
-		gc_assign(m_data,m_data.Resize(m_data.Length()+m_chunk));
-	}
-	m_data[m_count]=t_asc;
-	m_count+=1;
-	m_dirty=1;
-}
-void c_XMLStringBuffer::p_Add2(String t_text){
-	if(t_text.Length()==0){
-		return;
-	}
-	if(m_count+t_text.Length()>=m_data.Length()){
-		gc_assign(m_data,m_data.Resize(int(Float(m_data.Length())+Float(m_chunk)*(Float)ceil(Float(t_text.Length())/Float(m_chunk)))));
-	}
-	for(int t_textIndex=0;t_textIndex<t_text.Length();t_textIndex=t_textIndex+1){
-		m_data[m_count]=(int)t_text[t_textIndex];
-		m_count+=1;
-	}
-	m_dirty=1;
-}
-void c_XMLStringBuffer::p_Add3(String t_text,int t_offset,int t_suggestedLength){
-	int t_realLength=t_text.Length()-t_offset;
-	if(t_suggestedLength>0 && t_suggestedLength<t_realLength){
-		t_realLength=t_suggestedLength;
-	}
-	if(t_realLength==0){
-		return;
-	}
-	if(m_count+t_realLength>=m_data.Length()){
-		gc_assign(m_data,m_data.Resize(int(Float(m_data.Length())+Float(m_chunk)*(Float)ceil(Float(t_realLength)/Float(m_chunk)))));
-	}
-	for(int t_textIndex=t_offset;t_textIndex<t_offset+t_realLength;t_textIndex=t_textIndex+1){
-		m_data[m_count]=(int)t_text[t_textIndex];
-		m_count+=1;
-	}
-	m_dirty=1;
-}
-void c_XMLStringBuffer::p_Clear(){
-	m_count=0;
-	m_cache=String();
-	m_dirty=0;
-}
-bool c_XMLStringBuffer::p_Trim(){
-	if(m_count==0){
-		return false;
-	}
-	if(m_count==1 && (m_data[0]==32 || m_data[0]==9 || m_data[0]==10) || m_count==2 && (m_data[0]==32 || m_data[0]==9 || m_data[0]==10) && (m_data[1]==32 || m_data[1]==9 || m_data[1]==10)){
-		p_Clear();
-		return true;
-	}
-	int t_startIndex=0;
-	for(t_startIndex=0;t_startIndex<m_count;t_startIndex=t_startIndex+1){
-		if(m_data[t_startIndex]!=32 && m_data[t_startIndex]!=9 && m_data[t_startIndex]!=10){
-			break;
-		}
-	}
-	if(t_startIndex==m_count){
-		p_Clear();
-		return true;
-	}
-	int t_endIndex=0;
-	for(t_endIndex=m_count-1;t_endIndex>=0;t_endIndex=t_endIndex+-1){
-		if(m_data[t_endIndex]!=32 && m_data[t_endIndex]!=9 && m_data[t_endIndex]!=10){
-			break;
-		}
-	}
-	if(t_startIndex==0 && t_endIndex==m_count-1){
-		return false;
-	}
-	m_count=t_endIndex-t_startIndex+1;
-	if(t_startIndex>0){
-		for(int t_trimIndex=0;t_trimIndex<m_count;t_trimIndex=t_trimIndex+1){
-			m_data[t_trimIndex]=m_data[t_trimIndex+t_startIndex];
-		}
-	}
-	return true;
-}
-String c_XMLStringBuffer::p_value(){
-	if((m_dirty)!=0){
-		m_dirty=0;
-		if(m_count==0){
-			m_cache=String();
-		}else{
-			m_cache=String::FromChars(m_data.Slice(0,m_count));
-		}
-	}
-	return m_cache;
-}
-void c_XMLStringBuffer::mark(){
-	Object::mark();
-	gc_mark_q(m_data);
-}
-c_List::c_List(){
-	m__head=((new c_HeadNode)->m_new());
-}
-c_List* c_List::m_new(){
-	return this;
-}
-c_Node2* c_List::p_AddLast(c_XMLNode* t_data){
-	return (new c_Node2)->m_new(m__head,m__head->m__pred,t_data);
-}
-c_List* c_List::m_new2(Array<c_XMLNode* > t_data){
-	Array<c_XMLNode* > t_=t_data;
-	int t_2=0;
-	while(t_2<t_.Length()){
-		c_XMLNode* t_t=t_[t_2];
-		t_2=t_2+1;
-		p_AddLast(t_t);
-	}
-	return this;
-}
-c_XMLNode* c_List::p_RemoveLast(){
-	c_XMLNode* t_data=m__head->m__pred->m__data;
-	m__head->m__pred->p_Remove();
-	return t_data;
-}
-bool c_List::p_Equals(c_XMLNode* t_lhs,c_XMLNode* t_rhs){
-	return t_lhs==t_rhs;
-}
-c_Node2* c_List::p_FindLast(c_XMLNode* t_value,c_Node2* t_start){
-	while(t_start!=m__head){
-		if(p_Equals(t_value,t_start->m__data)){
-			return t_start;
-		}
-		t_start=t_start->m__pred;
-	}
-	return 0;
-}
-c_Node2* c_List::p_FindLast2(c_XMLNode* t_value){
-	return p_FindLast(t_value,m__head->m__pred);
-}
-void c_List::p_RemoveLast2(c_XMLNode* t_value){
-	c_Node2* t_node=p_FindLast2(t_value);
-	if((t_node)!=0){
-		t_node->p_Remove();
-	}
-}
-bool c_List::p_IsEmpty(){
-	return m__head->m__succ==m__head;
-}
-c_XMLNode* c_List::p_Last2(){
-	return m__head->m__pred->m__data;
-}
-c_XMLNode* c_List::p_First(){
-	return m__head->m__succ->m__data;
-}
-c_Enumerator3* c_List::p_ObjectEnumerator(){
-	return (new c_Enumerator3)->m_new(this);
-}
-int c_List::p_Count(){
-	int t_n=0;
-	c_Node2* t_node=m__head->m__succ;
-	while(t_node!=m__head){
-		t_node=t_node->m__succ;
-		t_n+=1;
-	}
-	return t_n;
-}
-int c_List::p_Clear(){
-	gc_assign(m__head->m__succ,m__head);
-	gc_assign(m__head->m__pred,m__head);
-	return 0;
-}
-void c_List::mark(){
-	Object::mark();
-	gc_mark_q(m__head);
-}
-c_Node2::c_Node2(){
-	m__succ=0;
-	m__pred=0;
-	m__data=0;
-}
-c_Node2* c_Node2::m_new(c_Node2* t_succ,c_Node2* t_pred,c_XMLNode* t_data){
-	gc_assign(m__succ,t_succ);
-	gc_assign(m__pred,t_pred);
-	gc_assign(m__succ->m__pred,this);
-	gc_assign(m__pred->m__succ,this);
-	gc_assign(m__data,t_data);
-	return this;
-}
-c_Node2* c_Node2::m_new2(){
-	return this;
-}
-int c_Node2::p_Remove(){
-	gc_assign(m__succ->m__pred,m__pred);
-	gc_assign(m__pred->m__succ,m__succ);
-	return 0;
-}
-void c_Node2::mark(){
-	Object::mark();
-	gc_mark_q(m__succ);
-	gc_mark_q(m__pred);
-	gc_mark_q(m__data);
-}
-c_HeadNode::c_HeadNode(){
-}
-c_HeadNode* c_HeadNode::m_new(){
-	c_Node2::m_new2();
-	gc_assign(m__succ,(this));
-	gc_assign(m__pred,(this));
-	return this;
-}
-void c_HeadNode::mark(){
-	c_Node2::mark();
-}
-bool bb_xml_XMLHasStringAtOffset(String t_needle,String t_haystack,int t_offset){
-	if(t_offset+t_needle.Length()>t_haystack.Length()){
-		return false;
-	}
-	for(int t_index=0;t_index<t_needle.Length();t_index=t_index+1){
-		if((int)t_needle[t_index]!=(int)t_haystack[t_offset+t_index]){
-			return false;
-		}
-	}
-	return true;
-}
-int bb_xml_XMLFindNextAsc(String t_data,int t_asc,int t_offset){
-	int t_length=t_data.Length();
-	if(t_offset>=t_length){
-		return -1;
-	}
-	if(t_offset<0){
-		t_offset=0;
-	}
-	for(t_offset=t_offset;t_offset<t_length;t_offset=t_offset+1){
-		if((int)t_data[t_offset]==t_asc){
-			return t_offset;
-		}
-	}
-	return -1;
-}
-int bb_xml_XMLFindStringNotInQuotes(String t_needle,String t_haystack,int t_offset){
-	int t_needlePos=0;
-	do{
-		t_needlePos=t_haystack.Find(t_needle,t_offset);
-		if(t_needlePos==-1){
-			return -1;
-		}
-		t_offset=bb_xml_XMLFindNextAsc(t_haystack,34,t_offset);
-		if(t_needlePos<t_offset || t_offset==-1){
-			return t_needlePos;
-		}
-		t_offset=bb_xml_XMLFindNextAsc(t_haystack,34,t_offset+1);
-		if(t_offset==-1){
-			return -1;
-		}
-		t_offset+=1;
-	}while(!(false));
-}
-c_Map2::c_Map2(){
-	m_root=0;
-}
-c_Map2* c_Map2::m_new(){
-	return this;
-}
-int c_Map2::p_RotateLeft2(c_Node3* t_node){
-	c_Node3* t_child=t_node->m_right;
-	gc_assign(t_node->m_right,t_child->m_left);
-	if((t_child->m_left)!=0){
-		gc_assign(t_child->m_left->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_left){
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_left,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map2::p_RotateRight2(c_Node3* t_node){
-	c_Node3* t_child=t_node->m_left;
-	gc_assign(t_node->m_left,t_child->m_right);
-	if((t_child->m_right)!=0){
-		gc_assign(t_child->m_right->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_right){
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_right,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map2::p_InsertFixup2(c_Node3* t_node){
-	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
-		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node3* t_uncle=t_node->m_parent->m_parent->m_right;
-			if(((t_uncle)!=0) && t_uncle->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle->m_color=1;
-				t_uncle->m_parent->m_color=-1;
-				t_node=t_uncle->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_right){
-					t_node=t_node->m_parent;
-					p_RotateLeft2(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateRight2(t_node->m_parent->m_parent);
-			}
-		}else{
-			c_Node3* t_uncle2=t_node->m_parent->m_parent->m_left;
-			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle2->m_color=1;
-				t_uncle2->m_parent->m_color=-1;
-				t_node=t_uncle2->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_left){
-					t_node=t_node->m_parent;
-					p_RotateRight2(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateLeft2(t_node->m_parent->m_parent);
-			}
-		}
-	}
-	m_root->m_color=1;
-	return 0;
-}
-bool c_Map2::p_Set3(String t_key,c_List* t_value){
-	c_Node3* t_node=m_root;
-	c_Node3* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare2(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				gc_assign(t_node->m_value,t_value);
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node3)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup2(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-bool c_Map2::p_Insert2(String t_key,c_List* t_value){
-	return p_Set3(t_key,t_value);
-}
-c_Node3* c_Map2::p_FindNode2(String t_key){
-	c_Node3* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare2(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return t_node;
-			}
-		}
-	}
-	return t_node;
-}
-c_List* c_Map2::p_Get(String t_key){
-	c_Node3* t_node=p_FindNode2(t_key);
-	if((t_node)!=0){
-		return t_node->m_value;
-	}
-	return 0;
-}
-void c_Map2::mark(){
-	Object::mark();
-	gc_mark_q(m_root);
-}
-c_StringMap::c_StringMap(){
-}
-c_StringMap* c_StringMap::m_new(){
-	c_Map2::m_new();
-	return this;
-}
-int c_StringMap::p_Compare2(String t_lhs,String t_rhs){
-	return t_lhs.Compare(t_rhs);
-}
-void c_StringMap::mark(){
-	c_Map2::mark();
-}
-c_Node3::c_Node3(){
-	m_key=String();
-	m_right=0;
-	m_left=0;
-	m_value=0;
-	m_color=0;
-	m_parent=0;
-}
-c_Node3* c_Node3::m_new(String t_key,c_List* t_value,int t_color,c_Node3* t_parent){
-	this->m_key=t_key;
-	gc_assign(this->m_value,t_value);
-	this->m_color=t_color;
-	gc_assign(this->m_parent,t_parent);
-	return this;
-}
-c_Node3* c_Node3::m_new2(){
-	return this;
-}
-void c_Node3::mark(){
-	Object::mark();
-	gc_mark_q(m_right);
-	gc_mark_q(m_left);
-	gc_mark_q(m_value);
-	gc_mark_q(m_parent);
 }
 c_XMLAttributeQuery::c_XMLAttributeQuery(){
 	m_count=0;
@@ -15755,9 +15298,6 @@ c_XMLAttributeQuery* c_XMLAttributeQuery::m_new(String t_query){
 c_XMLAttributeQuery* c_XMLAttributeQuery::m_new2(){
 	return this;
 }
-int c_XMLAttributeQuery::p_Length(){
-	return m_count;
-}
 bool c_XMLAttributeQuery::p_Test(c_XMLNode* t_node){
 	c_XMLAttribute* t_attribute=0;
 	for(int t_index=0;t_index<m_count;t_index=t_index+1){
@@ -15777,9 +15317,125 @@ bool c_XMLAttributeQuery::p_Test(c_XMLNode* t_node){
 	}
 	return true;
 }
+int c_XMLAttributeQuery::p_Length(){
+	return m_count;
+}
 void c_XMLAttributeQuery::mark(){
 	Object::mark();
 	gc_mark_q(m_items);
+}
+c_XMLStringBuffer::c_XMLStringBuffer(){
+	m_chunk=128;
+	m_count=0;
+	m_data=Array<int >();
+	m_dirty=0;
+	m_cache=String();
+}
+c_XMLStringBuffer* c_XMLStringBuffer::m_new(int t_chunk){
+	this->m_chunk=t_chunk;
+	return this;
+}
+void c_XMLStringBuffer::p_Add(int t_asc){
+	if(m_count==m_data.Length()){
+		gc_assign(m_data,m_data.Resize(m_data.Length()+m_chunk));
+	}
+	m_data[m_count]=t_asc;
+	m_count+=1;
+	m_dirty=1;
+}
+void c_XMLStringBuffer::p_Add2(String t_text){
+	if(t_text.Length()==0){
+		return;
+	}
+	if(m_count+t_text.Length()>=m_data.Length()){
+		gc_assign(m_data,m_data.Resize(int(Float(m_data.Length())+Float(m_chunk)*(Float)ceil(Float(t_text.Length())/Float(m_chunk)))));
+	}
+	for(int t_textIndex=0;t_textIndex<t_text.Length();t_textIndex=t_textIndex+1){
+		m_data[m_count]=(int)t_text[t_textIndex];
+		m_count+=1;
+	}
+	m_dirty=1;
+}
+void c_XMLStringBuffer::p_Add3(String t_text,int t_offset,int t_suggestedLength){
+	int t_realLength=t_text.Length()-t_offset;
+	if(t_suggestedLength>0 && t_suggestedLength<t_realLength){
+		t_realLength=t_suggestedLength;
+	}
+	if(t_realLength==0){
+		return;
+	}
+	if(m_count+t_realLength>=m_data.Length()){
+		gc_assign(m_data,m_data.Resize(int(Float(m_data.Length())+Float(m_chunk)*(Float)ceil(Float(t_realLength)/Float(m_chunk)))));
+	}
+	for(int t_textIndex=t_offset;t_textIndex<t_offset+t_realLength;t_textIndex=t_textIndex+1){
+		m_data[m_count]=(int)t_text[t_textIndex];
+		m_count+=1;
+	}
+	m_dirty=1;
+}
+int c_XMLStringBuffer::p_Length(){
+	return m_count;
+}
+String c_XMLStringBuffer::p_value(){
+	if((m_dirty)!=0){
+		m_dirty=0;
+		if(m_count==0){
+			m_cache=String();
+		}else{
+			m_cache=String::FromChars(m_data.Slice(0,m_count));
+		}
+	}
+	return m_cache;
+}
+void c_XMLStringBuffer::p_Clear(){
+	m_count=0;
+	m_cache=String();
+	m_dirty=0;
+}
+int c_XMLStringBuffer::p_Last(int t_defaultValue){
+	if(m_count==0){
+		return t_defaultValue;
+	}
+	return m_data[m_count-1];
+}
+bool c_XMLStringBuffer::p_Trim(){
+	if(m_count==0){
+		return false;
+	}
+	if(m_count==1 && (m_data[0]==32 || m_data[0]==9 || m_data[0]==10) || m_count==2 && (m_data[0]==32 || m_data[0]==9 || m_data[0]==10) && (m_data[1]==32 || m_data[1]==9 || m_data[1]==10)){
+		p_Clear();
+		return true;
+	}
+	int t_startIndex=0;
+	for(t_startIndex=0;t_startIndex<m_count;t_startIndex=t_startIndex+1){
+		if(m_data[t_startIndex]!=32 && m_data[t_startIndex]!=9 && m_data[t_startIndex]!=10){
+			break;
+		}
+	}
+	if(t_startIndex==m_count){
+		p_Clear();
+		return true;
+	}
+	int t_endIndex=0;
+	for(t_endIndex=m_count-1;t_endIndex>=0;t_endIndex=t_endIndex+-1){
+		if(m_data[t_endIndex]!=32 && m_data[t_endIndex]!=9 && m_data[t_endIndex]!=10){
+			break;
+		}
+	}
+	if(t_startIndex==0 && t_endIndex==m_count-1){
+		return false;
+	}
+	m_count=t_endIndex-t_startIndex+1;
+	if(t_startIndex>0){
+		for(int t_trimIndex=0;t_trimIndex<m_count;t_trimIndex=t_trimIndex+1){
+			m_data[t_trimIndex]=m_data[t_trimIndex+t_startIndex];
+		}
+	}
+	return true;
+}
+void c_XMLStringBuffer::mark(){
+	Object::mark();
+	gc_mark_q(m_data);
 }
 c_XMLAttributeQueryItem::c_XMLAttributeQueryItem(){
 	m_id=String();
@@ -15801,9 +15457,9 @@ void c_XMLAttributeQueryItem::mark(){
 	Object::mark();
 }
 c_XMLAttribute::c_XMLAttribute(){
+	m_value=String();
 	m_idLowercase=String();
 	m_idNormalCase=String();
-	m_value=String();
 }
 c_XMLAttribute* c_XMLAttribute::m_new(String t_id,String t_value){
 	this->m_idLowercase=t_id.ToLower();
@@ -15817,14 +15473,14 @@ c_XMLAttribute* c_XMLAttribute::m_new2(){
 void c_XMLAttribute::mark(){
 	Object::mark();
 }
-c_Map3::c_Map3(){
+c_Map2::c_Map2(){
 	m_root=0;
 }
-c_Map3* c_Map3::m_new(){
+c_Map2* c_Map2::m_new(){
 	return this;
 }
-c_Node4* c_Map3::p_FindNode2(String t_key){
-	c_Node4* t_node=m_root;
+c_Node2* c_Map2::p_FindNode2(String t_key){
+	c_Node2* t_node=m_root;
 	while((t_node)!=0){
 		int t_cmp=p_Compare2(t_key,t_node->m_key);
 		if(t_cmp>0){
@@ -15839,12 +15495,879 @@ c_Node4* c_Map3::p_FindNode2(String t_key){
 	}
 	return t_node;
 }
-c_XMLAttribute* c_Map3::p_Get(String t_key){
-	c_Node4* t_node=p_FindNode2(t_key);
+c_XMLAttribute* c_Map2::p_Get(String t_key){
+	c_Node2* t_node=p_FindNode2(t_key);
 	if((t_node)!=0){
 		return t_node->m_value;
 	}
 	return 0;
+}
+int c_Map2::p_RotateLeft2(c_Node2* t_node){
+	c_Node2* t_child=t_node->m_right;
+	gc_assign(t_node->m_right,t_child->m_left);
+	if((t_child->m_left)!=0){
+		gc_assign(t_child->m_left->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_left){
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_left,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map2::p_RotateRight2(c_Node2* t_node){
+	c_Node2* t_child=t_node->m_left;
+	gc_assign(t_node->m_left,t_child->m_right);
+	if((t_child->m_right)!=0){
+		gc_assign(t_child->m_right->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_right){
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_right,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map2::p_InsertFixup2(c_Node2* t_node){
+	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
+		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
+			c_Node2* t_uncle=t_node->m_parent->m_parent->m_right;
+			if(((t_uncle)!=0) && t_uncle->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle->m_color=1;
+				t_uncle->m_parent->m_color=-1;
+				t_node=t_uncle->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_right){
+					t_node=t_node->m_parent;
+					p_RotateLeft2(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateRight2(t_node->m_parent->m_parent);
+			}
+		}else{
+			c_Node2* t_uncle2=t_node->m_parent->m_parent->m_left;
+			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle2->m_color=1;
+				t_uncle2->m_parent->m_color=-1;
+				t_node=t_uncle2->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_left){
+					t_node=t_node->m_parent;
+					p_RotateRight2(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateLeft2(t_node->m_parent->m_parent);
+			}
+		}
+	}
+	m_root->m_color=1;
+	return 0;
+}
+bool c_Map2::p_Set2(String t_key,c_XMLAttribute* t_value){
+	c_Node2* t_node=m_root;
+	c_Node2* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare2(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				gc_assign(t_node->m_value,t_value);
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node2)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup2(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+bool c_Map2::p_Insert2(String t_key,c_XMLAttribute* t_value){
+	return p_Set2(t_key,t_value);
+}
+bool c_Map2::p_IsEmpty(){
+	return m_root==0;
+}
+c_MapValues* c_Map2::p_Values(){
+	return (new c_MapValues)->m_new(this);
+}
+c_Node2* c_Map2::p_FirstNode(){
+	if(!((m_root)!=0)){
+		return 0;
+	}
+	c_Node2* t_node=m_root;
+	while((t_node->m_left)!=0){
+		t_node=t_node->m_left;
+	}
+	return t_node;
+}
+c_MapKeys* c_Map2::p_Keys(){
+	return (new c_MapKeys)->m_new(this);
+}
+int c_Map2::p_DeleteFixup(c_Node2* t_node,c_Node2* t_parent){
+	while(t_node!=m_root && (!((t_node)!=0) || t_node->m_color==1)){
+		if(t_node==t_parent->m_left){
+			c_Node2* t_sib=t_parent->m_right;
+			if(t_sib->m_color==-1){
+				t_sib->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateLeft2(t_parent);
+				t_sib=t_parent->m_right;
+			}
+			if((!((t_sib->m_left)!=0) || t_sib->m_left->m_color==1) && (!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1)){
+				t_sib->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
+			}else{
+				if(!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1){
+					t_sib->m_left->m_color=1;
+					t_sib->m_color=-1;
+					p_RotateRight2(t_sib);
+					t_sib=t_parent->m_right;
+				}
+				t_sib->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib->m_right->m_color=1;
+				p_RotateLeft2(t_parent);
+				t_node=m_root;
+			}
+		}else{
+			c_Node2* t_sib2=t_parent->m_left;
+			if(t_sib2->m_color==-1){
+				t_sib2->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateRight2(t_parent);
+				t_sib2=t_parent->m_left;
+			}
+			if((!((t_sib2->m_right)!=0) || t_sib2->m_right->m_color==1) && (!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1)){
+				t_sib2->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
+			}else{
+				if(!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1){
+					t_sib2->m_right->m_color=1;
+					t_sib2->m_color=-1;
+					p_RotateLeft2(t_sib2);
+					t_sib2=t_parent->m_left;
+				}
+				t_sib2->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib2->m_left->m_color=1;
+				p_RotateRight2(t_parent);
+				t_node=m_root;
+			}
+		}
+	}
+	if((t_node)!=0){
+		t_node->m_color=1;
+	}
+	return 0;
+}
+int c_Map2::p_RemoveNode(c_Node2* t_node){
+	c_Node2* t_splice=0;
+	c_Node2* t_child=0;
+	if(!((t_node->m_left)!=0)){
+		t_splice=t_node;
+		t_child=t_node->m_right;
+	}else{
+		if(!((t_node->m_right)!=0)){
+			t_splice=t_node;
+			t_child=t_node->m_left;
+		}else{
+			t_splice=t_node->m_left;
+			while((t_splice->m_right)!=0){
+				t_splice=t_splice->m_right;
+			}
+			t_child=t_splice->m_left;
+			t_node->m_key=t_splice->m_key;
+			gc_assign(t_node->m_value,t_splice->m_value);
+		}
+	}
+	c_Node2* t_parent=t_splice->m_parent;
+	if((t_child)!=0){
+		gc_assign(t_child->m_parent,t_parent);
+	}
+	if(!((t_parent)!=0)){
+		gc_assign(m_root,t_child);
+		return 0;
+	}
+	if(t_splice==t_parent->m_left){
+		gc_assign(t_parent->m_left,t_child);
+	}else{
+		gc_assign(t_parent->m_right,t_child);
+	}
+	if(t_splice->m_color==1){
+		p_DeleteFixup(t_child,t_parent);
+	}
+	return 0;
+}
+int c_Map2::p_Remove2(String t_key){
+	c_Node2* t_node=p_FindNode2(t_key);
+	if(!((t_node)!=0)){
+		return 0;
+	}
+	p_RemoveNode(t_node);
+	return 1;
+}
+void c_Map2::mark(){
+	Object::mark();
+	gc_mark_q(m_root);
+}
+c_StringMap::c_StringMap(){
+}
+c_StringMap* c_StringMap::m_new(){
+	c_Map2::m_new();
+	return this;
+}
+int c_StringMap::p_Compare2(String t_lhs,String t_rhs){
+	return t_lhs.Compare(t_rhs);
+}
+void c_StringMap::mark(){
+	c_Map2::mark();
+}
+c_Node2::c_Node2(){
+	m_key=String();
+	m_right=0;
+	m_left=0;
+	m_value=0;
+	m_color=0;
+	m_parent=0;
+}
+c_Node2* c_Node2::m_new(String t_key,c_XMLAttribute* t_value,int t_color,c_Node2* t_parent){
+	this->m_key=t_key;
+	gc_assign(this->m_value,t_value);
+	this->m_color=t_color;
+	gc_assign(this->m_parent,t_parent);
+	return this;
+}
+c_Node2* c_Node2::m_new2(){
+	return this;
+}
+c_Node2* c_Node2::p_NextNode(){
+	c_Node2* t_node=0;
+	if((m_right)!=0){
+		t_node=m_right;
+		while((t_node->m_left)!=0){
+			t_node=t_node->m_left;
+		}
+		return t_node;
+	}
+	t_node=this;
+	c_Node2* t_parent=this->m_parent;
+	while(((t_parent)!=0) && t_node==t_parent->m_right){
+		t_node=t_parent;
+		t_parent=t_parent->m_parent;
+	}
+	return t_parent;
+}
+void c_Node2::mark(){
+	Object::mark();
+	gc_mark_q(m_right);
+	gc_mark_q(m_left);
+	gc_mark_q(m_value);
+	gc_mark_q(m_parent);
+}
+Float bb_necrodancergame_GLOBAL_SCALE_FACTOR;
+int bb_math_Max(int t_x,int t_y){
+	if(t_x>t_y){
+		return t_x;
+	}
+	return t_y;
+}
+Float bb_math_Max2(Float t_x,Float t_y){
+	if(t_x>t_y){
+		return t_x;
+	}
+	return t_y;
+}
+int bb_necrodancergame_FIXED_WIDTH;
+int bb_necrodancergame_FIXED_HEIGHT;
+void bb_fmod_StartFMOD(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"StartFMOD()",11));
+}
+int bb_necrodancergame_FRAMES_PER_SEC;
+int bb_app__updateRate;
+void bb_app_SetUpdateRate(int t_hertz){
+	bb_app__updateRate=t_hertz;
+	bb_app__game->SetUpdateRate(t_hertz);
+}
+c_GuiContainer::c_GuiContainer(){
+}
+c_GuiContainer* c_GuiContainer::m_new(){
+	return this;
+}
+void c_GuiContainer::mark(){
+	Object::mark();
+}
+c_Controller::c_Controller(){
+	m_parent=0;
+}
+c_Controller* c_Controller::m_currentController;
+c_Controller* c_Controller::m_new(){
+	c_GuiContainer::m_new();
+	gc_assign(this->m_parent,m_currentController);
+	gc_assign(m_currentController,this);
+	return this;
+}
+void c_Controller::m_GiveFocus(c_Controller* t_c){
+	gc_assign(t_c->m_parent,m_currentController);
+	gc_assign(m_currentController,t_c);
+	m_currentController->p_RegainFocus();
+}
+void c_Controller::p_ReleaseFocus(){
+	gc_assign(m_currentController,this->m_parent);
+	this->p_Destructor();
+	m_currentController->p_RegainFocus();
+}
+bool c_Controller::p_HasFocus(){
+	return m_currentController==this;
+}
+void c_Controller::mark(){
+	c_GuiContainer::mark();
+	gc_mark_q(m_parent);
+}
+c_ControllerMainMenu::c_ControllerMainMenu(){
+	m_showCloudSavePopup=false;
+	m_mainmenuSongName=String(L"zone1_3",7);
+	m_mainmenuTitlescreen=String(L"mainmenu/mainmenu.png",21);
+	m_mainMenu=0;
+	m_continueImage=0;
+	m_alphaWarning=0;
+	m_haveShownAlphaWarning=false;
+	m_seizureWarning=0;
+	m_haveShownSeizureWarning=false;
+	m_passingToCalibration=false;
+	m_hasSentToGameplay=false;
+	m_loaded=false;
+	m_popUpController=0;
+	m_firstRun=2;
+	m_gameLoaded=false;
+	m_startedWaitingForStatsCallback=-1;
+}
+c_ControllerMainMenu* c_ControllerMainMenu::m_new(){
+	c_Controller::m_new();
+	c_Sprite::m_scaleToFitScreen=true;
+	c_GameData::m_LoadGameDataXML(false);
+	this->m_showCloudSavePopup=c_GameData::m_LoadPlayerDataXML(true);
+	if(c_GameData::m_GetDefaultMod()!=String()){
+		c_GameData::m_activeMod=c_GameData::m_GetDefaultMod();
+		c_GameData::m_LoadGameDataXML(false);
+	}
+	if(c_GameData::m_GetShownNocturnaIntro() || !c_GameData::m_GetDLCPlayed() && c_GameData::m_GetZone2Unlocked(0) || c_GameData::m_IsCharUnlocked(1)){
+		c_GameData::m_SetShownNocturnaIntro(true);
+		this->m_mainmenuSongName=String(L"zone5_3",7);
+		this->m_mainmenuTitlescreen=String(L"mainmenu/amplified_titlescreen.png",34);
+	}
+	bb_util_SetVSync((c_GameData::m_GetVSync())?1:0);
+	c_GameData::m_GetFullscreen();
+	if(c_GameData::m_GetResolutionW()>0){
+		c_GameData::m_GetResolutionH();
+		c_GameData::m_GetResolutionW();
+	}
+	if(bb_steam_g_SteamLeaderboards!=0){
+		c_Util::m_GetLeaderboardScores(1,1,0,String(),true,false,true);
+	}
+	c_TextSprite::m_Init();
+	c_ControllerCutscene::m_InitSubtitles();
+	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading images1...",38));
+	gc_assign(this->m_mainMenu,(new c_Sprite)->m_new2(this->m_mainmenuTitlescreen,1,c_Image::m_DefaultFlags));
+	this->m_mainMenu->p_SetZ(FLOAT(9998.0));
+	this->m_mainMenu->p_InWorld(false);
+	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading images3...",38));
+	gc_assign(this->m_continueImage,(new c_Sprite)->m_new2(String(L"mainmenu/continue.png",21),1,c_Image::m_DefaultFlags));
+	this->m_continueImage->p_SetZ(FLOAT(9999.0));
+	this->m_continueImage->p_InWorld(false);
+	if(bb_steam_SteamApps()!=0 && bb_steam_SteamApps()->p_BIsDlcInstalled(379400)){
+		gc_assign(this->m_alphaWarning,(new c_Sprite)->m_new2(String(L"mainmenu/collectors_edition.png",31),1,c_Image::m_DefaultFlags));
+	}else{
+		if(bb_steam_SteamApps()!=0 && bb_steam_SteamApps()->p_BIsDlcInstalled(314680)){
+			gc_assign(this->m_alphaWarning,(new c_Sprite)->m_new2(String(L"mainmenu/soundtrack_edition.png",31),1,c_Image::m_DefaultFlags));
+		}else{
+			this->m_haveShownAlphaWarning=true;
+		}
+	}
+	if(this->m_alphaWarning!=0){
+		this->m_alphaWarning->p_SetZ(FLOAT(10000.0));
+		this->m_alphaWarning->p_InWorld(false);
+	}
+	gc_assign(this->m_seizureWarning,(new c_Sprite)->m_new2(String(L"mainmenu/seizure_warning.png",28),1,c_Image::m_DefaultFlags));
+	if(c_GameData::m_GetShownSeizureWarning()){
+		this->m_haveShownSeizureWarning=true;
+	}
+	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading ControllerIntro...",46));
+	(new c_ControllerIntro)->m_new();
+	return this;
+}
+void c_ControllerMainMenu::p_PassFocusToNextController(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerMainMenu.PassFocusToNextController()",46));
+}
+void c_ControllerMainMenu::p_RegainFocus(){
+	c_Sprite::m_scaleToFitScreen=true;
+	if(this->m_passingToCalibration){
+		this->m_passingToCalibration=false;
+		if(c_GameData::m_GetChangeLogShownForCurrentVersion()){
+			(new c_ControllerGame)->m_new();
+			this->m_hasSentToGameplay=true;
+		}else{
+			c_GameData::m_SetChangeLogShownForCurrentVersion();
+			(new c_ControllerChangeLog)->m_new();
+		}
+		this->m_loaded=false;
+	}else{
+		if(this->m_popUpController!=0){
+			this->m_showCloudSavePopup=false;
+			if(this->m_popUpController->m_retval==1){
+				c_GameData::m_LoadPlayerDataXML(true);
+			}
+			this->m_popUpController=0;
+			c_GameData::m_playerDataLoadPending=false;
+			this->p_PassFocusToNextController();
+		}
+		this->m_loaded=false;
+	}
+}
+void c_ControllerMainMenu::p_Render(){
+	if(this->m_firstRun>0){
+		this->m_firstRun-=1;
+	}
+}
+void c_ControllerMainMenu::p_LoadGame(){
+	c_TextLog::m_Message(String(L"NECRODANCER INIT: Loading game",30));
+	c_Util::m_AddMetric(String(L"event",5),String(L"necrodancerLoad",15),true,true,false);
+	gc_assign(c_NecroDancerGame::m_textFont,bb_graphics_LoadImage(String(L"TEMP_font.png",13),96,6));
+	bb_graphics_SetFont(c_NecroDancerGame::m_textFont,32);
+	c_Camera::m_Init();
+	c_ParticleSystem::m_Init();
+	c_Item::m_InitAll();
+	this->m_startedWaitingForStatsCallback=bb_app_Millisecs();
+}
+void c_ControllerMainMenu::p_Update(){
+	if(this->m_firstRun>0){
+		return;
+	}
+	if(!this->m_loaded){
+		c_ControllerIntro::m_quitIntro=true;
+		this->m_loaded=true;
+	}
+	c_Audio::m_Update(false);
+	if(!this->m_gameLoaded){
+		this->m_gameLoaded=true;
+		this->p_LoadGame();
+	}
+	(new c_ControllerGame)->m_new();
+	this->m_hasSentToGameplay=true;
+}
+void c_ControllerMainMenu::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerMainMenu.Destructor()",31));
+}
+void c_ControllerMainMenu::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_mainMenu);
+	gc_mark_q(m_continueImage);
+	gc_mark_q(m_alphaWarning);
+	gc_mark_q(m_seizureWarning);
+	gc_mark_q(m_popUpController);
+}
+c_Tweenable::c_Tweenable(){
+	m_alphaTweenCurrentStep=FLOAT(.0);
+	m_alphaTweenDuration=0;
+	m_alphaTweenInitial=FLOAT(.0);
+	m_alphaTweenFinal=FLOAT(.0);
+}
+c_Tweenable* c_Tweenable::m_new(){
+	return this;
+}
+void c_Tweenable::p_SetAlphaTween(Float t_initialVal,Float t_finalVal,int t_duration){
+	this->m_alphaTweenCurrentStep=FLOAT(0.0);
+	this->m_alphaTweenDuration=t_duration;
+	this->m_alphaTweenInitial=t_initialVal;
+	this->m_alphaTweenFinal=t_finalVal;
+}
+int c_Tweenable::p_GetTweenDurationRemaining(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Tweenable.GetTweenDurationRemaining()",37));
+	return 0;
+}
+void c_Tweenable::p_SetCutoffY(int t_cY){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Tweenable.SetCutoffY(Int)",25));
+}
+void c_Tweenable::mark(){
+	Object::mark();
+}
+c_Sprite::c_Sprite(){
+	m_zSet=false;
+	m_z=FLOAT(.0);
+	m_inWorld=true;
+	m_zOff=FLOAT(.0);
+	m_cutoffYSet=false;
+	m_alpha=FLOAT(1.0);
+	m_flipX=false;
+	m_flipXWithOffset=true;
+	m_renderX=FLOAT(.0);
+	m_renderLastX=FLOAT(.0);
+	m_renderY=FLOAT(.0);
+	m_renderLastY=FLOAT(.0);
+}
+bool c_Sprite::m_scaleToFitScreen;
+c_Sprite* c_Sprite::m_new(String t_p,int t_frameWidth,int t_frameHeight,int t_frameCount,int t_flags){
+	c_Tweenable::m_new();
+	return this;
+}
+c_Sprite* c_Sprite::m_new2(String t_p,int t_frames,int t_flags){
+	c_Tweenable::m_new();
+	return this;
+}
+c_Sprite* c_Sprite::m_new3(c_Image* t_img){
+	c_Tweenable::m_new();
+	return this;
+}
+c_Sprite* c_Sprite::m_new4(){
+	c_Tweenable::m_new();
+	return this;
+}
+void c_Sprite::p_SetZ(Float t_zVal){
+	this->m_zSet=true;
+	this->m_z=t_zVal;
+}
+void c_Sprite::p_InWorld(bool t_world){
+	this->m_inWorld=t_world;
+}
+void c_Sprite::p_SetScale(Float t_scaleVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetScale(Float)",22));
+}
+void c_Sprite::p_SetZOff(Float t_zVal){
+	this->m_zOff=t_zVal;
+}
+void c_Sprite::p_SetHandle2(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetHandle(Int, Int)",26));
+}
+int c_Sprite::p_Width(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.Width()",14));
+	return 0;
+}
+int c_Sprite::p_Height(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.Height()",15));
+	return 0;
+}
+void c_Sprite::p_UnsetCutoffY(){
+	this->m_cutoffYSet=false;
+}
+void c_Sprite::p_DiscardTempImage(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.DiscardTempImage()",25));
+}
+void c_Sprite::p_SetFrame(int t_f){
+}
+void c_Sprite::p_SetAlphaValue(Float t_a){
+	this->m_alpha=bb_math_Clamp2(t_a,FLOAT(0.0),FLOAT(1.0));
+}
+void c_Sprite::p_FlipX(bool t_f,bool t_withOffset){
+	this->m_flipX=t_f;
+	this->m_flipXWithOffset=t_withOffset;
+}
+void c_Sprite::p_SetAlphaTweenFromCurrent(Float t_finalVal,int t_duration){
+	this->p_SetAlphaTween(this->m_alpha,t_finalVal,t_duration);
+}
+void c_Sprite::p_UnSetZ(){
+	this->m_zSet=false;
+	this->m_z=FLOAT(0.0);
+}
+Float c_Sprite::p_GetAlphaValue(){
+	return this->m_alpha;
+}
+void c_Sprite::p_SetCutoffY(int t_cY){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetCutoffY(Int)",22));
+}
+int c_Sprite::p_GetFrame(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.GetFrame()",17));
+	return 0;
+}
+int c_Sprite::p_GetNumFrames(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.GetNumFrames()",21));
+	return 0;
+}
+void c_Sprite::mark(){
+	c_Tweenable::mark();
+}
+c_XMLError::c_XMLError(){
+	m_error=false;
+	m_message=String();
+	m_line=0;
+	m_column=0;
+	m_offset=0;
+}
+c_XMLError* c_XMLError::m_new(){
+	return this;
+}
+void c_XMLError::p_Reset(){
+	m_error=false;
+	m_message=String();
+	m_line=-1;
+	m_column=-1;
+	m_offset=-1;
+}
+void c_XMLError::p_Set3(String t_message,int t_line,int t_column,int t_offset){
+	m_error=true;
+	this->m_message=t_message;
+	this->m_line=t_line;
+	this->m_column=t_column;
+	this->m_offset=t_offset;
+}
+String c_XMLError::p_ToString(){
+	if(m_error==false){
+		return String();
+	}
+	c_XMLStringBuffer* t_buffer=(new c_XMLStringBuffer)->m_new(256);
+	t_buffer->p_Add2(String(L"XMLError: ",10));
+	if((m_message.Length())!=0){
+		t_buffer->p_Add2(m_message);
+	}else{
+		t_buffer->p_Add2(String(L"unknown error",13));
+	}
+	t_buffer->p_Add2(String(L" [line:",7));
+	if(m_line>-1){
+		t_buffer->p_Add2(String(m_line));
+	}else{
+		t_buffer->p_Add2(String(L"??",2));
+	}
+	t_buffer->p_Add2(String(L"  column:",9));
+	if(m_column>-1){
+		t_buffer->p_Add2(String(m_column));
+	}else{
+		t_buffer->p_Add2(String(L"??",2));
+	}
+	t_buffer->p_Add2(String(L"  offset:",9));
+	if(m_offset>-1){
+		t_buffer->p_Add2(String(m_offset)+String(L"]",1));
+	}else{
+		t_buffer->p_Add2(String(L"??]",3));
+	}
+	return t_buffer->p_value();
+}
+void c_XMLError::mark(){
+	Object::mark();
+}
+String bb_app_LoadString(String t_path){
+	return bb_app__game->LoadString(bb_data_FixDataPath(t_path));
+}
+int bb_util_CalcChecksum(String t_fileContents){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"CalcChecksum(String)",20));
+	return 1495719624;
+}
+int bb_controller_game_totalPlaytimeMilliseconds;
+void bb_fmod_EndFMOD(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"EndFMOD()",9));
+}
+void bb_steam_SteamShutdown(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamShutdown()",15));
+}
+void bb_textlog_ExitGameGlobal(String t_errorString,bool t_doExit){
+	bb_textlog_MessageGlobal(t_errorString,true);
+	c_GameData::m_Save();
+	c_Util::m_AddMetric(String(L"event",5),String(L"necrodancerShutdown",19),false,false,false);
+	if(bb_controller_game_totalPlaytimeMilliseconds<15000){
+		c_Util::m_AddMetric(String(L"shutdownMessage",15),t_errorString,true,true,false);
+	}else{
+		c_Util::m_AddMetric(String(L"shutdownMessage",15),t_errorString,false,false,false);
+		int t_playTimeInSeconds=bb_controller_game_totalPlaytimeMilliseconds/1000;
+		c_Util::m_AddMetric(String(L"playTimeInSeconds",17),String(t_playTimeInSeconds),true,true,true);
+	}
+	bb_fmod_EndFMOD();
+	bb_steam_SteamShutdown();
+	if(t_doExit){
+		bbError(t_errorString);
+	}
+}
+c_List::c_List(){
+	m__head=((new c_HeadNode)->m_new());
+}
+c_List* c_List::m_new(){
+	return this;
+}
+c_Node3* c_List::p_AddLast(c_XMLNode* t_data){
+	return (new c_Node3)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List* c_List::m_new2(Array<c_XMLNode* > t_data){
+	Array<c_XMLNode* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_XMLNode* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast(t_t);
+	}
+	return this;
+}
+c_XMLNode* c_List::p_RemoveLast(){
+	c_XMLNode* t_data=m__head->m__pred->m__data;
+	m__head->m__pred->p_Remove();
+	return t_data;
+}
+bool c_List::p_Equals(c_XMLNode* t_lhs,c_XMLNode* t_rhs){
+	return t_lhs==t_rhs;
+}
+c_Node3* c_List::p_FindLast(c_XMLNode* t_value,c_Node3* t_start){
+	while(t_start!=m__head){
+		if(p_Equals(t_value,t_start->m__data)){
+			return t_start;
+		}
+		t_start=t_start->m__pred;
+	}
+	return 0;
+}
+c_Node3* c_List::p_FindLast2(c_XMLNode* t_value){
+	return p_FindLast(t_value,m__head->m__pred);
+}
+void c_List::p_RemoveLast2(c_XMLNode* t_value){
+	c_Node3* t_node=p_FindLast2(t_value);
+	if((t_node)!=0){
+		t_node->p_Remove();
+	}
+}
+bool c_List::p_IsEmpty(){
+	return m__head->m__succ==m__head;
+}
+c_XMLNode* c_List::p_Last2(){
+	return m__head->m__pred->m__data;
+}
+c_Enumerator* c_List::p_ObjectEnumerator(){
+	return (new c_Enumerator)->m_new(this);
+}
+c_XMLNode* c_List::p_First(){
+	return m__head->m__succ->m__data;
+}
+int c_List::p_Count(){
+	int t_n=0;
+	c_Node3* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		t_node=t_node->m__succ;
+		t_n+=1;
+	}
+	return t_n;
+}
+int c_List::p_Clear(){
+	gc_assign(m__head->m__succ,m__head);
+	gc_assign(m__head->m__pred,m__head);
+	return 0;
+}
+void c_List::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_Node3::c_Node3(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node3* c_Node3::m_new(c_Node3* t_succ,c_Node3* t_pred,c_XMLNode* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node3* c_Node3::m_new2(){
+	return this;
+}
+int c_Node3::p_Remove(){
+	gc_assign(m__succ->m__pred,m__pred);
+	gc_assign(m__pred->m__succ,m__succ);
+	return 0;
+}
+void c_Node3::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode::c_HeadNode(){
+}
+c_HeadNode* c_HeadNode::m_new(){
+	c_Node3::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode::mark(){
+	c_Node3::mark();
+}
+bool bb_xml_XMLHasStringAtOffset(String t_needle,String t_haystack,int t_offset){
+	if(t_offset+t_needle.Length()>t_haystack.Length()){
+		return false;
+	}
+	for(int t_index=0;t_index<t_needle.Length();t_index=t_index+1){
+		if((int)t_needle[t_index]!=(int)t_haystack[t_offset+t_index]){
+			return false;
+		}
+	}
+	return true;
+}
+int bb_xml_XMLFindNextAsc(String t_data,int t_asc,int t_offset){
+	int t_length=t_data.Length();
+	if(t_offset>=t_length){
+		return -1;
+	}
+	if(t_offset<0){
+		t_offset=0;
+	}
+	for(t_offset=t_offset;t_offset<t_length;t_offset=t_offset+1){
+		if((int)t_data[t_offset]==t_asc){
+			return t_offset;
+		}
+	}
+	return -1;
+}
+int bb_xml_XMLFindStringNotInQuotes(String t_needle,String t_haystack,int t_offset){
+	int t_needlePos=0;
+	do{
+		t_needlePos=t_haystack.Find(t_needle,t_offset);
+		if(t_needlePos==-1){
+			return -1;
+		}
+		t_offset=bb_xml_XMLFindNextAsc(t_haystack,34,t_offset);
+		if(t_needlePos<t_offset || t_offset==-1){
+			return t_needlePos;
+		}
+		t_offset=bb_xml_XMLFindNextAsc(t_haystack,34,t_offset+1);
+		if(t_offset==-1){
+			return -1;
+		}
+		t_offset+=1;
+	}while(!(false));
+}
+c_Map3::c_Map3(){
+	m_root=0;
+}
+c_Map3* c_Map3::m_new(){
+	return this;
 }
 int c_Map3::p_RotateLeft3(c_Node4* t_node){
 	c_Node4* t_child=t_node->m_right;
@@ -15925,7 +16448,7 @@ int c_Map3::p_InsertFixup3(c_Node4* t_node){
 	m_root->m_color=1;
 	return 0;
 }
-bool c_Map3::p_Set4(String t_key,c_XMLAttribute* t_value){
+bool c_Map3::p_Set4(String t_key,c_List* t_value){
 	c_Node4* t_node=m_root;
 	c_Node4* t_parent=0;
 	int t_cmp=0;
@@ -15956,132 +16479,31 @@ bool c_Map3::p_Set4(String t_key,c_XMLAttribute* t_value){
 	}
 	return true;
 }
-bool c_Map3::p_Insert3(String t_key,c_XMLAttribute* t_value){
+bool c_Map3::p_Insert3(String t_key,c_List* t_value){
 	return p_Set4(t_key,t_value);
 }
-bool c_Map3::p_IsEmpty(){
-	return m_root==0;
-}
-c_MapValues* c_Map3::p_Values(){
-	return (new c_MapValues)->m_new(this);
-}
-c_Node4* c_Map3::p_FirstNode(){
-	if(!((m_root)!=0)){
-		return 0;
-	}
+c_Node4* c_Map3::p_FindNode2(String t_key){
 	c_Node4* t_node=m_root;
-	while((t_node->m_left)!=0){
-		t_node=t_node->m_left;
+	while((t_node)!=0){
+		int t_cmp=p_Compare2(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
 	}
 	return t_node;
 }
-c_MapKeys2* c_Map3::p_Keys(){
-	return (new c_MapKeys2)->m_new(this);
-}
-int c_Map3::p_DeleteFixup(c_Node4* t_node,c_Node4* t_parent){
-	while(t_node!=m_root && (!((t_node)!=0) || t_node->m_color==1)){
-		if(t_node==t_parent->m_left){
-			c_Node4* t_sib=t_parent->m_right;
-			if(t_sib->m_color==-1){
-				t_sib->m_color=1;
-				t_parent->m_color=-1;
-				p_RotateLeft3(t_parent);
-				t_sib=t_parent->m_right;
-			}
-			if((!((t_sib->m_left)!=0) || t_sib->m_left->m_color==1) && (!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1)){
-				t_sib->m_color=-1;
-				t_node=t_parent;
-				t_parent=t_parent->m_parent;
-			}else{
-				if(!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1){
-					t_sib->m_left->m_color=1;
-					t_sib->m_color=-1;
-					p_RotateRight3(t_sib);
-					t_sib=t_parent->m_right;
-				}
-				t_sib->m_color=t_parent->m_color;
-				t_parent->m_color=1;
-				t_sib->m_right->m_color=1;
-				p_RotateLeft3(t_parent);
-				t_node=m_root;
-			}
-		}else{
-			c_Node4* t_sib2=t_parent->m_left;
-			if(t_sib2->m_color==-1){
-				t_sib2->m_color=1;
-				t_parent->m_color=-1;
-				p_RotateRight3(t_parent);
-				t_sib2=t_parent->m_left;
-			}
-			if((!((t_sib2->m_right)!=0) || t_sib2->m_right->m_color==1) && (!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1)){
-				t_sib2->m_color=-1;
-				t_node=t_parent;
-				t_parent=t_parent->m_parent;
-			}else{
-				if(!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1){
-					t_sib2->m_right->m_color=1;
-					t_sib2->m_color=-1;
-					p_RotateLeft3(t_sib2);
-					t_sib2=t_parent->m_left;
-				}
-				t_sib2->m_color=t_parent->m_color;
-				t_parent->m_color=1;
-				t_sib2->m_left->m_color=1;
-				p_RotateRight3(t_parent);
-				t_node=m_root;
-			}
-		}
-	}
-	if((t_node)!=0){
-		t_node->m_color=1;
-	}
-	return 0;
-}
-int c_Map3::p_RemoveNode(c_Node4* t_node){
-	c_Node4* t_splice=0;
-	c_Node4* t_child=0;
-	if(!((t_node->m_left)!=0)){
-		t_splice=t_node;
-		t_child=t_node->m_right;
-	}else{
-		if(!((t_node->m_right)!=0)){
-			t_splice=t_node;
-			t_child=t_node->m_left;
-		}else{
-			t_splice=t_node->m_left;
-			while((t_splice->m_right)!=0){
-				t_splice=t_splice->m_right;
-			}
-			t_child=t_splice->m_left;
-			t_node->m_key=t_splice->m_key;
-			gc_assign(t_node->m_value,t_splice->m_value);
-		}
-	}
-	c_Node4* t_parent=t_splice->m_parent;
-	if((t_child)!=0){
-		gc_assign(t_child->m_parent,t_parent);
-	}
-	if(!((t_parent)!=0)){
-		gc_assign(m_root,t_child);
-		return 0;
-	}
-	if(t_splice==t_parent->m_left){
-		gc_assign(t_parent->m_left,t_child);
-	}else{
-		gc_assign(t_parent->m_right,t_child);
-	}
-	if(t_splice->m_color==1){
-		p_DeleteFixup(t_child,t_parent);
-	}
-	return 0;
-}
-int c_Map3::p_Remove2(String t_key){
+c_List* c_Map3::p_Get(String t_key){
 	c_Node4* t_node=p_FindNode2(t_key);
-	if(!((t_node)!=0)){
-		return 0;
+	if((t_node)!=0){
+		return t_node->m_value;
 	}
-	p_RemoveNode(t_node);
-	return 1;
+	return 0;
 }
 void c_Map3::mark(){
 	Object::mark();
@@ -16107,7 +16529,7 @@ c_Node4::c_Node4(){
 	m_color=0;
 	m_parent=0;
 }
-c_Node4* c_Node4::m_new(String t_key,c_XMLAttribute* t_value,int t_color,c_Node4* t_parent){
+c_Node4* c_Node4::m_new(String t_key,c_List* t_value,int t_color,c_Node4* t_parent){
 	this->m_key=t_key;
 	gc_assign(this->m_value,t_value);
 	this->m_color=t_color;
@@ -16116,23 +16538,6 @@ c_Node4* c_Node4::m_new(String t_key,c_XMLAttribute* t_value,int t_color,c_Node4
 }
 c_Node4* c_Node4::m_new2(){
 	return this;
-}
-c_Node4* c_Node4::p_NextNode(){
-	c_Node4* t_node=0;
-	if((m_right)!=0){
-		t_node=m_right;
-		while((t_node->m_left)!=0){
-			t_node=t_node->m_left;
-		}
-		return t_node;
-	}
-	t_node=this;
-	c_Node4* t_parent=this->m_parent;
-	while(((t_parent)!=0) && t_node==t_parent->m_right){
-		t_node=t_parent;
-		t_parent=t_parent->m_parent;
-	}
-	return t_parent;
 }
 void c_Node4::mark(){
 	Object::mark();
@@ -16144,7 +16549,7 @@ void c_Node4::mark(){
 c_MapValues::c_MapValues(){
 	m_map=0;
 }
-c_MapValues* c_MapValues::m_new(c_Map3* t_map){
+c_MapValues* c_MapValues::m_new(c_Map2* t_map){
 	gc_assign(this->m_map,t_map);
 	return this;
 }
@@ -16161,7 +16566,7 @@ void c_MapValues::mark(){
 c_ValueEnumerator::c_ValueEnumerator(){
 	m_node=0;
 }
-c_ValueEnumerator* c_ValueEnumerator::m_new(c_Node4* t_node){
+c_ValueEnumerator* c_ValueEnumerator::m_new(c_Node2* t_node){
 	gc_assign(this->m_node,t_node);
 	return this;
 }
@@ -16172,7 +16577,7 @@ bool c_ValueEnumerator::p_HasNext(){
 	return m_node!=0;
 }
 c_XMLAttribute* c_ValueEnumerator::p_NextObject(){
-	c_Node4* t_t=m_node;
+	c_Node2* t_t=m_node;
 	gc_assign(m_node,m_node->p_NextNode());
 	return t_t->m_value;
 }
@@ -16225,7 +16630,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 	}
 	if(t_raw.Length()==0){
 		if((t_error)!=0){
-			t_error->p_Set2(String(L"no xml data",11),-1,-1,-1);
+			t_error->p_Set3(String(L"no xml data",11),-1,-1,-1);
 		}
 		return 0;
 	}
@@ -16239,7 +16644,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 					if((t_options&1)==0 || ((t_whitespaceBuffer->p_Length())!=0) && t_lastAsc!=9 && t_lastAsc!=32){
 						if(t_parent==0){
 							if((t_error)!=0){
-								t_error->p_Set2(String(L"illegal character",17),t_rawLine,t_rawColumn,t_rawIndex);
+								t_error->p_Set3(String(L"illegal character",17),t_rawLine,t_rawColumn,t_rawIndex);
 							}
 							return 0;
 						}
@@ -16270,13 +16675,13 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 							if(bb_xml_XMLHasStringAtOffset(String(L"<?xml",5),t_raw,t_rawIndex)){
 								if(t_hasFormat){
 									if((t_error)!=0){
-										t_error->p_Set2(String(L"duplicate xml format",20),t_rawLine,t_rawColumn,t_rawIndex);
+										t_error->p_Set3(String(L"duplicate xml format",20),t_rawLine,t_rawColumn,t_rawIndex);
 									}
 									return 0;
 								}
 								if(t_doc!=0){
 									if((t_error)!=0){
-										t_error->p_Set2(String(L"doc format should be defined before root node",45),t_rawLine,t_rawColumn,t_rawIndex);
+										t_error->p_Set3(String(L"doc format should be defined before root node",45),t_rawLine,t_rawColumn,t_rawIndex);
 									}
 									return 0;
 								}
@@ -16289,7 +16694,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 									t_rawPos=bb_xml_XMLFindStringNotInQuotes(String(L">",1),t_raw,t_rawIndex+String(L"<!DOCTYPE",9).Length());
 									if(t_rawPos==-1){
 										if((t_error)!=0){
-											t_error->p_Set2(String(L"doctype not closed",18),t_rawLine,t_rawColumn,t_rawIndex);
+											t_error->p_Set3(String(L"doctype not closed",18),t_rawLine,t_rawColumn,t_rawIndex);
 										}
 										return 0;
 									}
@@ -16311,7 +16716,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 										t_rawPos=t_raw.Find(String(L"-->",3),t_rawIndex+String(L"<!--",4).Length());
 										if(t_rawPos==-1){
 											if((t_error)!=0){
-												t_error->p_Set2(String(L"comment not closed",18),t_rawLine,t_rawColumn,t_rawIndex);
+												t_error->p_Set3(String(L"comment not closed",18),t_rawLine,t_rawColumn,t_rawIndex);
 											}
 											return 0;
 										}
@@ -16333,13 +16738,13 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 											t_rawPos=t_raw.Find(String(L"]]>",3),t_rawIndex+String(L"<![CDATA[",9).Length());
 											if(t_rawPos==-1){
 												if((t_error)!=0){
-													t_error->p_Set2(String(L"cdata not closed",16),t_rawLine,t_rawColumn,t_rawIndex);
+													t_error->p_Set3(String(L"cdata not closed",16),t_rawLine,t_rawColumn,t_rawIndex);
 												}
 												return 0;
 											}
 											if(t_parent==0){
 												if((t_error)!=0){
-													t_error->p_Set2(String(L"unexepcted cdata",16),t_rawLine,t_rawColumn,t_rawIndex);
+													t_error->p_Set3(String(L"unexepcted cdata",16),t_rawLine,t_rawColumn,t_rawIndex);
 												}
 												return 0;
 											}
@@ -16385,13 +16790,13 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 						}else{
 							if(t_3==62){
 								if((t_error)!=0){
-									t_error->p_Set2(String(L"unexpected close bracket",24),t_rawLine,t_rawColumn,t_rawIndex);
+									t_error->p_Set3(String(L"unexpected close bracket",24),t_rawLine,t_rawColumn,t_rawIndex);
 								}
 								return 0;
 							}else{
 								if(t_parent==0){
 									if((t_error)!=0){
-										t_error->p_Set2(String(L"illegal character",17),t_rawLine,t_rawColumn,t_rawIndex);
+										t_error->p_Set3(String(L"illegal character",17),t_rawLine,t_rawColumn,t_rawIndex);
 									}
 									return 0;
 								}
@@ -16422,7 +16827,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 									t_processTag=true;
 								}else{
 									if((t_error)!=0){
-										t_error->p_Set2(String(L"unexpected character",20),t_rawLine,t_rawColumn,t_rawIndex);
+										t_error->p_Set3(String(L"unexpected character",20),t_rawLine,t_rawColumn,t_rawIndex);
 									}
 									return 0;
 								}
@@ -16459,7 +16864,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 										t_inQuote=true;
 										if(t_hasTagClose || t_hasTagName==false && t_inFormat==false || t_hasEquals==false || ((t_attributeBuffer->p_Length())!=0)){
 											if((t_error)!=0){
-												t_error->p_Set2(String(L"unexpected quote",16),t_rawLine,t_rawColumn,t_rawIndex);
+												t_error->p_Set3(String(L"unexpected quote",16),t_rawLine,t_rawColumn,t_rawIndex);
 											}
 											return 0;
 										}
@@ -16471,7 +16876,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 										if(t_5==47){
 											if(t_hasTagClose || t_hasEquals){
 												if((t_error)!=0){
-													t_error->p_Set2(String(L"unexpected slash",16),t_rawLine,t_rawColumn,t_rawIndex);
+													t_error->p_Set3(String(L"unexpected slash",16),t_rawLine,t_rawColumn,t_rawIndex);
 												}
 												return 0;
 											}
@@ -16496,7 +16901,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 												t_rawColumn+=1;
 												if(t_hasTagClose || t_hasTagName==false && t_inFormat==false || t_hasEquals || t_hasAttributeId || t_attributeBuffer->p_Length()==0){
 													if((t_error)!=0){
-														t_error->p_Set2(String(L"unexpected equals",17),t_rawLine,t_rawColumn,t_rawIndex);
+														t_error->p_Set3(String(L"unexpected equals",17),t_rawLine,t_rawColumn,t_rawIndex);
 													}
 													return 0;
 												}
@@ -16506,7 +16911,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 												if(t_5==62){
 													if((t_hasEquals || t_hasTagName==false) && t_attributeBuffer->p_Length()==0){
 														if((t_error)!=0){
-															t_error->p_Set2(String(L"unexpected close bracket",24),t_rawLine,t_rawColumn,t_rawIndex);
+															t_error->p_Set3(String(L"unexpected close bracket",24),t_rawLine,t_rawColumn,t_rawIndex);
 														}
 														return 0;
 													}
@@ -16519,7 +16924,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 													if(t_5==63){
 														if(t_inFormat==false || t_rawIndex==t_raw.Length()-1 || (int)t_raw[t_rawIndex+1]!=62){
 															if((t_error)!=0){
-																t_error->p_Set2(String(L"unexpected questionmark",23),t_rawLine,t_rawColumn,t_rawIndex);
+																t_error->p_Set3(String(L"unexpected questionmark",23),t_rawLine,t_rawColumn,t_rawIndex);
 															}
 															return 0;
 														}
@@ -16530,7 +16935,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 														if(t_rawAsc==45 || t_rawAsc==58 || t_rawAsc==95 || t_rawAsc>=48 && t_rawAsc<=57 || t_rawAsc>=65 && t_rawAsc<=90 || t_rawAsc>=97 && t_rawAsc<=122){
 															if(t_hasTagClose==true && t_hasTagName==true){
 																if((t_error)!=0){
-																	t_error->p_Set2(String(L"unexpected character",20),t_rawLine,t_rawColumn,t_rawIndex);
+																	t_error->p_Set3(String(L"unexpected character",20),t_rawLine,t_rawColumn,t_rawIndex);
 																}
 																return 0;
 															}
@@ -16543,7 +16948,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 															t_rawColumn+=1;
 														}else{
 															if((t_error)!=0){
-																t_error->p_Set2(String(L"illegal character",17),t_rawLine,t_rawColumn,t_rawIndex);
+																t_error->p_Set3(String(L"illegal character",17),t_rawLine,t_rawColumn,t_rawIndex);
 															}
 															return 0;
 														}
@@ -16580,7 +16985,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 									t_current=(t_doc);
 								}else{
 									if((t_error)!=0){
-										t_error->p_Set2(String(L"duplicate root",14),t_rawLine,t_rawColumn,t_rawIndex);
+										t_error->p_Set3(String(L"duplicate root",14),t_rawLine,t_rawColumn,t_rawIndex);
 									}
 									return 0;
 								}
@@ -16595,7 +17000,7 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 							t_tagName=t_attributeBuffer->p_value().ToLower();
 							if(t_parent==0 || t_tagName!=t_parent->m_nameLowerCase){
 								if((t_error)!=0){
-									t_error->p_Set2(String(L"mismatched end tag",18),t_rawLine,t_rawColumn,t_rawIndex);
+									t_error->p_Set3(String(L"mismatched end tag",18),t_rawLine,t_rawColumn,t_rawIndex);
 								}
 								return 0;
 							}
@@ -16683,391 +17088,575 @@ c_XMLDoc* bb_xml_ParseXML(String t_raw,c_XMLError* t_error,int t_options){
 	}
 	if(t_inTag || ((t_parent)!=0) || t_doc==0){
 		if((t_error)!=0){
-			t_error->p_Set2(String(L"unexpected end of xml",21),t_rawLine,t_rawColumn,t_rawIndex);
+			t_error->p_Set3(String(L"unexpected end of xml",21),t_rawLine,t_rawColumn,t_rawIndex);
 		}
 		return 0;
 	}
 	return t_doc;
 }
 c_XMLDoc* bb_necrodancergame_xmlData;
-c_GuiContainer::c_GuiContainer(){
+String bb_steam_GetPlayerID(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GetPlayerID()",13));
+	return String();
 }
-c_GuiContainer* c_GuiContainer::m_new(){
+int bb_steam_GetCloudSaveTimestamp(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GetCloudSaveTimestamp()",23));
+	return 0;
+}
+bool bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES;
+String bb_steam_LoadCloudSave(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"LoadCloudSave()",15));
+	return String();
+}
+c_MapKeys::c_MapKeys(){
+	m_map=0;
+}
+c_MapKeys* c_MapKeys::m_new(c_Map2* t_map){
+	gc_assign(this->m_map,t_map);
 	return this;
 }
-void c_GuiContainer::mark(){
+c_MapKeys* c_MapKeys::m_new2(){
+	return this;
+}
+c_KeyEnumerator* c_MapKeys::p_ObjectEnumerator(){
+	return (new c_KeyEnumerator)->m_new(m_map->p_FirstNode());
+}
+void c_MapKeys::mark(){
+	Object::mark();
+	gc_mark_q(m_map);
+}
+c_KeyEnumerator::c_KeyEnumerator(){
+	m_node=0;
+}
+c_KeyEnumerator* c_KeyEnumerator::m_new(c_Node2* t_node){
+	gc_assign(this->m_node,t_node);
+	return this;
+}
+c_KeyEnumerator* c_KeyEnumerator::m_new2(){
+	return this;
+}
+bool c_KeyEnumerator::p_HasNext(){
+	return m_node!=0;
+}
+String c_KeyEnumerator::p_NextObject(){
+	c_Node2* t_t=m_node;
+	gc_assign(m_node,m_node->p_NextNode());
+	return t_t->m_key;
+}
+void c_KeyEnumerator::mark(){
+	Object::mark();
+	gc_mark_q(m_node);
+}
+c_Enumerator::c_Enumerator(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator* c_Enumerator::m_new(c_List* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator* c_Enumerator::m_new2(){
+	return this;
+}
+bool c_Enumerator::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_XMLNode* c_Enumerator::p_NextObject(){
+	c_XMLNode* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_Character::c_Character(){
+}
+void c_Character::mark(){
 	Object::mark();
 }
-c_Controller::c_Controller(){
-	m_parent=0;
+void bb_util_SetVSync(int t_v){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SetVSync(Int)",13));
 }
-c_Controller* c_Controller::m_currentController;
-c_Controller* c_Controller::m_new(){
-	c_GuiContainer::m_new();
-	gc_assign(this->m_parent,m_currentController);
-	gc_assign(m_currentController,this);
+Object* bb_steam_g_SteamLeaderboards;
+c_TextSprite::c_TextSprite(){
+	m_justification=0;
+	m_scaleVal=FLOAT(1.0);
+	m_color=-1;
+	m_zVal=10000;
+	m_showShadow=true;
+	m_shadowColor=-16777216;
+	m_shadowOffX=1;
+	m_shadowOffY=1;
+	m_fontScale=1;
+	m_containedSprites=(new c_List21)->m_new();
+	m_containedSpriteShadows=(new c_List21)->m_new();
+}
+void c_TextSprite::m_Init(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.Init()",17));
+}
+c_TextSprite* c_TextSprite::m_new(int t_j,Float t_sc,int t_c,int t_z,bool t_shad,int t_shadC,int t_sOffX,int t_sOffY){
+	this->m_justification=t_j;
+	this->m_scaleVal=t_sc;
+	this->m_color=t_c;
+	this->m_zVal=t_z;
+	this->m_showShadow=t_shad;
+	this->m_shadowColor=t_shadC;
+	this->m_shadowOffX=t_sOffX;
+	this->m_shadowOffY=t_sOffY;
+	if((Float)fmod(t_sc,FLOAT(3.0))==FLOAT(0.0)){
+		this->m_fontScale=3;
+		this->m_scaleVal/=FLOAT(3.0);
+	}else{
+		if((Float)fmod(t_sc,FLOAT(2.0))==FLOAT(0.0)){
+			this->m_fontScale=2;
+			this->m_scaleVal/=FLOAT(2.0);
+		}
+	}
 	return this;
 }
-void c_Controller::m_GiveFocus(c_Controller* t_c){
-	gc_assign(t_c->m_parent,m_currentController);
-	gc_assign(m_currentController,t_c);
-	m_currentController->p_RegainFocus();
+c_TextSprite* c_TextSprite::m_new2(int t_j,Float t_sc,int t_c,int t_z){
+	this->m_justification=t_j;
+	this->m_scaleVal=t_sc;
+	this->m_color=t_c;
+	this->m_zVal=t_z;
+	return this;
 }
-bool c_Controller::p_HasFocus(){
-	return m_currentController==this;
+c_TextSprite* c_TextSprite::m_new3(int t_j,Float t_sc){
+	this->m_justification=t_j;
+	this->m_scaleVal=t_sc;
+	return this;
 }
-void c_Controller::mark(){
-	c_GuiContainer::mark();
-	gc_mark_q(m_parent);
+c_TextSprite* c_TextSprite::m_new4(int t_j){
+	this->m_justification=t_j;
+	return this;
 }
-c_ControllerGame::c_ControllerGame(){
-	m_specialScoreSubmit=false;
-	m_coinVal=-1;
-	m_timeVal=-1;
-	m_restartImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
-	m_scoresImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
-	m_scoresImage2=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
-	m_songEndedImage=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
-	m_songEndedImage2=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
-	m_restartBounce=0;
-	m_replayInstructions=0;
-	m_ignoreInput=false;
-	m_pendingScores=0;
+c_TextSprite* c_TextSprite::m_new5(){
+	return this;
 }
-void c_ControllerGame::p_ResetPostDeathReplay(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.ResetPostDeathReplay()",37));
+void c_TextSprite::p_Discard(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.Discard()",20));
 }
-c_ControllerGame* c_ControllerGame::m_new(){
+void c_TextSprite::p_SetText(String t_t,bool t_force){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.SetText(String, Bool)",32));
+}
+void c_TextSprite::p_InWorld(bool t_b){
+	c_Enumerator11* t_=this->m_containedSprites->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Sprite* t_containedSprite=t_->p_NextObject();
+		t_containedSprite->p_InWorld(t_b);
+	}
+	c_Enumerator11* t_2=this->m_containedSpriteShadows->p_ObjectEnumerator();
+	while(t_2->p_HasNext()){
+		c_Sprite* t_containedSpriteShadow=t_2->p_NextObject();
+		t_containedSpriteShadow->p_InWorld(t_b);
+	}
+}
+void c_TextSprite::mark(){
+	Object::mark();
+	gc_mark_q(m_containedSprites);
+	gc_mark_q(m_containedSpriteShadows);
+}
+c_ControllerCutscene::c_ControllerCutscene(){
+}
+void c_ControllerCutscene::m_InitSubtitles(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.InitSubtitles()",34));
+}
+c_ControllerCutscene* c_ControllerCutscene::m_new(int t_cutsceneChar,int t_cutsceneNum,int t_creditsNum){
 	c_Controller::m_new();
-	bb_controller_game_totalPlaytimeLastAdded=bb_app_Millisecs();
-	gc_assign(bb_controller_game_controllerGamePointer,this);
-	c_Sprite::m_scaleToFitScreen=false;
-	for(int t_i=0;t_i<bb_controller_game_lastPlayerMoveBeat.Length();t_i=t_i+1){
-		bb_controller_game_lastPlayerMoveBeat[t_i]=-1;
-	}
-	this->p_ResetPostDeathReplay();
-	gc_assign(c_GUI_gameplay::m_errorKey,(new c_Sprite)->m_new2(String(L"gui/error_locked.png",20),1,c_Image::m_DefaultFlags));
-	c_GUI_gameplay::m_errorKey->p_SetZ(FLOAT(10000.0));
-	c_Input::m_Init();
-	bb_controller_game_gamePaused=false;
-	c_GameData::m_SetCharUnlocked(0,true);
-	c_GameData::m_SetCharUnlocked(9,true);
-	c_GameData::m_SetCharUnlocked(10,true);
-	c_GameData::m_SetCharUnlocked(14,true);
-	c_GameData::m_SetCharUnlocked(13,true);
-	c_GameData::m_SetCharUnlocked(12,true);
-	c_Spells::m_Init();
-	c_Level::m_NewLevel(-2,1,0,false,0,false);
-	c_Level::m_DoRestart();
-	this->m_restartImage->m_zVal=19990;
-	this->m_scoresImage->m_zVal=19990;
-	this->m_scoresImage2->m_zVal=19990;
-	this->m_songEndedImage->m_zVal=19990;
-	this->m_songEndedImage2->m_zVal=19990;
-	gc_assign(this->m_restartBounce,(new c_Bouncer)->m_new(FLOAT(-0.1),FLOAT(0.0),FLOAT(1.5),100));
-	gc_assign(this->m_replayInstructions,(new c_TextSprite)->m_new(0,FLOAT(1.0),-1,10000,true,-16777216,1,1));
-	this->m_replayInstructions->m_zVal=20001;
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.New(Int, Int, Int)",37));
 	return this;
 }
-void c_ControllerGame::p_RegainFocus(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.RegainFocus()",28));
+c_ControllerCutscene* c_ControllerCutscene::m_new2(){
+	c_Controller::m_new();
+	return this;
 }
-void c_ControllerGame::p_Update(){
-	c_Audio::m_UpdateNumLoops();
-	if(c_Level::m_levelJustStarted){
-		c_Level::m_levelJustStarted=false;
-		c_Audio::m_Update(true);
-		c_RenderableObject::m_UpdateAll();
-	}
-	if(!this->m_ignoreInput && !c_Input::m_GameUpdate()){
-		return;
-	}
-	bool t_pause=false;
-	int t_keyBinding_0_11=c_GameData::m_GetKeyBinding(0,11);
-	if(t_keyBinding_0_11<0){
-		if(((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261)){
-			t_pause=true;
-		}
-	}else{
-		if(t_keyBinding_0_11<512 && !c_Input::m_keysHitLastFrame[t_keyBinding_0_11] && !c_Input::m_keysHit2FramesAgo[t_keyBinding_0_11]){
-			int t_1=t_keyBinding_0_11;
-			if(t_1==384){
-				if(c_Input::m_stickDown[0]){
-					t_pause=true;
-				}
-			}else{
-				if(t_1==385){
-					if(c_Input::m_stickRight[0]){
-						t_pause=true;
-					}
-				}else{
-					if(t_1==386){
-						if(c_Input::m_stickLeft[0]){
-							t_pause=true;
-						}
-					}else{
-						if((c_Input::m_KeyWasHit(t_keyBinding_0_11))!=0){
-							t_pause=true;
-						}
-					}
-				}
-			}
-		}
-	}
-	if(!t_pause && ((bb_input_KeyHit(27))!=0)){
-		t_pause=true;
-	}
-	if(t_pause){
-		bb_controller_game_gamePaused=true;
-		c_Audio::m_PauseSong(true);
-		(new c_ControllerPause)->m_new(this);
-	}
-	bool t_allPlayersPerished=c_Player::m_AllPlayersPerished();
-	int t_keyBinding_0_10=c_GameData::m_GetKeyBinding(0,10);
-	if((c_Input::m_KeyWasHit(t_keyBinding_0_10))!=0){
-		if((t_allPlayersPerished || bb_controller_game_hasWon) && !c_Level::m_isReplaying){
-			if(c_Level::m_replay!=0){
-				if(c_Level::m_replay->m_replayStr==String()){
-					c_Level::m_replay->p_Save();
-				}
-			}
-		}
-		bb_controller_game_showScoreMessage=false;
-		bb_controller_game_hasWon=false;
-		if(this->m_specialScoreSubmit){
-			this->m_specialScoreSubmit=false;
-			c_Level::m_TakeActionAfterAllCharsScoreSubmit();
-		}else{
-			c_Level::m_DoQuickRestart(false,true,false);
-		}
-	}
-	if(t_allPlayersPerished || bb_controller_game_showScoreMessage){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - death)",42));
-	}
-	if(bb_controller_game_hasWon && !((this->m_pendingScores)!=0) && (bb_controller_game_showScoreMessage || c_GameData::m_modGamedataChanges)){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - win)",40));
-	}
-	bool t_songHasNotLooped=false;
-	if(!c_Audio::m_PastLastBeat() && !c_Audio::m_HasSongEnded()){
-		t_songHasNotLooped=false;
-	}else{
-		t_songHasNotLooped=c_Audio::m_songLoops==0;
-	}
-	if(c_Level::m_isReplaying){
-		if(c_Level::m_replay->p_GetNumBeats()<c_Audio::m_GetClosestBeatNum(true)){
-			t_songHasNotLooped=!c_Audio::m_DoingNecrodancerTransition();
-		}
-	}
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		if(!t_songHasNotLooped){
-			continue;
-		}
-		if(this->p_HasFocus()){
-			if(!bb_controller_game_hasWon && !c_Audio::m_startSong){
-				c_Player* t_player=bb_controller_game_players[t_i];
-				if(!t_player->m_isHelper && !t_player->m_falling){
-					if(t_player->p_IsStandingStill()){
-						if(c_Level::m_IsLockedExit(t_player->m_x,t_player->m_y)){
-							if(c_Level::m_bossNumber==7 && (bb_controller_game_currentLevel==-493 || bb_controller_game_currentLevel==5)){
-								c_Level::m_ActivateTrigger(53,0,0);
-								continue;
-							}
-							if(c_Util::m_IsCharacterActive(6)){
-								t_player->p_Hit(String(L"COWARDICE",9),99999,-1,0,false,0);
-								continue;
-							}
-							c_Trap* t_trap=c_Trap::m_GetTrapAt(t_player->m_x,t_player->m_y);
-							if(t_trap!=0){
-								t_trap->p_Die();
-							}
-							t_player->m_lordCrownActiveBeat=-1;
-							t_player->m_shieldActiveBeat=-1;
-							(new c_TrapDoor)->m_new(t_player->m_x,t_player->m_y);
-						}
-					}
-				}
-			}
-		}
-	}
-	c_Audio::m_Update(true);
-	c_RenderableObject::m_UpdateAll();
-	c_Doppelganger::m_UpdateAll();
-	c_Flyaway::m_UpdateAll();
-	c_ParticleSystem::m_UpdateAll();
-	c_Level::m_Update();
-	c_Input::m_UpdateKeysHit();
-	c_Enemy::m_movesBehind=c_Audio::m_GetClosestBeatNum(true)-bb_controller_game_lastEnemyMoveBeat;
-	if(c_Enemy::m_EnemiesMovingThisFrame()){
-		c_Swarm::m_Move();
-		c_Item::m_MoveAll();
-		c_Enemy::m_MoveAll();
-		for(int t_i2=0;t_i2<bb_controller_game_numPlayers;t_i2=t_i2+1){
-			c_Player* t_player2=bb_controller_game_players[t_i2];
-			t_player2->p_HandleIceAndCoals();
-		}
-		c_Trap::m_MoveAll();
-		c_Tile::m_MoveAll();
-		c_Item::m_MoveAll();
-		c_CrystalShards::m_MoveAll();
-		c_Level::m_minimap->p_Update();
-		for(int t_i3=0;t_i3<bb_controller_game_numPlayers;t_i3=t_i3+1){
-			c_Player* t_player3=bb_controller_game_players[t_i3];
-			t_player3->p_AfterEnemyMovement();
-		}
-		c_Entity::m_UpdateVisibility();
-		bb_controller_game_lastEnemyMoveBeat+=1;
-	}
-	if(bb_controller_game_incrementFixedBeatNum){
-		if(c_Audio::m_fixedBeatNum!=-64){
-			c_Audio::m_fixedBeatNum+=1;
-		}
-		bb_controller_game_incrementFixedBeatNum=false;
-	}
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Playtime)",34));
+void c_ControllerCutscene::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.RegainFocus()",32));
 }
-void c_ControllerGame::mark(){
+void c_ControllerCutscene::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.Render()",27));
+}
+void c_ControllerCutscene::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.Update()",27));
+}
+void c_ControllerCutscene::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.Destructor()",31));
+}
+void c_ControllerCutscene::mark(){
 	c_Controller::mark();
-	gc_mark_q(m_restartImage);
-	gc_mark_q(m_scoresImage);
-	gc_mark_q(m_scoresImage2);
-	gc_mark_q(m_songEndedImage);
-	gc_mark_q(m_songEndedImage2);
-	gc_mark_q(m_restartBounce);
-	gc_mark_q(m_replayInstructions);
 }
+c_ISteamApps* bb_steam_SteamApps(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamApps()",11));
+	return 0;
+}
+c_ControllerIntro::c_ControllerIntro(){
+	m_splashScreen=0;
+	m_videoImg=0;
+	m_introVideoName=String(L"intro_silent",12);
+	m_introSongName=String(L"intro",5);
+}
+c_Sprite* c_ControllerIntro::m_videoSpr;
+c_ControllerIntro* c_ControllerIntro::m_new(){
+	c_Controller::m_new();
+	c_Sprite::m_scaleToFitScreen=true;
+	gc_assign(this->m_splashScreen,(new c_Sprite)->m_new2(String(L"mainmenu/splash_screen.png",26),1,c_Image::m_DefaultFlags));
+	this->m_splashScreen->p_SetZ(FLOAT(10002.0));
+	this->m_splashScreen->p_InWorld(false);
+	c_TextLog::m_Message(String(L"ControllerIntro: Loading images1...",35));
+	gc_assign(this->m_videoImg,bb_graphics_CreateImage(960,640,1,c_Image::m_DefaultFlags));
+	c_TextLog::m_Message(String(L"ControllerIntro: Loading images2...",35));
+	gc_assign(m_videoSpr,(new c_Sprite)->m_new3(this->m_videoImg));
+	m_videoSpr->p_InWorld(false);
+	m_videoSpr->p_SetZ(FLOAT(10000.0));
+	m_videoSpr->p_SetScale(FLOAT(0.5));
+	c_TextLog::m_Message(String(L"ControllerIntro: Initializing Audio...",38));
+	c_Audio::m_Init();
+	if(c_GameData::m_GetShownNocturnaIntro() || !c_GameData::m_GetDLCPlayed() && c_GameData::m_GetZone2Unlocked(0) || c_GameData::m_IsCharUnlocked(1)){
+		c_GameData::m_SetShownNocturnaIntro(true);
+		this->m_introVideoName=String(L"intro_dlc_silent",16);
+		this->m_introSongName=String(L"intro_dlc",9);
+	}
+	c_TextLog::m_Message(String(L"ControllerIntro: Loading video...",33));
+	return this;
+}
+bool c_ControllerIntro::m_quitIntro;
+void c_ControllerIntro::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.RegainFocus()",29));
+}
+void c_ControllerIntro::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.Render()",24));
+}
+void c_ControllerIntro::p_Update(){
+	m_quitIntro=true;
+	c_Audio::m_PauseSong(true);
+	this->p_ReleaseFocus();
+}
+void c_ControllerIntro::p_Destructor(){
+	c_Sprite::m_scaleToFitScreen=false;
+}
+void c_ControllerIntro::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_splashScreen);
+	gc_mark_q(m_videoImg);
+}
+c_Image* bb_graphics_CreateImage(int t_width,int t_height,int t_frameCount,int t_flags){
+	gxtkSurface* t_surf=bb_graphics_device->CreateSurface(t_width*t_frameCount,t_height);
+	if((t_surf)!=0){
+		return ((new c_Image)->m_new())->p_Init(t_surf,t_frameCount,t_flags);
+	}
+	return 0;
+}
+c_Audio::c_Audio(){
+}
+void c_Audio::m_Init(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.Init()",12));
+}
+bool c_Audio::m_songShopOpen;
+int c_Audio::m_fixedBeatNum;
+bool c_Audio::m_debugEnablePlaceholders;
+int c_Audio::m_cachedSongPositionFrame;
+int c_Audio::m_cachedSongPosition;
+bool c_Audio::m_necrodancerSong2Active;
+bool c_Audio::m_includeVideoLatency;
+int c_Audio::m_songLoops;
+int c_Audio::m_GetSongPosition(){
+	if(m_cachedSongPositionFrame==bb_necrodancergame_globalFrameCounter){
+		return m_cachedSongPosition;
+	}
+	int t_ch=1;
+	if(m_necrodancerSong2Active){
+		t_ch=2;
+	}
+	Float t_songPosition=bb_fmod_GetSongPositionFMOD(t_ch);
+	t_songPosition=t_songPosition-Float(c_GameData::m_GetAudioLatency());
+	t_songPosition=t_songPosition-Float(c_GameData::m_GetAutocalibration());
+	if(m_includeVideoLatency){
+		t_songPosition=t_songPosition-Float(c_GameData::m_GetVideoLatency());
+	}
+	if(t_songPosition>Float(m_cachedSongPosition) || Float(m_cachedSongPosition)>t_songPosition+FLOAT(10000.0) && ((m_songLoops)!=0)){
+		m_cachedSongPosition=int(t_songPosition);
+	}
+	m_cachedSongPositionFrame=bb_necrodancergame_globalFrameCounter;
+	return m_cachedSongPosition;
+}
+int c_Audio::m_GetCurrentBeatNumber(int t_beatOffset,bool t_useFixed){
+	if(t_useFixed){
+		if(m_fixedBeatNum!=-64){
+			return m_fixedBeatNum;
+		}
+	}
+	int t_songPosition=m_GetSongPosition();
+	int t_beatNumber=0;
+	for(t_beatNumber=t_beatNumber;t_beatNumber<bb_controller_game_beatData.Length();t_beatNumber=t_beatNumber+1){
+		int t_beatData=bb_controller_game_beatData[t_beatNumber];
+		if(t_songPosition<t_beatData){
+			break;
+		}
+	}
+	t_beatNumber+=t_beatOffset;
+	if(t_beatNumber<bb_controller_game_beatData.Length()){
+		t_beatNumber=bb_math_Max(0,t_beatNumber);
+	}else{
+		if((m_songLoops)!=0){
+			t_beatNumber=t_beatNumber % bb_controller_game_beatData.Length();
+		}else{
+			t_beatNumber=bb_controller_game_beatData.Length()-1;
+		}
+	}
+	return t_beatNumber;
+}
+int c_Audio::m_numLoops;
+int c_Audio::m_GetCurrentBeatNumberIncludingLoops(int t_beatOffset,bool t_useFixed){
+	if(t_useFixed){
+		if(m_fixedBeatNum!=-64){
+			return m_fixedBeatNum;
+		}
+	}
+	int t_beatNumber=m_GetCurrentBeatNumber(t_beatOffset,t_useFixed);
+	if(((m_songLoops)!=0) && m_numLoops>0){
+		t_beatNumber=t_beatOffset+m_GetCurrentBeatNumber(0,t_useFixed);
+	}
+	int t_beatNumberIncludingLoops=t_beatNumber+m_numLoops*bb_controller_game_beatData.Length();
+	t_beatNumberIncludingLoops=bb_math_Max(0,t_beatNumberIncludingLoops);
+	return t_beatNumberIncludingLoops;
+}
+int c_Audio::m_songDuration;
+int c_Audio::m_TimeUntilSpecificBeat(int t_beatNum){
+	t_beatNum=bb_math_Max(0,t_beatNum);
+	if(t_beatNum>=bb_controller_game_beatData.Length()){
+		if((m_songLoops)!=0){
+			t_beatNum=t_beatNum % bb_controller_game_beatData.Length();
+		}else{
+			t_beatNum=bb_controller_game_beatData.Length()-1;
+		}
+	}
+	int t_timeUntilSpecificBeat=bb_controller_game_beatData[t_beatNum]-m_GetSongPosition();
+	if(!((m_songLoops)!=0)){
+		return t_timeUntilSpecificBeat;
+	}
+	if(t_timeUntilSpecificBeat<0){
+		if(-t_timeUntilSpecificBeat>=bb_math_Abs(t_timeUntilSpecificBeat+m_songDuration)){
+			t_timeUntilSpecificBeat+=m_songDuration;
+		}
+	}else{
+		if(t_timeUntilSpecificBeat>0){
+			if(t_timeUntilSpecificBeat>=bb_math_Abs(t_timeUntilSpecificBeat-m_songDuration)){
+				t_timeUntilSpecificBeat-=m_songDuration;
+			}
+		}
+	}
+	return t_timeUntilSpecificBeat;
+}
+int c_Audio::m_GetClosestBeatNum(bool t_useFixed){
+	int t_beatNum=m_GetCurrentBeatNumberIncludingLoops(0,t_useFixed);
+	int t_timeUntilPreviousBeat=m_TimeUntilSpecificBeat(t_beatNum-1);
+	int t_timeUntilCurrentBeat=m_TimeUntilSpecificBeat(t_beatNum);
+	if(bb_math_Abs(t_timeUntilCurrentBeat)>bb_math_Abs(t_timeUntilPreviousBeat)){
+		t_beatNum=m_GetCurrentBeatNumberIncludingLoops(-1,t_useFixed);
+	}
+	return t_beatNum;
+}
+void c_Audio::m_Update(bool t_hasLoadedGameData){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.Update(Bool)",18));
+}
+void c_Audio::m_PauseSong(bool t_pause){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PauseSong(Bool)",21));
+}
+void c_Audio::m_UpdateNumLoops(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.UpdateNumLoops()",22));
+}
+void c_Audio::m_PlayGameSoundAt(String t_snd,int t_xVal,int t_yVal,bool t_fullVol,int t_maxDist,bool t_loop){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSoundAt(String, Int, Int, Bool, Int, Bool)",56));
+}
+void c_Audio::m_PlayGameSoundAt2(String t_snd,int t_xVal,int t_yVal,int t_ch,bool t_fullVol,int t_maxDist,bool t_loop,Float t_spd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSoundAt(String, Int, Int, Int, Bool, Int, Bool, Float)",68));
+}
+bool c_Audio::m_cheatingDetected;
+int c_Audio::m_GetNonAbsoluteDistanceFromNearestBeat(){
+	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
+	int t_previousBeatNumber=t_currentBeatNumber-1;
+	if(bb_math_Abs(m_TimeUntilSpecificBeat(t_previousBeatNumber))<bb_math_Abs(m_TimeUntilSpecificBeat(t_currentBeatNumber))){
+		return m_TimeUntilSpecificBeat(t_previousBeatNumber);
+	}
+	return m_TimeUntilSpecificBeat(t_currentBeatNumber);
+}
+void c_Audio::m_PlayGameSound(String t_snd,int t_ch,Float t_spd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSound(String, Int, Float)",39));
+}
+int c_Audio::m_fadeFrames;
+int c_Audio::m_startFadeFrames;
+bool c_Audio::m_PastLastBeat(){
+	int t_lastBeat=bb_controller_game_beatData[bb_controller_game_beatData.Length()-1];
+	return m_GetSongPosition()>t_lastBeat;
+}
+bool c_Audio::m_HasSongEnded(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.HasSongEnded()",20));
+	return false;
+}
+bool c_Audio::m_DoingNecrodancerTransition(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.DoingNecrodancerTransition()",34));
+	return false;
+}
+bool c_Audio::m_startSong;
+int c_Audio::m_GetDistanceFromNearestBeat(){
+	int t_beatNum=m_GetCurrentBeatNumberIncludingLoops(0,false);
+	int t_timeUntilPreviousBeat=m_TimeUntilSpecificBeat(t_beatNum-1);
+	int t_timeUntilCurrentBeat=m_TimeUntilSpecificBeat(t_beatNum);
+	return bb_math_Min(bb_math_Abs(t_timeUntilCurrentBeat),bb_math_Abs(t_timeUntilPreviousBeat));
+}
+int c_Audio::m_GetNextBeatDuration(){
+	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
+	int t_timeUntilCurrentBeat=m_TimeUntilSpecificBeat(t_currentBeatNumber);
+	int t_previousBeatNumber=t_currentBeatNumber-1;
+	int t_timeUntilPreviousBeat=m_TimeUntilSpecificBeat(t_previousBeatNumber);
+	int t_duration=t_timeUntilCurrentBeat-t_timeUntilPreviousBeat;
+	if(t_duration==0){
+		t_duration=1;
+	}
+	return t_duration;
+}
+Float c_Audio::m_GetPercentDistanceFromNextBeat(){
+	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
+	int t_dist=m_TimeUntilSpecificBeat(t_currentBeatNumber);
+	int t_duration=m_GetNextBeatDuration();
+	Float t_percentDist=Float(t_dist)/Float(t_duration);
+	if(t_percentDist>=FLOAT(1.0)){
+		t_percentDist=FLOAT(0.0);
+	}
+	return t_percentDist;
+}
+int c_Audio::m_GetBeatAnimFrame4(){
+	m_includeVideoLatency=true;
+	Float t_percentDist=m_GetPercentDistanceFromNextBeat();
+	m_includeVideoLatency=false;
+	if(t_percentDist<FLOAT(0.09) || t_percentDist>=FLOAT(0.99)){
+		return 0;
+	}
+	if(t_percentDist>=FLOAT(0.69)){
+		return 1;
+	}
+	if(t_percentDist>=FLOAT(0.39)){
+		return 2;
+	}
+	return 3;
+}
+void c_Audio::mark(){
+	Object::mark();
+}
+c_Camera::c_Camera(){
+}
+int c_Camera::m_freezeFrameDelay;
+int c_Camera::m_freezeFrameNum;
+void c_Camera::m_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Update()",15));
+}
+void c_Camera::m_CaptureFreezeFrame(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.CaptureFreezeFrame()",27));
+}
+c_Image* c_Camera::m_freezeImage;
+int c_Camera::m_fadeOutDuration;
+int c_Camera::m_fadeOutCurrent;
+c_Callback* c_Camera::m_fadeOutCallback;
+int c_Camera::m_fadeInDuration;
+int c_Camera::m_fadeInCurrent;
+c_Callback* c_Camera::m_fadeInCallback;
+int c_Camera::m_x;
+int c_Camera::m_y;
+Float c_Camera::m_seekX;
+Float c_Camera::m_seekY;
+bool c_Camera::m_fixed;
+bool c_Camera::m_IsOnScreenStandardizedRelativeToPoint(int t_xVal,int t_yVal,int t_pointX,int t_pointY){
+	int t_pixelX=t_pointX-24*t_xVal;
+	int t_pixelY=t_pointY-24*t_yVal;
+	return -239<=t_pixelX && t_pixelX<=251 && (-134<=t_pixelY && t_pixelY<=146);
+}
+void c_Camera::m_Init(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Init()",13));
+}
+int c_Camera::m_GetFixedHeight(){
+	if(c_Level::m_isReplaying){
+		c_Node24* t_curReplayData=c_Level::m_replay->m_curReplayData;
+		if(t_curReplayData!=0){
+			return t_curReplayData->p_Value()->m_cameraHeight;
+		}
+	}
+	return bb_necrodancergame_FIXED_HEIGHT;
+}
+int c_Camera::m_GetFixedWidth(){
+	if(c_Level::m_isReplaying){
+		c_Node24* t_curReplayData=c_Level::m_replay->m_curReplayData;
+		if(t_curReplayData!=0){
+			return t_curReplayData->p_Value()->m_cameraWidth;
+		}
+	}
+	return bb_necrodancergame_FIXED_WIDTH;
+}
+void c_Camera::m_FadeOutThenExecute(int t_dur,c_Callback* t_cBack){
+	gc_assign(m_fadeOutCallback,t_cBack);
+	m_fadeOutDuration=t_dur;
+	m_fadeOutCurrent=t_dur;
+}
+int c_Camera::m_overlayWhiteDuration;
+void c_Camera::m_Shake(int t_type,int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Shake(Int, Int, Int)",27));
+}
+Float c_Camera::m_shakeOffX;
+Float c_Camera::m_GetX(){
+	return Float(m_x)+m_shakeOffX;
+}
+Float c_Camera::m_shakeOffY;
+Float c_Camera::m_GetY(){
+	return Float(m_y)+m_shakeOffY;
+}
+bool c_Camera::m_IsOnScreen(int t_xVal,int t_yVal){
+	int t_scaledXVal=24*t_xVal;
+	Float t_x=m_GetX()-Float(24*t_xVal);
+	int t_cameraWidth=bb_necrodancergame_FIXED_WIDTH;
+	if(c_Level::m_isReplaying && c_Level::m_replay->m_curReplayData!=0){
+		t_cameraWidth=c_Level::m_replay->m_curReplayData->p_Value()->m_cameraWidth;
+	}
+	int t_xMin=t_cameraWidth/-2;
+	int t_xMax=t_cameraWidth/2+12;
+	if(Float(t_xMin)<t_x && t_x<Float(t_xMax)){
+		int t_scaledYVal=24*t_yVal;
+		Float t_y=m_GetY()-Float(t_scaledYVal);
+		int t_cameraHeight=bb_necrodancergame_FIXED_HEIGHT;
+		if(c_Level::m_isReplaying && c_Level::m_replay->m_curReplayData!=0){
+			t_cameraHeight=c_Level::m_replay->m_curReplayData->p_Value()->m_cameraHeight;
+		}
+		int t_yMin=t_cameraHeight/-2;
+		int t_yMax=t_cameraHeight/2+12;
+		if(Float(t_yMin)<t_y && t_y<Float(t_yMax)){
+			return true;
+		}
+	}
+	return false;
+}
+void c_Camera::mark(){
+	Object::mark();
+}
+int bb_necrodancergame_globalFrameCounter;
 int bb_app_Millisecs(){
 	return bb_app__game->Millisecs();
 }
-int bb_controller_game_totalPlaytimeLastAdded;
-c_ControllerGame* bb_controller_game_controllerGamePointer;
-c_Tweenable::c_Tweenable(){
-	m_alphaTweenCurrentStep=FLOAT(.0);
-	m_alphaTweenDuration=0;
-	m_alphaTweenInitial=FLOAT(.0);
-	m_alphaTweenFinal=FLOAT(.0);
-}
-c_Tweenable* c_Tweenable::m_new(){
-	return this;
-}
-void c_Tweenable::p_SetAlphaTween(Float t_initialVal,Float t_finalVal,int t_duration){
-	this->m_alphaTweenCurrentStep=FLOAT(0.0);
-	this->m_alphaTweenDuration=t_duration;
-	this->m_alphaTweenInitial=t_initialVal;
-	this->m_alphaTweenFinal=t_finalVal;
-}
-int c_Tweenable::p_GetTweenDurationRemaining(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Tweenable.GetTweenDurationRemaining()",37));
-	return 0;
-}
-void c_Tweenable::p_SetCutoffY(int t_cY){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Tweenable.SetCutoffY(Int)",25));
-}
-void c_Tweenable::mark(){
-	Object::mark();
-}
-c_Sprite::c_Sprite(){
-	m_zSet=false;
-	m_z=FLOAT(.0);
-	m_inWorld=true;
-	m_zOff=FLOAT(.0);
-	m_cutoffYSet=false;
-	m_alpha=FLOAT(1.0);
-	m_flipX=false;
-	m_flipXWithOffset=true;
-	m_renderX=FLOAT(.0);
-	m_renderLastX=FLOAT(.0);
-	m_renderY=FLOAT(.0);
-	m_renderLastY=FLOAT(.0);
-}
-bool c_Sprite::m_scaleToFitScreen;
-c_Sprite* c_Sprite::m_new(String t_p,int t_frameWidth,int t_frameHeight,int t_frameCount,int t_flags){
-	c_Tweenable::m_new();
-	return this;
-}
-c_Sprite* c_Sprite::m_new2(String t_p,int t_frames,int t_flags){
-	c_Tweenable::m_new();
-	return this;
-}
-c_Sprite* c_Sprite::m_new3(c_Image* t_img){
-	c_Tweenable::m_new();
-	return this;
-}
-c_Sprite* c_Sprite::m_new4(){
-	c_Tweenable::m_new();
-	return this;
-}
-void c_Sprite::p_SetZ(Float t_zVal){
-	this->m_zSet=true;
-	this->m_z=t_zVal;
-}
-void c_Sprite::p_InWorld(bool t_world){
-	this->m_inWorld=t_world;
-}
-void c_Sprite::p_SetZOff(Float t_zVal){
-	this->m_zOff=t_zVal;
-}
-void c_Sprite::p_SetHandle2(int t_xVal,int t_yVal){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetHandle(Int, Int)",26));
-}
-int c_Sprite::p_Width(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.Width()",14));
-	return 0;
-}
-int c_Sprite::p_Height(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.Height()",15));
-	return 0;
-}
-void c_Sprite::p_UnsetCutoffY(){
-	this->m_cutoffYSet=false;
-}
-void c_Sprite::p_DiscardTempImage(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.DiscardTempImage()",25));
-}
-void c_Sprite::p_SetFrame(int t_f){
-}
-void c_Sprite::p_SetAlphaValue(Float t_a){
-	this->m_alpha=bb_math_Clamp2(t_a,FLOAT(0.0),FLOAT(1.0));
-}
-void c_Sprite::p_FlipX(bool t_f,bool t_withOffset){
-	this->m_flipX=t_f;
-	this->m_flipXWithOffset=t_withOffset;
-}
-void c_Sprite::p_SetAlphaTweenFromCurrent(Float t_finalVal,int t_duration){
-	this->p_SetAlphaTween(this->m_alpha,t_finalVal,t_duration);
-}
-void c_Sprite::p_UnSetZ(){
-	this->m_zSet=false;
-	this->m_z=FLOAT(0.0);
-}
-Float c_Sprite::p_GetAlphaValue(){
-	return this->m_alpha;
-}
-void c_Sprite::p_SetScale(Float t_scaleVal){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetScale(Float)",22));
-}
-void c_Sprite::p_SetCutoffY(int t_cY){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SetCutoffY(Int)",22));
-}
-int c_Sprite::p_GetFrame(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.GetFrame()",17));
-	return 0;
-}
-int c_Sprite::p_GetNumFrames(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.GetNumFrames()",21));
-	return 0;
-}
-void c_Sprite::mark(){
-	c_Tweenable::mark();
-}
-Array<int > bb_controller_game_lastPlayerMoveBeat;
-c_GUI_gameplay::c_GUI_gameplay(){
-}
-c_Sprite* c_GUI_gameplay::m_errorKey;
-void c_GUI_gameplay::mark(){
-	Object::mark();
-}
+int bb_necrodancergame_lastFrameTime;
+int bb_necrodancergame_lastFrameCount;
+int bb_necrodancergame_lastFPS;
+int bb_necrodancergame_lastGCAllocCount;
+int bb_necrodancergame_lastGCS;
+int bb_necrodancergame_lastFrameTimeUpdate;
+int bb_necrodancergame_lastFrameCountUpdate;
+int bb_necrodancergame_lastFPSUpdate;
 c_Input::c_Input(){
 }
+c_ControllerPopUp* c_Input::m_popUpController;
+int c_Input::m_popupFrame;
 Array<bool > c_Input::m_stickLeft;
 Array<bool > c_Input::m_stickRight;
 Array<bool > c_Input::m_stickUp;
@@ -17139,8 +17728,6 @@ void c_Input::m_ResetMovementCounters(){
 	}
 	m_lastBeatSkippedFlyaway=-1;
 }
-c_ControllerPopUp* c_Input::m_popUpController;
-int c_Input::m_popupFrame;
 void c_Input::m_Update(){
 	if(bb_controller_game_DEBUG_MOUSE_COORDS){
 		bb_logger_Debug->p_TraceNotImplemented(String(L"Input.Update() (Debug mouse coords)",35));
@@ -17315,322 +17902,82 @@ void c_Input::m_UpdateKeysHit(){
 void c_Input::mark(){
 	Object::mark();
 }
-bool bb_controller_game_gamePaused;
-c_Character::c_Character(){
+bool bb_controller_game_DEBUG_MOUSE_COORDS;
+c_ControllerPopUp::c_ControllerPopUp(){
+	m_ignoreInput=false;
+	m_retval=-1;
+	m_cachedScaleVal=false;
+	m_cGame=0;
+	m_option1Default=true;
+	m_option2Exists=false;
+	m_popupTextVal=String();
+	m_popupText2Val=String();
+	m_popupText3Val=String();
+	m_popupText4Val=String();
+	m_overlayBlack=0;
+	m_popupText=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
+	m_popupText2=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
+	m_option1Text=(new c_TextLabel)->m_new(String(L"DEFAULT1",8),2,FLOAT(2.0),false);
+	m_option2Text=(new c_TextLabel)->m_new(String(L"DEFAULT2",8),2,FLOAT(2.0),false);
+	m_gui=0;
+	m_bestiaryImage=0;
 }
-void c_Character::mark(){
-	Object::mark();
-}
-c_Spells::c_Spells(){
-}
-c_StringMap3* c_Spells::m_spellCoolKills;
-Array<c_Sprite* > c_Spells::m_fireballInWorld;
-c_Sprite* c_Spells::m_pulseInWorld;
-c_Stack2* c_Spells::m_pulseAnim;
-String c_Spells::m_spellSlot1;
-String c_Spells::m_spellSlot2;
-void c_Spells::m_InitLearnedSpells(){
-	m_spellSlot1=String(L"spell_none",10);
-	m_spellSlot2=String(L"spell_none",10);
-	gc_assign(m_spellCoolKills,(new c_StringMap3)->m_new());
-}
-void c_Spells::m_Init(){
-	gc_assign(m_spellCoolKills,(new c_StringMap3)->m_new());
-	gc_assign(m_fireballInWorld[0],(new c_Sprite)->m_new2(String(L"spells/fire0.png",16),7,c_Image::m_DefaultFlags));
-	m_fireballInWorld[0]->p_SetZ(FLOAT(10000.0));
-	gc_assign(m_fireballInWorld[1],(new c_Sprite)->m_new2(String(L"spells/fire1.png",16),7,c_Image::m_DefaultFlags));
-	m_fireballInWorld[1]->p_SetZ(FLOAT(10000.0));
-	gc_assign(m_fireballInWorld[2],(new c_Sprite)->m_new2(String(L"spells/fire2.png",16),7,c_Image::m_DefaultFlags));
-	m_fireballInWorld[2]->p_SetZ(FLOAT(10000.0));
-	gc_assign(m_fireballInWorld[3],(new c_Sprite)->m_new2(String(L"spells/fire3.png",16),7,c_Image::m_DefaultFlags));
-	m_fireballInWorld[3]->p_SetZ(FLOAT(10000.0));
-	gc_assign(m_fireballInWorld[4],(new c_Sprite)->m_new2(String(L"spells/fire4.png",16),6,c_Image::m_DefaultFlags));
-	m_fireballInWorld[4]->p_SetZ(FLOAT(10000.0));
-	gc_assign(m_pulseInWorld,(new c_Sprite)->m_new2(String(L"spells/pulse_attack.png",23),6,c_Image::m_DefaultFlags));
-	m_pulseInWorld->p_SetZ(FLOAT(10000.0));
-	m_pulseAnim->p_Clear();
-	m_pulseAnim->p_Push4(3);
-	m_pulseAnim->p_Push4(3);
-	m_pulseAnim->p_Push4(4);
-	m_pulseAnim->p_Push4(6);
-	m_pulseAnim->p_Push4(3);
-	m_pulseAnim->p_Push4(3);
-	m_InitLearnedSpells();
-}
-void c_Spells::mark(){
-	Object::mark();
-}
-c_Map4::c_Map4(){
-	m_root=0;
-}
-c_Map4* c_Map4::m_new(){
+c_ControllerPopUp* c_ControllerPopUp::m_new(c_Controller* t_game,String t_pText,String t_pText2,String t_pText3,String t_option1,String t_option2,bool t_opt1Default,bool t_ignoreInpt,String t_pText4){
+	c_Controller::m_new();
+	this->m_cachedScaleVal=c_Sprite::m_scaleToFitScreen;
+	c_Sprite::m_scaleToFitScreen=false;
+	gc_assign(this->m_cGame,t_game);
+	this->m_option1Default=t_opt1Default;
+	this->m_option2Exists=t_option2!=String();
+	this->m_popupTextVal=t_pText;
+	this->m_popupText2Val=t_pText2;
+	this->m_popupText3Val=t_pText3;
+	this->m_ignoreInput=t_ignoreInpt;
+	this->m_popupText4Val=t_pText4;
+	gc_assign(this->m_overlayBlack,(new c_Sprite)->m_new2(String(L"gui/TEMP_overlay_black.png",26),1,c_Image::m_DefaultFlags));
+	this->m_overlayBlack->p_SetZ(FLOAT(20000.0));
+	this->m_overlayBlack->p_InWorld(false);
+	this->m_popupText->m_zVal=20002;
+	this->m_popupText2->m_zVal=20002;
+	this->m_option1Text->p_SetText2(t_option1);
+	this->m_option1Text->m_selectedSpr->m_scaleVal*=FLOAT(1.25);
+	if(this->m_option2Exists){
+		this->m_option2Text->p_SetText2(t_option2);
+		this->m_option2Text->m_selectedSpr->m_scaleVal*=FLOAT(1.25);
+	}
+	gc_assign(this->m_gui,(new c_OptionList)->m_new((this),false,0));
+	this->m_gui->p_Add7(this->m_option1Text);
+	if(this->m_option2Exists){
+		this->m_gui->p_Add7(this->m_option2Text);
+	}
 	return this;
 }
-int c_Map4::p_Clear(){
-	m_root=0;
-	return 0;
-}
-c_Node17* c_Map4::p_FindNode2(String t_key){
-	c_Node17* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare2(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return t_node;
-			}
-		}
-	}
-	return t_node;
-}
-bool c_Map4::p_Contains2(String t_key){
-	return p_FindNode2(t_key)!=0;
-}
-int c_Map4::p_Get(String t_key){
-	c_Node17* t_node=p_FindNode2(t_key);
-	if((t_node)!=0){
-		return t_node->m_value;
-	}
-	return 0;
-}
-bool c_Map4::p_Update2(String t_key,int t_value){
-	c_Node17* t_node=p_FindNode2(t_key);
-	if((t_node)!=0){
-		t_node->m_value=t_value;
-		return true;
-	}
-	return false;
-}
-int c_Map4::p_RotateLeft4(c_Node17* t_node){
-	c_Node17* t_child=t_node->m_right;
-	gc_assign(t_node->m_right,t_child->m_left);
-	if((t_child->m_left)!=0){
-		gc_assign(t_child->m_left->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_left){
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_left,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map4::p_RotateRight4(c_Node17* t_node){
-	c_Node17* t_child=t_node->m_left;
-	gc_assign(t_node->m_left,t_child->m_right);
-	if((t_child->m_right)!=0){
-		gc_assign(t_child->m_right->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_right){
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_right,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map4::p_InsertFixup4(c_Node17* t_node){
-	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
-		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node17* t_uncle=t_node->m_parent->m_parent->m_right;
-			if(((t_uncle)!=0) && t_uncle->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle->m_color=1;
-				t_uncle->m_parent->m_color=-1;
-				t_node=t_uncle->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_right){
-					t_node=t_node->m_parent;
-					p_RotateLeft4(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateRight4(t_node->m_parent->m_parent);
-			}
-		}else{
-			c_Node17* t_uncle2=t_node->m_parent->m_parent->m_left;
-			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle2->m_color=1;
-				t_uncle2->m_parent->m_color=-1;
-				t_node=t_uncle2->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_left){
-					t_node=t_node->m_parent;
-					p_RotateRight4(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateLeft4(t_node->m_parent->m_parent);
-			}
-		}
-	}
-	m_root->m_color=1;
-	return 0;
-}
-bool c_Map4::p_Set5(String t_key,int t_value){
-	c_Node17* t_node=m_root;
-	c_Node17* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare2(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				t_node->m_value=t_value;
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node17)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup4(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-bool c_Map4::p_Insert4(String t_key,int t_value){
-	return p_Set5(t_key,t_value);
-}
-void c_Map4::mark(){
-	Object::mark();
-	gc_mark_q(m_root);
-}
-c_StringMap3::c_StringMap3(){
-}
-c_StringMap3* c_StringMap3::m_new(){
-	c_Map4::m_new();
+c_ControllerPopUp* c_ControllerPopUp::m_new2(){
+	c_Controller::m_new();
 	return this;
 }
-int c_StringMap3::p_Compare2(String t_lhs,String t_rhs){
-	return t_lhs.Compare(t_rhs);
+void c_ControllerPopUp::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPopUp.Destructor()",28));
 }
-void c_StringMap3::mark(){
-	c_Map4::mark();
+void c_ControllerPopUp::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPopUp.RegainFocus()",29));
 }
-c_Stack2::c_Stack2(){
-	m_data=Array<int >();
-	m_length=0;
+void c_ControllerPopUp::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPopUp.Render()",24));
 }
-c_Stack2* c_Stack2::m_new(){
-	return this;
+void c_ControllerPopUp::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPopUp.Update()",24));
 }
-c_Stack2* c_Stack2::m_new2(Array<int > t_data){
-	gc_assign(this->m_data,t_data.Slice(0));
-	this->m_length=t_data.Length();
-	return this;
-}
-int c_Stack2::m_NIL;
-void c_Stack2::p_Clear(){
-	for(int t_i=0;t_i<m_length;t_i=t_i+1){
-		m_data[t_i]=m_NIL;
-	}
-	m_length=0;
-}
-void c_Stack2::p_Push4(int t_value){
-	if(m_length==m_data.Length()){
-		gc_assign(m_data,m_data.Resize(m_length*2+10));
-	}
-	m_data[m_length]=t_value;
-	m_length+=1;
-}
-void c_Stack2::p_Push5(Array<int > t_values,int t_offset,int t_count){
-	for(int t_i=0;t_i<t_count;t_i=t_i+1){
-		p_Push4(t_values[t_offset+t_i]);
-	}
-}
-void c_Stack2::p_Push6(Array<int > t_values,int t_offset){
-	p_Push5(t_values,t_offset,t_values.Length()-t_offset);
-}
-c_Enumerator6* c_Stack2::p_ObjectEnumerator(){
-	return (new c_Enumerator6)->m_new(this);
-}
-void c_Stack2::p_Length2(int t_newlength){
-	if(t_newlength<m_length){
-		for(int t_i=t_newlength;t_i<m_length;t_i=t_i+1){
-			m_data[t_i]=m_NIL;
-		}
-	}else{
-		if(t_newlength>m_data.Length()){
-			gc_assign(m_data,m_data.Resize(bb_math_Max(m_length*2+10,t_newlength)));
-		}
-	}
-	m_length=t_newlength;
-}
-int c_Stack2::p_Length(){
-	return m_length;
-}
-int c_Stack2::p_Get2(int t_index){
-	return m_data[t_index];
-}
-void c_Stack2::p_Remove3(int t_index){
-	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
-		m_data[t_i]=m_data[t_i+1];
-	}
-	m_length-=1;
-	m_data[m_length]=m_NIL;
-}
-void c_Stack2::p_Set6(int t_index,int t_value){
-	m_data[t_index]=t_value;
-}
-int c_Stack2::p_Pop(){
-	m_length-=1;
-	int t_v=m_data[m_length];
-	m_data[m_length]=m_NIL;
-	return t_v;
-}
-bool c_Stack2::p_Equals2(int t_lhs,int t_rhs){
-	return t_lhs==t_rhs;
-}
-bool c_Stack2::p_Contains(int t_value){
-	for(int t_i=0;t_i<m_length;t_i=t_i+1){
-		if(p_Equals2(m_data[t_i],t_value)){
-			return true;
-		}
-	}
-	return false;
-}
-c_BackwardsStack* c_Stack2::p_Backwards(){
-	return (new c_BackwardsStack)->m_new(this);
-}
-void c_Stack2::mark(){
-	Object::mark();
-	gc_mark_q(m_data);
-}
-c_SpellType::c_SpellType(){
-}
-void c_SpellType::mark(){
-	Object::mark();
-}
-c_LevelType::c_LevelType(){
-}
-void c_LevelType::mark(){
-	Object::mark();
+void c_ControllerPopUp::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_cGame);
+	gc_mark_q(m_overlayBlack);
+	gc_mark_q(m_popupText);
+	gc_mark_q(m_popupText2);
+	gc_mark_q(m_option1Text);
+	gc_mark_q(m_option2Text);
+	gc_mark_q(m_gui);
+	gc_mark_q(m_bestiaryImage);
 }
 c_Level::c_Level(){
 }
@@ -17639,7 +17986,7 @@ bool c_Level::m_pacifismModeOn;
 bool c_Level::m_shopkeeperDead;
 bool c_Level::m_shopkeeperFell;
 int c_Level::m_placeLordOnLevel;
-c_IntMap3* c_Level::m_placeShrineOnLevel;
+c_IntMap2* c_Level::m_placeShrineOnLevel;
 int c_Level::m_placeTransmogrifierOnDepth;
 int c_Level::m_placeTransmogrifierOnLevel;
 int c_Level::m_placeArenaOnLevel;
@@ -17805,14 +18152,6 @@ void c_Level::m_DoRestart_Common(bool t_continuedRun,bool t_cancelFade){
 		c_Camera::m_fadeInDuration=0;
 		c_Camera::m_fadeInCurrent=0;
 		c_Camera::m_fadeInCallback=0;
-	}
-}
-void c_Level::m_DoRestart(){
-	if(c_ControllerLevelEditor::m_storedEditor!=0){
-		c_Controller::m_GiveFocus(c_ControllerLevelEditor::m_storedEditor);
-	}else{
-		m_DoRestart_Common(false,true);
-		m_NewLevel(-2,1,0,false,0,false);
 	}
 }
 int c_Level::m_forceBoss;
@@ -19618,7 +19957,7 @@ void c_Level::m_CreateBossBattle(){
 		m_bossNumber=m_forceBoss;
 		m_forceBoss=-1;
 	}
-	m_usedBosses->p_Insert5(m_bossNumber);
+	m_usedBosses->p_Insert4(m_bossNumber);
 	int t_6=m_bossNumber;
 	if(t_6==1){
 		m_CreateBossBattle1();
@@ -19936,15 +20275,15 @@ void c_Level::m_AddSpecialRoom(int t_roomType,bool t_addCrack){
 				c_Enumerator12* t_2=t_validGlassItems->p_ObjectEnumerator();
 				while(t_2->p_HasNext()){
 					String t_validGlassItem=t_2->p_NextObject();
-					if(!c_Item::m_seenItems->p_Contains2(t_validGlassItem)){
+					if(!c_Item::m_seenItems->p_Contains4(t_validGlassItem)){
 						t_anotherItems->p_Push7(t_validGlassItem);
-						t_newItems->p_Insert7(t_validGlassItem);
+						t_newItems->p_Insert6(t_validGlassItem);
 					}
 				}
 				c_Enumerator12* t_4=t_validGlassItems->p_ObjectEnumerator();
 				while(t_4->p_HasNext()){
 					String t_validGlassItem2=t_4->p_NextObject();
-					if(!t_newItems->p_Contains2(t_validGlassItem2)){
+					if(!t_newItems->p_Contains4(t_validGlassItem2)){
 						t_anotherItems->p_Push7(t_validGlassItem2);
 					}
 				}
@@ -20594,7 +20933,7 @@ bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 		for(int t_dir=0;t_dir<=3;t_dir=t_dir+1){
 			c_Point* t_offset=c_Util::m_GetPointFromDir(t_dir);
 			c_Point* t_wirePointCandidate=t_wirePoint->p_Add5(t_offset);
-			if(t_wirePointCandidate->p_Equals8(t_dst) || !m_IsWallAdjacent8(t_wirePointCandidate->m_x,t_wirePointCandidate->m_y)){
+			if(t_wirePointCandidate->p_Equals7(t_dst) || !m_IsWallAdjacent8(t_wirePointCandidate->m_x,t_wirePointCandidate->m_y)){
 				if(m_IsFloorAt(t_wirePointCandidate->m_x,t_wirePointCandidate->m_y) && !t_connections->p_Contains5(t_wirePointCandidate)){
 					t_connections->p_Add6(t_wirePointCandidate,t_wirePoint);
 					t_wirePoints->p_AddLast26(t_wirePointCandidate);
@@ -23036,7 +23375,7 @@ void c_Level::m_PutVariedEnemiesZone5(c_StackEx2* t_pts){
 		}
 		int t_enemyTypeRoll=t_picker->p_PickRandom(true);
 		int t_weight=t_picker->m_weights->p_Get2(t_enemyTypeRoll);
-		t_picker->m_weights->p_Set6(t_enemyTypeRoll,t_weight+1);
+		t_picker->m_weights->p_Set5(t_enemyTypeRoll,t_weight+1);
 		int t_161=t_enemyTypeRoll;
 		if(t_161==0){
 			int t_electricMageLevelHigh=bb_math_Min(3,bb_controller_game_currentLevel);
@@ -24791,7 +25130,7 @@ void c_Level::m_PlaceTorchesAnywhere(){
 }
 void c_Level::m_PlaceCrateOrBarrel(){
 	bb_logger_Debug->p_Log(String(L"CREATEMAP: Placing crate or barrel",34));
-	c_IntMap3* t_failedRooms=(new c_IntMap3)->m_new();
+	c_IntMap2* t_failedRooms=(new c_IntMap2)->m_new();
 	int t_i=100;
 	for(t_i=t_i-1;t_i>0;t_i=t_i+-1){
 		int t_roomIndex=c_Util::m_RndIntRangeFromZero(m_rooms->p_Count()-1,true);
@@ -24909,7 +25248,7 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 		if(t_room->m_hasExit){
 			continue;
 		}
-		t_usedRooms->p_Insert5(t_roomIndex);
+		t_usedRooms->p_Insert4(t_roomIndex);
 		c_Point* t_point=0;
 		for(int t_j=0;t_j<40;t_j=t_j+1){
 			if(m_chestsStillToPlace<=0 && !m_DoWePlaceAdditionalChestThisLevel()){
@@ -25182,7 +25521,7 @@ void c_Level::m_PlaceShrine(){
 		}else{
 			t_level=c_Util::m_RndIntRange(2,3,true,-1);
 		}
-		m_placeShrineOnLevel->p_Set6(bb_controller_game_currentZone,t_level);
+		m_placeShrineOnLevel->p_Set5(bb_controller_game_currentZone,t_level);
 	}
 	if(m_placeShrineOnLevel->p_Get2(bb_controller_game_currentZone)==bb_controller_game_currentLevel){
 		c_Point* t_point=m_GetShrinePoint();
@@ -28024,7 +28363,7 @@ bool c_Level::m_CreateMap(c_LevelObject* t_levelObj){
 			gc_assign(c_Crate::m_fallenCrates,(new c_List5)->m_new());
 			gc_assign(c_Crate::m_fallenGargoyles,(new c_List6)->m_new());
 			gc_assign(c_SaleItem::m_randomSaleItemList,(new c_List7)->m_new());
-			gc_assign(c_Spells::m_spellCoolKills,(new c_StringMap3)->m_new());
+			gc_assign(c_Spells::m_spellCoolKills,(new c_StringMap6)->m_new());
 		}
 	}
 	if(m_placeShrinerOnLevel==-1){
@@ -29597,7 +29936,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 								if(t_79==11){
 									t_player12->m_health->p_Reset2(10);
 								}else{
-									t_player12->m_ownedItems->p_Set8(String(L"weapon",6),String(L"no_item",7));
+									t_player12->m_ownedItems->p_Set7(String(L"weapon",6),String(L"no_item",7));
 									t_player12->p_AddItemOfType(String(L"weapon_broadsword",17),0,true,false);
 									t_player12->m_health->p_Reset2(10);
 									t_player12->p_AddItemOfType(String(L"spell_fireball",14),0,true,false);
@@ -29698,6 +30037,14 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 		t_firstPlayer7->m_health->p_Damage(t_firstPlayer7->m_health->p_Get3()-1);
 	}
 	m_DumpMap();
+}
+void c_Level::m_DoRestart(){
+	if(c_ControllerLevelEditor::m_storedEditor!=0){
+		c_Controller::m_GiveFocus(c_ControllerLevelEditor::m_storedEditor);
+	}else{
+		m_DoRestart_Common(false,true);
+		m_NewLevel(-2,1,0,false,0,false);
+	}
 }
 int c_Level::m_lastTileCount;
 c_IntPointList* c_Level::m_tileObstructionList;
@@ -29831,10 +30178,6 @@ void c_Level::m_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.Update()",14));
 }
 c_Minimap* c_Level::m_minimap;
-bool c_Level::m_IsVisibleTileAt(int t_xVal,int t_yVal){
-	c_Tile* t_tile=m_GetTileAt(t_xVal,t_yVal);
-	return t_tile!=0 && t_tile->p_IsVisible();
-}
 void c_Level::m_RemoveExit(int t_xVal,int t_yVal){
 	m_exits->p_Remove5((new c_Point)->m_new(t_xVal,t_yVal));
 }
@@ -29886,6 +30229,10 @@ Float c_Level::m_GetMapTileLightValue(int t_xVal,int t_yVal,bool t_forVision){
 		bb_logger_Debug->p_TraceNotImplemented(String(L"Level.GetMapTileLightValue(Int, Int, Bool)",42));
 	}
 	return m_ActuallyGetMapTileLightValue(t_xVal,t_yVal,t_forVision);
+}
+bool c_Level::m_IsVisibleTileAt(int t_xVal,int t_yVal){
+	c_Tile* t_tile=m_GetTileAt(t_xVal,t_yVal);
+	return t_tile!=0 && t_tile->p_IsVisible();
 }
 void c_Level::m_PlaceHotCoalTileAt(int t_xVal,int t_yVal){
 	c_Point* t_exitValue=m_GetExitValue(t_xVal,t_yVal);
@@ -29962,156 +30309,251 @@ void c_Level::m_DryUpAllWater(int t_replacementFloor){
 void c_Level::mark(){
 	Object::mark();
 }
-c_LevelObject::c_LevelObject(){
-	m_bossNum=-1;
-	m_tiles=(new c_List24)->m_new();
-	m_traps=(new c_List25)->m_new();
-	m_enemies=(new c_List29)->m_new();
-	m_items=(new c_List30)->m_new();
-	m_chests=(new c_List31)->m_new();
-	m_crates=(new c_List34)->m_new();
-	m_shrines=(new c_List35)->m_new();
+c_ControllerLevelEditor::c_ControllerLevelEditor(){
+	m_numLevels=0;
+	m_levels=0;
 }
-void c_LevelObject::p_CreateMap(){
-	c_Enumerator14* t_=m_tiles->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_TileObject* t_tileObj=t_->p_NextObject();
-		c_Tile* t_tile=c_Level::m_PlaceTileRemovingExistingTiles(t_tileObj->m_x,t_tileObj->m_y,t_tileObj->m_type,false,t_tileObj->m_zone,false);
-		if(t_tileObj->m_cracked){
-			t_tile->p_BecomeCracked();
-		}
-		if(t_tileObj->m_torch){
-			t_tile->p_AddTorch();
-		}
-		int t_2=t_tile->m_type;
-		if(t_2==2){
-			c_Point* t_exitKey=(new c_Point)->m_new(t_tile->m_x,t_tile->m_y);
-			c_Point* t_exitValue=(new c_Point)->m_new(-3,bb_controller_game_currentZone);
-			c_Level::m_exits->p_Set15(t_exitKey,t_exitValue);
+c_ControllerLevelEditor* c_ControllerLevelEditor::m_storedEditor;
+int c_ControllerLevelEditor::m_playingLevel;
+bool c_ControllerLevelEditor::m_playingWholeDungeon;
+c_ControllerLevelEditor* c_ControllerLevelEditor::m_new(){
+	c_Controller::m_new();
+	return this;
+}
+void c_ControllerLevelEditor::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerLevelEditor.Destructor()",34));
+}
+void c_ControllerLevelEditor::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerLevelEditor.RegainFocus()",35));
+}
+void c_ControllerLevelEditor::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerLevelEditor.Render()",30));
+}
+void c_ControllerLevelEditor::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerLevelEditor.Update()",30));
+}
+void c_ControllerLevelEditor::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_levels);
+}
+bool bb_controller_game_hasWon;
+bool bb_controller_game_showScoreMessage;
+c_Map4::c_Map4(){
+	m_root=0;
+}
+c_Map4* c_Map4::m_new(){
+	return this;
+}
+int c_Map4::p_Clear(){
+	m_root=0;
+	return 0;
+}
+c_Node5* c_Map4::p_FindNode(int t_key){
+	c_Node5* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
 		}else{
-			if(t_2==9){
-				c_Level::m_CreateExit(t_tile->m_x,t_tile->m_y);
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
 			}
 		}
 	}
-	c_Tile::m_GenerateWireConnections();
-	c_Enumerator15* t_3=m_traps->p_ObjectEnumerator();
-	while(t_3->p_HasNext()){
-		c_TrapObject* t_trapObj=t_3->p_NextObject();
-		int t_32=t_trapObj->m_type;
-		if(t_32==1){
-			(new c_BounceTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y,t_trapObj->m_subtype);
+	return t_node;
+}
+bool c_Map4::p_Contains(int t_key){
+	return p_FindNode(t_key)!=0;
+}
+int c_Map4::p_RotateLeft4(c_Node5* t_node){
+	c_Node5* t_child=t_node->m_right;
+	gc_assign(t_node->m_right,t_child->m_left);
+	if((t_child->m_left)!=0){
+		gc_assign(t_child->m_left->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_left){
+			gc_assign(t_node->m_parent->m_left,t_child);
 		}else{
-			if(t_32==2){
-				(new c_SpikeTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_left,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map4::p_RotateRight4(c_Node5* t_node){
+	c_Node5* t_child=t_node->m_left;
+	gc_assign(t_node->m_left,t_child->m_right);
+	if((t_child->m_right)!=0){
+		gc_assign(t_child->m_right->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_right){
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_right,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map4::p_InsertFixup4(c_Node5* t_node){
+	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
+		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
+			c_Node5* t_uncle=t_node->m_parent->m_parent->m_right;
+			if(((t_uncle)!=0) && t_uncle->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle->m_color=1;
+				t_uncle->m_parent->m_color=-1;
+				t_node=t_uncle->m_parent;
 			}else{
-				if(t_32==3){
-					(new c_TrapDoor)->m_new(t_trapObj->m_x,t_trapObj->m_y);
-				}else{
-					if(t_32==4){
-						(new c_ConfuseTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
-					}else{
-						if(t_32==5){
-							(new c_TeleportTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
-						}else{
-							if(t_32==6){
-								(new c_SlowDownTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
-							}else{
-								if(t_32==7){
-									(new c_SpeedUpTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
-								}else{
-									if(t_32==9){
-										(new c_BombTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
-									}else{
-										if(t_32==14){
-											(new c_ScatterTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
-										}else{
-											if(t_32==10){
-												(new c_FireTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y,t_trapObj->m_subtype,false);
-											}else{
-												if(t_32==8){
-													if(!c_Level::m_isLevelEditor){
-														c_Level::m_secretAtX=t_trapObj->m_x;
-														c_Level::m_secretAtY=t_trapObj->m_y;
-														c_Level::m_AddSpecialRoom(t_trapObj->m_subtype,false);
-													}
-													(new c_TravelRune)->m_new(t_trapObj->m_x,t_trapObj->m_y,c_Level::m_specialRoomEntranceX,c_Level::m_specialRoomEntranceY,t_trapObj->m_subtype);
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
+				if(t_node==t_node->m_parent->m_right){
+					t_node=t_node->m_parent;
+					p_RotateLeft4(t_node);
 				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateRight4(t_node->m_parent->m_parent);
 			}
-		}
-	}
-	c_Enumerator17* t_4=m_enemies->p_ObjectEnumerator();
-	while(t_4->p_HasNext()){
-		c_EnemyObject* t_enemyObj=t_4->p_NextObject();
-		c_Enemy* t_enemy=c_Enemy::m_MakeEnemy(t_enemyObj->m_x,t_enemyObj->m_y,t_enemyObj->m_type);
-		if(t_enemyObj->m_beatDelay!=-1){
-			t_enemy->m_currentMoveDelay=t_enemyObj->m_beatDelay;
-		}
-		if(t_enemyObj->m_lord){
-			t_enemy->p_MakeLord();
-		}
-		if(t_enemy->m_isMiniboss){
-			t_enemy->m_isStairLockingMiniboss=true;
-		}
-	}
-	c_Enumerator18* t_5=m_items->p_ObjectEnumerator();
-	while(t_5->p_HasNext()){
-		c_ItemObject* t_itemObj=t_5->p_NextObject();
-		c_Item* t_item=0;
-		if(t_itemObj->m_bloodCost<=FLOAT(0.0)){
-			if(t_itemObj->m_saleCost<=0){
-				t_item=(new c_Item)->m_new(t_itemObj->m_x,t_itemObj->m_y,t_itemObj->m_type,false,-1,false);
+		}else{
+			c_Node5* t_uncle2=t_node->m_parent->m_parent->m_left;
+			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle2->m_color=1;
+				t_uncle2->m_parent->m_color=-1;
+				t_node=t_uncle2->m_parent;
 			}else{
-				t_item=((new c_SaleItem)->m_new(t_itemObj->m_x,t_itemObj->m_y,t_itemObj->m_type,false,0,FLOAT(-1.0),0));
+				if(t_node==t_node->m_parent->m_left){
+					t_node=t_node->m_parent;
+					p_RotateRight4(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateLeft4(t_node->m_parent->m_parent);
 			}
-		}else{
-			t_item=((new c_SaleItem)->m_new(t_itemObj->m_x,t_itemObj->m_y,t_itemObj->m_type,true,0,FLOAT(-1.0),0));
 		}
-		t_item->m_singleChoiceItem=t_itemObj->m_singleChoice;
 	}
-	c_Enumerator19* t_6=m_chests->p_ObjectEnumerator();
-	while(t_6->p_HasNext()){
-		c_ChestObject* t_chestObj=t_6->p_NextObject();
-		c_Chest* t_chest=0;
-		if(t_chestObj->m_saleCost<=0){
-			t_chest=(new c_Chest)->m_new(t_chestObj->m_x,t_chestObj->m_y,t_chestObj->m_contents,t_chestObj->m_hidden,false,t_chestObj->m_hidden,t_chestObj->m_color);
-		}else{
-			t_chest=((new c_SaleChest)->m_new(t_chestObj->m_x,t_chestObj->m_y,t_chestObj->m_contents,t_chestObj->m_hidden,false,t_chestObj->m_hidden,t_chestObj->m_color));
-		}
-		t_chest->m_singleChoiceChest=t_chestObj->m_singleChoice;
-	}
-	c_Enumerator20* t_7=m_crates->p_ObjectEnumerator();
-	while(t_7->p_HasNext()){
-		c_CrateObject* t_crateObj=t_7->p_NextObject();
-		(new c_Crate)->m_new(t_crateObj->m_x,t_crateObj->m_y,t_crateObj->m_type,t_crateObj->m_contents);
-	}
-	c_Enumerator21* t_8=m_shrines->p_ObjectEnumerator();
-	while(t_8->p_HasNext()){
-		c_ShrineObject* t_shrineObj=t_8->p_NextObject();
-		(new c_Shrine)->m_new(t_shrineObj->m_x,t_shrineObj->m_y,t_shrineObj->m_type,0,false,false);
-	}
+	m_root->m_color=1;
+	return 0;
 }
-void c_LevelObject::mark(){
+bool c_Map4::p_Add4(int t_key,int t_value){
+	c_Node5* t_node=m_root;
+	c_Node5* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node5)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup4(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+bool c_Map4::p_Set5(int t_key,int t_value){
+	c_Node5* t_node=m_root;
+	c_Node5* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				t_node->m_value=t_value;
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node5)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup4(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+int c_Map4::p_Get2(int t_key){
+	c_Node5* t_node=p_FindNode(t_key);
+	if((t_node)!=0){
+		return t_node->m_value;
+	}
+	return 0;
+}
+void c_Map4::mark(){
 	Object::mark();
-	gc_mark_q(m_tiles);
-	gc_mark_q(m_traps);
-	gc_mark_q(m_enemies);
-	gc_mark_q(m_items);
-	gc_mark_q(m_chests);
-	gc_mark_q(m_crates);
-	gc_mark_q(m_shrines);
+	gc_mark_q(m_root);
 }
-int bb_controller_game_currentLevel;
-int bb_controller_game_currentZone;
-int bb_controller_game_currentDepth;
+c_IntMap2::c_IntMap2(){
+}
+c_IntMap2* c_IntMap2::m_new(){
+	c_Map4::m_new();
+	return this;
+}
+int c_IntMap2::p_Compare(int t_lhs,int t_rhs){
+	return t_lhs-t_rhs;
+}
+void c_IntMap2::mark(){
+	c_Map4::mark();
+}
+c_Node5::c_Node5(){
+	m_key=0;
+	m_right=0;
+	m_left=0;
+	m_value=0;
+	m_color=0;
+	m_parent=0;
+}
+c_Node5* c_Node5::m_new(int t_key,int t_value,int t_color,c_Node5* t_parent){
+	this->m_key=t_key;
+	this->m_value=t_value;
+	this->m_color=t_color;
+	gc_assign(this->m_parent,t_parent);
+	return this;
+}
+c_Node5* c_Node5::m_new2(){
+	return this;
+}
+void c_Node5::mark(){
+	Object::mark();
+	gc_mark_q(m_right);
+	gc_mark_q(m_left);
+	gc_mark_q(m_parent);
+}
 c_RenderableObject::c_RenderableObject(){
 	m_perished=false;
 	m_dead=false;
@@ -30276,7 +30718,7 @@ void c_Entity::p_Die(){
 	}
 }
 void c_Entity::m_RemoveAnyPerishedEntities(){
-	c_Enumerator2* t_=m_entityList->p_ObjectEnumerator();
+	c_Enumerator3* t_=m_entityList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Entity* t_entity=t_->p_NextObject();
 		if(t_entity->m_perished){
@@ -30299,7 +30741,7 @@ void c_Entity::p_FlagForDeath(int t_numFrames){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.FlagForDeath(Int)",24));
 }
 c_Entity* c_Entity::m_GetEntityAt(int t_x,int t_y,bool t_includePlayer){
-	c_Enumerator2* t_=m_entityList->p_ObjectEnumerator();
+	c_Enumerator3* t_=m_entityList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Entity* t_entity=t_->p_NextObject();
 		if((t_includePlayer || !t_entity->m_isPlayer) && t_entity->p_IsOnTile(t_x,t_y)){
@@ -30365,6 +30807,14 @@ void c_Entity::p_BounceToward(c_Point* t_p,bool t_bufferTween){
 void c_Entity::m_UpdateVisibility(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
 }
+bool c_Entity::m_anyPlayerHaveWallsTorchCached;
+bool c_Entity::m_AnyPlayerHaveWallsTorch(){
+	if(m_anyPlayerHaveWallsTorchCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		m_anyPlayerHaveWallsTorchCachedFrame=bb_necrodancergame_globalFrameCounter;
+		m_anyPlayerHaveWallsTorchCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"torch_walls",11),false);
+	}
+	return m_anyPlayerHaveWallsTorchCached;
+}
 bool c_Entity::p_IsVisible(){
 	if(this->m_clampedOn){
 		return true;
@@ -30374,14 +30824,6 @@ bool c_Entity::p_IsVisible(){
 	}
 	return c_Level::m_IsVisibleTileAt(this->m_x,this->m_y);
 }
-bool c_Entity::m_anyPlayerHaveWallsTorchCached;
-bool c_Entity::m_AnyPlayerHaveWallsTorch(){
-	if(m_anyPlayerHaveWallsTorchCachedFrame!=bb_necrodancergame_globalFrameCounter){
-		m_anyPlayerHaveWallsTorchCachedFrame=bb_necrodancergame_globalFrameCounter;
-		m_anyPlayerHaveWallsTorchCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"torch_walls",11),false);
-	}
-	return m_anyPlayerHaveWallsTorchCached;
-}
 void c_Entity::mark(){
 	c_RenderableObject::mark();
 	gc_mark_q(m_confusedParticles);
@@ -30390,6 +30832,372 @@ void c_Entity::mark(){
 	gc_mark_q(m_bounce);
 	gc_mark_q(m_frozenImage);
 	gc_mark_q(m_frozenStoneImage);
+}
+c_Shrine::c_Shrine(){
+	m_type=-1;
+	m_isForSale=false;
+	m_rng=0;
+	m_contents1=String();
+	m_contents2=String();
+	m_contents3=String();
+	m_contents4=String();
+	m_contents5=String();
+	m_contents6=String();
+	m_cost=0;
+	m_hintText=0;
+}
+bool c_Shrine::m_darknessShrineActive;
+bool c_Shrine::m_rhythmShrineActive;
+bool c_Shrine::m_riskShrineActive;
+c_Player* c_Shrine::m_riskShrinePlayer;
+bool c_Shrine::m_spaceShrineActive;
+bool c_Shrine::m_warShrineActive;
+bool c_Shrine::m_noReturnShrineActive;
+c_Player* c_Shrine::m_noReturnShrinePlayer;
+bool c_Shrine::m_paceShrineActive;
+bool c_Shrine::m_bossShrineActive;
+c_IntSet* c_Shrine::m_usedShrines;
+int c_Shrine::m_usedShrinerInZone;
+void c_Shrine::m_ResetShrines(){
+	m_darknessShrineActive=false;
+	m_rhythmShrineActive=false;
+	m_riskShrineActive=false;
+	m_riskShrinePlayer=0;
+	m_spaceShrineActive=false;
+	m_warShrineActive=false;
+	m_noReturnShrineActive=false;
+	m_noReturnShrinePlayer=0;
+	m_paceShrineActive=false;
+	m_bossShrineActive=false;
+	m_usedShrines->p_Clear();
+	m_usedShrinerInZone=-1;
+}
+bool c_Shrine::m_IsValidShrine(int t_shrineType){
+	if(t_shrineType==-1){
+		return false;
+	}
+	if(m_usedShrines->p_Contains(t_shrineType)){
+		return false;
+	}
+	int t_3=t_shrineType;
+	if(t_3==0){
+		return !c_Util::m_IsWeaponlessCharacterActive();
+	}else{
+		if(t_3==3){
+			return !c_Util::m_IsWeaponlessCharacterActive();
+		}else{
+			if(t_3==15){
+				return !c_Util::m_IsWeaponlessCharacterActive() || !c_Util::m_IsCharacterActive(13);
+			}else{
+				if(t_3==4){
+					return !c_Util::m_IsCharacterActive(9);
+				}else{
+					if(t_3==5){
+						return !c_Util::m_AreAriaOrCodaActive() || !c_Util::m_IsCharacterActive(11);
+					}else{
+						if(t_3==14){
+							return !c_Util::m_AreAriaOrCodaActive();
+						}else{
+							if(t_3==6){
+								return !c_Util::m_IsCharacterActive(6);
+							}else{
+								if(t_3==9){
+									return false;
+								}else{
+									if(t_3==10){
+										return false;
+									}else{
+										if(t_3==11){
+											return false;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+int c_Shrine::m_GetRandomShrineInt(bool t_isShriner,int t_banType1,int t_banType2){
+	c_WeightedPicker* t_picker=(new c_WeightedPicker)->m_new();
+	if(c_Level::m_isHardcoreMode){
+		t_picker->p_Push4(10);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(11);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(7);
+		t_picker->p_Push4(8);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(6);
+		t_picker->p_Push4(5);
+		t_picker->p_Push4(5);
+		t_picker->p_Push4(5);
+		t_picker->p_Push4(8);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(9);
+	}else{
+		t_picker->p_Push4(12);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(13);
+		t_picker->p_Push4(11);
+		t_picker->p_Push4(0);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(13);
+		t_picker->p_Push4(11);
+		t_picker->p_Push4(9);
+		t_picker->p_Push4(0);
+		t_picker->p_Push4(0);
+		t_picker->p_Push4(0);
+		t_picker->p_Push4(14);
+		t_picker->p_Push4(11);
+		t_picker->p_Push4(11);
+		t_picker->p_Push4(11);
+	}
+	int t_shrineInt=-1;
+	for(int t_i=200;t_i>0;t_i=t_i+-1){
+		t_shrineInt=t_picker->p_PickRandom(true);
+		if(!m_IsValidShrine(t_shrineInt)){
+			continue;
+		}
+		if(t_isShriner){
+			int t_1=t_shrineInt;
+			if(t_1==14 || t_1==6 || t_1==12){
+				continue;
+			}
+		}
+		int t_2=t_shrineInt;
+		if(t_2==t_banType1 || t_2==t_banType2){
+			continue;
+		}
+		return t_shrineInt;
+	}
+	return 2;
+}
+String c_Shrine::m_GetHintText(int t_shrineType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.GetHintText(Int)",23));
+	return String();
+}
+String c_Shrine::p_RandomGlassWeapon(){
+	int t_requestedLevel=bb_controller_game_currentLevel+2;
+	if(!c_Util::m_IsWeaponlessCharacterActive()){
+		return c_Item::m_GetRandomItemInClass(String(L"isGlass",7),t_requestedLevel,String(L"chestChance",11),2,true,String(L"weapon",6),false);
+	}
+	return c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
+}
+void c_Shrine::p_GenUncertaintyContents(){
+	c_UncertaintyWeaponPredicate* t_weaponPredicate=(new c_UncertaintyWeaponPredicate)->m_new();
+	this->m_contents1=c_Item::m_GetRandomItemInClassByPredicate((t_weaponPredicate),-1,String(L"chestChance",11),true);
+	c_UncertaintyRingPredicate* t_ringPredicate=(new c_UncertaintyRingPredicate)->m_new();
+	this->m_contents2=c_Item::m_GetRandomItemInClassByPredicate((t_ringPredicate),-1,String(L"chestChance",11),true);
+}
+void c_Shrine::p_GenBossContents(){
+	int t_requestedLevel=bb_controller_game_currentLevel+2;
+	this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),1,true,String(),false);
+	this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),3,true,String(),false);
+	this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),2,true,String(),false);
+}
+void c_Shrine::p_GenPainContents(){
+	this->m_contents1=this->p_RandomGlassWeapon();
+	this->m_contents2=this->p_RandomGlassWeapon();
+	this->m_contents3=this->p_RandomGlassWeapon();
+}
+c_List28* c_Shrine::m_shrineList;
+c_Shrine* c_Shrine::m_new(int t_xVal,int t_yVal,int t_cType,c_RNG* t_rng_,bool t_saleShrine,bool t_pending){
+	c_Entity::m_new();
+	this->m_x=t_xVal;
+	this->m_y=t_yVal;
+	this->m_type=t_cType;
+	this->m_isForSale=t_saleShrine;
+	gc_assign(this->m_rng,t_rng_);
+	this->m_isWraithLike=true;
+	String t_hintText=m_GetHintText(this->m_type);
+	if(t_hintText!=String()){
+		bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.New(Int, Int, Int, RNG, Bool, Bool) (hint text)",54));
+	}
+	if(c_Level::m_randSeed!=-1){
+		int t_4=this->m_type;
+		if(t_4==0){
+			this->m_contents1=c_Item::m_GetRandomItemInClass(String(L"isBlood",7),-1,String(L"chestChance",11),0,true,String(),false);
+		}else{
+			if(t_4==5){
+				int t_requestedLevel=bb_controller_game_currentLevel+2;
+				this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
+				this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
+				this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
+			}else{
+				if(t_4==6){
+					int t_requestedLevel2=bb_controller_game_currentLevel+2;
+					this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel2,String(L"chestChance",11),0,true,String(),false);
+					this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel2,String(L"chestChance",11),0,true,String(),false);
+					this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel2,String(L"chestChance",11),0,true,String(),false);
+					this->m_contents4=this->p_RandomGlassWeapon();
+					this->m_contents5=this->p_RandomGlassWeapon();
+					this->m_contents6=this->p_RandomGlassWeapon();
+				}else{
+					if(t_4==12){
+						int t_requestedLevel3=bb_controller_game_currentLevel;
+						this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
+						this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
+						this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
+						this->m_contents4=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
+						this->m_contents5=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
+						this->m_contents6=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
+					}else{
+						if(t_4==15){
+							this->p_GenUncertaintyContents();
+						}else{
+							if(t_4==13){
+								this->p_GenBossContents();
+							}else{
+								if(t_4==14){
+									this->p_GenPainContents();
+								}else{
+									if(t_4==8){
+										int t_randomValue=c_Util::m_RndIntRangeFromZero(1,true);
+										this->m_contents1=String(t_randomValue)+String();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	this->m_xOff=FLOAT(-6.0);
+	this->m_yOff=FLOAT(-19.0);
+	int t_5=this->m_type;
+	if(t_5==0){
+		gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_blood.png",22),35,52,4,c_Image::m_DefaultFlags));
+	}else{
+		if(t_5==1){
+			gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_darkness.png",25),35,52,4,c_Image::m_DefaultFlags));
+		}else{
+			if(t_5==2){
+				gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_glass.png",22),35,52,4,c_Image::m_DefaultFlags));
+			}else{
+				if(t_5==3){
+					gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_peace.png",22),35,52,4,c_Image::m_DefaultFlags));
+				}else{
+					if(t_5==4){
+						gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_rhythm.png",23),35,52,4,c_Image::m_DefaultFlags));
+					}else{
+						if(t_5==5){
+							gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_risk.png",21),35,52,4,c_Image::m_DefaultFlags));
+						}else{
+							if(t_5==6){
+								gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_sacrifice.png",26),35,52,4,c_Image::m_DefaultFlags));
+							}else{
+								if(t_5==7){
+									gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_space.png",22),35,52,4,c_Image::m_DefaultFlags));
+								}else{
+									if(t_5==8){
+										gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_war.png",20),35,52,4,c_Image::m_DefaultFlags));
+									}else{
+										if(t_5==9){
+											gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_no_return.png",26),35,52,4,c_Image::m_DefaultFlags));
+										}else{
+											if(t_5==10){
+												gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_phasing.png",24),35,52,4,c_Image::m_DefaultFlags));
+											}else{
+												if(t_5==11){
+													gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_pace.png",21),35,52,4,c_Image::m_DefaultFlags));
+													this->m_xOff=FLOAT(-5.0);
+													this->m_yOff=FLOAT(-21.0);
+												}else{
+													if(t_5==12){
+														gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_chance.png",23),35,52,4,c_Image::m_DefaultFlags));
+														this->m_cost=int(c_SaleItem::m_GetCostMultiplier()*FLOAT(10.0));
+													}else{
+														if(t_5==15){
+															gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_uncertainty.png",28),24,48,4,c_Image::m_DefaultFlags));
+															this->m_xOff=FLOAT(-2.0);
+															this->m_yOff=FLOAT(-16.0);
+														}else{
+															if(t_5==13){
+																gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_boss.png",21),30,46,4,c_Image::m_DefaultFlags));
+																this->m_xOff=FLOAT(-3.0);
+																this->m_yOff=FLOAT(-13.0);
+															}else{
+																if(t_5==14){
+																	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_pain.png",21),22,50,4,c_Image::m_DefaultFlags));
+																	this->m_xOff=FLOAT(0.0);
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if(this->m_type==12 || this->m_isForSale){
+		bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.New(Int, Int, Int, RNG, Bool, Bool) (digit sprites)",58));
+	}
+	this->m_image->p_SetZOff(FLOAT(20.0));
+	this->m_collides=true;
+	m_shrineList->p_AddLast28(this);
+	if(!t_pending){
+		m_usedShrines->p_Insert4(this->m_type);
+	}
+	return this;
+}
+c_Shrine* c_Shrine::m_new2(){
+	c_Entity::m_new();
+	return this;
+}
+void c_Shrine::m_AddPendingShrinesToUsedList(){
+	c_Enumerator28* t_=m_shrineList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Shrine* t_shrine=t_->p_NextObject();
+		m_usedShrines->p_Insert4(t_shrine->m_type);
+	}
+}
+c_Shrine* c_Shrine::m_GetShrineAt(int t_xVal,int t_yVal){
+	c_Enumerator28* t_=m_shrineList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Shrine* t_shrine=t_->p_NextObject();
+		if(t_shrine->m_x==t_xVal && t_shrine->m_y==t_yVal){
+			return t_shrine;
+		}
+	}
+	return 0;
+}
+void c_Shrine::p_Die(){
+	if(!this->m_dead){
+		m_shrineList->p_RemoveEach15(this);
+		if(this->m_hintText!=0){
+			this->m_hintText->p_Discard();
+		}
+		c_Entity::p_Die();
+	}
+}
+void c_Shrine::p_SetCost(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.SetCost()",16));
+}
+bool c_Shrine::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.Hit(String, Int, Int, Entity, Bool, Int)",47));
+	return false;
+}
+void c_Shrine::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.Update()",15));
+}
+void c_Shrine::mark(){
+	c_Entity::mark();
+	gc_mark_q(m_rng);
+	gc_mark_q(m_hintText);
 }
 c_MobileEntity::c_MobileEntity(){
 	m_moveShadowTween=2;
@@ -30484,11 +31292,11 @@ c_Player::c_Player(){
 	m_UsingAltSkin=false;
 	m_headImage=0;
 	m_headImageForHUD=0;
-	m_ownedItems=(new c_StringMap4)->m_new();
-	m_cursedSlots=(new c_StringMap5)->m_new();
+	m_ownedItems=(new c_StringMap3)->m_new();
+	m_cursedSlots=(new c_StringMap4)->m_new();
 	m_mysterySlots=(new c_StringSet)->m_new();
 	m_miscItems=(new c_ItemList)->m_new();
-	m_itemQuantity=(new c_StringMap3)->m_new();
+	m_itemQuantity=(new c_StringMap6)->m_new();
 	m_weapon=0;
 	m_armorAmount=0;
 	m_armorType=String(L"no_item",7);
@@ -30576,23 +31384,8 @@ c_Player::c_Player(){
 	m_readyToThrow=false;
 	m_wasClamped=false;
 }
-int c_Player::m_numCoins;
-int c_Player::m_coinXOR;
-void c_Player::m_SetCoinXOR(){
-	m_coinXOR=m_numCoins^7529;
-}
-int c_Player::m_sessionMaxCoins;
-void c_Player::m_SetCoins(int t_tmpNum,bool t_allowAchievement){
-	m_numCoins=t_tmpNum;
-	m_SetCoinXOR();
-	if(t_tmpNum>m_sessionMaxCoins){
-		if(t_allowAchievement){
-		}
-		m_sessionMaxCoins=t_tmpNum;
-	}
-}
 void c_Player::p_ClearAllFamiliars(bool t_includeLamb){
-	c_Enumerator* t_=this->m_familiars->p_ObjectEnumerator();
+	c_Enumerator2* t_=this->m_familiars->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_FamiliarFixed* t_familiar=t_->p_NextObject();
 		t_familiar->p_Die();
@@ -30607,6 +31400,21 @@ void c_Player::p_ClearAllFamiliars(bool t_includeLamb){
 void c_Player::p_Die(){
 	this->p_ClearAllFamiliars(true);
 	c_Entity::p_Die();
+}
+int c_Player::m_numCoins;
+int c_Player::m_coinXOR;
+void c_Player::m_SetCoinXOR(){
+	m_coinXOR=m_numCoins^7529;
+}
+int c_Player::m_sessionMaxCoins;
+void c_Player::m_SetCoins(int t_tmpNum,bool t_allowAchievement){
+	m_numCoins=t_tmpNum;
+	m_SetCoinXOR();
+	if(t_tmpNum>m_sessionMaxCoins){
+		if(t_allowAchievement){
+		}
+		m_sessionMaxCoins=t_tmpNum;
+	}
 }
 c_Sprite* c_Player::m_MakeBodyImage(int t_characterID,String t_idSuffix,int t_altSkin){
 	String t_path=String();
@@ -30727,7 +31535,7 @@ String c_Player::p_GetItemInSlot(String t_sl,bool t_overrideBatForm){
 			}
 		}
 	}else{
-		if(this->m_ownedItems->p_Contains2(t_sl)){
+		if(this->m_ownedItems->p_Contains4(t_sl)){
 			return this->m_ownedItems->p_Get(t_sl);
 		}
 	}
@@ -30743,7 +31551,7 @@ bool c_Player::p_HasItemOfType(String t_i,bool t_overrideBatForm){
 		String t_slot=c_Item::m_GetSlot2(t_i);
 		String t_8=t_slot;
 		if(t_8==String(L"misc",4)){
-			return this->m_miscItems->p_Contains2(t_i);
+			return this->m_miscItems->p_Contains4(t_i);
 		}else{
 			if(t_8==String(L"action",6)){
 				if(t_i==this->p_GetItemInSlot(String(L"action1",7),false)){
@@ -30798,7 +31606,7 @@ void c_Player::p_AddItemOfType(String t_item,c_Item* t_itemObj,bool t_ignoreFlyT
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.AddItemOfType(String, Item, Bool, Bool)",46));
 }
 void c_Player::p_SetSlotCursed(String t_sl,bool t_b){
-	this->m_cursedSlots->p_Set9(t_sl,t_b);
+	this->m_cursedSlots->p_Set8(t_sl,t_b);
 }
 void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 	if(this->m_playerID==0){
@@ -30809,13 +31617,13 @@ void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 		bb_logger_Debug->p_Log(String(L"ERROR: No character found in XML with id ",41)+String(this->m_characterID));
 	}else{
 		c_XMLNode* t_initialEquipmentsNode=t_characterNode->p_GetChild2(String(L"initial_equipment",17),false);
-		c_Enumerator3* t_=t_initialEquipmentsNode->p_GetChildren(0,false)->p_ObjectEnumerator();
+		c_Enumerator* t_=t_initialEquipmentsNode->p_GetChildren(0,false)->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_XMLNode* t_initialEquipmentNode=t_->p_NextObject();
 			String t_6=t_initialEquipmentNode->p_name();
 			if(t_6==String(L"item",4)){
 				String t_itemType=t_initialEquipmentNode->p_GetAttribute(String(L"type",4));
-				if(c_Item::m_itemImages->p_Contains2(t_itemType)){
+				if(c_Item::m_itemImages->p_Contains4(t_itemType)){
 					this->p_AddItemOfType(t_itemType,0,true,true);
 				}else{
 					bb_logger_Debug->p_Log(String(L"ERROR: Unrecognized item type ",30)+t_itemType);
@@ -30945,7 +31753,7 @@ c_Player* c_Player::m_new(int t_id,int t_characterID_){
 	this->p_SetCharacter(t_characterID_);
 	c_Camera::m_x=24*this->m_x;
 	c_Camera::m_y=24*this->m_y;
-	c_Enumerator3* t_=c_Item::m_GetAllItemsInClass(String(L"isShovel",8))->p_ObjectEnumerator();
+	c_Enumerator* t_=c_Item::m_GetAllItemsInClass(String(L"isShovel",8))->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_XMLNode* t_shovel=t_->p_NextObject();
 		c_ItemData* t_itemData=(new c_ItemData)->m_new(t_shovel);
@@ -31088,7 +31896,7 @@ c_Player* c_Player::m_new2(){
 }
 void c_Player::p_WarpFamiliars(){
 	c_Point* t_location=this->p_GetLocation();
-	c_Enumerator* t_=this->m_familiars->p_ObjectEnumerator();
+	c_Enumerator2* t_=this->m_familiars->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_FamiliarFixed* t_familiar=t_->p_NextObject();
 		t_familiar->p_WarpTo(t_location->m_x+t_familiar->m_offsetX,t_location->m_y+t_familiar->m_offsetY);
@@ -31309,7 +32117,7 @@ void c_Player::m_OffsetCoins(int t_tmpNum){
 	int t_coins=bb_math_Max(0,m_numCoins+t_tmpNum);
 	m_SetCoins(t_coins,true);
 }
-void c_Player::p_Update22(int t_closestBeatNum){
+void c_Player::p_Update2(int t_closestBeatNum){
 	c_Item* t_pickup=c_Item::m_GetPickupAt(this->m_x,this->m_y,0);
 	if(t_pickup!=0 && !this->p_Perished() && !c_Level::m_isLevelEditor){
 		String t_pickupSlot=t_pickup->p_GetSlot();
@@ -31416,7 +32224,7 @@ bool c_Player::p_SubtractItemOfType(String t_i){
 	}
 	String t_ownedItem=this->m_ownedItems->p_Get(t_slot);
 	if(t_i==t_ownedItem){
-		this->m_ownedItems->p_Set8(t_slot,String(L"no_item",7));
+		this->m_ownedItems->p_Set7(t_slot,String(L"no_item",7));
 		return true;
 	}
 	return false;
@@ -31572,11 +32380,11 @@ void c_Player::p_Update(){
 	int t_exitValueX=t_exitValue->m_x;
 	if(t_exitValueX==-4 || c_Level::m_isLevelEnding){
 		this->m_playedExitErrorSound=false;
-		this->p_Update22(t_closestBeatNum);
+		this->p_Update2(t_closestBeatNum);
 		return;
 	}
 	if(!this->p_IsStandingStill()){
-		this->p_Update22(t_closestBeatNum);
+		this->p_Update2(t_closestBeatNum);
 		return;
 	}
 	if(c_Level::m_IsLockedExit(this->m_x,this->m_y)){
@@ -31590,7 +32398,7 @@ void c_Player::p_Update(){
 			t_exitFlyaway->p_CenterX();
 			this->m_playedExitErrorSound=true;
 		}
-		this->p_Update22(t_closestBeatNum);
+		this->p_Update2(t_closestBeatNum);
 		return;
 	}
 	if(bb_controller_game_currentLevel!=-2 && (c_Util::m_IsCharacterActive(5) || c_Util::m_IsCharacterActive(7)) && !t_v3){
@@ -32021,7 +32829,7 @@ void c_Player::p_Update(){
 	}
 	if(t_exitValueX==-2 || -22<=t_exitValueX && t_exitValueX<=-12 || t_exitValueX<=-1900 && t_exitValueX!=-1902 || t_exitValueX==-1700){
 		c_Level::m_NewLevel(t_exitValueX,t_exitValue->m_y,this->m_playerID,false,0,false);
-		this->p_Update22(t_closestBeatNum);
+		this->p_Update2(t_closestBeatNum);
 		return;
 	}
 	c_Stairs_callback::m_levelVal=t_exitValue->m_x;
@@ -32125,90 +32933,51 @@ void c_Player::mark(){
 	gc_mark_q(m_batWeapon);
 	gc_mark_q(m_lastClampedEnemy);
 }
-c_ControllerLevelEditor::c_ControllerLevelEditor(){
-	m_numLevels=0;
-	m_levels=0;
+c_Set::c_Set(){
+	m_map=0;
 }
-int c_ControllerLevelEditor::m_playingLevel;
-bool c_ControllerLevelEditor::m_playingWholeDungeon;
-c_ControllerLevelEditor* c_ControllerLevelEditor::m_storedEditor;
-c_ControllerLevelEditor* c_ControllerLevelEditor::m_new(){
-	c_Controller::m_new();
+c_Set* c_Set::m_new(c_Map5* t_map){
+	gc_assign(this->m_map,t_map);
 	return this;
 }
-void c_ControllerLevelEditor::p_RegainFocus(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerLevelEditor.RegainFocus()",35));
+c_Set* c_Set::m_new2(){
+	return this;
 }
-void c_ControllerLevelEditor::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerLevelEditor.Update()",30));
+int c_Set::p_Clear(){
+	m_map->p_Clear();
+	return 0;
 }
-void c_ControllerLevelEditor::mark(){
-	c_Controller::mark();
-	gc_mark_q(m_levels);
+bool c_Set::p_Contains(int t_value){
+	return m_map->p_Contains(t_value);
+}
+int c_Set::p_Insert4(int t_value){
+	m_map->p_Insert5(t_value,0);
+	return 0;
+}
+void c_Set::mark(){
+	Object::mark();
+	gc_mark_q(m_map);
+}
+c_IntSet::c_IntSet(){
+}
+c_IntSet* c_IntSet::m_new(){
+	c_Set::m_new((new c_IntMap3)->m_new());
+	return this;
+}
+void c_IntSet::mark(){
+	c_Set::mark();
 }
 c_Map5::c_Map5(){
 	m_root=0;
 }
-c_Node5* c_Map5::p_FindNode(int t_key){
-	c_Node5* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return t_node;
-			}
-		}
-	}
-	return t_node;
-}
-c_LevelObject* c_Map5::p_Get2(int t_key){
-	c_Node5* t_node=p_FindNode(t_key);
-	if((t_node)!=0){
-		return t_node->m_value;
-	}
-	return 0;
-}
-void c_Map5::mark(){
-	Object::mark();
-	gc_mark_q(m_root);
-}
-c_IntMap2::c_IntMap2(){
-}
-int c_IntMap2::p_Compare(int t_lhs,int t_rhs){
-	return t_lhs-t_rhs;
-}
-void c_IntMap2::mark(){
-	c_Map5::mark();
-}
-c_Node5::c_Node5(){
-	m_key=0;
-	m_right=0;
-	m_left=0;
-	m_value=0;
-}
-void c_Node5::mark(){
-	Object::mark();
-	gc_mark_q(m_right);
-	gc_mark_q(m_left);
-	gc_mark_q(m_value);
-}
-bool bb_controller_game_hasWon;
-bool bb_controller_game_showScoreMessage;
-c_Map6::c_Map6(){
-	m_root=0;
-}
-c_Map6* c_Map6::m_new(){
+c_Map5* c_Map5::m_new(){
 	return this;
 }
-int c_Map6::p_Clear(){
+int c_Map5::p_Clear(){
 	m_root=0;
 	return 0;
 }
-c_Node6* c_Map6::p_FindNode(int t_key){
+c_Node6* c_Map5::p_FindNode(int t_key){
 	c_Node6* t_node=m_root;
 	while((t_node)!=0){
 		int t_cmp=p_Compare(t_key,t_node->m_key);
@@ -32224,10 +32993,10 @@ c_Node6* c_Map6::p_FindNode(int t_key){
 	}
 	return t_node;
 }
-bool c_Map6::p_Contains(int t_key){
+bool c_Map5::p_Contains(int t_key){
 	return p_FindNode(t_key)!=0;
 }
-int c_Map6::p_RotateLeft5(c_Node6* t_node){
+int c_Map5::p_RotateLeft5(c_Node6* t_node){
 	c_Node6* t_child=t_node->m_right;
 	gc_assign(t_node->m_right,t_child->m_left);
 	if((t_child->m_left)!=0){
@@ -32247,7 +33016,7 @@ int c_Map6::p_RotateLeft5(c_Node6* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map6::p_RotateRight5(c_Node6* t_node){
+int c_Map5::p_RotateRight5(c_Node6* t_node){
 	c_Node6* t_child=t_node->m_left;
 	gc_assign(t_node->m_left,t_child->m_right);
 	if((t_child->m_right)!=0){
@@ -32267,7 +33036,7 @@ int c_Map6::p_RotateRight5(c_Node6* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map6::p_InsertFixup5(c_Node6* t_node){
+int c_Map5::p_InsertFixup5(c_Node6* t_node){
 	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
 		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
 			c_Node6* t_uncle=t_node->m_parent->m_parent->m_right;
@@ -32306,625 +33075,9 @@ int c_Map6::p_InsertFixup5(c_Node6* t_node){
 	m_root->m_color=1;
 	return 0;
 }
-bool c_Map6::p_Add4(int t_key,int t_value){
+bool c_Map5::p_Set6(int t_key,Object* t_value){
 	c_Node6* t_node=m_root;
 	c_Node6* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node6)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup5(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-bool c_Map6::p_Set6(int t_key,int t_value){
-	c_Node6* t_node=m_root;
-	c_Node6* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				t_node->m_value=t_value;
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node6)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup5(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-int c_Map6::p_Get2(int t_key){
-	c_Node6* t_node=p_FindNode(t_key);
-	if((t_node)!=0){
-		return t_node->m_value;
-	}
-	return 0;
-}
-void c_Map6::mark(){
-	Object::mark();
-	gc_mark_q(m_root);
-}
-c_IntMap3::c_IntMap3(){
-}
-c_IntMap3* c_IntMap3::m_new(){
-	c_Map6::m_new();
-	return this;
-}
-int c_IntMap3::p_Compare(int t_lhs,int t_rhs){
-	return t_lhs-t_rhs;
-}
-void c_IntMap3::mark(){
-	c_Map6::mark();
-}
-c_Node6::c_Node6(){
-	m_key=0;
-	m_right=0;
-	m_left=0;
-	m_value=0;
-	m_color=0;
-	m_parent=0;
-}
-c_Node6* c_Node6::m_new(int t_key,int t_value,int t_color,c_Node6* t_parent){
-	this->m_key=t_key;
-	this->m_value=t_value;
-	this->m_color=t_color;
-	gc_assign(this->m_parent,t_parent);
-	return this;
-}
-c_Node6* c_Node6::m_new2(){
-	return this;
-}
-void c_Node6::mark(){
-	Object::mark();
-	gc_mark_q(m_right);
-	gc_mark_q(m_left);
-	gc_mark_q(m_parent);
-}
-c_Shrine::c_Shrine(){
-	m_type=-1;
-	m_isForSale=false;
-	m_rng=0;
-	m_contents1=String();
-	m_contents2=String();
-	m_contents3=String();
-	m_contents4=String();
-	m_contents5=String();
-	m_contents6=String();
-	m_cost=0;
-	m_hintText=0;
-}
-bool c_Shrine::m_darknessShrineActive;
-bool c_Shrine::m_rhythmShrineActive;
-bool c_Shrine::m_riskShrineActive;
-c_Player* c_Shrine::m_riskShrinePlayer;
-bool c_Shrine::m_spaceShrineActive;
-bool c_Shrine::m_warShrineActive;
-bool c_Shrine::m_noReturnShrineActive;
-c_Player* c_Shrine::m_noReturnShrinePlayer;
-bool c_Shrine::m_paceShrineActive;
-bool c_Shrine::m_bossShrineActive;
-c_IntSet* c_Shrine::m_usedShrines;
-int c_Shrine::m_usedShrinerInZone;
-void c_Shrine::m_ResetShrines(){
-	m_darknessShrineActive=false;
-	m_rhythmShrineActive=false;
-	m_riskShrineActive=false;
-	m_riskShrinePlayer=0;
-	m_spaceShrineActive=false;
-	m_warShrineActive=false;
-	m_noReturnShrineActive=false;
-	m_noReturnShrinePlayer=0;
-	m_paceShrineActive=false;
-	m_bossShrineActive=false;
-	m_usedShrines->p_Clear();
-	m_usedShrinerInZone=-1;
-}
-bool c_Shrine::m_IsValidShrine(int t_shrineType){
-	if(t_shrineType==-1){
-		return false;
-	}
-	if(m_usedShrines->p_Contains(t_shrineType)){
-		return false;
-	}
-	int t_3=t_shrineType;
-	if(t_3==0){
-		return !c_Util::m_IsWeaponlessCharacterActive();
-	}else{
-		if(t_3==3){
-			return !c_Util::m_IsWeaponlessCharacterActive();
-		}else{
-			if(t_3==15){
-				return !c_Util::m_IsWeaponlessCharacterActive() || !c_Util::m_IsCharacterActive(13);
-			}else{
-				if(t_3==4){
-					return !c_Util::m_IsCharacterActive(9);
-				}else{
-					if(t_3==5){
-						return !c_Util::m_AreAriaOrCodaActive() || !c_Util::m_IsCharacterActive(11);
-					}else{
-						if(t_3==14){
-							return !c_Util::m_AreAriaOrCodaActive();
-						}else{
-							if(t_3==6){
-								return !c_Util::m_IsCharacterActive(6);
-							}else{
-								if(t_3==9){
-									return false;
-								}else{
-									if(t_3==10){
-										return false;
-									}else{
-										if(t_3==11){
-											return false;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return true;
-}
-int c_Shrine::m_GetRandomShrineInt(bool t_isShriner,int t_banType1,int t_banType2){
-	c_WeightedPicker* t_picker=(new c_WeightedPicker)->m_new();
-	if(c_Level::m_isHardcoreMode){
-		t_picker->p_Push4(10);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(11);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(7);
-		t_picker->p_Push4(8);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(6);
-		t_picker->p_Push4(5);
-		t_picker->p_Push4(5);
-		t_picker->p_Push4(5);
-		t_picker->p_Push4(8);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(9);
-	}else{
-		t_picker->p_Push4(12);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(13);
-		t_picker->p_Push4(11);
-		t_picker->p_Push4(0);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(13);
-		t_picker->p_Push4(11);
-		t_picker->p_Push4(9);
-		t_picker->p_Push4(0);
-		t_picker->p_Push4(0);
-		t_picker->p_Push4(0);
-		t_picker->p_Push4(14);
-		t_picker->p_Push4(11);
-		t_picker->p_Push4(11);
-		t_picker->p_Push4(11);
-	}
-	int t_shrineInt=-1;
-	for(int t_i=200;t_i>0;t_i=t_i+-1){
-		t_shrineInt=t_picker->p_PickRandom(true);
-		if(!m_IsValidShrine(t_shrineInt)){
-			continue;
-		}
-		if(t_isShriner){
-			int t_1=t_shrineInt;
-			if(t_1==14 || t_1==6 || t_1==12){
-				continue;
-			}
-		}
-		int t_2=t_shrineInt;
-		if(t_2==t_banType1 || t_2==t_banType2){
-			continue;
-		}
-		return t_shrineInt;
-	}
-	return 2;
-}
-String c_Shrine::m_GetHintText(int t_shrineType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.GetHintText(Int)",23));
-	return String();
-}
-String c_Shrine::p_RandomGlassWeapon(){
-	int t_requestedLevel=bb_controller_game_currentLevel+2;
-	if(!c_Util::m_IsWeaponlessCharacterActive()){
-		return c_Item::m_GetRandomItemInClass(String(L"isGlass",7),t_requestedLevel,String(L"chestChance",11),2,true,String(L"weapon",6),false);
-	}
-	return c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
-}
-void c_Shrine::p_GenUncertaintyContents(){
-	c_UncertaintyWeaponPredicate* t_weaponPredicate=(new c_UncertaintyWeaponPredicate)->m_new();
-	this->m_contents1=c_Item::m_GetRandomItemInClassByPredicate((t_weaponPredicate),-1,String(L"chestChance",11),true);
-	c_UncertaintyRingPredicate* t_ringPredicate=(new c_UncertaintyRingPredicate)->m_new();
-	this->m_contents2=c_Item::m_GetRandomItemInClassByPredicate((t_ringPredicate),-1,String(L"chestChance",11),true);
-}
-void c_Shrine::p_GenBossContents(){
-	int t_requestedLevel=bb_controller_game_currentLevel+2;
-	this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),1,true,String(),false);
-	this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),3,true,String(),false);
-	this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),2,true,String(),false);
-}
-void c_Shrine::p_GenPainContents(){
-	this->m_contents1=this->p_RandomGlassWeapon();
-	this->m_contents2=this->p_RandomGlassWeapon();
-	this->m_contents3=this->p_RandomGlassWeapon();
-}
-c_List28* c_Shrine::m_shrineList;
-c_Shrine* c_Shrine::m_new(int t_xVal,int t_yVal,int t_cType,c_RNG* t_rng_,bool t_saleShrine,bool t_pending){
-	c_Entity::m_new();
-	this->m_x=t_xVal;
-	this->m_y=t_yVal;
-	this->m_type=t_cType;
-	this->m_isForSale=t_saleShrine;
-	gc_assign(this->m_rng,t_rng_);
-	this->m_isWraithLike=true;
-	String t_hintText=m_GetHintText(this->m_type);
-	if(t_hintText!=String()){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.New(Int, Int, Int, RNG, Bool, Bool) (hint text)",54));
-	}
-	if(c_Level::m_randSeed!=-1){
-		int t_4=this->m_type;
-		if(t_4==0){
-			this->m_contents1=c_Item::m_GetRandomItemInClass(String(L"isBlood",7),-1,String(L"chestChance",11),0,true,String(),false);
-		}else{
-			if(t_4==5){
-				int t_requestedLevel=bb_controller_game_currentLevel+2;
-				this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
-				this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
-				this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel,String(L"chestChance",11),0,true,String(),false);
-			}else{
-				if(t_4==6){
-					int t_requestedLevel2=bb_controller_game_currentLevel+2;
-					this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel2,String(L"chestChance",11),0,true,String(),false);
-					this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel2,String(L"chestChance",11),0,true,String(),false);
-					this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel2,String(L"chestChance",11),0,true,String(),false);
-					this->m_contents4=this->p_RandomGlassWeapon();
-					this->m_contents5=this->p_RandomGlassWeapon();
-					this->m_contents6=this->p_RandomGlassWeapon();
-				}else{
-					if(t_4==12){
-						int t_requestedLevel3=bb_controller_game_currentLevel;
-						this->m_contents1=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
-						this->m_contents2=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
-						this->m_contents3=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
-						this->m_contents4=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
-						this->m_contents5=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
-						this->m_contents6=c_Item::m_GetRandomItemInClass(String(),t_requestedLevel3,String(L"chestChance",11),0,false,String(),false);
-					}else{
-						if(t_4==15){
-							this->p_GenUncertaintyContents();
-						}else{
-							if(t_4==13){
-								this->p_GenBossContents();
-							}else{
-								if(t_4==14){
-									this->p_GenPainContents();
-								}else{
-									if(t_4==8){
-										int t_randomValue=c_Util::m_RndIntRangeFromZero(1,true);
-										this->m_contents1=String(t_randomValue)+String();
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	this->m_xOff=FLOAT(-6.0);
-	this->m_yOff=FLOAT(-19.0);
-	int t_5=this->m_type;
-	if(t_5==0){
-		gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_blood.png",22),35,52,4,c_Image::m_DefaultFlags));
-	}else{
-		if(t_5==1){
-			gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_darkness.png",25),35,52,4,c_Image::m_DefaultFlags));
-		}else{
-			if(t_5==2){
-				gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_glass.png",22),35,52,4,c_Image::m_DefaultFlags));
-			}else{
-				if(t_5==3){
-					gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_peace.png",22),35,52,4,c_Image::m_DefaultFlags));
-				}else{
-					if(t_5==4){
-						gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_rhythm.png",23),35,52,4,c_Image::m_DefaultFlags));
-					}else{
-						if(t_5==5){
-							gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_risk.png",21),35,52,4,c_Image::m_DefaultFlags));
-						}else{
-							if(t_5==6){
-								gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_sacrifice.png",26),35,52,4,c_Image::m_DefaultFlags));
-							}else{
-								if(t_5==7){
-									gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_space.png",22),35,52,4,c_Image::m_DefaultFlags));
-								}else{
-									if(t_5==8){
-										gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_war.png",20),35,52,4,c_Image::m_DefaultFlags));
-									}else{
-										if(t_5==9){
-											gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_no_return.png",26),35,52,4,c_Image::m_DefaultFlags));
-										}else{
-											if(t_5==10){
-												gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_phasing.png",24),35,52,4,c_Image::m_DefaultFlags));
-											}else{
-												if(t_5==11){
-													gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_pace.png",21),35,52,4,c_Image::m_DefaultFlags));
-													this->m_xOff=FLOAT(-5.0);
-													this->m_yOff=FLOAT(-21.0);
-												}else{
-													if(t_5==12){
-														gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_chance.png",23),35,52,4,c_Image::m_DefaultFlags));
-														this->m_cost=int(c_SaleItem::m_GetCostMultiplier()*FLOAT(10.0));
-													}else{
-														if(t_5==15){
-															gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_uncertainty.png",28),24,48,4,c_Image::m_DefaultFlags));
-															this->m_xOff=FLOAT(-2.0);
-															this->m_yOff=FLOAT(-16.0);
-														}else{
-															if(t_5==13){
-																gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_boss.png",21),30,46,4,c_Image::m_DefaultFlags));
-																this->m_xOff=FLOAT(-3.0);
-																this->m_yOff=FLOAT(-13.0);
-															}else{
-																if(t_5==14){
-																	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"level/shrine_pain.png",21),22,50,4,c_Image::m_DefaultFlags));
-																	this->m_xOff=FLOAT(0.0);
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	if(this->m_type==12 || this->m_isForSale){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.New(Int, Int, Int, RNG, Bool, Bool) (digit sprites)",58));
-	}
-	this->m_image->p_SetZOff(FLOAT(20.0));
-	this->m_collides=true;
-	m_shrineList->p_AddLast28(this);
-	if(!t_pending){
-		m_usedShrines->p_Insert5(this->m_type);
-	}
-	return this;
-}
-c_Shrine* c_Shrine::m_new2(){
-	c_Entity::m_new();
-	return this;
-}
-void c_Shrine::m_AddPendingShrinesToUsedList(){
-	c_Enumerator28* t_=m_shrineList->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_Shrine* t_shrine=t_->p_NextObject();
-		m_usedShrines->p_Insert5(t_shrine->m_type);
-	}
-}
-c_Shrine* c_Shrine::m_GetShrineAt(int t_xVal,int t_yVal){
-	c_Enumerator28* t_=m_shrineList->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_Shrine* t_shrine=t_->p_NextObject();
-		if(t_shrine->m_x==t_xVal && t_shrine->m_y==t_yVal){
-			return t_shrine;
-		}
-	}
-	return 0;
-}
-void c_Shrine::p_Die(){
-	if(!this->m_dead){
-		m_shrineList->p_RemoveEach15(this);
-		if(this->m_hintText!=0){
-			this->m_hintText->p_Discard();
-		}
-		c_Entity::p_Die();
-	}
-}
-bool c_Shrine::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.Hit(String, Int, Int, Entity, Bool, Int)",47));
-	return false;
-}
-void c_Shrine::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.Update()",15));
-}
-void c_Shrine::p_SetCost(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.SetCost()",16));
-}
-void c_Shrine::mark(){
-	c_Entity::mark();
-	gc_mark_q(m_rng);
-	gc_mark_q(m_hintText);
-}
-c_Set::c_Set(){
-	m_map=0;
-}
-c_Set* c_Set::m_new(c_Map7* t_map){
-	gc_assign(this->m_map,t_map);
-	return this;
-}
-c_Set* c_Set::m_new2(){
-	return this;
-}
-int c_Set::p_Clear(){
-	m_map->p_Clear();
-	return 0;
-}
-bool c_Set::p_Contains(int t_value){
-	return m_map->p_Contains(t_value);
-}
-int c_Set::p_Insert5(int t_value){
-	m_map->p_Insert6(t_value,0);
-	return 0;
-}
-void c_Set::mark(){
-	Object::mark();
-	gc_mark_q(m_map);
-}
-c_IntSet::c_IntSet(){
-}
-c_IntSet* c_IntSet::m_new(){
-	c_Set::m_new((new c_IntMap4)->m_new());
-	return this;
-}
-void c_IntSet::mark(){
-	c_Set::mark();
-}
-c_Map7::c_Map7(){
-	m_root=0;
-}
-c_Map7* c_Map7::m_new(){
-	return this;
-}
-int c_Map7::p_Clear(){
-	m_root=0;
-	return 0;
-}
-c_Node7* c_Map7::p_FindNode(int t_key){
-	c_Node7* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return t_node;
-			}
-		}
-	}
-	return t_node;
-}
-bool c_Map7::p_Contains(int t_key){
-	return p_FindNode(t_key)!=0;
-}
-int c_Map7::p_RotateLeft6(c_Node7* t_node){
-	c_Node7* t_child=t_node->m_right;
-	gc_assign(t_node->m_right,t_child->m_left);
-	if((t_child->m_left)!=0){
-		gc_assign(t_child->m_left->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_left){
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_left,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map7::p_RotateRight6(c_Node7* t_node){
-	c_Node7* t_child=t_node->m_left;
-	gc_assign(t_node->m_left,t_child->m_right);
-	if((t_child->m_right)!=0){
-		gc_assign(t_child->m_right->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_right){
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_right,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map7::p_InsertFixup6(c_Node7* t_node){
-	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
-		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node7* t_uncle=t_node->m_parent->m_parent->m_right;
-			if(((t_uncle)!=0) && t_uncle->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle->m_color=1;
-				t_uncle->m_parent->m_color=-1;
-				t_node=t_uncle->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_right){
-					t_node=t_node->m_parent;
-					p_RotateLeft6(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateRight6(t_node->m_parent->m_parent);
-			}
-		}else{
-			c_Node7* t_uncle2=t_node->m_parent->m_parent->m_left;
-			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle2->m_color=1;
-				t_uncle2->m_parent->m_color=-1;
-				t_node=t_uncle2->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_left){
-					t_node=t_node->m_parent;
-					p_RotateRight6(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateLeft6(t_node->m_parent->m_parent);
-			}
-		}
-	}
-	m_root->m_color=1;
-	return 0;
-}
-bool c_Map7::p_Set7(int t_key,Object* t_value){
-	c_Node7* t_node=m_root;
-	c_Node7* t_parent=0;
 	int t_cmp=0;
 	while((t_node)!=0){
 		t_parent=t_node;
@@ -32940,39 +33093,39 @@ bool c_Map7::p_Set7(int t_key,Object* t_value){
 			}
 		}
 	}
-	t_node=(new c_Node7)->m_new(t_key,t_value,-1,t_parent);
+	t_node=(new c_Node6)->m_new(t_key,t_value,-1,t_parent);
 	if((t_parent)!=0){
 		if(t_cmp>0){
 			gc_assign(t_parent->m_right,t_node);
 		}else{
 			gc_assign(t_parent->m_left,t_node);
 		}
-		p_InsertFixup6(t_node);
+		p_InsertFixup5(t_node);
 	}else{
 		gc_assign(m_root,t_node);
 	}
 	return true;
 }
-bool c_Map7::p_Insert6(int t_key,Object* t_value){
-	return p_Set7(t_key,t_value);
+bool c_Map5::p_Insert5(int t_key,Object* t_value){
+	return p_Set6(t_key,t_value);
 }
-void c_Map7::mark(){
+void c_Map5::mark(){
 	Object::mark();
 	gc_mark_q(m_root);
 }
-c_IntMap4::c_IntMap4(){
+c_IntMap3::c_IntMap3(){
 }
-c_IntMap4* c_IntMap4::m_new(){
-	c_Map7::m_new();
+c_IntMap3* c_IntMap3::m_new(){
+	c_Map5::m_new();
 	return this;
 }
-int c_IntMap4::p_Compare(int t_lhs,int t_rhs){
+int c_IntMap3::p_Compare(int t_lhs,int t_rhs){
 	return t_lhs-t_rhs;
 }
-void c_IntMap4::mark(){
-	c_Map7::mark();
+void c_IntMap3::mark(){
+	c_Map5::mark();
 }
-c_Node7::c_Node7(){
+c_Node6::c_Node6(){
 	m_key=0;
 	m_right=0;
 	m_left=0;
@@ -32980,17 +33133,17 @@ c_Node7::c_Node7(){
 	m_color=0;
 	m_parent=0;
 }
-c_Node7* c_Node7::m_new(int t_key,Object* t_value,int t_color,c_Node7* t_parent){
+c_Node6* c_Node6::m_new(int t_key,Object* t_value,int t_color,c_Node6* t_parent){
 	this->m_key=t_key;
 	gc_assign(this->m_value,t_value);
 	this->m_color=t_color;
 	gc_assign(this->m_parent,t_parent);
 	return this;
 }
-c_Node7* c_Node7::m_new2(){
+c_Node6* c_Node6::m_new2(){
 	return this;
 }
-void c_Node7::mark(){
+void c_Node6::mark(){
 	Object::mark();
 	gc_mark_q(m_right);
 	gc_mark_q(m_left);
@@ -33048,8 +33201,8 @@ c_List2::c_List2(){
 c_List2* c_List2::m_new(){
 	return this;
 }
-c_Node8* c_List2::p_AddLast2(c_RenderableObject* t_data){
-	return (new c_Node8)->m_new(m__head,m__head->m__pred,t_data);
+c_Node7* c_List2::p_AddLast2(c_RenderableObject* t_data){
+	return (new c_Node7)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List2* c_List2::m_new2(Array<c_RenderableObject* > t_data){
 	Array<c_RenderableObject* > t_=t_data;
@@ -33061,14 +33214,14 @@ c_List2* c_List2::m_new2(Array<c_RenderableObject* > t_data){
 	}
 	return this;
 }
-bool c_List2::p_Equals3(c_RenderableObject* t_lhs,c_RenderableObject* t_rhs){
+bool c_List2::p_Equals2(c_RenderableObject* t_lhs,c_RenderableObject* t_rhs){
 	return t_lhs==t_rhs;
 }
 int c_List2::p_RemoveEach(c_RenderableObject* t_value){
-	c_Node8* t_node=m__head->m__succ;
+	c_Node7* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node8* t_succ=t_node->m__succ;
-		if(p_Equals3(t_node->m__data,t_value)){
+		c_Node7* t_succ=t_node->m__succ;
+		if(p_Equals2(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
 		t_node=t_succ;
@@ -33082,12 +33235,12 @@ void c_List2::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node8::c_Node8(){
+c_Node7::c_Node7(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node8* c_Node8::m_new(c_Node8* t_succ,c_Node8* t_pred,c_RenderableObject* t_data){
+c_Node7* c_Node7::m_new(c_Node7* t_succ,c_Node7* t_pred,c_RenderableObject* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -33095,15 +33248,15 @@ c_Node8* c_Node8::m_new(c_Node8* t_succ,c_Node8* t_pred,c_RenderableObject* t_da
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node8* c_Node8::m_new2(){
+c_Node7* c_Node7::m_new2(){
 	return this;
 }
-int c_Node8::p_Remove(){
+int c_Node7::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node8::mark(){
+void c_Node7::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -33112,13 +33265,13 @@ void c_Node8::mark(){
 c_HeadNode2::c_HeadNode2(){
 }
 c_HeadNode2* c_HeadNode2::m_new(){
-	c_Node8::m_new2();
+	c_Node7::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode2::mark(){
-	c_Node8::mark();
+	c_Node7::mark();
 }
 c_ParticleSystem::c_ParticleSystem(){
 	m_visible=true;
@@ -33133,6 +33286,9 @@ c_ParticleSystem* c_ParticleSystem::m_new(int t_xVal,int t_yVal,c_ParticleSystem
 c_ParticleSystem* c_ParticleSystem::m_new2(){
 	c_Tweenable::m_new();
 	return this;
+}
+void c_ParticleSystem::m_Init(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ParticleSystem.Init()",21));
 }
 void c_ParticleSystem::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ParticleSystem.Update()",23));
@@ -33162,8 +33318,8 @@ c_List3::c_List3(){
 c_List3* c_List3::m_new(){
 	return this;
 }
-c_Node9* c_List3::p_AddLast3(c_Entity* t_data){
-	return (new c_Node9)->m_new(m__head,m__head->m__pred,t_data);
+c_Node8* c_List3::p_AddLast3(c_Entity* t_data){
+	return (new c_Node8)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List3* c_List3::m_new2(Array<c_Entity* > t_data){
 	Array<c_Entity* > t_=t_data;
@@ -33175,22 +33331,22 @@ c_List3* c_List3::m_new2(Array<c_Entity* > t_data){
 	}
 	return this;
 }
-bool c_List3::p_Equals4(c_Entity* t_lhs,c_Entity* t_rhs){
+bool c_List3::p_Equals3(c_Entity* t_lhs,c_Entity* t_rhs){
 	return t_lhs==t_rhs;
 }
 int c_List3::p_RemoveEach2(c_Entity* t_value){
-	c_Node9* t_node=m__head->m__succ;
+	c_Node8* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node9* t_succ=t_node->m__succ;
-		if(p_Equals4(t_node->m__data,t_value)){
+		c_Node8* t_succ=t_node->m__succ;
+		if(p_Equals3(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
 		t_node=t_succ;
 	}
 	return 0;
 }
-c_Enumerator2* c_List3::p_ObjectEnumerator(){
-	return (new c_Enumerator2)->m_new(this);
+c_Enumerator3* c_List3::p_ObjectEnumerator(){
+	return (new c_Enumerator3)->m_new(this);
 }
 int c_List3::p_Clear(){
 	gc_assign(m__head->m__succ,m__head);
@@ -33201,12 +33357,12 @@ void c_List3::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node9::c_Node9(){
+c_Node8::c_Node8(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node9* c_Node9::m_new(c_Node9* t_succ,c_Node9* t_pred,c_Entity* t_data){
+c_Node8* c_Node8::m_new(c_Node8* t_succ,c_Node8* t_pred,c_Entity* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -33214,15 +33370,15 @@ c_Node9* c_Node9::m_new(c_Node9* t_succ,c_Node9* t_pred,c_Entity* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node9* c_Node9::m_new2(){
+c_Node8* c_Node8::m_new2(){
 	return this;
 }
-int c_Node9::p_Remove(){
+int c_Node8::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node9::mark(){
+void c_Node8::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -33231,13 +33387,13 @@ void c_Node9::mark(){
 c_HeadNode3::c_HeadNode3(){
 }
 c_HeadNode3* c_HeadNode3::m_new(){
-	c_Node9::m_new2();
+	c_Node8::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode3::mark(){
-	c_Node9::mark();
+	c_Node8::mark();
 }
 c_FamiliarFixed::c_FamiliarFixed(){
 	m_offsetX=0;
@@ -33255,7 +33411,7 @@ void c_FamiliarFixed::p_WarpTo(int t_x_,int t_y_){
 }
 c_List4* c_FamiliarFixed::m_familiarList;
 c_FamiliarFixed* c_FamiliarFixed::m_GetFamiliarAt(int t_x,int t_y){
-	c_Enumerator* t_=m_familiarList->p_ObjectEnumerator();
+	c_Enumerator2* t_=m_familiarList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_FamiliarFixed* t_familiar=t_->p_NextObject();
 		if(t_x==t_familiar->m_x && t_y==t_familiar->m_y){
@@ -33278,8 +33434,8 @@ c_List4::c_List4(){
 c_List4* c_List4::m_new(){
 	return this;
 }
-c_Node10* c_List4::p_AddLast4(c_FamiliarFixed* t_data){
-	return (new c_Node10)->m_new(m__head,m__head->m__pred,t_data);
+c_Node9* c_List4::p_AddLast4(c_FamiliarFixed* t_data){
+	return (new c_Node9)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List4* c_List4::m_new2(Array<c_FamiliarFixed* > t_data){
 	Array<c_FamiliarFixed* > t_=t_data;
@@ -33291,8 +33447,8 @@ c_List4* c_List4::m_new2(Array<c_FamiliarFixed* > t_data){
 	}
 	return this;
 }
-c_Enumerator* c_List4::p_ObjectEnumerator(){
-	return (new c_Enumerator)->m_new(this);
+c_Enumerator2* c_List4::p_ObjectEnumerator(){
+	return (new c_Enumerator2)->m_new(this);
 }
 int c_List4::p_Clear(){
 	gc_assign(m__head->m__succ,m__head);
@@ -33303,12 +33459,12 @@ void c_List4::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node10::c_Node10(){
+c_Node9::c_Node9(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node10* c_Node10::m_new(c_Node10* t_succ,c_Node10* t_pred,c_FamiliarFixed* t_data){
+c_Node9* c_Node9::m_new(c_Node9* t_succ,c_Node9* t_pred,c_FamiliarFixed* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -33316,10 +33472,10 @@ c_Node10* c_Node10::m_new(c_Node10* t_succ,c_Node10* t_pred,c_FamiliarFixed* t_d
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node10* c_Node10::m_new2(){
+c_Node9* c_Node9::m_new2(){
 	return this;
 }
-void c_Node10::mark(){
+void c_Node9::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -33328,38 +33484,38 @@ void c_Node10::mark(){
 c_HeadNode4::c_HeadNode4(){
 }
 c_HeadNode4* c_HeadNode4::m_new(){
-	c_Node10::m_new2();
+	c_Node9::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode4::mark(){
-	c_Node10::mark();
+	c_Node9::mark();
 }
-c_Enumerator::c_Enumerator(){
+c_Enumerator2::c_Enumerator2(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator* c_Enumerator::m_new(c_List4* t_list){
+c_Enumerator2* c_Enumerator2::m_new(c_List4* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator* c_Enumerator::m_new2(){
+c_Enumerator2* c_Enumerator2::m_new2(){
 	return this;
 }
-bool c_Enumerator::p_HasNext(){
+bool c_Enumerator2::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_FamiliarFixed* c_Enumerator::p_NextObject(){
+c_FamiliarFixed* c_Enumerator2::p_NextObject(){
 	c_FamiliarFixed* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator::mark(){
+void c_Enumerator2::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -33395,16 +33551,16 @@ c_Familiar* c_Familiar::m_new2(){
 void c_Familiar::p_Recall(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.Recall()",17));
 }
+bool c_Familiar::m_IsAnyAt(int t_x,int t_y){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.IsAnyAt(Int, Int)",26));
+	return false;
+}
 bool c_Familiar::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.Hit(String, Int, Int, Entity, Bool, Int)",49));
 	return false;
 }
 void c_Familiar::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.Update()",17));
-}
-bool c_Familiar::m_IsAnyAt(int t_x,int t_y){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.IsAnyAt(Int, Int)",26));
-	return false;
 }
 void c_Familiar::mark(){
 	c_MobileEntity::mark();
@@ -33490,13 +33646,13 @@ int c_Item::p_GetFlyawayText(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetFlyawayText()",21));
 	return 0;
 }
-c_StringMap3* c_Item::m_seenItems;
+c_StringMap6* c_Item::m_seenItems;
 void c_Item::m_AddToSeenItems(String t_itemName){
-	if(m_seenItems->p_Contains2(t_itemName)){
+	if(m_seenItems->p_Contains4(t_itemName)){
 		int t_seen=m_seenItems->p_Get(t_itemName);
-		m_seenItems->p_Update2(t_itemName,t_seen+1);
+		m_seenItems->p_Update3(t_itemName,t_seen+1);
 	}else{
-		m_seenItems->p_Insert4(t_itemName,1);
+		m_seenItems->p_Insert8(t_itemName,1);
 	}
 }
 c_Item* c_Item::m_new(int t_xVal,int t_yVal,String t_type,bool t_drop,int t_utl,bool t_isTrainingWeapon){
@@ -33664,7 +33820,7 @@ Array<c_List* > c_Item::m_itemPoolLockedShop2;
 Array<c_List* > c_Item::m_itemPoolUrn;
 Array<c_List* > c_Item::m_itemPoolUrn2;
 bool c_Item::m_HasSeenItemXTimes(String t_itemName,int t_x){
-	if(m_seenItems->p_Contains2(t_itemName)){
+	if(m_seenItems->p_Contains4(t_itemName)){
 		return m_seenItems->p_Get(t_itemName)>=t_x;
 	}
 	return false;
@@ -33724,7 +33880,7 @@ String c_Item::m_GetRandomItemInClassByPredicate(c_IItemPredicate* t_predicate,i
 		}
 	}
 	for(int t_j=1;t_j<10;t_j=t_j+1){
-		c_Enumerator3* t_=t_itemPool->p_ObjectEnumerator();
+		c_Enumerator* t_=t_itemPool->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_XMLNode* t_itemNode=t_->p_NextObject();
 			if(t_predicate->p_Call(t_itemNode)){
@@ -34140,7 +34296,7 @@ void c_Item::m_CreateItemPools(){
 				t_itemPool->p_Clear();
 				t_unlockedItems->p_Clear();
 				t_unlockedItemsChances->p_Clear();
-				c_Enumerator3* t_=t_itemNodes->p_ObjectEnumerator();
+				c_Enumerator* t_=t_itemNodes->p_ObjectEnumerator();
 				while(t_->p_HasNext()){
 					c_XMLNode* t_itemNode=t_->p_NextObject();
 					int t_m=0;
@@ -34292,6 +34448,9 @@ int c_Item::m_RandomHardModeHelperItem(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.RandomHardModeHelperItem()",31));
 	return 0;
 }
+void c_Item::m_InitAll(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.InitAll()",14));
+}
 String c_Item::p_PickupFail(c_Player* t_player){
 	c_Audio::m_PlayGameSound(String(L"error",5),2,FLOAT(1.0));
 	t_player->p_ImmediatelyMoveTo(t_player->m_lastX-t_player->m_x,t_player->m_lastY-t_player->m_y,false,false,false,false,false);
@@ -34403,14 +34562,14 @@ int c_Item::m_ConsumeCoinsRemainingOnLevel(){
 void c_Item::m_MoveAll(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.MoveAll()",14));
 }
-bool c_Item::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+bool c_Item::p_IsVisible(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.IsVisible()",16));
 	return false;
 }
 void c_Item::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.Update()",13));
 }
-bool c_Item::p_IsVisible(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.IsVisible()",16));
+bool c_Item::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	return false;
 }
 void c_Item::mark(){
@@ -34560,7 +34719,7 @@ String c_SaleItem::m_GetRandomItem(int t_level,String t_randType){
 		}
 		if(t_isValid){
 			if(t_itemClass!=m_lastSaleItemClass1 && t_itemClass!=m_lastSaleItemClass2){
-				if(!m_randomSaleItemList->p_Contains2(t_itemName)){
+				if(!m_randomSaleItemList->p_Contains4(t_itemName)){
 					break;
 				}
 			}
@@ -34928,7 +35087,7 @@ void c_Enemy::p_Init3(int t_xVal,int t_yVal,int t_l,String t_name,String t_overr
 	this->m_animBlink->p_Clear();
 	this->m_animTell->p_Clear();
 	this->m_animTellBlink->p_Clear();
-	c_Enumerator3* t_=t_enemyNode->p_GetChildren2(String(L"frame",5),0,false)->p_ObjectEnumerator();
+	c_Enumerator* t_=t_enemyNode->p_GetChildren2(String(L"frame",5),0,false)->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_XMLNode* t_frameNode=t_->p_NextObject();
 		int t_inSheet=t_frameNode->p_GetAttribute3(String(L"inSheet",7),1);
@@ -35746,14 +35905,14 @@ c_Enemy* c_Enemy::m_GetEnemyAt(int t_xVal,int t_yVal,bool t_includeFalling){
 int c_Enemy::m_GetBaseType(int t_fullType){
 	c_XMLNode* t_enemiesNode=bb_necrodancergame_xmlData->p_GetChildAtPath(String(L"enemies",7));
 	String t_enemyName=String();
-	c_Enumerator3* t_=t_enemiesNode->p_GetChildrenWithAttributes(String(L"id=",3)+String(t_fullType),0,false)->p_ObjectEnumerator();
+	c_Enumerator* t_=t_enemiesNode->p_GetChildrenWithAttributes(String(L"id=",3)+String(t_fullType),0,false)->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_XMLNode* t_enemyNode=t_->p_NextObject();
 		t_enemyName=t_enemyNode->p_name();
 	}
 	bb_logger_Debug->p_Assert(t_enemyName!=String(),String());
 	int t_baseType=-1;
-	c_Enumerator3* t_2=t_enemiesNode->p_GetChildren3(t_enemyName,String(L"type=1",6),0,false)->p_ObjectEnumerator();
+	c_Enumerator* t_2=t_enemiesNode->p_GetChildren3(t_enemyName,String(L"type=1",6),0,false)->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_XMLNode* t_enemyNode2=t_2->p_NextObject();
 		bb_logger_Debug->p_Assert(t_enemyNode2->p_HasAttribute(String(L"id",2)),String());
@@ -35832,7 +35991,7 @@ void c_Enemy::m_StartRandomizerRun(){
 	c_XMLNode* t_enemiesNode=bb_necrodancergame_xmlData->p_GetChildAtPath(String(L"enemies",7));
 	String t_enemiesXMLStr=t_enemiesNode->p_Export(1);
 	gc_assign(m_randomizerXML,bb_xml_ParseXML(t_enemiesXMLStr,0,1));
-	c_Enumerator3* t_=m_randomizerXML->p_GetChildren(0,false)->p_ObjectEnumerator();
+	c_Enumerator* t_=m_randomizerXML->p_GetChildren(0,false)->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_XMLNode* t_enemyNode=t_->p_NextObject();
 		String t_14=t_enemyNode->p_name();
@@ -38390,10 +38549,6 @@ bool c_Enemy::m_EnemiesMovingThisFrame(){
 void c_Enemy::m_MoveAll(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.MoveAll()",15));
 }
-bool c_Enemy::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.Hit(String, Int, Int, Entity, Bool, Int)",46));
-	return false;
-}
 void c_Enemy::p_AnimateToTheBeat(){
 	if(this->m_animOverrideState!=-1){
 		this->m_image->p_SetFrame(this->m_animOverrideState);
@@ -38443,6 +38598,10 @@ void c_Enemy::p_Update(){
 	this->m_wasKnockedBack=false;
 	this->m_justSpawned=false;
 	this->m_wasFrozen=this->p_IsFrozen(false);
+}
+bool c_Enemy::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.Hit(String, Int, Int, Entity, Bool, Int)",46));
+	return false;
 }
 void c_Enemy::m_SetEnemiesToDropNoCoinsOverride(){
 	c_Enumerator4* t_=m_enemyList->p_ObjectEnumerator();
@@ -38684,7 +38843,7 @@ void c_Crate::m_ProcessFallenCrates(){
 }
 void c_Crate::p_Die(){
 	if(!this->m_dead){
-		if(m_fallenCrates->p_Contains3(this)){
+		if(m_fallenCrates->p_Contains2(this)){
 			this->m_x=-9999;
 			this->m_y=-9999;
 		}else{
@@ -38709,8 +38868,8 @@ c_List5::c_List5(){
 c_List5* c_List5::m_new(){
 	return this;
 }
-c_Node11* c_List5::p_AddLast5(c_Crate* t_data){
-	return (new c_Node11)->m_new(m__head,m__head->m__pred,t_data);
+c_Node10* c_List5::p_AddLast5(c_Crate* t_data){
+	return (new c_Node10)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List5* c_List5::m_new2(Array<c_Crate* > t_data){
 	Array<c_Crate* > t_=t_data;
@@ -38729,7 +38888,7 @@ int c_List5::p_Clear(){
 }
 int c_List5::p_Count(){
 	int t_n=0;
-	c_Node11* t_node=m__head->m__succ;
+	c_Node10* t_node=m__head->m__succ;
 	while(t_node!=m__head){
 		t_node=t_node->m__succ;
 		t_n+=1;
@@ -38741,31 +38900,31 @@ c_Crate* c_List5::p_RemoveFirst(){
 	m__head->m__succ->p_Remove();
 	return t_data;
 }
-bool c_List5::p_Equals5(c_Crate* t_lhs,c_Crate* t_rhs){
+bool c_List5::p_Equals4(c_Crate* t_lhs,c_Crate* t_rhs){
 	return t_lhs==t_rhs;
 }
-c_Node11* c_List5::p_Find(c_Crate* t_value,c_Node11* t_start){
+c_Node10* c_List5::p_Find(c_Crate* t_value,c_Node10* t_start){
 	while(t_start!=m__head){
-		if(p_Equals5(t_value,t_start->m__data)){
+		if(p_Equals4(t_value,t_start->m__data)){
 			return t_start;
 		}
 		t_start=t_start->m__succ;
 	}
 	return 0;
 }
-c_Node11* c_List5::p_Find2(c_Crate* t_value){
+c_Node10* c_List5::p_Find2(c_Crate* t_value){
 	return p_Find(t_value,m__head->m__succ);
 }
 void c_List5::p_RemoveFirst2(c_Crate* t_value){
-	c_Node11* t_node=p_Find2(t_value);
+	c_Node10* t_node=p_Find2(t_value);
 	if((t_node)!=0){
 		t_node->p_Remove();
 	}
 }
-bool c_List5::p_Contains3(c_Crate* t_value){
-	c_Node11* t_node=m__head->m__succ;
+bool c_List5::p_Contains2(c_Crate* t_value){
+	c_Node10* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		if(p_Equals5(t_node->m__data,t_value)){
+		if(p_Equals4(t_node->m__data,t_value)){
 			return true;
 		}
 		t_node=t_node->m__succ;
@@ -38773,10 +38932,10 @@ bool c_List5::p_Contains3(c_Crate* t_value){
 	return false;
 }
 int c_List5::p_RemoveEach3(c_Crate* t_value){
-	c_Node11* t_node=m__head->m__succ;
+	c_Node10* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node11* t_succ=t_node->m__succ;
-		if(p_Equals5(t_node->m__data,t_value)){
+		c_Node10* t_succ=t_node->m__succ;
+		if(p_Equals4(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
 		t_node=t_succ;
@@ -38787,12 +38946,12 @@ void c_List5::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node11::c_Node11(){
+c_Node10::c_Node10(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node11* c_Node11::m_new(c_Node11* t_succ,c_Node11* t_pred,c_Crate* t_data){
+c_Node10* c_Node10::m_new(c_Node10* t_succ,c_Node10* t_pred,c_Crate* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -38800,15 +38959,15 @@ c_Node11* c_Node11::m_new(c_Node11* t_succ,c_Node11* t_pred,c_Crate* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node11* c_Node11::m_new2(){
+c_Node10* c_Node10::m_new2(){
 	return this;
 }
-int c_Node11::p_Remove(){
+int c_Node10::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node11::mark(){
+void c_Node10::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -38817,13 +38976,13 @@ void c_Node11::mark(){
 c_HeadNode5::c_HeadNode5(){
 }
 c_HeadNode5* c_HeadNode5::m_new(){
-	c_Node11::m_new2();
+	c_Node10::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode5::mark(){
-	c_Node11::mark();
+	c_Node10::mark();
 }
 c_Gargoyle::c_Gargoyle(){
 	m_gustImage=0;
@@ -38869,7 +39028,7 @@ void c_Gargoyle::p_OpenAsCrate(bool t_enemyOK){
 }
 void c_Gargoyle::p_Die(){
 	if(!this->m_dead){
-		if(c_Crate::m_fallenGargoyles->p_Contains4(this)){
+		if(c_Crate::m_fallenGargoyles->p_Contains3(this)){
 			this->m_x=-9999;
 			this->m_y=-9999;
 		}else{
@@ -38894,8 +39053,8 @@ c_List6::c_List6(){
 c_List6* c_List6::m_new(){
 	return this;
 }
-c_Node12* c_List6::p_AddLast6(c_Gargoyle* t_data){
-	return (new c_Node12)->m_new(m__head,m__head->m__pred,t_data);
+c_Node11* c_List6::p_AddLast6(c_Gargoyle* t_data){
+	return (new c_Node11)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List6* c_List6::m_new2(Array<c_Gargoyle* > t_data){
 	Array<c_Gargoyle* > t_=t_data;
@@ -38914,7 +39073,7 @@ int c_List6::p_Clear(){
 }
 int c_List6::p_Count(){
 	int t_n=0;
-	c_Node12* t_node=m__head->m__succ;
+	c_Node11* t_node=m__head->m__succ;
 	while(t_node!=m__head){
 		t_node=t_node->m__succ;
 		t_n+=1;
@@ -38926,31 +39085,31 @@ c_Gargoyle* c_List6::p_RemoveFirst(){
 	m__head->m__succ->p_Remove();
 	return t_data;
 }
-bool c_List6::p_Equals6(c_Gargoyle* t_lhs,c_Gargoyle* t_rhs){
+bool c_List6::p_Equals5(c_Gargoyle* t_lhs,c_Gargoyle* t_rhs){
 	return t_lhs==t_rhs;
 }
-c_Node12* c_List6::p_Find3(c_Gargoyle* t_value,c_Node12* t_start){
+c_Node11* c_List6::p_Find3(c_Gargoyle* t_value,c_Node11* t_start){
 	while(t_start!=m__head){
-		if(p_Equals6(t_value,t_start->m__data)){
+		if(p_Equals5(t_value,t_start->m__data)){
 			return t_start;
 		}
 		t_start=t_start->m__succ;
 	}
 	return 0;
 }
-c_Node12* c_List6::p_Find4(c_Gargoyle* t_value){
+c_Node11* c_List6::p_Find4(c_Gargoyle* t_value){
 	return p_Find3(t_value,m__head->m__succ);
 }
 void c_List6::p_RemoveFirst3(c_Gargoyle* t_value){
-	c_Node12* t_node=p_Find4(t_value);
+	c_Node11* t_node=p_Find4(t_value);
 	if((t_node)!=0){
 		t_node->p_Remove();
 	}
 }
-bool c_List6::p_Contains4(c_Gargoyle* t_value){
-	c_Node12* t_node=m__head->m__succ;
+bool c_List6::p_Contains3(c_Gargoyle* t_value){
+	c_Node11* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		if(p_Equals6(t_node->m__data,t_value)){
+		if(p_Equals5(t_node->m__data,t_value)){
 			return true;
 		}
 		t_node=t_node->m__succ;
@@ -38961,12 +39120,12 @@ void c_List6::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node12::c_Node12(){
+c_Node11::c_Node11(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node12* c_Node12::m_new(c_Node12* t_succ,c_Node12* t_pred,c_Gargoyle* t_data){
+c_Node11* c_Node11::m_new(c_Node11* t_succ,c_Node11* t_pred,c_Gargoyle* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -38974,15 +39133,15 @@ c_Node12* c_Node12::m_new(c_Node12* t_succ,c_Node12* t_pred,c_Gargoyle* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node12* c_Node12::m_new2(){
+c_Node11* c_Node11::m_new2(){
 	return this;
 }
-int c_Node12::p_Remove(){
+int c_Node11::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node12::mark(){
+void c_Node11::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -38991,13 +39150,13 @@ void c_Node12::mark(){
 c_HeadNode6::c_HeadNode6(){
 }
 c_HeadNode6* c_HeadNode6::m_new(){
-	c_Node12::m_new2();
+	c_Node11::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode6::mark(){
-	c_Node12::mark();
+	c_Node11::mark();
 }
 c_List7::c_List7(){
 	m__head=((new c_HeadNode7)->m_new());
@@ -39005,8 +39164,8 @@ c_List7::c_List7(){
 c_List7* c_List7::m_new(){
 	return this;
 }
-c_Node13* c_List7::p_AddLast7(String t_data){
-	return (new c_Node13)->m_new(m__head,m__head->m__pred,t_data);
+c_Node12* c_List7::p_AddLast7(String t_data){
+	return (new c_Node12)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List7* c_List7::m_new2(Array<String > t_data){
 	Array<String > t_=t_data;
@@ -39023,13 +39182,13 @@ int c_List7::p_Clear(){
 	gc_assign(m__head->m__pred,m__head);
 	return 0;
 }
-bool c_List7::p_Equals7(String t_lhs,String t_rhs){
+bool c_List7::p_Equals6(String t_lhs,String t_rhs){
 	return t_lhs==t_rhs;
 }
-bool c_List7::p_Contains2(String t_value){
-	c_Node13* t_node=m__head->m__succ;
+bool c_List7::p_Contains4(String t_value){
+	c_Node12* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		if(p_Equals7(t_node->m__data,t_value)){
+		if(p_Equals6(t_node->m__data,t_value)){
 			return true;
 		}
 		t_node=t_node->m__succ;
@@ -39037,10 +39196,10 @@ bool c_List7::p_Contains2(String t_value){
 	return false;
 }
 int c_List7::p_RemoveEach4(String t_value){
-	c_Node13* t_node=m__head->m__succ;
+	c_Node12* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node13* t_succ=t_node->m__succ;
-		if(p_Equals7(t_node->m__data,t_value)){
+		c_Node12* t_succ=t_node->m__succ;
+		if(p_Equals6(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
 		t_node=t_succ;
@@ -39051,12 +39210,12 @@ void c_List7::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node13::c_Node13(){
+c_Node12::c_Node12(){
 	m__succ=0;
 	m__pred=0;
 	m__data=String();
 }
-c_Node13* c_Node13::m_new(c_Node13* t_succ,c_Node13* t_pred,String t_data){
+c_Node12* c_Node12::m_new(c_Node12* t_succ,c_Node12* t_pred,String t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -39064,15 +39223,15 @@ c_Node13* c_Node13::m_new(c_Node13* t_succ,c_Node13* t_pred,String t_data){
 	m__data=t_data;
 	return this;
 }
-c_Node13* c_Node13::m_new2(){
+c_Node12* c_Node12::m_new2(){
 	return this;
 }
-int c_Node13::p_Remove(){
+int c_Node12::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node13::mark(){
+void c_Node12::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -39080,13 +39239,13 @@ void c_Node13::mark(){
 c_HeadNode7::c_HeadNode7(){
 }
 c_HeadNode7* c_HeadNode7::m_new(){
-	c_Node13::m_new2();
+	c_Node12::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode7::mark(){
-	c_Node13::mark();
+	c_Node12::mark();
 }
 c_Leprechaun::c_Leprechaun(){
 }
@@ -39108,30 +39267,30 @@ Array<bool > c_Chain::m_waitingForFirstMovement;
 void c_Chain::mark(){
 	Object::mark();
 }
-c_Enumerator2::c_Enumerator2(){
+c_Enumerator3::c_Enumerator3(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator2* c_Enumerator2::m_new(c_List3* t_list){
+c_Enumerator3* c_Enumerator3::m_new(c_List3* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator2* c_Enumerator2::m_new2(){
+c_Enumerator3* c_Enumerator3::m_new2(){
 	return this;
 }
-bool c_Enumerator2::p_HasNext(){
+bool c_Enumerator3::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Entity* c_Enumerator2::p_NextObject(){
+c_Entity* c_Enumerator3::p_NextObject(){
 	c_Entity* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator2::mark(){
+void c_Enumerator3::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -39169,85 +39328,210 @@ void c_Flyaway::m_UpdateAll(){
 void c_Flyaway::mark(){
 	Object::mark();
 }
-c_Camera::c_Camera(){
+c_LevelType::c_LevelType(){
 }
-int c_Camera::m_fadeOutDuration;
-int c_Camera::m_fadeOutCurrent;
-c_Callback* c_Camera::m_fadeOutCallback;
-int c_Camera::m_fadeInDuration;
-int c_Camera::m_fadeInCurrent;
-c_Callback* c_Camera::m_fadeInCallback;
-int c_Camera::m_x;
-int c_Camera::m_y;
-Float c_Camera::m_seekX;
-Float c_Camera::m_seekY;
-bool c_Camera::m_fixed;
-bool c_Camera::m_IsOnScreenStandardizedRelativeToPoint(int t_xVal,int t_yVal,int t_pointX,int t_pointY){
-	int t_pixelX=t_pointX-24*t_xVal;
-	int t_pixelY=t_pointY-24*t_yVal;
-	return -239<=t_pixelX && t_pixelX<=251 && (-134<=t_pixelY && t_pixelY<=146);
-}
-int c_Camera::m_GetFixedHeight(){
-	if(c_Level::m_isReplaying){
-		c_Node24* t_curReplayData=c_Level::m_replay->m_curReplayData;
-		if(t_curReplayData!=0){
-			return t_curReplayData->p_Value()->m_cameraHeight;
-		}
-	}
-	return bb_necrodancergame_FIXED_HEIGHT;
-}
-int c_Camera::m_GetFixedWidth(){
-	if(c_Level::m_isReplaying){
-		c_Node24* t_curReplayData=c_Level::m_replay->m_curReplayData;
-		if(t_curReplayData!=0){
-			return t_curReplayData->p_Value()->m_cameraWidth;
-		}
-	}
-	return bb_necrodancergame_FIXED_WIDTH;
-}
-void c_Camera::m_FadeOutThenExecute(int t_dur,c_Callback* t_cBack){
-	gc_assign(m_fadeOutCallback,t_cBack);
-	m_fadeOutDuration=t_dur;
-	m_fadeOutCurrent=t_dur;
-}
-Float c_Camera::m_shakeOffX;
-Float c_Camera::m_GetX(){
-	return Float(m_x)+m_shakeOffX;
-}
-Float c_Camera::m_shakeOffY;
-Float c_Camera::m_GetY(){
-	return Float(m_y)+m_shakeOffY;
-}
-bool c_Camera::m_IsOnScreen(int t_xVal,int t_yVal){
-	int t_scaledXVal=24*t_xVal;
-	Float t_x=m_GetX()-Float(24*t_xVal);
-	int t_cameraWidth=bb_necrodancergame_FIXED_WIDTH;
-	if(c_Level::m_isReplaying && c_Level::m_replay->m_curReplayData!=0){
-		t_cameraWidth=c_Level::m_replay->m_curReplayData->p_Value()->m_cameraWidth;
-	}
-	int t_xMin=t_cameraWidth/-2;
-	int t_xMax=t_cameraWidth/2+12;
-	if(Float(t_xMin)<t_x && t_x<Float(t_xMax)){
-		int t_scaledYVal=24*t_yVal;
-		Float t_y=m_GetY()-Float(t_scaledYVal);
-		int t_cameraHeight=bb_necrodancergame_FIXED_HEIGHT;
-		if(c_Level::m_isReplaying && c_Level::m_replay->m_curReplayData!=0){
-			t_cameraHeight=c_Level::m_replay->m_curReplayData->p_Value()->m_cameraHeight;
-		}
-		int t_yMin=t_cameraHeight/-2;
-		int t_yMax=t_cameraHeight/2+12;
-		if(Float(t_yMin)<t_y && t_y<Float(t_yMax)){
-			return true;
-		}
-	}
-	return false;
-}
-int c_Camera::m_overlayWhiteDuration;
-void c_Camera::m_Shake(int t_type,int t_xVal,int t_yVal){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Shake(Int, Int, Int)",27));
-}
-void c_Camera::mark(){
+void c_LevelType::mark(){
 	Object::mark();
+}
+c_LevelObject::c_LevelObject(){
+	m_bossNum=-1;
+	m_tiles=(new c_List24)->m_new();
+	m_traps=(new c_List25)->m_new();
+	m_enemies=(new c_List29)->m_new();
+	m_items=(new c_List30)->m_new();
+	m_chests=(new c_List31)->m_new();
+	m_crates=(new c_List34)->m_new();
+	m_shrines=(new c_List35)->m_new();
+}
+void c_LevelObject::p_CreateMap(){
+	c_Enumerator14* t_=m_tiles->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_TileObject* t_tileObj=t_->p_NextObject();
+		c_Tile* t_tile=c_Level::m_PlaceTileRemovingExistingTiles(t_tileObj->m_x,t_tileObj->m_y,t_tileObj->m_type,false,t_tileObj->m_zone,false);
+		if(t_tileObj->m_cracked){
+			t_tile->p_BecomeCracked();
+		}
+		if(t_tileObj->m_torch){
+			t_tile->p_AddTorch();
+		}
+		int t_2=t_tile->m_type;
+		if(t_2==2){
+			c_Point* t_exitKey=(new c_Point)->m_new(t_tile->m_x,t_tile->m_y);
+			c_Point* t_exitValue=(new c_Point)->m_new(-3,bb_controller_game_currentZone);
+			c_Level::m_exits->p_Set15(t_exitKey,t_exitValue);
+		}else{
+			if(t_2==9){
+				c_Level::m_CreateExit(t_tile->m_x,t_tile->m_y);
+			}
+		}
+	}
+	c_Tile::m_GenerateWireConnections();
+	c_Enumerator15* t_3=m_traps->p_ObjectEnumerator();
+	while(t_3->p_HasNext()){
+		c_TrapObject* t_trapObj=t_3->p_NextObject();
+		int t_32=t_trapObj->m_type;
+		if(t_32==1){
+			(new c_BounceTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y,t_trapObj->m_subtype);
+		}else{
+			if(t_32==2){
+				(new c_SpikeTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+			}else{
+				if(t_32==3){
+					(new c_TrapDoor)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+				}else{
+					if(t_32==4){
+						(new c_ConfuseTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+					}else{
+						if(t_32==5){
+							(new c_TeleportTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+						}else{
+							if(t_32==6){
+								(new c_SlowDownTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+							}else{
+								if(t_32==7){
+									(new c_SpeedUpTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+								}else{
+									if(t_32==9){
+										(new c_BombTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+									}else{
+										if(t_32==14){
+											(new c_ScatterTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y);
+										}else{
+											if(t_32==10){
+												(new c_FireTrap)->m_new(t_trapObj->m_x,t_trapObj->m_y,t_trapObj->m_subtype,false);
+											}else{
+												if(t_32==8){
+													if(!c_Level::m_isLevelEditor){
+														c_Level::m_secretAtX=t_trapObj->m_x;
+														c_Level::m_secretAtY=t_trapObj->m_y;
+														c_Level::m_AddSpecialRoom(t_trapObj->m_subtype,false);
+													}
+													(new c_TravelRune)->m_new(t_trapObj->m_x,t_trapObj->m_y,c_Level::m_specialRoomEntranceX,c_Level::m_specialRoomEntranceY,t_trapObj->m_subtype);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	c_Enumerator17* t_4=m_enemies->p_ObjectEnumerator();
+	while(t_4->p_HasNext()){
+		c_EnemyObject* t_enemyObj=t_4->p_NextObject();
+		c_Enemy* t_enemy=c_Enemy::m_MakeEnemy(t_enemyObj->m_x,t_enemyObj->m_y,t_enemyObj->m_type);
+		if(t_enemyObj->m_beatDelay!=-1){
+			t_enemy->m_currentMoveDelay=t_enemyObj->m_beatDelay;
+		}
+		if(t_enemyObj->m_lord){
+			t_enemy->p_MakeLord();
+		}
+		if(t_enemy->m_isMiniboss){
+			t_enemy->m_isStairLockingMiniboss=true;
+		}
+	}
+	c_Enumerator18* t_5=m_items->p_ObjectEnumerator();
+	while(t_5->p_HasNext()){
+		c_ItemObject* t_itemObj=t_5->p_NextObject();
+		c_Item* t_item=0;
+		if(t_itemObj->m_bloodCost<=FLOAT(0.0)){
+			if(t_itemObj->m_saleCost<=0){
+				t_item=(new c_Item)->m_new(t_itemObj->m_x,t_itemObj->m_y,t_itemObj->m_type,false,-1,false);
+			}else{
+				t_item=((new c_SaleItem)->m_new(t_itemObj->m_x,t_itemObj->m_y,t_itemObj->m_type,false,0,FLOAT(-1.0),0));
+			}
+		}else{
+			t_item=((new c_SaleItem)->m_new(t_itemObj->m_x,t_itemObj->m_y,t_itemObj->m_type,true,0,FLOAT(-1.0),0));
+		}
+		t_item->m_singleChoiceItem=t_itemObj->m_singleChoice;
+	}
+	c_Enumerator19* t_6=m_chests->p_ObjectEnumerator();
+	while(t_6->p_HasNext()){
+		c_ChestObject* t_chestObj=t_6->p_NextObject();
+		c_Chest* t_chest=0;
+		if(t_chestObj->m_saleCost<=0){
+			t_chest=(new c_Chest)->m_new(t_chestObj->m_x,t_chestObj->m_y,t_chestObj->m_contents,t_chestObj->m_hidden,false,t_chestObj->m_hidden,t_chestObj->m_color);
+		}else{
+			t_chest=((new c_SaleChest)->m_new(t_chestObj->m_x,t_chestObj->m_y,t_chestObj->m_contents,t_chestObj->m_hidden,false,t_chestObj->m_hidden,t_chestObj->m_color));
+		}
+		t_chest->m_singleChoiceChest=t_chestObj->m_singleChoice;
+	}
+	c_Enumerator20* t_7=m_crates->p_ObjectEnumerator();
+	while(t_7->p_HasNext()){
+		c_CrateObject* t_crateObj=t_7->p_NextObject();
+		(new c_Crate)->m_new(t_crateObj->m_x,t_crateObj->m_y,t_crateObj->m_type,t_crateObj->m_contents);
+	}
+	c_Enumerator21* t_8=m_shrines->p_ObjectEnumerator();
+	while(t_8->p_HasNext()){
+		c_ShrineObject* t_shrineObj=t_8->p_NextObject();
+		(new c_Shrine)->m_new(t_shrineObj->m_x,t_shrineObj->m_y,t_shrineObj->m_type,0,false,false);
+	}
+}
+void c_LevelObject::mark(){
+	Object::mark();
+	gc_mark_q(m_tiles);
+	gc_mark_q(m_traps);
+	gc_mark_q(m_enemies);
+	gc_mark_q(m_items);
+	gc_mark_q(m_chests);
+	gc_mark_q(m_crates);
+	gc_mark_q(m_shrines);
+}
+int bb_controller_game_currentLevel;
+int bb_controller_game_currentZone;
+int bb_controller_game_currentDepth;
+c_Map6::c_Map6(){
+	m_root=0;
+}
+c_Node13* c_Map6::p_FindNode(int t_key){
+	c_Node13* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
+	}
+	return t_node;
+}
+c_LevelObject* c_Map6::p_Get2(int t_key){
+	c_Node13* t_node=p_FindNode(t_key);
+	if((t_node)!=0){
+		return t_node->m_value;
+	}
+	return 0;
+}
+void c_Map6::mark(){
+	Object::mark();
+	gc_mark_q(m_root);
+}
+c_IntMap4::c_IntMap4(){
+}
+int c_IntMap4::p_Compare(int t_lhs,int t_rhs){
+	return t_lhs-t_rhs;
+}
+void c_IntMap4::mark(){
+	c_Map6::mark();
+}
+c_Node13::c_Node13(){
+	m_key=0;
+	m_right=0;
+	m_left=0;
+	m_value=0;
+}
+void c_Node13::mark(){
+	Object::mark();
+	gc_mark_q(m_right);
+	gc_mark_q(m_left);
+	gc_mark_q(m_value);
 }
 int bb_math_Abs(int t_x){
 	if(t_x>=0){
@@ -39278,40 +39562,17 @@ c_Stairs_callback* c_Stairs_callback::m_new(){
 void c_Stairs_callback::mark(){
 	Object::mark();
 }
-c_ControllerCutscene::c_ControllerCutscene(){
-}
-c_ControllerCutscene* c_ControllerCutscene::m_new(int t_cutsceneChar,int t_cutsceneNum,int t_creditsNum){
-	c_Controller::m_new();
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.New(Int, Int, Int)",37));
-	return this;
-}
-c_ControllerCutscene* c_ControllerCutscene::m_new2(){
-	c_Controller::m_new();
-	return this;
-}
-void c_ControllerCutscene::m_InitSubtitles(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.InitSubtitles()",34));
-}
-void c_ControllerCutscene::p_RegainFocus(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.RegainFocus()",32));
-}
-void c_ControllerCutscene::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerCutscene.Update()",27));
-}
-void c_ControllerCutscene::mark(){
-	c_Controller::mark();
-}
-c_Map8::c_Map8(){
+c_Map7::c_Map7(){
 	m_root=0;
 }
-c_Map8* c_Map8::m_new(){
+c_Map7* c_Map7::m_new(){
 	return this;
 }
-int c_Map8::p_Clear(){
+int c_Map7::p_Clear(){
 	m_root=0;
 	return 0;
 }
-c_Node14* c_Map8::p_FindNode2(String t_key){
+c_Node14* c_Map7::p_FindNode2(String t_key){
 	c_Node14* t_node=m_root;
 	while((t_node)!=0){
 		int t_cmp=p_Compare2(t_key,t_node->m_key);
@@ -39327,17 +39588,17 @@ c_Node14* c_Map8::p_FindNode2(String t_key){
 	}
 	return t_node;
 }
-bool c_Map8::p_Contains2(String t_key){
+bool c_Map7::p_Contains4(String t_key){
 	return p_FindNode2(t_key)!=0;
 }
-String c_Map8::p_Get(String t_key){
+String c_Map7::p_Get(String t_key){
 	c_Node14* t_node=p_FindNode2(t_key);
 	if((t_node)!=0){
 		return t_node->m_value;
 	}
 	return String();
 }
-int c_Map8::p_RotateLeft7(c_Node14* t_node){
+int c_Map7::p_RotateLeft6(c_Node14* t_node){
 	c_Node14* t_child=t_node->m_right;
 	gc_assign(t_node->m_right,t_child->m_left);
 	if((t_child->m_left)!=0){
@@ -39357,7 +39618,7 @@ int c_Map8::p_RotateLeft7(c_Node14* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map8::p_RotateRight7(c_Node14* t_node){
+int c_Map7::p_RotateRight6(c_Node14* t_node){
 	c_Node14* t_child=t_node->m_left;
 	gc_assign(t_node->m_left,t_child->m_right);
 	if((t_child->m_right)!=0){
@@ -39377,10 +39638,170 @@ int c_Map8::p_RotateRight7(c_Node14* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map8::p_InsertFixup7(c_Node14* t_node){
+int c_Map7::p_InsertFixup6(c_Node14* t_node){
 	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
 		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
 			c_Node14* t_uncle=t_node->m_parent->m_parent->m_right;
+			if(((t_uncle)!=0) && t_uncle->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle->m_color=1;
+				t_uncle->m_parent->m_color=-1;
+				t_node=t_uncle->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_right){
+					t_node=t_node->m_parent;
+					p_RotateLeft6(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateRight6(t_node->m_parent->m_parent);
+			}
+		}else{
+			c_Node14* t_uncle2=t_node->m_parent->m_parent->m_left;
+			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle2->m_color=1;
+				t_uncle2->m_parent->m_color=-1;
+				t_node=t_uncle2->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_left){
+					t_node=t_node->m_parent;
+					p_RotateRight6(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateLeft6(t_node->m_parent->m_parent);
+			}
+		}
+	}
+	m_root->m_color=1;
+	return 0;
+}
+bool c_Map7::p_Set7(String t_key,String t_value){
+	c_Node14* t_node=m_root;
+	c_Node14* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare2(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				t_node->m_value=t_value;
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node14)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup6(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+void c_Map7::mark(){
+	Object::mark();
+	gc_mark_q(m_root);
+}
+c_StringMap3::c_StringMap3(){
+}
+c_StringMap3* c_StringMap3::m_new(){
+	c_Map7::m_new();
+	return this;
+}
+int c_StringMap3::p_Compare2(String t_lhs,String t_rhs){
+	return t_lhs.Compare(t_rhs);
+}
+void c_StringMap3::mark(){
+	c_Map7::mark();
+}
+c_Node14::c_Node14(){
+	m_key=String();
+	m_right=0;
+	m_left=0;
+	m_value=String();
+	m_color=0;
+	m_parent=0;
+}
+c_Node14* c_Node14::m_new(String t_key,String t_value,int t_color,c_Node14* t_parent){
+	this->m_key=t_key;
+	this->m_value=t_value;
+	this->m_color=t_color;
+	gc_assign(this->m_parent,t_parent);
+	return this;
+}
+c_Node14* c_Node14::m_new2(){
+	return this;
+}
+void c_Node14::mark(){
+	Object::mark();
+	gc_mark_q(m_right);
+	gc_mark_q(m_left);
+	gc_mark_q(m_parent);
+}
+c_Map8::c_Map8(){
+	m_root=0;
+}
+c_Map8* c_Map8::m_new(){
+	return this;
+}
+int c_Map8::p_Clear(){
+	m_root=0;
+	return 0;
+}
+int c_Map8::p_RotateLeft7(c_Node15* t_node){
+	c_Node15* t_child=t_node->m_right;
+	gc_assign(t_node->m_right,t_child->m_left);
+	if((t_child->m_left)!=0){
+		gc_assign(t_child->m_left->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_left){
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_left,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map8::p_RotateRight7(c_Node15* t_node){
+	c_Node15* t_child=t_node->m_left;
+	gc_assign(t_node->m_left,t_child->m_right);
+	if((t_child->m_right)!=0){
+		gc_assign(t_child->m_right->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_right){
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_right,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map8::p_InsertFixup7(c_Node15* t_node){
+	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
+		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
+			c_Node15* t_uncle=t_node->m_parent->m_parent->m_right;
 			if(((t_uncle)!=0) && t_uncle->m_color==-1){
 				t_node->m_parent->m_color=1;
 				t_uncle->m_color=1;
@@ -39396,7 +39817,7 @@ int c_Map8::p_InsertFixup7(c_Node14* t_node){
 				p_RotateRight7(t_node->m_parent->m_parent);
 			}
 		}else{
-			c_Node14* t_uncle2=t_node->m_parent->m_parent->m_left;
+			c_Node15* t_uncle2=t_node->m_parent->m_parent->m_left;
 			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
 				t_node->m_parent->m_color=1;
 				t_uncle2->m_color=1;
@@ -39416,9 +39837,9 @@ int c_Map8::p_InsertFixup7(c_Node14* t_node){
 	m_root->m_color=1;
 	return 0;
 }
-bool c_Map8::p_Set8(String t_key,String t_value){
-	c_Node14* t_node=m_root;
-	c_Node14* t_parent=0;
+bool c_Map8::p_Set8(String t_key,bool t_value){
+	c_Node15* t_node=m_root;
+	c_Node15* t_parent=0;
 	int t_cmp=0;
 	while((t_node)!=0){
 		t_parent=t_node;
@@ -39434,7 +39855,7 @@ bool c_Map8::p_Set8(String t_key,String t_value){
 			}
 		}
 	}
-	t_node=(new c_Node14)->m_new(t_key,t_value,-1,t_parent);
+	t_node=(new c_Node15)->m_new(t_key,t_value,-1,t_parent);
 	if((t_parent)!=0){
 		if(t_cmp>0){
 			gc_assign(t_parent->m_right,t_node);
@@ -39463,166 +39884,6 @@ int c_StringMap4::p_Compare2(String t_lhs,String t_rhs){
 void c_StringMap4::mark(){
 	c_Map8::mark();
 }
-c_Node14::c_Node14(){
-	m_key=String();
-	m_right=0;
-	m_left=0;
-	m_value=String();
-	m_color=0;
-	m_parent=0;
-}
-c_Node14* c_Node14::m_new(String t_key,String t_value,int t_color,c_Node14* t_parent){
-	this->m_key=t_key;
-	this->m_value=t_value;
-	this->m_color=t_color;
-	gc_assign(this->m_parent,t_parent);
-	return this;
-}
-c_Node14* c_Node14::m_new2(){
-	return this;
-}
-void c_Node14::mark(){
-	Object::mark();
-	gc_mark_q(m_right);
-	gc_mark_q(m_left);
-	gc_mark_q(m_parent);
-}
-c_Map9::c_Map9(){
-	m_root=0;
-}
-c_Map9* c_Map9::m_new(){
-	return this;
-}
-int c_Map9::p_Clear(){
-	m_root=0;
-	return 0;
-}
-int c_Map9::p_RotateLeft8(c_Node15* t_node){
-	c_Node15* t_child=t_node->m_right;
-	gc_assign(t_node->m_right,t_child->m_left);
-	if((t_child->m_left)!=0){
-		gc_assign(t_child->m_left->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_left){
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_left,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map9::p_RotateRight8(c_Node15* t_node){
-	c_Node15* t_child=t_node->m_left;
-	gc_assign(t_node->m_left,t_child->m_right);
-	if((t_child->m_right)!=0){
-		gc_assign(t_child->m_right->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_right){
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_right,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map9::p_InsertFixup8(c_Node15* t_node){
-	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
-		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node15* t_uncle=t_node->m_parent->m_parent->m_right;
-			if(((t_uncle)!=0) && t_uncle->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle->m_color=1;
-				t_uncle->m_parent->m_color=-1;
-				t_node=t_uncle->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_right){
-					t_node=t_node->m_parent;
-					p_RotateLeft8(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateRight8(t_node->m_parent->m_parent);
-			}
-		}else{
-			c_Node15* t_uncle2=t_node->m_parent->m_parent->m_left;
-			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle2->m_color=1;
-				t_uncle2->m_parent->m_color=-1;
-				t_node=t_uncle2->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_left){
-					t_node=t_node->m_parent;
-					p_RotateRight8(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateLeft8(t_node->m_parent->m_parent);
-			}
-		}
-	}
-	m_root->m_color=1;
-	return 0;
-}
-bool c_Map9::p_Set9(String t_key,bool t_value){
-	c_Node15* t_node=m_root;
-	c_Node15* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare2(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				t_node->m_value=t_value;
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node15)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup8(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-void c_Map9::mark(){
-	Object::mark();
-	gc_mark_q(m_root);
-}
-c_StringMap5::c_StringMap5(){
-}
-c_StringMap5* c_StringMap5::m_new(){
-	c_Map9::m_new();
-	return this;
-}
-int c_StringMap5::p_Compare2(String t_lhs,String t_rhs){
-	return t_lhs.Compare(t_rhs);
-}
-void c_StringMap5::mark(){
-	c_Map9::mark();
-}
 c_Node15::c_Node15(){
 	m_key=String();
 	m_right=0;
@@ -39650,7 +39911,7 @@ void c_Node15::mark(){
 c_Set2::c_Set2(){
 	m_map=0;
 }
-c_Set2* c_Set2::m_new(c_Map10* t_map){
+c_Set2* c_Set2::m_new(c_Map9* t_map){
 	gc_assign(this->m_map,t_map);
 	return this;
 }
@@ -39661,12 +39922,12 @@ int c_Set2::p_Clear(){
 	m_map->p_Clear();
 	return 0;
 }
-int c_Set2::p_Insert7(String t_value){
-	m_map->p_Insert8(t_value,0);
+int c_Set2::p_Insert6(String t_value){
+	m_map->p_Insert7(t_value,0);
 	return 0;
 }
-bool c_Set2::p_Contains2(String t_value){
-	return m_map->p_Contains2(t_value);
+bool c_Set2::p_Contains4(String t_value){
+	return m_map->p_Contains4(t_value);
 }
 void c_Set2::mark(){
 	Object::mark();
@@ -39675,23 +39936,23 @@ void c_Set2::mark(){
 c_StringSet::c_StringSet(){
 }
 c_StringSet* c_StringSet::m_new(){
-	c_Set2::m_new((new c_StringMap6)->m_new());
+	c_Set2::m_new((new c_StringMap5)->m_new());
 	return this;
 }
 void c_StringSet::mark(){
 	c_Set2::mark();
 }
-c_Map10::c_Map10(){
+c_Map9::c_Map9(){
 	m_root=0;
 }
-c_Map10* c_Map10::m_new(){
+c_Map9* c_Map9::m_new(){
 	return this;
 }
-int c_Map10::p_Clear(){
+int c_Map9::p_Clear(){
 	m_root=0;
 	return 0;
 }
-int c_Map10::p_RotateLeft9(c_Node16* t_node){
+int c_Map9::p_RotateLeft8(c_Node16* t_node){
 	c_Node16* t_child=t_node->m_right;
 	gc_assign(t_node->m_right,t_child->m_left);
 	if((t_child->m_left)!=0){
@@ -39711,7 +39972,7 @@ int c_Map10::p_RotateLeft9(c_Node16* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map10::p_RotateRight9(c_Node16* t_node){
+int c_Map9::p_RotateRight8(c_Node16* t_node){
 	c_Node16* t_child=t_node->m_left;
 	gc_assign(t_node->m_left,t_child->m_right);
 	if((t_child->m_right)!=0){
@@ -39731,7 +39992,7 @@ int c_Map10::p_RotateRight9(c_Node16* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map10::p_InsertFixup9(c_Node16* t_node){
+int c_Map9::p_InsertFixup8(c_Node16* t_node){
 	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
 		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
 			c_Node16* t_uncle=t_node->m_parent->m_parent->m_right;
@@ -39743,11 +40004,11 @@ int c_Map10::p_InsertFixup9(c_Node16* t_node){
 			}else{
 				if(t_node==t_node->m_parent->m_right){
 					t_node=t_node->m_parent;
-					p_RotateLeft9(t_node);
+					p_RotateLeft8(t_node);
 				}
 				t_node->m_parent->m_color=1;
 				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateRight9(t_node->m_parent->m_parent);
+				p_RotateRight8(t_node->m_parent->m_parent);
 			}
 		}else{
 			c_Node16* t_uncle2=t_node->m_parent->m_parent->m_left;
@@ -39759,18 +40020,18 @@ int c_Map10::p_InsertFixup9(c_Node16* t_node){
 			}else{
 				if(t_node==t_node->m_parent->m_left){
 					t_node=t_node->m_parent;
-					p_RotateRight9(t_node);
+					p_RotateRight8(t_node);
 				}
 				t_node->m_parent->m_color=1;
 				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateLeft9(t_node->m_parent->m_parent);
+				p_RotateLeft8(t_node->m_parent->m_parent);
 			}
 		}
 	}
 	m_root->m_color=1;
 	return 0;
 }
-bool c_Map10::p_Set10(String t_key,Object* t_value){
+bool c_Map9::p_Set9(String t_key,Object* t_value){
 	c_Node16* t_node=m_root;
 	c_Node16* t_parent=0;
 	int t_cmp=0;
@@ -39795,16 +40056,16 @@ bool c_Map10::p_Set10(String t_key,Object* t_value){
 		}else{
 			gc_assign(t_parent->m_left,t_node);
 		}
-		p_InsertFixup9(t_node);
+		p_InsertFixup8(t_node);
 	}else{
 		gc_assign(m_root,t_node);
 	}
 	return true;
 }
-bool c_Map10::p_Insert8(String t_key,Object* t_value){
-	return p_Set10(t_key,t_value);
+bool c_Map9::p_Insert7(String t_key,Object* t_value){
+	return p_Set9(t_key,t_value);
 }
-c_Node16* c_Map10::p_FindNode2(String t_key){
+c_Node16* c_Map9::p_FindNode2(String t_key){
 	c_Node16* t_node=m_root;
 	while((t_node)!=0){
 		int t_cmp=p_Compare2(t_key,t_node->m_key);
@@ -39820,24 +40081,24 @@ c_Node16* c_Map10::p_FindNode2(String t_key){
 	}
 	return t_node;
 }
-bool c_Map10::p_Contains2(String t_key){
+bool c_Map9::p_Contains4(String t_key){
 	return p_FindNode2(t_key)!=0;
 }
-void c_Map10::mark(){
+void c_Map9::mark(){
 	Object::mark();
 	gc_mark_q(m_root);
 }
-c_StringMap6::c_StringMap6(){
+c_StringMap5::c_StringMap5(){
 }
-c_StringMap6* c_StringMap6::m_new(){
-	c_Map10::m_new();
+c_StringMap5* c_StringMap5::m_new(){
+	c_Map9::m_new();
 	return this;
 }
-int c_StringMap6::p_Compare2(String t_lhs,String t_rhs){
+int c_StringMap5::p_Compare2(String t_lhs,String t_rhs){
 	return t_lhs.Compare(t_rhs);
 }
-void c_StringMap6::mark(){
-	c_Map10::mark();
+void c_StringMap5::mark(){
+	c_Map9::mark();
 }
 c_Node16::c_Node16(){
 	m_key=String();
@@ -39872,6 +40133,179 @@ c_ItemList* c_ItemList::m_new(){
 }
 void c_ItemList::mark(){
 	c_List7::mark();
+}
+c_Map10::c_Map10(){
+	m_root=0;
+}
+c_Map10* c_Map10::m_new(){
+	return this;
+}
+int c_Map10::p_Clear(){
+	m_root=0;
+	return 0;
+}
+c_Node17* c_Map10::p_FindNode2(String t_key){
+	c_Node17* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare2(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
+	}
+	return t_node;
+}
+bool c_Map10::p_Contains4(String t_key){
+	return p_FindNode2(t_key)!=0;
+}
+int c_Map10::p_Get(String t_key){
+	c_Node17* t_node=p_FindNode2(t_key);
+	if((t_node)!=0){
+		return t_node->m_value;
+	}
+	return 0;
+}
+bool c_Map10::p_Update3(String t_key,int t_value){
+	c_Node17* t_node=p_FindNode2(t_key);
+	if((t_node)!=0){
+		t_node->m_value=t_value;
+		return true;
+	}
+	return false;
+}
+int c_Map10::p_RotateLeft9(c_Node17* t_node){
+	c_Node17* t_child=t_node->m_right;
+	gc_assign(t_node->m_right,t_child->m_left);
+	if((t_child->m_left)!=0){
+		gc_assign(t_child->m_left->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_left){
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_left,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map10::p_RotateRight9(c_Node17* t_node){
+	c_Node17* t_child=t_node->m_left;
+	gc_assign(t_node->m_left,t_child->m_right);
+	if((t_child->m_right)!=0){
+		gc_assign(t_child->m_right->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_right){
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_right,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map10::p_InsertFixup9(c_Node17* t_node){
+	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
+		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
+			c_Node17* t_uncle=t_node->m_parent->m_parent->m_right;
+			if(((t_uncle)!=0) && t_uncle->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle->m_color=1;
+				t_uncle->m_parent->m_color=-1;
+				t_node=t_uncle->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_right){
+					t_node=t_node->m_parent;
+					p_RotateLeft9(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateRight9(t_node->m_parent->m_parent);
+			}
+		}else{
+			c_Node17* t_uncle2=t_node->m_parent->m_parent->m_left;
+			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle2->m_color=1;
+				t_uncle2->m_parent->m_color=-1;
+				t_node=t_uncle2->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_left){
+					t_node=t_node->m_parent;
+					p_RotateRight9(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateLeft9(t_node->m_parent->m_parent);
+			}
+		}
+	}
+	m_root->m_color=1;
+	return 0;
+}
+bool c_Map10::p_Set10(String t_key,int t_value){
+	c_Node17* t_node=m_root;
+	c_Node17* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare2(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				t_node->m_value=t_value;
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node17)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup9(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+bool c_Map10::p_Insert8(String t_key,int t_value){
+	return p_Set10(t_key,t_value);
+}
+void c_Map10::mark(){
+	Object::mark();
+	gc_mark_q(m_root);
+}
+c_StringMap6::c_StringMap6(){
+}
+c_StringMap6* c_StringMap6::m_new(){
+	c_Map10::m_new();
+	return this;
+}
+int c_StringMap6::p_Compare2(String t_lhs,String t_rhs){
+	return t_lhs.Compare(t_rhs);
+}
+void c_StringMap6::mark(){
+	c_Map10::mark();
 }
 c_Node17::c_Node17(){
 	m_key=String();
@@ -40589,34 +41023,6 @@ c_ItemType::c_ItemType(){
 void c_ItemType::mark(){
 	Object::mark();
 }
-c_Enumerator3::c_Enumerator3(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator3* c_Enumerator3::m_new(c_List* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator3* c_Enumerator3::m_new2(){
-	return this;
-}
-bool c_Enumerator3::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_XMLNode* c_Enumerator3::p_NextObject(){
-	c_XMLNode* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator3::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
 c_Map11::c_Map11(){
 	m_root=0;
 }
@@ -40951,6 +41357,50 @@ void c_PlayerHealth::p_Damage(int t_damage){
 void c_PlayerHealth::mark(){
 	Object::mark();
 }
+c_Spells::c_Spells(){
+}
+String c_Spells::m_spellSlot1;
+String c_Spells::m_spellSlot2;
+c_StringMap6* c_Spells::m_spellCoolKills;
+void c_Spells::m_InitLearnedSpells(){
+	m_spellSlot1=String(L"spell_none",10);
+	m_spellSlot2=String(L"spell_none",10);
+	gc_assign(m_spellCoolKills,(new c_StringMap6)->m_new());
+}
+Array<c_Sprite* > c_Spells::m_fireballInWorld;
+c_Sprite* c_Spells::m_pulseInWorld;
+c_Stack2* c_Spells::m_pulseAnim;
+void c_Spells::m_Init(){
+	gc_assign(m_spellCoolKills,(new c_StringMap6)->m_new());
+	gc_assign(m_fireballInWorld[0],(new c_Sprite)->m_new2(String(L"spells/fire0.png",16),7,c_Image::m_DefaultFlags));
+	m_fireballInWorld[0]->p_SetZ(FLOAT(10000.0));
+	gc_assign(m_fireballInWorld[1],(new c_Sprite)->m_new2(String(L"spells/fire1.png",16),7,c_Image::m_DefaultFlags));
+	m_fireballInWorld[1]->p_SetZ(FLOAT(10000.0));
+	gc_assign(m_fireballInWorld[2],(new c_Sprite)->m_new2(String(L"spells/fire2.png",16),7,c_Image::m_DefaultFlags));
+	m_fireballInWorld[2]->p_SetZ(FLOAT(10000.0));
+	gc_assign(m_fireballInWorld[3],(new c_Sprite)->m_new2(String(L"spells/fire3.png",16),7,c_Image::m_DefaultFlags));
+	m_fireballInWorld[3]->p_SetZ(FLOAT(10000.0));
+	gc_assign(m_fireballInWorld[4],(new c_Sprite)->m_new2(String(L"spells/fire4.png",16),6,c_Image::m_DefaultFlags));
+	m_fireballInWorld[4]->p_SetZ(FLOAT(10000.0));
+	gc_assign(m_pulseInWorld,(new c_Sprite)->m_new2(String(L"spells/pulse_attack.png",23),6,c_Image::m_DefaultFlags));
+	m_pulseInWorld->p_SetZ(FLOAT(10000.0));
+	m_pulseAnim->p_Clear();
+	m_pulseAnim->p_Push4(3);
+	m_pulseAnim->p_Push4(3);
+	m_pulseAnim->p_Push4(4);
+	m_pulseAnim->p_Push4(6);
+	m_pulseAnim->p_Push4(3);
+	m_pulseAnim->p_Push4(3);
+	m_InitLearnedSpells();
+}
+void c_Spells::mark(){
+	Object::mark();
+}
+c_SpellType::c_SpellType(){
+}
+void c_SpellType::mark(){
+	Object::mark();
+}
 c_Map12::c_Map12(){
 	m_root=0;
 }
@@ -40973,7 +41423,7 @@ c_Node21* c_Map12::p_FindNode2(String t_key){
 	}
 	return t_node;
 }
-bool c_Map12::p_Contains2(String t_key){
+bool c_Map12::p_Contains4(String t_key){
 	return p_FindNode2(t_key)!=0;
 }
 int c_Map12::p_RotateLeft11(c_Node21* t_node){
@@ -41207,218 +41657,9 @@ c_HeadNode10* c_HeadNode10::m_new(){
 void c_HeadNode10::mark(){
 	c_Node22::mark();
 }
-int bb_math_Max(int t_x,int t_y){
-	if(t_x>t_y){
-		return t_x;
-	}
-	return t_y;
-}
-Float bb_math_Max2(Float t_x,Float t_y){
-	if(t_x>t_y){
-		return t_x;
-	}
-	return t_y;
-}
 int bb_controller_game_dailyChallengeSuccessScore;
 int bb_controller_game_speedrunSuccessScore;
 int bb_controller_game_hardcoreModeSuccessScore;
-c_Audio::c_Audio(){
-}
-bool c_Audio::m_songShopOpen;
-int c_Audio::m_fixedBeatNum;
-bool c_Audio::m_debugEnablePlaceholders;
-int c_Audio::m_cachedSongPositionFrame;
-int c_Audio::m_cachedSongPosition;
-bool c_Audio::m_necrodancerSong2Active;
-bool c_Audio::m_includeVideoLatency;
-int c_Audio::m_songLoops;
-int c_Audio::m_GetSongPosition(){
-	if(m_cachedSongPositionFrame==bb_necrodancergame_globalFrameCounter){
-		return m_cachedSongPosition;
-	}
-	int t_ch=1;
-	if(m_necrodancerSong2Active){
-		t_ch=2;
-	}
-	Float t_songPosition=bb_fmod_GetSongPositionFMOD(t_ch);
-	t_songPosition=t_songPosition-Float(c_GameData::m_GetAudioLatency());
-	t_songPosition=t_songPosition-Float(c_GameData::m_GetAutocalibration());
-	if(m_includeVideoLatency){
-		t_songPosition=t_songPosition-Float(c_GameData::m_GetVideoLatency());
-	}
-	if(t_songPosition>Float(m_cachedSongPosition) || Float(m_cachedSongPosition)>t_songPosition+FLOAT(10000.0) && ((m_songLoops)!=0)){
-		m_cachedSongPosition=int(t_songPosition);
-	}
-	m_cachedSongPositionFrame=bb_necrodancergame_globalFrameCounter;
-	return m_cachedSongPosition;
-}
-int c_Audio::m_GetCurrentBeatNumber(int t_beatOffset,bool t_useFixed){
-	if(t_useFixed){
-		if(m_fixedBeatNum!=-64){
-			return m_fixedBeatNum;
-		}
-	}
-	int t_songPosition=m_GetSongPosition();
-	int t_beatNumber=0;
-	for(t_beatNumber=t_beatNumber;t_beatNumber<bb_controller_game_beatData.Length();t_beatNumber=t_beatNumber+1){
-		int t_beatData=bb_controller_game_beatData[t_beatNumber];
-		if(t_songPosition<t_beatData){
-			break;
-		}
-	}
-	t_beatNumber+=t_beatOffset;
-	if(t_beatNumber<bb_controller_game_beatData.Length()){
-		t_beatNumber=bb_math_Max(0,t_beatNumber);
-	}else{
-		if((m_songLoops)!=0){
-			t_beatNumber=t_beatNumber % bb_controller_game_beatData.Length();
-		}else{
-			t_beatNumber=bb_controller_game_beatData.Length()-1;
-		}
-	}
-	return t_beatNumber;
-}
-int c_Audio::m_numLoops;
-int c_Audio::m_GetCurrentBeatNumberIncludingLoops(int t_beatOffset,bool t_useFixed){
-	if(t_useFixed){
-		if(m_fixedBeatNum!=-64){
-			return m_fixedBeatNum;
-		}
-	}
-	int t_beatNumber=m_GetCurrentBeatNumber(t_beatOffset,t_useFixed);
-	if(((m_songLoops)!=0) && m_numLoops>0){
-		t_beatNumber=t_beatOffset+m_GetCurrentBeatNumber(0,t_useFixed);
-	}
-	int t_beatNumberIncludingLoops=t_beatNumber+m_numLoops*bb_controller_game_beatData.Length();
-	t_beatNumberIncludingLoops=bb_math_Max(0,t_beatNumberIncludingLoops);
-	return t_beatNumberIncludingLoops;
-}
-int c_Audio::m_songDuration;
-int c_Audio::m_TimeUntilSpecificBeat(int t_beatNum){
-	t_beatNum=bb_math_Max(0,t_beatNum);
-	if(t_beatNum>=bb_controller_game_beatData.Length()){
-		if((m_songLoops)!=0){
-			t_beatNum=t_beatNum % bb_controller_game_beatData.Length();
-		}else{
-			t_beatNum=bb_controller_game_beatData.Length()-1;
-		}
-	}
-	int t_timeUntilSpecificBeat=bb_controller_game_beatData[t_beatNum]-m_GetSongPosition();
-	if(!((m_songLoops)!=0)){
-		return t_timeUntilSpecificBeat;
-	}
-	if(t_timeUntilSpecificBeat<0){
-		if(-t_timeUntilSpecificBeat>=bb_math_Abs(t_timeUntilSpecificBeat+m_songDuration)){
-			t_timeUntilSpecificBeat+=m_songDuration;
-		}
-	}else{
-		if(t_timeUntilSpecificBeat>0){
-			if(t_timeUntilSpecificBeat>=bb_math_Abs(t_timeUntilSpecificBeat-m_songDuration)){
-				t_timeUntilSpecificBeat-=m_songDuration;
-			}
-		}
-	}
-	return t_timeUntilSpecificBeat;
-}
-int c_Audio::m_GetClosestBeatNum(bool t_useFixed){
-	int t_beatNum=m_GetCurrentBeatNumberIncludingLoops(0,t_useFixed);
-	int t_timeUntilPreviousBeat=m_TimeUntilSpecificBeat(t_beatNum-1);
-	int t_timeUntilCurrentBeat=m_TimeUntilSpecificBeat(t_beatNum);
-	if(bb_math_Abs(t_timeUntilCurrentBeat)>bb_math_Abs(t_timeUntilPreviousBeat)){
-		t_beatNum=m_GetCurrentBeatNumberIncludingLoops(-1,t_useFixed);
-	}
-	return t_beatNum;
-}
-void c_Audio::m_Init(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.Init()",12));
-}
-void c_Audio::m_UpdateNumLoops(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.UpdateNumLoops()",22));
-}
-void c_Audio::m_Update(bool t_hasLoadedGameData){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.Update(Bool)",18));
-}
-void c_Audio::m_PlayGameSoundAt(String t_snd,int t_xVal,int t_yVal,bool t_fullVol,int t_maxDist,bool t_loop){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSoundAt(String, Int, Int, Bool, Int, Bool)",56));
-}
-void c_Audio::m_PlayGameSoundAt2(String t_snd,int t_xVal,int t_yVal,int t_ch,bool t_fullVol,int t_maxDist,bool t_loop,Float t_spd){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSoundAt(String, Int, Int, Int, Bool, Int, Bool, Float)",68));
-}
-void c_Audio::m_PauseSong(bool t_pause){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PauseSong(Bool)",21));
-}
-bool c_Audio::m_cheatingDetected;
-int c_Audio::m_GetNonAbsoluteDistanceFromNearestBeat(){
-	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
-	int t_previousBeatNumber=t_currentBeatNumber-1;
-	if(bb_math_Abs(m_TimeUntilSpecificBeat(t_previousBeatNumber))<bb_math_Abs(m_TimeUntilSpecificBeat(t_currentBeatNumber))){
-		return m_TimeUntilSpecificBeat(t_previousBeatNumber);
-	}
-	return m_TimeUntilSpecificBeat(t_currentBeatNumber);
-}
-void c_Audio::m_PlayGameSound(String t_snd,int t_ch,Float t_spd){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSound(String, Int, Float)",39));
-}
-int c_Audio::m_fadeFrames;
-int c_Audio::m_startFadeFrames;
-bool c_Audio::m_PastLastBeat(){
-	int t_lastBeat=bb_controller_game_beatData[bb_controller_game_beatData.Length()-1];
-	return m_GetSongPosition()>t_lastBeat;
-}
-bool c_Audio::m_HasSongEnded(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.HasSongEnded()",20));
-	return false;
-}
-bool c_Audio::m_DoingNecrodancerTransition(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.DoingNecrodancerTransition()",34));
-	return false;
-}
-bool c_Audio::m_startSong;
-int c_Audio::m_GetDistanceFromNearestBeat(){
-	int t_beatNum=m_GetCurrentBeatNumberIncludingLoops(0,false);
-	int t_timeUntilPreviousBeat=m_TimeUntilSpecificBeat(t_beatNum-1);
-	int t_timeUntilCurrentBeat=m_TimeUntilSpecificBeat(t_beatNum);
-	return bb_math_Min(bb_math_Abs(t_timeUntilCurrentBeat),bb_math_Abs(t_timeUntilPreviousBeat));
-}
-int c_Audio::m_GetNextBeatDuration(){
-	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
-	int t_timeUntilCurrentBeat=m_TimeUntilSpecificBeat(t_currentBeatNumber);
-	int t_previousBeatNumber=t_currentBeatNumber-1;
-	int t_timeUntilPreviousBeat=m_TimeUntilSpecificBeat(t_previousBeatNumber);
-	int t_duration=t_timeUntilCurrentBeat-t_timeUntilPreviousBeat;
-	if(t_duration==0){
-		t_duration=1;
-	}
-	return t_duration;
-}
-Float c_Audio::m_GetPercentDistanceFromNextBeat(){
-	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
-	int t_dist=m_TimeUntilSpecificBeat(t_currentBeatNumber);
-	int t_duration=m_GetNextBeatDuration();
-	Float t_percentDist=Float(t_dist)/Float(t_duration);
-	if(t_percentDist>=FLOAT(1.0)){
-		t_percentDist=FLOAT(0.0);
-	}
-	return t_percentDist;
-}
-int c_Audio::m_GetBeatAnimFrame4(){
-	m_includeVideoLatency=true;
-	Float t_percentDist=m_GetPercentDistanceFromNextBeat();
-	m_includeVideoLatency=false;
-	if(t_percentDist<FLOAT(0.09) || t_percentDist>=FLOAT(0.99)){
-		return 0;
-	}
-	if(t_percentDist>=FLOAT(0.69)){
-		return 1;
-	}
-	if(t_percentDist>=FLOAT(0.39)){
-		return 2;
-	}
-	return 3;
-}
-void c_Audio::mark(){
-	Object::mark();
-}
 c_Point2::c_Point2(){
 }
 c_Point2* c_Point2::m_new(){
@@ -41454,84 +41695,6 @@ c_ItemData* c_ItemData::m_new2(){
 }
 void c_ItemData::mark(){
 	Object::mark();
-}
-c_TextSprite::c_TextSprite(){
-	m_justification=0;
-	m_scaleVal=FLOAT(1.0);
-	m_color=-1;
-	m_zVal=10000;
-	m_showShadow=true;
-	m_shadowColor=-16777216;
-	m_shadowOffX=1;
-	m_shadowOffY=1;
-	m_fontScale=1;
-	m_containedSprites=(new c_List21)->m_new();
-	m_containedSpriteShadows=(new c_List21)->m_new();
-}
-c_TextSprite* c_TextSprite::m_new(int t_j,Float t_sc,int t_c,int t_z,bool t_shad,int t_shadC,int t_sOffX,int t_sOffY){
-	this->m_justification=t_j;
-	this->m_scaleVal=t_sc;
-	this->m_color=t_c;
-	this->m_zVal=t_z;
-	this->m_showShadow=t_shad;
-	this->m_shadowColor=t_shadC;
-	this->m_shadowOffX=t_sOffX;
-	this->m_shadowOffY=t_sOffY;
-	if((Float)fmod(t_sc,FLOAT(3.0))==FLOAT(0.0)){
-		this->m_fontScale=3;
-		this->m_scaleVal/=FLOAT(3.0);
-	}else{
-		if((Float)fmod(t_sc,FLOAT(2.0))==FLOAT(0.0)){
-			this->m_fontScale=2;
-			this->m_scaleVal/=FLOAT(2.0);
-		}
-	}
-	return this;
-}
-c_TextSprite* c_TextSprite::m_new2(int t_j,Float t_sc,int t_c,int t_z){
-	this->m_justification=t_j;
-	this->m_scaleVal=t_sc;
-	this->m_color=t_c;
-	this->m_zVal=t_z;
-	return this;
-}
-c_TextSprite* c_TextSprite::m_new3(int t_j,Float t_sc){
-	this->m_justification=t_j;
-	this->m_scaleVal=t_sc;
-	return this;
-}
-c_TextSprite* c_TextSprite::m_new4(int t_j){
-	this->m_justification=t_j;
-	return this;
-}
-c_TextSprite* c_TextSprite::m_new5(){
-	return this;
-}
-void c_TextSprite::p_Discard(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.Discard()",20));
-}
-void c_TextSprite::p_SetText(String t_t,bool t_force){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.SetText(String, Bool)",32));
-}
-void c_TextSprite::p_InWorld(bool t_b){
-	c_Enumerator11* t_=this->m_containedSprites->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_Sprite* t_containedSprite=t_->p_NextObject();
-		t_containedSprite->p_InWorld(t_b);
-	}
-	c_Enumerator11* t_2=this->m_containedSpriteShadows->p_ObjectEnumerator();
-	while(t_2->p_HasNext()){
-		c_Sprite* t_containedSpriteShadow=t_2->p_NextObject();
-		t_containedSpriteShadow->p_InWorld(t_b);
-	}
-}
-void c_TextSprite::m_Init(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.Init()",17));
-}
-void c_TextSprite::mark(){
-	Object::mark();
-	gc_mark_q(m_containedSprites);
-	gc_mark_q(m_containedSpriteShadows);
 }
 c_Bouncer::c_Bouncer(){
 	m_min=FLOAT(.0);
@@ -41673,11 +41836,100 @@ c_Point* c_Point::p_Scale(int t_scalar){
 	int t_scaledY=t_scalar*this->m_y;
 	return (new c_Point)->m_new(t_scaledX,t_scaledY);
 }
-bool c_Point::p_Equals8(c_Point* t_other){
+bool c_Point::p_Equals7(c_Point* t_other){
 	return this->m_x==t_other->m_x && this->m_y==t_other->m_y;
 }
 void c_Point::mark(){
 	Object::mark();
+}
+c_Stack2::c_Stack2(){
+	m_data=Array<int >();
+	m_length=0;
+}
+c_Stack2* c_Stack2::m_new(){
+	return this;
+}
+c_Stack2* c_Stack2::m_new2(Array<int > t_data){
+	gc_assign(this->m_data,t_data.Slice(0));
+	this->m_length=t_data.Length();
+	return this;
+}
+int c_Stack2::m_NIL;
+void c_Stack2::p_Clear(){
+	for(int t_i=0;t_i<m_length;t_i=t_i+1){
+		m_data[t_i]=m_NIL;
+	}
+	m_length=0;
+}
+void c_Stack2::p_Push4(int t_value){
+	if(m_length==m_data.Length()){
+		gc_assign(m_data,m_data.Resize(m_length*2+10));
+	}
+	m_data[m_length]=t_value;
+	m_length+=1;
+}
+void c_Stack2::p_Push5(Array<int > t_values,int t_offset,int t_count){
+	for(int t_i=0;t_i<t_count;t_i=t_i+1){
+		p_Push4(t_values[t_offset+t_i]);
+	}
+}
+void c_Stack2::p_Push6(Array<int > t_values,int t_offset){
+	p_Push5(t_values,t_offset,t_values.Length()-t_offset);
+}
+c_Enumerator6* c_Stack2::p_ObjectEnumerator(){
+	return (new c_Enumerator6)->m_new(this);
+}
+void c_Stack2::p_Length2(int t_newlength){
+	if(t_newlength<m_length){
+		for(int t_i=t_newlength;t_i<m_length;t_i=t_i+1){
+			m_data[t_i]=m_NIL;
+		}
+	}else{
+		if(t_newlength>m_data.Length()){
+			gc_assign(m_data,m_data.Resize(bb_math_Max(m_length*2+10,t_newlength)));
+		}
+	}
+	m_length=t_newlength;
+}
+int c_Stack2::p_Length(){
+	return m_length;
+}
+int c_Stack2::p_Get2(int t_index){
+	return m_data[t_index];
+}
+void c_Stack2::p_Remove3(int t_index){
+	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
+		m_data[t_i]=m_data[t_i+1];
+	}
+	m_length-=1;
+	m_data[m_length]=m_NIL;
+}
+void c_Stack2::p_Set5(int t_index,int t_value){
+	m_data[t_index]=t_value;
+}
+int c_Stack2::p_Pop(){
+	m_length-=1;
+	int t_v=m_data[m_length];
+	m_data[m_length]=m_NIL;
+	return t_v;
+}
+bool c_Stack2::p_Equals8(int t_lhs,int t_rhs){
+	return t_lhs==t_rhs;
+}
+bool c_Stack2::p_Contains(int t_value){
+	for(int t_i=0;t_i<m_length;t_i=t_i+1){
+		if(p_Equals8(m_data[t_i],t_value)){
+			return true;
+		}
+	}
+	return false;
+}
+c_BackwardsStack* c_Stack2::p_Backwards(){
+	return (new c_BackwardsStack)->m_new(this);
+}
+void c_Stack2::mark(){
+	Object::mark();
+	gc_mark_q(m_data);
 }
 c_StackEx::c_StackEx(){
 }
@@ -41695,8 +41947,8 @@ void c_StackEx::p_Shuffle(bool t_useSeed){
 		if(t_i!=t_randomValue){
 			int t_value_at_i=this->p_Get2(t_i);
 			int t_value_at_randomValue=this->p_Get2(t_randomValue);
-			this->p_Set6(t_i,t_value_at_randomValue);
-			this->p_Set6(t_randomValue,t_value_at_i);
+			this->p_Set5(t_i,t_value_at_randomValue);
+			this->p_Set5(t_randomValue,t_value_at_i);
 		}
 	}
 }
@@ -41894,7 +42146,7 @@ c_IntStack* c_IntStack::m_new2(){
 	c_Stack2::m_new();
 	return this;
 }
-bool c_IntStack::p_Equals2(int t_lhs,int t_rhs){
+bool c_IntStack::p_Equals8(int t_lhs,int t_rhs){
 	return t_lhs==t_rhs;
 }
 void c_IntStack::mark(){
@@ -41923,6 +42175,229 @@ void c_Enumerator6::mark(){
 	gc_mark_q(m_stack);
 }
 int bb_controller_game_lastEnemyMoveBeat;
+Array<int > bb_controller_game_lastPlayerMoveBeat;
+c_ControllerGame::c_ControllerGame(){
+	m_specialScoreSubmit=false;
+	m_coinVal=-1;
+	m_timeVal=-1;
+	m_restartImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
+	m_scoresImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
+	m_scoresImage2=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
+	m_songEndedImage=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
+	m_songEndedImage2=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
+	m_restartBounce=0;
+	m_replayInstructions=0;
+	m_ignoreInput=false;
+	m_pendingScores=0;
+}
+void c_ControllerGame::p_ResetPostDeathReplay(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.ResetPostDeathReplay()",37));
+}
+c_ControllerGame* c_ControllerGame::m_new(){
+	c_Controller::m_new();
+	bb_controller_game_totalPlaytimeLastAdded=bb_app_Millisecs();
+	gc_assign(bb_controller_game_controllerGamePointer,this);
+	c_Sprite::m_scaleToFitScreen=false;
+	for(int t_i=0;t_i<bb_controller_game_lastPlayerMoveBeat.Length();t_i=t_i+1){
+		bb_controller_game_lastPlayerMoveBeat[t_i]=-1;
+	}
+	this->p_ResetPostDeathReplay();
+	gc_assign(c_GUI_gameplay::m_errorKey,(new c_Sprite)->m_new2(String(L"gui/error_locked.png",20),1,c_Image::m_DefaultFlags));
+	c_GUI_gameplay::m_errorKey->p_SetZ(FLOAT(10000.0));
+	c_Input::m_Init();
+	bb_controller_game_gamePaused=false;
+	c_GameData::m_SetCharUnlocked(0,true);
+	c_GameData::m_SetCharUnlocked(9,true);
+	c_GameData::m_SetCharUnlocked(10,true);
+	c_GameData::m_SetCharUnlocked(14,true);
+	c_GameData::m_SetCharUnlocked(13,true);
+	c_GameData::m_SetCharUnlocked(12,true);
+	c_Spells::m_Init();
+	c_Level::m_NewLevel(-2,1,0,false,0,false);
+	c_Level::m_DoRestart();
+	this->m_restartImage->m_zVal=19990;
+	this->m_scoresImage->m_zVal=19990;
+	this->m_scoresImage2->m_zVal=19990;
+	this->m_songEndedImage->m_zVal=19990;
+	this->m_songEndedImage2->m_zVal=19990;
+	gc_assign(this->m_restartBounce,(new c_Bouncer)->m_new(FLOAT(-0.1),FLOAT(0.0),FLOAT(1.5),100));
+	gc_assign(this->m_replayInstructions,(new c_TextSprite)->m_new(0,FLOAT(1.0),-1,10000,true,-16777216,1,1));
+	this->m_replayInstructions->m_zVal=20001;
+	return this;
+}
+void c_ControllerGame::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Destructor()",27));
+}
+void c_ControllerGame::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.RegainFocus()",28));
+}
+void c_ControllerGame::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Render()",23));
+}
+void c_ControllerGame::p_Update(){
+	c_Audio::m_UpdateNumLoops();
+	if(c_Level::m_levelJustStarted){
+		c_Level::m_levelJustStarted=false;
+		c_Audio::m_Update(true);
+		c_RenderableObject::m_UpdateAll();
+	}
+	if(!this->m_ignoreInput && !c_Input::m_GameUpdate()){
+		return;
+	}
+	bool t_pause=false;
+	int t_keyBinding_0_11=c_GameData::m_GetKeyBinding(0,11);
+	if(t_keyBinding_0_11<0){
+		if(((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261)){
+			t_pause=true;
+		}
+	}else{
+		if(t_keyBinding_0_11<512 && !c_Input::m_keysHitLastFrame[t_keyBinding_0_11] && !c_Input::m_keysHit2FramesAgo[t_keyBinding_0_11]){
+			int t_1=t_keyBinding_0_11;
+			if(t_1==384){
+				if(c_Input::m_stickDown[0]){
+					t_pause=true;
+				}
+			}else{
+				if(t_1==385){
+					if(c_Input::m_stickRight[0]){
+						t_pause=true;
+					}
+				}else{
+					if(t_1==386){
+						if(c_Input::m_stickLeft[0]){
+							t_pause=true;
+						}
+					}else{
+						if((c_Input::m_KeyWasHit(t_keyBinding_0_11))!=0){
+							t_pause=true;
+						}
+					}
+				}
+			}
+		}
+	}
+	if(!t_pause && ((bb_input_KeyHit(27))!=0)){
+		t_pause=true;
+	}
+	if(t_pause){
+		bb_controller_game_gamePaused=true;
+		c_Audio::m_PauseSong(true);
+		(new c_ControllerPause)->m_new(this);
+	}
+	bool t_allPlayersPerished=c_Player::m_AllPlayersPerished();
+	int t_keyBinding_0_10=c_GameData::m_GetKeyBinding(0,10);
+	if((c_Input::m_KeyWasHit(t_keyBinding_0_10))!=0){
+		if((t_allPlayersPerished || bb_controller_game_hasWon) && !c_Level::m_isReplaying){
+			if(c_Level::m_replay!=0){
+				if(c_Level::m_replay->m_replayStr==String()){
+					c_Level::m_replay->p_Save();
+				}
+			}
+		}
+		bb_controller_game_showScoreMessage=false;
+		bb_controller_game_hasWon=false;
+		if(this->m_specialScoreSubmit){
+			this->m_specialScoreSubmit=false;
+			c_Level::m_TakeActionAfterAllCharsScoreSubmit();
+		}else{
+			c_Level::m_DoQuickRestart(false,true,false);
+		}
+	}
+	if(t_allPlayersPerished || bb_controller_game_showScoreMessage){
+		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - death)",42));
+	}
+	if(bb_controller_game_hasWon && !((this->m_pendingScores)!=0) && (bb_controller_game_showScoreMessage || c_GameData::m_modGamedataChanges)){
+		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - win)",40));
+	}
+	bool t_songHasNotLooped=false;
+	if(!c_Audio::m_PastLastBeat() && !c_Audio::m_HasSongEnded()){
+		t_songHasNotLooped=false;
+	}else{
+		t_songHasNotLooped=c_Audio::m_songLoops==0;
+	}
+	if(c_Level::m_isReplaying){
+		if(c_Level::m_replay->p_GetNumBeats()<c_Audio::m_GetClosestBeatNum(true)){
+			t_songHasNotLooped=!c_Audio::m_DoingNecrodancerTransition();
+		}
+	}
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		if(!t_songHasNotLooped){
+			continue;
+		}
+		if(this->p_HasFocus()){
+			if(!bb_controller_game_hasWon && !c_Audio::m_startSong){
+				c_Player* t_player=bb_controller_game_players[t_i];
+				if(!t_player->m_isHelper && !t_player->m_falling){
+					if(t_player->p_IsStandingStill()){
+						if(c_Level::m_IsLockedExit(t_player->m_x,t_player->m_y)){
+							if(c_Level::m_bossNumber==7 && (bb_controller_game_currentLevel==-493 || bb_controller_game_currentLevel==5)){
+								c_Level::m_ActivateTrigger(53,0,0);
+								continue;
+							}
+							if(c_Util::m_IsCharacterActive(6)){
+								t_player->p_Hit(String(L"COWARDICE",9),99999,-1,0,false,0);
+								continue;
+							}
+							c_Trap* t_trap=c_Trap::m_GetTrapAt(t_player->m_x,t_player->m_y);
+							if(t_trap!=0){
+								t_trap->p_Die();
+							}
+							t_player->m_lordCrownActiveBeat=-1;
+							t_player->m_shieldActiveBeat=-1;
+							(new c_TrapDoor)->m_new(t_player->m_x,t_player->m_y);
+						}
+					}
+				}
+			}
+		}
+	}
+	c_Audio::m_Update(true);
+	c_RenderableObject::m_UpdateAll();
+	c_Doppelganger::m_UpdateAll();
+	c_Flyaway::m_UpdateAll();
+	c_ParticleSystem::m_UpdateAll();
+	c_Level::m_Update();
+	c_Input::m_UpdateKeysHit();
+	c_Enemy::m_movesBehind=c_Audio::m_GetClosestBeatNum(true)-bb_controller_game_lastEnemyMoveBeat;
+	if(c_Enemy::m_EnemiesMovingThisFrame()){
+		c_Swarm::m_Move();
+		c_Item::m_MoveAll();
+		c_Enemy::m_MoveAll();
+		for(int t_i2=0;t_i2<bb_controller_game_numPlayers;t_i2=t_i2+1){
+			c_Player* t_player2=bb_controller_game_players[t_i2];
+			t_player2->p_HandleIceAndCoals();
+		}
+		c_Trap::m_MoveAll();
+		c_Tile::m_MoveAll();
+		c_Item::m_MoveAll();
+		c_CrystalShards::m_MoveAll();
+		c_Level::m_minimap->p_Update();
+		for(int t_i3=0;t_i3<bb_controller_game_numPlayers;t_i3=t_i3+1){
+			c_Player* t_player3=bb_controller_game_players[t_i3];
+			t_player3->p_AfterEnemyMovement();
+		}
+		c_Entity::m_UpdateVisibility();
+		bb_controller_game_lastEnemyMoveBeat+=1;
+	}
+	if(bb_controller_game_incrementFixedBeatNum){
+		if(c_Audio::m_fixedBeatNum!=-64){
+			c_Audio::m_fixedBeatNum+=1;
+		}
+		bb_controller_game_incrementFixedBeatNum=false;
+	}
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Playtime)",34));
+}
+void c_ControllerGame::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_restartImage);
+	gc_mark_q(m_scoresImage);
+	gc_mark_q(m_scoresImage2);
+	gc_mark_q(m_songEndedImage);
+	gc_mark_q(m_songEndedImage2);
+	gc_mark_q(m_restartBounce);
+	gc_mark_q(m_replayInstructions);
+}
+c_ControllerGame* bb_controller_game_controllerGamePointer;
 c_Tile::c_Tile(){
 	m_textLabel=0;
 	m_textLabel2=0;
@@ -41966,7 +42441,6 @@ c_Tile::c_Tile(){
 	m_cachedLOSFrame=-1;
 	m_cachedTrueLOS=false;
 	m_cachedTrueLOSFrame=-1;
-	m_constAlpha=FLOAT(.0);
 	m_nextEruptionBeat=0;
 	m_playerWasOnTileAtBeat=-1;
 	m_playerWasOnTileLastFrame=false;
@@ -41975,6 +42449,7 @@ c_Tile::c_Tile(){
 	m_wasInLOS=false;
 	m_grassValue=FLOAT(.0);
 	m_constLightValueCached=FLOAT(-1.0);
+	m_constAlpha=FLOAT(.0);
 	m_activatedConductorWire=false;
 }
 c_List12* c_Tile::m_floorRisingList;
@@ -42960,24 +43435,6 @@ bool c_Tile::p_IsInAnyPlayerLineOfSight(){
 void c_Tile::m_MoveAll(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Tile.MoveAll()",14));
 }
-bool c_Tile::p_IsVisible(){
-	if(bb_controller_game_DEBUG_ALL_TILES_VISIBLE){
-		return true;
-	}
-	if(c_Level::m_isLevelEditor){
-		return true;
-	}
-	if(this->p_IsNecrodancerPlatform()){
-		return true;
-	}
-	if(this->m_hasResource==1 && m_AnyPlayerHaveMonocle()){
-		return true;
-	}
-	if(this->m_isCracked && m_AnyPlayerHaveMonocle() && c_Level::m_secretAtX==this->m_x && c_Level::m_secretAtY==this->m_y){
-		return true;
-	}
-	return this->m_constAlpha>FLOAT(0.3);
-}
 bool c_Tile::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Tile.Hit(String, Int, Int, Entity, Bool, Int)",45));
 	return false;
@@ -43261,6 +43718,24 @@ void c_Tile::p_Update(){
 	if(this->m_torchDir!=0){
 		this->m_torchImage->p_SetAlphaTweenFromCurrent(t_lightValue,10);
 	}
+}
+bool c_Tile::p_IsVisible(){
+	if(bb_controller_game_DEBUG_ALL_TILES_VISIBLE){
+		return true;
+	}
+	if(c_Level::m_isLevelEditor){
+		return true;
+	}
+	if(this->p_IsNecrodancerPlatform()){
+		return true;
+	}
+	if(this->m_hasResource==1 && m_AnyPlayerHaveMonocle()){
+		return true;
+	}
+	if(this->m_isCracked && m_AnyPlayerHaveMonocle() && c_Level::m_secretAtX==this->m_x && c_Level::m_secretAtY==this->m_y){
+		return true;
+	}
+	return this->m_constAlpha>FLOAT(0.3);
 }
 void c_Tile::mark(){
 	c_RenderableObject::mark();
@@ -46475,7 +46950,6 @@ void c_Monkey::mark(){
 	c_EnemyClamper::mark();
 	gc_mark_q(m_clampedOnto);
 }
-int bb_necrodancergame_globalFrameCounter;
 Float bb_fmod_GetSongPositionFMOD(int t_ch){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GetSongPositionFMOD(Int)",24));
 	return 0;
@@ -51154,7 +51628,7 @@ void c_BlobRoom::p_FillRect(int t_x,int t_y,int t_w,int t_h){
 }
 void c_BlobRoom::p_ReflectHorizontallyAbout(int t_x){
 	c_IntPointSet* t_footprint=(new c_IntPointSet)->m_new();
-	c_KeyEnumerator* t_=this->m_footprint->p_ObjectEnumerator();
+	c_KeyEnumerator2* t_=this->m_footprint->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_tileLocation=t_->p_NextObject();
 		c_Point* t_reflectedLocation=(new c_Point)->m_new(t_x+t_x-t_tileLocation->m_x,t_tileLocation->m_y);
@@ -51164,7 +51638,7 @@ void c_BlobRoom::p_ReflectHorizontallyAbout(int t_x){
 }
 void c_BlobRoom::p_RotateCWAbout(c_Point* t_origin){
 	c_IntPointSet* t_footprint=(new c_IntPointSet)->m_new();
-	c_KeyEnumerator* t_=this->m_footprint->p_ObjectEnumerator();
+	c_KeyEnumerator2* t_=this->m_footprint->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_tileLocation=t_->p_NextObject();
 		c_Point* t_rotatedPoint=t_tileLocation->p_RotateCWAbout(t_origin);
@@ -51174,7 +51648,7 @@ void c_BlobRoom::p_RotateCWAbout(c_Point* t_origin){
 }
 void c_BlobRoom::p_TranslateBy(c_Point* t_shift){
 	c_IntPointSet* t_footprint=(new c_IntPointSet)->m_new();
-	c_KeyEnumerator* t_=this->m_footprint->p_ObjectEnumerator();
+	c_KeyEnumerator2* t_=this->m_footprint->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_tileLocation=t_->p_NextObject();
 		int t_translatedX=t_tileLocation->m_x+t_shift->m_x;
@@ -51208,7 +51682,7 @@ bool c_BlobRoom::p_IsWallPoint(c_Point* t_p){
 }
 c_Stack7* c_BlobRoom::p_MakeTiles(){
 	c_Stack7* t_tiles=(new c_Stack7)->m_new();
-	c_KeyEnumerator* t_=this->m_footprint->p_ObjectEnumerator();
+	c_KeyEnumerator2* t_=this->m_footprint->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_tilePoint=t_->p_NextObject();
 		int t_tileType=0;
@@ -51225,7 +51699,7 @@ c_Rect* c_BlobRoom::p_GetBounds(){
 	int t_y=999999999;
 	int t_xMax=-999999999;
 	int t_yMax=-999999999;
-	c_KeyEnumerator* t_=this->m_footprint->p_ObjectEnumerator();
+	c_KeyEnumerator2* t_=this->m_footprint->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_tileLocation=t_->p_NextObject();
 		t_x=bb_math_Min(t_x,t_tileLocation->m_x);
@@ -51262,7 +51736,7 @@ int c_Set3::p_Insert9(c_Point* t_value){
 	m_map->p_Insert10(t_value,0);
 	return 0;
 }
-c_KeyEnumerator* c_Set3::p_ObjectEnumerator(){
+c_KeyEnumerator2* c_Set3::p_ObjectEnumerator(){
 	return m_map->p_Keys()->p_ObjectEnumerator();
 }
 void c_Set3::mark(){
@@ -51416,8 +51890,8 @@ bool c_Map17::p_Set19(c_Point* t_key,Object* t_value){
 bool c_Map17::p_Insert10(c_Point* t_key,Object* t_value){
 	return p_Set19(t_key,t_value);
 }
-c_MapKeys* c_Map17::p_Keys(){
-	return (new c_MapKeys)->m_new(this);
+c_MapKeys2* c_Map17::p_Keys(){
+	return (new c_MapKeys2)->m_new(this);
 }
 c_Node53* c_Map17::p_FirstNode(){
 	if(!((m_root)!=0)){
@@ -51500,42 +51974,42 @@ void c_Node53::mark(){
 	gc_mark_q(m_value);
 	gc_mark_q(m_parent);
 }
-c_KeyEnumerator::c_KeyEnumerator(){
+c_KeyEnumerator2::c_KeyEnumerator2(){
 	m_node=0;
 }
-c_KeyEnumerator* c_KeyEnumerator::m_new(c_Node53* t_node){
+c_KeyEnumerator2* c_KeyEnumerator2::m_new(c_Node53* t_node){
 	gc_assign(this->m_node,t_node);
 	return this;
 }
-c_KeyEnumerator* c_KeyEnumerator::m_new2(){
+c_KeyEnumerator2* c_KeyEnumerator2::m_new2(){
 	return this;
 }
-bool c_KeyEnumerator::p_HasNext(){
+bool c_KeyEnumerator2::p_HasNext(){
 	return m_node!=0;
 }
-c_Point* c_KeyEnumerator::p_NextObject(){
+c_Point* c_KeyEnumerator2::p_NextObject(){
 	c_Node53* t_t=m_node;
 	gc_assign(m_node,m_node->p_NextNode());
 	return t_t->m_key;
 }
-void c_KeyEnumerator::mark(){
+void c_KeyEnumerator2::mark(){
 	Object::mark();
 	gc_mark_q(m_node);
 }
-c_MapKeys::c_MapKeys(){
+c_MapKeys2::c_MapKeys2(){
 	m_map=0;
 }
-c_MapKeys* c_MapKeys::m_new(c_Map17* t_map){
+c_MapKeys2* c_MapKeys2::m_new(c_Map17* t_map){
 	gc_assign(this->m_map,t_map);
 	return this;
 }
-c_MapKeys* c_MapKeys::m_new2(){
+c_MapKeys2* c_MapKeys2::m_new2(){
 	return this;
 }
-c_KeyEnumerator* c_MapKeys::p_ObjectEnumerator(){
-	return (new c_KeyEnumerator)->m_new(m_map->p_FirstNode());
+c_KeyEnumerator2* c_MapKeys2::p_ObjectEnumerator(){
+	return (new c_KeyEnumerator2)->m_new(m_map->p_FirstNode());
 }
-void c_MapKeys::mark(){
+void c_MapKeys2::mark(){
 	Object::mark();
 	gc_mark_q(m_map);
 }
@@ -52355,45 +52829,6 @@ void c_Bossmaster::mark(){
 int bb_controller_game_runPlaytimeLastAdded;
 int bb_controller_game_runPlaytimeMilliseconds;
 int bb_controller_game_subRunPlaytimeMilliseconds;
-c_MapKeys2::c_MapKeys2(){
-	m_map=0;
-}
-c_MapKeys2* c_MapKeys2::m_new(c_Map3* t_map){
-	gc_assign(this->m_map,t_map);
-	return this;
-}
-c_MapKeys2* c_MapKeys2::m_new2(){
-	return this;
-}
-c_KeyEnumerator2* c_MapKeys2::p_ObjectEnumerator(){
-	return (new c_KeyEnumerator2)->m_new(m_map->p_FirstNode());
-}
-void c_MapKeys2::mark(){
-	Object::mark();
-	gc_mark_q(m_map);
-}
-c_KeyEnumerator2::c_KeyEnumerator2(){
-	m_node=0;
-}
-c_KeyEnumerator2* c_KeyEnumerator2::m_new(c_Node4* t_node){
-	gc_assign(this->m_node,t_node);
-	return this;
-}
-c_KeyEnumerator2* c_KeyEnumerator2::m_new2(){
-	return this;
-}
-bool c_KeyEnumerator2::p_HasNext(){
-	return m_node!=0;
-}
-String c_KeyEnumerator2::p_NextObject(){
-	c_Node4* t_t=m_node;
-	gc_assign(m_node,m_node->p_NextNode());
-	return t_t->m_key;
-}
-void c_KeyEnumerator2::mark(){
-	Object::mark();
-	gc_mark_q(m_node);
-}
 c_BackwardsStack::c_BackwardsStack(){
 	m_stack=0;
 }
@@ -52541,76 +52976,6 @@ c_HeadNode36* c_HeadNode36::m_new(){
 void c_HeadNode36::mark(){
 	c_Node54::mark();
 }
-c_ControllerPopUp::c_ControllerPopUp(){
-	m_cachedScaleVal=false;
-	m_cGame=0;
-	m_option1Default=true;
-	m_option2Exists=false;
-	m_popupTextVal=String();
-	m_popupText2Val=String();
-	m_popupText3Val=String();
-	m_ignoreInput=false;
-	m_popupText4Val=String();
-	m_overlayBlack=0;
-	m_popupText=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
-	m_popupText2=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
-	m_option1Text=(new c_TextLabel)->m_new(String(L"DEFAULT1",8),2,FLOAT(2.0),false);
-	m_option2Text=(new c_TextLabel)->m_new(String(L"DEFAULT2",8),2,FLOAT(2.0),false);
-	m_gui=0;
-	m_retval=-1;
-	m_bestiaryImage=0;
-}
-c_ControllerPopUp* c_ControllerPopUp::m_new(c_Controller* t_game,String t_pText,String t_pText2,String t_pText3,String t_option1,String t_option2,bool t_opt1Default,bool t_ignoreInpt,String t_pText4){
-	c_Controller::m_new();
-	this->m_cachedScaleVal=c_Sprite::m_scaleToFitScreen;
-	c_Sprite::m_scaleToFitScreen=false;
-	gc_assign(this->m_cGame,t_game);
-	this->m_option1Default=t_opt1Default;
-	this->m_option2Exists=t_option2!=String();
-	this->m_popupTextVal=t_pText;
-	this->m_popupText2Val=t_pText2;
-	this->m_popupText3Val=t_pText3;
-	this->m_ignoreInput=t_ignoreInpt;
-	this->m_popupText4Val=t_pText4;
-	gc_assign(this->m_overlayBlack,(new c_Sprite)->m_new2(String(L"gui/TEMP_overlay_black.png",26),1,c_Image::m_DefaultFlags));
-	this->m_overlayBlack->p_SetZ(FLOAT(20000.0));
-	this->m_overlayBlack->p_InWorld(false);
-	this->m_popupText->m_zVal=20002;
-	this->m_popupText2->m_zVal=20002;
-	this->m_option1Text->p_SetText2(t_option1);
-	this->m_option1Text->m_selectedSpr->m_scaleVal*=FLOAT(1.25);
-	if(this->m_option2Exists){
-		this->m_option2Text->p_SetText2(t_option2);
-		this->m_option2Text->m_selectedSpr->m_scaleVal*=FLOAT(1.25);
-	}
-	gc_assign(this->m_gui,(new c_OptionList)->m_new((this),false,0));
-	this->m_gui->p_Add7(this->m_option1Text);
-	if(this->m_option2Exists){
-		this->m_gui->p_Add7(this->m_option2Text);
-	}
-	return this;
-}
-c_ControllerPopUp* c_ControllerPopUp::m_new2(){
-	c_Controller::m_new();
-	return this;
-}
-void c_ControllerPopUp::p_RegainFocus(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPopUp.RegainFocus()",29));
-}
-void c_ControllerPopUp::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPopUp.Update()",24));
-}
-void c_ControllerPopUp::mark(){
-	c_Controller::mark();
-	gc_mark_q(m_cGame);
-	gc_mark_q(m_overlayBlack);
-	gc_mark_q(m_popupText);
-	gc_mark_q(m_popupText2);
-	gc_mark_q(m_option1Text);
-	gc_mark_q(m_option2Text);
-	gc_mark_q(m_gui);
-	gc_mark_q(m_bestiaryImage);
-}
 c_GuiComponent::c_GuiComponent(){
 }
 c_GuiComponent* c_GuiComponent::m_new(){
@@ -52666,8 +53031,14 @@ c_ControllerPostGame* c_ControllerPostGame::m_new2(){
 	c_Controller::m_new();
 	return this;
 }
+void c_ControllerPostGame::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPostGame.Destructor()",31));
+}
 void c_ControllerPostGame::p_RegainFocus(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPostGame.RegainFocus()",32));
+}
+void c_ControllerPostGame::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPostGame.Render()",27));
 }
 void c_ControllerPostGame::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPostGame.Update()",27));
@@ -52686,8 +53057,14 @@ c_ControllerBossIntro* c_ControllerBossIntro::m_new2(){
 	c_Controller::m_new();
 	return this;
 }
+void c_ControllerBossIntro::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerBossIntro.Destructor()",32));
+}
 void c_ControllerBossIntro::p_RegainFocus(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerBossIntro.RegainFocus()",33));
+}
+void c_ControllerBossIntro::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerBossIntro.Render()",28));
 }
 void c_ControllerBossIntro::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerBossIntro.Update()",28));
@@ -52695,166 +53072,42 @@ void c_ControllerBossIntro::p_Update(){
 void c_ControllerBossIntro::mark(){
 	c_Controller::mark();
 }
-c_ControllerMainMenu::c_ControllerMainMenu(){
-	m_showCloudSavePopup=false;
-	m_mainmenuSongName=String(L"zone1_3",7);
-	m_mainmenuTitlescreen=String(L"mainmenu/mainmenu.png",21);
-	m_mainMenu=0;
-	m_continueImage=0;
-	m_alphaWarning=0;
-	m_haveShownAlphaWarning=false;
-	m_seizureWarning=0;
-	m_haveShownSeizureWarning=false;
-}
-c_ControllerMainMenu* c_ControllerMainMenu::m_new(){
-	c_Controller::m_new();
-	c_Sprite::m_scaleToFitScreen=true;
-	c_GameData::m_LoadGameDataXML(false);
-	this->m_showCloudSavePopup=c_GameData::m_LoadPlayerDataXML(true);
-	if(c_GameData::m_GetDefaultMod()!=String()){
-		c_GameData::m_activeMod=c_GameData::m_GetDefaultMod();
-		c_GameData::m_LoadGameDataXML(false);
-	}
-	if(c_GameData::m_GetShownNocturnaIntro() || !c_GameData::m_GetDLCPlayed() && c_GameData::m_GetZone2Unlocked(0) || c_GameData::m_IsCharUnlocked(1)){
-		c_GameData::m_SetShownNocturnaIntro(true);
-		this->m_mainmenuSongName=String(L"zone5_3",7);
-		this->m_mainmenuTitlescreen=String(L"mainmenu/amplified_titlescreen.png",34);
-	}
-	bb_util_SetVSync((c_GameData::m_GetVSync())?1:0);
-	c_GameData::m_GetFullscreen();
-	if(c_GameData::m_GetResolutionW()>0){
-		c_GameData::m_GetResolutionH();
-		c_GameData::m_GetResolutionW();
-	}
-	if(bb_steam_g_SteamLeaderboards!=0){
-		c_Util::m_GetLeaderboardScores(1,1,0,String(),true,false,true);
-	}
-	c_TextSprite::m_Init();
-	c_ControllerCutscene::m_InitSubtitles();
-	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading images1...",38));
-	gc_assign(this->m_mainMenu,(new c_Sprite)->m_new2(this->m_mainmenuTitlescreen,1,c_Image::m_DefaultFlags));
-	this->m_mainMenu->p_SetZ(FLOAT(9998.0));
-	this->m_mainMenu->p_InWorld(false);
-	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading images3...",38));
-	gc_assign(this->m_continueImage,(new c_Sprite)->m_new2(String(L"mainmenu/continue.png",21),1,c_Image::m_DefaultFlags));
-	this->m_continueImage->p_SetZ(FLOAT(9999.0));
-	this->m_continueImage->p_InWorld(false);
-	if(bb_steam_SteamApps()!=0 && bb_steam_SteamApps()->p_BIsDlcInstalled(379400)){
-		gc_assign(this->m_alphaWarning,(new c_Sprite)->m_new2(String(L"mainmenu/collectors_edition.png",31),1,c_Image::m_DefaultFlags));
-	}else{
-		if(bb_steam_SteamApps()!=0 && bb_steam_SteamApps()->p_BIsDlcInstalled(314680)){
-			gc_assign(this->m_alphaWarning,(new c_Sprite)->m_new2(String(L"mainmenu/soundtrack_edition.png",31),1,c_Image::m_DefaultFlags));
-		}else{
-			this->m_haveShownAlphaWarning=true;
-		}
-	}
-	if(this->m_alphaWarning!=0){
-		this->m_alphaWarning->p_SetZ(FLOAT(10000.0));
-		this->m_alphaWarning->p_InWorld(false);
-	}
-	gc_assign(this->m_seizureWarning,(new c_Sprite)->m_new2(String(L"mainmenu/seizure_warning.png",28),1,c_Image::m_DefaultFlags));
-	if(c_GameData::m_GetShownSeizureWarning()){
-		this->m_haveShownSeizureWarning=true;
-	}
-	c_TextLog::m_Message(String(L"ControllerMainMenu: Loading ControllerIntro...",46));
-	(new c_ControllerIntro)->m_new();
-	return this;
-}
-void c_ControllerMainMenu::p_RegainFocus(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerMainMenu.RegainFocus()",32));
-}
-void c_ControllerMainMenu::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerMainMenu.Update()",27));
-}
-void c_ControllerMainMenu::mark(){
-	c_Controller::mark();
-	gc_mark_q(m_mainMenu);
-	gc_mark_q(m_continueImage);
-	gc_mark_q(m_alphaWarning);
-	gc_mark_q(m_seizureWarning);
-}
-String bb_steam_GetPlayerID(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GetPlayerID()",13));
-	return String();
-}
-int bb_steam_GetCloudSaveTimestamp(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GetCloudSaveTimestamp()",23));
-	return 0;
-}
-bool bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES;
-String bb_steam_LoadCloudSave(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"LoadCloudSave()",15));
-	return String();
-}
-void bb_util_SetVSync(int t_v){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SetVSync(Int)",13));
-}
-Object* bb_steam_g_SteamLeaderboards;
-c_ISteamApps* bb_steam_SteamApps(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamApps()",11));
-	return 0;
-}
-c_ControllerIntro::c_ControllerIntro(){
-	m_splashScreen=0;
-	m_videoImg=0;
-	m_introVideoName=String(L"intro_silent",12);
-	m_introSongName=String(L"intro",5);
-}
-c_Sprite* c_ControllerIntro::m_videoSpr;
-c_ControllerIntro* c_ControllerIntro::m_new(){
-	c_Controller::m_new();
-	c_Sprite::m_scaleToFitScreen=true;
-	gc_assign(this->m_splashScreen,(new c_Sprite)->m_new2(String(L"mainmenu/splash_screen.png",26),1,c_Image::m_DefaultFlags));
-	this->m_splashScreen->p_SetZ(FLOAT(10002.0));
-	this->m_splashScreen->p_InWorld(false);
-	c_TextLog::m_Message(String(L"ControllerIntro: Loading images1...",35));
-	gc_assign(this->m_videoImg,bb_graphics_CreateImage(960,640,1,c_Image::m_DefaultFlags));
-	c_TextLog::m_Message(String(L"ControllerIntro: Loading images2...",35));
-	gc_assign(m_videoSpr,(new c_Sprite)->m_new3(this->m_videoImg));
-	m_videoSpr->p_InWorld(false);
-	m_videoSpr->p_SetZ(FLOAT(10000.0));
-	m_videoSpr->p_SetScale(FLOAT(0.5));
-	c_TextLog::m_Message(String(L"ControllerIntro: Initializing Audio...",38));
-	c_Audio::m_Init();
-	if(c_GameData::m_GetShownNocturnaIntro() || !c_GameData::m_GetDLCPlayed() && c_GameData::m_GetZone2Unlocked(0) || c_GameData::m_IsCharUnlocked(1)){
-		c_GameData::m_SetShownNocturnaIntro(true);
-		this->m_introVideoName=String(L"intro_dlc_silent",16);
-		this->m_introSongName=String(L"intro_dlc",9);
-	}
-	c_TextLog::m_Message(String(L"ControllerIntro: Loading video...",33));
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.New() (Video)",29));
-	return this;
-}
-void c_ControllerIntro::p_RegainFocus(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.RegainFocus()",29));
-}
-void c_ControllerIntro::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerIntro.Update()",24));
-}
-void c_ControllerIntro::mark(){
-	c_Controller::mark();
-	gc_mark_q(m_splashScreen);
-	gc_mark_q(m_videoImg);
-}
-c_Image* bb_graphics_CreateImage(int t_width,int t_height,int t_frameCount,int t_flags){
-	gxtkSurface* t_surf=bb_graphics_device->CreateSurface(t_width*t_frameCount,t_height);
-	if((t_surf)!=0){
-		return ((new c_Image)->m_new())->p_Init(t_surf,t_frameCount,t_flags);
-	}
-	return 0;
-}
-int bb_necrodancergame_lastFrameTimeUpdate;
-int bb_necrodancergame_lastFrameCountUpdate;
-int bb_necrodancergame_lastFPSUpdate;
-bool bb_controller_game_DEBUG_MOUSE_COORDS;
 void bb_fmod_UpdateFMOD(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"UpdateFMOD()",12));
 }
 void bb_steam_SteamPump(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SteamPump()",11));
 }
-int bb_necrodancergame_FIXED_HEIGHT;
-int bb_necrodancergame_FIXED_WIDTH;
+int bb_controller_game_totalPlaytimeLastAdded;
+c_GUI_gameplay::c_GUI_gameplay(){
+}
+c_Sprite* c_GUI_gameplay::m_errorKey;
+void c_GUI_gameplay::mark(){
+	Object::mark();
+}
+bool bb_controller_game_gamePaused;
+c_ControllerChangeLog::c_ControllerChangeLog(){
+}
+c_ControllerChangeLog* c_ControllerChangeLog::m_new(){
+	c_Controller::m_new();
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerChangeLog.New()",25));
+	return this;
+}
+void c_ControllerChangeLog::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerChangeLog.Destructor()",32));
+}
+void c_ControllerChangeLog::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerChangeLog.RegainFocus()",33));
+}
+void c_ControllerChangeLog::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerChangeLog.Render()",28));
+}
+void c_ControllerChangeLog::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerChangeLog.Update()",28));
+}
+void c_ControllerChangeLog::mark(){
+	c_Controller::mark();
+}
 c_ControllerInputPopup::c_ControllerInputPopup(){
 	m_result=String();
 	m_cGame=0;
@@ -52891,8 +53144,14 @@ c_ControllerInputPopup* c_ControllerInputPopup::m_new2(){
 	c_Controller::m_new();
 	return this;
 }
+void c_ControllerInputPopup::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerInputPopup.Destructor()",33));
+}
 void c_ControllerInputPopup::p_RegainFocus(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerInputPopup.RegainFocus()",34));
+}
+void c_ControllerInputPopup::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerInputPopup.Render()",29));
 }
 void c_ControllerInputPopup::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerInputPopup.Update()",29));
@@ -52968,8 +53227,14 @@ c_ControllerPause* c_ControllerPause::m_new2(){
 	c_Controller::m_new();
 	return this;
 }
+void c_ControllerPause::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPause.Destructor()",28));
+}
 void c_ControllerPause::p_RegainFocus(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPause.RegainFocus()",29));
+}
+void c_ControllerPause::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPause.Render()",24));
 }
 void c_ControllerPause::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerPause.Update()",24));
@@ -53244,7 +53509,6 @@ void c_Minimap::m_AddDirty2(int t_x,int t_y){
 void c_Minimap::mark(){
 	Object::mark();
 }
-bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 c_List39::c_List39(){
 	m__head=((new c_HeadNode39)->m_new());
 }
@@ -53335,6 +53599,7 @@ void c_Enumerator34::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
+bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 c_List40::c_List40(){
 	m__head=((new c_HeadNode40)->m_new());
 }
@@ -53483,59 +53748,42 @@ int bbInit(){
 	bb_logger_Debug=(new c_Logger)->m_new();
 	bb_necrodancergame_DEBUG_LOG_OUTPUT=true;
 	bb_textlog_logTimestamp=String();
+	c_GameData::m_playerDataLoaded=false;
+	c_GameData::m_xmlSaveData=0;
+	c_NecroDancerGame::m_lastViewMultiplier=-1;
+	c_NecroDancerGame::m_lastDeviceHeight=-1;
+	c_NecroDancerGame::m_lastDeviceWidth=-1;
+	bb_necrodancergame_GLOBAL_SCALE_FACTOR=FLOAT(1.0);
+	bb_necrodancergame_FIXED_WIDTH=0;
+	bb_necrodancergame_FIXED_HEIGHT=0;
 	bb_necrodancergame_FRAMES_PER_SEC=60;
 	bb_app__updateRate=0;
-	bb_necrodancergame_GLOBAL_SCALE_FACTOR=FLOAT(1.0);
+	c_Controller::m_currentController=0;
+	c_Sprite::m_scaleToFitScreen=false;
 	c_GameData::m_modGamedataChanges=false;
 	c_GameData::m_activeMod=String();
 	bb_controller_game_totalPlaytimeMilliseconds=0;
 	bb_necrodancergame_xmlData=0;
 	c_GameData::m_gameDataLoaded=false;
-	c_Controller::m_currentController=0;
-	bb_controller_game_totalPlaytimeLastAdded=0;
-	bb_controller_game_controllerGamePointer=0;
-	c_Sprite::m_scaleToFitScreen=false;
-	bb_controller_game_lastPlayerMoveBeat=Array<int >(4);
-	c_GUI_gameplay::m_errorKey=0;
-	c_Input::m_stickLeft=Array<bool >(4);
-	c_Input::m_stickRight=Array<bool >(4);
-	c_Input::m_stickUp=Array<bool >(4);
-	c_Input::m_stickDown=Array<bool >(4);
-	c_Input::m_lastJoyX=Array<Float >(4);
-	c_Input::m_lastJoyY=Array<Float >(4);
-	c_Input::m_stickLeft2=Array<bool >(4);
-	c_Input::m_stickRight2=Array<bool >(4);
-	c_Input::m_stickUp2=Array<bool >(4);
-	c_Input::m_stickDown2=Array<bool >(4);
-	c_Input::m_lastJoyX2=Array<Float >(4);
-	c_Input::m_lastJoyY2=Array<Float >(4);
-	c_Input::m_movementBuffer=Array<int >(4);
-	c_Input::m_movementBufferFrame=Array<int >(4);
-	c_Input::m_offbeatMovementBuffer=Array<int >(4);
-	c_Input::m_offbeatMovementBufferFrame=Array<int >(4);
-	c_Input::m_lastBeatMovedOn=Array<int >(4);
-	c_Input::m_lastOffbeatMovedOn=Array<int >(4);
-	c_Input::m_lastBeatMissed=Array<int >(4);
-	c_Input::m_punishmentBeatToSkip=Array<int >(4);
-	c_Input::m_punishmentBeatToSkipQueue=Array<int >(4);
-	c_Input::m_keysHitLastFrame=Array<bool >(512);
-	c_Input::m_keysHit2FramesAgo=Array<bool >(512);
-	bb_controller_game_gamePaused=false;
-	c_Spells::m_spellCoolKills=(new c_StringMap3)->m_new();
-	c_Spells::m_fireballInWorld=Array<c_Sprite* >(5);
-	c_Spells::m_pulseInWorld=0;
-	c_Spells::m_pulseAnim=(new c_Stack2)->m_new();
-	c_Stack2::m_NIL=0;
-	c_Spells::m_spellSlot1=String(L"spell_none",10);
-	c_Spells::m_spellSlot2=String(L"spell_none",10);
-	bb_controller_game_currentLevel=1;
-	bb_controller_game_currentZone=1;
-	bb_controller_game_currentDepth=1;
-	c_Player::m_numCoins=0;
-	c_Player::m_coinXOR=0;
-	c_Player::m_sessionMaxCoins=0;
-	c_ControllerLevelEditor::m_playingLevel=-1;
-	c_ControllerLevelEditor::m_playingWholeDungeon=false;
+	c_GameData::m_playerDataLoadPending=false;
+	bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES=false;
+	bb_steam_g_SteamLeaderboards=0;
+	c_ControllerIntro::m_videoSpr=0;
+	c_Camera::m_freezeFrameDelay=-1;
+	c_Camera::m_freezeFrameNum=-1;
+	c_Camera::m_freezeImage=0;
+	bb_necrodancergame_globalFrameCounter=0;
+	bb_necrodancergame_lastFrameTime=0;
+	bb_necrodancergame_lastFrameCount=0;
+	bb_necrodancergame_lastFPS=0;
+	bb_necrodancergame_lastGCAllocCount=0;
+	bb_necrodancergame_lastGCS=0;
+	bb_necrodancergame_lastFrameTimeUpdate=0;
+	bb_necrodancergame_lastFrameCountUpdate=0;
+	bb_necrodancergame_lastFPSUpdate=0;
+	bb_controller_game_DEBUG_MOUSE_COORDS=false;
+	c_Input::m_popUpController=0;
+	c_Input::m_popupFrame=-1;
 	c_ControllerLevelEditor::m_storedEditor=0;
 	bb_controller_game_hasWon=false;
 	bb_controller_game_showScoreMessage=false;
@@ -53544,7 +53792,7 @@ int bbInit(){
 	c_Level::m_shopkeeperDead=false;
 	c_Level::m_shopkeeperFell=false;
 	c_Level::m_placeLordOnLevel=-1;
-	c_Level::m_placeShrineOnLevel=(new c_IntMap3)->m_new();
+	c_Level::m_placeShrineOnLevel=(new c_IntMap2)->m_new();
 	c_Level::m_placeTransmogrifierOnDepth=-1;
 	c_Level::m_placeTransmogrifierOnLevel=-1;
 	c_Level::m_placeArenaOnLevel=-1;
@@ -53607,7 +53855,10 @@ int bbInit(){
 	c_RenderableObject::m_lightSourceList=(new c_List2)->m_new();
 	c_Entity::m_entityList=(new c_List3)->m_new();
 	c_Entity::m_deadEntityList=(new c_List3)->m_new();
+	c_Player::m_numCoins=0;
 	c_Level::m_continuedRunCoinScore=0;
+	c_Player::m_coinXOR=0;
+	c_Player::m_sessionMaxCoins=0;
 	c_Level::m_lockedShopPlaced=false;
 	c_Level::m_secretRockRoomPlaced=false;
 	c_SaleItem::m_lastSaleItemClass1=String();
@@ -53632,12 +53883,19 @@ int bbInit(){
 	c_Camera::m_fadeInDuration=0;
 	c_Camera::m_fadeInCurrent=0;
 	c_Camera::m_fadeInCallback=0;
+	bb_controller_game_currentLevel=1;
+	bb_controller_game_currentZone=1;
+	bb_controller_game_currentDepth=1;
+	c_ControllerLevelEditor::m_playingLevel=-1;
+	c_ControllerLevelEditor::m_playingWholeDungeon=false;
 	c_Level::m_forceBoss=-1;
-	c_GameData::m_xmlSaveData=0;
 	c_Stairs_callback::m_levelVal=-1;
 	c_Stairs_callback::m_zoneVal=-1;
 	c_Stairs_callback::m_playerVal=-1;
 	c_Stairs_callback::m_continuedRun=false;
+	c_Spells::m_spellSlot1=String(L"spell_none",10);
+	c_Spells::m_spellSlot2=String(L"spell_none",10);
+	c_Spells::m_spellCoolKills=(new c_StringMap6)->m_new();
 	c_Item::m_itemImages=(new c_StringMap7)->m_new();
 	c_Entity::m_entityCount=0;
 	c_Familiar::m_familiarList=(new c_List10)->m_new();
@@ -53666,6 +53924,7 @@ int bbInit(){
 	c_Player::m_cursedHeartEmpty=0;
 	c_Player::m_cursedHeartHalf=0;
 	c_Level::m_previousLevelUnkilledStairLockingMinibosses=(new c_StackEx)->m_new();
+	c_Stack2::m_NIL=0;
 	c_Enemy::m_enemyList=(new c_EnemyList)->m_new();
 	c_RenderableObject::m_deletingAll=false;
 	c_Level::m_randSeedString=String();
@@ -53676,11 +53935,36 @@ int bbInit(){
 	c_Camera::m_seekX=FLOAT(.0);
 	c_Camera::m_seekY=FLOAT(.0);
 	c_Camera::m_fixed=false;
+	c_Input::m_stickLeft=Array<bool >(4);
+	c_Input::m_stickRight=Array<bool >(4);
+	c_Input::m_stickUp=Array<bool >(4);
+	c_Input::m_stickDown=Array<bool >(4);
+	c_Input::m_lastJoyX=Array<Float >(4);
+	c_Input::m_lastJoyY=Array<Float >(4);
+	c_Input::m_stickLeft2=Array<bool >(4);
+	c_Input::m_stickRight2=Array<bool >(4);
+	c_Input::m_stickUp2=Array<bool >(4);
+	c_Input::m_stickDown2=Array<bool >(4);
+	c_Input::m_lastJoyX2=Array<Float >(4);
+	c_Input::m_lastJoyY2=Array<Float >(4);
+	c_Input::m_movementBuffer=Array<int >(4);
+	c_Input::m_movementBufferFrame=Array<int >(4);
+	c_Input::m_offbeatMovementBuffer=Array<int >(4);
+	c_Input::m_offbeatMovementBufferFrame=Array<int >(4);
+	c_Input::m_lastBeatMovedOn=Array<int >(4);
+	c_Input::m_lastOffbeatMovedOn=Array<int >(4);
+	c_Input::m_lastBeatMissed=Array<int >(4);
+	c_Input::m_punishmentBeatToSkip=Array<int >(4);
+	c_Input::m_punishmentBeatToSkipQueue=Array<int >(4);
+	c_Input::m_keysHitLastFrame=Array<bool >(512);
+	c_Input::m_keysHit2FramesAgo=Array<bool >(512);
 	bb_controller_game_lastEnemyMoveBeat=0;
 	c_Enemy::m_movesBehind=0;
 	c_Enemy::m_lastWraithSpawnBeat=0;
 	c_Audio::m_fixedBeatNum=-64;
+	bb_controller_game_lastPlayerMoveBeat=Array<int >(4);
 	c_Input::m_lastBeatSkippedFlyaway=-1;
+	bb_controller_game_controllerGamePointer=0;
 	c_Level::m_tiles=(new c_IntMap7)->m_new();
 	c_Tile::m_floorRisingList=(new c_List12)->m_new();
 	c_Tile::m_floorRecededList=(new c_List12)->m_new();
@@ -53736,7 +54020,6 @@ int bbInit(){
 	c_Audio::m_debugEnablePlaceholders=true;
 	c_Enemy::m_killingAllEnemies=false;
 	c_Audio::m_cachedSongPositionFrame=-1;
-	bb_necrodancergame_globalFrameCounter=0;
 	c_Audio::m_cachedSongPosition=-1;
 	c_Audio::m_necrodancerSong2Active=false;
 	c_GameData::m_cachedAudioLatency=false;
@@ -53749,7 +54032,7 @@ int bbInit(){
 	c_Audio::m_numLoops=0;
 	c_Audio::m_songDuration=0;
 	c_Item::m_pickupList=(new c_List20)->m_new();
-	c_Item::m_seenItems=(new c_StringMap3)->m_new();
+	c_Item::m_seenItems=(new c_StringMap6)->m_new();
 	c_FamiliarFixed::m_familiarList=(new c_List4)->m_new();
 	c_Wraith::m_theCursedWraith=0;
 	c_Item::m_itemPoolRandom=(new c_List)->m_new();
@@ -53838,22 +54121,17 @@ int bbInit(){
 	c_Entity::m_anyPlayerHaveNazarCharmCachedFrame=0;
 	c_Level::m_todaysRandSeedString=String();
 	c_Chain::m_waitingForFirstMovement=Array<bool >(4);
-	c_GameData::m_playerDataLoadPending=false;
-	bb_necrodancergame_DEBUG_DISABLE_CLOUD_SAVES=false;
-	c_GameData::m_playerDataLoaded=false;
-	bb_steam_g_SteamLeaderboards=0;
-	c_ControllerIntro::m_videoSpr=0;
-	bb_necrodancergame_lastFrameTimeUpdate=0;
-	bb_necrodancergame_lastFrameCountUpdate=0;
-	bb_necrodancergame_lastFPSUpdate=0;
-	bb_controller_game_DEBUG_MOUSE_COORDS=false;
-	c_Input::m_popUpController=0;
-	c_Input::m_popupFrame=-1;
+	bb_controller_game_totalPlaytimeLastAdded=0;
+	c_GUI_gameplay::m_errorKey=0;
+	bb_controller_game_gamePaused=false;
+	c_Spells::m_fireballInWorld=Array<c_Sprite* >(5);
+	c_Spells::m_pulseInWorld=0;
+	c_Spells::m_pulseAnim=(new c_Stack2)->m_new();
+	c_ControllerIntro::m_quitIntro=false;
+	c_NecroDancerGame::m_textFont=0;
 	c_Tile::m_anyPlayerHaveMonocleCached=false;
 	c_Tile::m_anyPlayerHaveRingOfShadowsCached=false;
 	c_Level::m_lastTileCount=-1;
-	bb_necrodancergame_FIXED_HEIGHT=0;
-	bb_necrodancergame_FIXED_WIDTH=0;
 	c_Level::m_tileObstructionList=(new c_IntPointList)->m_new();
 	c_ParticleSystemData::m_WATER_SPLASH_IN=0;
 	c_ParticleSystemData::m_TAR_SPLASH_IN=0;
@@ -53867,9 +54145,6 @@ int bbInit(){
 	c_Flyaway::m_temporarilyDisableNewFlyaways=0;
 	c_Flyaway::m_activeFlyaways=(new c_List38)->m_new();
 	c_Level::m_minimap=0;
-	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
-	c_Camera::m_shakeOffX=FLOAT(.0);
-	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
 	c_Level::m_maxLevelX=0;
@@ -53878,9 +54153,12 @@ int bbInit(){
 	c_Level::m_minLevelY=0;
 	c_Level::m_mapLightValues=Array<Float >();
 	c_Level::m_constMapLightValues=Array<Float >();
+	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_Tile::m_anyPlayerHaveZoneMapCached=false;
 	c_Entity::m_anyPlayerHaveWallsTorchCached=false;
 	c_Tile::m_anyPlayerHaveCompassCached=false;
+	c_Camera::m_shakeOffX=FLOAT(.0);
+	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Bomb::m_bombList=(new c_List40)->m_new();
 	c_CrystalShards::m_shardsList=(new c_List41)->m_new();
 	return 0;
@@ -53896,11 +54174,48 @@ void gc_mark(){
 	gc_mark_q(bb_app__desktopMode);
 	gc_mark_q(bb_graphics_renderDevice);
 	gc_mark_q(bb_logger_Debug);
-	gc_mark_q(bb_necrodancergame_xmlData);
+	gc_mark_q(c_GameData::m_xmlSaveData);
 	gc_mark_q(c_Controller::m_currentController);
-	gc_mark_q(bb_controller_game_controllerGamePointer);
-	gc_mark_q(bb_controller_game_lastPlayerMoveBeat);
-	gc_mark_q(c_GUI_gameplay::m_errorKey);
+	gc_mark_q(bb_necrodancergame_xmlData);
+	gc_mark_q(bb_steam_g_SteamLeaderboards);
+	gc_mark_q(c_ControllerIntro::m_videoSpr);
+	gc_mark_q(c_Camera::m_freezeImage);
+	gc_mark_q(c_Input::m_popUpController);
+	gc_mark_q(c_ControllerLevelEditor::m_storedEditor);
+	gc_mark_q(c_Level::m_placeShrineOnLevel);
+	gc_mark_q(c_Shrine::m_riskShrinePlayer);
+	gc_mark_q(c_Shrine::m_noReturnShrinePlayer);
+	gc_mark_q(c_Shrine::m_usedShrines);
+	gc_mark_q(c_Level::m_wholeRunRNG);
+	gc_mark_q(c_Level::m_currentFloorRNG);
+	gc_mark_q(c_Level::m_usedBosses);
+	gc_mark_q(bb_controller_game_players);
+	gc_mark_q(c_RenderableObject::m_renderableObjectList);
+	gc_mark_q(c_RenderableObject::m_lightSourceList);
+	gc_mark_q(c_Entity::m_entityList);
+	gc_mark_q(c_Entity::m_deadEntityList);
+	gc_mark_q(c_Crate::m_fallenCrates);
+	gc_mark_q(c_Crate::m_fallenGargoyles);
+	gc_mark_q(c_SaleItem::m_randomSaleItemList);
+	gc_mark_q(c_Camera::m_fadeOutCallback);
+	gc_mark_q(c_Camera::m_fadeInCallback);
+	gc_mark_q(c_Spells::m_spellCoolKills);
+	gc_mark_q(c_Item::m_itemImages);
+	gc_mark_q(c_Familiar::m_familiarList);
+	gc_mark_q(c_GameData::m_replaySaveData);
+	gc_mark_q(c_Player::m_hudCoins);
+	gc_mark_q(c_Player::m_hudDiamonds);
+	gc_mark_q(c_Level::m_replay);
+	gc_mark_q(c_Player::m_heart);
+	gc_mark_q(c_Player::m_heartEmpty);
+	gc_mark_q(c_Player::m_heartHalf);
+	gc_mark_q(c_Player::m_cursedHeart);
+	gc_mark_q(c_Player::m_cursedHeartEmpty);
+	gc_mark_q(c_Player::m_cursedHeartHalf);
+	gc_mark_q(c_Level::m_previousLevelUnkilledStairLockingMinibosses);
+	gc_mark_q(c_Enemy::m_enemyList);
+	gc_mark_q(c_Level::m_allCharsCompletion);
+	gc_mark_q(c_Level::m_allCharsCompletionDLC);
 	gc_mark_q(c_Input::m_stickLeft);
 	gc_mark_q(c_Input::m_stickRight);
 	gc_mark_q(c_Input::m_stickUp);
@@ -53924,45 +54239,8 @@ void gc_mark(){
 	gc_mark_q(c_Input::m_punishmentBeatToSkipQueue);
 	gc_mark_q(c_Input::m_keysHitLastFrame);
 	gc_mark_q(c_Input::m_keysHit2FramesAgo);
-	gc_mark_q(c_Spells::m_spellCoolKills);
-	gc_mark_q(c_Spells::m_fireballInWorld);
-	gc_mark_q(c_Spells::m_pulseInWorld);
-	gc_mark_q(c_Spells::m_pulseAnim);
-	gc_mark_q(c_ControllerLevelEditor::m_storedEditor);
-	gc_mark_q(c_Level::m_placeShrineOnLevel);
-	gc_mark_q(c_Shrine::m_riskShrinePlayer);
-	gc_mark_q(c_Shrine::m_noReturnShrinePlayer);
-	gc_mark_q(c_Shrine::m_usedShrines);
-	gc_mark_q(c_Level::m_wholeRunRNG);
-	gc_mark_q(c_Level::m_currentFloorRNG);
-	gc_mark_q(c_Level::m_usedBosses);
-	gc_mark_q(bb_controller_game_players);
-	gc_mark_q(c_RenderableObject::m_renderableObjectList);
-	gc_mark_q(c_RenderableObject::m_lightSourceList);
-	gc_mark_q(c_Entity::m_entityList);
-	gc_mark_q(c_Entity::m_deadEntityList);
-	gc_mark_q(c_Crate::m_fallenCrates);
-	gc_mark_q(c_Crate::m_fallenGargoyles);
-	gc_mark_q(c_SaleItem::m_randomSaleItemList);
-	gc_mark_q(c_Camera::m_fadeOutCallback);
-	gc_mark_q(c_Camera::m_fadeInCallback);
-	gc_mark_q(c_GameData::m_xmlSaveData);
-	gc_mark_q(c_Item::m_itemImages);
-	gc_mark_q(c_Familiar::m_familiarList);
-	gc_mark_q(c_GameData::m_replaySaveData);
-	gc_mark_q(c_Player::m_hudCoins);
-	gc_mark_q(c_Player::m_hudDiamonds);
-	gc_mark_q(c_Level::m_replay);
-	gc_mark_q(c_Player::m_heart);
-	gc_mark_q(c_Player::m_heartEmpty);
-	gc_mark_q(c_Player::m_heartHalf);
-	gc_mark_q(c_Player::m_cursedHeart);
-	gc_mark_q(c_Player::m_cursedHeartEmpty);
-	gc_mark_q(c_Player::m_cursedHeartHalf);
-	gc_mark_q(c_Level::m_previousLevelUnkilledStairLockingMinibosses);
-	gc_mark_q(c_Enemy::m_enemyList);
-	gc_mark_q(c_Level::m_allCharsCompletion);
-	gc_mark_q(c_Level::m_allCharsCompletionDLC);
+	gc_mark_q(bb_controller_game_lastPlayerMoveBeat);
+	gc_mark_q(bb_controller_game_controllerGamePointer);
 	gc_mark_q(c_Level::m_tiles);
 	gc_mark_q(c_Tile::m_floorRisingList);
 	gc_mark_q(c_Tile::m_floorRecededList);
@@ -54028,9 +54306,11 @@ void gc_mark(){
 	gc_mark_q(c_Switch::m_switches);
 	gc_mark_q(c_Level::m_popUpController);
 	gc_mark_q(c_Chain::m_waitingForFirstMovement);
-	gc_mark_q(bb_steam_g_SteamLeaderboards);
-	gc_mark_q(c_ControllerIntro::m_videoSpr);
-	gc_mark_q(c_Input::m_popUpController);
+	gc_mark_q(c_GUI_gameplay::m_errorKey);
+	gc_mark_q(c_Spells::m_fireballInWorld);
+	gc_mark_q(c_Spells::m_pulseInWorld);
+	gc_mark_q(c_Spells::m_pulseAnim);
+	gc_mark_q(c_NecroDancerGame::m_textFont);
 	gc_mark_q(c_Level::m_tileObstructionList);
 	gc_mark_q(c_ParticleSystemData::m_WATER_SPLASH_IN);
 	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_IN);

@@ -1,5 +1,6 @@
 'Strict
 
+Import monkey.math
 Import mojo.app
 Import mojo.graphics
 Import os
@@ -11,14 +12,11 @@ Import fmod
 Import gamedata
 Import input2
 Import logger
-Import necrodancergame
 Import player_class
 Import steam
 Import textlog
 Import util
 Import xml
-
-Const LOAD_CONTROLLER_GAME: Bool = True
 
 Global CHRISTMAS_MODE: Bool
 Global DEBUG_DISABLE_CLOUD_SAVES: Bool
@@ -54,7 +52,38 @@ Class NecroDancerGame Extends App
     Global textFont: Image
 
     Function UpdateScreenSize: Void(force: Bool)
-        Debug.TraceNotImplemented("NecroDancerGame.UpdateScreenSize(Bool)")
+        Local viewMultiplierChanged: Bool
+        If GameData.playerDataLoaded And
+           GameData.GetViewMultiplier() <> NecroDancerGame.lastViewMultiplier
+            viewMultiplierChanged = True
+            NecroDancerGame.lastViewMultiplier = GameData.GetViewMultiplier()
+        End If
+
+        If force Or
+           viewMultiplierChanged Or
+           NecroDancerGame.lastDeviceHeight <> app.DeviceHeight() Or
+           NecroDancerGame.lastDeviceWidth <> app.DeviceWidth()
+            Local scaleFactorY := math.Floor(app.DeviceHeight() / 270.0)
+            Local scaleFactorX := math.Floor(app.DeviceWidth() / 480.0)
+
+            necrodancergame.GLOBAL_SCALE_FACTOR = math.Min(scaleFactorX, scaleFactorY)
+
+            If GameData.playerDataLoaded
+                If GameData.GetViewMultiplier() <> 0
+                    necrodancergame.GLOBAL_SCALE_FACTOR = GameData.GetViewMultiplier()
+                End If
+            End If
+
+            necrodancergame.GLOBAL_SCALE_FACTOR = math.Max(1.0, necrodancergame.GLOBAL_SCALE_FACTOR)
+
+            necrodancergame.FIXED_WIDTH = app.DeviceWidth() / necrodancergame.GLOBAL_SCALE_FACTOR
+            necrodancergame.FIXED_HEIGHT = app.DeviceHeight() / necrodancergame.GLOBAL_SCALE_FACTOR
+
+            NecroDancerGame.lastDeviceHeight = app.DeviceHeight()
+            NecroDancerGame.lastDeviceWidth = app.DeviceWidth()
+
+            textlog.MessageGlobal("Updating screen size: " + app.DeviceWidth() + "x" + app.DeviceHeight(), True)
+        End If
     End Function
 
     Function _EditorFix: Void() End
@@ -81,21 +110,52 @@ Class NecroDancerGame Extends App
 
         TextLog.Message("GLOBAL_SCALE_FACTOR: " + necrodancergame.GLOBAL_SCALE_FACTOR)
 
-        If necrodancergame.LOAD_CONTROLLER_GAME
-            GameData.LoadGameDataXML(True)
-
-            New ControllerGame()
-        Else
-            TextLog.Message("Loading ControllerMainMenu...")
-            New ControllerMainMenu()
-            TextLog.Message("ControllerMainMenu LOADED")
-        End If
+        TextLog.Message("Loading ControllerMainMenu...")
+        New ControllerMainMenu()
+        TextLog.Message("ControllerMainMenu LOADED")
 
         Return 0
     End Method
 
     Method OnRender: Int()
-        Debug.TraceNotImplemented("NecroDancerGame.OnRender()")
+        NecroDancerGame.UpdateScreenSize(False)
+
+        If Camera.freezeFrameDelay > 0
+            Camera.freezeFrameDelay -= 1
+        End If
+
+        If Camera.freezeFrameDelay >= 0 Or
+           Camera.freezeFrameNum <= 0
+            'graphics.Cls()
+            Camera.Update()
+
+            If Controller.currentController <> Null
+                Controller.currentController.Render()
+            End If
+
+            Camera.CaptureFreezeFrame()
+        Else
+            If Camera.freezeImage <> Null
+                'graphics.DrawImage(Camera.freezeImage, 0.0, 0.0)
+            End If
+
+            Camera.freezeFrameNum -= 1
+        End If
+
+        ' Important: Many functions rely on this.
+        necrodancergame.globalFrameCounter += 1
+
+        If app.Millisecs() - necrodancergame.lastFrameTime >= 1000
+            necrodancergame.lastFrameTime = app.Millisecs()
+            necrodancergame.lastFPS = necrodancergame.globalFrameCounter - necrodancergame.lastFrameCount
+            necrodancergame.lastFrameCount = necrodancergame.globalFrameCounter
+            necrodancergame.lastGCS = -necrodancergame.lastGCAllocCount
+            necrodancergame.lastGCAllocCount = 0
+        End If
+
+        ' SKIPPED: Uncap frame rate.
+
+        Return 0
     End Method
 
     Method OnResume: Int()
@@ -116,8 +176,6 @@ Class NecroDancerGame Extends App
         Input.Update()
 
         If Controller.currentController <> Null
-            Self.TestSeededAllZonesMode(Character.Cadence, "1") ' For testing only.
-            
             Controller.currentController.Update()
         End If
 
@@ -125,7 +183,10 @@ Class NecroDancerGame Extends App
         steam.SteamPump()
         Util.Pump()
 
-        app.EndApp() ' For testing only.
+        ' For testing only.
+        If ControllerGame(Controller.currentController) <> Null
+            app.EndApp()
+        End If
 
         Return 0
     End Method
