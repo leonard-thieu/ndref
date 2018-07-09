@@ -52,11 +52,11 @@ Class Sprite Extends Tweenable
 
     Function _EditorFix: Void() End
 
-    Method New(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int)
+    Method New(p: String, frameWidth: Int, frameHeight: Int, frameCount: Int, flags: Int = Image.DefaultFlags)
         'Self.InitSprite(p, frameWidth, frameHeight, frameCount, flags)
     End Method
 
-    Method New(p: String, frames: Int, flags: Int)
+    Method New(p: String, frames: Int, flags: Int = Image.DefaultFlags)
         'Self.InitSprite(p, 0, 0, frames, flags)
     End Method
 

@@ -1,11 +1,13 @@
 'Strict
 
+Import monkey.list
 Import monkey.map
 Import monkey.math
 Import monkey.stack
 Import mojo.app
 Import gui.controller_game
 Import enemy.necrodancer_enemy
+Import level
 Import audio2
 Import bomb
 Import chest
@@ -1010,7 +1012,7 @@ Class Item Extends Entity
             Local resourceCoinType := item.GetResourceCoinType(Self.utility)
             Local resourceCoinNode := Item.GetItemXML(resourceCoinType)
             Local resourceCoinPath := "items/" + resourceCoinNode.value
-            Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
+            Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount)
 
             Self.yOff += 5.0
 
@@ -1027,7 +1029,7 @@ Class Item Extends Entity
                 resourceCoinType = GetResourceCoinType(Self.utility)
                 resourceCoinNode = Item.GetItemXML(resourceCoinType)
                 resourceCoinPath = "items/" + resourceCoinNode.value
-                Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount, Image.DefaultFlags)
+                Self.image = New Sprite(resourceCoinPath, frameWidth, frameHeight, frameCount)
 
                 Self.itemType = resourceCoinType
             End For
@@ -1035,28 +1037,28 @@ Class Item Extends Entity
             If Self.utility >= 50
                 resourceCoinNode = Item.GetItemXML(ItemType.GoldHoard)
                 resourceCoinPath = "items/" + resourceCoinNode.value
-                Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
+                Self.image = New Sprite(resourceCoinPath, 24, 24, 2)
             Else If Self.utility >= 25
                 resourceCoinNode = Item.GetItemXML(ItemType.SmallGoldHoard)
                 resourceCoinPath = "items/" + resourceCoinNode.value
-                Self.image = New Sprite(resourceCoinPath, 24, 24, 2, Image.DefaultFlags)
+                Self.image = New Sprite(resourceCoinPath, 24, 24, 2)
             End If
 
             Self.image.SetZOff(-18.0)
         Else
             Local bomb := Bomb(Self)
             If Level.isMysteryMode And Not bomb
-                Self.image = New Sprite("entities/mystery_item.png", 18, 21, 2, Image.DefaultFlags)
+                Self.image = New Sprite("entities/mystery_item.png", 18, 21, 2)
 
                 Self.isMysteried = True
                 Self.xOff = 3.0
                 Self.yOff = 1.0
             Else
                 Local path := "items/" + itemNode.value
-                Self.image = New Sprite(path, 18, 21, 2, Image.DefaultFlags)
+                Self.image = New Sprite(path, 18, 21, 2)
             End If
 
-            Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1, Image.DefaultFlags)
+            Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1)
 
             If Self.itemType = ItemType.GoldenLute
                 Self.bounce = New Bouncer(-2.5, 0.0, 1.5, 40)
@@ -1103,7 +1105,7 @@ Class Item Extends Entity
         End If
 
         If Self.itemType = ItemType.GoldenLute
-            Self.image = New Sprite("items/golden_lute_magic.png", 32, 33, 8, Image.DefaultFlags)
+            Self.image = New Sprite("items/golden_lute_magic.png", 32, 33, 8)
             Self.image.SetZOff(124.0)
         End If
 

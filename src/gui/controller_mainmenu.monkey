@@ -61,21 +61,21 @@ Class ControllerMainMenu Extends Controller
         ControllerCutscene.InitSubtitles()
 
         TextLog.Message("ControllerMainMenu: Loading images1...")
-        Self.mainMenu = New Sprite(Self.mainmenuTitlescreen, 1, Image.DefaultFlags)
+        Self.mainMenu = New Sprite(Self.mainmenuTitlescreen, 1)
         Self.mainMenu.SetZ(9998.0)
         Self.mainMenu.InWorld = False
 
         TextLog.Message("ControllerMainMenu: Loading images3...")
-        Self.continueImage = New Sprite("mainmenu/continue.png", 1, Image.DefaultFlags)
+        Self.continueImage = New Sprite("mainmenu/continue.png", 1)
         Self.continueImage.SetZ(9999.0)
         Self.continueImage.InWorld = False
 
         If steam.SteamApps() <> Null And 
            steam.SteamApps().BIsDlcInstalled(379400)
-            Self.alphaWarning = New Sprite("mainmenu/collectors_edition.png", 1, Image.DefaultFlags)
+            Self.alphaWarning = New Sprite("mainmenu/collectors_edition.png", 1)
         Else If steam.SteamApps() <> Null And 
                 steam.SteamApps().BIsDlcInstalled(314680)
-            Self.alphaWarning = New Sprite("mainmenu/soundtrack_edition.png", 1, Image.DefaultFlags)
+            Self.alphaWarning = New Sprite("mainmenu/soundtrack_edition.png", 1)
         Else
             Self.haveShownAlphaWarning = True
         End If
@@ -85,7 +85,7 @@ Class ControllerMainMenu Extends Controller
             Self.alphaWarning.InWorld = False
         End If
 
-        Self.seizureWarning = New Sprite("mainmenu/seizure_warning.png", 1, Image.DefaultFlags)
+        Self.seizureWarning = New Sprite("mainmenu/seizure_warning.png", 1)
 
         If GameData.GetShownSeizureWarning()
             Self.haveShownSeizureWarning = True

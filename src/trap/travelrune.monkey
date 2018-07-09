@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import entity
 Import logger
 Import trap
@@ -23,7 +22,7 @@ Class TravelRune Extends Trap
         Self.travelToX = toX
         Self.travelToY = toY
 
-        Self.image = New Sprite("traps/travelrune.png", 24, 24, 4, Image.DefaultFlags)
+        Self.image = New Sprite("traps/travelrune.png", 24, 24, 4)
         Self.image.SetZ(-995.0)
     End Method
 

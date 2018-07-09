@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import enemy
 Import enemy.enemyclamper
 Import level
@@ -28,7 +27,7 @@ Class TarMonster Extends EnemyClamper
         Local frameW := spritesheetNode.GetAttribute("frameW", 0)
         Local frameH := spritesheetNode.GetAttribute("frameH", 0)
         Local numFrames := spritesheetNode.GetAttribute("numFrames", 1)
-        Self.image2 = New Sprite(path, frameW, frameH, numFrames, Image.DefaultFlags)
+        Self.image2 = New Sprite(path, frameW, frameH, numFrames)
         Self.image2.SetFrame(2)
 
         Self.homeX = xVal

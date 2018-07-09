@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import gui.controller_game
 Import enemy
 Import entity
@@ -86,7 +85,7 @@ Class MushroomLight Extends Enemy
 
         Self.overrideDeathSound = "mushroomLightHit"
 
-        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8, Image.DefaultFlags)
+        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8)
         Self.explosionImg.SetZOff(1000.0)
 
         If Util.IsCharacterActive(Character.Monk) Or

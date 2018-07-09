@@ -1,7 +1,6 @@
 'Strict
 
 Import monkey.list
-Import mojo.graphics
 Import item
 Import logger
 Import player_class
@@ -40,7 +39,7 @@ Class Bomb Extends Item
         Self.beatsUntilExplosion = 3
         Self.damageSource = dmgSource
 
-        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8, Image.DefaultFlags)
+        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8)
         Self.explosionImg.SetZOff(1000.0)
 
         If playLitSound

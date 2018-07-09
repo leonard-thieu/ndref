@@ -1,7 +1,6 @@
 'Strict
 
 Import monkey.list
-Import mojo.graphics
 Import entity
 Import logger
 Import sprite
@@ -25,7 +24,7 @@ Class CrystalShards Extends Entity
 
         CrystalShards.shardsList.AddLast(Self)
 
-        Self.image = New Sprite("entities/crystal_shards.png", 24, 24, 2, Image.DefaultFlags)
+        Self.image = New Sprite("entities/crystal_shards.png", 24, 24, 2)
         Self.image.SetZOff(-19.0)
     End Method
 

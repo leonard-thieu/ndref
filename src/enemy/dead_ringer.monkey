@@ -31,8 +31,8 @@ Class DeadRinger Extends Enemy
         Self.bells[3] = b4
 
         Self.imageStandard = Self.image
-        Self.imageSmash = New Sprite("entities/dead_ringer_hammer.png", 35, 54, 28, Image.DefaultFlags)
-        Self.imageCharge = New Sprite("entities/dead_ringer_charge.png", 50, 43, 6, Image.DefaultFlags)
+        Self.imageSmash = New Sprite("entities/dead_ringer_hammer.png", 35, 54, 28)
+        Self.imageCharge = New Sprite("entities/dead_ringer_charge.png", 50, 43, 6)
         Self.imageChargeSwipe = New Sprite("swipes/swipe_dead_ringer.png", 24, 20, 4, Image.MidHandle)
     End Method
 

@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import gui.controller
 Import gui.guiborder
 Import gui.textinput
@@ -28,7 +27,7 @@ Class ControllerInputPopup Extends Controller
             Self.inputText2 = New TextInput("", 2, 2.0, 100)
         End If
 
-        Self.overlayBlack = New Sprite("gui/TEMP_overlay_black.png", 1, Image.DefaultFlags)
+        Self.overlayBlack = New Sprite("gui/TEMP_overlay_black.png", 1)
         Self.overlayBlack.SetZ(20000.0)
         Self.overlayBlack.InWorld = False
 

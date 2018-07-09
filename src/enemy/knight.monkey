@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import enemy
 Import logger
 Import player_class
@@ -28,7 +27,7 @@ Class Knight Extends Enemy
             swipePath = "swipes/swipe_knight_red.png"
         End If
 
-        Self.customAttackSwipe = New Sprite(swipePath, 1, Image.DefaultFlags)
+        Self.customAttackSwipe = New Sprite(swipePath, 1)
         Self.customAttackSwipe.SetZOff(1000.0)
         Self.customAttackSwipe.SetHandle(12, 36)
 

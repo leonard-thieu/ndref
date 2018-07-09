@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import enemy
 Import entity
 Import logger
@@ -37,7 +36,7 @@ Class Poltergeist Extends Enemy
         Local frameW := spritesheetNode.GetAttribute("frameW", 0)
         Local frameH := spritesheetNode.GetAttribute("frameH", 0)
         Local numFrames := spritesheetNode.GetAttribute("numFrames", 1)
-        Self.alphaImage = New Sprite(path, frameW, frameH, numFrames, Image.DefaultFlags)
+        Self.alphaImage = New Sprite(path, frameW, frameH, numFrames)
         Self.alphaImage.SetAlphaValue(0.6)
         Self.alphaImage.SetZOff(18.0)
 

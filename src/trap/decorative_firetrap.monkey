@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import logger
 Import sprite
 Import trap
@@ -15,7 +14,7 @@ Class DecorativeFireTrap Extends Trap
         Self.xOff = 2.0
         Self.yOff = -36.0
 
-        Self.image = New Sprite("traps/firetrap_decorative.png", 21, 54, 8, Image.DefaultFlags)
+        Self.image = New Sprite("traps/firetrap_decorative.png", 21, 54, 8)
         Self.image.SetZOff(80.0)
     End Method
 

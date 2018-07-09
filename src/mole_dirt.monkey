@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import entity
 Import logger
 Import particles
@@ -16,7 +15,7 @@ Class MoleDirt Extends Entity
         Self.x = xVal
         Self.y = yVal
 
-        Self.image = New Sprite("entities/mole_dirt.png", 24, 24, 2, Image.DefaultFlags)
+        Self.image = New Sprite("entities/mole_dirt.png", 24, 24, 2)
         Self.image.SetZ(-997.0)
 
         Local particleSystemX := (Self.x * 24) + 12

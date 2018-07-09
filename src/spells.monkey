@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import monkey.list
 Import monkey.map
 Import monkey.stack
@@ -94,18 +93,18 @@ Class Spells
     Function Init: Void()
         Spells.spellCoolKills = New StringMap<Int>()
 
-        Spells.fireballInWorld[0] = New Sprite("spells/fire0.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[0] = New Sprite("spells/fire0.png", 7)
         Spells.fireballInWorld[0].SetZ(10000.0)
-        Spells.fireballInWorld[1] = New Sprite("spells/fire1.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[1] = New Sprite("spells/fire1.png", 7)
         Spells.fireballInWorld[1].SetZ(10000.0)
-        Spells.fireballInWorld[2] = New Sprite("spells/fire2.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[2] = New Sprite("spells/fire2.png", 7)
         Spells.fireballInWorld[2].SetZ(10000.0)
-        Spells.fireballInWorld[3] = New Sprite("spells/fire3.png", 7, Image.DefaultFlags)
+        Spells.fireballInWorld[3] = New Sprite("spells/fire3.png", 7)
         Spells.fireballInWorld[3].SetZ(10000.0)
-        Spells.fireballInWorld[4] = New Sprite("spells/fire4.png", 6, Image.DefaultFlags)
+        Spells.fireballInWorld[4] = New Sprite("spells/fire4.png", 6)
         Spells.fireballInWorld[4].SetZ(10000.0)
 
-        Spells.pulseInWorld = New Sprite("spells/pulse_attack.png", 6, Image.DefaultFlags)
+        Spells.pulseInWorld = New Sprite("spells/pulse_attack.png", 6)
         Spells.pulseInWorld.SetZ(10000.0)
 
         Spells.pulseAnim.Clear()

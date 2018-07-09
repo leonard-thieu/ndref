@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import entity
 Import logger
 Import trap
@@ -15,7 +14,7 @@ Class SlowDownTrap Extends Trap
         Self.xOff = 5.0
         Self.yOff = 15.0
 
-        Self.image = New Sprite("traps/slowdowntrap.png", 14, 16, 4, Image.DefaultFlags)
+        Self.image = New Sprite("traps/slowdowntrap.png", 14, 16, 4)
         Self.image.SetZOff(-995.0)
     End Method
 

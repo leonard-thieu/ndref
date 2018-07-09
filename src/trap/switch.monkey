@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import entity
 Import logger
 Import sprite
@@ -25,7 +24,7 @@ Class Switch Extends Trap
         Self.trigger = triggerNum
         Self.pairedSwitch = pair
 
-        Self.image = New Sprite("traps/switch.png", 14, 16, 4, Image.DefaultFlags)
+        Self.image = New Sprite("traps/switch.png", 14, 16, 4)
         Self.image.SetZ(-995.0)
 
         Switch.switches.AddLast(Self)

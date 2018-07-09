@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import enemy
 Import logger
 Import point
@@ -16,9 +15,9 @@ Class Ogre Extends Enemy
         Self.Init(xVal, yVal, l, "ogre")
 
         Self.imageStandard = Self.image
-        Self.imageSmashLeft = New Sprite("entities/ogre_left.png", 124, 72, 16, Image.DefaultFlags)
-        Self.imageSmashDown = New Sprite("entities/ogre_down.png", 46, 142, 16, Image.DefaultFlags)
-        Self.imageSmashUp = New Sprite("entities/ogre_up.png", 47, 100, 16, Image.DefaultFlags)
+        Self.imageSmashLeft = New Sprite("entities/ogre_left.png", 124, 72, 16)
+        Self.imageSmashDown = New Sprite("entities/ogre_down.png", 46, 142, 16)
+        Self.imageSmashUp = New Sprite("entities/ogre_up.png", 47, 100, 16)
 
         Self.overrideAttackSound = "ogreAttack"
         Self.overrideHitSound = "ogreHit"

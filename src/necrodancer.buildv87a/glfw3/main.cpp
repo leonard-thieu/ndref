@@ -17322,7 +17322,6 @@ c_ControllerIntro* c_ControllerIntro::m_new(){
 		this->m_introVideoName=String(L"intro_dlc_silent",16);
 		this->m_introSongName=String(L"intro_dlc",9);
 	}
-	c_TextLog::m_Message(String(L"ControllerIntro: Loading video...",33));
 	return this;
 }
 bool c_ControllerIntro::m_quitIntro;

@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import enemy.octoboss
 Import enemy
 Import entity
@@ -22,7 +21,7 @@ Class Tentacle Extends Enemy
 
         Self.initialXOff = Self.xOff
 
-        Self.image2 = New Sprite("entities/tentacle_tell.png", 1, Image.DefaultFlags)
+        Self.image2 = New Sprite("entities/tentacle_tell.png", 1)
         Self.image2.SetZ(-991.0)
 
         Self.nextX = Self.x

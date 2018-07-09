@@ -1,11 +1,10 @@
 'Strict
 
 Import monkey.list
-Import mojo.graphics
 Import gui.controller_game
 Import enemy
-Import entity
 Import level
+Import entity
 Import logger
 Import player_class
 Import point
@@ -44,7 +43,7 @@ Class KingConga Extends Enemy
 
         Self.initialXOff = Self.xOff
 
-        Self.image2 = New Sprite("entities/king_conga_throne.png", 1, Image.DefaultFlags)
+        Self.image2 = New Sprite("entities/king_conga_throne.png", 1)
         Self.image2.SetZOff(40.0)
 
         Local healthMaxBonus := controller_game.currentDepth - 1

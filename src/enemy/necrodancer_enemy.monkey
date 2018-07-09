@@ -28,7 +28,7 @@ Class Necrodancer Extends Enemy
         Self.iceBlast.SetHandle(-2, 59)
         Self.iceBlast.SetZOff(1000.0)
 
-        Self.shieldImage = New Sprite("entities/necroshield.png", 1, Image.DefaultFlags)
+        Self.shieldImage = New Sprite("entities/necroshield.png", 1)
         Self.shieldImage.SetZOff(Self.storedZOff + 10)
 
         Necrodancer.wallsStep = 0

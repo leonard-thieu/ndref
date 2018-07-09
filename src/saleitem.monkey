@@ -5,6 +5,7 @@ Import enemy.npc.shopkeeper
 Import enemy.npc.medic
 Import gui.controller_game
 Import level
+Import chest
 Import item
 Import logger
 Import player_class
@@ -240,9 +241,9 @@ Class SaleItem Extends Item
 
         Self.saleItem = True
 
-        Self.miniDiamond = New Sprite("gui/TEMP_mini_diamond.png", 1, Image.DefaultFlags)
+        Self.miniDiamond = New Sprite("gui/TEMP_mini_diamond.png", 1)
         Self.miniDiamond.SetZ(-980.0)
-        Self.miniHeart = New Sprite("gui/TEMP_mini_heart.png", 1, Image.DefaultFlags)
+        Self.miniHeart = New Sprite("gui/TEMP_mini_heart.png", 1)
         Self.miniHeart.SetZ(-980.0)
 
         ' TODO: Set digits sprites

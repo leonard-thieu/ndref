@@ -1,9 +1,11 @@
 'Strict
 
+Import monkey.list
 Import entity
 Import logger
 Import mobileentity
 Import player_class
+Import sprite
 
 Class Familiar Extends MobileEntity
 
@@ -22,8 +24,8 @@ Class Familiar Extends MobileEntity
     Method New(owner_: Player)
         Super.New()
 
-        Self.image = New Sprite("entities/familiar_lamb.png", 19, 16, 4, Image.DefaultFlags)
-        Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1, Image.DefaultFlags)
+        Self.image = New Sprite("entities/familiar_lamb.png", 19, 16, 4)
+        Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1)
         Self.hasSilhouette = False
 
         Familiar.familiarList.AddLast(Self)

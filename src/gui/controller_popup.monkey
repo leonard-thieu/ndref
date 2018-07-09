@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import gui.controller
 Import gui.guiborder
 Import gui.optionlist
@@ -28,7 +27,7 @@ Class ControllerPopUp Extends Controller
         Self.ignoreInput = ignoreInpt
         Self.popupText4Val = pText4
 
-        Self.overlayBlack = New Sprite("gui/TEMP_overlay_black.png", 1, Image.DefaultFlags)
+        Self.overlayBlack = New Sprite("gui/TEMP_overlay_black.png", 1)
         Self.overlayBlack.SetZ(20000.0)
         Self.overlayBlack.InWorld = False
 

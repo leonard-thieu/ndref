@@ -1,6 +1,5 @@
 'Strict
 
-Import mojo.graphics
 Import entity
 Import logger
 Import trap
@@ -15,7 +14,7 @@ Class TrapDoor Extends Trap
         Self.xOff = 0.0
         Self.yOff = 15.0
 
-        Self.image = New Sprite("traps/trapdoor.png", 25, 20, 4, Image.DefaultFlags)
+        Self.image = New Sprite("traps/trapdoor.png", 25, 20, 4)
         Self.image.SetZ(-995.0)
     End Method
 

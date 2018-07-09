@@ -2,9 +2,9 @@
 
 Import gui.controller_level_editor
 Import enemy
+Import level
 Import entity
 Import gamedata
-Import level
 Import logger
 Import point
 Import sprite
@@ -21,7 +21,7 @@ Class Pixie Extends Enemy
         Self.hasSilhouette = False
         Self.canMoveOntoPlayer = True
 
-        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8, Image.DefaultFlags)
+        Self.explosionImg = New Sprite("items/3x3_explosion.png", 8)
         Self.explosionImg.SetZOff(1000.0)
 
         Self.overrideHitSound = "pixieAttack"

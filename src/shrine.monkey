@@ -2,7 +2,6 @@
 
 Import monkey.list
 Import monkey.set
-Import mojo.graphics
 Import gui.controller_game
 Import level
 Import bouncer
@@ -259,44 +258,44 @@ Class Shrine Extends Entity
 
         Select Self.type
             Case Shrine.SHRINE_BLOOD
-                Self.image = New Sprite("level/shrine_blood.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_blood.png", 35, 52, 4)
             Case Shrine.SHRINE_DARKNESS
-                Self.image = New Sprite("level/shrine_darkness.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_darkness.png", 35, 52, 4)
             Case Shrine.SHRINE_GLASS
-                Self.image = New Sprite("level/shrine_glass.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_glass.png", 35, 52, 4)
             Case Shrine.SHRINE_PEACE
-                Self.image = New Sprite("level/shrine_peace.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_peace.png", 35, 52, 4)
             Case Shrine.SHRINE_RHYTHM
-                Self.image = New Sprite("level/shrine_rhythm.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_rhythm.png", 35, 52, 4)
             Case Shrine.SHRINE_RISK
-                Self.image = New Sprite("level/shrine_risk.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_risk.png", 35, 52, 4)
             Case Shrine.SHRINE_SACRIFICE
-                Self.image = New Sprite("level/shrine_sacrifice.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_sacrifice.png", 35, 52, 4)
             Case Shrine.SHRINE_SPACE
-                Self.image = New Sprite("level/shrine_space.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_space.png", 35, 52, 4)
             Case Shrine.SHRINE_WAR
-                Self.image = New Sprite("level/shrine_war.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_war.png", 35, 52, 4)
             Case Shrine.SHRINE_NO_RETURN
-                Self.image = New Sprite("level/shrine_no_return.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_no_return.png", 35, 52, 4)
             Case Shrine.SHRINE_PHASING
-                Self.image = New Sprite("level/shrine_phasing.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_phasing.png", 35, 52, 4)
             Case Shrine.SHRINE_PACE
-                Self.image = New Sprite("level/shrine_pace.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_pace.png", 35, 52, 4)
                 Self.xOff = -5.0
                 Self.yOff = -21.0
             Case Shrine.SHRINE_CHANCE
-                Self.image = New Sprite("level/shrine_chance.png", 35, 52, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_chance.png", 35, 52, 4)
                 Self.cost = SaleItem.GetCostMultiplier() * 10.0
             Case Shrine.SHRINE_UNCERTAINTY
-                Self.image = New Sprite("level/shrine_uncertainty.png", 24, 48, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_uncertainty.png", 24, 48, 4)
                 Self.xOff = -2.0
                 Self.yOff = -16.0
             Case Shrine.SHRINE_BOSS
-                Self.image = New Sprite("level/shrine_boss.png", 30, 46, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_boss.png", 30, 46, 4)
                 Self.xOff = -3.0
                 Self.yOff = -13.0
             Case Shrine.SHRINE_PAIN
-                Self.image = New Sprite("level/shrine_pain.png", 22, 50, 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/shrine_pain.png", 22, 50, 4)
                 Self.xOff = 0.0
         End Select
 

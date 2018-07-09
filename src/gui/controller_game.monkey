@@ -2,7 +2,6 @@
 
 Import monkey.list
 Import mojo.app
-Import mojo.graphics
 Import mojo.input
 Import gui.controller
 Import gui.controller_pause
@@ -85,7 +84,7 @@ Class ControllerGame Extends Controller
 
         Self.ResetPostDeathReplay()
 
-        GUI_gameplay.errorKey = New Sprite("gui/error_locked.png", 1, Image.DefaultFlags)
+        GUI_gameplay.errorKey = New Sprite("gui/error_locked.png", 1)
         GUI_gameplay.errorKey.SetZ(10000.0)
 
         Input.Init()

@@ -1,7 +1,6 @@
 'Strict
 
 Import monkey.list
-Import mojo.graphics
 Import bouncer
 Import entity
 Import item
@@ -153,13 +152,13 @@ Class Chest Extends Entity
 
         Select Self.chestColor
             Case Chest.CHEST_COLOR_BLUE
-                Self.image = New Sprite("entities/chest_locked.png", 24, 24, 2, Image.DefaultFlags)
+                Self.image = New Sprite("entities/chest_locked.png", 24, 24, 2)
             Case Chest.CHEST_COLOR_BLACK
-                Self.image = New Sprite("entities/chest_black.png", 24, 24, 2, Image.DefaultFlags)
+                Self.image = New Sprite("entities/chest_black.png", 24, 24, 2)
             Case Chest.CHEST_COLOR_WHITE
-                Self.image = New Sprite("entities/chest_white.png", 24, 24, 2, Image.DefaultFlags)
+                Self.image = New Sprite("entities/chest_white.png", 24, 24, 2)
             Default
-                Self.image = New Sprite("entities/chest.png", 24, 24, 2, Image.DefaultFlags)
+                Self.image = New Sprite("entities/chest.png", 24, 24, 2)
         End Select
 
         Self.locked = isLocked
@@ -193,7 +192,7 @@ Class Chest Extends Entity
     End Method
 
     Method BecomeLocked: Void()
-        Self.image = New Sprite("entities/chest_locked.png", 24, 24, 2, Image.DefaultFlags)
+        Self.image = New Sprite("entities/chest_locked.png", 24, 24, 2)
         Self.locked = True
         Self.lockChest = True
     End Method

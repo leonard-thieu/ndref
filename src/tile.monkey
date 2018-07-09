@@ -166,15 +166,15 @@ Class Tile Extends RenderableObject
         If Self.IsFloor()
             Select Self.type
                 Case TileType.Stairs
-                    Self.image = New Sprite("level/stairs.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs.png", 0, 0, 1)
                 Case TileType.LockedStairs
-                    Self.image = New Sprite("level/stairs_locked.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked.png", 0, 0, 1)
                 Case TileType.LockedStairs3Diamonds
-                    Self.image = New Sprite("level/stairs_locked_diamond3.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked_diamond3.png", 0, 0, 1)
                 Case TileType.LockedStairs9Diamonds
-                    Self.image = New Sprite("level/stairs_locked_diamond9.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked_diamond9.png", 0, 0, 1)
                 Case TileType.LockedStairsMiniboss
-                    Self.image = New Sprite("level/stairs_locked_miniboss.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/stairs_locked_miniboss.png", 0, 0, 1)
                 Case TileType.ShopFloor
                     Self.image = New Sprite("level/TEMP_shop_floor.png", 0, 0, 3, Image.XYPadding)
                 Case TileType.Water,
@@ -214,44 +214,44 @@ Class Tile Extends RenderableObject
         Else If Self.IsWall()
             Select Self.type
                 Case TileType.ShopWall
-                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1)
                     Self.health = 4
                 Case TileType.CrackedShopWall
-                    Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 0, 0, 1)
                     Self.health = 4
                 Case TileType.BossWall
                     If Level.IsFinalBoss()
                         If Level.isConductorLevel
-                            Self.image = New Sprite("level/conductor_wall.png", 24, 48, 5, Image.DefaultFlags)
+                            Self.image = New Sprite("level/conductor_wall.png", 24, 48, 5)
                         Else
-                            Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
+                            Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5)
                         End If
                     Else
-                        Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
+                        Self.image = New Sprite("level/boss_wall.png", 24, 48, 5)
                     End If
 
                     Local frame := Util.RndIntRangeFromZero(4, False)
                     Self.image.SetFrame(frame)
                     Self.unbreakable = True
                 Case TileType.UnbreakableWall
-                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_shop_crypt.png", 0, 0, 1)
                     Self.unbreakable = True
                 Case TileType.IndestructibleBorder
-                    Self.image = New Sprite("level/end_of_world.png", 24, 48, 8, Image.DefaultFlags)
+                    Self.image = New Sprite("level/end_of_world.png", 24, 48, 8)
                     Local frame := Util.RndIntRangeFromZero(7, False)
                     Self.image.SetFrame(frame)
                     Self.unbreakable = True
                 Case TileType.ConductorWallPipe1
-                    Self.image = New Sprite("level/conductor_wall_pipe1.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/conductor_wall_pipe1.png", 24, 79, 1)
                     Self.unbreakable = True
                 Case TileType.ConductorWallPipe2
-                    Self.image = New Sprite("level/conductor_wall_pipe2.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/conductor_wall_pipe2.png", 24, 79, 1)
                     Self.unbreakable = True
                 Case TileType.ConductorWallPipe3
-                    Self.image = New Sprite("level/conductor_wall_pipe3.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/conductor_wall_pipe3.png", 24, 79, 1)
                     Self.unbreakable = True
                 Case TileType.ConductorWallPipe4
-                    Self.image = New Sprite("level/conductor_wall_pipe4.png", 24, 79, 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/conductor_wall_pipe4.png", 24, 79, 1)
                     Self.unbreakable = True
                 Case TileType.Door,
                      TileType.WiredDoor
@@ -259,9 +259,9 @@ Class Tile Extends RenderableObject
 
                     If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
                        Level.IsWallAt(Self.x + 1, Self.y, False, False)
-                        Self.image2 = New Sprite("level/door_front.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_front.png", 0, 0, 1)
                     Else
-                        Self.image2 = New Sprite("level/door_side.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_side.png", 0, 0, 1)
                     End If
 
                     Self.health = 0
@@ -270,9 +270,9 @@ Class Tile Extends RenderableObject
 
                     If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
                        Level.IsWallAt(Self.x + 1, Self.y, False, False)
-                        Self.image2 = New Sprite("level/door_locked_front.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_locked_front.png", 0, 0, 1)
                     Else
-                        Self.image2 = New Sprite("level/door_locked_side.png", 0, 0, 1, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_locked_side.png", 0, 0, 1)
                     End If
 
                     Self.health = 100
@@ -281,9 +281,9 @@ Class Tile Extends RenderableObject
 
                     If Level.IsWallAt(Self.x - 1, Self.y, False, False) Or
                        Level.IsWallAt(Self.x + 1, Self.y, False, False)
-                        Self.image2 = New Sprite("level/door_metal_front.png", 24, 29, 4, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_metal_front.png", 24, 29, 4)
                     Else
-                        Self.image2 = New Sprite("level/door_metal_side.png", 11, 39, 2, Image.DefaultFlags)
+                        Self.image2 = New Sprite("level/door_metal_side.png", 11, 39, 2)
                     End If
 
                     Self.health = 0
@@ -306,7 +306,7 @@ Class Tile Extends RenderableObject
                     End Select
                 Default
                     If Self.IsNecrodancerPlatform()
-                        Self.image = New Sprite("level/necrodancer_stage.png", 24, 61, 6, Image.DefaultFlags)
+                        Self.image = New Sprite("level/necrodancer_stage.png", 24, 61, 6)
                         image.SetFrame(Self.type - 112)
                         Self.health = 4
                     Else
@@ -340,7 +340,7 @@ Class Tile Extends RenderableObject
             Self.image.SetZOff(8.0)
         End If
 
-        Self.xImage = New Sprite("level/floor_x.png", 0, 0, 1, Image.DefaultFlags)
+        Self.xImage = New Sprite("level/floor_x.png", 0, 0, 1)
         Self.xImage.SetZ(-901.0)
 
         Local tiles := Level.tiles
@@ -446,7 +446,7 @@ Class Tile Extends RenderableObject
 
         Local tileset := Self.GetTileset()
         If tileset = TilesetType.Zone2
-            Self.torchImage = New Sprite("entities/mushroom_light.png", 24, 24, 4, Image.DefaultFlags)
+            Self.torchImage = New Sprite("entities/mushroom_light.png", 24, 24, 4)
             Self.torchOffX = Util.RndIntRange(-2, 2, False, -1)
             Self.torchOffY = Util.RndIntRange(-2, 2, False, -1) - 7
 
@@ -455,12 +455,12 @@ Class Tile Extends RenderableObject
             End If
         Else If tileset = TilesetType.Zone5 Or
                 Level.isConductorLevel
-            torchImage = New Sprite("level/light_bulb.png", 15, 24, 1, Image.DefaultFlags)
+            torchImage = New Sprite("level/light_bulb.png", 15, 24, 1)
             Self.torchOffX = 4
             Self.torchOffY = -8
             Self.animateTorch = False
         Else
-            Self.torchImage = New Sprite("level/wall_torch.png", 0, 0, 4, Image.DefaultFlags)
+            Self.torchImage = New Sprite("level/wall_torch.png", 0, 0, 4)
             Self.torchOffX = 5
             Self.torchOffY = -12
             Self.animateTorch = True
@@ -499,43 +499,43 @@ Class Tile Extends RenderableObject
                  TileType.Earth
                 Select Self.GetTileset()
                     Case TilesetType.Zone1
-                        Self.image = New Sprite("level/zone1_wall_dirt_cracked.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone1_wall_dirt_cracked.png", 1)
                     Case TilesetType.Zone2
-                        Self.image = New Sprite("level/zone2_wall_dirt_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone2_wall_dirt_crack.png", 1)
                     Case TilesetType.Zone3Hot
-                        Self.image = New Sprite("level/zone3_wall_dirt_hot_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone3_wall_dirt_hot_crack.png", 1)
                     Case TilesetType.Zone3Cold
-                        Self.image = New Sprite("level/zone3_wall_dirt_cold_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone3_wall_dirt_cold_crack.png", 1)
                     Case TilesetType.Zone4
-                        Self.image = New Sprite("level/zone4_wall_dirt_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone4_wall_dirt_crack.png", 1)
                     Case TilesetType.Zone5
-                        Self.image = New Sprite("level/zone5_wall_dirt_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone5_wall_dirt_crack.png", 1)
                 End Select
             Case TileType.ShopWall
-                Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 1, Image.DefaultFlags)
+                Self.image = New Sprite("level/wall_shop_crypt_cracked.png", 1)
             Case TileType.StoneWall
                 Select Self.GetTileset()
                     Case TilesetType.Zone1
-                        Self.image = New Sprite("level/zone1_wall_stone_cracked.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone1_wall_stone_cracked.png", 1)
                     Case TilesetType.Zone2
-                        Self.image = New Sprite("level/zone2_wall_stone_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone2_wall_stone_crack.png", 1)
                     Case TilesetType.Zone3Hot
-                        Self.image = New Sprite("level/zone3_wall_stone_hot_cracked.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone3_wall_stone_hot_cracked.png", 1)
                     Case TilesetType.Zone3Cold
-                        Self.image = New Sprite("level/zone3_wall_stone_cold_cracked.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone3_wall_stone_cold_cracked.png", 1)
                     Case TilesetType.Zone4
-                        Self.image = New Sprite("level/zone4_wall_rock_A_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone4_wall_rock_A_crack.png", 1)
                     Case TilesetType.Zone5
-                        Self.image = New Sprite("level/zone5_wall_stone_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone5_wall_stone_crack.png", 1)
                 End Select
             Case TileType.CatacombWall
                 Select Self.GetTileset()
                     Case TilesetType.Zone4
-                        Self.image = New Sprite("level/zone4_wall_catacomb_A_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone4_wall_catacomb_A_crack.png", 1)
                     Case TilesetType.Zone5
-                        Self.image = New Sprite("level/zone5_wall_catacomb_crack.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone5_wall_catacomb_crack.png", 1)
                     Default
-                        Self.image = New Sprite("level/zone1_catacomb_cracked.png", 1, Image.DefaultFlags)
+                        Self.image = New Sprite("level/zone1_catacomb_cracked.png", 1)
                 End Select
         End Select
 
@@ -550,7 +550,7 @@ Class Tile Extends RenderableObject
         Self.hasResource = False
         Self.health = 4
 
-        Self.image = New Sprite(spritePath, 1, Image.DefaultFlags)
+        Self.image = New Sprite(spritePath, 1)
         Self.image.SetAlphaValue(0.0)
         If Self.IsWall()
             Self.image.SetZOff(8.0)
@@ -562,17 +562,17 @@ Class Tile Extends RenderableObject
         Self.image.SetAlphaValue(0.0)
 
         If Level.isHardcoreMode
-            Self.image2 = New Sprite("items/resource_hoard_gold.png", 24, 24, 2, Image.DefaultFlags)
+            Self.image2 = New Sprite("items/resource_hoard_gold.png", 24, 24, 2)
         Else
             Select controller_game.currentZone
                 Case 1
-                    Self.image2 = New Sprite("items/resource_diamond.png", 24, 24, 2, Image.DefaultFlags)
+                    Self.image2 = New Sprite("items/resource_diamond.png", 24, 24, 2)
                 Case 2
-                    Self.image2 = New Sprite("items/resource_diamond2.png", 24, 24, 2, Image.DefaultFlags)
+                    Self.image2 = New Sprite("items/resource_diamond2.png", 24, 24, 2)
                 Case 3
-                    Self.image2 = New Sprite("items/resource_diamond3.png", 24, 24, 2, Image.DefaultFlags)
+                    Self.image2 = New Sprite("items/resource_diamond3.png", 24, 24, 2)
                 Default
-                    Self.image2 = New Sprite("items/resource_diamond4.png", 24, 24, 2, Image.DefaultFlags)
+                    Self.image2 = New Sprite("items/resource_diamond4.png", 24, 24, 2)
             End Select
         End If
 
@@ -621,17 +621,17 @@ Class Tile Extends RenderableObject
         Select Self.GetTileset()
             Case TilesetType.Zone4
                 If Util.RndBool(False)
-                    Self.image = New Sprite("level/zone4_wall_catacomb_A.png", 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/zone4_wall_catacomb_A.png", 1)
                 Else
-                    Self.image = New Sprite("level/zone4_wall_catacomb_B.png", 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/zone4_wall_catacomb_B.png", 1)
                 End If
             Case TilesetType.Zone5
-                Self.image = New Sprite("level/zone5_wall_catacomb.png", 4, Image.DefaultFlags)
+                Self.image = New Sprite("level/zone5_wall_catacomb.png", 4)
             Default
                 If Util.RndBool(False)
-                    Self.image = New Sprite("level/wall_catacomb_crypt1.png", 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_catacomb_crypt1.png", 1)
                 Else
-                    Self.image = New Sprite("level/wall_catacomb_crypt2.png", 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/wall_catacomb_crypt2.png", 1)
                 End If
         End Select
 
@@ -650,30 +650,30 @@ Class Tile Extends RenderableObject
         Select Self.GetTileset()
             Case TilesetType.Zone5
                 If Util.RndBool(False)
-                    Self.image = New Sprite("level/zone5_wall_stone_A.png", 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/zone5_wall_stone_A.png", 1)
                 Else
-                    Self.image = New Sprite("level/zone5_wall_stone_B.png", 1, Image.DefaultFlags)
+                    Self.image = New Sprite("level/zone5_wall_stone_B.png", 1)
                 End If
             Case TilesetType.Boss
                 If Level.IsFinalBoss()
-                    Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5, Image.DefaultFlags)
+                    Self.image = New Sprite("level/necrodancer_wall.png", 24, 48, 5)
                 Else
-                    Self.image = New Sprite("level/boss_wall.png", 24, 48, 5, Image.DefaultFlags)
+                    Self.image = New Sprite("level/boss_wall.png", 24, 48, 5)
                 End If
 
                 Local frame := Util.RndIntRangeFromZero(4, False)
                 Self.image.SetFrame(frame)
                 Self.unbreakable = True
             Case TilesetType.Zone4
-                Self.image = New Sprite("level/zone4_wall_rock_A.png", 1, Image.DefaultFlags)
+                Self.image = New Sprite("level/zone4_wall_rock_A.png", 1)
             Case TilesetType.Zone3Cold
-                Self.image = New Sprite("level/zone3_wall_stone_cold.png", 1, Image.DefaultFlags)
+                Self.image = New Sprite("level/zone3_wall_stone_cold.png", 1)
             Case TilesetType.Zone3Hot
-                Self.image = New Sprite("level/zone3_wall_stone_hot.png", 1, Image.DefaultFlags)
+                Self.image = New Sprite("level/zone3_wall_stone_hot.png", 1)
             Case TilesetType.Zone2
-                Self.image = New Sprite("level/zone2_wall_stone.png", 1, Image.DefaultFlags)
+                Self.image = New Sprite("level/zone2_wall_stone.png", 1)
             Default
-                Self.image = New Sprite("level/wall_stone_crypt.png", 1, Image.DefaultFlags)
+                Self.image = New Sprite("level/wall_stone_crypt.png", 1)
         End Select
 
         Self.image.SetAlphaValue(0.0)
@@ -844,7 +844,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone1Wall: Sprite()
-        Local image := New Sprite("level/wall_dirt_crypt.png", 24, 48, 16, Image.DefaultFlags)
+        Local image := New Sprite("level/wall_dirt_crypt.png", 24, 48, 16)
         Local frame := Util.RndIntRangeFromZero(15, False)
         image.SetFrame(frame)
 
@@ -858,7 +858,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone2Wall: Sprite()
-        Local image := New Sprite("level/wall_zone2.png", 24, 48, 8, Image.DefaultFlags)
+        Local image := New Sprite("level/wall_zone2.png", 24, 48, 8)
 
         Local frameRoll := Util.RndIntRangeFromZero(100, False)
         If frameRoll <= 34
@@ -879,9 +879,9 @@ Class Tile Extends RenderableObject
         Local wall: Sprite
 
         If Self.IsTileset(TilesetType.Zone3Hot)
-            wall = New Sprite("level/zone3_wall_dirt_hot.png", 24, 48, 8, Image.DefaultFlags)
+            wall = New Sprite("level/zone3_wall_dirt_hot.png", 24, 48, 8)
         Else
-            wall = New Sprite("level/zone3_wall_dirt_cold.png", 24, 48, 8, Image.DefaultFlags)
+            wall = New Sprite("level/zone3_wall_dirt_cold.png", 24, 48, 8)
         End If
 
         Local frame := Util.RndIntRangeFromZero(7, False)
@@ -891,7 +891,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone4Wall: Sprite()
-        Local zone4Wall := New Sprite("level/zone4_wall_dirt.png", 24, 48, 8, Image.DefaultFlags)
+        Local zone4Wall := New Sprite("level/zone4_wall_dirt.png", 24, 48, 8)
 
         Local frameRoll := Util.RndIntRangeFromZero(100, False)
         Local frame: Int
@@ -910,7 +910,7 @@ Class Tile Extends RenderableObject
     End Method
 
     Method GetZone5Wall: Sprite()
-        Local zone5Wall := New Sprite("level/zone5_wall_dirt.png", 24, 48, 13, Image.DefaultFlags)
+        Local zone5Wall := New Sprite("level/zone5_wall_dirt.png", 24, 48, 13)
 
         Local frame: Int
 
@@ -1212,33 +1212,33 @@ Class Tile Extends RenderableObject
                 Const frameCount := 3
                 Local index := Util.RndIntRangeFromZero(frameCount, False)
 
-                Return New Sprite("level/wall_dirt_zone2_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+                Return New Sprite("level/wall_dirt_zone2_diamond" + (index + 1) + ".png", frameCount)
             Case TilesetType.Zone3Hot
                 Const frameCount := 3
                 Local index := Util.RndIntRangeFromZero(frameCount, False)
 
-                Return New Sprite("level/wall_dirt_zone3HOT_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+                Return New Sprite("level/wall_dirt_zone3HOT_diamond" + (index + 1) + ".png", frameCount)
             Case TilesetType.Zone3Cold
                 Const frameCount := 3
                 Local index := Util.RndIntRangeFromZero(frameCount, False)
 
-                Return New Sprite("level/wall_dirt_zone3cold_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+                Return New Sprite("level/wall_dirt_zone3cold_diamond" + (index + 1) + ".png", frameCount)
             Case TilesetType.Zone4
                 Const frameCount := 3
                 Local index := Util.RndIntRangeFromZero(frameCount, False)
 
-                Return New Sprite("level/wall_dirt_zone4_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+                Return New Sprite("level/wall_dirt_zone4_diamond" + (index + 1) + ".png", frameCount)
             Case TilesetType.Zone5
                 Const frameCount := 3
                 Local index := Util.RndIntRangeFromZero(frameCount, False)
 
-                Return New Sprite("level/wall_dirt_zone5_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+                Return New Sprite("level/wall_dirt_zone5_diamond" + (index + 1) + ".png", frameCount)
         End Select
 
         Const frameCount := 3
         Local index := Util.RndIntRangeFromZero(frameCount, False)
 
-        Return New Sprite("level/wall_dirt_crypt_diamond" + (index + 1) + ".png", frameCount, Image.DefaultFlags)
+        Return New Sprite("level/wall_dirt_crypt_diamond" + (index + 1) + ".png", frameCount)
     End Method
 
     Method LoadFloor: Sprite()
@@ -1277,27 +1277,27 @@ Class Tile Extends RenderableObject
     Method LoadWireImages: Void(mainImage: String, conductorPhase: Int)
         Select conductorPhase
             Case 0
-                Self.imageWireSilhouette = New Sprite("level/wire_silhouette.png", 24, 24, 16, Image.DefaultFlags)
+                Self.imageWireSilhouette = New Sprite("level/wire_silhouette.png", 24, 24, 16)
                 Self.imageWireSilhouette.SetZ(-1000.0)
 
-                Self.imageWire = New Sprite(mainImage, 24, 24, 128, Image.DefaultFlags)
+                Self.imageWire = New Sprite(mainImage, 24, 24, 128)
 
                 Select Util.RndIntRangeFromZero(2, False)
                     Case 0
-                        Self.imageWireFlash = New Sprite("level/elec_flash_1.png", 16, 10, 6, Image.DefaultFlags)
+                        Self.imageWireFlash = New Sprite("level/elec_flash_1.png", 16, 10, 6)
                     Case 1
-                        Self.imageWireFlash = New Sprite("level/elec_flash_2.png", 13, 12, 6, Image.DefaultFlags)
+                        Self.imageWireFlash = New Sprite("level/elec_flash_2.png", 13, 12, 6)
                     Case 2
-                        Self.imageWireFlash = New Sprite("level/elec_flash_3.png", 12, 13, 6, Image.DefaultFlags)
+                        Self.imageWireFlash = New Sprite("level/elec_flash_3.png", 12, 13, 6)
                 End Select
 
                 Self.imageWireFlash.SetZ(-998.0)
                 Self.wireFlashAnimDelay = 3
                 Self.wireFlashDelay = Util.RndIntRangeFromZero(1800, False)
             Case 1
-                Self.imageWire = New Sprite(mainImage, 24, 24, 35, Image.DefaultFlags)
+                Self.imageWire = New Sprite(mainImage, 24, 24, 35)
             Case 2
-                Self.imageWire = New Sprite(mainImage, 24, 24, 15, Image.DefaultFlags)
+                Self.imageWire = New Sprite(mainImage, 24, 24, 15)
         End Select
 
         Self.imageWire.SetAlphaValue(0.0)
@@ -1353,7 +1353,7 @@ Class Tile Extends RenderableObject
                             Level.RemoveExit(Self.x, Self.y)
                             Level.AddExit(Self.x, Self.y, LevelType.NextLevel, controller_game.currentZone)
                             
-                            Self.image = New Sprite("level/stairs.png", 1, Image.DefaultFlags)
+                            Self.image = New Sprite("level/stairs.png", 1)
                             Self.image.SetZ(-1001.0)
                             Self.image.SetAlphaValue(0.0)
 

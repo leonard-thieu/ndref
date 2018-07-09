@@ -22,7 +22,7 @@ Class ControllerIntro Extends Controller
 
         Sprite.scaleToFitScreen = True
 
-        Self.splashScreen = New Sprite("mainmenu/splash_screen.png", 1, Image.DefaultFlags)
+        Self.splashScreen = New Sprite("mainmenu/splash_screen.png", 1)
         Self.splashScreen.SetZ(10002.0)
         Self.splashScreen.InWorld = False
 

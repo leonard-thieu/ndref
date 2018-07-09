@@ -72,12 +72,12 @@ Class NPC Extends Enemy Abstract
 
         If captv
             If glCage
-                Self.cageFrontImage = New Sprite("level/cage_glass_front.png", 1, Image.DefaultFlags)
+                Self.cageFrontImage = New Sprite("level/cage_glass_front.png", 1)
             Else
-                Self.cageFrontImage = New Sprite("level/cage_front.png", 1, Image.DefaultFlags)
+                Self.cageFrontImage = New Sprite("level/cage_front.png", 1)
             End If
 
-            Self.cageBackImage = New Sprite("level/cage_back.png", 1, Image.DefaultFlags)
+            Self.cageBackImage = New Sprite("level/cage_back.png", 1)
         End If
 
         Self.Init(xVal, yVal, l, name, "", -1, -1)

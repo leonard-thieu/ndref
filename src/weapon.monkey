@@ -66,7 +66,7 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_dagger.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_dagger.png", imageW, imageH, 1)
             Else If Self.IsLongsword()
                 Local swipeImage: Sprite
 
@@ -99,7 +99,7 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_longsword.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_longsword.png", imageW, imageH, 1)
                 Self.glowXOff = -1
                 Self.glowYOff = -1
             Else If Self.IsBroadsword()
@@ -134,7 +134,7 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_broadsword.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_broadsword.png", imageW, imageH, 1)
                 Self.glowXOff = -1
                 Self.glowYOff = -1
             Else If Self.IsBow()
@@ -147,7 +147,7 @@ Class Weapon
 
                 Self.arrowWeapon = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_bow.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_bow.png", imageW, imageH, 1)
             Else If Self.IsCrossbow()
                 Local attackPoint1 := New WeaponPoint(0, -1, Self, 1, Null, 3, True, 0, 1)
                 Local attackPoint2 := New WeaponPoint(0, -2, Self, 1, attackPoint1, 3, True, -1, 1)
@@ -167,7 +167,7 @@ Class Weapon
                 swipeImage2.SetZOff(1000.0)
                 Self.swipeImage2.Set(0, swipeImage2)
 
-                Self.glowHUD = New Sprite("items/weaponglow_crossbow.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_crossbow.png", imageW, imageH, 1)
             Else If Self.IsWhip()
                 Self.startingRenderTime = 8
                 Self.numSwipeFramesPerImage = 2
@@ -241,7 +241,7 @@ Class Weapon
                 attackPoint6.children.AddLast(attackPoint7)
                 Self.attackPoints.AddLast(attackPoint1)
 
-                Self.glowHUD = New Sprite("items/weaponglow_whip.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_whip.png", imageW, imageH, 1)
             Else If Self.IsFlail()
                 Self.startingRenderTime = 6
                 Local swipeImage := New Sprite("swipes/swipe_flail.png", 5, Image.MidHandle)
@@ -261,7 +261,7 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_flail.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_flail.png", imageW, imageH, 1)
             Else If Self.IsCat()
                 Self.startingRenderTime = 8
                 Self.numSwipeFramesPerImage = 2
@@ -293,7 +293,7 @@ Class Weapon
                 attackPoint1.children.AddLast(attackPoint5)
                 Self.attackPoints.AddLast(attackPoint1)
 
-                Self.glowHUD = New Sprite("items/weaponglow_cat.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_cat.png", imageW, imageH, 1)
                 Self.glowYOff = 1
             Else If Self.IsRapier()
                 Self.daggerSwipeAdjacent = True
@@ -341,7 +341,7 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_rapier.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_rapier.png", imageW, imageH, 1)
             Else If Self.IsSpear()
                 Self.daggerSwipeAdjacent = True
 
@@ -388,7 +388,7 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_spear.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_spear.png", imageW, imageH, 1)
             Else If Self.IsBlunderbuss()
                 Local swipeImage := New Sprite("swipes/swipe_blunderbuss.png", 8, Image.MidHandle)
                 swipeImage.SetHandle(-2, 59)
@@ -498,11 +498,11 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_axe.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_axe.png", imageW, imageH, 1)
             Else If Self.IsHarp()
                 Self.startingRenderTime = 10
                 Self.numSwipeFrames = 5
-                Local swipeImage := New Sprite("swipes/swipe_harp.png", 5, Image.DefaultFlags)
+                Local swipeImage := New Sprite("swipes/swipe_harp.png", 5)
                 swipeImage.SetZOff(1000.0)
                 Self.swipeImage.Set(0, swipeImage)
 
@@ -511,7 +511,7 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_harp.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_harp.png", imageW, imageH, 1)
             Else If Self.IsWarhammer()
                 Self.startingRenderTime = 8
                 Local swipeImage := New Sprite("swipes/swipe_broadsword.png", 3, Image.MidHandle)
@@ -536,12 +536,12 @@ Class Weapon
                 attackPoint1.children.AddLast(attackPoint6)
                 Self.attackPoints.AddLast(attackPoint1)
 
-                Self.glowHUD = New Sprite("items/weaponglow_warhammer.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_warhammer.png", imageW, imageH, 1)
             Else If Self.IsStaff()
                 Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
                 Self.attackPoints.AddLast(attackPoint1)
 
-                Self.glowHUD = New Sprite("items/weaponglow_staff.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_staff.png", imageW, imageH, 1)
             Else If Self.IsCutlass()
                 Self.daggerSwipeAdjacent = True
 
@@ -563,12 +563,12 @@ Class Weapon
 
                 Self.flipEachHit = True
 
-                Self.glowHUD = New Sprite("items/weaponglow_cutlass.png", imageW, imageH, 1, Image.DefaultFlags)
+                Self.glowHUD = New Sprite("items/weaponglow_cutlass.png", imageW, imageH, 1)
             End If
 
             Self.currentClipSize = Self.clipSize
 
-            Self.imageHUD = New Sprite(itemNode.value, imageW, imageH, 2 * numFrames, Image.DefaultFlags)
+            Self.imageHUD = New Sprite(itemNode.value, imageW, imageH, 2 * numFrames)
             Self.imageHUD.InWorld = False
             Self.imageHUD.SetZ(10000.0)
 
