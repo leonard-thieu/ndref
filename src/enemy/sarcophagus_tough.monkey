@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import level
 Import entity
 Import logger
 Import point
@@ -8,7 +9,9 @@ Import point
 Class ToughSarcophagus Extends Enemy
 
     Function GetPerRoomCount: Int()
-        Debug.TraceNotImplemented("ToughSarcophagus.GetPerRoomCount()")
+        Local hardModeXML := Level.GetHardModeXML()
+
+        Return hardModeXML.GetAttribute("sarcsPerRoom", 0)
     End Function
 
     Function GetSpawnBeats: Int()

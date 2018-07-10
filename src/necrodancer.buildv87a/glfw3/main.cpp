@@ -53002,8 +53002,8 @@ c_ToughSarcophagus::c_ToughSarcophagus(){
 	m_spawnType=0;
 }
 int c_ToughSarcophagus::m_GetPerRoomCount(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ToughSarcophagus.GetPerRoomCount()",34));
-	return 0;
+	c_XMLDoc* t_hardModeXML=c_Level::m_GetHardModeXML();
+	return t_hardModeXML->p_GetAttribute3(String(L"sarcsPerRoom",12),0);
 }
 c_ToughSarcophagus* c_ToughSarcophagus::m_new(int t_xVal,int t_yVal,int t_etype){
 	c_Enemy::m_new();
