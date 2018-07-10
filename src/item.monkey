@@ -308,8 +308,8 @@ Class Item Extends Entity
         Debug.Log("Item pool generation took " + totalTime + " ms.")
     End Function
 
-    Function DropItem: Object(xVal: Int, yVal: Int, t: Int)
-        Debug.TraceNotImplemented("Item.DropItem(Int, Int, Int)")
+    Function DropItem: Item(xVal: Int, yVal: Int, t: String)
+        Debug.TraceNotImplemented("Item.DropItem(Int, Int, String)")
     End Function
 
     Function FilterDisabledItems: Void(list: List<String>)
@@ -349,8 +349,8 @@ Class Item Extends Entity
         Return itemName
     End Function
 
-    Function GetFlyawayText: Int(i: Int)
-        Debug.TraceNotImplemented("Item.GetFlyawayText(Int)")
+    Function GetFlyawayText: String(i: String)
+        Debug.TraceNotImplemented("Item.GetFlyawayText(String)")
     End Function
 
     Function GetHeavyGlassFrame: Int(quantity: Int)
@@ -1391,7 +1391,7 @@ Class Item Extends Entity
         Super.Die()
     End Method
 
-    Method GetFlyawayText: Int()
+    Method GetFlyawayText: String()
         Debug.TraceNotImplemented("Item.GetFlyawayText()")
     End Method
 
@@ -1766,10 +1766,10 @@ Class ItemType
     Const Diamond2: String = "resource_diamond2"
     Const Diamond3: String = "resource_diamond3"
     Const Diamond4: String = "resource_diamond4"
-    Const Diamonds5: String = "resource_hoard1"
-    Const Diamonds10: String = "resource_hoard2"
-    Const Diamonds15: String = "resource_hoard3"
-    Const Diamonds20: String = "resource_hoard4"
+    Const Diamond5: String = "resource_hoard1"
+    Const Diamond10: String = "resource_hoard2"
+    Const Diamond15: String = "resource_hoard3"
+    Const Diamond20: String = "resource_hoard4"
     Const SmallGoldHoard: String = "resource_hoard_gold_small"
     Const GoldHoard: String = "resource_hoard_gold"
     Const RingOfCourage: String = "ring_courage"
@@ -1944,5 +1944,10 @@ Class ItemType
     Const GoldenCutlass: String = "weapon_golden_cutlass"
     Const BloodCutlass: String = "weapon_blood_cutlass"
     Const GlassCutlass: String = "weapon_glass_cutlass"
+
+    Const SpikedLeatherArmor: String = "armor_spiked_leather"
+    Const SpikedChainmail: String = "armor_spiked_chainmail"
+    Const SpikedPlateArmor: String = "armor_spiked_platemail"
+    Const SpikedHeavyPlate: String = "armor_spiked_heavyplate"
 
 End Class

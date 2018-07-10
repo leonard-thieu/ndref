@@ -36,12 +36,16 @@ Class GameData
     Global replaySaveData: XMLDoc
     Global xmlSaveData: XMLDoc
 
-    Function AddDiamondDealerItem: Void(itemName: Int)
-        Debug.TraceNotImplemented("GameData.AddDiamondDealerItem(Int)")
+    Function AddDiamondDealerItem: Void(itemName: String)
+        Debug.TraceNotImplemented("GameData.AddDiamondDealerItem(String)")
     End Function
 
-    Function AddPendingSpawnItem: Void(i: Int)
-        Debug.TraceNotImplemented("GameData.AddPendingSpawnItem(Int)")
+    Function AddPendingSpawnItem: Void(i: String)
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+        Local numPendingSpawnItems := GameData.GetNumPendingSpawnItems()
+
+        gameNode.SetAttribute("pendingSpawnItemV2_" + numPendingSpawnItems, i)
+        gameNode.SetAttribute("numPendingSpawnItemsV2", numPendingSpawnItems + 1)
     End Function
 
     Function CanDoDailyRun: Bool()
@@ -55,7 +59,7 @@ Class GameData
     Function GetAlternateSkin: Int(charID: Int)
         Local gameNode := GameData.xmlSaveData.GetChild("game")
 
-        Return GameData.xmlSaveData.GetChild("game").GetAttribute("skinNum" + charID, 0)
+        Return gameNode.GetAttribute("skinNum" + charID, 0)
     End Function
 
     Function GetAudioLatency: Int()
@@ -268,7 +272,17 @@ Class GameData
     End Function
 
     Function GetNumPendingSpawnItems: Int()
-        Debug.TraceNotImplemented("GameData.GetNumPendingSpawnItems()")
+        Local saveData: XMLDoc
+        If Level.isReplaying And
+           GameData.replaySaveData <> Null
+            saveData = GameData.replaySaveData
+        Else
+            saveData = GameData.xmlSaveData
+        End If
+
+        Local gameNode := saveData.GetChild("game")
+
+        Return gameNode.GetAttribute("numPendingSpawnItemsV2", 0)
     End Function
 
     Function GetParticles: Bool()
@@ -833,12 +847,27 @@ Class GameData
         Debug.TraceNotImplemented("GameData.SetIgnoreMultipress(Bool)")
     End Function
 
-    Function SetItemCleaned: Void(itemName: Int, clean: Bool)
-        Debug.TraceNotImplemented("GameData.SetItemCleaned(Int, Bool)")
+    Function SetItemCleaned: Void(itemName: String, clean: Bool)
+        If Level.isReplaying
+            Return
+        End If
+
+        Local value := "false"
+        If clean
+            value = "true"
+        End If
+
+        Local playerNode := GameData.xmlSaveData.GetChild("player")
+        playerNode.SetAttribute(itemName + "Cleaned", clean)
     End Function
 
-    Function SetItemUnlocked: Void(itemName: Int)
-        Debug.TraceNotImplemented("GameData.SetItemUnlocked(Int)")
+    Function SetItemUnlocked: Void(itemName: String)
+        If Level.isReplaying
+            Return
+        End If
+
+        Local playerNode := GameData.xmlSaveData.GetChild("player")
+        playerNode.SetAttribute(itemName + "Unlocked", "true")
     End Function
 
     Function SetItemUsed: Void(itemName: Int)

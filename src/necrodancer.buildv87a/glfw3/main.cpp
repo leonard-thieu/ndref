@@ -5332,68 +5332,72 @@ class c_SpellType;
 class c_Map12;
 class c_StringMap7;
 class c_Node21;
-class c_SoulFamiliar;
-class c_List10;
+class c_Direction;
+class c_Tile;
+class c_Minimap;
+class c_Point;
+class c_Map13;
+class c_ExitMap;
+class c_NodeEnumerator;
 class c_Node22;
+class c_List10;
+class c_EnemyList;
+class c_Node23;
 class c_HeadNode10;
+class c_Enumerator4;
+class c_SaleChest;
+class c_SoulFamiliar;
+class c_List11;
+class c_Node24;
+class c_HeadNode11;
 class c_Point2;
 class c_ItemData;
 class c_Bouncer;
 class c_Replay;
-class c_Point;
 class c_Stack2;
 class c_StackEx;
-class c_List11;
-class c_EnemyList;
-class c_Node23;
-class c_HeadNode11;
-class c_Enumerator4;
 class c_Enumerator5;
 class c_ReplayData;
-class c_Node24;
+class c_Node25;
 class c_IntStack;
 class c_Enumerator6;
 class c_ControllerGame;
-class c_Tile;
-class c_Map13;
-class c_IntMap6;
 class c_Map14;
+class c_IntMap6;
+class c_Map15;
 class c_IntMap7;
-class c_NodeEnumerator;
-class c_Node25;
 class c_NodeEnumerator2;
 class c_Node26;
-class c_List12;
+class c_NodeEnumerator3;
 class c_Node27;
+class c_List12;
+class c_Node28;
 class c_HeadNode12;
 class c_MinibossTileData;
 class c_List13;
-class c_Node28;
+class c_Node29;
 class c_HeadNode13;
 class c_RoomData;
 class c_List14;
-class c_Node29;
+class c_Node30;
 class c_HeadNode14;
 class c_Trap;
 class c_List15;
 class c_TrapList;
-class c_Node30;
+class c_Node31;
 class c_HeadNode15;
 class c_List16;
-class c_Node31;
+class c_Node32;
 class c_HeadNode16;
 class c_List17;
 class c_IntList;
-class c_Node32;
+class c_Node33;
 class c_HeadNode17;
 class c_NPC;
 class c_Transmogrifier;
 class c_Conjurer;
 class c_Shriner;
 class c_Pawnbroker;
-class c_Map15;
-class c_ExitMap;
-class c_Node33;
 class c_TilesetType;
 class c_RoomType;
 class c_TileType;
@@ -5405,7 +5409,6 @@ class c_Enumerator7;
 class c_Enumerator8;
 class c_Stack3;
 class c_StringStack;
-class c_NodeEnumerator3;
 class c_Sarcophagus;
 class c_BeatAnimationData;
 class c_Map16;
@@ -5528,7 +5531,6 @@ class c_List24;
 class c_Node41;
 class c_HeadNode24;
 class c_Enumerator14;
-class c_Direction;
 class c_TrapObject;
 class c_List25;
 class c_Node42;
@@ -5579,7 +5581,6 @@ class c_List32;
 class c_Node49;
 class c_HeadNode32;
 class c_ChestColor;
-class c_SaleChest;
 class c_List33;
 class c_Node50;
 class c_HeadNode33;
@@ -5664,18 +5665,17 @@ class c_Enumerator33;
 class c_Enumerator34;
 class c_Swarm;
 class c_CrystalShards;
-class c_Minimap;
 class c_List39;
 class c_Node57;
 class c_HeadNode39;
-class c_Enumerator35;
 class c_List40;
 class c_Node58;
 class c_HeadNode40;
+class c_ConductorBattery;
 class c_List41;
 class c_Node59;
 class c_HeadNode41;
-class c_ConductorBattery;
+class c_Enumerator35;
 class c_App : public Object{
 	public:
 	c_App();
@@ -5952,8 +5952,8 @@ class c_Util : public Object{
 	static bool m_IsOnScreen(int,int,Float,Float);
 	static bool m_LineSegmentTileIntersect(Float,Float,Float,Float,Float,Float);
 	static c_Player* m_GetAnyPlayerAt(int,int);
-	static c_List39* m_GetPlayersAt(c_Rect*);
-	static c_List39* m_GetPlayersAt2(int,int);
+	static c_List41* m_GetPlayersAt(c_Rect*);
+	static c_List41* m_GetPlayersAt2(int,int);
 	void mark();
 };
 class c_TextLog : public Object{
@@ -5995,7 +5995,15 @@ class c_GameData : public Object{
 	static bool m_GetEnableCutscenes();
 	static int m_GetAlternateSkin(int);
 	static bool m_GetUseChoral();
+	static void m_SetItemCleaned(String,bool);
+	static void m_RemovePendingSpawnItem(String);
+	static void m_AddDiamondDealerItem(String);
+	static void m_SetItemUnlocked(String);
 	static c_XMLDoc* m_replaySaveData;
+	static int m_GetNumPendingSpawnItems();
+	static void m_AddPendingSpawnItem(String);
+	static void m_SetZoneHoardCollected(int);
+	static void m_SetPlayerHealthMax(int);
 	static int m_GetPlayerHealthMax();
 	static void m_SetPlayerCoins(int);
 	static void m_SetPlayerDiamonds(int);
@@ -6011,14 +6019,12 @@ class c_GameData : public Object{
 	static int m_cachedAutocalibrationVal;
 	static int m_GetAutocalibration();
 	static int m_GetVideoLatency();
-	static int m_GetNumPendingSpawnItems();
 	static bool m_GetDaoustVocals();
 	static bool m_GetNPCUnlock(String);
 	static bool m_HasFoughtDeadRinger();
 	static void m_SetFoughtDeadRinger();
 	static bool m_GetItemUnlocked(String,bool);
 	static int m_GetPendingSpawnItem(int);
-	static void m_RemovePendingSpawnItem(String);
 	static void m_SetHavePlayedHardcore(bool);
 	static bool m_HasFoughtNecrodancer();
 	static void m_SetFoughtNecrodancer();
@@ -6700,13 +6706,13 @@ class c_Camera : public Object{
 	static int m_GetFixedHeight();
 	static int m_GetFixedWidth();
 	static void m_FadeOutThenExecute(int,c_Callback*);
-	static int m_overlayWhiteDuration;
-	static void m_Shake(int,int,int);
 	static Float m_shakeOffX;
 	static Float m_GetX();
 	static Float m_shakeOffY;
 	static Float m_GetY();
 	static bool m_IsOnScreen(int,int);
+	static int m_overlayWhiteDuration;
+	static void m_Shake(int,int,int);
 	void mark();
 };
 extern int bb_necrodancergame_globalFrameCounter;
@@ -6850,6 +6856,11 @@ class c_Level : public Object{
 	static int m_forceBoss;
 	static int m_GetMaxDepth();
 	static bool m_HaveFinalBoss();
+	static bool m_isAllCharsRunNoItemsNoShrines;
+	static c_Minimap* m_minimap;
+	static c_ExitMap* m_exits;
+	static c_Point* m_GetStandardExitCoords();
+	static void m_ResetCosts();
 	static bool m_AllCharsAnyComplete();
 	static bool m_AllCharsDLCAnyComplete();
 	static bool m_isLevelEditor;
@@ -6874,7 +6885,6 @@ class c_Level : public Object{
 	static void m_CreateTestMap();
 	static void m_CreateLobby();
 	static Array<bool > m_allCharsCompletion;
-	static bool m_isAllCharsRunNoItemsNoShrines;
 	static void m_CreateAllCharsSelect();
 	static Array<bool > m_allCharsCompletionDLC;
 	static void m_CreateAllCharsDLCSelect();
@@ -6907,7 +6917,6 @@ class c_Level : public Object{
 	static int m_levelConstraintW;
 	static int m_levelConstraintH;
 	static int m_levelConstraintNum;
-	static c_ExitMap* m_exits;
 	static void m_DeleteMap();
 	static bool m_isAnyTar;
 	static bool m_isConductorLevel;
@@ -6997,7 +7006,6 @@ class c_Level : public Object{
 	static bool m_IsWallAdjacent8(int,int);
 	static bool m_IsExitAt(int,int);
 	static bool m_PlaceWire(c_Point*,c_Point*);
-	static c_Point* m_GetStandardExitCoords();
 	static bool m_IsTileTypeAdjacent(int,int,int);
 	static c_List26* m_tempTileWalk;
 	static void m_RandomWalkOfTempTiles(int,int,int);
@@ -7145,7 +7153,11 @@ class c_Level : public Object{
 	static bool m_IsSeededMode2(int);
 	static void m_TakeActionAfterAllCharsScoreSubmit();
 	static void m_Update();
-	static c_Minimap* m_minimap;
+	static bool m_IsVisibleTileAt(int,int);
+	static void m_PlaceHotCoalTileAt(int,int);
+	static void m_PlaceIceTileAt(int,int);
+	static void m_PlaceTileTypeAt(int,int,int);
+	static void m_DryUpAllWater(int);
 	static void m_RemoveExit(int,int);
 	static int m_maxLevelX;
 	static int m_minLevelX;
@@ -7155,11 +7167,6 @@ class c_Level : public Object{
 	static Array<Float > m_constMapLightValues;
 	static Float m_ActuallyGetMapTileLightValue(int,int,bool);
 	static Float m_GetMapTileLightValue(int,int,bool);
-	static bool m_IsVisibleTileAt(int,int);
-	static void m_PlaceHotCoalTileAt(int,int);
-	static void m_PlaceIceTileAt(int,int);
-	static void m_PlaceTileTypeAt(int,int,int);
-	static void m_DryUpAllWater(int);
 	void mark();
 };
 class c_ControllerLevelEditor : public c_Controller{
@@ -7222,6 +7229,8 @@ class c_RenderableObject : public Object{
 	bool m_dead;
 	int m_x;
 	int m_y;
+	Float m_lightSourceMin;
+	Float m_lightSourceMax;
 	int m_lastFrameX;
 	int m_lastFrameY;
 	bool m_isMobile;
@@ -7229,8 +7238,6 @@ class c_RenderableObject : public Object{
 	bool m_isPlayer;
 	Float m_constLightSourceMax;
 	bool m_lightSource;
-	Float m_lightSourceMin;
-	Float m_lightSourceMax;
 	bool m_collides;
 	bool m_isEnemy;
 	Float m_lightSourceBrightness;
@@ -7247,6 +7254,7 @@ class c_RenderableObject : public Object{
 	static c_List2* m_renderableObjectList;
 	static c_List2* m_lightSourceList;
 	virtual void p_Die();
+	virtual bool p_Hit(String,int,int,c_Entity*,bool,int)=0;
 	c_RenderableObject* m_new();
 	void p_ActivateLight(Float,Float);
 	c_Point* p_GetLocation();
@@ -7256,7 +7264,6 @@ class c_RenderableObject : public Object{
 	virtual void p_Update();
 	virtual bool p_IsFrozen(bool);
 	bool p_IsOnScreen();
-	virtual bool p_Hit(String,int,int,c_Entity*,bool,int)=0;
 	static void m_UpdateAll();
 	static bool m_HitTile(String,int,int,int,int,c_Entity*,bool,bool,bool,bool,bool);
 	void mark();
@@ -7268,6 +7275,8 @@ class c_Entity : public c_RenderableObject{
 	c_Sprite* m_shadow;
 	Float m_xOff;
 	Float m_yOff;
+	bool m_floating;
+	bool m_frozenPermanently;
 	int m_entityNum;
 	int m_lastX;
 	int m_lastY;
@@ -7278,13 +7287,11 @@ class c_Entity : public c_RenderableObject{
 	int m_coinsToDrop;
 	bool m_falling;
 	int m_confusedUntil;
-	bool m_floating;
 	int m_level;
 	String m_xmlName;
 	String m_friendlyName;
 	int m_damagePerHit;
 	bool m_ignoreWalls;
-	bool m_frozenPermanently;
 	bool m_hasBeenVisible;
 	String m_overrideAttackSound;
 	bool m_isGentle;
@@ -7307,14 +7314,14 @@ class c_Entity : public c_RenderableObject{
 	static void m_RemoveFromList(c_Entity*);
 	void p_Die();
 	static void m_RemoveAnyPerishedEntities();
+	static int m_anyPlayerHaveGlassTorchCachedFrame;
+	static int m_anyPlayerHaveForesightTorchCachedFrame;
+	static int m_anyPlayerHaveWallsTorchCachedFrame;
+	static int m_anyPlayerHaveCircletCachedFrame;
 	static int m_entityCount;
 	c_Entity* m_new();
 	void p_FlagForDeath(int);
 	static c_Entity* m_GetEntityAt(int,int,bool);
-	static int m_anyPlayerHaveCircletCachedFrame;
-	static int m_anyPlayerHaveGlassTorchCachedFrame;
-	static int m_anyPlayerHaveForesightTorchCachedFrame;
-	static int m_anyPlayerHaveWallsTorchCachedFrame;
 	static int m_anyPlayerHaveNazarCharmCachedFrame;
 	virtual void p_CancelTween();
 	bool p_IsFrozen(bool);
@@ -7322,9 +7329,9 @@ class c_Entity : public c_RenderableObject{
 	void p_Update();
 	void p_BounceToward(c_Point*,bool);
 	static void m_UpdateVisibility();
+	virtual bool p_IsVisible();
 	static bool m_anyPlayerHaveWallsTorchCached;
 	static bool m_AnyPlayerHaveWallsTorch();
-	virtual bool p_IsVisible();
 	void mark();
 };
 class c_Shrine : public c_Entity{
@@ -7353,6 +7360,7 @@ class c_Shrine : public c_Entity{
 	static bool m_bossShrineActive;
 	static c_IntSet* m_usedShrines;
 	static int m_usedShrinerInZone;
+	static void m_ResetCosts();
 	static void m_ResetShrines();
 	static bool m_IsValidShrine(int);
 	static int m_GetRandomShrineInt(bool,int,int);
@@ -7367,8 +7375,8 @@ class c_Shrine : public c_Entity{
 	static void m_AddPendingShrinesToUsedList();
 	static c_Shrine* m_GetShrineAt(int,int);
 	void p_Die();
-	void p_SetCost();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_SetCost();
 	void p_Update();
 	void mark();
 };
@@ -7420,13 +7428,19 @@ class c_Player : public c_MobileEntity{
 	bool m_batFormActive;
 	c_PlayerHealth* m_health;
 	int m_playerID;
+	bool m_globalIgnoreFlyToSlot;
+	bool m_hudDiamondForFlyingRender;
+	int m_numBombs;
+	Array<bool > m_hudSlotOffFlyFromPlayer;
+	c_StringMap4* m_hideQuantity;
+	c_List7* m_holdingBagItems;
+	int m_coinPickupBeat;
 	int m_playerTempNum;
 	bool m_hudSlotInitialized;
 	int m_numHudSlots;
 	Array<c_Sprite* > m_hudSlot;
 	int m_numHudSlotsIncludingActionAndSpells;
 	Array<c_Point2* > m_hudSlotOff;
-	Array<bool > m_hudSlotOffFlyFromPlayer;
 	c_StringMap7* m_shovelImages;
 	c_TextSprite* m_tempoHeartText;
 	c_Sprite* m_hudSlotAction1;
@@ -7452,7 +7466,6 @@ class c_Player : public c_MobileEntity{
 	int m_lordCrownActiveBeat;
 	int m_shieldActiveBeat;
 	c_Player* m_helper;
-	int m_numBombs;
 	int m_lastMoveOntoPlayerInCoopModeBeat;
 	bool m_immobilized;
 	int m_lastIceSlideBeat;
@@ -7475,7 +7488,6 @@ class c_Player : public c_MobileEntity{
 	int m_crownOfGreedBeat;
 	int m_lastWarDrumBeat;
 	int m_lastBloodDrumBeat;
-	int m_coinPickupBeat;
 	int m_courageRingBeat;
 	int m_courageShovelBeat;
 	bool m_queuedMove;
@@ -7513,11 +7525,30 @@ class c_Player : public c_MobileEntity{
 	bool p_HasItemOfType(String,bool);
 	void p_UpdateBonusHeart();
 	void p_EmptyAllSlots(bool);
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	static int m_GetSlotNum(String);
+	void p_PutItemInSlot(String,String,bool);
+	c_Item* p_DropItem(String,int,int);
+	void p_ProcessDropMystery(c_Item*,String);
+	bool p_IsAnythingInSlot(String);
+	bool p_HaveSecondActionSlot();
+	bool p_AddItemOfType_PreProcess(String,c_Item*);
+	void p_SetSlotMystery(String,bool);
+	void p_CheckVowOfPoverty();
+	static void m_AddCoins(int);
+	static int m_numDiamonds;
+	void p_CheckConductorWire();
+	void p_CheckFloating();
+	static bool m_DoesAnyPlayerHaveItemOfType(String,bool);
+	void p_GetNewWeapon(String);
+	Float p_GetLightSourceMin();
+	Float p_GetLightSourceMax();
+	int p_GetArmorAmount();
+	void p_ProcessTheResultsOfEquippingItem(String);
 	void p_AddItemOfType(String,c_Item*,bool,bool);
 	void p_SetSlotCursed(String,bool);
 	void p_GiveInitialEquipment(bool);
 	void p_SetCharacter(int);
-	static int m_numDiamonds;
 	bool p_Perished();
 	static int m_playerTempCount;
 	static int m_NumEnabledCharacters();
@@ -7535,10 +7566,7 @@ class c_Player : public c_MobileEntity{
 	void p_WarpFamiliars();
 	void p_SetTotallyBlank();
 	void p_StopFalling();
-	void p_CheckConductorWire();
-	void p_CheckFloating();
 	void p_ResetStateAfterLevel();
-	static bool m_DoesAnyPlayerHaveItemOfType(String,bool);
 	static void m_PlayVOPlayer1(String);
 	bool p_IsWeaponlessCharacter();
 	static bool m_ArePrototypesEnabled();
@@ -7553,11 +7581,9 @@ class c_Player : public c_MobileEntity{
 	Float p_GetMinVisibility();
 	void p_ImmediatelyMoveTo(int,int,bool,bool,bool,bool,bool);
 	static bool m_CheckCoinXOR();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_ProcessMoveQueue();
 	int p_GetMoveLastBeat();
 	c_Point* p_GetPositionLastBeat();
-	Float p_GetLightSourceMax();
 	bool p_IsLordCrownActive();
 	bool p_FeetIgnoreOoze();
 	bool p_IsShrunk(int,int);
@@ -7577,8 +7603,8 @@ class c_Player : public c_MobileEntity{
 	static bool m_PlayersHaveMovedThisBeat();
 	void p_HandleIceAndCoals();
 	void p_AfterEnemyMovement();
-	static bool m_AnyPlayerTemporaryMapSight();
 	bool p_IsVisible();
+	static bool m_AnyPlayerTemporaryMapSight();
 	void mark();
 };
 class c_Set : public Object{
@@ -7777,26 +7803,29 @@ class c_Familiar : public c_MobileEntity{
 	c_Player* m_owner;
 	c_Familiar();
 	void p_Die();
-	static c_List10* m_familiarList;
+	static c_List11* m_familiarList;
 	c_Familiar* m_new(c_Player*);
 	c_Familiar* m_new2();
 	void p_Recall();
-	static bool m_IsAnyAt(int,int);
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
+	static bool m_IsAnyAt(int,int);
 	void mark();
 };
 class c_Item : public c_Entity{
 	public:
-	int m_utility;
+	String m_itemType;
+	bool m_trainingWeapon;
+	bool m_janitorItem;
+	bool m_diamondDealerItem;
 	int m_stackQuantity;
 	bool m_hideQuantity;
+	bool m_isMystery;
+	int m_utility;
 	int m_diamondCost;
 	int m_diamondDealerPrice;
 	int m_coinCost;
 	int m_quantityYOff;
-	bool m_trainingWeapon;
-	String m_itemType;
 	int m_dropX;
 	int m_dropY;
 	bool m_droppedByPlayer;
@@ -7809,8 +7838,6 @@ class c_Item : public c_Entity{
 	bool m_hasBloodCost;
 	bool m_saleItem;
 	bool m_singleChoiceItem;
-	bool m_janitorItem;
-	bool m_diamondDealerItem;
 	c_Item();
 	static String m_lastChestItemClass1;
 	static String m_lastChestItemClass2;
@@ -7819,17 +7846,20 @@ class c_Item : public c_Entity{
 	String p_GetSlot();
 	static String m_GetSlot2(String);
 	static c_StringMap7* m_itemImages;
-	static c_List* m_GetAllItemsInClass(String);
 	static bool m_IsItemOfType(String,String);
 	bool p_IsItemOfType(String);
-	static c_List20* m_pickupList;
-	static c_List20* m_GetPickupsAt(int,int,c_Item*);
-	static int m_GetValue(String);
-	int p_GetValue();
-	static int m_GetFlyawayText(int);
-	int p_GetFlyawayText();
 	static c_StringMap6* m_seenItems;
 	static void m_AddToSeenItems(String);
+	static String m_GetFlyawayText(String);
+	String p_GetFlyawayText();
+	static c_Item* m_DropItem(int,int,String);
+	static int m_GetIntAttribute(String,String,int);
+	int p_GetIntAttribute(int,int);
+	static int m_GetValue(String);
+	int p_GetValue();
+	static c_List* m_GetAllItemsInClass(String);
+	static c_List20* m_pickupList;
+	static c_List20* m_GetPickupsAt(int,int,c_Item*);
 	c_Item* m_new(int,int,String,bool,int,bool);
 	c_Item* m_new2();
 	static void m_CreateAmountOfCoins(int,int,int);
@@ -7868,8 +7898,6 @@ class c_Item : public c_Entity{
 	static int m_GetCost(String);
 	static bool m_IsValidRandomItem(String);
 	static String m_GetDisplayName(String);
-	static int m_GetIntAttribute(String,String,int);
-	int p_GetIntAttribute(int,int);
 	void p_Die();
 	static c_Item* m_GetPickupAt(int,int,c_Item*);
 	static int m_RandomHardModeHelperItem();
@@ -7884,6 +7912,7 @@ class c_Item : public c_Entity{
 	static c_List7* m_diamondDealerItems3;
 	static void m_FilterDisabledItems(c_List7*);
 	static void m_InitAll();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	String p_PickupFail(c_Player*);
 	static void m_ClearAllSingleChoiceItems(c_Item*);
 	virtual String p_Pickup(c_Player*);
@@ -7891,7 +7920,6 @@ class c_Item : public c_Entity{
 	static void m_MoveAll();
 	bool p_IsVisible();
 	void p_Update();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void mark();
 };
 class c_SaleItem : public c_Item{
@@ -7908,6 +7936,7 @@ class c_SaleItem : public c_Item{
 	static String m_lastSaleItemClass1;
 	static String m_lastSaleItemClass2;
 	static c_List7* m_randomSaleItemList;
+	static void m_ResetCosts();
 	static c_List27* m_currentSaleItems;
 	bool p_CostsBlood();
 	bool p_CostsDiamonds();
@@ -7955,6 +7984,7 @@ class c_Chest : public c_Entity{
 };
 class c_Enemy : public c_MobileEntity{
 	public:
+	bool m_isMonkeyLike;
 	bool m_isStairLockingMiniboss;
 	int m_enemyType;
 	Array<int > m_lastPlayerHitFrame;
@@ -7964,7 +7994,6 @@ class c_Enemy : public c_MobileEntity{
 	int m_health;
 	bool m_isMiniboss;
 	bool m_isBoss;
-	bool m_isMonkeyLike;
 	String m_hitParticle;
 	c_IntMap8* m_animNormal;
 	c_IntMap8* m_animNormal2;
@@ -8024,6 +8053,8 @@ class c_Enemy : public c_MobileEntity{
 	bool m_enableDeathEffects;
 	c_Enemy();
 	static c_EnemyList* m_enemyList;
+	void p_ApplyMonkeyPaw();
+	static void m_ApplyMonkeyPawAll();
 	static void m_SetEnemiesToDropNoCoins();
 	static int m_movesBehind;
 	static int m_lastWraithSpawnBeat;
@@ -8035,7 +8066,6 @@ class c_Enemy : public c_MobileEntity{
 	void p_InitImage(c_XMLNode*,String,int,int);
 	static c_Sprite* m_heartSmall;
 	static c_Sprite* m_heartEmptySmall;
-	void p_ApplyMonkeyPaw();
 	void p_Init3(int,int,int,String,String,int,int);
 	void p_Init4(int,int,int,String,String);
 	void p_Init5(int,int,int,String);
@@ -8059,7 +8089,7 @@ class c_Enemy : public c_MobileEntity{
 	static void m_SetAllEnemiesMinimumMoveDistance(int);
 	static void m_StartRandomizerRun();
 	void p_MakeDancer();
-	static void m_ApplyMonkeyPawAll();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	static String m_GetEnemyNameHelper1(int);
 	static String m_GetEnemyNameHelper2(int);
 	static String m_GetEnemyNameHelper(int);
@@ -8081,7 +8111,6 @@ class c_Enemy : public c_MobileEntity{
 	static void m_MoveAll();
 	void p_AnimateToTheBeat();
 	void p_Update();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	static void m_SetEnemiesToDropNoCoinsOverride();
 	static void m_KillAllEnemies();
 	void mark();
@@ -8208,6 +8237,8 @@ class c_List7 : public Object{
 	int p_Clear();
 	bool p_Equals6(String,String);
 	bool p_Contains4(String);
+	virtual int p_Compare2(String,String);
+	int p_Sort(int);
 	c_Enumerator30* p_ObjectEnumerator();
 	int p_RemoveEach4(String);
 	void p_Remove2(String);
@@ -8411,8 +8442,9 @@ class c_Set2 : public Object{
 	c_Set2* m_new(c_Map9*);
 	c_Set2* m_new2();
 	int p_Clear();
-	int p_Insert6(String);
 	bool p_Contains4(String);
+	int p_Insert6(String);
+	int p_Remove2(String);
 	void mark();
 };
 class c_StringSet : public c_Set2{
@@ -8428,13 +8460,16 @@ class c_Map9 : public Object{
 	c_Map9* m_new();
 	int p_Clear();
 	virtual int p_Compare2(String,String)=0;
+	c_Node16* p_FindNode2(String);
+	bool p_Contains4(String);
 	int p_RotateLeft8(c_Node16*);
 	int p_RotateRight8(c_Node16*);
 	int p_InsertFixup8(c_Node16*);
 	bool p_Set9(String,Object*);
 	bool p_Insert7(String,Object*);
-	c_Node16* p_FindNode2(String);
-	bool p_Contains4(String);
+	int p_DeleteFixup2(c_Node16*,c_Node16*);
+	int p_RemoveNode2(c_Node16*);
+	int p_Remove2(String);
 	void mark();
 };
 class c_StringMap5 : public c_Map9{
@@ -8461,6 +8496,7 @@ class c_ItemList : public c_List7{
 	public:
 	c_ItemList();
 	c_ItemList* m_new();
+	int p_Compare2(String,String);
 	void mark();
 };
 class c_Map10 : public Object{
@@ -8654,6 +8690,8 @@ class c_PlayerHealth : public Object{
 	void p_GainBonusHeart();
 	int p_GetNormalMax();
 	void p_LoseBonusHeart();
+	void p_GainHearts(int,bool);
+	void p_GainCursedHearts(int);
 	void p_Refill();
 	void p_Reset2(int);
 	bool p_Heal2(int,bool);
@@ -8670,6 +8708,7 @@ class c_Spells : public Object{
 	static String m_spellSlot2;
 	static c_StringMap6* m_spellCoolKills;
 	static void m_InitLearnedSpells();
+	static String m_LearnSpell(String);
 	static Array<c_Sprite* > m_fireballInWorld;
 	static c_Sprite* m_pulseInWorld;
 	static c_Stack2* m_pulseAnim;
@@ -8717,6 +8756,286 @@ class c_Node21 : public Object{
 	c_Node21* m_new2();
 	void mark();
 };
+class c_Direction : public Object{
+	public:
+	c_Direction();
+	void mark();
+};
+extern Array<int > bb_controller_game_lastPlayerMoveBeat;
+class c_Tile : public c_RenderableObject{
+	public:
+	c_Sprite* m_textLabel;
+	c_TextSprite* m_textLabel2;
+	String m_textLabelText;
+	int m_type;
+	int m_trigger;
+	int m_tilesetOverride;
+	bool m_hasBeenSeen;
+	int m_lightValueFrameNum;
+	Float m_lightValueCached;
+	c_Sprite* m_image;
+	int m_metalDoorOpenedBeat;
+	int m_tarAnimCounter;
+	int m_tarAnimDelay;
+	bool m_image1HasBeenLoadedWithFloor;
+	int m_torchDir;
+	int m_health;
+	bool m_unbreakable;
+	c_Sprite* m_image2;
+	int m_hasResource;
+	bool m_isStone;
+	c_Sprite* m_imageWireSilhouette;
+	c_Sprite* m_imageWire;
+	c_Sprite* m_imageWireFlash;
+	int m_wireFlashAnimDelay;
+	int m_wireFlashDelay;
+	c_Sprite* m_xImage;
+	int m_TORCH_LIGHT_MIN;
+	int m_TORCH_LIGHT_MAX;
+	c_Sprite* m_torchImage;
+	int m_torchOffX;
+	int m_torchOffY;
+	bool m_animateTorch;
+	int m_triggerDoor;
+	bool m_magicBarrier;
+	int m_triggerDig;
+	int m_wireMask;
+	bool m_isCracked;
+	String m_flyawayText;
+	bool m_cachedLOS;
+	int m_cachedLOSFrame;
+	bool m_cachedTrueLOS;
+	int m_cachedTrueLOSFrame;
+	Float m_constAlpha;
+	int m_nextEruptionBeat;
+	int m_playerWasOnTileAtBeat;
+	bool m_playerWasOnTileLastFrame;
+	c_Player* m_triggerPlayer;
+	int m_torchFlickerNext;
+	bool m_wasInLOS;
+	Float m_grassValue;
+	Float m_constLightValueCached;
+	bool m_activatedConductorWire;
+	c_Tile();
+	static int m_anyPlayerHaveZoneMapCachedFrame;
+	static c_List12* m_floorRisingList;
+	static c_List12* m_floorRecededList;
+	static int m_totalTilesCreatedOrDestroyed;
+	void p_ClearTextLabel();
+	void p_Die();
+	int p_GetType();
+	int p_CalcTileset();
+	bool p_IsMetalDoorOpen();
+	bool p_IsFloor();
+	int p_GetTileset();
+	c_Sprite* p_LoadFloor();
+	bool p_IsShopWall();
+	bool p_HasTorch();
+	bool p_IsDoor();
+	bool p_IsWall(bool,bool,bool,bool);
+	bool p_IsWall2();
+	void p_BecomeStone();
+	void p_BecomeHarderStone();
+	c_Sprite* p_GetZone5Wall();
+	c_Sprite* p_GetZone4Wall();
+	bool p_IsTileset(int);
+	c_Sprite* p_GetZone3Wall();
+	c_Sprite* p_GetZone2Wall();
+	c_Sprite* p_GetZone1Wall();
+	void p_BecomeDirt();
+	bool p_IsNecrodancerPlatform();
+	bool p_IsWire();
+	void p_LoadWireImages(String,int);
+	static c_List12* m_pendingTilesList;
+	c_Tile* m_new(int,int,int,bool,int);
+	c_Tile* m_new2();
+	void p_AddTorch();
+	void p_AddTextLabel(String,int,int,Float,bool,bool);
+	void p_SetDoorTrigger(int);
+	void p_SetTrigger(int);
+	void p_SetDigTrigger(int);
+	Float p_GetCurrentAlpha();
+	void p_BecomeCracked();
+	bool p_IsExit();
+	void p_AddWireConnection(int);
+	static void m_GenerateWireConnections();
+	void p_AddFloorOverlayImage(String);
+	void p_BecomeDarkShopWall(String);
+	void p_DarkenShopWall();
+	c_Sprite* p_LoadDiamond();
+	void p_BecomeDiamond();
+	static void m_CleanUpPendingTiles();
+	void p_AddTorch2();
+	bool p_IsNormalFloor();
+	static int m_anyPlayerHaveRingOfShadowsCachedFrame;
+	static int m_anyPlayerHaveCompassCachedFrame;
+	static int m_anyPlayerHaveMonocleCachedFrame;
+	static int m_anyPlayerHaveRingOfLuckCachedFrame;
+	static int m_anyPlayerHaveSunglassesCachedFrame;
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	static bool m_IsNearNightmare(int,int);
+	bool p_IsNearNightmare();
+	static bool m_anyPlayerHaveMonocleCached;
+	static bool m_AnyPlayerHaveMonocle();
+	static bool m_anyPlayerHaveRingOfShadowsCached;
+	static bool m_CheckRingOfShadows();
+	bool p_IsInAnyPlayerTrueLineOfSight();
+	bool p_IsInAnyPlayerLineOfSight();
+	static void m_MoveAll();
+	bool p_IsVisible();
+	Float p_CalculateTileLightValue(bool);
+	static bool m_anyPlayerHaveZoneMapCached;
+	static bool m_AnyPlayerHaveZoneMap();
+	static bool m_anyPlayerHaveCompassCached;
+	static bool m_AnyPlayerHaveCompass();
+	bool p_HasTileBeenSeen();
+	Float p_CalculateTileAlpha();
+	int p_SelectWireFrame();
+	bool p_SelectWireFlip();
+	void p_Update();
+	void mark();
+};
+class c_Minimap : public Object{
+	public:
+	c_Minimap();
+	void p_UpdateAll();
+	static void m_AddDirty(c_Point*);
+	static void m_AddDirty2(int,int);
+	void p_Update();
+	void mark();
+};
+class c_Point : public Object{
+	public:
+	int m_x;
+	int m_y;
+	c_Point();
+	c_Point* m_new(int,int);
+	c_Point* m_new2();
+	String p_ToString();
+	static c_Point* m_Add(c_Point*,c_Point*);
+	c_Point* p_Add6(c_Point*);
+	c_Point* p_Add4(int,int);
+	c_Point* p_RotateCWAbout(c_Point*);
+	c_Point* p_Scale(int);
+	bool p_Equals7(c_Point*);
+	void mark();
+};
+class c_Map13 : public Object{
+	public:
+	c_Node22* m_root;
+	c_Map13();
+	c_Map13* m_new();
+	c_Node22* p_FirstNode();
+	c_NodeEnumerator* p_ObjectEnumerator();
+	int p_Clear();
+	virtual int p_Compare3(c_Point*,c_Point*)=0;
+	int p_RotateLeft12(c_Node22*);
+	int p_RotateRight12(c_Node22*);
+	int p_InsertFixup12(c_Node22*);
+	bool p_Set13(c_Point*,c_Point*);
+	bool p_Add7(c_Point*,c_Point*);
+	c_Node22* p_FindNode3(c_Point*);
+	bool p_Contains5(c_Point*);
+	c_Point* p_Get4(c_Point*);
+	int p_DeleteFixup3(c_Node22*,c_Node22*);
+	int p_RemoveNode3(c_Node22*);
+	int p_Remove3(c_Point*);
+	void mark();
+};
+class c_ExitMap : public c_Map13{
+	public:
+	c_ExitMap();
+	c_ExitMap* m_new();
+	int p_Compare3(c_Point*,c_Point*);
+	void mark();
+};
+class c_NodeEnumerator : public Object{
+	public:
+	c_Node22* m_node;
+	c_NodeEnumerator();
+	c_NodeEnumerator* m_new(c_Node22*);
+	c_NodeEnumerator* m_new2();
+	bool p_HasNext();
+	c_Node22* p_NextObject();
+	void mark();
+};
+class c_Node22 : public Object{
+	public:
+	c_Node22* m_left;
+	c_Node22* m_right;
+	c_Node22* m_parent;
+	c_Point* m_value;
+	c_Point* m_key;
+	int m_color;
+	c_Node22();
+	c_Node22* p_NextNode();
+	c_Point* p_Value();
+	c_Point* p_Key();
+	c_Node22* m_new(c_Point*,c_Point*,int,c_Node22*);
+	c_Node22* m_new2();
+	void mark();
+};
+class c_List10 : public Object{
+	public:
+	c_Node23* m__head;
+	c_List10();
+	c_List10* m_new();
+	c_Node23* p_AddLast10(c_Enemy*);
+	c_List10* m_new2(Array<c_Enemy* >);
+	c_Enumerator4* p_ObjectEnumerator();
+	bool p_Equals8(c_Enemy*,c_Enemy*);
+	int p_RemoveEach5(c_Enemy*);
+	int p_Count();
+	Array<c_Enemy* > p_ToArray();
+	void mark();
+};
+class c_EnemyList : public c_List10{
+	public:
+	c_EnemyList();
+	c_EnemyList* m_new();
+	void mark();
+};
+class c_Node23 : public Object{
+	public:
+	c_Node23* m__succ;
+	c_Node23* m__pred;
+	c_Enemy* m__data;
+	c_Node23();
+	c_Node23* m_new(c_Node23*,c_Node23*,c_Enemy*);
+	c_Node23* m_new2();
+	int p_Remove();
+	void mark();
+};
+class c_HeadNode10 : public c_Node23{
+	public:
+	c_HeadNode10();
+	c_HeadNode10* m_new();
+	void mark();
+};
+class c_Enumerator4 : public Object{
+	public:
+	c_List10* m__list;
+	c_Node23* m__curr;
+	c_Enumerator4();
+	c_Enumerator4* m_new(c_List10*);
+	c_Enumerator4* m_new2();
+	bool p_HasNext();
+	c_Enemy* p_NextObject();
+	void mark();
+};
+class c_SaleChest : public c_Chest{
+	public:
+	int m_cost;
+	c_SaleChest();
+	static void m_ResetCosts();
+	static c_List33* m_currentSaleChests;
+	void p_SetCost();
+	c_SaleChest* m_new(int,int,String,bool,bool,bool,int);
+	c_SaleChest* m_new2();
+	void p_Die();
+	bool p_Open(Object*);
+	void mark();
+};
 class c_SoulFamiliar : public c_FamiliarFixed{
 	public:
 	c_SoulFamiliar();
@@ -8727,29 +9046,29 @@ class c_SoulFamiliar : public c_FamiliarFixed{
 	void p_Update();
 	void mark();
 };
-class c_List10 : public Object{
+class c_List11 : public Object{
 	public:
-	c_Node22* m__head;
-	c_List10();
-	c_List10* m_new();
-	c_Node22* p_AddLast10(c_Familiar*);
-	c_List10* m_new2(Array<c_Familiar* >);
+	c_Node24* m__head;
+	c_List11();
+	c_List11* m_new();
+	c_Node24* p_AddLast11(c_Familiar*);
+	c_List11* m_new2(Array<c_Familiar* >);
 	void mark();
 };
-class c_Node22 : public Object{
+class c_Node24 : public Object{
 	public:
-	c_Node22* m__succ;
-	c_Node22* m__pred;
+	c_Node24* m__succ;
+	c_Node24* m__pred;
 	c_Familiar* m__data;
-	c_Node22();
-	c_Node22* m_new(c_Node22*,c_Node22*,c_Familiar*);
-	c_Node22* m_new2();
+	c_Node24();
+	c_Node24* m_new(c_Node24*,c_Node24*,c_Familiar*);
+	c_Node24* m_new2();
 	void mark();
 };
-class c_HeadNode10 : public c_Node22{
+class c_HeadNode11 : public c_Node24{
 	public:
-	c_HeadNode10();
-	c_HeadNode10* m_new();
+	c_HeadNode11();
+	c_HeadNode11* m_new();
 	void mark();
 };
 extern int bb_controller_game_dailyChallengeSuccessScore;
@@ -8802,7 +9121,7 @@ class c_Replay : public Object{
 	public:
 	int m_startingZone;
 	int m_startingLevel;
-	c_Node24* m_curReplayData;
+	c_Node25* m_curReplayData;
 	int m_runTime;
 	String m_saveData;
 	int m_startingGold;
@@ -8817,22 +9136,6 @@ class c_Replay : public Object{
 	void p_NewLevel(int);
 	void p_Save();
 	int p_GetNumBeats();
-	void mark();
-};
-class c_Point : public Object{
-	public:
-	int m_x;
-	int m_y;
-	c_Point();
-	c_Point* m_new(int,int);
-	c_Point* m_new2();
-	String p_ToString();
-	static c_Point* m_Add(c_Point*,c_Point*);
-	c_Point* p_Add6(c_Point*);
-	c_Point* p_Add4(int,int);
-	c_Point* p_RotateCWAbout(c_Point*);
-	c_Point* p_Scale(int);
-	bool p_Equals7(c_Point*);
 	void mark();
 };
 class c_Stack2 : public Object{
@@ -8851,10 +9154,10 @@ class c_Stack2 : public Object{
 	void p_Length2(int);
 	int p_Length();
 	int p_Get2(int);
-	void p_Remove3(int);
+	void p_Remove4(int);
 	void p_Set5(int,int);
 	int p_Pop();
-	virtual bool p_Equals8(int,int);
+	virtual bool p_Equals9(int,int);
 	bool p_Contains(int);
 	c_BackwardsStack* p_Backwards();
 	void mark();
@@ -8865,54 +9168,6 @@ class c_StackEx : public c_Stack2{
 	c_StackEx* m_new();
 	int p_ChooseRandom(bool);
 	void p_Shuffle(bool);
-	void mark();
-};
-class c_List11 : public Object{
-	public:
-	c_Node23* m__head;
-	c_List11();
-	c_List11* m_new();
-	c_Node23* p_AddLast11(c_Enemy*);
-	c_List11* m_new2(Array<c_Enemy* >);
-	c_Enumerator4* p_ObjectEnumerator();
-	bool p_Equals9(c_Enemy*,c_Enemy*);
-	int p_RemoveEach5(c_Enemy*);
-	int p_Count();
-	Array<c_Enemy* > p_ToArray();
-	void mark();
-};
-class c_EnemyList : public c_List11{
-	public:
-	c_EnemyList();
-	c_EnemyList* m_new();
-	void mark();
-};
-class c_Node23 : public Object{
-	public:
-	c_Node23* m__succ;
-	c_Node23* m__pred;
-	c_Enemy* m__data;
-	c_Node23();
-	c_Node23* m_new(c_Node23*,c_Node23*,c_Enemy*);
-	c_Node23* m_new2();
-	int p_Remove();
-	void mark();
-};
-class c_HeadNode11 : public c_Node23{
-	public:
-	c_HeadNode11();
-	c_HeadNode11* m_new();
-	void mark();
-};
-class c_Enumerator4 : public Object{
-	public:
-	c_List11* m__list;
-	c_Node23* m__curr;
-	c_Enumerator4();
-	c_Enumerator4* m_new(c_List11*);
-	c_Enumerator4* m_new2();
-	bool p_HasNext();
-	c_Enemy* p_NextObject();
 	void mark();
 };
 class c_Enumerator5 : public Object{
@@ -8934,10 +9189,10 @@ class c_ReplayData : public Object{
 	c_ReplayData();
 	void mark();
 };
-class c_Node24 : public Object{
+class c_Node25 : public Object{
 	public:
 	c_ReplayData* m__data;
-	c_Node24();
+	c_Node25();
 	c_ReplayData* p_Value();
 	void mark();
 };
@@ -8946,7 +9201,7 @@ class c_IntStack : public c_Stack2{
 	c_IntStack();
 	c_IntStack* m_new(Array<int >);
 	c_IntStack* m_new2();
-	bool p_Equals8(int,int);
+	bool p_Equals9(int,int);
 	void mark();
 };
 class c_Enumerator6 : public Object{
@@ -8961,7 +9216,6 @@ class c_Enumerator6 : public Object{
 	void mark();
 };
 extern int bb_controller_game_lastEnemyMoveBeat;
-extern Array<int > bb_controller_game_lastPlayerMoveBeat;
 class c_ControllerGame : public c_Controller{
 	public:
 	bool m_specialScoreSubmit;
@@ -8986,215 +9240,55 @@ class c_ControllerGame : public c_Controller{
 	void mark();
 };
 extern c_ControllerGame* bb_controller_game_controllerGamePointer;
-class c_Tile : public c_RenderableObject{
+class c_Map14 : public Object{
 	public:
-	c_Sprite* m_textLabel;
-	c_TextSprite* m_textLabel2;
-	String m_textLabelText;
-	int m_type;
-	int m_trigger;
-	int m_tilesetOverride;
-	bool m_hasBeenSeen;
-	int m_lightValueFrameNum;
-	Float m_lightValueCached;
-	c_Sprite* m_image;
-	int m_metalDoorOpenedBeat;
-	int m_tarAnimCounter;
-	int m_tarAnimDelay;
-	bool m_image1HasBeenLoadedWithFloor;
-	int m_torchDir;
-	int m_health;
-	bool m_unbreakable;
-	c_Sprite* m_image2;
-	int m_hasResource;
-	bool m_isStone;
-	c_Sprite* m_imageWireSilhouette;
-	c_Sprite* m_imageWire;
-	c_Sprite* m_imageWireFlash;
-	int m_wireFlashAnimDelay;
-	int m_wireFlashDelay;
-	c_Sprite* m_xImage;
-	int m_TORCH_LIGHT_MIN;
-	int m_TORCH_LIGHT_MAX;
-	c_Sprite* m_torchImage;
-	int m_torchOffX;
-	int m_torchOffY;
-	bool m_animateTorch;
-	int m_triggerDoor;
-	bool m_magicBarrier;
-	int m_triggerDig;
-	int m_wireMask;
-	bool m_isCracked;
-	String m_flyawayText;
-	bool m_cachedLOS;
-	int m_cachedLOSFrame;
-	bool m_cachedTrueLOS;
-	int m_cachedTrueLOSFrame;
-	int m_nextEruptionBeat;
-	int m_playerWasOnTileAtBeat;
-	bool m_playerWasOnTileLastFrame;
-	c_Player* m_triggerPlayer;
-	int m_torchFlickerNext;
-	bool m_wasInLOS;
-	Float m_grassValue;
-	Float m_constLightValueCached;
-	Float m_constAlpha;
-	bool m_activatedConductorWire;
-	c_Tile();
-	static c_List12* m_floorRisingList;
-	static c_List12* m_floorRecededList;
-	static int m_totalTilesCreatedOrDestroyed;
-	void p_ClearTextLabel();
-	void p_Die();
-	int p_GetType();
-	int p_CalcTileset();
-	bool p_IsMetalDoorOpen();
-	bool p_IsFloor();
-	int p_GetTileset();
-	c_Sprite* p_LoadFloor();
-	bool p_IsShopWall();
-	bool p_HasTorch();
-	bool p_IsDoor();
-	bool p_IsWall(bool,bool,bool,bool);
-	bool p_IsWall2();
-	void p_BecomeStone();
-	void p_BecomeHarderStone();
-	c_Sprite* p_GetZone5Wall();
-	c_Sprite* p_GetZone4Wall();
-	bool p_IsTileset(int);
-	c_Sprite* p_GetZone3Wall();
-	c_Sprite* p_GetZone2Wall();
-	c_Sprite* p_GetZone1Wall();
-	void p_BecomeDirt();
-	bool p_IsNecrodancerPlatform();
-	bool p_IsWire();
-	void p_LoadWireImages(String,int);
-	static c_List12* m_pendingTilesList;
-	c_Tile* m_new(int,int,int,bool,int);
-	c_Tile* m_new2();
-	void p_AddTorch();
-	void p_AddTextLabel(String,int,int,Float,bool,bool);
-	void p_SetDoorTrigger(int);
-	void p_SetTrigger(int);
-	void p_SetDigTrigger(int);
-	Float p_GetCurrentAlpha();
-	void p_BecomeCracked();
-	bool p_IsExit();
-	void p_AddWireConnection(int);
-	static void m_GenerateWireConnections();
-	void p_AddFloorOverlayImage(String);
-	void p_BecomeDarkShopWall(String);
-	void p_DarkenShopWall();
-	c_Sprite* p_LoadDiamond();
-	void p_BecomeDiamond();
-	static void m_CleanUpPendingTiles();
-	void p_AddTorch2();
-	bool p_IsNormalFloor();
-	static int m_anyPlayerHaveRingOfShadowsCachedFrame;
-	static int m_anyPlayerHaveCompassCachedFrame;
-	static int m_anyPlayerHaveZoneMapCachedFrame;
-	static int m_anyPlayerHaveMonocleCachedFrame;
-	static int m_anyPlayerHaveRingOfLuckCachedFrame;
-	static int m_anyPlayerHaveSunglassesCachedFrame;
-	static bool m_IsNearNightmare(int,int);
-	bool p_IsNearNightmare();
-	static bool m_anyPlayerHaveMonocleCached;
-	static bool m_AnyPlayerHaveMonocle();
-	static bool m_anyPlayerHaveRingOfShadowsCached;
-	static bool m_CheckRingOfShadows();
-	bool p_IsInAnyPlayerTrueLineOfSight();
-	bool p_IsInAnyPlayerLineOfSight();
-	static void m_MoveAll();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
-	Float p_CalculateTileLightValue(bool);
-	static bool m_anyPlayerHaveZoneMapCached;
-	static bool m_AnyPlayerHaveZoneMap();
-	static bool m_anyPlayerHaveCompassCached;
-	static bool m_AnyPlayerHaveCompass();
-	bool p_HasTileBeenSeen();
-	Float p_CalculateTileAlpha();
-	int p_SelectWireFrame();
-	bool p_SelectWireFlip();
-	void p_Update();
-	bool p_IsVisible();
-	void mark();
-};
-class c_Map13 : public Object{
-	public:
-	c_Node26* m_root;
-	c_Map13();
-	c_Node26* p_FirstNode();
-	c_NodeEnumerator2* p_ObjectEnumerator();
+	c_Node27* m_root;
+	c_Map14();
+	c_Node27* p_FirstNode();
+	c_NodeEnumerator3* p_ObjectEnumerator();
 	virtual int p_Compare(int,int)=0;
-	c_Node26* p_FindNode(int);
+	c_Node27* p_FindNode(int);
 	bool p_Contains(int);
 	c_Tile* p_Get2(int);
-	c_Map13* m_new();
-	int p_RotateLeft12(c_Node26*);
-	int p_RotateRight12(c_Node26*);
-	int p_InsertFixup12(c_Node26*);
-	bool p_Set13(int,c_Tile*);
+	c_Map14* m_new();
+	int p_RotateLeft13(c_Node27*);
+	int p_RotateRight13(c_Node27*);
+	int p_InsertFixup13(c_Node27*);
+	bool p_Set14(int,c_Tile*);
 	int p_Count();
 	void mark();
 };
-class c_IntMap6 : public c_Map13{
+class c_IntMap6 : public c_Map14{
 	public:
 	c_IntMap6();
 	c_IntMap6* m_new();
 	int p_Compare(int,int);
 	void mark();
 };
-class c_Map14 : public Object{
+class c_Map15 : public Object{
 	public:
-	c_Node25* m_root;
-	c_Map14();
-	c_Map14* m_new();
-	c_Node25* p_FirstNode();
-	c_NodeEnumerator* p_ObjectEnumerator();
+	c_Node26* m_root;
+	c_Map15();
+	c_Map15* m_new();
+	c_Node26* p_FirstNode();
+	c_NodeEnumerator2* p_ObjectEnumerator();
 	int p_Clear();
 	virtual int p_Compare(int,int)=0;
-	c_Node25* p_FindNode(int);
+	c_Node26* p_FindNode(int);
 	bool p_Contains(int);
 	c_IntMap6* p_Get2(int);
-	int p_RotateLeft13(c_Node25*);
-	int p_RotateRight13(c_Node25*);
-	int p_InsertFixup13(c_Node25*);
-	bool p_Set14(int,c_IntMap6*);
+	int p_RotateLeft14(c_Node26*);
+	int p_RotateRight14(c_Node26*);
+	int p_InsertFixup14(c_Node26*);
+	bool p_Set15(int,c_IntMap6*);
 	int p_Count();
 	void mark();
 };
-class c_IntMap7 : public c_Map14{
+class c_IntMap7 : public c_Map15{
 	public:
 	c_IntMap7();
 	c_IntMap7* m_new();
 	int p_Compare(int,int);
-	void mark();
-};
-class c_NodeEnumerator : public Object{
-	public:
-	c_Node25* m_node;
-	c_NodeEnumerator();
-	c_NodeEnumerator* m_new(c_Node25*);
-	c_NodeEnumerator* m_new2();
-	bool p_HasNext();
-	c_Node25* p_NextObject();
-	void mark();
-};
-class c_Node25 : public Object{
-	public:
-	c_Node25* m_left;
-	c_Node25* m_right;
-	c_Node25* m_parent;
-	c_IntMap6* m_value;
-	int m_key;
-	int m_color;
-	c_Node25();
-	c_Node25* p_NextNode();
-	c_IntMap6* p_Value();
-	c_Node25* m_new(int,c_IntMap6*,int,c_Node25*);
-	c_Node25* m_new2();
-	int p_Key();
-	int p_Count2(int);
 	void mark();
 };
 class c_NodeEnumerator2 : public Object{
@@ -9212,46 +9306,73 @@ class c_Node26 : public Object{
 	c_Node26* m_left;
 	c_Node26* m_right;
 	c_Node26* m_parent;
-	c_Tile* m_value;
+	c_IntMap6* m_value;
 	int m_key;
 	int m_color;
 	c_Node26();
 	c_Node26* p_NextNode();
-	c_Tile* p_Value();
-	c_Node26* m_new(int,c_Tile*,int,c_Node26*);
+	c_IntMap6* p_Value();
+	c_Node26* m_new(int,c_IntMap6*,int,c_Node26*);
 	c_Node26* m_new2();
+	int p_Key();
+	int p_Count2(int);
+	void mark();
+};
+class c_NodeEnumerator3 : public Object{
+	public:
+	c_Node27* m_node;
+	c_NodeEnumerator3();
+	c_NodeEnumerator3* m_new(c_Node27*);
+	c_NodeEnumerator3* m_new2();
+	bool p_HasNext();
+	c_Node27* p_NextObject();
+	void mark();
+};
+class c_Node27 : public Object{
+	public:
+	c_Node27* m_left;
+	c_Node27* m_right;
+	c_Node27* m_parent;
+	c_Tile* m_value;
+	int m_key;
+	int m_color;
+	c_Node27();
+	c_Node27* p_NextNode();
+	c_Tile* p_Value();
+	c_Node27* m_new(int,c_Tile*,int,c_Node27*);
+	c_Node27* m_new2();
 	int p_Key();
 	int p_Count2(int);
 	void mark();
 };
 class c_List12 : public Object{
 	public:
-	c_Node27* m__head;
+	c_Node28* m__head;
 	c_List12();
 	c_List12* m_new();
-	c_Node27* p_AddLast12(c_Tile*);
+	c_Node28* p_AddLast12(c_Tile*);
 	c_List12* m_new2(Array<c_Tile* >);
 	bool p_Equals10(c_Tile*,c_Tile*);
 	int p_RemoveEach6(c_Tile*);
 	int p_Count();
 	c_Tile* p_RemoveFirst();
-	c_Node27* p_Find5(c_Tile*,c_Node27*);
-	c_Node27* p_Find6(c_Tile*);
+	c_Node28* p_Find5(c_Tile*,c_Node28*);
+	c_Node28* p_Find6(c_Tile*);
 	void p_RemoveFirst4(c_Tile*);
 	void mark();
 };
-class c_Node27 : public Object{
+class c_Node28 : public Object{
 	public:
-	c_Node27* m__succ;
-	c_Node27* m__pred;
+	c_Node28* m__succ;
+	c_Node28* m__pred;
 	c_Tile* m__data;
-	c_Node27();
-	c_Node27* m_new(c_Node27*,c_Node27*,c_Tile*);
-	c_Node27* m_new2();
+	c_Node28();
+	c_Node28* m_new(c_Node28*,c_Node28*,c_Tile*);
+	c_Node28* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode12 : public c_Node27{
+class c_HeadNode12 : public c_Node28{
 	public:
 	c_HeadNode12();
 	c_HeadNode12* m_new();
@@ -9269,26 +9390,26 @@ class c_MinibossTileData : public Object{
 };
 class c_List13 : public Object{
 	public:
-	c_Node28* m__head;
+	c_Node29* m__head;
 	c_List13();
 	c_List13* m_new();
-	c_Node28* p_AddLast13(c_MinibossTileData*);
+	c_Node29* p_AddLast13(c_MinibossTileData*);
 	c_List13* m_new2(Array<c_MinibossTileData* >);
 	int p_Clear();
 	c_Enumerator9* p_ObjectEnumerator();
 	void mark();
 };
-class c_Node28 : public Object{
+class c_Node29 : public Object{
 	public:
-	c_Node28* m__succ;
-	c_Node28* m__pred;
+	c_Node29* m__succ;
+	c_Node29* m__pred;
 	c_MinibossTileData* m__data;
-	c_Node28();
-	c_Node28* m_new(c_Node28*,c_Node28*,c_MinibossTileData*);
-	c_Node28* m_new2();
+	c_Node29();
+	c_Node29* m_new(c_Node29*,c_Node29*,c_MinibossTileData*);
+	c_Node29* m_new2();
 	void mark();
 };
-class c_HeadNode13 : public c_Node28{
+class c_HeadNode13 : public c_Node29{
 	public:
 	c_HeadNode13();
 	c_HeadNode13* m_new();
@@ -9313,10 +9434,10 @@ class c_RoomData : public Object{
 };
 class c_List14 : public Object{
 	public:
-	c_Node29* m__head;
+	c_Node30* m__head;
 	c_List14();
 	c_List14* m_new();
-	c_Node29* p_AddLast14(c_RoomData*);
+	c_Node30* p_AddLast14(c_RoomData*);
 	c_List14* m_new2(Array<c_RoomData* >);
 	int p_Clear();
 	c_RoomData* p_Last2();
@@ -9325,23 +9446,23 @@ class c_List14 : public Object{
 	Array<c_RoomData* > p_ToArray();
 	c_RoomData* p_RemoveFirst();
 	bool p_Equals11(c_RoomData*,c_RoomData*);
-	c_Node29* p_Find7(c_RoomData*,c_Node29*);
-	c_Node29* p_Find8(c_RoomData*);
+	c_Node30* p_Find7(c_RoomData*,c_Node30*);
+	c_Node30* p_Find8(c_RoomData*);
 	void p_RemoveFirst5(c_RoomData*);
 	void mark();
 };
-class c_Node29 : public Object{
+class c_Node30 : public Object{
 	public:
-	c_Node29* m__succ;
-	c_Node29* m__pred;
+	c_Node30* m__succ;
+	c_Node30* m__pred;
 	c_RoomData* m__data;
-	c_Node29();
-	c_Node29* m_new(c_Node29*,c_Node29*,c_RoomData*);
-	c_Node29* m_new2();
+	c_Node30();
+	c_Node30* m_new(c_Node30*,c_Node30*,c_RoomData*);
+	c_Node30* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode14 : public c_Node29{
+class c_HeadNode14 : public c_Node30{
 	public:
 	c_HeadNode14();
 	c_HeadNode14* m_new();
@@ -9371,10 +9492,10 @@ class c_Trap : public c_Entity{
 };
 class c_List15 : public Object{
 	public:
-	c_Node30* m__head;
+	c_Node31* m__head;
 	c_List15();
 	c_List15* m_new();
-	c_Node30* p_AddLast15(c_Trap*);
+	c_Node31* p_AddLast15(c_Trap*);
 	c_List15* m_new2(Array<c_Trap* >);
 	int p_Clear();
 	c_Enumerator7* p_ObjectEnumerator();
@@ -9390,18 +9511,18 @@ class c_TrapList : public c_List15{
 	c_TrapList* m_new();
 	void mark();
 };
-class c_Node30 : public Object{
+class c_Node31 : public Object{
 	public:
-	c_Node30* m__succ;
-	c_Node30* m__pred;
+	c_Node31* m__succ;
+	c_Node31* m__pred;
 	c_Trap* m__data;
-	c_Node30();
-	c_Node30* m_new(c_Node30*,c_Node30*,c_Trap*);
-	c_Node30* m_new2();
+	c_Node31();
+	c_Node31* m_new(c_Node31*,c_Node31*,c_Trap*);
+	c_Node31* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode15 : public c_Node30{
+class c_HeadNode15 : public c_Node31{
 	public:
 	c_HeadNode15();
 	c_HeadNode15* m_new();
@@ -9409,30 +9530,30 @@ class c_HeadNode15 : public c_Node30{
 };
 class c_List16 : public Object{
 	public:
-	c_Node31* m__head;
+	c_Node32* m__head;
 	c_List16();
 	c_List16* m_new();
-	c_Node31* p_AddLast16(c_ParticleSystem*);
+	c_Node32* p_AddLast16(c_ParticleSystem*);
 	c_List16* m_new2(Array<c_ParticleSystem* >);
 	int p_Clear();
 	c_Enumerator34* p_ObjectEnumerator();
 	bool p_Equals13(c_ParticleSystem*,c_ParticleSystem*);
 	int p_RemoveEach8(c_ParticleSystem*);
-	void p_Remove4(c_ParticleSystem*);
+	void p_Remove5(c_ParticleSystem*);
 	void mark();
 };
-class c_Node31 : public Object{
+class c_Node32 : public Object{
 	public:
-	c_Node31* m__succ;
-	c_Node31* m__pred;
+	c_Node32* m__succ;
+	c_Node32* m__pred;
 	c_ParticleSystem* m__data;
-	c_Node31();
-	c_Node31* m_new(c_Node31*,c_Node31*,c_ParticleSystem*);
-	c_Node31* m_new2();
+	c_Node32();
+	c_Node32* m_new(c_Node32*,c_Node32*,c_ParticleSystem*);
+	c_Node32* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode16 : public c_Node31{
+class c_HeadNode16 : public c_Node32{
 	public:
 	c_HeadNode16();
 	c_HeadNode16* m_new();
@@ -9440,10 +9561,10 @@ class c_HeadNode16 : public c_Node31{
 };
 class c_List17 : public Object{
 	public:
-	c_Node32* m__head;
+	c_Node33* m__head;
 	c_List17();
 	c_List17* m_new();
-	c_Node32* p_AddLast17(int);
+	c_Node33* p_AddLast17(int);
 	c_List17* m_new2(Array<int >);
 	int p_Clear();
 	void mark();
@@ -9455,17 +9576,17 @@ class c_IntList : public c_List17{
 	c_IntList* m_new2();
 	void mark();
 };
-class c_Node32 : public Object{
+class c_Node33 : public Object{
 	public:
-	c_Node32* m__succ;
-	c_Node32* m__pred;
+	c_Node33* m__succ;
+	c_Node33* m__pred;
 	int m__data;
-	c_Node32();
-	c_Node32* m_new(c_Node32*,c_Node32*,int);
-	c_Node32* m_new2();
+	c_Node33();
+	c_Node33* m_new(c_Node33*,c_Node33*,int);
+	c_Node33* m_new2();
 	void mark();
 };
-class c_HeadNode17 : public c_Node32{
+class c_HeadNode17 : public c_Node33{
 	public:
 	c_HeadNode17();
 	c_HeadNode17* m_new();
@@ -9539,51 +9660,6 @@ class c_Pawnbroker : public c_NPC{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void mark();
 };
-class c_Map15 : public Object{
-	public:
-	c_Node33* m_root;
-	c_Map15();
-	c_Map15* m_new();
-	int p_Clear();
-	c_Node33* p_FirstNode();
-	c_NodeEnumerator3* p_ObjectEnumerator();
-	virtual int p_Compare3(c_Point*,c_Point*)=0;
-	int p_RotateLeft14(c_Node33*);
-	int p_RotateRight14(c_Node33*);
-	int p_InsertFixup14(c_Node33*);
-	bool p_Set15(c_Point*,c_Point*);
-	bool p_Add7(c_Point*,c_Point*);
-	c_Node33* p_FindNode3(c_Point*);
-	bool p_Contains5(c_Point*);
-	c_Point* p_Get4(c_Point*);
-	int p_DeleteFixup2(c_Node33*,c_Node33*);
-	int p_RemoveNode2(c_Node33*);
-	int p_Remove5(c_Point*);
-	void mark();
-};
-class c_ExitMap : public c_Map15{
-	public:
-	c_ExitMap();
-	c_ExitMap* m_new();
-	int p_Compare3(c_Point*,c_Point*);
-	void mark();
-};
-class c_Node33 : public Object{
-	public:
-	c_Node33* m_left;
-	c_Node33* m_right;
-	c_Node33* m_parent;
-	c_Point* m_key;
-	c_Point* m_value;
-	int m_color;
-	c_Node33();
-	c_Node33* p_NextNode();
-	c_Point* p_Key();
-	c_Point* p_Value();
-	c_Node33* m_new(c_Point*,c_Point*,int,c_Node33*);
-	c_Node33* m_new2();
-	void mark();
-};
 class c_TilesetType : public Object{
 	public:
 	c_TilesetType();
@@ -9638,7 +9714,7 @@ class c_HeadNode18 : public c_Node34{
 class c_Enumerator7 : public Object{
 	public:
 	c_List15* m__list;
-	c_Node30* m__curr;
+	c_Node31* m__curr;
 	c_Enumerator7();
 	c_Enumerator7* m_new(c_List15*);
 	c_Enumerator7* m_new2();
@@ -9682,16 +9758,6 @@ class c_StringStack : public c_Stack3{
 	c_StringStack();
 	c_StringStack* m_new(Array<String >);
 	c_StringStack* m_new2();
-	void mark();
-};
-class c_NodeEnumerator3 : public Object{
-	public:
-	c_Node33* m_node;
-	c_NodeEnumerator3();
-	c_NodeEnumerator3* m_new(c_Node33*);
-	c_NodeEnumerator3* m_new2();
-	bool p_HasNext();
-	c_Node33* p_NextObject();
 	void mark();
 };
 class c_Sarcophagus : public c_Enemy{
@@ -9758,9 +9824,9 @@ class c_List19 : public Object{
 	c_List19* m_new();
 	c_Node36* p_AddLast19(c_Sarcophagus*);
 	c_List19* m_new2(Array<c_Sarcophagus* >);
-	int p_Count();
 	bool p_Equals14(c_Sarcophagus*,c_Sarcophagus*);
 	int p_RemoveEach9(c_Sarcophagus*);
+	int p_Count();
 	void mark();
 };
 class c_Node36 : public Object{
@@ -9786,7 +9852,7 @@ class c_KingConga : public c_Enemy{
 	int m_initY;
 	int m_initialXOff;
 	c_Sprite* m_image2;
-	c_List11* m_zombieFriends;
+	c_List10* m_zombieFriends;
 	c_KingConga();
 	static c_KingConga* m_theKing;
 	c_KingConga* m_new(int,int,int);
@@ -10039,7 +10105,7 @@ extern Array<int > bb_controller_game_beatData;
 class c_Enumerator9 : public Object{
 	public:
 	c_List13* m__list;
-	c_Node28* m__curr;
+	c_Node29* m__curr;
 	c_Enumerator9();
 	c_Enumerator9* m_new(c_List13*);
 	c_Enumerator9* m_new2();
@@ -10096,7 +10162,7 @@ class c_Bomb : public c_Item{
 	String m_damageSource;
 	c_Sprite* m_explosionImg;
 	c_Bomb();
-	static c_List40* m_bombList;
+	static c_List39* m_bombList;
 	c_Bomb* m_new(int,int,c_Player*,bool,bool,String);
 	c_Bomb* m_new2();
 	void p_Die();
@@ -10170,7 +10236,7 @@ class c_TrapChest : public c_Enemy{
 	void p_DetermineContents();
 	c_TrapChest* m_new(int,int,int);
 	c_TrapChest* m_new2();
-	void p_DropItem();
+	void p_DropItem2();
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
@@ -10286,7 +10352,7 @@ class c_FakeWall : public c_Enemy{
 	c_FakeWall();
 	c_FakeWall* m_new(int,int,int);
 	c_FakeWall* m_new2();
-	void p_DropItem();
+	void p_DropItem2();
 	void p_Die();
 	void p_Update();
 	void mark();
@@ -10837,7 +10903,7 @@ class c_Stack4 : public Object{
 	void p_Length2(int);
 	int p_Length();
 	void p_Set17(int,c_Point*);
-	void p_Remove3(int);
+	void p_Remove4(int);
 	c_Point* p_Pop();
 	void mark();
 };
@@ -10869,7 +10935,7 @@ class c_Stack5 : public Object{
 	void p_Push15(Array<c_XMLNode* >,int);
 	bool p_IsEmpty();
 	c_XMLNode* p_Get2(int);
-	void p_Remove3(int);
+	void p_Remove4(int);
 	c_Enumerator13* p_ObjectEnumerator();
 	void p_Length2(int);
 	int p_Length();
@@ -10944,11 +11010,6 @@ class c_Enumerator14 : public Object{
 	c_Enumerator14* m_new2();
 	bool p_HasNext();
 	c_TileObject* p_NextObject();
-	void mark();
-};
-class c_Direction : public Object{
-	public:
-	c_Direction();
 	void mark();
 };
 class c_TrapObject : public Object{
@@ -11423,18 +11484,6 @@ class c_ChestColor : public Object{
 	static String m_ToString(int);
 	void mark();
 };
-class c_SaleChest : public c_Chest{
-	public:
-	int m_cost;
-	c_SaleChest();
-	static c_List33* m_currentSaleChests;
-	void p_SetCost();
-	c_SaleChest* m_new(int,int,String,bool,bool,bool,int);
-	c_SaleChest* m_new2();
-	void p_Die();
-	bool p_Open(Object*);
-	void mark();
-};
 class c_List33 : public Object{
 	public:
 	c_Node50* m__head;
@@ -11809,7 +11858,7 @@ class c_StackEx4 : public c_Stack9{
 	c_RoomWithDoor* p_ChooseRandom(bool);
 	void mark();
 };
-class c_IntPointMap2 : public c_Map15{
+class c_IntPointMap2 : public c_Map13{
 	public:
 	c_IntPointMap2();
 	c_IntPointMap2* m_new();
@@ -11859,7 +11908,7 @@ class c_SecretRoomData : public Object{
 class c_Enumerator26 : public Object{
 	public:
 	c_List14* m__list;
-	c_Node29* m__curr;
+	c_Node30* m__curr;
 	c_Enumerator26();
 	c_Enumerator26* m_new(c_List14*);
 	c_Enumerator26* m_new2();
@@ -12264,7 +12313,7 @@ class c_Enumerator33 : public Object{
 class c_Enumerator34 : public Object{
 	public:
 	c_List16* m__list;
-	c_Node31* m__curr;
+	c_Node32* m__curr;
 	c_Enumerator34();
 	c_Enumerator34* m_new(c_List16*);
 	c_Enumerator34* m_new2();
@@ -12282,39 +12331,30 @@ class c_CrystalShards : public c_Entity{
 	public:
 	c_CrystalShards();
 	static void m_MoveAll();
-	static c_List41* m_shardsList;
+	static c_List40* m_shardsList;
 	c_CrystalShards* m_new(int,int);
 	c_CrystalShards* m_new2();
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void mark();
 };
-class c_Minimap : public Object{
-	public:
-	c_Minimap();
-	void p_Update();
-	static void m_AddDirty(c_Point*);
-	static void m_AddDirty2(int,int);
-	void mark();
-};
+extern bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 class c_List39 : public Object{
 	public:
 	c_Node57* m__head;
 	c_List39();
 	c_List39* m_new();
-	c_Node57* p_AddLast39(c_Player*);
-	c_List39* m_new2(Array<c_Player* >);
-	c_Enumerator35* p_ObjectEnumerator();
-	bool p_IsEmpty();
+	c_Node57* p_AddLast39(c_Bomb*);
+	c_List39* m_new2(Array<c_Bomb* >);
 	void mark();
 };
 class c_Node57 : public Object{
 	public:
 	c_Node57* m__succ;
 	c_Node57* m__pred;
-	c_Player* m__data;
+	c_Bomb* m__data;
 	c_Node57();
-	c_Node57* m_new(c_Node57*,c_Node57*,c_Player*);
+	c_Node57* m_new(c_Node57*,c_Node57*,c_Bomb*);
 	c_Node57* m_new2();
 	void mark();
 };
@@ -12324,34 +12364,22 @@ class c_HeadNode39 : public c_Node57{
 	c_HeadNode39* m_new();
 	void mark();
 };
-class c_Enumerator35 : public Object{
-	public:
-	c_List39* m__list;
-	c_Node57* m__curr;
-	c_Enumerator35();
-	c_Enumerator35* m_new(c_List39*);
-	c_Enumerator35* m_new2();
-	bool p_HasNext();
-	c_Player* p_NextObject();
-	void mark();
-};
-extern bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 class c_List40 : public Object{
 	public:
 	c_Node58* m__head;
 	c_List40();
 	c_List40* m_new();
-	c_Node58* p_AddLast40(c_Bomb*);
-	c_List40* m_new2(Array<c_Bomb* >);
+	c_Node58* p_AddLast40(c_CrystalShards*);
+	c_List40* m_new2(Array<c_CrystalShards* >);
 	void mark();
 };
 class c_Node58 : public Object{
 	public:
 	c_Node58* m__succ;
 	c_Node58* m__pred;
-	c_Bomb* m__data;
+	c_CrystalShards* m__data;
 	c_Node58();
-	c_Node58* m_new(c_Node58*,c_Node58*,c_Bomb*);
+	c_Node58* m_new(c_Node58*,c_Node58*,c_CrystalShards*);
 	c_Node58* m_new2();
 	void mark();
 };
@@ -12361,22 +12389,33 @@ class c_HeadNode40 : public c_Node58{
 	c_HeadNode40* m_new();
 	void mark();
 };
+class c_ConductorBattery : public c_Enemy{
+	public:
+	c_ConductorBattery();
+	static void m_WaterBallDeath(c_WaterBall*);
+	void p_Die();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_Update();
+	void mark();
+};
 class c_List41 : public Object{
 	public:
 	c_Node59* m__head;
 	c_List41();
 	c_List41* m_new();
-	c_Node59* p_AddLast41(c_CrystalShards*);
-	c_List41* m_new2(Array<c_CrystalShards* >);
+	c_Node59* p_AddLast41(c_Player*);
+	c_List41* m_new2(Array<c_Player* >);
+	c_Enumerator35* p_ObjectEnumerator();
+	bool p_IsEmpty();
 	void mark();
 };
 class c_Node59 : public Object{
 	public:
 	c_Node59* m__succ;
 	c_Node59* m__pred;
-	c_CrystalShards* m__data;
+	c_Player* m__data;
 	c_Node59();
-	c_Node59* m_new(c_Node59*,c_Node59*,c_CrystalShards*);
+	c_Node59* m_new(c_Node59*,c_Node59*,c_Player*);
 	c_Node59* m_new2();
 	void mark();
 };
@@ -12386,13 +12425,15 @@ class c_HeadNode41 : public c_Node59{
 	c_HeadNode41* m_new();
 	void mark();
 };
-class c_ConductorBattery : public c_Enemy{
+class c_Enumerator35 : public Object{
 	public:
-	c_ConductorBattery();
-	static void m_WaterBallDeath(c_WaterBall*);
-	void p_Die();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
-	void p_Update();
+	c_List41* m__list;
+	c_Node59* m__curr;
+	c_Enumerator35();
+	c_Enumerator35* m_new(c_List41*);
+	c_Enumerator35* m_new2();
+	bool p_HasNext();
+	c_Player* p_NextObject();
 	void mark();
 };
 void gc_mark( BBGame *p ){}
@@ -13698,19 +13739,19 @@ c_Player* c_Util::m_GetAnyPlayerAt(int t_xVal,int t_yVal){
 	}
 	return 0;
 }
-c_List39* c_Util::m_GetPlayersAt(c_Rect* t_where){
-	c_List39* t_playersAt=(new c_List39)->m_new();
+c_List41* c_Util::m_GetPlayersAt(c_Rect* t_where){
+	c_List41* t_playersAt=(new c_List41)->m_new();
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
 		c_Player* t_player=bb_controller_game_players[t_i];
 		if(!t_player->p_Perished()){
 			if(t_where->p_Contains5(t_player->p_GetLocation())){
-				t_playersAt->p_AddLast39(t_player);
+				t_playersAt->p_AddLast41(t_player);
 			}
 		}
 	}
 	return t_playersAt;
 }
-c_List39* c_Util::m_GetPlayersAt2(int t_xVal,int t_yVal){
+c_List41* c_Util::m_GetPlayersAt2(int t_xVal,int t_yVal){
 	return m_GetPlayersAt((new c_Rect)->m_new(t_xVal,t_yVal,0,0));
 }
 void c_Util::mark(){
@@ -13905,13 +13946,59 @@ bool c_GameData::m_GetEnableCutscenes(){
 }
 int c_GameData::m_GetAlternateSkin(int t_charID){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
-	return m_xmlSaveData->p_GetChild2(String(L"game",4),false)->p_GetAttribute3(String(L"skinNum",7)+String(t_charID),0);
+	return t_gameNode->p_GetAttribute3(String(L"skinNum",7)+String(t_charID),0);
 }
 bool c_GameData::m_GetUseChoral(){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
 	return t_gameNode->p_GetAttribute2(String(L"useChoral",9),false);
 }
+void c_GameData::m_SetItemCleaned(String t_itemName,bool t_clean){
+	if(c_Level::m_isReplaying){
+		return;
+	}
+	String t_value=String(L"false",5);
+	if(t_clean){
+		t_value=String(L"true",4);
+	}
+	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
+	t_playerNode->p_SetAttribute2(t_itemName+String(L"Cleaned",7),t_clean);
+}
+void c_GameData::m_RemovePendingSpawnItem(String t_item){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.RemovePendingSpawnItem(String)",39));
+}
+void c_GameData::m_AddDiamondDealerItem(String t_itemName){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.AddDiamondDealerItem(String)",37));
+}
+void c_GameData::m_SetItemUnlocked(String t_itemName){
+	if(c_Level::m_isReplaying){
+		return;
+	}
+	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
+	t_playerNode->p_SetAttribute5(t_itemName+String(L"Unlocked",8),String(L"true",4));
+}
 c_XMLDoc* c_GameData::m_replaySaveData;
+int c_GameData::m_GetNumPendingSpawnItems(){
+	c_XMLDoc* t_saveData=0;
+	if(c_Level::m_isReplaying && m_replaySaveData!=0){
+		t_saveData=m_replaySaveData;
+	}else{
+		t_saveData=m_xmlSaveData;
+	}
+	c_XMLNode* t_gameNode=t_saveData->p_GetChild2(String(L"game",4),false);
+	return t_gameNode->p_GetAttribute3(String(L"numPendingSpawnItemsV2",22),0);
+}
+void c_GameData::m_AddPendingSpawnItem(String t_i){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	int t_numPendingSpawnItems=m_GetNumPendingSpawnItems();
+	t_gameNode->p_SetAttribute5(String(L"pendingSpawnItemV2_",19)+String(t_numPendingSpawnItems),t_i);
+	t_gameNode->p_SetAttribute3(String(L"numPendingSpawnItemsV2",22),t_numPendingSpawnItems+1);
+}
+void c_GameData::m_SetZoneHoardCollected(int t_zone){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetZoneHoardCollected(Int)",35));
+}
+void c_GameData::m_SetPlayerHealthMax(int t_val){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetPlayerHealthMax(Int)",32));
+}
 int c_GameData::m_GetPlayerHealthMax(){
 	c_XMLDoc* t_saveData=0;
 	if(c_Level::m_isReplaying && m_replaySaveData!=0){
@@ -13981,10 +14068,6 @@ int c_GameData::m_GetVideoLatency(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetVideoLatency()",26));
 	return 0;
 }
-int c_GameData::m_GetNumPendingSpawnItems(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetNumPendingSpawnItems()",34));
-	return 0;
-}
 bool c_GameData::m_GetDaoustVocals(){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
 	return t_gameNode->p_GetAttribute2(String(L"daoustVocals",12),false);
@@ -14013,9 +14096,6 @@ bool c_GameData::m_GetItemUnlocked(String t_itemName,bool t_includeClean){
 int c_GameData::m_GetPendingSpawnItem(int t_num){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.GetPendingSpawnItem(Int)",33));
 	return 0;
-}
-void c_GameData::m_RemovePendingSpawnItem(String t_item){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.RemovePendingSpawnItem(String)",39));
 }
 void c_GameData::m_SetHavePlayedHardcore(bool t_val){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetHavePlayedHardcore(Bool)",36));
@@ -17610,7 +17690,7 @@ void c_Camera::m_Init(){
 }
 int c_Camera::m_GetFixedHeight(){
 	if(c_Level::m_isReplaying){
-		c_Node24* t_curReplayData=c_Level::m_replay->m_curReplayData;
+		c_Node25* t_curReplayData=c_Level::m_replay->m_curReplayData;
 		if(t_curReplayData!=0){
 			return t_curReplayData->p_Value()->m_cameraHeight;
 		}
@@ -17619,7 +17699,7 @@ int c_Camera::m_GetFixedHeight(){
 }
 int c_Camera::m_GetFixedWidth(){
 	if(c_Level::m_isReplaying){
-		c_Node24* t_curReplayData=c_Level::m_replay->m_curReplayData;
+		c_Node25* t_curReplayData=c_Level::m_replay->m_curReplayData;
 		if(t_curReplayData!=0){
 			return t_curReplayData->p_Value()->m_cameraWidth;
 		}
@@ -17630,10 +17710,6 @@ void c_Camera::m_FadeOutThenExecute(int t_dur,c_Callback* t_cBack){
 	gc_assign(m_fadeOutCallback,t_cBack);
 	m_fadeOutDuration=t_dur;
 	m_fadeOutCurrent=t_dur;
-}
-int c_Camera::m_overlayWhiteDuration;
-void c_Camera::m_Shake(int t_type,int t_xVal,int t_yVal){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Shake(Int, Int, Int)",27));
 }
 Float c_Camera::m_shakeOffX;
 Float c_Camera::m_GetX(){
@@ -17666,6 +17742,10 @@ bool c_Camera::m_IsOnScreen(int t_xVal,int t_yVal){
 		}
 	}
 	return false;
+}
+int c_Camera::m_overlayWhiteDuration;
+void c_Camera::m_Shake(int t_type,int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Shake(Int, Int, Int)",27));
 }
 void c_Camera::mark(){
 	Object::mark();
@@ -18190,6 +18270,24 @@ int c_Level::m_GetMaxDepth(){
 bool c_Level::m_HaveFinalBoss(){
 	return c_Util::m_IsCharacterActive(2) || c_Util::m_IsCharacterActive(1) || c_Util::m_IsCharacterActive(0) || c_Util::m_IsCharacterActive(10);
 }
+bool c_Level::m_isAllCharsRunNoItemsNoShrines;
+c_Minimap* c_Level::m_minimap;
+c_ExitMap* c_Level::m_exits;
+c_Point* c_Level::m_GetStandardExitCoords(){
+	c_NodeEnumerator* t_=m_exits->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Node22* t_ex=t_->p_NextObject();
+		c_Point* t_exitValue=t_ex->p_Value();
+		int t_57=t_exitValue->m_x;
+		if(t_57==-3 || t_57==-6){
+			return t_ex->p_Key();
+		}
+	}
+	return 0;
+}
+void c_Level::m_ResetCosts(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.ResetCosts()",18));
+}
 bool c_Level::m_AllCharsAnyComplete(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.AllCharsAnyComplete()",27));
 	return false;
@@ -18272,7 +18370,6 @@ void c_Level::m_CreateLobby(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.CreateLobby()",19));
 }
 Array<bool > c_Level::m_allCharsCompletion;
-bool c_Level::m_isAllCharsRunNoItemsNoShrines;
 void c_Level::m_CreateAllCharsSelect(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.CreateAllCharsSelect()",28));
 }
@@ -18313,14 +18410,13 @@ int c_Level::m_levelConstraintY;
 int c_Level::m_levelConstraintW;
 int c_Level::m_levelConstraintH;
 int c_Level::m_levelConstraintNum;
-c_ExitMap* c_Level::m_exits;
 void c_Level::m_DeleteMap(){
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			t_tileNode->p_Value()->p_Die();
 		}
 	}
@@ -18641,9 +18737,9 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 }
 int c_Level::m_lastCreatedRoomType;
 c_Point* c_Level::m_GetExitValue(int t_xVal,int t_yVal){
-	c_NodeEnumerator3* t_=m_exits->p_ObjectEnumerator();
+	c_NodeEnumerator* t_=m_exits->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node33* t_node=t_->p_NextObject();
+		c_Node22* t_node=t_->p_NextObject();
 		c_Point* t_ex=t_node->p_Key();
 		if(t_ex->m_x==t_xVal && t_ex->m_y==t_yVal){
 			return t_node->p_Value();
@@ -18659,12 +18755,12 @@ void c_Level::m_DumpMap(){
 	int t_yMin=100;
 	int t_xMax=-100;
 	int t_yMax=-100;
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(-100<=t_tile->m_x && t_tile->m_x<=100 && (-100<=t_tile->m_y && t_tile->m_y<=100)){
 				if(t_tile->m_x<=t_xMin){
@@ -18983,7 +19079,7 @@ void c_Level::m_EnsureBossTraining(String t_name){
 void c_Level::m_AddExit(int t_xVal,int t_yVal,int t_levelPointer,int t_zonePointer){
 	c_Point* t_location=(new c_Point)->m_new(t_xVal,t_yVal);
 	c_Point* t_floor=(new c_Point)->m_new(t_levelPointer,t_zonePointer);
-	m_exits->p_Set15(t_location,t_floor);
+	m_exits->p_Set13(t_location,t_floor);
 }
 bool c_Level::m_skipNextPenaltyBox;
 bool c_Level::m_WantPenaltyBox(){
@@ -20045,7 +20141,7 @@ void c_Level::m_CreateExit(int t_exitX,int t_exitY){
 	m_GetTileAt(t_exitX,t_exitY)->p_Die();
 	c_Tile* t_exitTile=(new c_Tile)->m_new(t_exitX,t_exitY,9,false,-1);
 	t_exitTile->m_flyawayText=String(L"|198|DEFEAT THE MINIBOSS!|",26);
-	m_exits->p_Set15((new c_Point)->m_new(t_exitX,t_exitY),(new c_Point)->m_new(-6,-6));
+	m_exits->p_Set13((new c_Point)->m_new(t_exitX,t_exitY),(new c_Point)->m_new(-6,-6));
 }
 int c_Level::m_secretAtX;
 int c_Level::m_secretAtY;
@@ -20071,12 +20167,12 @@ bool c_Level::m_IsFloorAdjacent(int t_xVal,int t_yVal){
 void c_Level::m_AddCrackedWall(int t_roomType){
 	bb_logger_Debug->p_Log(String(L"Adding cracked wall...",22));
 	c_IntPointList* t_lowHealthWallLocations=(new c_IntPointList)->m_new();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false)){
 				if(t_tile->m_health<=1){
@@ -20522,12 +20618,12 @@ void c_Level::m_AddSpecialRoom(int t_roomType,bool t_addCrack){
 	bb_logger_Debug->p_Log(String(L"Finished adding special room",28));
 }
 bool c_Level::m__ReplaceIndestructibleOrphans(){
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			int t_x0=t_tilesOnXNode->p_Key();
 			int t_y0=t_tileNode->p_Key();
 			if(m_GetTileTypeAt(t_x0,t_y0)==102){
@@ -20554,12 +20650,12 @@ bool c_Level::m__ReplaceIndestructibleOrphans(){
 void c_Level::m_CreateIndestructibleBorder(){
 	bb_logger_Debug->p_Log(String(L"CREATEINDESTRUCTIBLEBORDER: Creating indestructible outer wall",62));
 	c_List18* t_borderTiles=(new c_List18)->m_new();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			int t_x0=t_tilesOnXNode->p_Key();
 			int t_y0=t_tileNode->p_Key();
 			for(int t_y=t_y0-1;t_y<=t_y0+1;t_y=t_y+1){
@@ -20797,12 +20893,12 @@ void c_Level::m_PlaceShopItemsAt(int t_tmpX,int t_tmpY,c_Rect* t_door){
 			bb_logger_Debug->p_Log(String(L"PlaceShopItemsAt ZONE ",22)+String(bb_controller_game_currentZone)+String(L": Placing shop at ",18)+String(t_tmpX)+String(L", ",2)+String(t_tmpY));
 		}
 	}
-	c_NodeEnumerator* t_2=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_2=m_tiles->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_2->p_NextObject();
-		c_NodeEnumerator2* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_2->p_NextObject();
+		c_NodeEnumerator3* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_3->p_HasNext()){
-			c_Node26* t_tileNode=t_3->p_NextObject();
+			c_Node27* t_tileNode=t_3->p_NextObject();
 			c_Tile* t_tile3=t_tileNode->p_Value();
 			if(t_tile3->p_IsShopWall()){
 				t_tile3->p_SetDigTrigger(3);
@@ -20816,12 +20912,12 @@ void c_Level::m_PlaceShopItemsAt(int t_tmpX,int t_tmpY,c_Rect* t_door){
 		int t_fakeWallRoll=c_Util::m_RndIntRange(1,5,true,-1);
 		if(t_fakeWallRoll<=2){
 			c_IntPointStack* t_pointsNotAdjacentToDoors=(new c_IntPointStack)->m_new();
-			c_NodeEnumerator* t_4=m_tiles->p_ObjectEnumerator();
+			c_NodeEnumerator2* t_4=m_tiles->p_ObjectEnumerator();
 			while(t_4->p_HasNext()){
-				c_Node25* t_tilesOnXNode2=t_4->p_NextObject();
-				c_NodeEnumerator2* t_5=t_tilesOnXNode2->p_Value()->p_ObjectEnumerator();
+				c_Node26* t_tilesOnXNode2=t_4->p_NextObject();
+				c_NodeEnumerator3* t_5=t_tilesOnXNode2->p_Value()->p_ObjectEnumerator();
 				while(t_5->p_HasNext()){
-					c_Node26* t_tileNode2=t_5->p_NextObject();
+					c_Node27* t_tileNode2=t_5->p_NextObject();
 					c_Tile* t_tile4=t_tileNode2->p_Value();
 					if(!m_IsDoorAdjacent(t_tile4->m_x,t_tile4->m_y) && m_GetTileTypeAt(t_tile4->m_x,t_tile4->m_y)==104){
 						t_pointsNotAdjacentToDoors->p_Push10((new c_Point)->m_new(t_tile4->m_x,t_tile4->m_y));
@@ -21067,18 +21163,6 @@ bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 	bb_logger_Debug->p_Log(String(L"PLACEWIRE: Failed to find route to destination",46));
 	return false;
 }
-c_Point* c_Level::m_GetStandardExitCoords(){
-	c_NodeEnumerator3* t_=m_exits->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_Node33* t_ex=t_->p_NextObject();
-		c_Point* t_exitValue=t_ex->p_Value();
-		int t_57=t_exitValue->m_x;
-		if(t_57==-3 || t_57==-6){
-			return t_ex->p_Key();
-		}
-	}
-	return 0;
-}
 bool c_Level::m_IsTileTypeAdjacent(int t_xVal,int t_yVal,int t_tempType){
 	return m_GetTileTypeAt(t_xVal-1,t_yVal)==t_tempType || m_GetTileTypeAt(t_xVal+1,t_yVal)==t_tempType || m_GetTileTypeAt(t_xVal,t_yVal-1)==t_tempType || m_GetTileTypeAt(t_xVal,t_yVal+1)==t_tempType;
 }
@@ -21104,12 +21188,12 @@ void c_Level::m_RandomWalkOfTempTiles(int t_xVal,int t_yVal,int t_distCounter){
 }
 void c_Level::m_PadWalls(){
 	bb_logger_Debug->p_Log(String(L"PADWALLS: Padding walls",23));
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall2()){
 				int t_x=t_tilesOnXNode->p_Key();
@@ -21212,12 +21296,12 @@ c_SecretRoomData* c_Level::m__CreateSecretRoom(int t_xVal,int t_yVal,int t_width
 }
 void c_Level::m_PlaceSecretRooms(int t_numRooms){
 	c_SecretRoomData* t_room=0;
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			int t_x=t_tilesOnXNode->p_Key();
 			int t_y=t_tileNode->p_Key();
 			t_room=m__CreateSecretRoom(t_x,t_y,2,2);
@@ -22190,12 +22274,12 @@ void c_Level::m_AddStone(){
 		t_stoneCountMultiplier+=FLOAT(0.13);
 	}
 	c_List26* t_stoneCandidateLocations=(new c_List26)->m_new();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false) && t_tile->m_health<=1 && !t_tile->m_isCracked){
 				t_stoneCandidateLocations->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
@@ -22508,12 +22592,12 @@ void c_Level::m_PlaceTrapsZone4(){
 		}
 	}
 	c_IntPointList* t_destructibleWalls=(new c_IntPointList)->m_new();
-	c_NodeEnumerator* t_2=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_2=m_tiles->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_2->p_NextObject();
-		c_NodeEnumerator2* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_2->p_NextObject();
+		c_NodeEnumerator3* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_3->p_HasNext()){
-			c_Node26* t_tileNode=t_3->p_NextObject();
+			c_Node27* t_tileNode=t_3->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false)){
 				t_destructibleWalls->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
@@ -23806,12 +23890,12 @@ void c_Level::m_PlaceEnemiesZone4(){
 		bb_logger_Debug->p_TraceNotImplemented(String(L"Level.PlaceEnemiesZone4() (Tempo section)",41));
 	}
 	c_IntPointList* t_walls=(new c_IntPointList)->m_new();
-	c_NodeEnumerator* t_2=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_2=m_tiles->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_2->p_NextObject();
-		c_NodeEnumerator2* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_2->p_NextObject();
+		c_NodeEnumerator3* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_3->p_HasNext()){
-			c_Node26* t_tileNode=t_3->p_NextObject();
+			c_Node27* t_tileNode=t_3->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(!t_tile->p_IsWall(false,true,false,false)){
 				continue;
@@ -25082,9 +25166,9 @@ void c_Level::m_PlaceEnemies(){
 }
 c_Point* c_Level::m_FindTileOfType(int t_tileType,bool t_ignoreCrackedWalls){
 	while(true){
-		c_Node25* t_tilesOnXNode=0;
+		c_Node26* t_tilesOnXNode=0;
 		int t_i=c_Util::m_RndIntRangeFromZero(m_tiles->p_Count()-1,true);
-		c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+		c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			t_tilesOnXNode=t_->p_NextObject();
 			if(t_i==0){
@@ -25093,9 +25177,9 @@ c_Point* c_Level::m_FindTileOfType(int t_tileType,bool t_ignoreCrackedWalls){
 			t_i-=1;
 		}
 		c_IntMap6* t_tilesOnX=t_tilesOnXNode->p_Value();
-		c_Node26* t_tileNode=0;
+		c_Node27* t_tileNode=0;
 		int t_j=c_Util::m_RndIntRangeFromZero(t_tilesOnX->p_Count()-1,true);
-		c_NodeEnumerator2* t_2=t_tilesOnX->p_ObjectEnumerator();
+		c_NodeEnumerator3* t_2=t_tilesOnX->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
 			t_tileNode=t_2->p_NextObject();
 			if(t_j==0){
@@ -25119,12 +25203,12 @@ c_Point* c_Level::m_FindTileOfType2(int t_tileType){
 Float c_Level::m_GetDistanceToNearestTorch(c_RenderableObject* t_r){
 	Float t_distance=FLOAT(10000000.0);
 	c_Point* t_from=t_r->p_GetLocation();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_HasTorch()){
 				int t_tileX=t_tilesOnXNode->p_Key();
@@ -25707,7 +25791,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 		}
 	}
 	c_Point* t_exitPoint=t_points->p_Get2(t_pointsIndex);
-	t_points->p_Remove3(t_pointsIndex);
+	t_points->p_Remove4(t_pointsIndex);
 	m_CreateExit(t_exitPoint->m_x,t_exitPoint->m_y);
 	t_points->p_Shuffle(true);
 	bb_logger_Debug->p_Log(String(L"CREATEMAPZONE5: Place wire",26));
@@ -25998,12 +26082,12 @@ c_RoomData* c_Level::m_PlaceRoomZone4(int t_roomType){
 	if(!m_CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,true,t_roomType,t_originX,t_originY,t_originX2,t_originY2,false,100,true,true)){
 		return 0;
 	}
-	c_NodeEnumerator* t_=m_pendingTiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_pendingTiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_pendingTilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_pendingTilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_pendingTileNode=t_2->p_NextObject();
+			c_Node27* t_pendingTileNode=t_2->p_NextObject();
 			int t_tileX=t_pendingTilesOnXNode->p_Key();
 			int t_tileY=t_pendingTileNode->p_Key();
 			c_Tile* t_tile=m_GetTileAt(t_tileX,t_tileY);
@@ -26050,12 +26134,12 @@ void c_Level::m_AddHarderStone(){
 		t_percentToConvert=bb_math_Min2(FLOAT(0.01),t_percentToConvert);
 	}
 	c_IntPointList* t_conversionCandidates=(new c_IntPointList)->m_new();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_3->p_HasNext()){
-			c_Node26* t_tileNode=t_3->p_NextObject();
+			c_Node27* t_tileNode=t_3->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false) && t_tile->m_health<=1 && !t_tile->m_isCracked){
 				t_conversionCandidates->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
@@ -26354,7 +26438,7 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 		t_stairs->m_flyawayText=String(L"|198|DEFEAT THE MINIBOSS!|",26);
 		c_Point* t_exitKey=(new c_Point)->m_new(t_stairsX,t_stairsY);
 		c_Point* t_exitValue=(new c_Point)->m_new(-6,-6);
-		m_exits->p_Set15(t_exitKey,t_exitValue);
+		m_exits->p_Set13(t_exitKey,t_exitValue);
 		break;
 	}
 	if(t_limit<=0){
@@ -26655,12 +26739,12 @@ c_RoomData* c_Level::m_PlaceRoomZone3(int t_roomType,c_RoomData* t_roomToAttachT
 	if(!m_CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,true,t_roomType,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,100,true,true)){
 		return 0;
 	}
-	c_NodeEnumerator* t_=m_pendingTiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_pendingTiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_pendingTilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_pendingTilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_pendingTileNode=t_2->p_NextObject();
+			c_Node27* t_pendingTileNode=t_2->p_NextObject();
 			int t_tileX=t_pendingTilesOnXNode->p_Key();
 			int t_tileY=t_pendingTileNode->p_Key();
 			c_Tile* t_tile=m_GetTileAt(t_tileX,t_tileY);
@@ -26710,12 +26794,12 @@ bool c_Level::m_PlaceExit(c_RoomData* t_rdExit){
 }
 void c_Level::m_RemoveSomeWallsAwayFromCorridors(Float t_percentToRemove,bool t_includeCorridors,int t_maxHealth){
 	c_IntPointList* t_removalCandidates=(new c_IntPointList)->m_new();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(!t_includeCorridors,true,false,false)){
 				if(t_tile->m_health<=t_maxHealth){
@@ -26750,12 +26834,12 @@ void c_Level::m_RemoveSomeWallsAwayFromCorridors(Float t_percentToRemove,bool t_
 }
 void c_Level::m_WidenCorridors(){
 	c_IntPointList* t_corridorWallLocations=(new c_IntPointList)->m_new();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_GetType()==101){
 				t_corridorWallLocations->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
@@ -26776,12 +26860,12 @@ bool c_Level::m_IsTrapOrExitAbove(int t_xVal,int t_yVal){
 }
 void c_Level::m_AddSomePillarsInOpenSpace(){
 	c_IntPointList* t_pillarCandidates=(new c_IntPointList)->m_new();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_GetType()!=0){
 				continue;
@@ -27014,12 +27098,12 @@ bool c_Level::m_CreateMapZone3(){
 	m_WidenCorridors();
 	m_AddSomePillarsInOpenSpace();
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE3: Filling out walls surrounding all floor",56));
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsFloor()){
 				for(int t_y=t_tile->m_y-1;t_y<=t_tile->m_y+1;t_y=t_y+1){
@@ -27291,12 +27375,12 @@ c_RoomData* c_Level::m_PlaceRoomZone2(int t_roomType,c_RoomData* t_roomToAttachT
 	if(!m_CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,true,t_roomType,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,100,false,true)){
 		return 0;
 	}
-	c_NodeEnumerator* t_=m_pendingTiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_pendingTiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_pendingTilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_pendingTilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_pendingTileNode=t_2->p_NextObject();
+			c_Node27* t_pendingTileNode=t_2->p_NextObject();
 			int t_tileX=t_pendingTilesOnXNode->p_Key();
 			int t_tileY=t_pendingTileNode->p_Key();
 			c_Tile* t_tile=m_GetTileAt(t_tileX,t_tileY);
@@ -27567,12 +27651,12 @@ bool c_Level::m_CreateMapZone2(){
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE2: Removing some wall tiles",41));
 	m_RemoveSomeWallsAwayFromCorridors(FLOAT(0.025),false,1);
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE2: Filling out walls surrounding all floor",56));
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile2=t_tileNode->p_Value();
 			if(t_tile2->p_IsFloor()){
 				for(int t_y2=t_tile2->m_y-1;t_y2<=t_tile2->m_y+1;t_y2=t_y2+1){
@@ -27943,12 +28027,12 @@ c_RoomData* c_Level::m_PlaceRoomZone1(int t_roomType,c_RoomData* t_roomToAttachT
 	if(!m_CreateRoom(t_xVal,t_yVal,t_width,t_height,true,t_roomType,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,100,false,true)){
 		return 0;
 	}
-	c_NodeEnumerator* t_=m_pendingTiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_pendingTiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_pendingTilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_pendingTilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_pendingTilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_pendingTileNode=t_2->p_NextObject();
+			c_Node27* t_pendingTileNode=t_2->p_NextObject();
 			int t_tileX=t_pendingTilesOnXNode->p_Key();
 			int t_tileY=t_pendingTileNode->p_Key();
 			c_Tile* t_tile=m_GetTileAt(t_tileX,t_tileY);
@@ -28211,12 +28295,12 @@ bool c_Level::m_CreateMapZone1(){
 		return m__FailMap();
 	}
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE1: Filling out walls surrounding all floor",56));
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile2=t_tileNode->p_Value();
 			if(t_tile2->p_IsFloor()){
 				for(int t_y2=t_tile2->m_y-1;t_y2<=t_tile2->m_y+1;t_y2=t_y2+1){
@@ -29862,12 +29946,12 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 		}
 	}
 	if(m_isFloorIsLavaMode){
-		c_NodeEnumerator* t_2=m_tiles->p_ObjectEnumerator();
+		c_NodeEnumerator2* t_2=m_tiles->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node25* t_tilesOnXNode=t_2->p_NextObject();
-			c_NodeEnumerator2* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+			c_Node26* t_tilesOnXNode=t_2->p_NextObject();
+			c_NodeEnumerator3* t_3=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 			while(t_3->p_HasNext()){
-				c_Node26* t_tileNode=t_3->p_NextObject();
+				c_Node27* t_tileNode=t_3->p_NextObject();
 				c_Tile* t_tile=t_tileNode->p_Value();
 				if(!((t_tile->m_trigger)!=0)){
 					if(t_tile->p_IsNormalFloor()){
@@ -30079,12 +30163,12 @@ int c_Level::m_lastTileCount;
 c_IntPointList* c_Level::m_tileObstructionList;
 c_List26* c_Level::m_GetTileObstructionList(bool t_includeOffscreen){
 	m_tileObstructionList->p_Clear();
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,false,true,false) && (t_includeOffscreen || t_tile->p_IsOnScreen())){
 				m_tileObstructionList->p_AddLast26(t_tile->p_GetLocation());
@@ -30149,12 +30233,12 @@ void c_Level::m_RefreshLineOfSightTiles(){
 	if(!t_refreshLOS){
 		return;
 	}
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			t_tile->m_cachedTrueLOS=false;
 			t_tile->m_cachedTrueLOSFrame=bb_necrodancergame_globalFrameCounter;
@@ -30166,12 +30250,12 @@ void c_Level::m_RefreshLineOfSightTiles(){
 		if(!t_player2->p_Perished() || bb_controller_game_player1!=((t_player2->m_playerID==0)?1:0)){
 			t_player2->m_lastLOSX=t_player2->m_x;
 			t_player2->m_lastLOSY=t_player2->m_y;
-			c_NodeEnumerator* t_3=m_tiles->p_ObjectEnumerator();
+			c_NodeEnumerator2* t_3=m_tiles->p_ObjectEnumerator();
 			while(t_3->p_HasNext()){
-				c_Node25* t_tilesOnXNode2=t_3->p_NextObject();
-				c_NodeEnumerator2* t_4=t_tilesOnXNode2->p_Value()->p_ObjectEnumerator();
+				c_Node26* t_tilesOnXNode2=t_3->p_NextObject();
+				c_NodeEnumerator3* t_4=t_tilesOnXNode2->p_Value()->p_ObjectEnumerator();
 				while(t_4->p_HasNext()){
-					c_Node26* t_tileNode2=t_4->p_NextObject();
+					c_Node27* t_tileNode2=t_4->p_NextObject();
 					c_Tile* t_tile2=t_tileNode2->p_Value();
 					if(t_tile2->p_IsOnScreen()){
 						if(m_CheckLOS(t_player2->m_x,t_player2->m_y,t_tile2->m_x,t_tile2->m_y,false)){
@@ -30205,59 +30289,6 @@ void c_Level::m_TakeActionAfterAllCharsScoreSubmit(){
 }
 void c_Level::m_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.Update()",14));
-}
-c_Minimap* c_Level::m_minimap;
-void c_Level::m_RemoveExit(int t_xVal,int t_yVal){
-	m_exits->p_Remove5((new c_Point)->m_new(t_xVal,t_yVal));
-}
-int c_Level::m_maxLevelX;
-int c_Level::m_minLevelX;
-int c_Level::m_maxLevelY;
-int c_Level::m_minLevelY;
-Array<Float > c_Level::m_mapLightValues;
-Array<Float > c_Level::m_constMapLightValues;
-Float c_Level::m_ActuallyGetMapTileLightValue(int t_xVal,int t_yVal,bool t_forVision){
-	if(t_xVal<m_minLevelX || t_xVal>m_maxLevelX){
-		return FLOAT(0.0);
-	}
-	if(t_yVal<m_minLevelY || t_yVal>m_maxLevelY){
-		return FLOAT(0.0);
-	}
-	int t_i=t_xVal+(t_yVal-m_minLevelY)*(m_maxLevelX-m_minLevelX)-m_minLevelX;
-	if(t_forVision){
-		return m_constMapLightValues[t_i];
-	}
-	return m_mapLightValues[t_i];
-}
-Float c_Level::m_GetMapTileLightValue(int t_xVal,int t_yVal,bool t_forVision){
-	if(m_mapLightValuesCachedFrame!=bb_necrodancergame_globalFrameCounter){
-		int t_xDiff=m_maxLevelX-m_minLevelX;
-		int t_yDiff=m_maxLevelY-m_minLevelY;
-		if(!m_mapLightValuesInitialized){
-			int t_length=(t_xDiff+1)*(t_yDiff+1);
-			gc_assign(m_mapLightValues,m_mapLightValues.Resize(t_length));
-			gc_assign(m_constMapLightValues,m_constMapLightValues.Resize(t_length));
-			m_mapLightValuesInitialized=true;
-		}
-		m_mapLightValuesCachedFrame=bb_necrodancergame_globalFrameCounter;
-		int t_i=0;
-		for(int t_x=m_minLevelX;t_x<=m_maxLevelX;t_x=t_x+1){
-			for(int t_y=m_minLevelY;t_y<=m_maxLevelY;t_y=t_y+1){
-				m_constMapLightValues[t_i]=FLOAT(0.0);
-				m_mapLightValues[t_i]=FLOAT(0.0);
-				t_i+=1;
-			}
-		}
-		c_Enumerator5* t_=c_RenderableObject::m_lightSourceList->p_ObjectEnumerator();
-		while(t_->p_HasNext()){
-			c_RenderableObject* t_lightSource=t_->p_NextObject();
-			if(c_Shrine::m_darknessShrineActive && !t_lightSource->m_isPlayer){
-				continue;
-			}
-		}
-		bb_logger_Debug->p_TraceNotImplemented(String(L"Level.GetMapTileLightValue(Int, Int, Bool)",42));
-	}
-	return m_ActuallyGetMapTileLightValue(t_xVal,t_yVal,t_forVision);
 }
 bool c_Level::m_IsVisibleTileAt(int t_xVal,int t_yVal){
 	c_Tile* t_tile=m_GetTileAt(t_xVal,t_yVal);
@@ -30320,12 +30351,12 @@ void c_Level::m_PlaceTileTypeAt(int t_xVal,int t_yVal,int t_tileType){
 	}
 }
 void c_Level::m_DryUpAllWater(int t_replacementFloor){
-	c_NodeEnumerator* t_=m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			int t_tileType=m_GetTileTypeAt(t_tile->m_x,t_tile->m_y);
 			int t_42=t_tileType;
@@ -30334,6 +30365,58 @@ void c_Level::m_DryUpAllWater(int t_replacementFloor){
 			}
 		}
 	}
+}
+void c_Level::m_RemoveExit(int t_xVal,int t_yVal){
+	m_exits->p_Remove3((new c_Point)->m_new(t_xVal,t_yVal));
+}
+int c_Level::m_maxLevelX;
+int c_Level::m_minLevelX;
+int c_Level::m_maxLevelY;
+int c_Level::m_minLevelY;
+Array<Float > c_Level::m_mapLightValues;
+Array<Float > c_Level::m_constMapLightValues;
+Float c_Level::m_ActuallyGetMapTileLightValue(int t_xVal,int t_yVal,bool t_forVision){
+	if(t_xVal<m_minLevelX || t_xVal>m_maxLevelX){
+		return FLOAT(0.0);
+	}
+	if(t_yVal<m_minLevelY || t_yVal>m_maxLevelY){
+		return FLOAT(0.0);
+	}
+	int t_i=t_xVal+(t_yVal-m_minLevelY)*(m_maxLevelX-m_minLevelX)-m_minLevelX;
+	if(t_forVision){
+		return m_constMapLightValues[t_i];
+	}
+	return m_mapLightValues[t_i];
+}
+Float c_Level::m_GetMapTileLightValue(int t_xVal,int t_yVal,bool t_forVision){
+	if(m_mapLightValuesCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		int t_xDiff=m_maxLevelX-m_minLevelX;
+		int t_yDiff=m_maxLevelY-m_minLevelY;
+		if(!m_mapLightValuesInitialized){
+			int t_length=(t_xDiff+1)*(t_yDiff+1);
+			gc_assign(m_mapLightValues,m_mapLightValues.Resize(t_length));
+			gc_assign(m_constMapLightValues,m_constMapLightValues.Resize(t_length));
+			m_mapLightValuesInitialized=true;
+		}
+		m_mapLightValuesCachedFrame=bb_necrodancergame_globalFrameCounter;
+		int t_i=0;
+		for(int t_x=m_minLevelX;t_x<=m_maxLevelX;t_x=t_x+1){
+			for(int t_y=m_minLevelY;t_y<=m_maxLevelY;t_y=t_y+1){
+				m_constMapLightValues[t_i]=FLOAT(0.0);
+				m_mapLightValues[t_i]=FLOAT(0.0);
+				t_i+=1;
+			}
+		}
+		c_Enumerator5* t_=c_RenderableObject::m_lightSourceList->p_ObjectEnumerator();
+		while(t_->p_HasNext()){
+			c_RenderableObject* t_lightSource=t_->p_NextObject();
+			if(c_Shrine::m_darknessShrineActive && !t_lightSource->m_isPlayer){
+				continue;
+			}
+		}
+		bb_logger_Debug->p_TraceNotImplemented(String(L"Level.GetMapTileLightValue(Int, Int, Bool)",42));
+	}
+	return m_ActuallyGetMapTileLightValue(t_xVal,t_yVal,t_forVision);
 }
 void c_Level::mark(){
 	Object::mark();
@@ -30588,6 +30671,8 @@ c_RenderableObject::c_RenderableObject(){
 	m_dead=false;
 	m_x=0;
 	m_y=0;
+	m_lightSourceMin=FLOAT(.0);
+	m_lightSourceMax=FLOAT(.0);
 	m_lastFrameX=0;
 	m_lastFrameY=0;
 	m_isMobile=false;
@@ -30595,8 +30680,6 @@ c_RenderableObject::c_RenderableObject(){
 	m_isPlayer=false;
 	m_constLightSourceMax=FLOAT(.0);
 	m_lightSource=false;
-	m_lightSourceMin=FLOAT(.0);
-	m_lightSourceMax=FLOAT(.0);
 	m_collides=false;
 	m_isEnemy=false;
 	m_lightSourceBrightness=FLOAT(1.0);
@@ -30696,6 +30779,8 @@ c_Entity::c_Entity(){
 	m_shadow=0;
 	m_xOff=FLOAT(.0);
 	m_yOff=FLOAT(.0);
+	m_floating=false;
+	m_frozenPermanently=false;
 	m_entityNum=-1;
 	m_lastX=0;
 	m_lastY=0;
@@ -30706,13 +30791,11 @@ c_Entity::c_Entity(){
 	m_coinsToDrop=1;
 	m_falling=false;
 	m_confusedUntil=-1;
-	m_floating=false;
 	m_level=0;
 	m_xmlName=String();
 	m_friendlyName=String();
 	m_damagePerHit=1;
 	m_ignoreWalls=false;
-	m_frozenPermanently=false;
 	m_hasBeenVisible=false;
 	m_overrideAttackSound=String();
 	m_isGentle=false;
@@ -30756,6 +30839,10 @@ void c_Entity::m_RemoveAnyPerishedEntities(){
 		}
 	}
 }
+int c_Entity::m_anyPlayerHaveGlassTorchCachedFrame;
+int c_Entity::m_anyPlayerHaveForesightTorchCachedFrame;
+int c_Entity::m_anyPlayerHaveWallsTorchCachedFrame;
+int c_Entity::m_anyPlayerHaveCircletCachedFrame;
 int c_Entity::m_entityCount;
 c_Entity* c_Entity::m_new(){
 	c_RenderableObject::m_new();
@@ -30779,10 +30866,6 @@ c_Entity* c_Entity::m_GetEntityAt(int t_x,int t_y,bool t_includePlayer){
 	}
 	return 0;
 }
-int c_Entity::m_anyPlayerHaveCircletCachedFrame;
-int c_Entity::m_anyPlayerHaveGlassTorchCachedFrame;
-int c_Entity::m_anyPlayerHaveForesightTorchCachedFrame;
-int c_Entity::m_anyPlayerHaveWallsTorchCachedFrame;
 int c_Entity::m_anyPlayerHaveNazarCharmCachedFrame;
 void c_Entity::p_CancelTween(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.CancelTween()",20));
@@ -30836,14 +30919,6 @@ void c_Entity::p_BounceToward(c_Point* t_p,bool t_bufferTween){
 void c_Entity::m_UpdateVisibility(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
 }
-bool c_Entity::m_anyPlayerHaveWallsTorchCached;
-bool c_Entity::m_AnyPlayerHaveWallsTorch(){
-	if(m_anyPlayerHaveWallsTorchCachedFrame!=bb_necrodancergame_globalFrameCounter){
-		m_anyPlayerHaveWallsTorchCachedFrame=bb_necrodancergame_globalFrameCounter;
-		m_anyPlayerHaveWallsTorchCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"torch_walls",11),false);
-	}
-	return m_anyPlayerHaveWallsTorchCached;
-}
 bool c_Entity::p_IsVisible(){
 	if(this->m_clampedOn){
 		return true;
@@ -30852,6 +30927,14 @@ bool c_Entity::p_IsVisible(){
 		return false;
 	}
 	return c_Level::m_IsVisibleTileAt(this->m_x,this->m_y);
+}
+bool c_Entity::m_anyPlayerHaveWallsTorchCached;
+bool c_Entity::m_AnyPlayerHaveWallsTorch(){
+	if(m_anyPlayerHaveWallsTorchCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		m_anyPlayerHaveWallsTorchCachedFrame=bb_necrodancergame_globalFrameCounter;
+		m_anyPlayerHaveWallsTorchCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"torch_walls",11),false);
+	}
+	return m_anyPlayerHaveWallsTorchCached;
 }
 void c_Entity::mark(){
 	c_RenderableObject::mark();
@@ -30887,6 +30970,9 @@ bool c_Shrine::m_paceShrineActive;
 bool c_Shrine::m_bossShrineActive;
 c_IntSet* c_Shrine::m_usedShrines;
 int c_Shrine::m_usedShrinerInZone;
+void c_Shrine::m_ResetCosts(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.ResetCosts()",19));
+}
 void c_Shrine::m_ResetShrines(){
 	m_darknessShrineActive=false;
 	m_rhythmShrineActive=false;
@@ -31213,12 +31299,12 @@ void c_Shrine::p_Die(){
 		c_Entity::p_Die();
 	}
 }
-void c_Shrine::p_SetCost(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.SetCost()",16));
-}
 bool c_Shrine::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.Hit(String, Int, Int, Entity, Bool, Int)",47));
 	return false;
+}
+void c_Shrine::p_SetCost(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.SetCost()",16));
 }
 void c_Shrine::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.Update()",15));
@@ -31336,13 +31422,19 @@ c_Player::c_Player(){
 	m_batFormActive=false;
 	m_health=(new c_PlayerHealth)->m_new();
 	m_playerID=-1;
+	m_globalIgnoreFlyToSlot=false;
+	m_hudDiamondForFlyingRender=false;
+	m_numBombs=0;
+	m_hudSlotOffFlyFromPlayer=Array<bool >();
+	m_hideQuantity=(new c_StringMap4)->m_new();
+	m_holdingBagItems=(new c_List7)->m_new();
+	m_coinPickupBeat=-2;
 	m_playerTempNum=-1;
 	m_hudSlotInitialized=false;
 	m_numHudSlots=8;
 	m_hudSlot=Array<c_Sprite* >();
 	m_numHudSlotsIncludingActionAndSpells=15;
 	m_hudSlotOff=Array<c_Point2* >();
-	m_hudSlotOffFlyFromPlayer=Array<bool >();
 	m_shovelImages=(new c_StringMap7)->m_new();
 	m_tempoHeartText=(new c_TextSprite)->m_new3(2,FLOAT(2.0));
 	m_hudSlotAction1=0;
@@ -31368,7 +31460,6 @@ c_Player::c_Player(){
 	m_lordCrownActiveBeat=-1;
 	m_shieldActiveBeat=-1;
 	m_helper=0;
-	m_numBombs=0;
 	m_lastMoveOntoPlayerInCoopModeBeat=-1;
 	m_immobilized=false;
 	m_lastIceSlideBeat=-1;
@@ -31391,7 +31482,6 @@ c_Player::c_Player(){
 	m_crownOfGreedBeat=-1;
 	m_lastWarDrumBeat=-1;
 	m_lastBloodDrumBeat=-1;
-	m_coinPickupBeat=-2;
 	m_courageRingBeat=-1;
 	m_courageShovelBeat=-1;
 	m_queuedMove=false;
@@ -31585,17 +31675,17 @@ void c_Player::p_LoadImages(){
 		this->m_UsingDorianAltSkin=true;
 	}else{
 		if(t_alternateSkin!=0){
-			int t_13=this->m_characterID;
-			if(t_13==1){
+			int t_42=this->m_characterID;
+			if(t_42==1){
 				this->m_UsingMelodyAltSkin=true;
 			}else{
-				if(t_13==6){
+				if(t_42==6){
 					this->m_UsingDoveAltSkin=true;
 				}else{
-					if(t_13==7){
+					if(t_42==7){
 						this->m_UsingCodaAltSkin=true;
 					}else{
-						if(t_13==4){
+						if(t_42==4){
 							this->m_UsingEliAltSkin=true;
 						}
 					}
@@ -31614,11 +31704,11 @@ void c_Player::p_LoadImages(){
 }
 String c_Player::p_GetItemInSlot(String t_sl,bool t_overrideBatForm){
 	if(this->m_batFormActive || !t_overrideBatForm){
-		String t_6=t_sl;
-		if(t_6==String(L"weapon",6)){
+		String t_35=t_sl;
+		if(t_35==String(L"weapon",6)){
 			return String(L"weapon_fangs",12);
 		}else{
-			if(t_6==String(L"head",4)){
+			if(t_35==String(L"head",4)){
 				return String(L"head_sonar",10);
 			}
 		}
@@ -31637,11 +31727,11 @@ bool c_Player::p_HasItemOfType(String t_i,bool t_overrideBatForm){
 			}
 		}
 		String t_slot=c_Item::m_GetSlot2(t_i);
-		String t_9=t_slot;
-		if(t_9==String(L"misc",4)){
+		String t_38=t_slot;
+		if(t_38==String(L"misc",4)){
 			return this->m_miscItems->p_Contains4(t_i);
 		}else{
-			if(t_9==String(L"action",6)){
+			if(t_38==String(L"action",6)){
 				if(t_i==this->p_GetItemInSlot(String(L"action1",7),false)){
 					return true;
 				}
@@ -31649,7 +31739,7 @@ bool c_Player::p_HasItemOfType(String t_i,bool t_overrideBatForm){
 					return true;
 				}
 			}else{
-				if(t_9==String(L"spell",5)){
+				if(t_38==String(L"spell",5)){
 					if(t_i==this->p_GetItemInSlot(String(L"spell1",6),false)){
 						return true;
 					}
@@ -31661,8 +31751,8 @@ bool c_Player::p_HasItemOfType(String t_i,bool t_overrideBatForm){
 		}
 		return t_i==this->m_ownedItems->p_Get(t_slot);
 	}
-	String t_10=t_i;
-	if(t_10==String(L"weapon_fangs",12) || t_10==String(L"head_sonar",10)){
+	String t_39=t_i;
+	if(t_39==String(L"weapon_fangs",12) || t_39==String(L"head_sonar",10)){
 		return true;
 	}
 	return false;
@@ -31690,8 +31780,735 @@ void c_Player::p_EmptyAllSlots(bool t_includeLamb){
 	this->m_hasPickedUpGrenadeCharmThisRun=false;
 	this->p_UpdateBonusHeart();
 }
+bool c_Player::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.Hit(String, Int, Int, Entity, Bool, Int)",47));
+	return false;
+}
+int c_Player::m_GetSlotNum(String t_sl){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.GetSlotNum(String)",25));
+	return 0;
+}
+void c_Player::p_PutItemInSlot(String t_sl,String t_i,bool t_ignoreFlyTo){
+	this->m_ownedItems->p_Set7(t_sl,t_i);
+	if(!t_ignoreFlyTo && !this->m_globalIgnoreFlyToSlot){
+		int t_slotNum=0;
+		String t_47=t_sl;
+		if(t_47==String(L"shovel",6)){
+			t_slotNum=0;
+		}else{
+			if(t_47==String(L"weapon",6)){
+				t_slotNum=1;
+			}else{
+				t_slotNum=m_GetSlotNum(t_sl);
+			}
+		}
+		if(t_slotNum!=-1){
+			this->m_hudSlotOffFlyFromPlayer[t_slotNum]=true;
+		}
+	}
+}
+c_Item* c_Player::p_DropItem(String t_i,int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.DropItem(String, Int, Int)",33));
+	return 0;
+}
+void c_Player::p_ProcessDropMystery(c_Item* t_item,String t_slot){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.ProcessDropMystery(Item, String)",39));
+}
+bool c_Player::p_IsAnythingInSlot(String t_sl){
+	if(!this->m_ownedItems->p_Contains4(t_sl)){
+		return false;
+	}
+	String t_ownedItem=this->m_ownedItems->p_Get(t_sl);
+	return t_ownedItem!=String(L"no_item",7);
+}
+bool c_Player::p_HaveSecondActionSlot(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.HaveSecondActionSlot()",29));
+	return false;
+}
+bool c_Player::p_AddItemOfType_PreProcess(String t_i,c_Item* t_itemObj){
+	if(c_Item::m_IsItemOfType(t_i,String(L"isDiamond",9))){
+		this->m_hudDiamondForFlyingRender=true;
+	}
+	c_XMLNode* t_itemNode=c_Item::m_GetItemXML(t_i);
+	bool t_consumable=t_itemNode->p_GetAttribute2(String(L"consumable",10),false);
+	if(t_consumable){
+		return true;
+	}
+	String t_slot=c_Item::m_GetSlot2(t_i);
+	String t_12=t_i;
+	if(t_12==String(L"no_item",7)){
+		return true;
+	}else{
+		if(t_12==String(L"bomb",4)){
+			bool t_ignoreFlyTo=this->m_numBombs>0;
+			this->p_PutItemInSlot(t_slot,t_i,t_ignoreFlyTo);
+		}else{
+			if(t_itemObj!=0){
+				if(t_itemObj->p_IsItemOfType(String(L"isStackable",11))){
+					int t_itemQuantity=t_itemObj->m_stackQuantity;
+					bool t_hasItem=this->m_itemQuantity->p_Contains4(t_i);
+					if(t_hasItem){
+						int t_currentItemQuantity=this->m_itemQuantity->p_Get(t_i);
+						t_itemQuantity+=t_currentItemQuantity;
+					}
+					this->m_itemQuantity->p_Set10(t_i,t_itemQuantity);
+					bool t_hideQuantity=t_itemObj->m_hideQuantity;
+					this->m_hideQuantity->p_Set8(t_i,t_hideQuantity);
+					if(t_hasItem){
+						return true;
+					}
+				}
+			}else{
+				if(t_i==String(L"food_cookies",12)){
+					c_XMLNode* t_itemNode2=c_Item::m_GetItemXML(t_i);
+					int t_itemQuantity2=t_itemNode2->p_GetAttribute3(String(L"quantity",8),1);
+					bool t_hasItem2=this->m_itemQuantity->p_Contains4(t_i);
+					if(t_hasItem2){
+						int t_currentItemQuantity2=this->m_itemQuantity->p_Get(t_i);
+						t_itemQuantity2+=t_currentItemQuantity2;
+					}
+					this->m_itemQuantity->p_Set10(t_i,t_itemQuantity2);
+					bool t_hideQuantity2=t_itemNode2->p_GetAttribute2(String(L"hideQuantity",12),false);
+					this->m_hideQuantity->p_Set8(t_i,t_hideQuantity2);
+					if(t_hasItem2){
+						return true;
+					}
+				}
+			}
+			if(t_slot!=String(L"spell",5)){
+				String t_13=t_i;
+				if(t_13==String(L"misc_potion",11)){
+					if(this->p_HasItemOfType(t_i,true)){
+						this->p_DropItem(t_i,-99999,-99999);
+						return false;
+					}
+				}else{
+					if(t_13==String(L"holster",7)){
+						if(this->p_HasItemOfType(String(L"hud_backpack",12),true) && this->p_HasItemOfType(String(L"bag_holding",11),true)){
+							if(this->p_HasItemOfType(String(L"hud_backpack",12),true)){
+								this->p_DropItem(String(L"hud_backpack",12),-99999,-99999);
+							}
+							if(this->p_HasItemOfType(String(L"bag_holding",11),true)){
+								this->p_DropItem(String(L"bag_holding",11),-99999,-99999);
+							}
+							String t_action2ItemName=this->m_ownedItems->p_Get(String(L"action2",7));
+							String t_14=t_action2ItemName;
+							if(t_14==String() || t_14==String(L"hud_backpack",12) || t_14==String(L"bag_holding",11)){
+							}else{
+								this->p_DropItem(t_action2ItemName,-99999,-99999);
+							}
+							this->p_PutItemInSlot(String(L"action2",7),String(L"no_item",7),false);
+							return true;
+						}
+					}else{
+						if(t_13==String(L"hud_backpack",12) || t_13==String(L"bag_holding",11)){
+							if(this->p_HasItemOfType(String(L"holster",7),true)){
+								this->p_DropItem(String(L"holster",7),-99999,-99999);
+								String t_weapon2ItemName=this->m_ownedItems->p_Get(String(L"weapon2",7));
+								String t_15=t_weapon2ItemName;
+								if(t_15==String() || t_15==String(L"holster",7)){
+								}else{
+									c_Item* t_droppedItem=c_Item::m_DropItem(this->m_x,this->m_y,t_weapon2ItemName);
+									this->p_PutItemInSlot(String(L"weapon2",7),String(L"no_item",7),false);
+									this->p_ProcessDropMystery(t_droppedItem,String(L"weapon2",7));
+								}
+								this->p_PutItemInSlot(t_slot,t_i,false);
+								return true;
+							}
+						}else{
+							String t_16=t_slot;
+							if(t_16==String(L"weapon",6)){
+								if(!this->p_IsAnythingInSlot(t_slot)){
+									this->p_PutItemInSlot(t_slot,t_i,false);
+									return true;
+								}
+								if(this->p_HasItemOfType(String(L"holster",7),true)){
+									String t_weapon2ItemName2=String(L"no_item",7);
+									if(this->p_IsAnythingInSlot(String(L"weapon2",7))){
+										t_weapon2ItemName2=this->m_ownedItems->p_Get(String(L"weapon2",7));
+									}
+									String t_weaponItemName=this->m_ownedItems->p_Get(t_slot);
+									this->p_PutItemInSlot(String(L"weapon2",7),t_weaponItemName,true);
+									c_Flyaway* t_flyaway=(new c_Flyaway)->m_new(String(L"|268|(OLD WEAPON HOLSTERED)|",28),this->m_x,this->m_y,0,-13,true,FLOAT(0.0),FLOAT(0.2),true,120);
+									t_flyaway->p_CenterX();
+									this->p_PutItemInSlot(t_slot,t_i,false);
+									if(t_weapon2ItemName2!=String(L"no_item",7)){
+										c_Item* t_droppedItem2=this->p_DropItem(t_weapon2ItemName2,-99999,-99999);
+										this->p_ProcessDropMystery(t_droppedItem2,String(L"weapon2",7));
+									}
+									if(this->m_mysterySlots->p_Contains4(t_slot)){
+										this->m_mysterySlots->p_Insert6(String(L"weapon2",7));
+										this->m_mysterySlots->p_Remove2(t_slot);
+									}
+								}else{
+									String t_weaponItemName2=this->m_ownedItems->p_Get(t_slot);
+									this->p_PutItemInSlot(t_slot,t_i,false);
+									c_Item* t_droppedItem3=this->p_DropItem(t_weaponItemName2,-99999,-99999);
+									this->p_ProcessDropMystery(t_droppedItem3,t_slot);
+								}
+								return true;
+							}else{
+								if(t_16==String(L"misc",4)){
+									if(!this->m_miscItems->p_Contains4(t_i)){
+										this->m_miscItems->p_AddLast7(t_i);
+										this->m_miscItems->p_Sort(1);
+									}
+								}else{
+									if(t_16==String(L"action",6)){
+										if(!this->p_IsAnythingInSlot(String(L"action1",7))){
+											this->p_PutItemInSlot(String(L"action1",7),t_i,false);
+											return true;
+										}
+										if(!this->p_IsAnythingInSlot(String(L"action2",7)) && this->p_HaveSecondActionSlot()){
+											this->p_PutItemInSlot(String(L"action2",7),t_i,false);
+											return true;
+										}
+										if(this->p_HaveSecondActionSlot()){
+											String t_hudItemName=this->p_GetItemInSlot(String(L"hud",3),true);
+											if(t_hudItemName==String(L"bag_holding",11)){
+												String t_action2ItemName2=this->m_ownedItems->p_Get(String(L"action2",7));
+												this->m_holdingBagItems->p_AddLast7(t_action2ItemName2);
+												String t_action1ItemName=this->m_ownedItems->p_Get(String(L"action1",7));
+												this->p_PutItemInSlot(String(L"action2",7),t_action1ItemName,true);
+												this->p_PutItemInSlot(String(L"action1",7),t_i,false);
+												return true;
+											}
+											String t_action2ItemName3=this->m_ownedItems->p_Get(String(L"action2",7));
+											String t_action1ItemName2=this->m_ownedItems->p_Get(String(L"action1",7));
+											this->p_PutItemInSlot(String(L"action2",7),t_action1ItemName2,true);
+											this->p_PutItemInSlot(String(L"action1",7),t_i,false);
+											this->p_DropItem(t_action2ItemName3,-99999,-99999);
+											return true;
+										}
+										String t_action1ItemName3=this->m_ownedItems->p_Get(String(L"action1",7));
+										this->p_PutItemInSlot(String(L"action1",7),t_i,false);
+										this->p_DropItem(t_action1ItemName3,-99999,-99999);
+										return true;
+									}else{
+										if(!this->p_IsAnythingInSlot(t_slot)){
+											this->p_PutItemInSlot(t_slot,t_i,false);
+											return true;
+										}
+										String t_17=t_slot;
+										if(t_17==String(L"body",4)){
+											String t_ownedItem=this->m_ownedItems->p_Get(t_slot);
+											if(t_i==t_ownedItem){
+												return false;
+											}
+											String t_18=t_i;
+											if(t_18==String(L"armor_gi",8) || t_18==String(L"armor_glass",11) || t_18==String(L"armor_heavyglass",16) || t_18==String(L"armor_obsidian",14) || t_18==String(L"armor_quartz",12)){
+												this->p_PutItemInSlot(t_slot,t_i,false);
+												this->p_DropItem(t_ownedItem,-99999,-99999);
+												return true;
+											}
+											String t_19=t_ownedItem;
+											if(t_19==String(L"armor_gi",8) || t_19==String(L"armor_glass",11) || t_19==String(L"armor_heavyglass",16) || t_19==String(L"armor_obsidian",14) || t_19==String(L"armor_quartz",12)){
+												this->p_PutItemInSlot(t_slot,t_i,false);
+												this->p_DropItem(t_ownedItem,-99999,-99999);
+												return true;
+											}else{
+												if(t_19==String(L"armor_leather",13)){
+													this->p_PutItemInSlot(t_slot,t_i,false);
+													return true;
+												}else{
+													if(t_19==String(L"armor_chainmail",15)){
+														String t_20=t_i;
+														if(t_20==String(L"armor_platemail",15) || t_20==String(L"armor_heavyplate",16) || t_20==String(L"armor_spiked_chainmail",22) || t_20==String(L"armor_spiked_platemail",22) || t_20==String(L"armor_spiked_heavyplate",23)){
+															this->p_PutItemInSlot(t_slot,t_i,false);
+															return true;
+														}
+													}else{
+														if(t_19==String(L"armor_platemail",15)){
+															String t_21=t_i;
+															if(t_21==String(L"armor_heavyplate",16) || t_21==String(L"armor_spiked_platemail",22) || t_21==String(L"armor_spiked_heavyplate",23)){
+																this->p_PutItemInSlot(t_slot,t_i,false);
+																return true;
+															}
+														}else{
+															if(t_19==String(L"armor_heavyplate",16)){
+																String t_22=t_i;
+																if(t_22==String(L"armor_spiked_heavyplate",23)){
+																	this->p_PutItemInSlot(t_slot,t_i,false);
+																	return true;
+																}
+															}
+														}
+													}
+												}
+											}
+											String t_23=t_i;
+											if(t_23==String(L"armor_leather",13)){
+												return false;
+											}else{
+												if(t_23==String(L"armor_chainmail",15)){
+													String t_24=t_ownedItem;
+													if(t_24==String(L"armor_chainmail",15) || t_24==String(L"armor_platemail",15) || t_24==String(L"armor_heavyplate",16) || t_24==String(L"armor_spiked_chainmail",22) || t_24==String(L"armor_spiked_platemail",22) || t_24==String(L"armor_spiked_heavyplate",23)){
+														return false;
+													}
+												}else{
+													if(t_23==String(L"armor_platemail",15)){
+														String t_25=t_ownedItem;
+														if(t_25==String(L"armor_platemail",15) || t_25==String(L"armor_heavyplate",16) || t_25==String(L"armor_spiked_platemail",22) || t_25==String(L"armor_spiked_heavyplate",23)){
+															return false;
+														}
+													}else{
+														if(t_23==String(L"armor_heavyplate",16)){
+															String t_26=t_ownedItem;
+															if(t_26==String(L"armor_heavyplate",16) || t_26==String(L"armor_spiked_heavyplate",23)){
+																return false;
+															}
+														}
+													}
+												}
+											}
+											String t_27=t_ownedItem;
+											if(t_27==String(L"armor_spiked_leather",20)){
+												String t_28=t_i;
+												if(t_28==String(L"armor_spiked_chainmail",22) || t_28==String(L"armor_spiked_platemail",22) || t_28==String(L"armor_spiked_heavyplate",23)){
+													this->p_PutItemInSlot(t_slot,t_i,false);
+													return true;
+												}
+											}else{
+												if(t_27==String(L"armor_spiked_chainmail",22)){
+													String t_29=t_i;
+													if(t_29==String(L"armor_spiked_platemail",22) || t_29==String(L"armor_spiked_heavyplate",23)){
+														this->p_PutItemInSlot(t_slot,t_i,false);
+														return true;
+													}
+												}else{
+													if(t_27==String(L"armor_spiked_platemail",22)){
+														String t_30=t_i;
+														if(t_30==String(L"armor_spiked_heavyplate",23)){
+															this->p_PutItemInSlot(t_slot,t_i,false);
+															return true;
+														}
+													}
+												}
+											}
+											String t_31=t_i;
+											if(t_31==String(L"armor_spiked_leather",20)){
+												String t_32=t_ownedItem;
+												if(t_32==String(L"armor_spiked_chainmail",22) || t_32==String(L"armor_spiked_platemail",22) || t_32==String(L"armor_spiked_heavyplate",23)){
+													return false;
+												}
+											}else{
+												if(t_31==String(L"armor_spiked_chainmail",22)){
+													String t_33=t_ownedItem;
+													if(t_33==String(L"armor_spiked_platemail",22) || t_33==String(L"armor_spiked_heavyplate",23)){
+														return false;
+													}
+												}else{
+													if(t_31==String(L"armor_spiked_platemail",22)){
+														String t_34=t_ownedItem;
+														if(t_34==String(L"armor_spiked_heavyplate",23)){
+															return false;
+														}
+													}
+												}
+											}
+											this->p_PutItemInSlot(t_slot,t_i,false);
+											this->p_DropItem(t_ownedItem,-99999,-99999);
+											return true;
+										}else{
+											String t_ownedItem2=this->m_ownedItems->p_Get(t_slot);
+											int t_ownedItemSlotPriority=c_Item::m_GetIntAttribute(t_ownedItem2,String(L"slotPriority",12),0);
+											int t_itemSlotPriority=c_Item::m_GetIntAttribute(t_i,String(L"slotPriority",12),0);
+											if(t_ownedItemSlotPriority!=0 && t_itemSlotPriority!=0 && t_ownedItemSlotPriority!=t_itemSlotPriority){
+												if(t_itemSlotPriority>t_ownedItemSlotPriority){
+													this->p_PutItemInSlot(t_slot,t_i,false);
+													return true;
+												}
+												return false;
+											}
+											this->p_PutItemInSlot(t_slot,t_i,false);
+											c_Item* t_droppedItem4=this->p_DropItem(t_i,-99999,-99999);
+											this->p_ProcessDropMystery(t_droppedItem4,t_i);
+											return true;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+void c_Player::p_SetSlotMystery(String t_sl,bool t_b){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.SetSlotMystery(String, Bool)",35));
+}
+void c_Player::p_CheckVowOfPoverty(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.CheckVowOfPoverty()",26));
+}
+void c_Player::m_AddCoins(int t_tmpNum){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.AddCoins(Int)",20));
+}
+int c_Player::m_numDiamonds;
+void c_Player::p_CheckConductorWire(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.CheckConductorWire()",27));
+}
+void c_Player::p_CheckFloating(){
+	this->m_floating=this->p_HasItemOfType(String(L"feet_boots_winged",17),false) || this->m_batFormActive;
+	if(this->m_floating){
+		this->m_moveShadowTween=3;
+		this->m_moveTween=3;
+	}else{
+		this->m_moveShadowTween=2;
+		this->m_moveTween=1;
+	}
+	this->p_CheckConductorWire();
+}
+bool c_Player::m_DoesAnyPlayerHaveItemOfType(String t_it,bool t_overrideBatForm){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(t_player->p_HasItemOfType(t_it,t_overrideBatForm)){
+			return true;
+		}
+	}
+	return false;
+}
+void c_Player::p_GetNewWeapon(String t_w){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.GetNewWeapon(String)",27));
+}
+Float c_Player::p_GetLightSourceMin(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.GetLightSourceMin()",26));
+	return 0;
+}
+Float c_Player::p_GetLightSourceMax(){
+	if(this->p_HasItemOfType(String(L"ring_shadows",12),false)){
+		return FLOAT(1.25);
+	}
+	if(this->m_torchType==String(L"no_item",7)){
+		return FLOAT(1.75);
+	}
+	int t_torchValue=c_Item::m_GetValue(this->m_torchType);
+	return Float(t_torchValue)*FLOAT(1.25)+FLOAT(1.75);
+}
+int c_Player::p_GetArmorAmount(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.GetArmorAmount()",23));
+	return 0;
+}
+void c_Player::p_ProcessTheResultsOfEquippingItem(String t_item){
+	String t_43=t_item;
+	if(t_43==String(L"feet_boots_winged",17)){
+		this->p_CheckFloating();
+	}else{
+		if(t_43==String(L"misc_map",8)){
+			c_Tile::m_anyPlayerHaveZoneMapCachedFrame=-1;
+			c_Level::m_minimap->p_UpdateAll();
+		}else{
+			if(t_43==String(L"torch_glass",11)){
+				c_Entity::m_anyPlayerHaveGlassTorchCachedFrame=-1;
+				c_Level::m_minimap->p_UpdateAll();
+			}else{
+				if(t_43==String(L"torch_foresight",15)){
+					c_Entity::m_anyPlayerHaveForesightTorchCachedFrame=-1;
+					c_Level::m_minimap->p_UpdateAll();
+				}else{
+					if(t_43==String(L"torch_walls",11)){
+						c_Entity::m_anyPlayerHaveWallsTorchCachedFrame=-1;
+						c_Level::m_minimap->p_UpdateAll();
+					}else{
+						if(t_43==String(L"head_circlet_telepathy",22) || t_43==String(L"head_sonar",10)){
+							c_Entity::m_anyPlayerHaveCircletCachedFrame=-1;
+							c_Level::m_minimap->p_UpdateAll();
+						}else{
+							if(t_43==String(L"misc_compass",12)){
+								c_Point* t_exitCoords=c_Level::m_GetStandardExitCoords();
+								if(t_exitCoords!=0){
+									c_Minimap::m_AddDirty(t_exitCoords);
+								}
+							}else{
+								if(t_43==String(L"misc_monkey_paw",15)){
+									c_Enemy::m_ApplyMonkeyPawAll();
+								}else{
+									if(t_43==String(L"ring_charisma",13) || t_43==String(L"ring_wonder",11)){
+										c_Level::m_ResetCosts();
+										c_SaleItem::m_ResetCosts();
+										c_SaleChest::m_ResetCosts();
+										c_Shrine::m_ResetCosts();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if(c_Item::m_IsItemOfType(t_item,String(L"isWeapon",8))){
+		this->p_GetNewWeapon(t_item);
+	}
+	String t_44=t_item;
+	if(t_44==String(L"ring_peace",10) || t_44==String(L"ring_wonder",11)){
+		this->p_UpdateBonusHeart();
+	}
+	String t_45=t_item;
+	if(t_45==String(L"ring_wonder",11)){
+		if(!this->m_hasPickedUpWonderThisRun){
+			this->m_health->p_Heal2(2,false);
+			this->m_hasPickedUpWonderThisRun=true;
+		}
+	}
+	if(c_Item::m_IsItemOfType(t_item,String(L"isTorch",7))){
+		this->m_torchType=this->p_GetItemInSlot(String(L"torch",5),false);
+		this->m_lightSourceMin=this->p_GetLightSourceMin();
+		this->m_lightSourceMax=this->p_GetLightSourceMax();
+	}
+	String t_46=t_item;
+	if(t_46==String(L"feet_greaves",12) || t_46==String(L"head_helm",9) || t_46==String(L"ring_protection",15) || t_46==String(L"ring_wonder",11) || t_46==String(L"charm_protection",16)){
+		this->m_armorAmount=this->p_GetArmorAmount();
+	}
+	if(c_Item::m_IsItemOfType(t_item,String(L"isArmor",7))){
+		this->m_armorType=this->p_GetItemInSlot(String(L"body",4),false);
+		this->m_armorAmount=this->p_GetArmorAmount();
+	}
+}
 void c_Player::p_AddItemOfType(String t_item,c_Item* t_itemObj,bool t_ignoreFlyTo,bool t_isInitialEquip){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.AddItemOfType(String, Item, Bool, Bool)",46));
+	int t_6=this->m_characterID;
+	if(t_6==6 || t_6==2 || t_6==4 || t_6==1 || t_6==7){
+		if(c_Item::m_IsItemOfType(t_item,String(L"isWeapon",8))){
+			String t_7=t_item;
+			if(t_7==String(L"weapon_dagger",13) || t_7==String(L"weapon_flower",13) || t_7==String(L"weapon_eli",10) || t_7==String(L"weapon_golden_lute",18)){
+			}else{
+				if(bb_controller_game_currentLevel!=-2){
+					this->p_Hit(String(L"COWARDICE",9),99999,-1,0,false,0);
+				}
+			}
+		}
+	}
+	if(!t_isInitialEquip && !this->m_isHelper && !c_Item::m_IsItemOfType(t_item,String(L"isCoin",6)) && !c_Item::m_IsItemOfType(t_item,String(L"isDiamond",9)) && !(t_item==String(L"weapon_dagger",13)) && !(t_item==String(L"shovel_basic",12)) && !(t_item==String(L"weapon_spear",12) && this->m_characterID==8) && !(t_item==String(L"weapon_blood_dagger",19) && this->m_characterID==13) && !(t_item==String(L"weapon_spear",12) && this->m_characterID==12)){
+		c_Level::m_isAllCharsRunNoItemsNoShrines=false;
+		if(c_Level::m_isRunNoItemsNoShrines){
+			c_Level::m_isRunNoItemsNoShrines=false;
+			c_TextLog::m_Message(String(L"No longer low%!  Picked up a non-coin/diamond item.",51));
+		}
+	}
+	c_Item::m_AddToSeenItems(t_item);
+	if(t_itemObj!=0 && bb_controller_game_currentLevel==-2 && !t_itemObj->m_trainingWeapon){
+		String t_8=t_item;
+		if(t_8==String(L"resource_hoard1",15) || t_8==String(L"resource_hoard2",15) || t_8==String(L"resource_hoard3",15) || t_8==String(L"resource_hoard4",15) || t_8==String(L"misc_key",8) || t_8==String(L"perm_heart2",11) || t_8==String(L"perm_heart3",11) || t_8==String(L"perm_heart4",11) || t_8==String(L"perm_heart5",11) || t_8==String(L"perm_heart6",11)){
+		}else{
+			if(t_itemObj->m_janitorItem){
+				c_GameData::m_SetItemCleaned(t_item,true);
+				c_GameData::m_RemovePendingSpawnItem(t_item);
+				String t_flyawayText=t_itemObj->p_GetFlyawayText();
+				if(t_flyawayText!=String()){
+					t_flyawayText=t_flyawayText+String(L"|269| CLEANED!|",15);
+					c_Flyaway* t_flyaway=(new c_Flyaway)->m_new(t_flyawayText,this->m_x,this->m_y,0,-6,true,FLOAT(0.0),FLOAT(0.2),true,120);
+					t_flyaway->p_CenterX();
+				}
+				return;
+			}
+			if(t_itemObj->m_diamondDealerItem){
+				c_GameData::m_AddDiamondDealerItem(t_item);
+				String t_flyawayText2=t_itemObj->p_GetFlyawayText();
+				if(t_flyawayText2!=String()){
+					t_flyawayText2=t_flyawayText2+String(L"|270| PURCHASED!|",17);
+					c_Flyaway* t_flyaway2=(new c_Flyaway)->m_new(t_flyawayText2,this->m_x,this->m_y,0,-6,true,FLOAT(0.0),FLOAT(0.2),true,120);
+					t_flyaway2->p_CenterX();
+				}
+				return;
+			}
+			if(!c_Level::m_isReplaying){
+				c_GameData::m_SetItemUnlocked(t_item);
+			}
+			bool t_includeUnlockedInFlyaway=false;
+			String t_9=t_item;
+			if(t_9==String(L"addchest_red",12) || t_9==String(L"addchest_white",14) || t_9==String(L"addchest_black",14) || t_9==String(L"coins_x15",9) || t_9==String(L"coins_x2",8)){
+			}else{
+				c_GameData::m_AddPendingSpawnItem(t_item);
+				t_includeUnlockedInFlyaway=true;
+			}
+			String t_flyawayText3=t_itemObj->p_GetFlyawayText();
+			if(t_flyawayText3!=String()){
+				if(t_includeUnlockedInFlyaway){
+					t_flyawayText3=t_flyawayText3+String(L"|271| UNLOCKED!|",16);
+				}
+				c_Flyaway* t_flyaway3=(new c_Flyaway)->m_new(t_flyawayText3,this->m_x,this->m_y,0,-6,true,FLOAT(0.0),FLOAT(0.2),true,120);
+				t_flyaway3->p_CenterX();
+			}
+			return;
+		}
+	}
+	this->m_globalIgnoreFlyToSlot=t_ignoreFlyTo;
+	if(!this->p_AddItemOfType_PreProcess(t_item,t_itemObj)){
+		return;
+	}
+	this->m_globalIgnoreFlyToSlot=false;
+	if(t_itemObj!=0 && t_itemObj->m_isMystery){
+		String t_slot=t_itemObj->p_GetSlot();
+		this->p_SetSlotMystery(t_slot,true);
+	}
+	if(c_Item::m_IsItemOfType(t_item,String(L"isCoin",6))){
+		this->p_CheckVowOfPoverty();
+		if(t_itemObj!=0){
+			int t_numCoins=t_itemObj->p_GetValue();
+			m_AddCoins(t_numCoins);
+			this->m_coinPickupBeat=bb_controller_game_lastPlayerMoveBeat[this->m_playerID];
+		}
+	}
+	if(c_Item::m_IsItemOfType(t_item,String(L"isDiamond",9)) && !c_Level::m_isReplaying){
+		int t_numDiamonds=t_itemObj->p_GetValue();
+		m_numDiamonds+=t_numDiamonds;
+	}
+	String t_10=t_item;
+	if(t_10==String(L"resource_hoard1",15) || t_10==String(L"resource_hoard2",15) || t_10==String(L"resource_hoard3",15) || t_10==String(L"resource_hoard4",15)){
+		if(!c_Level::m_isReplaying){
+			m_numDiamonds+=5*bb_controller_game_currentZone;
+		}
+		c_GameData::m_SetZoneHoardCollected(bb_controller_game_currentZone);
+	}else{
+		if(t_10==String(L"resource_coin50",15)){
+			this->p_CheckVowOfPoverty();
+			m_AddCoins(50);
+			this->m_coinPickupBeat=bb_controller_game_lastPlayerMoveBeat[this->m_playerID];
+		}else{
+			if(t_10==String(L"resource_coin100",16)){
+				this->p_CheckVowOfPoverty();
+				m_AddCoins(100);
+				this->m_coinPickupBeat=bb_controller_game_lastPlayerMoveBeat[this->m_playerID];
+			}else{
+				if(t_10==String(L"resource_coin150",16)){
+					this->p_CheckVowOfPoverty();
+					m_AddCoins(150);
+					this->m_coinPickupBeat=bb_controller_game_lastPlayerMoveBeat[this->m_playerID];
+				}else{
+					if(t_10==String(L"head_crown_of_thorns",20)){
+						this->p_Hit(String(L"crownOfThorns",13),1,-1,0,false,0);
+					}else{
+						if(t_10==String(L"feet_boots_pain",15)){
+							this->p_Hit(String(L"BOOTS OF PAIN",13),3,-1,0,false,0);
+						}else{
+							if(t_10==String(L"ring_pain",9)){
+								this->p_Hit(String(L"RING OF PAIN",12),1,-1,0,false,0);
+							}else{
+								if(t_10==String(L"misc_heart_container",20)){
+									this->m_health->p_GainHearts(1,true);
+								}else{
+									if(t_10==String(L"misc_heart_container2",21)){
+										this->m_health->p_GainHearts(2,true);
+									}else{
+										if(t_10==String(L"misc_heart_container_cursed",27)){
+											this->m_health->p_GainCursedHearts(1);
+										}else{
+											if(t_10==String(L"misc_heart_container_cursed2",28)){
+												this->m_health->p_GainCursedHearts(2);
+											}else{
+												if(t_10==String(L"misc_heart_container_empty",26)){
+													this->m_health->p_GainHearts(1,false);
+												}else{
+													if(t_10==String(L"misc_heart_container_empty2",27)){
+														this->m_health->p_GainHearts(2,false);
+													}else{
+														if(t_10==String(L"perm_heart2",11)){
+															c_GameData::m_SetPlayerHealthMax(4);
+															for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+																c_Player* t_player=bb_controller_game_players[t_i];
+																t_player->m_health->p_Reset2(0);
+															}
+														}else{
+															if(t_10==String(L"perm_heart3",11)){
+																c_GameData::m_SetPlayerHealthMax(6);
+																for(int t_i2=0;t_i2<bb_controller_game_numPlayers;t_i2=t_i2+1){
+																	c_Player* t_player2=bb_controller_game_players[t_i2];
+																	t_player2->m_health->p_Reset2(0);
+																}
+															}else{
+																if(t_10==String(L"perm_heart4",11)){
+																	c_GameData::m_SetPlayerHealthMax(8);
+																	for(int t_i3=0;t_i3<bb_controller_game_numPlayers;t_i3=t_i3+1){
+																		c_Player* t_player3=bb_controller_game_players[t_i3];
+																		t_player3->m_health->p_Reset2(0);
+																	}
+																}else{
+																	if(t_10==String(L"perm_heart5",11)){
+																		c_GameData::m_SetPlayerHealthMax(10);
+																		for(int t_i4=0;t_i4<bb_controller_game_numPlayers;t_i4=t_i4+1){
+																			c_Player* t_player4=bb_controller_game_players[t_i4];
+																			t_player4->m_health->p_Reset2(0);
+																		}
+																	}else{
+																		if(t_10==String(L"perm_heart6",11)){
+																			c_GameData::m_SetPlayerHealthMax(12);
+																			for(int t_i5=0;t_i5<bb_controller_game_numPlayers;t_i5=t_i5+1){
+																				c_Player* t_player5=bb_controller_game_players[t_i5];
+																				t_player5->m_health->p_Reset2(0);
+																			}
+																		}else{
+																			if(t_10==String(L"bomb",4)){
+																				this->m_numBombs+=1;
+																			}else{
+																				if(t_10==String(L"bomb_3",6)){
+																					this->m_numBombs+=3;
+																				}else{
+																					if(t_10==String(L"head_blast_helm",15)){
+																						if(!this->m_hasPickedUpBlastHelmThisRun){
+																							this->m_numBombs+=3;
+																							this->m_hasPickedUpBlastHelmThisRun=true;
+																						}
+																					}else{
+																						if(t_10==String(L"charm_grenade",13)){
+																							if(!this->m_hasPickedUpGrenadeCharmThisRun){
+																								this->m_numBombs+=3;
+																								this->m_hasPickedUpGrenadeCharmThisRun=true;
+																							}
+																						}else{
+																							if(c_Item::m_IsItemOfType(t_item,String(L"isSpell",7))){
+																								String t_spellLearned=c_Spells::m_LearnSpell(t_item);
+																								if(t_spellLearned!=String(L"spell_none",10)){
+																									this->p_DropItem(t_spellLearned,-99999,-99999);
+																								}
+																								if(t_item!=String(L"spell_transform",15)){
+																									String t_11=t_item;
+																									if(t_11==c_Spells::m_spellSlot1){
+																										int t_slotNum=m_GetSlotNum(String(L"spell1",6));
+																										this->m_hudSlotOffFlyFromPlayer[t_slotNum]=true;
+																									}else{
+																										if(t_11==c_Spells::m_spellSlot2){
+																											int t_slotNum2=m_GetSlotNum(String(L"spell2",6));
+																											this->m_hudSlotOffFlyFromPlayer[t_slotNum2]=true;
+																										}
+																									}
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	this->p_ProcessTheResultsOfEquippingItem(t_item);
+	if(t_itemObj!=0 && !t_itemObj->m_isMystery){
+		String t_flyawayText4=t_itemObj->p_GetFlyawayText();
+		if(t_flyawayText4!=String()){
+			if(c_Item::m_IsItemOfType(t_item,String(L"isCoin",6))){
+				c_Flyaway* t_flyaway4=(new c_Flyaway)->m_new(t_flyawayText4,t_itemObj->m_x,t_itemObj->m_y,0,-6,true,FLOAT(0.0),FLOAT(0.2),true,120);
+				t_flyaway4->p_CenterX();
+			}else{
+				c_Flyaway* t_flyaway5=(new c_Flyaway)->m_new(t_flyawayText4,this->m_x,this->m_y,0,-6,true,FLOAT(0.0),FLOAT(0.2),true,120);
+				t_flyaway5->p_CenterX();
+			}
+		}
+	}
 }
 void c_Player::p_SetSlotCursed(String t_sl,bool t_b){
 	this->m_cursedSlots->p_Set8(t_sl,t_b);
@@ -31708,8 +32525,8 @@ void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 		c_Enumerator* t_=t_initialEquipmentsNode->p_GetChildren(0,false)->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_XMLNode* t_initialEquipmentNode=t_->p_NextObject();
-			String t_7=t_initialEquipmentNode->p_name();
-			if(t_7==String(L"item",4)){
+			String t_36=t_initialEquipmentNode->p_name();
+			if(t_36==String(L"item",4)){
 				String t_itemType=t_initialEquipmentNode->p_GetAttribute(String(L"type",4));
 				if(c_Item::m_itemImages->p_Contains4(t_itemType)){
 					this->p_AddItemOfType(t_itemType,0,true,true);
@@ -31717,7 +32534,7 @@ void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 					bb_logger_Debug->p_Log(String(L"ERROR: Unrecognized item type ",30)+t_itemType);
 				}
 			}else{
-				if(t_7==String(L"cursed",6)){
+				if(t_36==String(L"cursed",6)){
 					String t_cursedSlot=t_initialEquipmentNode->p_GetAttribute(String(L"slot",4));
 					this->p_SetSlotCursed(t_cursedSlot,true);
 				}else{
@@ -31738,22 +32555,22 @@ void c_Player::p_GiveInitialEquipment(bool t_resetHealth){
 		gc_assign(this->m_lambFamiliar,(new c_Familiar)->m_new(this));
 	}
 	if(t_resetHealth){
-		int t_8=this->m_characterID;
-		if(t_8==1 || t_8==9 || t_8==5){
+		int t_37=this->m_characterID;
+		if(t_37==1 || t_37==9 || t_37==5){
 			this->m_health->p_Reset2(4);
 		}else{
-			if(t_8==8 || t_8==4){
+			if(t_37==8 || t_37==4){
 				this->m_health->p_Reset2(6);
 			}else{
-				if(t_8==3){
+				if(t_37==3){
 					this->m_health->p_Reset2(8);
 				}else{
-					if(t_8==6){
+					if(t_37==6){
 						this->m_health->p_Reset2(4);
 						this->p_UpdateBonusHeart();
 						this->m_health->p_Heal2(2,false);
 					}else{
-						if(t_8==7 || t_8==2 || t_8==15){
+						if(t_37==7 || t_37==2 || t_37==15){
 							this->m_health->p_ResetFragile();
 						}else{
 							this->m_health->p_Reset2(6);
@@ -31773,7 +32590,6 @@ void c_Player::p_SetCharacter(int t_charNum){
 	this->p_EmptyAllSlots(true);
 	this->p_GiveInitialEquipment(true);
 }
-int c_Player::m_numDiamonds;
 bool c_Player::p_Perished(){
 	return this->m_perished;
 }
@@ -32009,20 +32825,6 @@ void c_Player::p_StopFalling(){
 		this->m_shieldImageBack->p_UnsetCutoffY();
 	}
 }
-void c_Player::p_CheckConductorWire(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.CheckConductorWire()",27));
-}
-void c_Player::p_CheckFloating(){
-	this->m_floating=this->p_HasItemOfType(String(L"feet_boots_winged",17),false) || this->m_batFormActive;
-	if(this->m_floating){
-		this->m_moveShadowTween=3;
-		this->m_moveTween=3;
-	}else{
-		this->m_moveShadowTween=2;
-		this->m_moveTween=1;
-	}
-	this->p_CheckConductorWire();
-}
 void c_Player::p_ResetStateAfterLevel(){
 	this->m_lastMoveOntoPlayerInCoopModeBeat=-1;
 	this->p_StopFalling();
@@ -32036,21 +32838,12 @@ void c_Player::p_ResetStateAfterLevel(){
 	}
 	this->p_CheckFloating();
 }
-bool c_Player::m_DoesAnyPlayerHaveItemOfType(String t_it,bool t_overrideBatForm){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(t_player->p_HasItemOfType(t_it,t_overrideBatForm)){
-			return true;
-		}
-	}
-	return false;
-}
 void c_Player::m_PlayVOPlayer1(String t_voSound){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.PlayVOPlayer1(String)",28));
 }
 bool c_Player::p_IsWeaponlessCharacter(){
-	int t_12=this->m_characterID;
-	if(t_12==1 || t_12==2 || t_12==4 || t_12==6 || t_12==7){
+	int t_41=this->m_characterID;
+	if(t_41==1 || t_41==2 || t_41==4 || t_41==6 || t_41==7){
 		return true;
 	}
 	return false;
@@ -32059,8 +32852,8 @@ bool c_Player::m_ArePrototypesEnabled(){
 	return true && bb_controller_game_debugEnablePrototypes;
 }
 bool c_Player::p_IsBomblessCharacter(){
-	int t_11=this->m_characterID;
-	if(t_11==4){
+	int t_40=this->m_characterID;
+	if(t_40==4){
 		return true;
 	}
 	return false;
@@ -32113,10 +32906,6 @@ void c_Player::p_ImmediatelyMoveTo(int t_xVal,int t_yVal,bool t_fromKeyboard,boo
 bool c_Player::m_CheckCoinXOR(){
 	return m_coinXOR==(m_numCoins^7529);
 }
-bool c_Player::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.Hit(String, Int, Int, Entity, Bool, Int)",47));
-	return false;
-}
 void c_Player::p_ProcessMoveQueue(){
 	if(!this->m_queuedMove){
 		return;
@@ -32150,16 +32939,6 @@ c_Point* c_Player::p_GetPositionLastBeat(){
 		return (new c_Point)->m_new(this->m_x,this->m_y);
 	}
 	return (new c_Point)->m_new(this->m_lastX,this->m_lastY);
-}
-Float c_Player::p_GetLightSourceMax(){
-	if(this->p_HasItemOfType(String(L"ring_shadows",12),false)){
-		return FLOAT(1.25);
-	}
-	if(this->m_torchType==String(L"no_item",7)){
-		return FLOAT(1.75);
-	}
-	int t_torchValue=c_Item::m_GetValue(this->m_torchType);
-	return Float(t_torchValue)*FLOAT(1.25)+FLOAT(1.75);
 }
 bool c_Player::p_IsLordCrownActive(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsLordCrownActive()",26));
@@ -32333,10 +33112,10 @@ void c_Player::p_Update(){
 	}
 	bool t_v3=false;
 	if(this->m_popUpController!=0){
-		int t_14=this->m_popUpController->m_retval;
-		if(t_14==-1){
+		int t_48=this->m_popUpController->m_retval;
+		if(t_48==-1){
 		}else{
-			if(t_14==1){
+			if(t_48==1){
 				this->m_warnState=0;
 				this->p_ImmediatelyMoveTo(this->m_lastX-this->m_x,this->m_lastY-this->m_y,true,false,false,false,true);
 				this->m_popUpController=0;
@@ -32347,11 +33126,11 @@ void c_Player::p_Update(){
 		}
 	}
 	if(this->m_hintsController!=0){
-		int t_15=this->m_hintsController->m_retval;
-		if(t_15==-1){
+		int t_49=this->m_hintsController->m_retval;
+		if(t_49==-1){
 			this->p_ImmediatelyMoveTo(this->m_lastX-this->m_x,this->m_lastY-this->m_y,false,false,false,false,false);
 		}else{
-			if(t_15==1){
+			if(t_49==1){
 				t_v3=true;
 				c_GameData::m_SetShowHints(1);
 			}else{
@@ -32522,90 +33301,90 @@ void c_Player::p_Update(){
 		String t_pText2=String();
 		String t_pText3=String();
 		String t_bestiaryImagePath=String();
-		int t_16=t_exitValueX;
-		if(t_16==-2000){
+		int t_50=t_exitValueX;
+		if(t_50==-2000){
 			t_pText1=String(L"|914|CADENCE MODE!|",19);
 			t_pText2=String(L"|915|NORMAL GAMEPLAY.|",22);
 			t_bestiaryImagePath=String(L"bestiary/bestiary_cadence.png",29);
 		}else{
-			if(t_16==-1998){
+			if(t_50==-1998){
 				t_pText1=String(L"|917|ARIA MODE: DAGGER ONLY.|",29);
 				t_pText2=String(L"|918|DIE IN A SINGLE HIT.|",26);
 				t_pText3=String(L"|919|DIE ON MISSED BEAT!|",25);
 				t_bestiaryImagePath=String(L"bestiary/bestiary_aria.png",26);
 			}else{
-				if(t_16==-1992){
+				if(t_50==-1992){
 					t_pText1=String(L"|920|BOLT MODE!|",16);
 					t_pText2=String(L"|921|DOUBLE SPEED GAMEPLAY.|",28);
 					t_bestiaryImagePath=String(L"bestiary/bestiary_bolt.png",26);
 				}else{
-					if(t_16==-1991){
+					if(t_50==-1991){
 						t_pText1=String(L"|922|BARD MODE: NO BEATS!|",26);
 						t_pText2=String(L"|923|MOVE AT ANY TIME.|",23);
 						t_pText3=String(L"|924|ENEMIES MOVE AFTER YOU.|",29);
 						t_bestiaryImagePath=String(L"bestiary/bestiary_bard.png",26);
 					}else{
-						if(t_16==-1995){
+						if(t_50==-1995){
 							t_pText1=String(L"|925|MONK MODE: GOLD KILLS.|",28);
 							t_pText2=String(L"|926|(VOW OF POVERTY!)|",23);
 							t_pText3=String(L"|927|SHOPS GIVE FREE ITEMS.|",28);
 							t_bestiaryImagePath=String(L"bestiary/bestiary_monk.png",26);
 						}else{
-							if(t_16==-1994){
+							if(t_50==-1994){
 								t_pText1=String(L"|928|DOVE MODE: PACIFISM!|",26);
 								t_pText2=String(L"|929|YOU DO NO DAMAGE BUT|",26);
 								t_pText3=String(L"|930|EXITS ARE UNLOCKED.|",25);
 								t_bestiaryImagePath=String(L"bestiary/bestiary_dove.png",26);
 							}else{
-								if(t_16==-1996){
+								if(t_50==-1996){
 									t_pText1=String(L"|931|ELI MODE!|",15);
 									t_pText2=String(L"|932|INFINITE BOMBS.|",21);
 									t_pText3=String(L"|933|KICK BOMBS AT ENEMIES!|",28);
 									t_bestiaryImagePath=String(L"bestiary/bestiary_eli.png",25);
 								}else{
-									if(t_16==-1997){
+									if(t_50==-1997){
 										t_pText1=String(L"|934|DORIAN MODE!|",18);
 										t_pText2=String(L"|935|CURSED BOOTS OF LEAPING.|",30);
 										t_pText3=String(L"|936|MOVE SLOW: TAKE DAMAGE.|",29);
 										t_bestiaryImagePath=String(L"bestiary/bestiary_dorian.png",28);
 									}else{
-										if(t_16==-1999){
+										if(t_50==-1999){
 											t_pText1=String(L"|937|MELODY MODE!|",18);
 											t_pText2=String(L"|938|MOVE NEXT TO ENEMIES|",26);
 											t_pText3=String(L"|939|TO USE THE GOLDEN LUTE!|",29);
 											t_bestiaryImagePath=String(L"bestiary/bestiary_melody.png",28);
 										}else{
-											if(t_16==-1993){
+											if(t_50==-1993){
 												t_pText1=String(L"|940|CODA MODE!|",16);
 												t_pText2=String(L"|941|ARIA + BOLT + MONK.|",25);
 												t_pText3=String(L"|942|PROBABLY IMPOSSIBLE.|",26);
 												t_bestiaryImagePath=String(L"bestiary/bestiary_coda.png",26);
 											}else{
-												if(t_16==-1990){
+												if(t_50==-1990){
 													t_pText1=String(L"|15500|NOCTURNA MODE!|",22);
 													t_pText2=String(L"|15501|BECOME A BAT.|",21);
 													t_pText3=String(L"|15502|ZONE 5 INVADES OTHER ZONES.|",35);
 													t_bestiaryImagePath=String(L"bestiary/bestiary_nocturna.png",30);
 												}else{
-													if(t_16==-1989){
+													if(t_50==-1989){
 														t_pText1=String(L"|15503|DIAMOND MODE!|",21);
 														t_pText2=String(L"|15504|USE KEY COMBOS|",22);
 														t_pText3=String(L"|15505|TO MOVE DIAGONALLY.|",27);
 														t_bestiaryImagePath=String(L"bestiary/bestiary_diamond.png",29);
 													}else{
-														if(t_16==-1986){
+														if(t_50==-1986){
 															t_pText1=String(L"|15506|REAPER MODE!|",20);
 															t_pText2=String(L"|15507|ACCUMULATE SOULS|",24);
 															t_pText3=String(L"|15508|BY DEFEATING ENEMIES.|",29);
 															t_bestiaryImagePath=String(L"bestiary/bestiary_reaper.png",28);
 														}else{
-															if(t_16==-1987){
+															if(t_50==-1987){
 																t_pText1=String(L"|15509|TEMPO MODE!|",19);
 																t_pText2=String(L"|15510|1 HIT KILLS!|",20);
 																t_pText3=String(L"|15511|DEFEAT ENEMIES TO SURVIVE.|",34);
 																t_bestiaryImagePath=String(L"bestiary/bestiary_tempo.png",27);
 															}else{
-																if(t_16==-1988){
+																if(t_50==-1988){
 																	t_pText1=String(L"|15512|MARY MODE!|",18);
 																	t_pText2=String(L"|15513|PROTECT YOUR LAMB|",25);
 																	t_pText3=String(L"|15514|AT ALL COSTS!|",21);
@@ -32685,8 +33464,8 @@ void c_Player::p_Update(){
 		return;
 	}
 	if(-600<=t_exitValueX && t_exitValueX<=-101 && !t_v3){
-		int t_17=c_Level::m_GetTileTypeAt(this->m_x,this->m_y);
-		if(t_17==6 || t_17==15 || t_17==16){
+		int t_51=c_Level::m_GetTileTypeAt(this->m_x,this->m_y);
+		if(t_51==6 || t_51==15 || t_51==16){
 			bb_controller_game_gamePaused=true;
 			c_Audio::m_PauseSong(true);
 			String t_pText13=String();
@@ -32725,8 +33504,8 @@ void c_Player::p_Update(){
 		gc_assign(this->m_popUpController->m_bestiaryImage,c_Enemy::m_LoadBestiarySprite(t_enemyID2));
 		return;
 	}
-	int t_18=bb_controller_game_currentLevel;
-	if(t_18==1){
+	int t_52=bb_controller_game_currentLevel;
+	if(t_52==1){
 		if(bb_controller_game_currentDepth==1 && c_Level::m_isHardcoreMode && m_numCoins>=9000 && !c_Util::m_IsCharacterActive(2)){
 			bb_controller_game_gamePaused=true;
 			c_Audio::m_PauseSong(true);
@@ -32734,29 +33513,29 @@ void c_Player::p_Update(){
 			return;
 		}
 	}else{
-		if(t_18==4){
-			int t_19=bb_controller_game_currentZone;
-			if(t_19==1){
+		if(t_52==4){
+			int t_53=bb_controller_game_currentZone;
+			if(t_53==1){
 				if(c_Util::m_IsCharacterActive(0)){
 					c_Util::m_IncrementSteamStat(String(L"NumZone1Completions",19),true,false,false,false);
 				}
 			}else{
-				if(t_19==2){
+				if(t_53==2){
 					if(c_Util::m_IsCharacterActive(0)){
 						c_Util::m_IncrementSteamStat(String(L"NumZone2Completions",19),true,false,false,false);
 					}
 				}else{
-					if(t_19==3){
+					if(t_53==3){
 						if(c_Util::m_IsCharacterActive(0)){
 							c_Util::m_IncrementSteamStat(String(L"NumZone3Completions",19),true,false,false,false);
 						}
 					}else{
-						if(t_19==4){
+						if(t_53==4){
 							if(c_Util::m_IsCharacterActive(0)){
 								c_Util::m_IncrementSteamStat(String(L"NumZone4Completions",19),true,false,false,false);
 							}
 						}else{
-							if(t_19==5){
+							if(t_53==5){
 								c_Util::m_IncrementSteamStat(String(L"NumZone5Completions",19),true,false,false,false);
 							}
 						}
@@ -32767,13 +33546,13 @@ void c_Player::p_Update(){
 	}
 	if(c_Level::m_isHardcoreMode && bb_controller_game_currentDepth==5){
 		if(m_IsSolo()){
-			int t_20=bb_controller_game_currentLevel;
-			if(t_20==3){
+			int t_54=bb_controller_game_currentLevel;
+			if(t_54==3){
 				if(c_Util::m_IsCharacterActive(6)){
 					c_Util::m_IncrementSteamStat(String(L"NumHardcoreCompletionsDove",26),true,false,false,false);
 				}
 			}else{
-				if(t_20==4){
+				if(t_54==4){
 					if(c_Util::m_IsCharacterActive(9)){
 						c_Util::m_IncrementSteamStat(String(L"NumHardcoreCompletionsBard",26),true,false,false,false);
 					}else{
@@ -32810,7 +33589,7 @@ void c_Player::p_Update(){
 						}
 					}
 				}else{
-					if(t_20==5){
+					if(t_54==5){
 						if(c_Util::m_IsCharacterActive(0)){
 							c_Util::m_IncrementSteamStat(String(L"NumHardcoreCompletionsCadence",29),true,false,false,false);
 						}else{
@@ -32965,6 +33744,10 @@ void c_Player::p_HandleIceAndCoals(){
 void c_Player::p_AfterEnemyMovement(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.AfterEnemyMovement()",27));
 }
+bool c_Player::p_IsVisible(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsVisible()",18));
+	return false;
+}
 bool c_Player::m_AnyPlayerTemporaryMapSight(){
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
 		c_Player* t_player=bb_controller_game_players[t_i];
@@ -32972,10 +33755,6 @@ bool c_Player::m_AnyPlayerTemporaryMapSight(){
 			return true;
 		}
 	}
-	return false;
-}
-bool c_Player::p_IsVisible(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsVisible()",18));
 	return false;
 }
 void c_Player::mark(){
@@ -32991,9 +33770,11 @@ void c_Player::mark(){
 	gc_mark_q(m_itemQuantity);
 	gc_mark_q(m_weapon);
 	gc_mark_q(m_health);
+	gc_mark_q(m_hudSlotOffFlyFromPlayer);
+	gc_mark_q(m_hideQuantity);
+	gc_mark_q(m_holdingBagItems);
 	gc_mark_q(m_hudSlot);
 	gc_mark_q(m_hudSlotOff);
-	gc_mark_q(m_hudSlotOffFlyFromPlayer);
 	gc_mark_q(m_shovelImages);
 	gc_mark_q(m_tempoHeartText);
 	gc_mark_q(m_hudSlotAction1);
@@ -33396,7 +34177,7 @@ void c_ParticleSystem::m_UpdateAll(){
 	while(t_2->p_HasNext()){
 		c_ParticleSystem* t_system2=t_2->p_NextObject();
 		if(t_system2->m_visible && !t_system2->m_active){
-			m_systems->p_Remove4(t_system2);
+			m_systems->p_Remove5(t_system2);
 		}
 	}
 }
@@ -33617,13 +34398,13 @@ c_Familiar::c_Familiar(){
 void c_Familiar::p_Die(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.Die()",14));
 }
-c_List10* c_Familiar::m_familiarList;
+c_List11* c_Familiar::m_familiarList;
 c_Familiar* c_Familiar::m_new(c_Player* t_owner_){
 	c_MobileEntity::m_new();
 	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"entities/familiar_lamb.png",26),19,16,4,c_Image::m_DefaultFlags));
 	gc_assign(this->m_shadow,(new c_Sprite)->m_new2(String(L"entities/TEMP_shadow_standard.png",33),1,c_Image::m_DefaultFlags));
 	this->m_hasSilhouette=false;
-	m_familiarList->p_AddLast10(this);
+	m_familiarList->p_AddLast11(this);
 	this->m_isFamiliar=true;
 	gc_assign(this->m_owner,t_owner_);
 	this->m_x=t_owner_->m_x;
@@ -33642,10 +34423,6 @@ c_Familiar* c_Familiar::m_new2(){
 void c_Familiar::p_Recall(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.Recall()",17));
 }
-bool c_Familiar::m_IsAnyAt(int t_x,int t_y){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.IsAnyAt(Int, Int)",26));
-	return false;
-}
 bool c_Familiar::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.Hit(String, Int, Int, Entity, Bool, Int)",49));
 	return false;
@@ -33653,20 +34430,27 @@ bool c_Familiar::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_
 void c_Familiar::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.Update()",17));
 }
+bool c_Familiar::m_IsAnyAt(int t_x,int t_y){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.IsAnyAt(Int, Int)",26));
+	return false;
+}
 void c_Familiar::mark(){
 	c_MobileEntity::mark();
 	gc_mark_q(m_owner);
 }
 c_Item::c_Item(){
-	m_utility=-1;
+	m_itemType=String(L"no_item",7);
+	m_trainingWeapon=false;
+	m_janitorItem=false;
+	m_diamondDealerItem=false;
 	m_stackQuantity=1;
 	m_hideQuantity=false;
+	m_isMystery=false;
+	m_utility=-1;
 	m_diamondCost=0;
 	m_diamondDealerPrice=0;
 	m_coinCost=0;
 	m_quantityYOff=0;
-	m_trainingWeapon=false;
-	m_itemType=String(L"no_item",7);
 	m_dropX=-100000;
 	m_dropY=-100000;
 	m_droppedByPlayer=false;
@@ -33679,8 +34463,6 @@ c_Item::c_Item(){
 	m_hasBloodCost=false;
 	m_saleItem=false;
 	m_singleChoiceItem=false;
-	m_janitorItem=false;
-	m_diamondDealerItem=false;
 }
 String c_Item::m_lastChestItemClass1;
 String c_Item::m_lastChestItemClass2;
@@ -33699,16 +34481,52 @@ String c_Item::m_GetSlot2(String t_i){
 	return m_GetSlot(t_itemNode);
 }
 c_StringMap7* c_Item::m_itemImages;
-c_List* c_Item::m_GetAllItemsInClass(String t_itemClass){
-	c_XMLNode* t_itemsNode=bb_necrodancergame_xmlData->p_GetChild2(String(L"items",5),false);
-	return t_itemsNode->p_GetChildrenWithAttributes(t_itemClass+String(L"=True",5),0,false);
-}
 bool c_Item::m_IsItemOfType(String t_i,String t_query){
 	c_XMLNode* t_itemNode=m_GetItemXML(t_i);
 	return t_itemNode->p_GetAttribute2(t_query,false);
 }
 bool c_Item::p_IsItemOfType(String t_query){
 	return m_IsItemOfType(this->m_itemType,t_query);
+}
+c_StringMap6* c_Item::m_seenItems;
+void c_Item::m_AddToSeenItems(String t_itemName){
+	if(m_seenItems->p_Contains4(t_itemName)){
+		int t_seen=m_seenItems->p_Get(t_itemName);
+		m_seenItems->p_Update3(t_itemName,t_seen+1);
+	}else{
+		m_seenItems->p_Insert8(t_itemName,1);
+	}
+}
+String c_Item::m_GetFlyawayText(String t_i){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetFlyawayText(String)",27));
+	return String();
+}
+String c_Item::p_GetFlyawayText(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetFlyawayText()",21));
+	return String();
+}
+c_Item* c_Item::m_DropItem(int t_xVal,int t_yVal,String t_t){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.DropItem(Int, Int, String)",31));
+	return 0;
+}
+int c_Item::m_GetIntAttribute(String t_i,String t_attr,int t_dflt){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetIntAttribute(String, String, Int)",41));
+	return 0;
+}
+int c_Item::p_GetIntAttribute(int t_attr,int t_dflt){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetIntAttribute(Int, Int)",30));
+	return 0;
+}
+int c_Item::m_GetValue(String t_t){
+	c_XMLNode* t_itemNode=m_GetItemXML(t_t);
+	return t_itemNode->p_GetAttribute3(String(L"data",4),0);
+}
+int c_Item::p_GetValue(){
+	return this->m_utility;
+}
+c_List* c_Item::m_GetAllItemsInClass(String t_itemClass){
+	c_XMLNode* t_itemsNode=bb_necrodancergame_xmlData->p_GetChild2(String(L"items",5),false);
+	return t_itemsNode->p_GetChildrenWithAttributes(t_itemClass+String(L"=True",5),0,false);
 }
 c_List20* c_Item::m_pickupList;
 c_List20* c_Item::m_GetPickupsAt(int t_xVal,int t_yVal,c_Item* t_slf){
@@ -33721,30 +34539,6 @@ c_List20* c_Item::m_GetPickupsAt(int t_xVal,int t_yVal,c_Item* t_slf){
 		}
 	}
 	return t_pickups;
-}
-int c_Item::m_GetValue(String t_t){
-	c_XMLNode* t_itemNode=m_GetItemXML(t_t);
-	return t_itemNode->p_GetAttribute3(String(L"data",4),0);
-}
-int c_Item::p_GetValue(){
-	return this->m_utility;
-}
-int c_Item::m_GetFlyawayText(int t_i){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetFlyawayText(Int)",24));
-	return 0;
-}
-int c_Item::p_GetFlyawayText(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetFlyawayText()",21));
-	return 0;
-}
-c_StringMap6* c_Item::m_seenItems;
-void c_Item::m_AddToSeenItems(String t_itemName){
-	if(m_seenItems->p_Contains4(t_itemName)){
-		int t_seen=m_seenItems->p_Get(t_itemName);
-		m_seenItems->p_Update3(t_itemName,t_seen+1);
-	}else{
-		m_seenItems->p_Insert8(t_itemName,1);
-	}
 }
 c_Item* c_Item::m_new(int t_xVal,int t_yVal,String t_type,bool t_drop,int t_utl,bool t_isTrainingWeapon){
 	c_Entity::m_new();
@@ -33862,10 +34656,10 @@ c_Item* c_Item::m_new(int t_xVal,int t_yVal,String t_type,bool t_drop,int t_utl,
 		this->m_hintText->p_SetText(t_hint,false);
 		this->m_hintText->p_InWorld(true);
 	}
-	int t_flyaway=this->p_GetFlyawayText();
-	if(String(t_flyaway)!=String()){
+	String t_flyaway=this->p_GetFlyawayText();
+	if(t_flyaway!=String()){
 		gc_assign(this->m_nameText,(new c_TextSprite)->m_new4(2));
-		this->m_nameText->p_SetText(String(t_flyaway),false);
+		this->m_nameText->p_SetText(t_flyaway,false);
 		this->m_nameText->p_InWorld(true);
 	}
 	if(this->p_IsItemOfType(String(L"isStackable",11)) && !this->m_hideQuantity){
@@ -34448,8 +35242,8 @@ void c_Item::m_CreateItemPools(){
 					}
 					c_XMLNode* t_itemPoolCandidate=t_unlockedItems->p_Get2(t_n);
 					t_itemPoolCandidates->p_Push13(t_itemPoolCandidate);
-					t_unlockedItems->p_Remove3(t_n);
-					t_unlockedItemsChances->p_Remove3(t_n);
+					t_unlockedItems->p_Remove4(t_n);
+					t_unlockedItemsChances->p_Remove4(t_n);
 				}
 				c_Enumerator13* t_4=t_itemPoolCandidates->p_ObjectEnumerator();
 				while(t_4->p_HasNext()){
@@ -34487,14 +35281,6 @@ String c_Item::m_GetDisplayName(String t_itemName){
 		t_itemName=t_itemNode->p_GetAttribute5(String(L"displayName",11),t_itemName);
 	}
 	return t_itemName;
-}
-int c_Item::m_GetIntAttribute(String t_i,String t_attr,int t_dflt){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetIntAttribute(String, String, Int)",41));
-	return 0;
-}
-int c_Item::p_GetIntAttribute(int t_attr,int t_dflt){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.GetIntAttribute(Int, Int)",30));
-	return 0;
 }
 void c_Item::p_Die(){
 	m_pickupList->p_RemoveEach10(this);
@@ -34765,6 +35551,9 @@ void c_Item::m_InitAll(){
 	m_FilterDisabledItems(m_diamondDealerItems2);
 	m_FilterDisabledItems(m_diamondDealerItems3);
 }
+bool c_Item::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	return false;
+}
 String c_Item::p_PickupFail(c_Player* t_player){
 	c_Audio::m_PlayGameSound(String(L"error",5),2,FLOAT(1.0));
 	t_player->p_ImmediatelyMoveTo(t_player->m_lastX-t_player->m_x,t_player->m_lastY-t_player->m_y,false,false,false,false,false);
@@ -34883,9 +35672,6 @@ bool c_Item::p_IsVisible(){
 void c_Item::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.Update()",13));
 }
-bool c_Item::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	return false;
-}
 void c_Item::mark(){
 	c_Entity::mark();
 	gc_mark_q(m_hintText);
@@ -34905,6 +35691,9 @@ c_SaleItem::c_SaleItem(){
 String c_SaleItem::m_lastSaleItemClass1;
 String c_SaleItem::m_lastSaleItemClass2;
 c_List7* c_SaleItem::m_randomSaleItemList;
+void c_SaleItem::m_ResetCosts(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleItem.ResetCosts()",21));
+}
 c_List27* c_SaleItem::m_currentSaleItems;
 bool c_SaleItem::p_CostsBlood(){
 	return this->m_bloodCost>FLOAT(0.0);
@@ -35243,6 +36032,7 @@ void c_Chest::mark(){
 	c_Entity::mark();
 }
 c_Enemy::c_Enemy(){
+	m_isMonkeyLike=false;
 	m_isStairLockingMiniboss=false;
 	m_enemyType=0;
 	m_lastPlayerHitFrame=Array<int >(4);
@@ -35252,7 +36042,6 @@ c_Enemy::c_Enemy(){
 	m_health=1;
 	m_isMiniboss=false;
 	m_isBoss=false;
-	m_isMonkeyLike=false;
 	m_hitParticle=String();
 	m_animNormal=(new c_IntMap8)->m_new();
 	m_animNormal2=(new c_IntMap8)->m_new();
@@ -35312,6 +36101,20 @@ c_Enemy::c_Enemy(){
 	m_enableDeathEffects=true;
 }
 c_EnemyList* c_Enemy::m_enemyList;
+void c_Enemy::p_ApplyMonkeyPaw(){
+	if(this->m_isMonkeyLike){
+		if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"misc_monkey_paw",15),false)){
+			this->m_frozenPermanently=true;
+		}
+	}
+}
+void c_Enemy::m_ApplyMonkeyPawAll(){
+	c_Enumerator4* t_=m_enemyList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Enemy* t_enemy=t_->p_NextObject();
+		t_enemy->p_ApplyMonkeyPaw();
+	}
+}
 void c_Enemy::m_SetEnemiesToDropNoCoins(){
 	c_Enumerator4* t_=m_enemyList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
@@ -35325,7 +36128,7 @@ bool c_Enemy::m_enemiesPaused;
 int c_Enemy::m_enemiesFearfulDuration;
 c_Enemy* c_Enemy::m_new(){
 	c_MobileEntity::m_new();
-	m_enemyList->p_AddLast11(this);
+	m_enemyList->p_AddLast10(this);
 	this->m_collides=true;
 	this->m_isEnemy=true;
 	return this;
@@ -35347,13 +36150,6 @@ void c_Enemy::p_InitImage(c_XMLNode* t_enemyXML,String t_overrideSpriteName,int 
 }
 c_Sprite* c_Enemy::m_heartSmall;
 c_Sprite* c_Enemy::m_heartEmptySmall;
-void c_Enemy::p_ApplyMonkeyPaw(){
-	if(this->m_isMonkeyLike){
-		if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"misc_monkey_paw",15),false)){
-			this->m_frozenPermanently=true;
-		}
-	}
-}
 void c_Enemy::p_Init3(int t_xVal,int t_yVal,int t_l,String t_name,String t_overrideSpriteName,int t_overrideFrameW,int t_overrideFrameH){
 	this->m_x=t_xVal;
 	this->m_y=t_yVal;
@@ -36475,12 +37271,9 @@ void c_Enemy::p_MakeDancer(){
 	this->m_shadow->p_SetZOff(this->m_image->m_zOff+FLOAT(24.0));
 	this->m_image->p_SetZOff(this->m_image->m_zOff+FLOAT(124.0));
 }
-void c_Enemy::m_ApplyMonkeyPawAll(){
-	c_Enumerator4* t_=m_enemyList->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_Enemy* t_enemy=t_->p_NextObject();
-		t_enemy->p_ApplyMonkeyPaw();
-	}
+bool c_Enemy::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.Hit(String, Int, Int, Entity, Bool, Int)",46));
+	return false;
 }
 String c_Enemy::m_GetEnemyNameHelper1(int t_type){
 	String t_enemyName=String();
@@ -38913,10 +39706,6 @@ void c_Enemy::p_Update(){
 	this->m_justSpawned=false;
 	this->m_wasFrozen=this->p_IsFrozen(false);
 }
-bool c_Enemy::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.Hit(String, Int, Int, Entity, Bool, Int)",46));
-	return false;
-}
 void c_Enemy::m_SetEnemiesToDropNoCoinsOverride(){
 	c_Enumerator4* t_=m_enemyList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
@@ -39509,6 +40298,71 @@ bool c_List7::p_Contains4(String t_value){
 	}
 	return false;
 }
+int c_List7::p_Compare2(String t_lhs,String t_rhs){
+	bbError(String(L"Unable to compare items",23));
+	return 0;
+}
+int c_List7::p_Sort(int t_ascending){
+	int t_ccsgn=-1;
+	if((t_ascending)!=0){
+		t_ccsgn=1;
+	}
+	int t_insize=1;
+	do{
+		int t_merges=0;
+		c_Node12* t_tail=m__head;
+		c_Node12* t_p=m__head->m__succ;
+		while(t_p!=m__head){
+			t_merges+=1;
+			c_Node12* t_q=t_p->m__succ;
+			int t_qsize=t_insize;
+			int t_psize=1;
+			while(t_psize<t_insize && t_q!=m__head){
+				t_psize+=1;
+				t_q=t_q->m__succ;
+			}
+			do{
+				c_Node12* t_t=0;
+				if(((t_psize)!=0) && ((t_qsize)!=0) && t_q!=m__head){
+					int t_cc=p_Compare2(t_p->m__data,t_q->m__data)*t_ccsgn;
+					if(t_cc<=0){
+						t_t=t_p;
+						t_p=t_p->m__succ;
+						t_psize-=1;
+					}else{
+						t_t=t_q;
+						t_q=t_q->m__succ;
+						t_qsize-=1;
+					}
+				}else{
+					if((t_psize)!=0){
+						t_t=t_p;
+						t_p=t_p->m__succ;
+						t_psize-=1;
+					}else{
+						if(((t_qsize)!=0) && t_q!=m__head){
+							t_t=t_q;
+							t_q=t_q->m__succ;
+							t_qsize-=1;
+						}else{
+							break;
+						}
+					}
+				}
+				gc_assign(t_t->m__pred,t_tail);
+				gc_assign(t_tail->m__succ,t_t);
+				t_tail=t_t;
+			}while(!(false));
+			t_p=t_q;
+		}
+		gc_assign(t_tail->m__succ,m__head);
+		gc_assign(m__head->m__pred,t_tail);
+		if(t_merges<=1){
+			return 0;
+		}
+		t_insize*=2;
+	}while(!(false));
+}
 c_Enumerator30* c_List7::p_ObjectEnumerator(){
 	return (new c_Enumerator30)->m_new(this);
 }
@@ -39678,7 +40532,7 @@ void c_LevelObject::p_CreateMap(){
 		if(t_2==2){
 			c_Point* t_exitKey=(new c_Point)->m_new(t_tile->m_x,t_tile->m_y);
 			c_Point* t_exitValue=(new c_Point)->m_new(-3,bb_controller_game_currentZone);
-			c_Level::m_exits->p_Set15(t_exitKey,t_exitValue);
+			c_Level::m_exits->p_Set13(t_exitKey,t_exitValue);
 		}else{
 			if(t_2==9){
 				c_Level::m_CreateExit(t_tile->m_x,t_tile->m_y);
@@ -40242,12 +41096,16 @@ int c_Set2::p_Clear(){
 	m_map->p_Clear();
 	return 0;
 }
+bool c_Set2::p_Contains4(String t_value){
+	return m_map->p_Contains4(t_value);
+}
 int c_Set2::p_Insert6(String t_value){
 	m_map->p_Insert7(t_value,0);
 	return 0;
 }
-bool c_Set2::p_Contains4(String t_value){
-	return m_map->p_Contains4(t_value);
+int c_Set2::p_Remove2(String t_value){
+	m_map->p_Remove2(t_value);
+	return 0;
 }
 void c_Set2::mark(){
 	Object::mark();
@@ -40271,6 +41129,25 @@ c_Map9* c_Map9::m_new(){
 int c_Map9::p_Clear(){
 	m_root=0;
 	return 0;
+}
+c_Node16* c_Map9::p_FindNode2(String t_key){
+	c_Node16* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare2(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
+	}
+	return t_node;
+}
+bool c_Map9::p_Contains4(String t_key){
+	return p_FindNode2(t_key)!=0;
 }
 int c_Map9::p_RotateLeft8(c_Node16* t_node){
 	c_Node16* t_child=t_node->m_right;
@@ -40385,24 +41262,110 @@ bool c_Map9::p_Set9(String t_key,Object* t_value){
 bool c_Map9::p_Insert7(String t_key,Object* t_value){
 	return p_Set9(t_key,t_value);
 }
-c_Node16* c_Map9::p_FindNode2(String t_key){
-	c_Node16* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare2(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
+int c_Map9::p_DeleteFixup2(c_Node16* t_node,c_Node16* t_parent){
+	while(t_node!=m_root && (!((t_node)!=0) || t_node->m_color==1)){
+		if(t_node==t_parent->m_left){
+			c_Node16* t_sib=t_parent->m_right;
+			if(t_sib->m_color==-1){
+				t_sib->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateLeft8(t_parent);
+				t_sib=t_parent->m_right;
+			}
+			if((!((t_sib->m_left)!=0) || t_sib->m_left->m_color==1) && (!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1)){
+				t_sib->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
 			}else{
-				return t_node;
+				if(!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1){
+					t_sib->m_left->m_color=1;
+					t_sib->m_color=-1;
+					p_RotateRight8(t_sib);
+					t_sib=t_parent->m_right;
+				}
+				t_sib->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib->m_right->m_color=1;
+				p_RotateLeft8(t_parent);
+				t_node=m_root;
+			}
+		}else{
+			c_Node16* t_sib2=t_parent->m_left;
+			if(t_sib2->m_color==-1){
+				t_sib2->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateRight8(t_parent);
+				t_sib2=t_parent->m_left;
+			}
+			if((!((t_sib2->m_right)!=0) || t_sib2->m_right->m_color==1) && (!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1)){
+				t_sib2->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
+			}else{
+				if(!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1){
+					t_sib2->m_right->m_color=1;
+					t_sib2->m_color=-1;
+					p_RotateLeft8(t_sib2);
+					t_sib2=t_parent->m_left;
+				}
+				t_sib2->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib2->m_left->m_color=1;
+				p_RotateRight8(t_parent);
+				t_node=m_root;
 			}
 		}
 	}
-	return t_node;
+	if((t_node)!=0){
+		t_node->m_color=1;
+	}
+	return 0;
 }
-bool c_Map9::p_Contains4(String t_key){
-	return p_FindNode2(t_key)!=0;
+int c_Map9::p_RemoveNode2(c_Node16* t_node){
+	c_Node16* t_splice=0;
+	c_Node16* t_child=0;
+	if(!((t_node->m_left)!=0)){
+		t_splice=t_node;
+		t_child=t_node->m_right;
+	}else{
+		if(!((t_node->m_right)!=0)){
+			t_splice=t_node;
+			t_child=t_node->m_left;
+		}else{
+			t_splice=t_node->m_left;
+			while((t_splice->m_right)!=0){
+				t_splice=t_splice->m_right;
+			}
+			t_child=t_splice->m_left;
+			t_node->m_key=t_splice->m_key;
+			gc_assign(t_node->m_value,t_splice->m_value);
+		}
+	}
+	c_Node16* t_parent=t_splice->m_parent;
+	if((t_child)!=0){
+		gc_assign(t_child->m_parent,t_parent);
+	}
+	if(!((t_parent)!=0)){
+		gc_assign(m_root,t_child);
+		return 0;
+	}
+	if(t_splice==t_parent->m_left){
+		gc_assign(t_parent->m_left,t_child);
+	}else{
+		gc_assign(t_parent->m_right,t_child);
+	}
+	if(t_splice->m_color==1){
+		p_DeleteFixup2(t_child,t_parent);
+	}
+	return 0;
+}
+int c_Map9::p_Remove2(String t_key){
+	c_Node16* t_node=p_FindNode2(t_key);
+	if(!((t_node)!=0)){
+		return 0;
+	}
+	p_RemoveNode2(t_node);
+	return 1;
 }
 void c_Map9::mark(){
 	Object::mark();
@@ -40450,6 +41413,10 @@ c_ItemList::c_ItemList(){
 c_ItemList* c_ItemList::m_new(){
 	c_List7::m_new();
 	return this;
+}
+int c_ItemList::p_Compare2(String t_a,String t_b){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ItemList.Compare(String, String)",32));
+	return 0;
 }
 void c_ItemList::mark(){
 	c_List7::mark();
@@ -41636,6 +42603,12 @@ void c_PlayerHealth::p_LoseBonusHeart(){
 	int t_normalMax=this->p_GetNormalMax();
 	this->m_current=bb_math_Min(this->m_current,t_normalMax);
 }
+void c_PlayerHealth::p_GainHearts(int t_hearts,bool t_full){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"PlayerHealth.GainHearts(Int, Bool)",34));
+}
+void c_PlayerHealth::p_GainCursedHearts(int t_hearts){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"PlayerHealth.GainCursedHearts(Int)",34));
+}
 void c_PlayerHealth::p_Refill(){
 	this->m_current=this->p_GetNormalMax();
 }
@@ -41686,6 +42659,10 @@ void c_Spells::m_InitLearnedSpells(){
 	m_spellSlot1=String(L"spell_none",10);
 	m_spellSlot2=String(L"spell_none",10);
 	gc_assign(m_spellCoolKills,(new c_StringMap6)->m_new());
+}
+String c_Spells::m_LearnSpell(String t_sp){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Spells.LearnSpell(String)",25));
+	return String();
 }
 Array<c_Sprite* > c_Spells::m_fireballInWorld;
 c_Sprite* c_Spells::m_pulseInWorld;
@@ -41931,827 +42908,12 @@ void c_Node21::mark(){
 	gc_mark_q(m_value);
 	gc_mark_q(m_parent);
 }
-c_SoulFamiliar::c_SoulFamiliar(){
+c_Direction::c_Direction(){
 }
-c_SoulFamiliar* c_SoulFamiliar::m_new(int t_newX,int t_newY,Object* t_owner_){
-	c_FamiliarFixed::m_new();
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.New(Int, Int, Object)",34));
-	return this;
-}
-c_SoulFamiliar* c_SoulFamiliar::m_new2(){
-	c_FamiliarFixed::m_new();
-	return this;
-}
-void c_SoulFamiliar::p_Die(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.Die()",18));
-}
-bool c_SoulFamiliar::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.Hit(String, Int, Int, Entity, Bool, Int)",53));
-	return false;
-}
-void c_SoulFamiliar::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.Update()",21));
-}
-void c_SoulFamiliar::mark(){
-	c_FamiliarFixed::mark();
-}
-c_List10::c_List10(){
-	m__head=((new c_HeadNode10)->m_new());
-}
-c_List10* c_List10::m_new(){
-	return this;
-}
-c_Node22* c_List10::p_AddLast10(c_Familiar* t_data){
-	return (new c_Node22)->m_new(m__head,m__head->m__pred,t_data);
-}
-c_List10* c_List10::m_new2(Array<c_Familiar* > t_data){
-	Array<c_Familiar* > t_=t_data;
-	int t_2=0;
-	while(t_2<t_.Length()){
-		c_Familiar* t_t=t_[t_2];
-		t_2=t_2+1;
-		p_AddLast10(t_t);
-	}
-	return this;
-}
-void c_List10::mark(){
-	Object::mark();
-	gc_mark_q(m__head);
-}
-c_Node22::c_Node22(){
-	m__succ=0;
-	m__pred=0;
-	m__data=0;
-}
-c_Node22* c_Node22::m_new(c_Node22* t_succ,c_Node22* t_pred,c_Familiar* t_data){
-	gc_assign(m__succ,t_succ);
-	gc_assign(m__pred,t_pred);
-	gc_assign(m__succ->m__pred,this);
-	gc_assign(m__pred->m__succ,this);
-	gc_assign(m__data,t_data);
-	return this;
-}
-c_Node22* c_Node22::m_new2(){
-	return this;
-}
-void c_Node22::mark(){
-	Object::mark();
-	gc_mark_q(m__succ);
-	gc_mark_q(m__pred);
-	gc_mark_q(m__data);
-}
-c_HeadNode10::c_HeadNode10(){
-}
-c_HeadNode10* c_HeadNode10::m_new(){
-	c_Node22::m_new2();
-	gc_assign(m__succ,(this));
-	gc_assign(m__pred,(this));
-	return this;
-}
-void c_HeadNode10::mark(){
-	c_Node22::mark();
-}
-int bb_controller_game_dailyChallengeSuccessScore;
-int bb_controller_game_speedrunSuccessScore;
-int bb_controller_game_hardcoreModeSuccessScore;
-c_Point2::c_Point2(){
-}
-c_Point2* c_Point2::m_new(){
-	return this;
-}
-void c_Point2::mark(){
+void c_Direction::mark(){
 	Object::mark();
 }
-c_ItemData::c_ItemData(){
-	m_imageFrames=0;
-	m_imageW=0;
-	m_imageH=0;
-	m_bouncer=true;
-	m_xOff=0;
-	m_yOff=0;
-}
-c_ItemData* c_ItemData::m_new(c_XMLNode* t_itemXML){
-	this->m_imageFrames=2*t_itemXML->p_GetAttribute3(String(L"numFrames",9),1);
-	this->m_imageW=t_itemXML->p_GetAttribute3(String(L"imageW",6),24);
-	this->m_imageH=t_itemXML->p_GetAttribute3(String(L"imageH",6),24);
-	this->m_bouncer=t_itemXML->p_GetAttribute2(String(L"bouncer",7),true);
-	int t_xOffDefault=(24-this->m_imageW)/2;
-	this->m_xOff=t_itemXML->p_GetAttribute3(String(L"xOff",4),t_xOffDefault);
-	int t_yOffDefault=0;
-	if(this->m_bouncer){
-		t_yOffDefault=(24-this->m_imageH)/2;
-	}
-	this->m_yOff=t_itemXML->p_GetAttribute3(String(L"yOff",4),t_yOffDefault);
-	return this;
-}
-c_ItemData* c_ItemData::m_new2(){
-	return this;
-}
-void c_ItemData::mark(){
-	Object::mark();
-}
-c_Bouncer::c_Bouncer(){
-	m_min=FLOAT(.0);
-	m_max=FLOAT(.0);
-	m_power=FLOAT(.0);
-	m_value=FLOAT(.0);
-	m_steps=0;
-	m_currentSteps=0;
-	m_goingUp=true;
-	m_enabled=true;
-}
-c_Bouncer* c_Bouncer::m_new(Float t_minVal,Float t_maxVal,Float t_powerVal,int t_stepsVal){
-	this->m_min=t_minVal;
-	this->m_max=t_maxVal;
-	this->m_power=t_powerVal;
-	this->m_value=t_minVal;
-	this->m_steps=t_stepsVal;
-	this->m_currentSteps=c_Util::m_RndIntRange(-t_stepsVal,t_stepsVal-1,false,-1);
-	this->m_goingUp=c_Util::m_RndBool(false);
-	return this;
-}
-c_Bouncer* c_Bouncer::m_new2(){
-	return this;
-}
-void c_Bouncer::p_Disable(){
-	this->m_enabled=false;
-}
-void c_Bouncer::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Bouncer.Update()",16));
-}
-void c_Bouncer::p_Enable(){
-	this->m_enabled=true;
-}
-void c_Bouncer::mark(){
-	Object::mark();
-}
-int bb_random_Seed;
-Float bb_random_Rnd(){
-	bb_random_Seed=bb_random_Seed*1664525+1013904223|0;
-	return Float(bb_random_Seed>>8&16777215)/FLOAT(16777216.0);
-}
-Float bb_random_Rnd2(Float t_low,Float t_high){
-	return bb_random_Rnd3(t_high-t_low)+t_low;
-}
-Float bb_random_Rnd3(Float t_range){
-	return bb_random_Rnd()*t_range;
-}
-int bb_math_Clamp(int t_n,int t_min,int t_max){
-	if(t_n<t_min){
-		return t_min;
-	}
-	if(t_n>t_max){
-		return t_max;
-	}
-	return t_n;
-}
-Float bb_math_Clamp2(Float t_n,Float t_min,Float t_max){
-	if(t_n<t_min){
-		return t_min;
-	}
-	if(t_n>t_max){
-		return t_max;
-	}
-	return t_n;
-}
-c_Replay::c_Replay(){
-	m_startingZone=0;
-	m_startingLevel=0;
-	m_curReplayData=0;
-	m_runTime=0;
-	m_saveData=String();
-	m_startingGold=0;
-	m_hasBroadsword=false;
-	m_beatOffset=0;
-	m_replayStr=String();
-}
-int c_Replay::p_GetRand(int t_channel){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.GetRand(Int)",19));
-	return 0;
-}
-void c_Replay::p_RecordRand(int t_channel,int t_num){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.RecordRand(Int, Int)",27));
-}
-void c_Replay::p_NextLevel(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.NextLevel()",18));
-}
-c_Replay* c_Replay::m_new(){
-	return this;
-}
-void c_Replay::p_NewLevel(int t_randSeed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.NewLevel(Int)",20));
-}
-void c_Replay::p_Save(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.Save()",13));
-}
-int c_Replay::p_GetNumBeats(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.GetNumBeats()",20));
-	return 0;
-}
-void c_Replay::mark(){
-	Object::mark();
-	gc_mark_q(m_curReplayData);
-}
-c_Point::c_Point(){
-	m_x=0;
-	m_y=0;
-}
-c_Point* c_Point::m_new(int t_xVal,int t_yVal){
-	this->m_x=t_xVal;
-	this->m_y=t_yVal;
-	return this;
-}
-c_Point* c_Point::m_new2(){
-	return this;
-}
-String c_Point::p_ToString(){
-	return String(L"(",1)+String(this->m_x)+String(L", ",2)+String(this->m_y)+String(L")",1);
-}
-c_Point* c_Point::m_Add(c_Point* t_a,c_Point* t_b){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Point.Add(Point, Point)",23));
-	return 0;
-}
-c_Point* c_Point::p_Add6(c_Point* t_other){
-	int t_x=this->m_x+t_other->m_x;
-	int t_y=this->m_y+t_other->m_y;
-	return (new c_Point)->m_new(t_x,t_y);
-}
-c_Point* c_Point::p_Add4(int t_dx,int t_dy){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Point.Add(Int, Int)",19));
-	return 0;
-}
-c_Point* c_Point::p_RotateCWAbout(c_Point* t_origin){
-	int t_rotatedX=t_origin->m_x-t_origin->m_y+this->m_y;
-	int t_rotatedY=t_origin->m_x+t_origin->m_y-this->m_x;
-	return (new c_Point)->m_new(t_rotatedX,t_rotatedY);
-}
-c_Point* c_Point::p_Scale(int t_scalar){
-	int t_scaledX=t_scalar*this->m_x;
-	int t_scaledY=t_scalar*this->m_y;
-	return (new c_Point)->m_new(t_scaledX,t_scaledY);
-}
-bool c_Point::p_Equals7(c_Point* t_other){
-	return this->m_x==t_other->m_x && this->m_y==t_other->m_y;
-}
-void c_Point::mark(){
-	Object::mark();
-}
-c_Stack2::c_Stack2(){
-	m_data=Array<int >();
-	m_length=0;
-}
-c_Stack2* c_Stack2::m_new(){
-	return this;
-}
-c_Stack2* c_Stack2::m_new2(Array<int > t_data){
-	gc_assign(this->m_data,t_data.Slice(0));
-	this->m_length=t_data.Length();
-	return this;
-}
-int c_Stack2::m_NIL;
-void c_Stack2::p_Clear(){
-	for(int t_i=0;t_i<m_length;t_i=t_i+1){
-		m_data[t_i]=m_NIL;
-	}
-	m_length=0;
-}
-void c_Stack2::p_Push4(int t_value){
-	if(m_length==m_data.Length()){
-		gc_assign(m_data,m_data.Resize(m_length*2+10));
-	}
-	m_data[m_length]=t_value;
-	m_length+=1;
-}
-void c_Stack2::p_Push5(Array<int > t_values,int t_offset,int t_count){
-	for(int t_i=0;t_i<t_count;t_i=t_i+1){
-		p_Push4(t_values[t_offset+t_i]);
-	}
-}
-void c_Stack2::p_Push6(Array<int > t_values,int t_offset){
-	p_Push5(t_values,t_offset,t_values.Length()-t_offset);
-}
-c_Enumerator6* c_Stack2::p_ObjectEnumerator(){
-	return (new c_Enumerator6)->m_new(this);
-}
-void c_Stack2::p_Length2(int t_newlength){
-	if(t_newlength<m_length){
-		for(int t_i=t_newlength;t_i<m_length;t_i=t_i+1){
-			m_data[t_i]=m_NIL;
-		}
-	}else{
-		if(t_newlength>m_data.Length()){
-			gc_assign(m_data,m_data.Resize(bb_math_Max(m_length*2+10,t_newlength)));
-		}
-	}
-	m_length=t_newlength;
-}
-int c_Stack2::p_Length(){
-	return m_length;
-}
-int c_Stack2::p_Get2(int t_index){
-	return m_data[t_index];
-}
-void c_Stack2::p_Remove3(int t_index){
-	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
-		m_data[t_i]=m_data[t_i+1];
-	}
-	m_length-=1;
-	m_data[m_length]=m_NIL;
-}
-void c_Stack2::p_Set5(int t_index,int t_value){
-	m_data[t_index]=t_value;
-}
-int c_Stack2::p_Pop(){
-	m_length-=1;
-	int t_v=m_data[m_length];
-	m_data[m_length]=m_NIL;
-	return t_v;
-}
-bool c_Stack2::p_Equals8(int t_lhs,int t_rhs){
-	return t_lhs==t_rhs;
-}
-bool c_Stack2::p_Contains(int t_value){
-	for(int t_i=0;t_i<m_length;t_i=t_i+1){
-		if(p_Equals8(m_data[t_i],t_value)){
-			return true;
-		}
-	}
-	return false;
-}
-c_BackwardsStack* c_Stack2::p_Backwards(){
-	return (new c_BackwardsStack)->m_new(this);
-}
-void c_Stack2::mark(){
-	Object::mark();
-	gc_mark_q(m_data);
-}
-c_StackEx::c_StackEx(){
-}
-c_StackEx* c_StackEx::m_new(){
-	c_Stack2::m_new();
-	return this;
-}
-int c_StackEx::p_ChooseRandom(bool t_useSeed){
-	int t_randomIndex=c_Util::m_RndIntRangeFromZero(this->p_Length()-1,t_useSeed);
-	return this->p_Get2(t_randomIndex);
-}
-void c_StackEx::p_Shuffle(bool t_useSeed){
-	for(int t_i=1;t_i<this->p_Length();t_i=t_i+1){
-		int t_randomValue=c_Util::m_RndIntRangeFromZero(t_i,t_useSeed);
-		if(t_i!=t_randomValue){
-			int t_value_at_i=this->p_Get2(t_i);
-			int t_value_at_randomValue=this->p_Get2(t_randomValue);
-			this->p_Set5(t_i,t_value_at_randomValue);
-			this->p_Set5(t_randomValue,t_value_at_i);
-		}
-	}
-}
-void c_StackEx::mark(){
-	c_Stack2::mark();
-}
-c_List11::c_List11(){
-	m__head=((new c_HeadNode11)->m_new());
-}
-c_List11* c_List11::m_new(){
-	return this;
-}
-c_Node23* c_List11::p_AddLast11(c_Enemy* t_data){
-	return (new c_Node23)->m_new(m__head,m__head->m__pred,t_data);
-}
-c_List11* c_List11::m_new2(Array<c_Enemy* > t_data){
-	Array<c_Enemy* > t_=t_data;
-	int t_2=0;
-	while(t_2<t_.Length()){
-		c_Enemy* t_t=t_[t_2];
-		t_2=t_2+1;
-		p_AddLast11(t_t);
-	}
-	return this;
-}
-c_Enumerator4* c_List11::p_ObjectEnumerator(){
-	return (new c_Enumerator4)->m_new(this);
-}
-bool c_List11::p_Equals9(c_Enemy* t_lhs,c_Enemy* t_rhs){
-	return t_lhs==t_rhs;
-}
-int c_List11::p_RemoveEach5(c_Enemy* t_value){
-	c_Node23* t_node=m__head->m__succ;
-	while(t_node!=m__head){
-		c_Node23* t_succ=t_node->m__succ;
-		if(p_Equals9(t_node->m__data,t_value)){
-			t_node->p_Remove();
-		}
-		t_node=t_succ;
-	}
-	return 0;
-}
-int c_List11::p_Count(){
-	int t_n=0;
-	c_Node23* t_node=m__head->m__succ;
-	while(t_node!=m__head){
-		t_node=t_node->m__succ;
-		t_n+=1;
-	}
-	return t_n;
-}
-Array<c_Enemy* > c_List11::p_ToArray(){
-	Array<c_Enemy* > t_arr=Array<c_Enemy* >(p_Count());
-	int t_i=0;
-	c_Enumerator4* t_=this->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_Enemy* t_t=t_->p_NextObject();
-		gc_assign(t_arr[t_i],t_t);
-		t_i+=1;
-	}
-	return t_arr;
-}
-void c_List11::mark(){
-	Object::mark();
-	gc_mark_q(m__head);
-}
-c_EnemyList::c_EnemyList(){
-}
-c_EnemyList* c_EnemyList::m_new(){
-	c_List11::m_new();
-	return this;
-}
-void c_EnemyList::mark(){
-	c_List11::mark();
-}
-c_Node23::c_Node23(){
-	m__succ=0;
-	m__pred=0;
-	m__data=0;
-}
-c_Node23* c_Node23::m_new(c_Node23* t_succ,c_Node23* t_pred,c_Enemy* t_data){
-	gc_assign(m__succ,t_succ);
-	gc_assign(m__pred,t_pred);
-	gc_assign(m__succ->m__pred,this);
-	gc_assign(m__pred->m__succ,this);
-	gc_assign(m__data,t_data);
-	return this;
-}
-c_Node23* c_Node23::m_new2(){
-	return this;
-}
-int c_Node23::p_Remove(){
-	gc_assign(m__succ->m__pred,m__pred);
-	gc_assign(m__pred->m__succ,m__succ);
-	return 0;
-}
-void c_Node23::mark(){
-	Object::mark();
-	gc_mark_q(m__succ);
-	gc_mark_q(m__pred);
-	gc_mark_q(m__data);
-}
-c_HeadNode11::c_HeadNode11(){
-}
-c_HeadNode11* c_HeadNode11::m_new(){
-	c_Node23::m_new2();
-	gc_assign(m__succ,(this));
-	gc_assign(m__pred,(this));
-	return this;
-}
-void c_HeadNode11::mark(){
-	c_Node23::mark();
-}
-c_Enumerator4::c_Enumerator4(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator4* c_Enumerator4::m_new(c_List11* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator4* c_Enumerator4::m_new2(){
-	return this;
-}
-bool c_Enumerator4::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_Enemy* c_Enumerator4::p_NextObject(){
-	c_Enemy* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator4::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-c_Enumerator5::c_Enumerator5(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator5* c_Enumerator5::m_new(c_List2* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator5* c_Enumerator5::m_new2(){
-	return this;
-}
-bool c_Enumerator5::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_RenderableObject* c_Enumerator5::p_NextObject(){
-	c_RenderableObject* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator5::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-c_ReplayData::c_ReplayData(){
-	m_randSeed=0;
-	m_cameraHeight=0;
-	m_cameraWidth=0;
-}
-void c_ReplayData::mark(){
-	Object::mark();
-}
-c_Node24::c_Node24(){
-	m__data=0;
-}
-c_ReplayData* c_Node24::p_Value(){
-	return m__data;
-}
-void c_Node24::mark(){
-	Object::mark();
-	gc_mark_q(m__data);
-}
-c_IntStack::c_IntStack(){
-}
-c_IntStack* c_IntStack::m_new(Array<int > t_data){
-	c_Stack2::m_new2(t_data);
-	return this;
-}
-c_IntStack* c_IntStack::m_new2(){
-	c_Stack2::m_new();
-	return this;
-}
-bool c_IntStack::p_Equals8(int t_lhs,int t_rhs){
-	return t_lhs==t_rhs;
-}
-void c_IntStack::mark(){
-	c_Stack2::mark();
-}
-c_Enumerator6::c_Enumerator6(){
-	m_stack=0;
-	m_index=0;
-}
-c_Enumerator6* c_Enumerator6::m_new(c_Stack2* t_stack){
-	gc_assign(this->m_stack,t_stack);
-	return this;
-}
-c_Enumerator6* c_Enumerator6::m_new2(){
-	return this;
-}
-bool c_Enumerator6::p_HasNext(){
-	return m_index<m_stack->p_Length();
-}
-int c_Enumerator6::p_NextObject(){
-	m_index+=1;
-	return m_stack->m_data[m_index-1];
-}
-void c_Enumerator6::mark(){
-	Object::mark();
-	gc_mark_q(m_stack);
-}
-int bb_controller_game_lastEnemyMoveBeat;
 Array<int > bb_controller_game_lastPlayerMoveBeat;
-c_ControllerGame::c_ControllerGame(){
-	m_specialScoreSubmit=false;
-	m_coinVal=-1;
-	m_timeVal=-1;
-	m_restartImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
-	m_scoresImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
-	m_scoresImage2=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
-	m_songEndedImage=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
-	m_songEndedImage2=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
-	m_restartBounce=0;
-	m_replayInstructions=0;
-	m_ignoreInput=false;
-	m_pendingScores=0;
-}
-void c_ControllerGame::p_ResetPostDeathReplay(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.ResetPostDeathReplay()",37));
-}
-c_ControllerGame* c_ControllerGame::m_new(){
-	c_Controller::m_new();
-	bb_controller_game_totalPlaytimeLastAdded=bb_app_Millisecs();
-	gc_assign(bb_controller_game_controllerGamePointer,this);
-	c_Sprite::m_scaleToFitScreen=false;
-	for(int t_i=0;t_i<bb_controller_game_lastPlayerMoveBeat.Length();t_i=t_i+1){
-		bb_controller_game_lastPlayerMoveBeat[t_i]=-1;
-	}
-	this->p_ResetPostDeathReplay();
-	gc_assign(c_GUI_gameplay::m_errorKey,(new c_Sprite)->m_new2(String(L"gui/error_locked.png",20),1,c_Image::m_DefaultFlags));
-	c_GUI_gameplay::m_errorKey->p_SetZ(FLOAT(10000.0));
-	c_Input::m_Init();
-	bb_controller_game_gamePaused=false;
-	c_GameData::m_SetCharUnlocked(0,true);
-	c_GameData::m_SetCharUnlocked(9,true);
-	c_GameData::m_SetCharUnlocked(10,true);
-	c_GameData::m_SetCharUnlocked(14,true);
-	c_GameData::m_SetCharUnlocked(13,true);
-	c_GameData::m_SetCharUnlocked(12,true);
-	c_Spells::m_Init();
-	c_Level::m_NewLevel(-2,1,0,false,0,false);
-	c_Level::m_DoRestart();
-	this->m_restartImage->m_zVal=19990;
-	this->m_scoresImage->m_zVal=19990;
-	this->m_scoresImage2->m_zVal=19990;
-	this->m_songEndedImage->m_zVal=19990;
-	this->m_songEndedImage2->m_zVal=19990;
-	gc_assign(this->m_restartBounce,(new c_Bouncer)->m_new(FLOAT(-0.1),FLOAT(0.0),FLOAT(1.5),100));
-	gc_assign(this->m_replayInstructions,(new c_TextSprite)->m_new(0,FLOAT(1.0),-1,10000,true,-16777216,1,1));
-	this->m_replayInstructions->m_zVal=20001;
-	return this;
-}
-void c_ControllerGame::p_Destructor(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Destructor()",27));
-}
-void c_ControllerGame::p_RegainFocus(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.RegainFocus()",28));
-}
-void c_ControllerGame::p_Render(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Render()",23));
-}
-void c_ControllerGame::p_Update(){
-	c_Audio::m_UpdateNumLoops();
-	if(c_Level::m_levelJustStarted){
-		c_Level::m_levelJustStarted=false;
-		c_Audio::m_Update(true);
-		c_RenderableObject::m_UpdateAll();
-	}
-	if(!this->m_ignoreInput && !c_Input::m_GameUpdate()){
-		return;
-	}
-	bool t_pause=false;
-	int t_keyBinding_0_11=c_GameData::m_GetKeyBinding(0,11);
-	if(t_keyBinding_0_11<0){
-		if(((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261)){
-			t_pause=true;
-		}
-	}else{
-		if(t_keyBinding_0_11<512 && !c_Input::m_keysHitLastFrame[t_keyBinding_0_11] && !c_Input::m_keysHit2FramesAgo[t_keyBinding_0_11]){
-			int t_1=t_keyBinding_0_11;
-			if(t_1==384){
-				if(c_Input::m_stickDown[0]){
-					t_pause=true;
-				}
-			}else{
-				if(t_1==385){
-					if(c_Input::m_stickRight[0]){
-						t_pause=true;
-					}
-				}else{
-					if(t_1==386){
-						if(c_Input::m_stickLeft[0]){
-							t_pause=true;
-						}
-					}else{
-						if((c_Input::m_KeyWasHit(t_keyBinding_0_11))!=0){
-							t_pause=true;
-						}
-					}
-				}
-			}
-		}
-	}
-	if(!t_pause && ((bb_input_KeyHit(27))!=0)){
-		t_pause=true;
-	}
-	if(t_pause){
-		bb_controller_game_gamePaused=true;
-		c_Audio::m_PauseSong(true);
-		(new c_ControllerPause)->m_new(this);
-	}
-	bool t_allPlayersPerished=c_Player::m_AllPlayersPerished();
-	int t_keyBinding_0_10=c_GameData::m_GetKeyBinding(0,10);
-	if((c_Input::m_KeyWasHit(t_keyBinding_0_10))!=0){
-		if((t_allPlayersPerished || bb_controller_game_hasWon) && !c_Level::m_isReplaying){
-			if(c_Level::m_replay!=0){
-				if(c_Level::m_replay->m_replayStr==String()){
-					c_Level::m_replay->p_Save();
-				}
-			}
-		}
-		bb_controller_game_showScoreMessage=false;
-		bb_controller_game_hasWon=false;
-		if(this->m_specialScoreSubmit){
-			this->m_specialScoreSubmit=false;
-			c_Level::m_TakeActionAfterAllCharsScoreSubmit();
-		}else{
-			c_Level::m_DoQuickRestart(false,true,false);
-		}
-	}
-	if(t_allPlayersPerished || bb_controller_game_showScoreMessage){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - death)",42));
-	}
-	if(bb_controller_game_hasWon && !((this->m_pendingScores)!=0) && (bb_controller_game_showScoreMessage || c_GameData::m_modGamedataChanges)){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - win)",40));
-	}
-	bool t_songHasNotLooped=false;
-	if(!c_Audio::m_PastLastBeat() && !c_Audio::m_HasSongEnded()){
-		t_songHasNotLooped=false;
-	}else{
-		t_songHasNotLooped=c_Audio::m_songLoops==0;
-	}
-	if(c_Level::m_isReplaying){
-		if(c_Level::m_replay->p_GetNumBeats()<c_Audio::m_GetClosestBeatNum(true)){
-			t_songHasNotLooped=!c_Audio::m_DoingNecrodancerTransition();
-		}
-	}
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		if(!t_songHasNotLooped){
-			continue;
-		}
-		if(this->p_HasFocus()){
-			if(!bb_controller_game_hasWon && !c_Audio::m_startSong){
-				c_Player* t_player=bb_controller_game_players[t_i];
-				if(!t_player->m_isHelper && !t_player->m_falling){
-					if(t_player->p_IsStandingStill()){
-						if(c_Level::m_IsLockedExit(t_player->m_x,t_player->m_y)){
-							if(c_Level::m_bossNumber==7 && (bb_controller_game_currentLevel==-493 || bb_controller_game_currentLevel==5)){
-								c_Level::m_ActivateTrigger(53,0,0);
-								continue;
-							}
-							if(c_Util::m_IsCharacterActive(6)){
-								t_player->p_Hit(String(L"COWARDICE",9),99999,-1,0,false,0);
-								continue;
-							}
-							c_Trap* t_trap=c_Trap::m_GetTrapAt(t_player->m_x,t_player->m_y);
-							if(t_trap!=0){
-								t_trap->p_Die();
-							}
-							t_player->m_lordCrownActiveBeat=-1;
-							t_player->m_shieldActiveBeat=-1;
-							(new c_TrapDoor)->m_new(t_player->m_x,t_player->m_y);
-						}
-					}
-				}
-			}
-		}
-	}
-	c_Audio::m_Update(true);
-	c_RenderableObject::m_UpdateAll();
-	c_Doppelganger::m_UpdateAll();
-	c_Flyaway::m_UpdateAll();
-	c_ParticleSystem::m_UpdateAll();
-	c_Level::m_Update();
-	c_Input::m_UpdateKeysHit();
-	c_Enemy::m_movesBehind=c_Audio::m_GetClosestBeatNum(true)-bb_controller_game_lastEnemyMoveBeat;
-	if(c_Enemy::m_EnemiesMovingThisFrame()){
-		c_Swarm::m_Move();
-		c_Item::m_MoveAll();
-		c_Enemy::m_MoveAll();
-		for(int t_i2=0;t_i2<bb_controller_game_numPlayers;t_i2=t_i2+1){
-			c_Player* t_player2=bb_controller_game_players[t_i2];
-			t_player2->p_HandleIceAndCoals();
-		}
-		c_Trap::m_MoveAll();
-		c_Tile::m_MoveAll();
-		c_Item::m_MoveAll();
-		c_CrystalShards::m_MoveAll();
-		c_Level::m_minimap->p_Update();
-		for(int t_i3=0;t_i3<bb_controller_game_numPlayers;t_i3=t_i3+1){
-			c_Player* t_player3=bb_controller_game_players[t_i3];
-			t_player3->p_AfterEnemyMovement();
-		}
-		c_Entity::m_UpdateVisibility();
-		bb_controller_game_lastEnemyMoveBeat+=1;
-	}
-	if(bb_controller_game_incrementFixedBeatNum){
-		if(c_Audio::m_fixedBeatNum!=-64){
-			c_Audio::m_fixedBeatNum+=1;
-		}
-		bb_controller_game_incrementFixedBeatNum=false;
-	}
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Playtime)",34));
-}
-void c_ControllerGame::mark(){
-	c_Controller::mark();
-	gc_mark_q(m_restartImage);
-	gc_mark_q(m_scoresImage);
-	gc_mark_q(m_scoresImage2);
-	gc_mark_q(m_songEndedImage);
-	gc_mark_q(m_songEndedImage2);
-	gc_mark_q(m_restartBounce);
-	gc_mark_q(m_replayInstructions);
-}
-c_ControllerGame* bb_controller_game_controllerGamePointer;
 c_Tile::c_Tile(){
 	m_textLabel=0;
 	m_textLabel2=0;
@@ -42795,6 +42957,7 @@ c_Tile::c_Tile(){
 	m_cachedLOSFrame=-1;
 	m_cachedTrueLOS=false;
 	m_cachedTrueLOSFrame=-1;
+	m_constAlpha=FLOAT(.0);
 	m_nextEruptionBeat=0;
 	m_playerWasOnTileAtBeat=-1;
 	m_playerWasOnTileLastFrame=false;
@@ -42803,9 +42966,9 @@ c_Tile::c_Tile(){
 	m_wasInLOS=false;
 	m_grassValue=FLOAT(.0);
 	m_constLightValueCached=FLOAT(-1.0);
-	m_constAlpha=FLOAT(.0);
 	m_activatedConductorWire=false;
 }
+int c_Tile::m_anyPlayerHaveZoneMapCachedFrame;
 c_List12* c_Tile::m_floorRisingList;
 c_List12* c_Tile::m_floorRecededList;
 int c_Tile::m_totalTilesCreatedOrDestroyed;
@@ -43450,9 +43613,9 @@ c_Tile* c_Tile::m_new(int t_xVal,int t_yVal,int t_typeVal,bool t_pending,int t_t
 		m_pendingTilesList->p_AddLast12(this);
 	}
 	if(!t_tiles->p_Contains(this->m_x)){
-		t_tiles->p_Set14(this->m_x,(new c_IntMap6)->m_new());
+		t_tiles->p_Set15(this->m_x,(new c_IntMap6)->m_new());
 	}
-	t_tiles->p_Get2(this->m_x)->p_Set13(this->m_y,this);
+	t_tiles->p_Get2(this->m_x)->p_Set14(this->m_y,this);
 	return this;
 }
 c_Tile* c_Tile::m_new2(){
@@ -43600,12 +43763,12 @@ void c_Tile::p_AddWireConnection(int t_dir){
 	}
 }
 void c_Tile::m_GenerateWireConnections(){
-	c_NodeEnumerator* t_=c_Level::m_tiles->p_ObjectEnumerator();
+	c_NodeEnumerator2* t_=c_Level::m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
-		c_Node25* t_tilesOnXNode=t_->p_NextObject();
-		c_NodeEnumerator2* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
-			c_Node26* t_tileNode=t_2->p_NextObject();
+			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWire()){
 				t_tile->m_wireMask=0;
@@ -43725,10 +43888,13 @@ bool c_Tile::p_IsNormalFloor(){
 }
 int c_Tile::m_anyPlayerHaveRingOfShadowsCachedFrame;
 int c_Tile::m_anyPlayerHaveCompassCachedFrame;
-int c_Tile::m_anyPlayerHaveZoneMapCachedFrame;
 int c_Tile::m_anyPlayerHaveMonocleCachedFrame;
 int c_Tile::m_anyPlayerHaveRingOfLuckCachedFrame;
 int c_Tile::m_anyPlayerHaveSunglassesCachedFrame;
+bool c_Tile::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Tile.Hit(String, Int, Int, Entity, Bool, Int)",45));
+	return false;
+}
 bool c_Tile::m_IsNearNightmare(int t_xVal,int t_yVal){
 	if(c_Nightmare::m_nightmare==0){
 		return false;
@@ -43789,9 +43955,23 @@ bool c_Tile::p_IsInAnyPlayerLineOfSight(){
 void c_Tile::m_MoveAll(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Tile.MoveAll()",14));
 }
-bool c_Tile::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Tile.Hit(String, Int, Int, Entity, Bool, Int)",45));
-	return false;
+bool c_Tile::p_IsVisible(){
+	if(bb_controller_game_DEBUG_ALL_TILES_VISIBLE){
+		return true;
+	}
+	if(c_Level::m_isLevelEditor){
+		return true;
+	}
+	if(this->p_IsNecrodancerPlatform()){
+		return true;
+	}
+	if(this->m_hasResource==1 && m_AnyPlayerHaveMonocle()){
+		return true;
+	}
+	if(this->m_isCracked && m_AnyPlayerHaveMonocle() && c_Level::m_secretAtX==this->m_x && c_Level::m_secretAtY==this->m_y){
+		return true;
+	}
+	return this->m_constAlpha>FLOAT(0.3);
 }
 Float c_Tile::p_CalculateTileLightValue(bool t_forVision){
 	if(this->m_lightValueFrameNum!=bb_necrodancergame_globalFrameCounter){
@@ -43937,7 +44117,7 @@ void c_Tile::p_Update(){
 		}
 	}
 	if(c_Level::m_isNoReturnMode){
-		c_List39* t_playersAt=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
+		c_List41* t_playersAt=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
 		c_Enumerator35* t_=t_playersAt->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_Player* t_player=t_->p_NextObject();
@@ -43954,7 +44134,7 @@ void c_Tile::p_Update(){
 		}
 	}
 	if(this->m_trigger!=0){
-		c_List39* t_playersAt2=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
+		c_List41* t_playersAt2=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
 		c_Enumerator35* t_2=t_playersAt2->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
 			c_Player* t_player2=t_2->p_NextObject();
@@ -44073,24 +44253,6 @@ void c_Tile::p_Update(){
 		this->m_torchImage->p_SetAlphaTweenFromCurrent(t_lightValue,10);
 	}
 }
-bool c_Tile::p_IsVisible(){
-	if(bb_controller_game_DEBUG_ALL_TILES_VISIBLE){
-		return true;
-	}
-	if(c_Level::m_isLevelEditor){
-		return true;
-	}
-	if(this->p_IsNecrodancerPlatform()){
-		return true;
-	}
-	if(this->m_hasResource==1 && m_AnyPlayerHaveMonocle()){
-		return true;
-	}
-	if(this->m_isCracked && m_AnyPlayerHaveMonocle() && c_Level::m_secretAtX==this->m_x && c_Level::m_secretAtY==this->m_y){
-		return true;
-	}
-	return this->m_constAlpha>FLOAT(0.3);
-}
 void c_Tile::mark(){
 	c_RenderableObject::mark();
 	gc_mark_q(m_textLabel);
@@ -44104,53 +44266,92 @@ void c_Tile::mark(){
 	gc_mark_q(m_torchImage);
 	gc_mark_q(m_triggerPlayer);
 }
+c_Minimap::c_Minimap(){
+}
+void c_Minimap::p_UpdateAll(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.UpdateAll()",19));
+}
+void c_Minimap::m_AddDirty(c_Point* t_p){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.AddDirty(Point)",23));
+}
+void c_Minimap::m_AddDirty2(int t_x,int t_y){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.AddDirty(Int, Int)",26));
+}
+void c_Minimap::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.Update()",16));
+}
+void c_Minimap::mark(){
+	Object::mark();
+}
+c_Point::c_Point(){
+	m_x=0;
+	m_y=0;
+}
+c_Point* c_Point::m_new(int t_xVal,int t_yVal){
+	this->m_x=t_xVal;
+	this->m_y=t_yVal;
+	return this;
+}
+c_Point* c_Point::m_new2(){
+	return this;
+}
+String c_Point::p_ToString(){
+	return String(L"(",1)+String(this->m_x)+String(L", ",2)+String(this->m_y)+String(L")",1);
+}
+c_Point* c_Point::m_Add(c_Point* t_a,c_Point* t_b){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Point.Add(Point, Point)",23));
+	return 0;
+}
+c_Point* c_Point::p_Add6(c_Point* t_other){
+	int t_x=this->m_x+t_other->m_x;
+	int t_y=this->m_y+t_other->m_y;
+	return (new c_Point)->m_new(t_x,t_y);
+}
+c_Point* c_Point::p_Add4(int t_dx,int t_dy){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Point.Add(Int, Int)",19));
+	return 0;
+}
+c_Point* c_Point::p_RotateCWAbout(c_Point* t_origin){
+	int t_rotatedX=t_origin->m_x-t_origin->m_y+this->m_y;
+	int t_rotatedY=t_origin->m_x+t_origin->m_y-this->m_x;
+	return (new c_Point)->m_new(t_rotatedX,t_rotatedY);
+}
+c_Point* c_Point::p_Scale(int t_scalar){
+	int t_scaledX=t_scalar*this->m_x;
+	int t_scaledY=t_scalar*this->m_y;
+	return (new c_Point)->m_new(t_scaledX,t_scaledY);
+}
+bool c_Point::p_Equals7(c_Point* t_other){
+	return this->m_x==t_other->m_x && this->m_y==t_other->m_y;
+}
+void c_Point::mark(){
+	Object::mark();
+}
 c_Map13::c_Map13(){
 	m_root=0;
 }
-c_Node26* c_Map13::p_FirstNode(){
+c_Map13* c_Map13::m_new(){
+	return this;
+}
+c_Node22* c_Map13::p_FirstNode(){
 	if(!((m_root)!=0)){
 		return 0;
 	}
-	c_Node26* t_node=m_root;
+	c_Node22* t_node=m_root;
 	while((t_node->m_left)!=0){
 		t_node=t_node->m_left;
 	}
 	return t_node;
 }
-c_NodeEnumerator2* c_Map13::p_ObjectEnumerator(){
-	return (new c_NodeEnumerator2)->m_new(p_FirstNode());
+c_NodeEnumerator* c_Map13::p_ObjectEnumerator(){
+	return (new c_NodeEnumerator)->m_new(p_FirstNode());
 }
-c_Node26* c_Map13::p_FindNode(int t_key){
-	c_Node26* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return t_node;
-			}
-		}
-	}
-	return t_node;
-}
-bool c_Map13::p_Contains(int t_key){
-	return p_FindNode(t_key)!=0;
-}
-c_Tile* c_Map13::p_Get2(int t_key){
-	c_Node26* t_node=p_FindNode(t_key);
-	if((t_node)!=0){
-		return t_node->m_value;
-	}
+int c_Map13::p_Clear(){
+	m_root=0;
 	return 0;
 }
-c_Map13* c_Map13::m_new(){
-	return this;
-}
-int c_Map13::p_RotateLeft12(c_Node26* t_node){
-	c_Node26* t_child=t_node->m_right;
+int c_Map13::p_RotateLeft12(c_Node22* t_node){
+	c_Node22* t_child=t_node->m_right;
 	gc_assign(t_node->m_right,t_child->m_left);
 	if((t_child->m_left)!=0){
 		gc_assign(t_child->m_left->m_parent,t_node);
@@ -44169,8 +44370,8 @@ int c_Map13::p_RotateLeft12(c_Node26* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map13::p_RotateRight12(c_Node26* t_node){
-	c_Node26* t_child=t_node->m_left;
+int c_Map13::p_RotateRight12(c_Node22* t_node){
+	c_Node22* t_child=t_node->m_left;
 	gc_assign(t_node->m_left,t_child->m_right);
 	if((t_child->m_right)!=0){
 		gc_assign(t_child->m_right->m_parent,t_node);
@@ -44189,10 +44390,10 @@ int c_Map13::p_RotateRight12(c_Node26* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map13::p_InsertFixup12(c_Node26* t_node){
+int c_Map13::p_InsertFixup12(c_Node22* t_node){
 	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
 		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node26* t_uncle=t_node->m_parent->m_parent->m_right;
+			c_Node22* t_uncle=t_node->m_parent->m_parent->m_right;
 			if(((t_uncle)!=0) && t_uncle->m_color==-1){
 				t_node->m_parent->m_color=1;
 				t_uncle->m_color=1;
@@ -44208,7 +44409,7 @@ int c_Map13::p_InsertFixup12(c_Node26* t_node){
 				p_RotateRight12(t_node->m_parent->m_parent);
 			}
 		}else{
-			c_Node26* t_uncle2=t_node->m_parent->m_parent->m_left;
+			c_Node22* t_uncle2=t_node->m_parent->m_parent->m_left;
 			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
 				t_node->m_parent->m_color=1;
 				t_uncle2->m_color=1;
@@ -44228,7 +44429,1419 @@ int c_Map13::p_InsertFixup12(c_Node26* t_node){
 	m_root->m_color=1;
 	return 0;
 }
-bool c_Map13::p_Set13(int t_key,c_Tile* t_value){
+bool c_Map13::p_Set13(c_Point* t_key,c_Point* t_value){
+	c_Node22* t_node=m_root;
+	c_Node22* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare3(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				gc_assign(t_node->m_value,t_value);
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node22)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup12(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+bool c_Map13::p_Add7(c_Point* t_key,c_Point* t_value){
+	c_Node22* t_node=m_root;
+	c_Node22* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare3(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node22)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup12(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+c_Node22* c_Map13::p_FindNode3(c_Point* t_key){
+	c_Node22* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare3(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
+	}
+	return t_node;
+}
+bool c_Map13::p_Contains5(c_Point* t_key){
+	return p_FindNode3(t_key)!=0;
+}
+c_Point* c_Map13::p_Get4(c_Point* t_key){
+	c_Node22* t_node=p_FindNode3(t_key);
+	if((t_node)!=0){
+		return t_node->m_value;
+	}
+	return 0;
+}
+int c_Map13::p_DeleteFixup3(c_Node22* t_node,c_Node22* t_parent){
+	while(t_node!=m_root && (!((t_node)!=0) || t_node->m_color==1)){
+		if(t_node==t_parent->m_left){
+			c_Node22* t_sib=t_parent->m_right;
+			if(t_sib->m_color==-1){
+				t_sib->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateLeft12(t_parent);
+				t_sib=t_parent->m_right;
+			}
+			if((!((t_sib->m_left)!=0) || t_sib->m_left->m_color==1) && (!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1)){
+				t_sib->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
+			}else{
+				if(!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1){
+					t_sib->m_left->m_color=1;
+					t_sib->m_color=-1;
+					p_RotateRight12(t_sib);
+					t_sib=t_parent->m_right;
+				}
+				t_sib->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib->m_right->m_color=1;
+				p_RotateLeft12(t_parent);
+				t_node=m_root;
+			}
+		}else{
+			c_Node22* t_sib2=t_parent->m_left;
+			if(t_sib2->m_color==-1){
+				t_sib2->m_color=1;
+				t_parent->m_color=-1;
+				p_RotateRight12(t_parent);
+				t_sib2=t_parent->m_left;
+			}
+			if((!((t_sib2->m_right)!=0) || t_sib2->m_right->m_color==1) && (!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1)){
+				t_sib2->m_color=-1;
+				t_node=t_parent;
+				t_parent=t_parent->m_parent;
+			}else{
+				if(!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1){
+					t_sib2->m_right->m_color=1;
+					t_sib2->m_color=-1;
+					p_RotateLeft12(t_sib2);
+					t_sib2=t_parent->m_left;
+				}
+				t_sib2->m_color=t_parent->m_color;
+				t_parent->m_color=1;
+				t_sib2->m_left->m_color=1;
+				p_RotateRight12(t_parent);
+				t_node=m_root;
+			}
+		}
+	}
+	if((t_node)!=0){
+		t_node->m_color=1;
+	}
+	return 0;
+}
+int c_Map13::p_RemoveNode3(c_Node22* t_node){
+	c_Node22* t_splice=0;
+	c_Node22* t_child=0;
+	if(!((t_node->m_left)!=0)){
+		t_splice=t_node;
+		t_child=t_node->m_right;
+	}else{
+		if(!((t_node->m_right)!=0)){
+			t_splice=t_node;
+			t_child=t_node->m_left;
+		}else{
+			t_splice=t_node->m_left;
+			while((t_splice->m_right)!=0){
+				t_splice=t_splice->m_right;
+			}
+			t_child=t_splice->m_left;
+			gc_assign(t_node->m_key,t_splice->m_key);
+			gc_assign(t_node->m_value,t_splice->m_value);
+		}
+	}
+	c_Node22* t_parent=t_splice->m_parent;
+	if((t_child)!=0){
+		gc_assign(t_child->m_parent,t_parent);
+	}
+	if(!((t_parent)!=0)){
+		gc_assign(m_root,t_child);
+		return 0;
+	}
+	if(t_splice==t_parent->m_left){
+		gc_assign(t_parent->m_left,t_child);
+	}else{
+		gc_assign(t_parent->m_right,t_child);
+	}
+	if(t_splice->m_color==1){
+		p_DeleteFixup3(t_child,t_parent);
+	}
+	return 0;
+}
+int c_Map13::p_Remove3(c_Point* t_key){
+	c_Node22* t_node=p_FindNode3(t_key);
+	if(!((t_node)!=0)){
+		return 0;
+	}
+	p_RemoveNode3(t_node);
+	return 1;
+}
+void c_Map13::mark(){
+	Object::mark();
+	gc_mark_q(m_root);
+}
+c_ExitMap::c_ExitMap(){
+}
+c_ExitMap* c_ExitMap::m_new(){
+	c_Map13::m_new();
+	return this;
+}
+int c_ExitMap::p_Compare3(c_Point* t_lhs,c_Point* t_rhs){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ExitMap.Compare()",17));
+	return 0;
+}
+void c_ExitMap::mark(){
+	c_Map13::mark();
+}
+c_NodeEnumerator::c_NodeEnumerator(){
+	m_node=0;
+}
+c_NodeEnumerator* c_NodeEnumerator::m_new(c_Node22* t_node){
+	gc_assign(this->m_node,t_node);
+	return this;
+}
+c_NodeEnumerator* c_NodeEnumerator::m_new2(){
+	return this;
+}
+bool c_NodeEnumerator::p_HasNext(){
+	return m_node!=0;
+}
+c_Node22* c_NodeEnumerator::p_NextObject(){
+	c_Node22* t_t=m_node;
+	gc_assign(m_node,m_node->p_NextNode());
+	return t_t;
+}
+void c_NodeEnumerator::mark(){
+	Object::mark();
+	gc_mark_q(m_node);
+}
+c_Node22::c_Node22(){
+	m_left=0;
+	m_right=0;
+	m_parent=0;
+	m_value=0;
+	m_key=0;
+	m_color=0;
+}
+c_Node22* c_Node22::p_NextNode(){
+	c_Node22* t_node=0;
+	if((m_right)!=0){
+		t_node=m_right;
+		while((t_node->m_left)!=0){
+			t_node=t_node->m_left;
+		}
+		return t_node;
+	}
+	t_node=this;
+	c_Node22* t_parent=this->m_parent;
+	while(((t_parent)!=0) && t_node==t_parent->m_right){
+		t_node=t_parent;
+		t_parent=t_parent->m_parent;
+	}
+	return t_parent;
+}
+c_Point* c_Node22::p_Value(){
+	return m_value;
+}
+c_Point* c_Node22::p_Key(){
+	return m_key;
+}
+c_Node22* c_Node22::m_new(c_Point* t_key,c_Point* t_value,int t_color,c_Node22* t_parent){
+	gc_assign(this->m_key,t_key);
+	gc_assign(this->m_value,t_value);
+	this->m_color=t_color;
+	gc_assign(this->m_parent,t_parent);
+	return this;
+}
+c_Node22* c_Node22::m_new2(){
+	return this;
+}
+void c_Node22::mark(){
+	Object::mark();
+	gc_mark_q(m_left);
+	gc_mark_q(m_right);
+	gc_mark_q(m_parent);
+	gc_mark_q(m_value);
+	gc_mark_q(m_key);
+}
+c_List10::c_List10(){
+	m__head=((new c_HeadNode10)->m_new());
+}
+c_List10* c_List10::m_new(){
+	return this;
+}
+c_Node23* c_List10::p_AddLast10(c_Enemy* t_data){
+	return (new c_Node23)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List10* c_List10::m_new2(Array<c_Enemy* > t_data){
+	Array<c_Enemy* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_Enemy* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast10(t_t);
+	}
+	return this;
+}
+c_Enumerator4* c_List10::p_ObjectEnumerator(){
+	return (new c_Enumerator4)->m_new(this);
+}
+bool c_List10::p_Equals8(c_Enemy* t_lhs,c_Enemy* t_rhs){
+	return t_lhs==t_rhs;
+}
+int c_List10::p_RemoveEach5(c_Enemy* t_value){
+	c_Node23* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		c_Node23* t_succ=t_node->m__succ;
+		if(p_Equals8(t_node->m__data,t_value)){
+			t_node->p_Remove();
+		}
+		t_node=t_succ;
+	}
+	return 0;
+}
+int c_List10::p_Count(){
+	int t_n=0;
+	c_Node23* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		t_node=t_node->m__succ;
+		t_n+=1;
+	}
+	return t_n;
+}
+Array<c_Enemy* > c_List10::p_ToArray(){
+	Array<c_Enemy* > t_arr=Array<c_Enemy* >(p_Count());
+	int t_i=0;
+	c_Enumerator4* t_=this->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Enemy* t_t=t_->p_NextObject();
+		gc_assign(t_arr[t_i],t_t);
+		t_i+=1;
+	}
+	return t_arr;
+}
+void c_List10::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_EnemyList::c_EnemyList(){
+}
+c_EnemyList* c_EnemyList::m_new(){
+	c_List10::m_new();
+	return this;
+}
+void c_EnemyList::mark(){
+	c_List10::mark();
+}
+c_Node23::c_Node23(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node23* c_Node23::m_new(c_Node23* t_succ,c_Node23* t_pred,c_Enemy* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node23* c_Node23::m_new2(){
+	return this;
+}
+int c_Node23::p_Remove(){
+	gc_assign(m__succ->m__pred,m__pred);
+	gc_assign(m__pred->m__succ,m__succ);
+	return 0;
+}
+void c_Node23::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode10::c_HeadNode10(){
+}
+c_HeadNode10* c_HeadNode10::m_new(){
+	c_Node23::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode10::mark(){
+	c_Node23::mark();
+}
+c_Enumerator4::c_Enumerator4(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator4* c_Enumerator4::m_new(c_List10* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator4* c_Enumerator4::m_new2(){
+	return this;
+}
+bool c_Enumerator4::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_Enemy* c_Enumerator4::p_NextObject(){
+	c_Enemy* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator4::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_SaleChest::c_SaleChest(){
+	m_cost=999;
+}
+void c_SaleChest::m_ResetCosts(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleChest.ResetCosts()",22));
+}
+c_List33* c_SaleChest::m_currentSaleChests;
+void c_SaleChest::p_SetCost(){
+	int t_1=this->m_chestColor;
+	if(t_1==4 || t_1==2){
+		this->m_cost=40;
+	}else{
+		if(t_1==3){
+			this->m_cost=30;
+		}else{
+			this->m_cost=20;
+		}
+	}
+	if(c_Util::m_IsCharacterActive(5) || c_Util::m_IsCharacterActive(6) || c_Util::m_IsCharacterActive(7)){
+		this->m_cost=0;
+	}
+	if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_charisma",13),false) || c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_wonder",11),false)){
+		this->m_cost=int(Float(this->m_cost)*FLOAT(0.5));
+	}
+	if(c_Level::m_isHardcoreMode){
+		this->m_cost=int(Float(this->m_cost)*(Float(bb_controller_game_currentDepth)*FLOAT(0.5)+FLOAT(2.0)));
+	}
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleChest.SetCost() (digit sprites)",35));
+}
+c_SaleChest* c_SaleChest::m_new(int t_xVal,int t_yVal,String t_cont,bool t_invis,bool t_isLocked,bool t_isSecret,int t_tmpColor){
+	c_Chest::m_new(t_xVal,t_yVal,t_cont,t_invis,t_isLocked,t_isSecret,t_tmpColor);
+	this->m_saleChest=true;
+	m_currentSaleChests->p_AddLast33(this);
+	this->p_SetCost();
+	return this;
+}
+c_SaleChest* c_SaleChest::m_new2(){
+	c_Chest::m_new2();
+	return this;
+}
+void c_SaleChest::p_Die(){
+	m_currentSaleChests->p_RemoveEach17(this);
+	c_Chest::p_Die();
+}
+bool c_SaleChest::p_Open(Object* t_player){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleChest.Open(Object)",22));
+	return false;
+}
+void c_SaleChest::mark(){
+	c_Chest::mark();
+}
+c_SoulFamiliar::c_SoulFamiliar(){
+}
+c_SoulFamiliar* c_SoulFamiliar::m_new(int t_newX,int t_newY,Object* t_owner_){
+	c_FamiliarFixed::m_new();
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.New(Int, Int, Object)",34));
+	return this;
+}
+c_SoulFamiliar* c_SoulFamiliar::m_new2(){
+	c_FamiliarFixed::m_new();
+	return this;
+}
+void c_SoulFamiliar::p_Die(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.Die()",18));
+}
+bool c_SoulFamiliar::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.Hit(String, Int, Int, Entity, Bool, Int)",53));
+	return false;
+}
+void c_SoulFamiliar::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.Update()",21));
+}
+void c_SoulFamiliar::mark(){
+	c_FamiliarFixed::mark();
+}
+c_List11::c_List11(){
+	m__head=((new c_HeadNode11)->m_new());
+}
+c_List11* c_List11::m_new(){
+	return this;
+}
+c_Node24* c_List11::p_AddLast11(c_Familiar* t_data){
+	return (new c_Node24)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List11* c_List11::m_new2(Array<c_Familiar* > t_data){
+	Array<c_Familiar* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_Familiar* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast11(t_t);
+	}
+	return this;
+}
+void c_List11::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_Node24::c_Node24(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node24* c_Node24::m_new(c_Node24* t_succ,c_Node24* t_pred,c_Familiar* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node24* c_Node24::m_new2(){
+	return this;
+}
+void c_Node24::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode11::c_HeadNode11(){
+}
+c_HeadNode11* c_HeadNode11::m_new(){
+	c_Node24::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode11::mark(){
+	c_Node24::mark();
+}
+int bb_controller_game_dailyChallengeSuccessScore;
+int bb_controller_game_speedrunSuccessScore;
+int bb_controller_game_hardcoreModeSuccessScore;
+c_Point2::c_Point2(){
+}
+c_Point2* c_Point2::m_new(){
+	return this;
+}
+void c_Point2::mark(){
+	Object::mark();
+}
+c_ItemData::c_ItemData(){
+	m_imageFrames=0;
+	m_imageW=0;
+	m_imageH=0;
+	m_bouncer=true;
+	m_xOff=0;
+	m_yOff=0;
+}
+c_ItemData* c_ItemData::m_new(c_XMLNode* t_itemXML){
+	this->m_imageFrames=2*t_itemXML->p_GetAttribute3(String(L"numFrames",9),1);
+	this->m_imageW=t_itemXML->p_GetAttribute3(String(L"imageW",6),24);
+	this->m_imageH=t_itemXML->p_GetAttribute3(String(L"imageH",6),24);
+	this->m_bouncer=t_itemXML->p_GetAttribute2(String(L"bouncer",7),true);
+	int t_xOffDefault=(24-this->m_imageW)/2;
+	this->m_xOff=t_itemXML->p_GetAttribute3(String(L"xOff",4),t_xOffDefault);
+	int t_yOffDefault=0;
+	if(this->m_bouncer){
+		t_yOffDefault=(24-this->m_imageH)/2;
+	}
+	this->m_yOff=t_itemXML->p_GetAttribute3(String(L"yOff",4),t_yOffDefault);
+	return this;
+}
+c_ItemData* c_ItemData::m_new2(){
+	return this;
+}
+void c_ItemData::mark(){
+	Object::mark();
+}
+c_Bouncer::c_Bouncer(){
+	m_min=FLOAT(.0);
+	m_max=FLOAT(.0);
+	m_power=FLOAT(.0);
+	m_value=FLOAT(.0);
+	m_steps=0;
+	m_currentSteps=0;
+	m_goingUp=true;
+	m_enabled=true;
+}
+c_Bouncer* c_Bouncer::m_new(Float t_minVal,Float t_maxVal,Float t_powerVal,int t_stepsVal){
+	this->m_min=t_minVal;
+	this->m_max=t_maxVal;
+	this->m_power=t_powerVal;
+	this->m_value=t_minVal;
+	this->m_steps=t_stepsVal;
+	this->m_currentSteps=c_Util::m_RndIntRange(-t_stepsVal,t_stepsVal-1,false,-1);
+	this->m_goingUp=c_Util::m_RndBool(false);
+	return this;
+}
+c_Bouncer* c_Bouncer::m_new2(){
+	return this;
+}
+void c_Bouncer::p_Disable(){
+	this->m_enabled=false;
+}
+void c_Bouncer::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bouncer.Update()",16));
+}
+void c_Bouncer::p_Enable(){
+	this->m_enabled=true;
+}
+void c_Bouncer::mark(){
+	Object::mark();
+}
+int bb_random_Seed;
+Float bb_random_Rnd(){
+	bb_random_Seed=bb_random_Seed*1664525+1013904223|0;
+	return Float(bb_random_Seed>>8&16777215)/FLOAT(16777216.0);
+}
+Float bb_random_Rnd2(Float t_low,Float t_high){
+	return bb_random_Rnd3(t_high-t_low)+t_low;
+}
+Float bb_random_Rnd3(Float t_range){
+	return bb_random_Rnd()*t_range;
+}
+int bb_math_Clamp(int t_n,int t_min,int t_max){
+	if(t_n<t_min){
+		return t_min;
+	}
+	if(t_n>t_max){
+		return t_max;
+	}
+	return t_n;
+}
+Float bb_math_Clamp2(Float t_n,Float t_min,Float t_max){
+	if(t_n<t_min){
+		return t_min;
+	}
+	if(t_n>t_max){
+		return t_max;
+	}
+	return t_n;
+}
+c_Replay::c_Replay(){
+	m_startingZone=0;
+	m_startingLevel=0;
+	m_curReplayData=0;
+	m_runTime=0;
+	m_saveData=String();
+	m_startingGold=0;
+	m_hasBroadsword=false;
+	m_beatOffset=0;
+	m_replayStr=String();
+}
+int c_Replay::p_GetRand(int t_channel){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.GetRand(Int)",19));
+	return 0;
+}
+void c_Replay::p_RecordRand(int t_channel,int t_num){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.RecordRand(Int, Int)",27));
+}
+void c_Replay::p_NextLevel(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.NextLevel()",18));
+}
+c_Replay* c_Replay::m_new(){
+	return this;
+}
+void c_Replay::p_NewLevel(int t_randSeed){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.NewLevel(Int)",20));
+}
+void c_Replay::p_Save(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.Save()",13));
+}
+int c_Replay::p_GetNumBeats(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.GetNumBeats()",20));
+	return 0;
+}
+void c_Replay::mark(){
+	Object::mark();
+	gc_mark_q(m_curReplayData);
+}
+c_Stack2::c_Stack2(){
+	m_data=Array<int >();
+	m_length=0;
+}
+c_Stack2* c_Stack2::m_new(){
+	return this;
+}
+c_Stack2* c_Stack2::m_new2(Array<int > t_data){
+	gc_assign(this->m_data,t_data.Slice(0));
+	this->m_length=t_data.Length();
+	return this;
+}
+int c_Stack2::m_NIL;
+void c_Stack2::p_Clear(){
+	for(int t_i=0;t_i<m_length;t_i=t_i+1){
+		m_data[t_i]=m_NIL;
+	}
+	m_length=0;
+}
+void c_Stack2::p_Push4(int t_value){
+	if(m_length==m_data.Length()){
+		gc_assign(m_data,m_data.Resize(m_length*2+10));
+	}
+	m_data[m_length]=t_value;
+	m_length+=1;
+}
+void c_Stack2::p_Push5(Array<int > t_values,int t_offset,int t_count){
+	for(int t_i=0;t_i<t_count;t_i=t_i+1){
+		p_Push4(t_values[t_offset+t_i]);
+	}
+}
+void c_Stack2::p_Push6(Array<int > t_values,int t_offset){
+	p_Push5(t_values,t_offset,t_values.Length()-t_offset);
+}
+c_Enumerator6* c_Stack2::p_ObjectEnumerator(){
+	return (new c_Enumerator6)->m_new(this);
+}
+void c_Stack2::p_Length2(int t_newlength){
+	if(t_newlength<m_length){
+		for(int t_i=t_newlength;t_i<m_length;t_i=t_i+1){
+			m_data[t_i]=m_NIL;
+		}
+	}else{
+		if(t_newlength>m_data.Length()){
+			gc_assign(m_data,m_data.Resize(bb_math_Max(m_length*2+10,t_newlength)));
+		}
+	}
+	m_length=t_newlength;
+}
+int c_Stack2::p_Length(){
+	return m_length;
+}
+int c_Stack2::p_Get2(int t_index){
+	return m_data[t_index];
+}
+void c_Stack2::p_Remove4(int t_index){
+	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
+		m_data[t_i]=m_data[t_i+1];
+	}
+	m_length-=1;
+	m_data[m_length]=m_NIL;
+}
+void c_Stack2::p_Set5(int t_index,int t_value){
+	m_data[t_index]=t_value;
+}
+int c_Stack2::p_Pop(){
+	m_length-=1;
+	int t_v=m_data[m_length];
+	m_data[m_length]=m_NIL;
+	return t_v;
+}
+bool c_Stack2::p_Equals9(int t_lhs,int t_rhs){
+	return t_lhs==t_rhs;
+}
+bool c_Stack2::p_Contains(int t_value){
+	for(int t_i=0;t_i<m_length;t_i=t_i+1){
+		if(p_Equals9(m_data[t_i],t_value)){
+			return true;
+		}
+	}
+	return false;
+}
+c_BackwardsStack* c_Stack2::p_Backwards(){
+	return (new c_BackwardsStack)->m_new(this);
+}
+void c_Stack2::mark(){
+	Object::mark();
+	gc_mark_q(m_data);
+}
+c_StackEx::c_StackEx(){
+}
+c_StackEx* c_StackEx::m_new(){
+	c_Stack2::m_new();
+	return this;
+}
+int c_StackEx::p_ChooseRandom(bool t_useSeed){
+	int t_randomIndex=c_Util::m_RndIntRangeFromZero(this->p_Length()-1,t_useSeed);
+	return this->p_Get2(t_randomIndex);
+}
+void c_StackEx::p_Shuffle(bool t_useSeed){
+	for(int t_i=1;t_i<this->p_Length();t_i=t_i+1){
+		int t_randomValue=c_Util::m_RndIntRangeFromZero(t_i,t_useSeed);
+		if(t_i!=t_randomValue){
+			int t_value_at_i=this->p_Get2(t_i);
+			int t_value_at_randomValue=this->p_Get2(t_randomValue);
+			this->p_Set5(t_i,t_value_at_randomValue);
+			this->p_Set5(t_randomValue,t_value_at_i);
+		}
+	}
+}
+void c_StackEx::mark(){
+	c_Stack2::mark();
+}
+c_Enumerator5::c_Enumerator5(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator5* c_Enumerator5::m_new(c_List2* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator5* c_Enumerator5::m_new2(){
+	return this;
+}
+bool c_Enumerator5::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_RenderableObject* c_Enumerator5::p_NextObject(){
+	c_RenderableObject* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator5::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_ReplayData::c_ReplayData(){
+	m_randSeed=0;
+	m_cameraHeight=0;
+	m_cameraWidth=0;
+}
+void c_ReplayData::mark(){
+	Object::mark();
+}
+c_Node25::c_Node25(){
+	m__data=0;
+}
+c_ReplayData* c_Node25::p_Value(){
+	return m__data;
+}
+void c_Node25::mark(){
+	Object::mark();
+	gc_mark_q(m__data);
+}
+c_IntStack::c_IntStack(){
+}
+c_IntStack* c_IntStack::m_new(Array<int > t_data){
+	c_Stack2::m_new2(t_data);
+	return this;
+}
+c_IntStack* c_IntStack::m_new2(){
+	c_Stack2::m_new();
+	return this;
+}
+bool c_IntStack::p_Equals9(int t_lhs,int t_rhs){
+	return t_lhs==t_rhs;
+}
+void c_IntStack::mark(){
+	c_Stack2::mark();
+}
+c_Enumerator6::c_Enumerator6(){
+	m_stack=0;
+	m_index=0;
+}
+c_Enumerator6* c_Enumerator6::m_new(c_Stack2* t_stack){
+	gc_assign(this->m_stack,t_stack);
+	return this;
+}
+c_Enumerator6* c_Enumerator6::m_new2(){
+	return this;
+}
+bool c_Enumerator6::p_HasNext(){
+	return m_index<m_stack->p_Length();
+}
+int c_Enumerator6::p_NextObject(){
+	m_index+=1;
+	return m_stack->m_data[m_index-1];
+}
+void c_Enumerator6::mark(){
+	Object::mark();
+	gc_mark_q(m_stack);
+}
+int bb_controller_game_lastEnemyMoveBeat;
+c_ControllerGame::c_ControllerGame(){
+	m_specialScoreSubmit=false;
+	m_coinVal=-1;
+	m_timeVal=-1;
+	m_restartImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-1,10000,true,-16777216,1,1);
+	m_scoresImage=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
+	m_scoresImage2=(new c_TextSprite)->m_new(2,FLOAT(2.0),-65536,10000,true,-16777216,1,1);
+	m_songEndedImage=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
+	m_songEndedImage2=(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1);
+	m_restartBounce=0;
+	m_replayInstructions=0;
+	m_ignoreInput=false;
+	m_pendingScores=0;
+}
+void c_ControllerGame::p_ResetPostDeathReplay(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.ResetPostDeathReplay()",37));
+}
+c_ControllerGame* c_ControllerGame::m_new(){
+	c_Controller::m_new();
+	bb_controller_game_totalPlaytimeLastAdded=bb_app_Millisecs();
+	gc_assign(bb_controller_game_controllerGamePointer,this);
+	c_Sprite::m_scaleToFitScreen=false;
+	for(int t_i=0;t_i<bb_controller_game_lastPlayerMoveBeat.Length();t_i=t_i+1){
+		bb_controller_game_lastPlayerMoveBeat[t_i]=-1;
+	}
+	this->p_ResetPostDeathReplay();
+	gc_assign(c_GUI_gameplay::m_errorKey,(new c_Sprite)->m_new2(String(L"gui/error_locked.png",20),1,c_Image::m_DefaultFlags));
+	c_GUI_gameplay::m_errorKey->p_SetZ(FLOAT(10000.0));
+	c_Input::m_Init();
+	bb_controller_game_gamePaused=false;
+	c_GameData::m_SetCharUnlocked(0,true);
+	c_GameData::m_SetCharUnlocked(9,true);
+	c_GameData::m_SetCharUnlocked(10,true);
+	c_GameData::m_SetCharUnlocked(14,true);
+	c_GameData::m_SetCharUnlocked(13,true);
+	c_GameData::m_SetCharUnlocked(12,true);
+	c_Spells::m_Init();
+	c_Level::m_NewLevel(-2,1,0,false,0,false);
+	c_Level::m_DoRestart();
+	this->m_restartImage->m_zVal=19990;
+	this->m_scoresImage->m_zVal=19990;
+	this->m_scoresImage2->m_zVal=19990;
+	this->m_songEndedImage->m_zVal=19990;
+	this->m_songEndedImage2->m_zVal=19990;
+	gc_assign(this->m_restartBounce,(new c_Bouncer)->m_new(FLOAT(-0.1),FLOAT(0.0),FLOAT(1.5),100));
+	gc_assign(this->m_replayInstructions,(new c_TextSprite)->m_new(0,FLOAT(1.0),-1,10000,true,-16777216,1,1));
+	this->m_replayInstructions->m_zVal=20001;
+	return this;
+}
+void c_ControllerGame::p_Destructor(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Destructor()",27));
+}
+void c_ControllerGame::p_RegainFocus(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.RegainFocus()",28));
+}
+void c_ControllerGame::p_Render(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Render()",23));
+}
+void c_ControllerGame::p_Update(){
+	c_Audio::m_UpdateNumLoops();
+	if(c_Level::m_levelJustStarted){
+		c_Level::m_levelJustStarted=false;
+		c_Audio::m_Update(true);
+		c_RenderableObject::m_UpdateAll();
+	}
+	if(!this->m_ignoreInput && !c_Input::m_GameUpdate()){
+		return;
+	}
+	bool t_pause=false;
+	int t_keyBinding_0_11=c_GameData::m_GetKeyBinding(0,11);
+	if(t_keyBinding_0_11<0){
+		if(((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261)){
+			t_pause=true;
+		}
+	}else{
+		if(t_keyBinding_0_11<512 && !c_Input::m_keysHitLastFrame[t_keyBinding_0_11] && !c_Input::m_keysHit2FramesAgo[t_keyBinding_0_11]){
+			int t_1=t_keyBinding_0_11;
+			if(t_1==384){
+				if(c_Input::m_stickDown[0]){
+					t_pause=true;
+				}
+			}else{
+				if(t_1==385){
+					if(c_Input::m_stickRight[0]){
+						t_pause=true;
+					}
+				}else{
+					if(t_1==386){
+						if(c_Input::m_stickLeft[0]){
+							t_pause=true;
+						}
+					}else{
+						if((c_Input::m_KeyWasHit(t_keyBinding_0_11))!=0){
+							t_pause=true;
+						}
+					}
+				}
+			}
+		}
+	}
+	if(!t_pause && ((bb_input_KeyHit(27))!=0)){
+		t_pause=true;
+	}
+	if(t_pause){
+		bb_controller_game_gamePaused=true;
+		c_Audio::m_PauseSong(true);
+		(new c_ControllerPause)->m_new(this);
+	}
+	bool t_allPlayersPerished=c_Player::m_AllPlayersPerished();
+	int t_keyBinding_0_10=c_GameData::m_GetKeyBinding(0,10);
+	if((c_Input::m_KeyWasHit(t_keyBinding_0_10))!=0){
+		if((t_allPlayersPerished || bb_controller_game_hasWon) && !c_Level::m_isReplaying){
+			if(c_Level::m_replay!=0){
+				if(c_Level::m_replay->m_replayStr==String()){
+					c_Level::m_replay->p_Save();
+				}
+			}
+		}
+		bb_controller_game_showScoreMessage=false;
+		bb_controller_game_hasWon=false;
+		if(this->m_specialScoreSubmit){
+			this->m_specialScoreSubmit=false;
+			c_Level::m_TakeActionAfterAllCharsScoreSubmit();
+		}else{
+			c_Level::m_DoQuickRestart(false,true,false);
+		}
+	}
+	if(t_allPlayersPerished || bb_controller_game_showScoreMessage){
+		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - death)",42));
+	}
+	if(bb_controller_game_hasWon && !((this->m_pendingScores)!=0) && (bb_controller_game_showScoreMessage || c_GameData::m_modGamedataChanges)){
+		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - win)",40));
+	}
+	bool t_songHasNotLooped=false;
+	if(!c_Audio::m_PastLastBeat() && !c_Audio::m_HasSongEnded()){
+		t_songHasNotLooped=false;
+	}else{
+		t_songHasNotLooped=c_Audio::m_songLoops==0;
+	}
+	if(c_Level::m_isReplaying){
+		if(c_Level::m_replay->p_GetNumBeats()<c_Audio::m_GetClosestBeatNum(true)){
+			t_songHasNotLooped=!c_Audio::m_DoingNecrodancerTransition();
+		}
+	}
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		if(!t_songHasNotLooped){
+			continue;
+		}
+		if(this->p_HasFocus()){
+			if(!bb_controller_game_hasWon && !c_Audio::m_startSong){
+				c_Player* t_player=bb_controller_game_players[t_i];
+				if(!t_player->m_isHelper && !t_player->m_falling){
+					if(t_player->p_IsStandingStill()){
+						if(c_Level::m_IsLockedExit(t_player->m_x,t_player->m_y)){
+							if(c_Level::m_bossNumber==7 && (bb_controller_game_currentLevel==-493 || bb_controller_game_currentLevel==5)){
+								c_Level::m_ActivateTrigger(53,0,0);
+								continue;
+							}
+							if(c_Util::m_IsCharacterActive(6)){
+								t_player->p_Hit(String(L"COWARDICE",9),99999,-1,0,false,0);
+								continue;
+							}
+							c_Trap* t_trap=c_Trap::m_GetTrapAt(t_player->m_x,t_player->m_y);
+							if(t_trap!=0){
+								t_trap->p_Die();
+							}
+							t_player->m_lordCrownActiveBeat=-1;
+							t_player->m_shieldActiveBeat=-1;
+							(new c_TrapDoor)->m_new(t_player->m_x,t_player->m_y);
+						}
+					}
+				}
+			}
+		}
+	}
+	c_Audio::m_Update(true);
+	c_RenderableObject::m_UpdateAll();
+	c_Doppelganger::m_UpdateAll();
+	c_Flyaway::m_UpdateAll();
+	c_ParticleSystem::m_UpdateAll();
+	c_Level::m_Update();
+	c_Input::m_UpdateKeysHit();
+	c_Enemy::m_movesBehind=c_Audio::m_GetClosestBeatNum(true)-bb_controller_game_lastEnemyMoveBeat;
+	if(c_Enemy::m_EnemiesMovingThisFrame()){
+		c_Swarm::m_Move();
+		c_Item::m_MoveAll();
+		c_Enemy::m_MoveAll();
+		for(int t_i2=0;t_i2<bb_controller_game_numPlayers;t_i2=t_i2+1){
+			c_Player* t_player2=bb_controller_game_players[t_i2];
+			t_player2->p_HandleIceAndCoals();
+		}
+		c_Trap::m_MoveAll();
+		c_Tile::m_MoveAll();
+		c_Item::m_MoveAll();
+		c_CrystalShards::m_MoveAll();
+		c_Level::m_minimap->p_Update();
+		for(int t_i3=0;t_i3<bb_controller_game_numPlayers;t_i3=t_i3+1){
+			c_Player* t_player3=bb_controller_game_players[t_i3];
+			t_player3->p_AfterEnemyMovement();
+		}
+		c_Entity::m_UpdateVisibility();
+		bb_controller_game_lastEnemyMoveBeat+=1;
+	}
+	if(bb_controller_game_incrementFixedBeatNum){
+		if(c_Audio::m_fixedBeatNum!=-64){
+			c_Audio::m_fixedBeatNum+=1;
+		}
+		bb_controller_game_incrementFixedBeatNum=false;
+	}
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Playtime)",34));
+}
+void c_ControllerGame::mark(){
+	c_Controller::mark();
+	gc_mark_q(m_restartImage);
+	gc_mark_q(m_scoresImage);
+	gc_mark_q(m_scoresImage2);
+	gc_mark_q(m_songEndedImage);
+	gc_mark_q(m_songEndedImage2);
+	gc_mark_q(m_restartBounce);
+	gc_mark_q(m_replayInstructions);
+}
+c_ControllerGame* bb_controller_game_controllerGamePointer;
+c_Map14::c_Map14(){
+	m_root=0;
+}
+c_Node27* c_Map14::p_FirstNode(){
+	if(!((m_root)!=0)){
+		return 0;
+	}
+	c_Node27* t_node=m_root;
+	while((t_node->m_left)!=0){
+		t_node=t_node->m_left;
+	}
+	return t_node;
+}
+c_NodeEnumerator3* c_Map14::p_ObjectEnumerator(){
+	return (new c_NodeEnumerator3)->m_new(p_FirstNode());
+}
+c_Node27* c_Map14::p_FindNode(int t_key){
+	c_Node27* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
+	}
+	return t_node;
+}
+bool c_Map14::p_Contains(int t_key){
+	return p_FindNode(t_key)!=0;
+}
+c_Tile* c_Map14::p_Get2(int t_key){
+	c_Node27* t_node=p_FindNode(t_key);
+	if((t_node)!=0){
+		return t_node->m_value;
+	}
+	return 0;
+}
+c_Map14* c_Map14::m_new(){
+	return this;
+}
+int c_Map14::p_RotateLeft13(c_Node27* t_node){
+	c_Node27* t_child=t_node->m_right;
+	gc_assign(t_node->m_right,t_child->m_left);
+	if((t_child->m_left)!=0){
+		gc_assign(t_child->m_left->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_left){
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_left,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map14::p_RotateRight13(c_Node27* t_node){
+	c_Node27* t_child=t_node->m_left;
+	gc_assign(t_node->m_left,t_child->m_right);
+	if((t_child->m_right)!=0){
+		gc_assign(t_child->m_right->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_right){
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_right,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map14::p_InsertFixup13(c_Node27* t_node){
+	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
+		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
+			c_Node27* t_uncle=t_node->m_parent->m_parent->m_right;
+			if(((t_uncle)!=0) && t_uncle->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle->m_color=1;
+				t_uncle->m_parent->m_color=-1;
+				t_node=t_uncle->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_right){
+					t_node=t_node->m_parent;
+					p_RotateLeft13(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateRight13(t_node->m_parent->m_parent);
+			}
+		}else{
+			c_Node27* t_uncle2=t_node->m_parent->m_parent->m_left;
+			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle2->m_color=1;
+				t_uncle2->m_parent->m_color=-1;
+				t_node=t_uncle2->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_left){
+					t_node=t_node->m_parent;
+					p_RotateRight13(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateLeft13(t_node->m_parent->m_parent);
+			}
+		}
+	}
+	m_root->m_color=1;
+	return 0;
+}
+bool c_Map14::p_Set14(int t_key,c_Tile* t_value){
+	c_Node27* t_node=m_root;
+	c_Node27* t_parent=0;
+	int t_cmp=0;
+	while((t_node)!=0){
+		t_parent=t_node;
+		t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				gc_assign(t_node->m_value,t_value);
+				return false;
+			}
+		}
+	}
+	t_node=(new c_Node27)->m_new(t_key,t_value,-1,t_parent);
+	if((t_parent)!=0){
+		if(t_cmp>0){
+			gc_assign(t_parent->m_right,t_node);
+		}else{
+			gc_assign(t_parent->m_left,t_node);
+		}
+		p_InsertFixup13(t_node);
+	}else{
+		gc_assign(m_root,t_node);
+	}
+	return true;
+}
+int c_Map14::p_Count(){
+	if((m_root)!=0){
+		return m_root->p_Count2(0);
+	}
+	return 0;
+}
+void c_Map14::mark(){
+	Object::mark();
+	gc_mark_q(m_root);
+}
+c_IntMap6::c_IntMap6(){
+}
+c_IntMap6* c_IntMap6::m_new(){
+	c_Map14::m_new();
+	return this;
+}
+int c_IntMap6::p_Compare(int t_lhs,int t_rhs){
+	return t_lhs-t_rhs;
+}
+void c_IntMap6::mark(){
+	c_Map14::mark();
+}
+c_Map15::c_Map15(){
+	m_root=0;
+}
+c_Map15* c_Map15::m_new(){
+	return this;
+}
+c_Node26* c_Map15::p_FirstNode(){
+	if(!((m_root)!=0)){
+		return 0;
+	}
+	c_Node26* t_node=m_root;
+	while((t_node->m_left)!=0){
+		t_node=t_node->m_left;
+	}
+	return t_node;
+}
+c_NodeEnumerator2* c_Map15::p_ObjectEnumerator(){
+	return (new c_NodeEnumerator2)->m_new(p_FirstNode());
+}
+int c_Map15::p_Clear(){
+	m_root=0;
+	return 0;
+}
+c_Node26* c_Map15::p_FindNode(int t_key){
+	c_Node26* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
+	}
+	return t_node;
+}
+bool c_Map15::p_Contains(int t_key){
+	return p_FindNode(t_key)!=0;
+}
+c_IntMap6* c_Map15::p_Get2(int t_key){
+	c_Node26* t_node=p_FindNode(t_key);
+	if((t_node)!=0){
+		return t_node->m_value;
+	}
+	return 0;
+}
+int c_Map15::p_RotateLeft14(c_Node26* t_node){
+	c_Node26* t_child=t_node->m_right;
+	gc_assign(t_node->m_right,t_child->m_left);
+	if((t_child->m_left)!=0){
+		gc_assign(t_child->m_left->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_left){
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_left,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map15::p_RotateRight14(c_Node26* t_node){
+	c_Node26* t_child=t_node->m_left;
+	gc_assign(t_node->m_left,t_child->m_right);
+	if((t_child->m_right)!=0){
+		gc_assign(t_child->m_right->m_parent,t_node);
+	}
+	gc_assign(t_child->m_parent,t_node->m_parent);
+	if((t_node->m_parent)!=0){
+		if(t_node==t_node->m_parent->m_right){
+			gc_assign(t_node->m_parent->m_right,t_child);
+		}else{
+			gc_assign(t_node->m_parent->m_left,t_child);
+		}
+	}else{
+		gc_assign(m_root,t_child);
+	}
+	gc_assign(t_child->m_right,t_node);
+	gc_assign(t_node->m_parent,t_child);
+	return 0;
+}
+int c_Map15::p_InsertFixup14(c_Node26* t_node){
+	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
+		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
+			c_Node26* t_uncle=t_node->m_parent->m_parent->m_right;
+			if(((t_uncle)!=0) && t_uncle->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle->m_color=1;
+				t_uncle->m_parent->m_color=-1;
+				t_node=t_uncle->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_right){
+					t_node=t_node->m_parent;
+					p_RotateLeft14(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateRight14(t_node->m_parent->m_parent);
+			}
+		}else{
+			c_Node26* t_uncle2=t_node->m_parent->m_parent->m_left;
+			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
+				t_node->m_parent->m_color=1;
+				t_uncle2->m_color=1;
+				t_uncle2->m_parent->m_color=-1;
+				t_node=t_uncle2->m_parent;
+			}else{
+				if(t_node==t_node->m_parent->m_left){
+					t_node=t_node->m_parent;
+					p_RotateRight14(t_node);
+				}
+				t_node->m_parent->m_color=1;
+				t_node->m_parent->m_parent->m_color=-1;
+				p_RotateLeft14(t_node->m_parent->m_parent);
+			}
+		}
+	}
+	m_root->m_color=1;
+	return 0;
+}
+bool c_Map15::p_Set15(int t_key,c_IntMap6* t_value){
 	c_Node26* t_node=m_root;
 	c_Node26* t_parent=0;
 	int t_cmp=0;
@@ -44253,293 +45866,33 @@ bool c_Map13::p_Set13(int t_key,c_Tile* t_value){
 		}else{
 			gc_assign(t_parent->m_left,t_node);
 		}
-		p_InsertFixup12(t_node);
+		p_InsertFixup14(t_node);
 	}else{
 		gc_assign(m_root,t_node);
 	}
 	return true;
 }
-int c_Map13::p_Count(){
+int c_Map15::p_Count(){
 	if((m_root)!=0){
 		return m_root->p_Count2(0);
 	}
 	return 0;
 }
-void c_Map13::mark(){
-	Object::mark();
-	gc_mark_q(m_root);
-}
-c_IntMap6::c_IntMap6(){
-}
-c_IntMap6* c_IntMap6::m_new(){
-	c_Map13::m_new();
-	return this;
-}
-int c_IntMap6::p_Compare(int t_lhs,int t_rhs){
-	return t_lhs-t_rhs;
-}
-void c_IntMap6::mark(){
-	c_Map13::mark();
-}
-c_Map14::c_Map14(){
-	m_root=0;
-}
-c_Map14* c_Map14::m_new(){
-	return this;
-}
-c_Node25* c_Map14::p_FirstNode(){
-	if(!((m_root)!=0)){
-		return 0;
-	}
-	c_Node25* t_node=m_root;
-	while((t_node->m_left)!=0){
-		t_node=t_node->m_left;
-	}
-	return t_node;
-}
-c_NodeEnumerator* c_Map14::p_ObjectEnumerator(){
-	return (new c_NodeEnumerator)->m_new(p_FirstNode());
-}
-int c_Map14::p_Clear(){
-	m_root=0;
-	return 0;
-}
-c_Node25* c_Map14::p_FindNode(int t_key){
-	c_Node25* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return t_node;
-			}
-		}
-	}
-	return t_node;
-}
-bool c_Map14::p_Contains(int t_key){
-	return p_FindNode(t_key)!=0;
-}
-c_IntMap6* c_Map14::p_Get2(int t_key){
-	c_Node25* t_node=p_FindNode(t_key);
-	if((t_node)!=0){
-		return t_node->m_value;
-	}
-	return 0;
-}
-int c_Map14::p_RotateLeft13(c_Node25* t_node){
-	c_Node25* t_child=t_node->m_right;
-	gc_assign(t_node->m_right,t_child->m_left);
-	if((t_child->m_left)!=0){
-		gc_assign(t_child->m_left->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_left){
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_left,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map14::p_RotateRight13(c_Node25* t_node){
-	c_Node25* t_child=t_node->m_left;
-	gc_assign(t_node->m_left,t_child->m_right);
-	if((t_child->m_right)!=0){
-		gc_assign(t_child->m_right->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_right){
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_right,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map14::p_InsertFixup13(c_Node25* t_node){
-	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
-		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node25* t_uncle=t_node->m_parent->m_parent->m_right;
-			if(((t_uncle)!=0) && t_uncle->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle->m_color=1;
-				t_uncle->m_parent->m_color=-1;
-				t_node=t_uncle->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_right){
-					t_node=t_node->m_parent;
-					p_RotateLeft13(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateRight13(t_node->m_parent->m_parent);
-			}
-		}else{
-			c_Node25* t_uncle2=t_node->m_parent->m_parent->m_left;
-			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle2->m_color=1;
-				t_uncle2->m_parent->m_color=-1;
-				t_node=t_uncle2->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_left){
-					t_node=t_node->m_parent;
-					p_RotateRight13(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateLeft13(t_node->m_parent->m_parent);
-			}
-		}
-	}
-	m_root->m_color=1;
-	return 0;
-}
-bool c_Map14::p_Set14(int t_key,c_IntMap6* t_value){
-	c_Node25* t_node=m_root;
-	c_Node25* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				gc_assign(t_node->m_value,t_value);
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node25)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup13(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-int c_Map14::p_Count(){
-	if((m_root)!=0){
-		return m_root->p_Count2(0);
-	}
-	return 0;
-}
-void c_Map14::mark(){
+void c_Map15::mark(){
 	Object::mark();
 	gc_mark_q(m_root);
 }
 c_IntMap7::c_IntMap7(){
 }
 c_IntMap7* c_IntMap7::m_new(){
-	c_Map14::m_new();
+	c_Map15::m_new();
 	return this;
 }
 int c_IntMap7::p_Compare(int t_lhs,int t_rhs){
 	return t_lhs-t_rhs;
 }
 void c_IntMap7::mark(){
-	c_Map14::mark();
-}
-c_NodeEnumerator::c_NodeEnumerator(){
-	m_node=0;
-}
-c_NodeEnumerator* c_NodeEnumerator::m_new(c_Node25* t_node){
-	gc_assign(this->m_node,t_node);
-	return this;
-}
-c_NodeEnumerator* c_NodeEnumerator::m_new2(){
-	return this;
-}
-bool c_NodeEnumerator::p_HasNext(){
-	return m_node!=0;
-}
-c_Node25* c_NodeEnumerator::p_NextObject(){
-	c_Node25* t_t=m_node;
-	gc_assign(m_node,m_node->p_NextNode());
-	return t_t;
-}
-void c_NodeEnumerator::mark(){
-	Object::mark();
-	gc_mark_q(m_node);
-}
-c_Node25::c_Node25(){
-	m_left=0;
-	m_right=0;
-	m_parent=0;
-	m_value=0;
-	m_key=0;
-	m_color=0;
-}
-c_Node25* c_Node25::p_NextNode(){
-	c_Node25* t_node=0;
-	if((m_right)!=0){
-		t_node=m_right;
-		while((t_node->m_left)!=0){
-			t_node=t_node->m_left;
-		}
-		return t_node;
-	}
-	t_node=this;
-	c_Node25* t_parent=this->m_parent;
-	while(((t_parent)!=0) && t_node==t_parent->m_right){
-		t_node=t_parent;
-		t_parent=t_parent->m_parent;
-	}
-	return t_parent;
-}
-c_IntMap6* c_Node25::p_Value(){
-	return m_value;
-}
-c_Node25* c_Node25::m_new(int t_key,c_IntMap6* t_value,int t_color,c_Node25* t_parent){
-	this->m_key=t_key;
-	gc_assign(this->m_value,t_value);
-	this->m_color=t_color;
-	gc_assign(this->m_parent,t_parent);
-	return this;
-}
-c_Node25* c_Node25::m_new2(){
-	return this;
-}
-int c_Node25::p_Key(){
-	return m_key;
-}
-int c_Node25::p_Count2(int t_n){
-	if((m_left)!=0){
-		t_n=m_left->p_Count2(t_n);
-	}
-	if((m_right)!=0){
-		t_n=m_right->p_Count2(t_n);
-	}
-	return t_n+1;
-}
-void c_Node25::mark(){
-	Object::mark();
-	gc_mark_q(m_left);
-	gc_mark_q(m_right);
-	gc_mark_q(m_parent);
-	gc_mark_q(m_value);
+	c_Map15::mark();
 }
 c_NodeEnumerator2::c_NodeEnumerator2(){
 	m_node=0;
@@ -44588,10 +45941,10 @@ c_Node26* c_Node26::p_NextNode(){
 	}
 	return t_parent;
 }
-c_Tile* c_Node26::p_Value(){
+c_IntMap6* c_Node26::p_Value(){
 	return m_value;
 }
-c_Node26* c_Node26::m_new(int t_key,c_Tile* t_value,int t_color,c_Node26* t_parent){
+c_Node26* c_Node26::m_new(int t_key,c_IntMap6* t_value,int t_color,c_Node26* t_parent){
 	this->m_key=t_key;
 	gc_assign(this->m_value,t_value);
 	this->m_color=t_color;
@@ -44620,14 +45973,93 @@ void c_Node26::mark(){
 	gc_mark_q(m_parent);
 	gc_mark_q(m_value);
 }
+c_NodeEnumerator3::c_NodeEnumerator3(){
+	m_node=0;
+}
+c_NodeEnumerator3* c_NodeEnumerator3::m_new(c_Node27* t_node){
+	gc_assign(this->m_node,t_node);
+	return this;
+}
+c_NodeEnumerator3* c_NodeEnumerator3::m_new2(){
+	return this;
+}
+bool c_NodeEnumerator3::p_HasNext(){
+	return m_node!=0;
+}
+c_Node27* c_NodeEnumerator3::p_NextObject(){
+	c_Node27* t_t=m_node;
+	gc_assign(m_node,m_node->p_NextNode());
+	return t_t;
+}
+void c_NodeEnumerator3::mark(){
+	Object::mark();
+	gc_mark_q(m_node);
+}
+c_Node27::c_Node27(){
+	m_left=0;
+	m_right=0;
+	m_parent=0;
+	m_value=0;
+	m_key=0;
+	m_color=0;
+}
+c_Node27* c_Node27::p_NextNode(){
+	c_Node27* t_node=0;
+	if((m_right)!=0){
+		t_node=m_right;
+		while((t_node->m_left)!=0){
+			t_node=t_node->m_left;
+		}
+		return t_node;
+	}
+	t_node=this;
+	c_Node27* t_parent=this->m_parent;
+	while(((t_parent)!=0) && t_node==t_parent->m_right){
+		t_node=t_parent;
+		t_parent=t_parent->m_parent;
+	}
+	return t_parent;
+}
+c_Tile* c_Node27::p_Value(){
+	return m_value;
+}
+c_Node27* c_Node27::m_new(int t_key,c_Tile* t_value,int t_color,c_Node27* t_parent){
+	this->m_key=t_key;
+	gc_assign(this->m_value,t_value);
+	this->m_color=t_color;
+	gc_assign(this->m_parent,t_parent);
+	return this;
+}
+c_Node27* c_Node27::m_new2(){
+	return this;
+}
+int c_Node27::p_Key(){
+	return m_key;
+}
+int c_Node27::p_Count2(int t_n){
+	if((m_left)!=0){
+		t_n=m_left->p_Count2(t_n);
+	}
+	if((m_right)!=0){
+		t_n=m_right->p_Count2(t_n);
+	}
+	return t_n+1;
+}
+void c_Node27::mark(){
+	Object::mark();
+	gc_mark_q(m_left);
+	gc_mark_q(m_right);
+	gc_mark_q(m_parent);
+	gc_mark_q(m_value);
+}
 c_List12::c_List12(){
 	m__head=((new c_HeadNode12)->m_new());
 }
 c_List12* c_List12::m_new(){
 	return this;
 }
-c_Node27* c_List12::p_AddLast12(c_Tile* t_data){
-	return (new c_Node27)->m_new(m__head,m__head->m__pred,t_data);
+c_Node28* c_List12::p_AddLast12(c_Tile* t_data){
+	return (new c_Node28)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List12* c_List12::m_new2(Array<c_Tile* > t_data){
 	Array<c_Tile* > t_=t_data;
@@ -44643,9 +46075,9 @@ bool c_List12::p_Equals10(c_Tile* t_lhs,c_Tile* t_rhs){
 	return t_lhs==t_rhs;
 }
 int c_List12::p_RemoveEach6(c_Tile* t_value){
-	c_Node27* t_node=m__head->m__succ;
+	c_Node28* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node27* t_succ=t_node->m__succ;
+		c_Node28* t_succ=t_node->m__succ;
 		if(p_Equals10(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
@@ -44655,7 +46087,7 @@ int c_List12::p_RemoveEach6(c_Tile* t_value){
 }
 int c_List12::p_Count(){
 	int t_n=0;
-	c_Node27* t_node=m__head->m__succ;
+	c_Node28* t_node=m__head->m__succ;
 	while(t_node!=m__head){
 		t_node=t_node->m__succ;
 		t_n+=1;
@@ -44667,7 +46099,7 @@ c_Tile* c_List12::p_RemoveFirst(){
 	m__head->m__succ->p_Remove();
 	return t_data;
 }
-c_Node27* c_List12::p_Find5(c_Tile* t_value,c_Node27* t_start){
+c_Node28* c_List12::p_Find5(c_Tile* t_value,c_Node28* t_start){
 	while(t_start!=m__head){
 		if(p_Equals10(t_value,t_start->m__data)){
 			return t_start;
@@ -44676,11 +46108,11 @@ c_Node27* c_List12::p_Find5(c_Tile* t_value,c_Node27* t_start){
 	}
 	return 0;
 }
-c_Node27* c_List12::p_Find6(c_Tile* t_value){
+c_Node28* c_List12::p_Find6(c_Tile* t_value){
 	return p_Find5(t_value,m__head->m__succ);
 }
 void c_List12::p_RemoveFirst4(c_Tile* t_value){
-	c_Node27* t_node=p_Find6(t_value);
+	c_Node28* t_node=p_Find6(t_value);
 	if((t_node)!=0){
 		t_node->p_Remove();
 	}
@@ -44689,12 +46121,12 @@ void c_List12::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node27::c_Node27(){
+c_Node28::c_Node28(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node27* c_Node27::m_new(c_Node27* t_succ,c_Node27* t_pred,c_Tile* t_data){
+c_Node28* c_Node28::m_new(c_Node28* t_succ,c_Node28* t_pred,c_Tile* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -44702,15 +46134,15 @@ c_Node27* c_Node27::m_new(c_Node27* t_succ,c_Node27* t_pred,c_Tile* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node27* c_Node27::m_new2(){
+c_Node28* c_Node28::m_new2(){
 	return this;
 }
-int c_Node27::p_Remove(){
+int c_Node28::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node27::mark(){
+void c_Node28::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -44719,13 +46151,13 @@ void c_Node27::mark(){
 c_HeadNode12::c_HeadNode12(){
 }
 c_HeadNode12* c_HeadNode12::m_new(){
-	c_Node27::m_new2();
+	c_Node28::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode12::mark(){
-	c_Node27::mark();
+	c_Node28::mark();
 }
 c_MinibossTileData::c_MinibossTileData(){
 	m_x=0;
@@ -44745,8 +46177,8 @@ c_List13::c_List13(){
 c_List13* c_List13::m_new(){
 	return this;
 }
-c_Node28* c_List13::p_AddLast13(c_MinibossTileData* t_data){
-	return (new c_Node28)->m_new(m__head,m__head->m__pred,t_data);
+c_Node29* c_List13::p_AddLast13(c_MinibossTileData* t_data){
+	return (new c_Node29)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List13* c_List13::m_new2(Array<c_MinibossTileData* > t_data){
 	Array<c_MinibossTileData* > t_=t_data;
@@ -44770,12 +46202,12 @@ void c_List13::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node28::c_Node28(){
+c_Node29::c_Node29(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node28* c_Node28::m_new(c_Node28* t_succ,c_Node28* t_pred,c_MinibossTileData* t_data){
+c_Node29* c_Node29::m_new(c_Node29* t_succ,c_Node29* t_pred,c_MinibossTileData* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -44783,10 +46215,10 @@ c_Node28* c_Node28::m_new(c_Node28* t_succ,c_Node28* t_pred,c_MinibossTileData* 
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node28* c_Node28::m_new2(){
+c_Node29* c_Node29::m_new2(){
 	return this;
 }
-void c_Node28::mark(){
+void c_Node29::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -44795,13 +46227,13 @@ void c_Node28::mark(){
 c_HeadNode13::c_HeadNode13(){
 }
 c_HeadNode13* c_HeadNode13::m_new(){
-	c_Node28::m_new2();
+	c_Node29::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode13::mark(){
-	c_Node28::mark();
+	c_Node29::mark();
 }
 c_RoomData::c_RoomData(){
 	m_x=0;
@@ -44844,8 +46276,8 @@ c_List14::c_List14(){
 c_List14* c_List14::m_new(){
 	return this;
 }
-c_Node29* c_List14::p_AddLast14(c_RoomData* t_data){
-	return (new c_Node29)->m_new(m__head,m__head->m__pred,t_data);
+c_Node30* c_List14::p_AddLast14(c_RoomData* t_data){
+	return (new c_Node30)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List14* c_List14::m_new2(Array<c_RoomData* > t_data){
 	Array<c_RoomData* > t_=t_data;
@@ -44870,7 +46302,7 @@ c_Enumerator26* c_List14::p_ObjectEnumerator(){
 }
 int c_List14::p_Count(){
 	int t_n=0;
-	c_Node29* t_node=m__head->m__succ;
+	c_Node30* t_node=m__head->m__succ;
 	while(t_node!=m__head){
 		t_node=t_node->m__succ;
 		t_n+=1;
@@ -44896,7 +46328,7 @@ c_RoomData* c_List14::p_RemoveFirst(){
 bool c_List14::p_Equals11(c_RoomData* t_lhs,c_RoomData* t_rhs){
 	return t_lhs==t_rhs;
 }
-c_Node29* c_List14::p_Find7(c_RoomData* t_value,c_Node29* t_start){
+c_Node30* c_List14::p_Find7(c_RoomData* t_value,c_Node30* t_start){
 	while(t_start!=m__head){
 		if(p_Equals11(t_value,t_start->m__data)){
 			return t_start;
@@ -44905,11 +46337,11 @@ c_Node29* c_List14::p_Find7(c_RoomData* t_value,c_Node29* t_start){
 	}
 	return 0;
 }
-c_Node29* c_List14::p_Find8(c_RoomData* t_value){
+c_Node30* c_List14::p_Find8(c_RoomData* t_value){
 	return p_Find7(t_value,m__head->m__succ);
 }
 void c_List14::p_RemoveFirst5(c_RoomData* t_value){
-	c_Node29* t_node=p_Find8(t_value);
+	c_Node30* t_node=p_Find8(t_value);
 	if((t_node)!=0){
 		t_node->p_Remove();
 	}
@@ -44918,12 +46350,12 @@ void c_List14::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node29::c_Node29(){
+c_Node30::c_Node30(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node29* c_Node29::m_new(c_Node29* t_succ,c_Node29* t_pred,c_RoomData* t_data){
+c_Node30* c_Node30::m_new(c_Node30* t_succ,c_Node30* t_pred,c_RoomData* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -44931,15 +46363,15 @@ c_Node29* c_Node29::m_new(c_Node29* t_succ,c_Node29* t_pred,c_RoomData* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node29* c_Node29::m_new2(){
+c_Node30* c_Node30::m_new2(){
 	return this;
 }
-int c_Node29::p_Remove(){
+int c_Node30::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node29::mark(){
+void c_Node30::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -44948,13 +46380,13 @@ void c_Node29::mark(){
 c_HeadNode14::c_HeadNode14(){
 }
 c_HeadNode14* c_HeadNode14::m_new(){
-	c_Node29::m_new2();
+	c_Node30::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode14::mark(){
-	c_Node29::mark();
+	c_Node30::mark();
 }
 c_Trap::c_Trap(){
 	m_trapType=0;
@@ -45040,8 +46472,8 @@ c_List15::c_List15(){
 c_List15* c_List15::m_new(){
 	return this;
 }
-c_Node30* c_List15::p_AddLast15(c_Trap* t_data){
-	return (new c_Node30)->m_new(m__head,m__head->m__pred,t_data);
+c_Node31* c_List15::p_AddLast15(c_Trap* t_data){
+	return (new c_Node31)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List15* c_List15::m_new2(Array<c_Trap* > t_data){
 	Array<c_Trap* > t_=t_data;
@@ -45063,7 +46495,7 @@ c_Enumerator7* c_List15::p_ObjectEnumerator(){
 }
 int c_List15::p_Count(){
 	int t_n=0;
-	c_Node30* t_node=m__head->m__succ;
+	c_Node31* t_node=m__head->m__succ;
 	while(t_node!=m__head){
 		t_node=t_node->m__succ;
 		t_n+=1;
@@ -45085,9 +46517,9 @@ bool c_List15::p_Equals12(c_Trap* t_lhs,c_Trap* t_rhs){
 	return t_lhs==t_rhs;
 }
 int c_List15::p_RemoveEach7(c_Trap* t_value){
-	c_Node30* t_node=m__head->m__succ;
+	c_Node31* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node30* t_succ=t_node->m__succ;
+		c_Node31* t_succ=t_node->m__succ;
 		if(p_Equals12(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
@@ -45108,12 +46540,12 @@ c_TrapList* c_TrapList::m_new(){
 void c_TrapList::mark(){
 	c_List15::mark();
 }
-c_Node30::c_Node30(){
+c_Node31::c_Node31(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node30* c_Node30::m_new(c_Node30* t_succ,c_Node30* t_pred,c_Trap* t_data){
+c_Node31* c_Node31::m_new(c_Node31* t_succ,c_Node31* t_pred,c_Trap* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -45121,15 +46553,15 @@ c_Node30* c_Node30::m_new(c_Node30* t_succ,c_Node30* t_pred,c_Trap* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node30* c_Node30::m_new2(){
+c_Node31* c_Node31::m_new2(){
 	return this;
 }
-int c_Node30::p_Remove(){
+int c_Node31::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node30::mark(){
+void c_Node31::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -45138,13 +46570,13 @@ void c_Node30::mark(){
 c_HeadNode15::c_HeadNode15(){
 }
 c_HeadNode15* c_HeadNode15::m_new(){
-	c_Node30::m_new2();
+	c_Node31::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode15::mark(){
-	c_Node30::mark();
+	c_Node31::mark();
 }
 c_List16::c_List16(){
 	m__head=((new c_HeadNode16)->m_new());
@@ -45152,8 +46584,8 @@ c_List16::c_List16(){
 c_List16* c_List16::m_new(){
 	return this;
 }
-c_Node31* c_List16::p_AddLast16(c_ParticleSystem* t_data){
-	return (new c_Node31)->m_new(m__head,m__head->m__pred,t_data);
+c_Node32* c_List16::p_AddLast16(c_ParticleSystem* t_data){
+	return (new c_Node32)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List16* c_List16::m_new2(Array<c_ParticleSystem* > t_data){
 	Array<c_ParticleSystem* > t_=t_data;
@@ -45177,9 +46609,9 @@ bool c_List16::p_Equals13(c_ParticleSystem* t_lhs,c_ParticleSystem* t_rhs){
 	return t_lhs==t_rhs;
 }
 int c_List16::p_RemoveEach8(c_ParticleSystem* t_value){
-	c_Node31* t_node=m__head->m__succ;
+	c_Node32* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node31* t_succ=t_node->m__succ;
+		c_Node32* t_succ=t_node->m__succ;
 		if(p_Equals13(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
@@ -45187,19 +46619,19 @@ int c_List16::p_RemoveEach8(c_ParticleSystem* t_value){
 	}
 	return 0;
 }
-void c_List16::p_Remove4(c_ParticleSystem* t_value){
+void c_List16::p_Remove5(c_ParticleSystem* t_value){
 	p_RemoveEach8(t_value);
 }
 void c_List16::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node31::c_Node31(){
+c_Node32::c_Node32(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node31* c_Node31::m_new(c_Node31* t_succ,c_Node31* t_pred,c_ParticleSystem* t_data){
+c_Node32* c_Node32::m_new(c_Node32* t_succ,c_Node32* t_pred,c_ParticleSystem* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -45207,15 +46639,15 @@ c_Node31* c_Node31::m_new(c_Node31* t_succ,c_Node31* t_pred,c_ParticleSystem* t_
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node31* c_Node31::m_new2(){
+c_Node32* c_Node32::m_new2(){
 	return this;
 }
-int c_Node31::p_Remove(){
+int c_Node32::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node31::mark(){
+void c_Node32::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -45224,13 +46656,13 @@ void c_Node31::mark(){
 c_HeadNode16::c_HeadNode16(){
 }
 c_HeadNode16* c_HeadNode16::m_new(){
-	c_Node31::m_new2();
+	c_Node32::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode16::mark(){
-	c_Node31::mark();
+	c_Node32::mark();
 }
 c_List17::c_List17(){
 	m__head=((new c_HeadNode17)->m_new());
@@ -45238,8 +46670,8 @@ c_List17::c_List17(){
 c_List17* c_List17::m_new(){
 	return this;
 }
-c_Node32* c_List17::p_AddLast17(int t_data){
-	return (new c_Node32)->m_new(m__head,m__head->m__pred,t_data);
+c_Node33* c_List17::p_AddLast17(int t_data){
+	return (new c_Node33)->m_new(m__head,m__head->m__pred,t_data);
 }
 c_List17* c_List17::m_new2(Array<int > t_data){
 	Array<int > t_=t_data;
@@ -45273,12 +46705,12 @@ c_IntList* c_IntList::m_new2(){
 void c_IntList::mark(){
 	c_List17::mark();
 }
-c_Node32::c_Node32(){
+c_Node33::c_Node33(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node32* c_Node32::m_new(c_Node32* t_succ,c_Node32* t_pred,int t_data){
+c_Node33* c_Node33::m_new(c_Node33* t_succ,c_Node33* t_pred,int t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -45286,10 +46718,10 @@ c_Node32* c_Node32::m_new(c_Node32* t_succ,c_Node32* t_pred,int t_data){
 	m__data=t_data;
 	return this;
 }
-c_Node32* c_Node32::m_new2(){
+c_Node33* c_Node33::m_new2(){
 	return this;
 }
-void c_Node32::mark(){
+void c_Node33::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
@@ -45297,13 +46729,13 @@ void c_Node32::mark(){
 c_HeadNode17::c_HeadNode17(){
 }
 c_HeadNode17* c_HeadNode17::m_new(){
-	c_Node32::m_new2();
+	c_Node33::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
 void c_HeadNode17::mark(){
-	c_Node32::mark();
+	c_Node33::mark();
 }
 c_NPC::c_NPC(){
 	m_captive=false;
@@ -45539,366 +46971,6 @@ bool c_Pawnbroker::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* 
 void c_Pawnbroker::mark(){
 	c_NPC::mark();
 }
-c_Map15::c_Map15(){
-	m_root=0;
-}
-c_Map15* c_Map15::m_new(){
-	return this;
-}
-int c_Map15::p_Clear(){
-	m_root=0;
-	return 0;
-}
-c_Node33* c_Map15::p_FirstNode(){
-	if(!((m_root)!=0)){
-		return 0;
-	}
-	c_Node33* t_node=m_root;
-	while((t_node->m_left)!=0){
-		t_node=t_node->m_left;
-	}
-	return t_node;
-}
-c_NodeEnumerator3* c_Map15::p_ObjectEnumerator(){
-	return (new c_NodeEnumerator3)->m_new(p_FirstNode());
-}
-int c_Map15::p_RotateLeft14(c_Node33* t_node){
-	c_Node33* t_child=t_node->m_right;
-	gc_assign(t_node->m_right,t_child->m_left);
-	if((t_child->m_left)!=0){
-		gc_assign(t_child->m_left->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_left){
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_left,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map15::p_RotateRight14(c_Node33* t_node){
-	c_Node33* t_child=t_node->m_left;
-	gc_assign(t_node->m_left,t_child->m_right);
-	if((t_child->m_right)!=0){
-		gc_assign(t_child->m_right->m_parent,t_node);
-	}
-	gc_assign(t_child->m_parent,t_node->m_parent);
-	if((t_node->m_parent)!=0){
-		if(t_node==t_node->m_parent->m_right){
-			gc_assign(t_node->m_parent->m_right,t_child);
-		}else{
-			gc_assign(t_node->m_parent->m_left,t_child);
-		}
-	}else{
-		gc_assign(m_root,t_child);
-	}
-	gc_assign(t_child->m_right,t_node);
-	gc_assign(t_node->m_parent,t_child);
-	return 0;
-}
-int c_Map15::p_InsertFixup14(c_Node33* t_node){
-	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
-		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node33* t_uncle=t_node->m_parent->m_parent->m_right;
-			if(((t_uncle)!=0) && t_uncle->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle->m_color=1;
-				t_uncle->m_parent->m_color=-1;
-				t_node=t_uncle->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_right){
-					t_node=t_node->m_parent;
-					p_RotateLeft14(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateRight14(t_node->m_parent->m_parent);
-			}
-		}else{
-			c_Node33* t_uncle2=t_node->m_parent->m_parent->m_left;
-			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
-				t_node->m_parent->m_color=1;
-				t_uncle2->m_color=1;
-				t_uncle2->m_parent->m_color=-1;
-				t_node=t_uncle2->m_parent;
-			}else{
-				if(t_node==t_node->m_parent->m_left){
-					t_node=t_node->m_parent;
-					p_RotateRight14(t_node);
-				}
-				t_node->m_parent->m_color=1;
-				t_node->m_parent->m_parent->m_color=-1;
-				p_RotateLeft14(t_node->m_parent->m_parent);
-			}
-		}
-	}
-	m_root->m_color=1;
-	return 0;
-}
-bool c_Map15::p_Set15(c_Point* t_key,c_Point* t_value){
-	c_Node33* t_node=m_root;
-	c_Node33* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare3(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				gc_assign(t_node->m_value,t_value);
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node33)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup14(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-bool c_Map15::p_Add7(c_Point* t_key,c_Point* t_value){
-	c_Node33* t_node=m_root;
-	c_Node33* t_parent=0;
-	int t_cmp=0;
-	while((t_node)!=0){
-		t_parent=t_node;
-		t_cmp=p_Compare3(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return false;
-			}
-		}
-	}
-	t_node=(new c_Node33)->m_new(t_key,t_value,-1,t_parent);
-	if((t_parent)!=0){
-		if(t_cmp>0){
-			gc_assign(t_parent->m_right,t_node);
-		}else{
-			gc_assign(t_parent->m_left,t_node);
-		}
-		p_InsertFixup14(t_node);
-	}else{
-		gc_assign(m_root,t_node);
-	}
-	return true;
-}
-c_Node33* c_Map15::p_FindNode3(c_Point* t_key){
-	c_Node33* t_node=m_root;
-	while((t_node)!=0){
-		int t_cmp=p_Compare3(t_key,t_node->m_key);
-		if(t_cmp>0){
-			t_node=t_node->m_right;
-		}else{
-			if(t_cmp<0){
-				t_node=t_node->m_left;
-			}else{
-				return t_node;
-			}
-		}
-	}
-	return t_node;
-}
-bool c_Map15::p_Contains5(c_Point* t_key){
-	return p_FindNode3(t_key)!=0;
-}
-c_Point* c_Map15::p_Get4(c_Point* t_key){
-	c_Node33* t_node=p_FindNode3(t_key);
-	if((t_node)!=0){
-		return t_node->m_value;
-	}
-	return 0;
-}
-int c_Map15::p_DeleteFixup2(c_Node33* t_node,c_Node33* t_parent){
-	while(t_node!=m_root && (!((t_node)!=0) || t_node->m_color==1)){
-		if(t_node==t_parent->m_left){
-			c_Node33* t_sib=t_parent->m_right;
-			if(t_sib->m_color==-1){
-				t_sib->m_color=1;
-				t_parent->m_color=-1;
-				p_RotateLeft14(t_parent);
-				t_sib=t_parent->m_right;
-			}
-			if((!((t_sib->m_left)!=0) || t_sib->m_left->m_color==1) && (!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1)){
-				t_sib->m_color=-1;
-				t_node=t_parent;
-				t_parent=t_parent->m_parent;
-			}else{
-				if(!((t_sib->m_right)!=0) || t_sib->m_right->m_color==1){
-					t_sib->m_left->m_color=1;
-					t_sib->m_color=-1;
-					p_RotateRight14(t_sib);
-					t_sib=t_parent->m_right;
-				}
-				t_sib->m_color=t_parent->m_color;
-				t_parent->m_color=1;
-				t_sib->m_right->m_color=1;
-				p_RotateLeft14(t_parent);
-				t_node=m_root;
-			}
-		}else{
-			c_Node33* t_sib2=t_parent->m_left;
-			if(t_sib2->m_color==-1){
-				t_sib2->m_color=1;
-				t_parent->m_color=-1;
-				p_RotateRight14(t_parent);
-				t_sib2=t_parent->m_left;
-			}
-			if((!((t_sib2->m_right)!=0) || t_sib2->m_right->m_color==1) && (!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1)){
-				t_sib2->m_color=-1;
-				t_node=t_parent;
-				t_parent=t_parent->m_parent;
-			}else{
-				if(!((t_sib2->m_left)!=0) || t_sib2->m_left->m_color==1){
-					t_sib2->m_right->m_color=1;
-					t_sib2->m_color=-1;
-					p_RotateLeft14(t_sib2);
-					t_sib2=t_parent->m_left;
-				}
-				t_sib2->m_color=t_parent->m_color;
-				t_parent->m_color=1;
-				t_sib2->m_left->m_color=1;
-				p_RotateRight14(t_parent);
-				t_node=m_root;
-			}
-		}
-	}
-	if((t_node)!=0){
-		t_node->m_color=1;
-	}
-	return 0;
-}
-int c_Map15::p_RemoveNode2(c_Node33* t_node){
-	c_Node33* t_splice=0;
-	c_Node33* t_child=0;
-	if(!((t_node->m_left)!=0)){
-		t_splice=t_node;
-		t_child=t_node->m_right;
-	}else{
-		if(!((t_node->m_right)!=0)){
-			t_splice=t_node;
-			t_child=t_node->m_left;
-		}else{
-			t_splice=t_node->m_left;
-			while((t_splice->m_right)!=0){
-				t_splice=t_splice->m_right;
-			}
-			t_child=t_splice->m_left;
-			gc_assign(t_node->m_key,t_splice->m_key);
-			gc_assign(t_node->m_value,t_splice->m_value);
-		}
-	}
-	c_Node33* t_parent=t_splice->m_parent;
-	if((t_child)!=0){
-		gc_assign(t_child->m_parent,t_parent);
-	}
-	if(!((t_parent)!=0)){
-		gc_assign(m_root,t_child);
-		return 0;
-	}
-	if(t_splice==t_parent->m_left){
-		gc_assign(t_parent->m_left,t_child);
-	}else{
-		gc_assign(t_parent->m_right,t_child);
-	}
-	if(t_splice->m_color==1){
-		p_DeleteFixup2(t_child,t_parent);
-	}
-	return 0;
-}
-int c_Map15::p_Remove5(c_Point* t_key){
-	c_Node33* t_node=p_FindNode3(t_key);
-	if(!((t_node)!=0)){
-		return 0;
-	}
-	p_RemoveNode2(t_node);
-	return 1;
-}
-void c_Map15::mark(){
-	Object::mark();
-	gc_mark_q(m_root);
-}
-c_ExitMap::c_ExitMap(){
-}
-c_ExitMap* c_ExitMap::m_new(){
-	c_Map15::m_new();
-	return this;
-}
-int c_ExitMap::p_Compare3(c_Point* t_lhs,c_Point* t_rhs){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ExitMap.Compare()",17));
-	return 0;
-}
-void c_ExitMap::mark(){
-	c_Map15::mark();
-}
-c_Node33::c_Node33(){
-	m_left=0;
-	m_right=0;
-	m_parent=0;
-	m_key=0;
-	m_value=0;
-	m_color=0;
-}
-c_Node33* c_Node33::p_NextNode(){
-	c_Node33* t_node=0;
-	if((m_right)!=0){
-		t_node=m_right;
-		while((t_node->m_left)!=0){
-			t_node=t_node->m_left;
-		}
-		return t_node;
-	}
-	t_node=this;
-	c_Node33* t_parent=this->m_parent;
-	while(((t_parent)!=0) && t_node==t_parent->m_right){
-		t_node=t_parent;
-		t_parent=t_parent->m_parent;
-	}
-	return t_parent;
-}
-c_Point* c_Node33::p_Key(){
-	return m_key;
-}
-c_Point* c_Node33::p_Value(){
-	return m_value;
-}
-c_Node33* c_Node33::m_new(c_Point* t_key,c_Point* t_value,int t_color,c_Node33* t_parent){
-	gc_assign(this->m_key,t_key);
-	gc_assign(this->m_value,t_value);
-	this->m_color=t_color;
-	gc_assign(this->m_parent,t_parent);
-	return this;
-}
-c_Node33* c_Node33::m_new2(){
-	return this;
-}
-void c_Node33::mark(){
-	Object::mark();
-	gc_mark_q(m_left);
-	gc_mark_q(m_right);
-	gc_mark_q(m_parent);
-	gc_mark_q(m_key);
-	gc_mark_q(m_value);
-}
 c_TilesetType::c_TilesetType(){
 }
 void c_TilesetType::mark(){
@@ -46130,28 +47202,6 @@ c_StringStack* c_StringStack::m_new2(){
 }
 void c_StringStack::mark(){
 	c_Stack3::mark();
-}
-c_NodeEnumerator3::c_NodeEnumerator3(){
-	m_node=0;
-}
-c_NodeEnumerator3* c_NodeEnumerator3::m_new(c_Node33* t_node){
-	gc_assign(this->m_node,t_node);
-	return this;
-}
-c_NodeEnumerator3* c_NodeEnumerator3::m_new2(){
-	return this;
-}
-bool c_NodeEnumerator3::p_HasNext(){
-	return m_node!=0;
-}
-c_Node33* c_NodeEnumerator3::p_NextObject(){
-	c_Node33* t_t=m_node;
-	gc_assign(m_node,m_node->p_NextNode());
-	return t_t;
-}
-void c_NodeEnumerator3::mark(){
-	Object::mark();
-	gc_mark_q(m_node);
 }
 c_Sarcophagus::c_Sarcophagus(){
 	m_numEnemiesSpawned=0;
@@ -46399,15 +47449,6 @@ c_List19* c_List19::m_new2(Array<c_Sarcophagus* > t_data){
 	}
 	return this;
 }
-int c_List19::p_Count(){
-	int t_n=0;
-	c_Node36* t_node=m__head->m__succ;
-	while(t_node!=m__head){
-		t_node=t_node->m__succ;
-		t_n+=1;
-	}
-	return t_n;
-}
 bool c_List19::p_Equals14(c_Sarcophagus* t_lhs,c_Sarcophagus* t_rhs){
 	return t_lhs==t_rhs;
 }
@@ -46421,6 +47462,15 @@ int c_List19::p_RemoveEach9(c_Sarcophagus* t_value){
 		t_node=t_succ;
 	}
 	return 0;
+}
+int c_List19::p_Count(){
+	int t_n=0;
+	c_Node36* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		t_node=t_node->m__succ;
+		t_n+=1;
+	}
+	return t_n;
 }
 void c_List19::mark(){
 	Object::mark();
@@ -46469,7 +47519,7 @@ c_KingConga::c_KingConga(){
 	m_initY=0;
 	m_initialXOff=-1;
 	m_image2=0;
-	m_zombieFriends=(new c_List11)->m_new();
+	m_zombieFriends=(new c_List10)->m_new();
 }
 c_KingConga* c_KingConga::m_theKing;
 c_KingConga* c_KingConga::m_new(int t_xVal,int t_yVal,int t_l){
@@ -46500,7 +47550,7 @@ c_KingConga* c_KingConga::m_new2(){
 	return this;
 }
 void c_KingConga::p_AddZombieFriend(c_Enemy* t_z){
-	this->m_zombieFriends->p_AddLast11(t_z);
+	this->m_zombieFriends->p_AddLast10(t_z);
 }
 void c_KingConga::p_Die(){
 	c_Enemy::m_SetEnemiesToDropNoCoinsOverride();
@@ -47453,7 +48503,7 @@ c_Bomb::c_Bomb(){
 	m_damageSource=String(L"bomb",4);
 	m_explosionImg=0;
 }
-c_List40* c_Bomb::m_bombList;
+c_List39* c_Bomb::m_bombList;
 c_Bomb* c_Bomb::m_new(int t_xVal,int t_yVal,c_Player* t_dropper,bool t_playLitSound,bool t_big,String t_dmgSource){
 	c_Item::m_new(t_xVal,t_yVal,String(L"bomb",4),false,-1,false);
 	this->m_pickupable=false;
@@ -47466,7 +48516,7 @@ c_Bomb* c_Bomb::m_new(int t_xVal,int t_yVal,c_Player* t_dropper,bool t_playLitSo
 	if(t_playLitSound){
 		bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.New(Int, Int, Player, Bool, Bool, String) (Audio)",54));
 	}
-	m_bombList->p_AddLast40(this);
+	m_bombList->p_AddLast39(this);
 	return this;
 }
 c_Bomb* c_Bomb::m_new2(){
@@ -47690,7 +48740,7 @@ c_TrapChest* c_TrapChest::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
-void c_TrapChest::p_DropItem(){
+void c_TrapChest::p_DropItem2(){
 	if(!this->m_itemDropped){
 		if(!c_Level::m_isTrainingMode){
 			this->p_DetermineContents();
@@ -47703,7 +48753,7 @@ void c_TrapChest::p_DropItem(){
 }
 void c_TrapChest::p_Die(){
 	if(!this->m_dead){
-		this->p_DropItem();
+		this->p_DropItem2();
 		c_Enemy::p_Die();
 	}
 }
@@ -48112,14 +49162,14 @@ c_FakeWall* c_FakeWall::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
-void c_FakeWall::p_DropItem(){
+void c_FakeWall::p_DropItem2(){
 	if(!c_Level::m_isTrainingMode || this->m_level==2 && !this->m_goldDropped){
 		this->m_goldDropped=true;
 		(new c_Item)->m_new(this->m_x,this->m_y,String(L"resource_coin10",15),false,-1,false);
 	}
 }
 void c_FakeWall::p_Die(){
-	this->p_DropItem();
+	this->p_DropItem2();
 	c_Enemy::p_Die();
 }
 void c_FakeWall::p_Update(){
@@ -50113,7 +51163,7 @@ int c_Stack4::p_Length(){
 void c_Stack4::p_Set17(int t_index,c_Point* t_value){
 	gc_assign(m_data[t_index],t_value);
 }
-void c_Stack4::p_Remove3(int t_index){
+void c_Stack4::p_Remove4(int t_index){
 	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
 		gc_assign(m_data[t_i],m_data[t_i+1]);
 	}
@@ -50203,7 +51253,7 @@ bool c_Stack5::p_IsEmpty(){
 c_XMLNode* c_Stack5::p_Get2(int t_index){
 	return m_data[t_index];
 }
-void c_Stack5::p_Remove3(int t_index){
+void c_Stack5::p_Remove4(int t_index){
 	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
 		gc_assign(m_data[t_i],m_data[t_i+1]);
 	}
@@ -50374,11 +51424,6 @@ void c_Enumerator14::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
-}
-c_Direction::c_Direction(){
-}
-void c_Direction::mark(){
-	Object::mark();
 }
 c_TrapObject::c_TrapObject(){
 	m_type=0;
@@ -51535,54 +52580,6 @@ String c_ChestColor::m_ToString(int t_color){
 }
 void c_ChestColor::mark(){
 	Object::mark();
-}
-c_SaleChest::c_SaleChest(){
-	m_cost=999;
-}
-c_List33* c_SaleChest::m_currentSaleChests;
-void c_SaleChest::p_SetCost(){
-	int t_1=this->m_chestColor;
-	if(t_1==4 || t_1==2){
-		this->m_cost=40;
-	}else{
-		if(t_1==3){
-			this->m_cost=30;
-		}else{
-			this->m_cost=20;
-		}
-	}
-	if(c_Util::m_IsCharacterActive(5) || c_Util::m_IsCharacterActive(6) || c_Util::m_IsCharacterActive(7)){
-		this->m_cost=0;
-	}
-	if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_charisma",13),false) || c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_wonder",11),false)){
-		this->m_cost=int(Float(this->m_cost)*FLOAT(0.5));
-	}
-	if(c_Level::m_isHardcoreMode){
-		this->m_cost=int(Float(this->m_cost)*(Float(bb_controller_game_currentDepth)*FLOAT(0.5)+FLOAT(2.0)));
-	}
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleChest.SetCost() (digit sprites)",35));
-}
-c_SaleChest* c_SaleChest::m_new(int t_xVal,int t_yVal,String t_cont,bool t_invis,bool t_isLocked,bool t_isSecret,int t_tmpColor){
-	c_Chest::m_new(t_xVal,t_yVal,t_cont,t_invis,t_isLocked,t_isSecret,t_tmpColor);
-	this->m_saleChest=true;
-	m_currentSaleChests->p_AddLast33(this);
-	this->p_SetCost();
-	return this;
-}
-c_SaleChest* c_SaleChest::m_new2(){
-	c_Chest::m_new2();
-	return this;
-}
-void c_SaleChest::p_Die(){
-	m_currentSaleChests->p_RemoveEach17(this);
-	c_Chest::p_Die();
-}
-bool c_SaleChest::p_Open(Object* t_player){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleChest.Open(Object)",22));
-	return false;
-}
-void c_SaleChest::mark(){
-	c_Chest::mark();
 }
 c_List33::c_List33(){
 	m__head=((new c_HeadNode33)->m_new());
@@ -52765,7 +53762,7 @@ void c_StackEx4::mark(){
 c_IntPointMap2::c_IntPointMap2(){
 }
 c_IntPointMap2* c_IntPointMap2::m_new(){
-	c_Map15::m_new();
+	c_Map13::m_new();
 	return this;
 }
 int c_IntPointMap2::p_Compare3(c_Point* t_lhs,c_Point* t_rhs){
@@ -52784,7 +53781,7 @@ int c_IntPointMap2::p_Compare3(c_Point* t_lhs,c_Point* t_rhs){
 	return 0;
 }
 void c_IntPointMap2::mark(){
-	c_Map15::mark();
+	c_Map13::mark();
 }
 c_Stack10::c_Stack10(){
 	m_data=Array<c_RoomBase* >();
@@ -53860,10 +54857,10 @@ c_CrystalShards::c_CrystalShards(){
 void c_CrystalShards::m_MoveAll(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.MoveAll()",23));
 }
-c_List41* c_CrystalShards::m_shardsList;
+c_List40* c_CrystalShards::m_shardsList;
 c_CrystalShards* c_CrystalShards::m_new(int t_x_,int t_y_){
 	c_Entity::m_new();
-	m_shardsList->p_AddLast41(this);
+	m_shardsList->p_AddLast40(this);
 	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"entities/crystal_shards.png",27),24,24,2,c_Image::m_DefaultFlags));
 	this->m_image->p_SetZOff(FLOAT(-19.0));
 	return this;
@@ -53882,44 +54879,25 @@ bool c_CrystalShards::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entit
 void c_CrystalShards::mark(){
 	c_Entity::mark();
 }
-c_Minimap::c_Minimap(){
-}
-void c_Minimap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.Update()",16));
-}
-void c_Minimap::m_AddDirty(c_Point* t_p){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.AddDirty(Point)",23));
-}
-void c_Minimap::m_AddDirty2(int t_x,int t_y){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.AddDirty(Int, Int)",26));
-}
-void c_Minimap::mark(){
-	Object::mark();
-}
+bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 c_List39::c_List39(){
 	m__head=((new c_HeadNode39)->m_new());
 }
 c_List39* c_List39::m_new(){
 	return this;
 }
-c_Node57* c_List39::p_AddLast39(c_Player* t_data){
+c_Node57* c_List39::p_AddLast39(c_Bomb* t_data){
 	return (new c_Node57)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List39* c_List39::m_new2(Array<c_Player* > t_data){
-	Array<c_Player* > t_=t_data;
+c_List39* c_List39::m_new2(Array<c_Bomb* > t_data){
+	Array<c_Bomb* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Player* t_t=t_[t_2];
+		c_Bomb* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast39(t_t);
 	}
 	return this;
-}
-c_Enumerator35* c_List39::p_ObjectEnumerator(){
-	return (new c_Enumerator35)->m_new(this);
-}
-bool c_List39::p_IsEmpty(){
-	return m__head->m__succ==m__head;
 }
 void c_List39::mark(){
 	Object::mark();
@@ -53930,7 +54908,7 @@ c_Node57::c_Node57(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node57* c_Node57::m_new(c_Node57* t_succ,c_Node57* t_pred,c_Player* t_data){
+c_Node57* c_Node57::m_new(c_Node57* t_succ,c_Node57* t_pred,c_Bomb* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -53958,49 +54936,20 @@ c_HeadNode39* c_HeadNode39::m_new(){
 void c_HeadNode39::mark(){
 	c_Node57::mark();
 }
-c_Enumerator35::c_Enumerator35(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator35* c_Enumerator35::m_new(c_List39* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator35* c_Enumerator35::m_new2(){
-	return this;
-}
-bool c_Enumerator35::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_Player* c_Enumerator35::p_NextObject(){
-	c_Player* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator35::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 c_List40::c_List40(){
 	m__head=((new c_HeadNode40)->m_new());
 }
 c_List40* c_List40::m_new(){
 	return this;
 }
-c_Node58* c_List40::p_AddLast40(c_Bomb* t_data){
+c_Node58* c_List40::p_AddLast40(c_CrystalShards* t_data){
 	return (new c_Node58)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List40* c_List40::m_new2(Array<c_Bomb* > t_data){
-	Array<c_Bomb* > t_=t_data;
+c_List40* c_List40::m_new2(Array<c_CrystalShards* > t_data){
+	Array<c_CrystalShards* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Bomb* t_t=t_[t_2];
+		c_CrystalShards* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast40(t_t);
 	}
@@ -54015,7 +54964,7 @@ c_Node58::c_Node58(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node58* c_Node58::m_new(c_Node58* t_succ,c_Node58* t_pred,c_Bomb* t_data){
+c_Node58* c_Node58::m_new(c_Node58* t_succ,c_Node58* t_pred,c_CrystalShards* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -54043,24 +54992,48 @@ c_HeadNode40* c_HeadNode40::m_new(){
 void c_HeadNode40::mark(){
 	c_Node58::mark();
 }
+c_ConductorBattery::c_ConductorBattery(){
+}
+void c_ConductorBattery::m_WaterBallDeath(c_WaterBall* t_enemy){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.WaterBallDeath(WaterBall)",42));
+}
+void c_ConductorBattery::p_Die(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Die()",22));
+}
+bool c_ConductorBattery::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Hit(String, Int, Int, Entity, Bool, Int)",57));
+	return false;
+}
+void c_ConductorBattery::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Update()",25));
+}
+void c_ConductorBattery::mark(){
+	c_Enemy::mark();
+}
 c_List41::c_List41(){
 	m__head=((new c_HeadNode41)->m_new());
 }
 c_List41* c_List41::m_new(){
 	return this;
 }
-c_Node59* c_List41::p_AddLast41(c_CrystalShards* t_data){
+c_Node59* c_List41::p_AddLast41(c_Player* t_data){
 	return (new c_Node59)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List41* c_List41::m_new2(Array<c_CrystalShards* > t_data){
-	Array<c_CrystalShards* > t_=t_data;
+c_List41* c_List41::m_new2(Array<c_Player* > t_data){
+	Array<c_Player* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_CrystalShards* t_t=t_[t_2];
+		c_Player* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast41(t_t);
 	}
 	return this;
+}
+c_Enumerator35* c_List41::p_ObjectEnumerator(){
+	return (new c_Enumerator35)->m_new(this);
+}
+bool c_List41::p_IsEmpty(){
+	return m__head->m__succ==m__head;
 }
 void c_List41::mark(){
 	Object::mark();
@@ -54071,7 +55044,7 @@ c_Node59::c_Node59(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node59* c_Node59::m_new(c_Node59* t_succ,c_Node59* t_pred,c_CrystalShards* t_data){
+c_Node59* c_Node59::m_new(c_Node59* t_succ,c_Node59* t_pred,c_Player* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -54099,23 +55072,33 @@ c_HeadNode41* c_HeadNode41::m_new(){
 void c_HeadNode41::mark(){
 	c_Node59::mark();
 }
-c_ConductorBattery::c_ConductorBattery(){
+c_Enumerator35::c_Enumerator35(){
+	m__list=0;
+	m__curr=0;
 }
-void c_ConductorBattery::m_WaterBallDeath(c_WaterBall* t_enemy){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.WaterBallDeath(WaterBall)",42));
+c_Enumerator35* c_Enumerator35::m_new(c_List41* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
 }
-void c_ConductorBattery::p_Die(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Die()",22));
+c_Enumerator35* c_Enumerator35::m_new2(){
+	return this;
 }
-bool c_ConductorBattery::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Hit(String, Int, Int, Entity, Bool, Int)",57));
-	return false;
+bool c_Enumerator35::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
 }
-void c_ConductorBattery::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Update()",25));
+c_Player* c_Enumerator35::p_NextObject(){
+	c_Player* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
 }
-void c_ConductorBattery::mark(){
-	c_Enemy::mark();
+void c_Enumerator35::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
 }
 int bbInit(){
 	GC_CTOR
@@ -54288,15 +55271,26 @@ int bbInit(){
 	c_Spells::m_spellSlot2=String(L"spell_none",10);
 	c_Spells::m_spellCoolKills=(new c_StringMap6)->m_new();
 	c_Item::m_itemImages=(new c_StringMap7)->m_new();
-	c_Entity::m_entityCount=0;
-	c_Familiar::m_familiarList=(new c_List10)->m_new();
+	c_Level::m_isAllCharsRunNoItemsNoShrines=true;
+	c_Item::m_seenItems=(new c_StringMap6)->m_new();
 	c_GameData::m_replaySaveData=0;
+	bb_controller_game_lastPlayerMoveBeat=Array<int >(4);
+	c_Player::m_numDiamonds=0;
+	c_Tile::m_anyPlayerHaveZoneMapCachedFrame=0;
+	c_Level::m_minimap=0;
+	c_Entity::m_anyPlayerHaveGlassTorchCachedFrame=0;
+	c_Entity::m_anyPlayerHaveForesightTorchCachedFrame=0;
+	c_Entity::m_anyPlayerHaveWallsTorchCachedFrame=0;
+	c_Entity::m_anyPlayerHaveCircletCachedFrame=0;
+	c_Level::m_exits=(new c_ExitMap)->m_new();
+	c_Enemy::m_enemyList=(new c_EnemyList)->m_new();
+	c_Entity::m_entityCount=0;
+	c_Familiar::m_familiarList=(new c_List11)->m_new();
 	c_Level::m_isLevelEditor=false;
 	bb_controller_game_dailyChallengeSuccessScore=-1;
 	bb_controller_game_speedrunSuccessScore=-1;
 	bb_controller_game_hardcoreModeSuccessScore=-1;
 	c_Level::m_isLevelEnding=false;
-	c_Player::m_numDiamonds=0;
 	c_Audio::m_songShopOpen=false;
 	c_Player::m_playerTempCount=0;
 	c_Camera::m_x=0;
@@ -54316,11 +55310,9 @@ int bbInit(){
 	c_Player::m_cursedHeartHalf=0;
 	c_Level::m_previousLevelUnkilledStairLockingMinibosses=(new c_StackEx)->m_new();
 	c_Stack2::m_NIL=0;
-	c_Enemy::m_enemyList=(new c_EnemyList)->m_new();
 	c_RenderableObject::m_deletingAll=false;
 	c_Level::m_randSeedString=String();
 	c_Level::m_allCharsCompletion=Array<bool >(9);
-	c_Level::m_isAllCharsRunNoItemsNoShrines=true;
 	c_Level::m_allCharsCompletionDLC=Array<bool >(13);
 	c_Level::m_bossNumber=1;
 	c_Camera::m_seekX=FLOAT(.0);
@@ -54353,7 +55345,6 @@ int bbInit(){
 	c_Enemy::m_movesBehind=0;
 	c_Enemy::m_lastWraithSpawnBeat=0;
 	c_Audio::m_fixedBeatNum=-64;
-	bb_controller_game_lastPlayerMoveBeat=Array<int >(4);
 	c_Input::m_lastBeatSkippedFlyaway=-1;
 	bb_controller_game_controllerGamePointer=0;
 	c_Level::m_tiles=(new c_IntMap7)->m_new();
@@ -54389,7 +55380,6 @@ int bbInit(){
 	c_Level::m_levelConstraintW=0;
 	c_Level::m_levelConstraintH=0;
 	c_Level::m_levelConstraintNum=0;
-	c_Level::m_exits=(new c_ExitMap)->m_new();
 	c_Level::m_isAnyTar=false;
 	c_Level::m_isConductorLevel=false;
 	c_Level::m_levelJustStarted=false;
@@ -54423,7 +55413,6 @@ int bbInit(){
 	c_Audio::m_numLoops=0;
 	c_Audio::m_songDuration=0;
 	c_Item::m_pickupList=(new c_List20)->m_new();
-	c_Item::m_seenItems=(new c_StringMap6)->m_new();
 	c_FamiliarFixed::m_familiarList=(new c_List4)->m_new();
 	c_Wraith::m_theCursedWraith=0;
 	c_Item::m_itemPoolRandom=(new c_List)->m_new();
@@ -54489,14 +55478,9 @@ int bbInit(){
 	c_Level::m_practiceEnemyNum=-1;
 	c_Tile::m_anyPlayerHaveRingOfShadowsCachedFrame=0;
 	c_Tile::m_anyPlayerHaveCompassCachedFrame=0;
-	c_Tile::m_anyPlayerHaveZoneMapCachedFrame=0;
 	c_Tile::m_anyPlayerHaveMonocleCachedFrame=0;
 	c_Tile::m_anyPlayerHaveRingOfLuckCachedFrame=0;
 	c_Tile::m_anyPlayerHaveSunglassesCachedFrame=0;
-	c_Entity::m_anyPlayerHaveCircletCachedFrame=0;
-	c_Entity::m_anyPlayerHaveGlassTorchCachedFrame=0;
-	c_Entity::m_anyPlayerHaveForesightTorchCachedFrame=0;
-	c_Entity::m_anyPlayerHaveWallsTorchCachedFrame=0;
 	c_Entity::m_anyPlayerHaveNazarCharmCachedFrame=0;
 	c_Level::m_todaysRandSeedString=String();
 	c_Chain::m_waitingForFirstMovement=Array<bool >(4);
@@ -54532,7 +55516,11 @@ int bbInit(){
 	c_Doppelganger::m_doppelgangers=(new c_List37)->m_new();
 	c_Flyaway::m_temporarilyDisableNewFlyaways=0;
 	c_Flyaway::m_activeFlyaways=(new c_List38)->m_new();
-	c_Level::m_minimap=0;
+	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
+	c_Camera::m_shakeOffX=FLOAT(.0);
+	c_Camera::m_shakeOffY=FLOAT(.0);
+	c_Bomb::m_bombList=(new c_List39)->m_new();
+	c_CrystalShards::m_shardsList=(new c_List40)->m_new();
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
 	c_Level::m_maxLevelX=0;
@@ -54541,14 +55529,9 @@ int bbInit(){
 	c_Level::m_minLevelY=0;
 	c_Level::m_mapLightValues=Array<Float >();
 	c_Level::m_constMapLightValues=Array<Float >();
-	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_Tile::m_anyPlayerHaveZoneMapCached=false;
 	c_Entity::m_anyPlayerHaveWallsTorchCached=false;
 	c_Tile::m_anyPlayerHaveCompassCached=false;
-	c_Camera::m_shakeOffX=FLOAT(.0);
-	c_Camera::m_shakeOffY=FLOAT(.0);
-	c_Bomb::m_bombList=(new c_List40)->m_new();
-	c_CrystalShards::m_shardsList=(new c_List41)->m_new();
 	return 0;
 }
 void gc_mark(){
@@ -54591,8 +55574,13 @@ void gc_mark(){
 	gc_mark_q(c_Player::m_AltHeadHeights);
 	gc_mark_q(c_Spells::m_spellCoolKills);
 	gc_mark_q(c_Item::m_itemImages);
-	gc_mark_q(c_Familiar::m_familiarList);
+	gc_mark_q(c_Item::m_seenItems);
 	gc_mark_q(c_GameData::m_replaySaveData);
+	gc_mark_q(bb_controller_game_lastPlayerMoveBeat);
+	gc_mark_q(c_Level::m_minimap);
+	gc_mark_q(c_Level::m_exits);
+	gc_mark_q(c_Enemy::m_enemyList);
+	gc_mark_q(c_Familiar::m_familiarList);
 	gc_mark_q(c_Player::m_hudCoins);
 	gc_mark_q(c_Player::m_hudDiamonds);
 	gc_mark_q(c_Level::m_replay);
@@ -54603,7 +55591,6 @@ void gc_mark(){
 	gc_mark_q(c_Player::m_cursedHeartEmpty);
 	gc_mark_q(c_Player::m_cursedHeartHalf);
 	gc_mark_q(c_Level::m_previousLevelUnkilledStairLockingMinibosses);
-	gc_mark_q(c_Enemy::m_enemyList);
 	gc_mark_q(c_Level::m_allCharsCompletion);
 	gc_mark_q(c_Level::m_allCharsCompletionDLC);
 	gc_mark_q(c_Input::m_stickLeft);
@@ -54629,7 +55616,6 @@ void gc_mark(){
 	gc_mark_q(c_Input::m_punishmentBeatToSkipQueue);
 	gc_mark_q(c_Input::m_keysHitLastFrame);
 	gc_mark_q(c_Input::m_keysHit2FramesAgo);
-	gc_mark_q(bb_controller_game_lastPlayerMoveBeat);
 	gc_mark_q(bb_controller_game_controllerGamePointer);
 	gc_mark_q(c_Level::m_tiles);
 	gc_mark_q(c_Tile::m_floorRisingList);
@@ -54644,7 +55630,6 @@ void gc_mark(){
 	gc_mark_q(c_Level::m_shriner);
 	gc_mark_q(c_Level::m_pawnbroker);
 	gc_mark_q(c_Level::m_firstRoom);
-	gc_mark_q(c_Level::m_exits);
 	gc_mark_q(c_Level::m_pendingTiles);
 	gc_mark_q(c_Tile::m_pendingTilesList);
 	gc_mark_q(c_Enemy::m_randomizerXML);
@@ -54654,7 +55639,6 @@ void gc_mark(){
 	gc_mark_q(c_KingConga::m_theKing);
 	gc_mark_q(bb_controller_game_beatData);
 	gc_mark_q(c_Item::m_pickupList);
-	gc_mark_q(c_Item::m_seenItems);
 	gc_mark_q(c_FamiliarFixed::m_familiarList);
 	gc_mark_q(c_Wraith::m_theCursedWraith);
 	gc_mark_q(c_Item::m_itemPoolRandom);
@@ -54715,12 +55699,11 @@ void gc_mark(){
 	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_IN);
 	gc_mark_q(c_Doppelganger::m_doppelgangers);
 	gc_mark_q(c_Flyaway::m_activeFlyaways);
-	gc_mark_q(c_Level::m_minimap);
+	gc_mark_q(c_Bomb::m_bombList);
+	gc_mark_q(c_CrystalShards::m_shardsList);
 	gc_mark_q(c_ParticleSystemData::m_GEYSER);
 	gc_mark_q(c_Level::m_mapLightValues);
 	gc_mark_q(c_Level::m_constMapLightValues);
-	gc_mark_q(c_Bomb::m_bombList);
-	gc_mark_q(c_CrystalShards::m_shardsList);
 }
 //${TRANSCODE_END}
 

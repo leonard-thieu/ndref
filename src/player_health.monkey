@@ -109,7 +109,7 @@ Class PlayerHealth
         Debug.TraceNotImplemented("PlayerHealth.RefillTo(Int)")
     End Method
 
-    Method Reset: Void(newMax: Int)
+    Method Reset: Void(newMax: Int = 0)
         Self.fragile = False
 
         If Not Level.isHardcoreMode

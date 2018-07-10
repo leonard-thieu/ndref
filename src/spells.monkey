@@ -133,8 +133,8 @@ Class Spells
         Debug.TraceNotImplemented("Spells.Kill()")
     End Function
 
-    Function LearnSpell: Int(sp: Int)
-        Debug.TraceNotImplemented("Spells.LearnSpell(Int)")
+    Function LearnSpell: String(sp: String)
+        Debug.TraceNotImplemented("Spells.LearnSpell(String)")
     End Function
 
     Function PulseDir: Void(ent: Object, useGreater: Bool, dir: Int)
@@ -177,5 +177,6 @@ End Class
 Class SpellType
 
     Const None: String = "spell_none"
+    Const Transform: String = "spell_transform"
 
 End Class
