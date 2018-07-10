@@ -6005,7 +6005,9 @@ class c_GameData : public Object{
 	static void m_SetZoneHoardCollected(int);
 	static void m_SetPlayerHealthMax(int);
 	static int m_GetPlayerHealthMax();
+	static int m_lastNumCoins;
 	static void m_SetPlayerCoins(int);
+	static int m_lastNumDiamonds;
 	static void m_SetPlayerDiamonds(int);
 	static bool m_GetTutorialComplete();
 	static int m_GetDefaultCharacter();
@@ -14009,11 +14011,21 @@ int c_GameData::m_GetPlayerHealthMax(){
 	c_XMLNode* t_playerNode=t_saveData->p_GetChild2(String(L"player",6),false);
 	return t_playerNode->p_GetAttribute3(String(L"maxHealth",9),9);
 }
+int c_GameData::m_lastNumCoins;
 void c_GameData::m_SetPlayerCoins(int t_val){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetPlayerCoins(Int)",28));
+	if(t_val!=m_lastNumCoins){
+		m_lastNumCoins=t_val;
+		c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
+		t_playerNode->p_SetAttribute3(String(L"numCoins",8),t_val);
+	}
 }
+int c_GameData::m_lastNumDiamonds;
 void c_GameData::m_SetPlayerDiamonds(int t_val){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetPlayerDiamonds(Int)",31));
+	if(t_val!=m_lastNumDiamonds){
+		m_lastNumDiamonds=t_val;
+		c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
+		t_playerNode->p_SetAttribute3(String(L"numDiamonds",11),t_val);
+	}
 }
 bool c_GameData::m_GetTutorialComplete(){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
@@ -14028,7 +14040,8 @@ int c_GameData::m_GetDefaultCharacter(){
 	return t_defaultCharacter;
 }
 void c_GameData::m_SetDLCPlayed(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetDLCPlayed()",23));
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	t_gameNode->p_SetAttribute5(String(L"DLCPlayed",9),String(L"true",4));
 }
 int c_GameData::m_GetPlayerDiamonds(){
 	c_XMLNode* t_playerNode=m_xmlSaveData->p_GetChild2(String(L"player",6),false);
@@ -14192,7 +14205,11 @@ bool c_GameData::m_GetChangeLogShownForCurrentVersion(){
 	return false;
 }
 void c_GameData::m_SetCharUnlocked(int t_charNum,bool t_val){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetCharUnlocked(Int, Bool)",35));
+	if(c_Level::m_isReplaying){
+		return;
+	}
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	t_gameNode->p_SetAttribute2(String(L"charUnlocked",12)+String(t_charNum),t_val);
 }
 void c_GameData::m_SetChangeLogShownForCurrentVersion(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetChangeLogShownForCurrentVersion()",45));
@@ -55291,6 +55308,8 @@ int bbInit(){
 	bb_controller_game_speedrunSuccessScore=-1;
 	bb_controller_game_hardcoreModeSuccessScore=-1;
 	c_Level::m_isLevelEnding=false;
+	c_GameData::m_lastNumCoins=-1;
+	c_GameData::m_lastNumDiamonds=-1;
 	c_Audio::m_songShopOpen=false;
 	c_Player::m_playerTempCount=0;
 	c_Camera::m_x=0;

@@ -740,7 +740,12 @@ Class GameData
     End Function
 
     Function SetCharUnlocked: Void(charNum: Int, val: Bool = True)
-        Debug.TraceNotImplemented("GameData.SetCharUnlocked(Int, Bool)")
+        If Level.isReplaying
+            Return
+        End If
+
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+        gameNode.SetAttribute("charUnlocked" + charNum, val)
     End Function
 
     Function SetCustomMusic: Int(index: Int, filename: Int, addToPlaylist: Bool)
@@ -776,7 +781,8 @@ Class GameData
     End Function
 
     Function SetDLCPlayed: Void()
-        Debug.TraceNotImplemented("GameData.SetDLCPlayed()")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+        gameNode.SetAttribute("DLCPlayed", "true")
     End Function
 
     Function SetDoubleSpeed: Void(index: Int, d: Bool)
@@ -951,11 +957,21 @@ Class GameData
     End Function
 
     Function SetPlayerCoins: Void(val: Int)
-        Debug.TraceNotImplemented("GameData.SetPlayerCoins(Int)")
+        If val <> GameData.lastNumCoins
+            GameData.lastNumCoins = val
+
+            Local playerNode := GameData.xmlSaveData.GetChild("player")
+            playerNode.SetAttribute("numCoins", val)
+        End If
     End Function
 
     Function SetPlayerDiamonds: Void(val: Int)
-        Debug.TraceNotImplemented("GameData.SetPlayerDiamonds(Int)")
+        If val <> GameData.lastNumDiamonds
+            GameData.lastNumDiamonds = val
+
+            Local playerNode := GameData.xmlSaveData.GetChild("player")
+            playerNode.SetAttribute("numDiamonds", val)
+        End If
     End Function
 
     Function SetPlayerHealthMax: Void(val: Int)
