@@ -18,15 +18,24 @@ Class ToughSarcophagus Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, etype: Int)
-        Debug.TraceNotImplemented("ToughSarcophagus.New(Int, Int, Int)")
+        Super.New()
+
+        Self.Init(xVal, yVal, 1, "toughsarcophagus")
+
+        Self.isSarcophagus = True
+
+        Self.overrideHitSound = "sarcophagusHit"
+        Self.overrideDeathSound = "sarcophagusDeath"
+
+        Self.spawnType = etype
     End Method
 
     Field spawnType: Int
     Field spawnTimer: Int
     Field numSpawned: Int
     Field current: Enemy
-    Field vibrateCounter: Int
-    Field vibrateOffset: Float
+    Field vibrateCounter: Int = 3
+    Field vibrateOffset: Float = 0.7
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("ToughSarcophagus.GetMovementDirection()")

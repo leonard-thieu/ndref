@@ -11900,6 +11900,7 @@ class c_EnemyBaseType : public Object{
 };
 class c_ToughSarcophagus : public c_Enemy{
 	public:
+	int m_spawnType;
 	c_ToughSarcophagus();
 	static int m_GetPerRoomCount();
 	c_ToughSarcophagus* m_new(int,int,int);
@@ -52998,6 +52999,7 @@ void c_EnemyBaseType::mark(){
 	Object::mark();
 }
 c_ToughSarcophagus::c_ToughSarcophagus(){
+	m_spawnType=0;
 }
 int c_ToughSarcophagus::m_GetPerRoomCount(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ToughSarcophagus.GetPerRoomCount()",34));
@@ -53005,7 +53007,11 @@ int c_ToughSarcophagus::m_GetPerRoomCount(){
 }
 c_ToughSarcophagus* c_ToughSarcophagus::m_new(int t_xVal,int t_yVal,int t_etype){
 	c_Enemy::m_new();
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ToughSarcophagus.New(Int, Int, Int)",35));
+	this->p_Init5(t_xVal,t_yVal,1,String(L"toughsarcophagus",16));
+	this->m_isSarcophagus=true;
+	this->m_overrideHitSound=String(L"sarcophagusHit",14);
+	this->m_overrideDeathSound=String(L"sarcophagusDeath",16);
+	this->m_spawnType=t_etype;
 	return this;
 }
 c_ToughSarcophagus* c_ToughSarcophagus::m_new2(){
