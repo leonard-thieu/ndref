@@ -1158,7 +1158,13 @@ Class Item Extends Entity
     End Function
 
     Function MoveAll: Void()
-        Debug.TraceNotImplemented("Item.MoveAll()")
+        For Local pickup := EachIn Item.pickupList
+            If Bomb(pickup) <> Null
+                Continue
+            End If
+
+            pickup.Move()
+        End For
     End Function
 
     Function RandomHardModeHelperItem: Int()

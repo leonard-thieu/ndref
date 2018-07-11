@@ -7947,6 +7947,7 @@ class c_Item : public c_Entity{
 	static void m_ClearAllSingleChoiceItems(c_Item*);
 	virtual String p_Pickup(c_Player*);
 	static int m_ConsumeCoinsRemainingOnLevel();
+	virtual void p_Move();
 	static void m_MoveAll();
 	bool p_IsVisible();
 	void p_Update();
@@ -10246,6 +10247,7 @@ class c_Bomb : public c_Item{
 	c_Bomb* m_new2();
 	void p_Die();
 	bool p_IsVisible();
+	void p_Move();
 	void p_Update();
 	void mark();
 };
@@ -35939,8 +35941,18 @@ int c_Item::m_ConsumeCoinsRemainingOnLevel(){
 	}
 	return t_numCoins;
 }
+void c_Item::p_Move(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.Move()",11));
+}
 void c_Item::m_MoveAll(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.MoveAll()",14));
+	c_Enumerator11* t_=m_pickupList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Item* t_pickup=t_->p_NextObject();
+		if(dynamic_cast<c_Bomb*>(t_pickup)!=0){
+			continue;
+		}
+		t_pickup->p_Move();
+	}
 }
 bool c_Item::p_IsVisible(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.IsVisible()",16));
@@ -45824,7 +45836,7 @@ void c_ControllerGame::p_Update(){
 	c_Level::m_Update();
 	c_Input::m_UpdateKeysHit();
 	c_Enemy::m_movesBehind=c_Audio::m_GetClosestBeatNum(true)-bb_controller_game_lastEnemyMoveBeat;
-	if(c_Enemy::m_EnemiesMovingThisFrame()){
+	if(c_Enemy::m_EnemiesMovingThisFrame() || true){
 		c_Swarm::m_Move();
 		c_Item::m_MoveAll();
 		c_Enemy::m_MoveAll();
@@ -48985,6 +48997,9 @@ void c_Bomb::p_Die(){
 bool c_Bomb::p_IsVisible(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.IsVisible()",16));
 	return false;
+}
+void c_Bomb::p_Move(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.Move()",11));
 }
 void c_Bomb::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.Update()",13));

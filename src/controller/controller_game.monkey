@@ -21,6 +21,7 @@ Import gamedata
 Import input2
 Import item
 Import logger
+Import necrodancer
 Import particles
 Import player_class
 Import renderableobject
@@ -333,7 +334,8 @@ Class ControllerGame Extends Controller
         Input.UpdateKeysHit()
 
         Enemy.movesBehind = Audio.GetClosestBeatNum(True) - controller_game.lastEnemyMoveBeat
-        If Enemy.EnemiesMovingThisFrame()
+        If Enemy.EnemiesMovingThisFrame() Or
+           necrodancer.MOVE_ENTITIES_EVERY_UPDATE
             Swarm.Move()
             Bomb.MoveAll()
             Enemy.MoveAll()
