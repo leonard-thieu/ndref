@@ -7,6 +7,7 @@ Import monkey.math
 Import monkey.random
 Import os
 Import mojo.input
+Import familiar_fixed.soul_familiar
 Import gui.controller_game
 Import level
 Import camera
@@ -115,8 +116,21 @@ Class Util
         Return Null
     End Function
 
-    Function GetClosestPlayer: Object(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Util.GetClosestPlayer(Int, Int)")
+    Function GetClosestPlayer: Player(xVal: Int, yVal: Int)
+        Local dist := 99999.0
+        Local closestPlayer := controller_game.players[controller_game.player1]
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            Local distToPlayer := Util.GetDist(player.x, player.y, xVal, yVal)
+
+            If dist > distToPlayer
+                dist = distToPlayer
+                closestPlayer = player
+            End If
+        End For
+
+        Return closestPlayer
     End Function
 
     Function GetClosestPlayerIncludeItemEffects: Object(xVal: Int, yVal: Int, ignorePhasing: Bool)
@@ -145,7 +159,24 @@ Class Util
     End Function
 
     Function GetDistFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool)
-        Debug.TraceNotImplemented("Util.GetDistFromClosestPlayer(Int, Int, Bool)")
+        Local dist := 99999.0
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished
+                Local distToPlayer := Util.GetDist(player.x, player.y, xVal, yVal)
+                dist = math.Min(dist, distToPlayer)
+            End If
+        End For
+
+        If includeSouls
+            For Local soulFamiliar := EachIn SoulFamiliar.allSouls
+                Local distToSoulFamiliar := Util.GetDist(soulFamiliar.x, soulFamiliar.y, xVal, yVal)
+                dist = math.Min(dist, distToSoulFamiliar)
+            End For
+        End If
+
+        Return dist
     End Function
 
     Function GetDistSqFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool, includeLambs: Bool)

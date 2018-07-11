@@ -5446,16 +5446,20 @@ class c_Slime;
 class c_Skeleton;
 class c_EnemyClamper;
 class c_Monkey;
-class c_Enumerator9;
 class c_List20;
 class c_Node37;
 class c_HeadNode20;
+class c_Enumerator9;
 class c_Enumerator10;
-class c_Bomb;
 class c_List21;
 class c_Node38;
 class c_HeadNode21;
 class c_Enumerator11;
+class c_Bomb;
+class c_List22;
+class c_Node39;
+class c_HeadNode22;
+class c_Enumerator12;
 class c_Zombie;
 class c_Wraith;
 class c_TrapChest;
@@ -5494,9 +5498,9 @@ class c_Mommy;
 class c_Ogre;
 class c_MetroGnome;
 class c_Shopkeeper;
-class c_List22;
-class c_Node39;
-class c_HeadNode22;
+class c_List23;
+class c_Node40;
+class c_HeadNode23;
 class c_ShopkeeperGhost;
 class c_Skull;
 class c_Fortissimole;
@@ -5515,85 +5519,85 @@ class c_King;
 class c_Octoboss;
 class c_Tentacle;
 class c_Bell;
-class c_List23;
-class c_Node40;
-class c_HeadNode23;
+class c_List24;
+class c_Node41;
+class c_HeadNode24;
 class c_DeadRinger;
 class c_Rect;
 class c_Stack4;
 class c_StackEx2;
 class c_IntPointStack;
 class c_Stack5;
-class c_Enumerator12;
 class c_Enumerator13;
-class c_TileObject;
-class c_List24;
-class c_Node41;
-class c_HeadNode24;
 class c_Enumerator14;
-class c_TrapObject;
+class c_TileObject;
 class c_List25;
 class c_Node42;
 class c_HeadNode25;
 class c_Enumerator15;
+class c_TrapObject;
+class c_List26;
+class c_Node43;
+class c_HeadNode26;
+class c_Enumerator16;
 class c_TrapDoor;
 class c_TeleportTrap;
 class c_SlowDownTrap;
 class c_BombTrap;
 class c_ScatterTrap;
 class c_FireTrap;
-class c_List26;
+class c_List27;
 class c_IntPointList;
-class c_Node43;
-class c_HeadNode26;
-class c_Enumerator16;
+class c_Node44;
+class c_HeadNode27;
+class c_Enumerator17;
 class c_SpecialRoomType;
 class c_TravelRune;
 class c_TravelRuneType;
 class c_Medic;
-class c_List27;
-class c_Node44;
-class c_HeadNode27;
+class c_List28;
+class c_Node45;
+class c_HeadNode28;
 class c_Thing;
 class c_WeightedPicker;
 class c_Stack6;
 class c_UncertaintyWeaponPredicate;
 class c_UncertaintyRingPredicate;
-class c_List28;
-class c_Node45;
-class c_HeadNode28;
-class c_EnemyObject;
 class c_List29;
 class c_Node46;
 class c_HeadNode29;
-class c_Enumerator17;
-class c_ItemObject;
+class c_EnemyObject;
 class c_List30;
 class c_Node47;
 class c_HeadNode30;
 class c_Enumerator18;
-class c_ChestObject;
+class c_ItemObject;
 class c_List31;
 class c_Node48;
 class c_HeadNode31;
 class c_Enumerator19;
+class c_ChestObject;
 class c_List32;
 class c_Node49;
 class c_HeadNode32;
-class c_ChestColor;
+class c_Enumerator20;
 class c_List33;
 class c_Node50;
 class c_HeadNode33;
-class c_CrateObject;
+class c_ChestColor;
 class c_List34;
 class c_Node51;
 class c_HeadNode34;
-class c_Enumerator20;
-class c_ShrineObject;
+class c_CrateObject;
 class c_List35;
 class c_Node52;
 class c_HeadNode35;
 class c_Enumerator21;
+class c_ShrineObject;
+class c_List36;
+class c_Node53;
+class c_HeadNode36;
+class c_Enumerator22;
 class c_SwarmSarcophagus;
 class c_RoomBase;
 class c_BlobRoom;
@@ -5601,33 +5605,33 @@ class c_Set3;
 class c_IntPointSet;
 class c_Map17;
 class c_IntPointMap;
-class c_Node53;
+class c_Node54;
 class c_KeyEnumerator2;
 class c_MapKeys2;
 class c_Stack7;
-class c_Enumerator22;
+class c_Enumerator23;
 class c_RectRoom;
 class c_PortalSeg;
 class c_Stack8;
 class c_StackEx3;
-class c_Enumerator23;
-class c_RoomWithDoor;
 class c_Enumerator24;
+class c_RoomWithDoor;
+class c_Enumerator25;
 class c_Stack9;
 class c_StackEx4;
 class c_IntPointMap2;
 class c_Stack10;
-class c_Enumerator25;
-class c_SecretRoomData;
 class c_Enumerator26;
+class c_SecretRoomData;
+class c_Enumerator27;
 class c_Poltergeist;
 class c_ABTeleportTrap;
 class c_StackEx5;
 class c_EnemyBaseType;
 class c_ToughSarcophagus;
-class c_Enumerator27;
 class c_Enumerator28;
 class c_Enumerator29;
+class c_Enumerator30;
 class c_Weaponmaster;
 class c_DiamondDealer;
 class c_Beastmaster;
@@ -5637,9 +5641,9 @@ class c_BackwardsStack;
 class c_BackwardsEnumerator;
 class c_DecorativeFireTrap;
 class c_Switch;
-class c_List36;
-class c_Node54;
-class c_HeadNode36;
+class c_List37;
+class c_Node55;
+class c_HeadNode37;
 class c_GuiComponent;
 class c_TextLabel;
 class c_OptionList;
@@ -5647,35 +5651,35 @@ class c_ControllerPostGame;
 class c_ControllerBossIntro;
 class c_GUI_gameplay;
 class c_ControllerChangeLog;
-class c_Enumerator30;
-class c_ControllerInputPopup;
 class c_Enumerator31;
+class c_ControllerInputPopup;
+class c_Enumerator32;
 class c_TextInput;
 class c_InputValue;
 class c_ControllerPause;
 class c_Doppelganger;
-class c_List37;
-class c_Node55;
-class c_HeadNode37;
-class c_Enumerator32;
 class c_List38;
 class c_Node56;
 class c_HeadNode38;
 class c_Enumerator33;
-class c_Enumerator34;
-class c_Swarm;
-class c_CrystalShards;
 class c_List39;
 class c_Node57;
 class c_HeadNode39;
+class c_Enumerator34;
+class c_Enumerator35;
+class c_Swarm;
+class c_CrystalShards;
 class c_List40;
 class c_Node58;
 class c_HeadNode40;
-class c_ConductorBattery;
 class c_List41;
 class c_Node59;
 class c_HeadNode41;
-class c_Enumerator35;
+class c_ConductorBattery;
+class c_List42;
+class c_Node60;
+class c_HeadNode42;
+class c_Enumerator36;
 class c_App : public Object{
 	public:
 	c_App();
@@ -5952,8 +5956,9 @@ class c_Util : public Object{
 	static bool m_IsOnScreen(int,int,Float,Float);
 	static bool m_LineSegmentTileIntersect(Float,Float,Float,Float,Float,Float);
 	static c_Player* m_GetAnyPlayerAt(int,int);
-	static c_List41* m_GetPlayersAt(c_Rect*);
-	static c_List41* m_GetPlayersAt2(int,int);
+	static c_Player* m_GetClosestPlayer(int,int);
+	static c_List42* m_GetPlayersAt(c_Rect*);
+	static c_List42* m_GetPlayersAt2(int,int);
 	void mark();
 };
 class c_TextLog : public Object{
@@ -6597,8 +6602,8 @@ class c_TextSprite : public Object{
 	int m_shadowOffX;
 	int m_shadowOffY;
 	int m_fontScale;
-	c_List21* m_containedSprites;
-	c_List21* m_containedSpriteShadows;
+	c_List22* m_containedSprites;
+	c_List22* m_containedSpriteShadows;
 	c_TextSprite();
 	static void m_Init();
 	c_TextSprite* m_new(int,Float,int,int,bool,int,int,int);
@@ -6680,6 +6685,7 @@ class c_Audio : public Object{
 	static bool m_startSong;
 	static int m_GetDistanceFromNearestBeat();
 	static int m_GetNextBeatDuration();
+	static bool m_songPaused;
 	static int m_songShopkeeper;
 	static Float m_GetPercentDistanceFromNextBeat();
 	static int m_GetBeatAnimFrame4();
@@ -7010,7 +7016,7 @@ class c_Level : public Object{
 	static bool m_IsExitAt(int,int);
 	static bool m_PlaceWire(c_Point*,c_Point*);
 	static bool m_IsTileTypeAdjacent(int,int,int);
-	static c_List26* m_tempTileWalk;
+	static c_List27* m_tempTileWalk;
 	static void m_RandomWalkOfTempTiles(int,int,int);
 	static void m_PadWalls();
 	static void m_ProcessSpecialRoom();
@@ -7156,7 +7162,7 @@ class c_Level : public Object{
 	static void m_DoRestart();
 	static int m_lastTileCount;
 	static c_IntPointList* m_tileObstructionList;
-	static c_List26* m_GetTileObstructionList(bool);
+	static c_List27* m_GetTileObstructionList(bool);
 	static bool m_CheckLOS(int,int,int,int,bool);
 	static void m_RefreshLineOfSightTiles();
 	static bool m_IsLockedExit(int,int);
@@ -7337,6 +7343,13 @@ class c_Entity : public c_RenderableObject{
 	void p_BounceToward(c_Point*,bool);
 	static void m_UpdateVisibility();
 	virtual bool p_IsVisible();
+	static bool m_anyPlayerHaveNazarCharmCached;
+	static bool m_AnyPlayerHaveNazarCharm();
+	static bool m_anyPlayerHaveCircletCached;
+	static bool m_AnyPlayerHaveCirclet();
+	static bool m_anyPlayerHaveGlassTorchCached;
+	static bool m_AnyPlayerHaveGlassTorch();
+	static bool m_AnyPlayerHaveCircletOrGlassTorch();
 	static bool m_anyPlayerHaveWallsTorchCached;
 	static bool m_AnyPlayerHaveWallsTorch();
 	void mark();
@@ -7376,7 +7389,7 @@ class c_Shrine : public c_Entity{
 	void p_GenUncertaintyContents();
 	void p_GenBossContents();
 	void p_GenPainContents();
-	static c_List28* m_shrineList;
+	static c_List29* m_shrineList;
 	c_Shrine* m_new(int,int,int,c_RNG*,bool,bool);
 	c_Shrine* m_new2();
 	static void m_AddPendingShrinesToUsedList();
@@ -7866,8 +7879,8 @@ class c_Item : public c_Entity{
 	static int m_GetValue(String);
 	int p_GetValue();
 	static c_List* m_GetAllItemsInClass(String);
-	static c_List20* m_pickupList;
-	static c_List20* m_GetPickupsAt(int,int,c_Item*);
+	static c_List21* m_pickupList;
+	static c_List21* m_GetPickupsAt(int,int,c_Item*);
 	c_Item* m_new(int,int,String,bool,int,bool);
 	c_Item* m_new2();
 	static void m_CreateAmountOfCoins(int,int,int);
@@ -7945,7 +7958,7 @@ class c_SaleItem : public c_Item{
 	static String m_lastSaleItemClass2;
 	static c_List7* m_randomSaleItemList;
 	static void m_ResetCosts();
-	static c_List27* m_currentSaleItems;
+	static c_List28* m_currentSaleItems;
 	bool p_CostsBlood();
 	bool p_CostsDiamonds();
 	static Float m_GetCostMultiplier();
@@ -7975,7 +7988,7 @@ class c_Chest : public c_Entity{
 	static int m_lastChestColor;
 	static int m_lastChestColor2;
 	static bool m_IsItemAppropriateForChestColor(String,int);
-	static c_List32* m_chestList;
+	static c_List33* m_chestList;
 	c_Chest* m_new(int,int,String,bool,bool,bool,int);
 	c_Chest* m_new2();
 	static int m_GetNumEmptySecretChests();
@@ -8059,6 +8072,7 @@ class c_Enemy : public c_MobileEntity{
 	int m_animOffset;
 	bool m_justSpawned;
 	bool m_enableDeathEffects;
+	bool m_earthquaked;
 	c_Enemy();
 	static c_EnemyList* m_enemyList;
 	void p_ApplyMonkeyPaw();
@@ -8247,7 +8261,7 @@ class c_List7 : public Object{
 	bool p_Contains4(String);
 	virtual int p_Compare2(String,String);
 	int p_Sort(int);
-	c_Enumerator30* p_ObjectEnumerator();
+	c_Enumerator31* p_ObjectEnumerator();
 	int p_RemoveEach4(String);
 	void p_Remove2(String);
 	void mark();
@@ -8303,7 +8317,7 @@ class c_Flyaway : public Object{
 	c_Flyaway* m_new2();
 	void p_CenterX();
 	static int m_temporarilyDisableNewFlyaways;
-	static c_List38* m_activeFlyaways;
+	static c_List39* m_activeFlyaways;
 	void p_Update();
 	static void m_UpdateAll();
 	void mark();
@@ -8319,13 +8333,13 @@ class c_LevelType : public Object{
 class c_LevelObject : public Object{
 	public:
 	int m_bossNum;
-	c_List24* m_tiles;
-	c_List25* m_traps;
-	c_List29* m_enemies;
-	c_List30* m_items;
-	c_List31* m_chests;
-	c_List34* m_crates;
-	c_List35* m_shrines;
+	c_List25* m_tiles;
+	c_List26* m_traps;
+	c_List30* m_enemies;
+	c_List31* m_items;
+	c_List32* m_chests;
+	c_List35* m_crates;
+	c_List36* m_shrines;
 	c_LevelObject();
 	void p_CreateMap();
 	void mark();
@@ -8915,7 +8929,7 @@ class c_Minimap : public Object{
 	void p_UpdateAll();
 	static void m_AddDirty(c_Point*);
 	static void m_AddDirty2(int,int);
-	static c_List26* m_dirtyPoints;
+	static c_List27* m_dirtyPoints;
 	c_Minimap* m_new();
 	void p_Update();
 	void mark();
@@ -9044,7 +9058,7 @@ class c_SaleChest : public c_Chest{
 	int m_cost;
 	c_SaleChest();
 	static void m_ResetCosts();
-	static c_List33* m_currentSaleChests;
+	static c_List34* m_currentSaleChests;
 	void p_SetCost();
 	c_SaleChest* m_new(int,int,String,bool,bool,bool,int);
 	c_SaleChest* m_new2();
@@ -9057,6 +9071,7 @@ class c_SoulFamiliar : public c_FamiliarFixed{
 	c_SoulFamiliar();
 	c_SoulFamiliar* m_new(int,int,Object*);
 	c_SoulFamiliar* m_new2();
+	static c_List20* m_allSouls;
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
@@ -9412,7 +9427,7 @@ class c_List13 : public Object{
 	c_Node29* p_AddLast13(c_MinibossTileData*);
 	c_List13* m_new2(Array<c_MinibossTileData* >);
 	int p_Clear();
-	c_Enumerator9* p_ObjectEnumerator();
+	c_Enumerator10* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node29 : public Object{
@@ -9457,7 +9472,7 @@ class c_List14 : public Object{
 	c_List14* m_new2(Array<c_RoomData* >);
 	int p_Clear();
 	c_RoomData* p_Last2();
-	c_Enumerator26* p_ObjectEnumerator();
+	c_Enumerator27* p_ObjectEnumerator();
 	int p_Count();
 	Array<c_RoomData* > p_ToArray();
 	c_RoomData* p_RemoveFirst();
@@ -9553,7 +9568,7 @@ class c_List16 : public Object{
 	c_Node32* p_AddLast16(c_ParticleSystem*);
 	c_List16* m_new2(Array<c_ParticleSystem* >);
 	int p_Clear();
-	c_Enumerator34* p_ObjectEnumerator();
+	c_Enumerator35* p_ObjectEnumerator();
 	bool p_Equals13(c_ParticleSystem*,c_ParticleSystem*);
 	int p_RemoveEach8(c_ParticleSystem*);
 	void p_Remove5(c_ParticleSystem*);
@@ -9619,7 +9634,7 @@ class c_NPC : public c_Enemy{
 	bool m_isMainShopkeeper;
 	c_NPC();
 	c_NPC* m_new();
-	static c_List22* m_npcList;
+	static c_List23* m_npcList;
 	void p_NPCInit(int,int,int,String,bool,bool);
 	static Float m_GetDistFromClosestNPC(int,int);
 	void p_Delete();
@@ -9763,7 +9778,7 @@ class c_Stack3 : public Object{
 	Array<String > p_ToArray();
 	static String m_NIL;
 	void p_Clear();
-	c_Enumerator12* p_ObjectEnumerator();
+	c_Enumerator13* p_ObjectEnumerator();
 	void p_Length2(int);
 	int p_Length();
 	String p_Pop();
@@ -10119,39 +10134,24 @@ class c_Monkey : public c_EnemyClamper{
 };
 Float bb_fmod_GetSongPositionFMOD(int);
 extern Array<int > bb_controller_game_beatData;
-class c_Enumerator9 : public Object{
-	public:
-	c_List13* m__list;
-	c_Node29* m__curr;
-	c_Enumerator9();
-	c_Enumerator9* m_new(c_List13*);
-	c_Enumerator9* m_new2();
-	bool p_HasNext();
-	c_MinibossTileData* p_NextObject();
-	void mark();
-};
-String bb_item_GetResourceCoinType(int);
 class c_List20 : public Object{
 	public:
 	c_Node37* m__head;
 	c_List20();
 	c_List20* m_new();
-	c_Node37* p_AddLast20(c_Item*);
-	c_List20* m_new2(Array<c_Item* >);
-	c_Enumerator10* p_ObjectEnumerator();
-	bool p_Equals15(c_Item*,c_Item*);
-	int p_RemoveEach10(c_Item*);
+	c_Node37* p_AddLast20(c_SoulFamiliar*);
+	c_List20* m_new2(Array<c_SoulFamiliar* >);
+	c_Enumerator9* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node37 : public Object{
 	public:
 	c_Node37* m__succ;
 	c_Node37* m__pred;
-	c_Item* m__data;
+	c_SoulFamiliar* m__data;
 	c_Node37();
-	c_Node37* m_new(c_Node37*,c_Node37*,c_Item*);
+	c_Node37* m_new(c_Node37*,c_Node37*,c_SoulFamiliar*);
 	c_Node37* m_new2();
-	int p_Remove();
 	void mark();
 };
 class c_HeadNode20 : public c_Node37{
@@ -10160,51 +10160,50 @@ class c_HeadNode20 : public c_Node37{
 	c_HeadNode20* m_new();
 	void mark();
 };
-class c_Enumerator10 : public Object{
+class c_Enumerator9 : public Object{
 	public:
 	c_List20* m__list;
 	c_Node37* m__curr;
+	c_Enumerator9();
+	c_Enumerator9* m_new(c_List20*);
+	c_Enumerator9* m_new2();
+	bool p_HasNext();
+	c_SoulFamiliar* p_NextObject();
+	void mark();
+};
+class c_Enumerator10 : public Object{
+	public:
+	c_List13* m__list;
+	c_Node29* m__curr;
 	c_Enumerator10();
-	c_Enumerator10* m_new(c_List20*);
+	c_Enumerator10* m_new(c_List13*);
 	c_Enumerator10* m_new2();
 	bool p_HasNext();
-	c_Item* p_NextObject();
+	c_MinibossTileData* p_NextObject();
 	void mark();
 };
-class c_Bomb : public c_Item{
-	public:
-	c_Player* m_player;
-	bool m_isBig;
-	int m_beatsUntilExplosion;
-	String m_damageSource;
-	c_Sprite* m_explosionImg;
-	c_Bomb();
-	static c_List39* m_bombList;
-	c_Bomb* m_new(int,int,c_Player*,bool,bool,String);
-	c_Bomb* m_new2();
-	void p_Die();
-	bool p_IsVisible();
-	void p_Update();
-	void mark();
-};
+String bb_item_GetResourceCoinType(int);
 class c_List21 : public Object{
 	public:
 	c_Node38* m__head;
 	c_List21();
 	c_List21* m_new();
-	c_Node38* p_AddLast21(c_Sprite*);
-	c_List21* m_new2(Array<c_Sprite* >);
+	c_Node38* p_AddLast21(c_Item*);
+	c_List21* m_new2(Array<c_Item* >);
 	c_Enumerator11* p_ObjectEnumerator();
+	bool p_Equals15(c_Item*,c_Item*);
+	int p_RemoveEach10(c_Item*);
 	void mark();
 };
 class c_Node38 : public Object{
 	public:
 	c_Node38* m__succ;
 	c_Node38* m__pred;
-	c_Sprite* m__data;
+	c_Item* m__data;
 	c_Node38();
-	c_Node38* m_new(c_Node38*,c_Node38*,c_Sprite*);
+	c_Node38* m_new(c_Node38*,c_Node38*,c_Item*);
 	c_Node38* m_new2();
+	int p_Remove();
 	void mark();
 };
 class c_HeadNode21 : public c_Node38{
@@ -10221,6 +10220,59 @@ class c_Enumerator11 : public Object{
 	c_Enumerator11* m_new(c_List21*);
 	c_Enumerator11* m_new2();
 	bool p_HasNext();
+	c_Item* p_NextObject();
+	void mark();
+};
+class c_Bomb : public c_Item{
+	public:
+	c_Player* m_player;
+	bool m_isBig;
+	int m_beatsUntilExplosion;
+	String m_damageSource;
+	c_Sprite* m_explosionImg;
+	c_Bomb();
+	static c_List40* m_bombList;
+	c_Bomb* m_new(int,int,c_Player*,bool,bool,String);
+	c_Bomb* m_new2();
+	void p_Die();
+	bool p_IsVisible();
+	void p_Update();
+	void mark();
+};
+class c_List22 : public Object{
+	public:
+	c_Node39* m__head;
+	c_List22();
+	c_List22* m_new();
+	c_Node39* p_AddLast22(c_Sprite*);
+	c_List22* m_new2(Array<c_Sprite* >);
+	c_Enumerator12* p_ObjectEnumerator();
+	void mark();
+};
+class c_Node39 : public Object{
+	public:
+	c_Node39* m__succ;
+	c_Node39* m__pred;
+	c_Sprite* m__data;
+	c_Node39();
+	c_Node39* m_new(c_Node39*,c_Node39*,c_Sprite*);
+	c_Node39* m_new2();
+	void mark();
+};
+class c_HeadNode22 : public c_Node39{
+	public:
+	c_HeadNode22();
+	c_HeadNode22* m_new();
+	void mark();
+};
+class c_Enumerator12 : public Object{
+	public:
+	c_List22* m__list;
+	c_Node39* m__curr;
+	c_Enumerator12();
+	c_Enumerator12* m_new(c_List22*);
+	c_Enumerator12* m_new2();
+	bool p_HasNext();
 	c_Sprite* p_NextObject();
 	void mark();
 };
@@ -10236,12 +10288,16 @@ class c_Zombie : public c_Enemy{
 class c_Wraith : public c_Enemy{
 	public:
 	String m_crySound;
+	bool m_seeking;
+	bool m_hasRoared;
 	c_Wraith();
 	static c_Wraith* m_theCursedWraith;
 	void p_Die();
 	c_Wraith* m_new(int,int,int);
 	c_Wraith* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_BecomeCorporeal(bool);
+	void p_CheckCorporeality();
 	void p_Update();
 	void mark();
 };
@@ -10610,33 +10666,33 @@ class c_Shopkeeper : public c_NPC{
 	void p_Update();
 	void mark();
 };
-class c_List22 : public Object{
+class c_List23 : public Object{
 	public:
-	c_Node39* m__head;
-	c_List22();
-	c_List22* m_new();
-	c_Node39* p_AddLast22(c_NPC*);
-	c_List22* m_new2(Array<c_NPC* >);
-	c_Enumerator29* p_ObjectEnumerator();
+	c_Node40* m__head;
+	c_List23();
+	c_List23* m_new();
+	c_Node40* p_AddLast23(c_NPC*);
+	c_List23* m_new2(Array<c_NPC* >);
+	c_Enumerator30* p_ObjectEnumerator();
 	bool p_Equals16(c_NPC*,c_NPC*);
 	int p_RemoveEach11(c_NPC*);
 	void mark();
 };
-class c_Node39 : public Object{
+class c_Node40 : public Object{
 	public:
-	c_Node39* m__succ;
-	c_Node39* m__pred;
+	c_Node40* m__succ;
+	c_Node40* m__pred;
 	c_NPC* m__data;
-	c_Node39();
-	c_Node39* m_new(c_Node39*,c_Node39*,c_NPC*);
-	c_Node39* m_new2();
+	c_Node40();
+	c_Node40* m_new(c_Node40*,c_Node40*,c_NPC*);
+	c_Node40* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode22 : public c_Node39{
+class c_HeadNode23 : public c_Node40{
 	public:
-	c_HeadNode22();
-	c_HeadNode22* m_new();
+	c_HeadNode23();
+	c_HeadNode23* m_new();
 	void mark();
 };
 class c_ShopkeeperGhost : public c_Enemy{
@@ -10829,7 +10885,7 @@ class c_Bell : public c_Enemy{
 	int m_bellNum;
 	bool m_isBig;
 	c_Bell();
-	static c_List23* m_bells;
+	static c_List24* m_bells;
 	c_Bell* m_new(int,int,int);
 	c_Bell* m_new2();
 	void p_Die();
@@ -10837,32 +10893,32 @@ class c_Bell : public c_Enemy{
 	void p_Update();
 	void mark();
 };
-class c_List23 : public Object{
+class c_List24 : public Object{
 	public:
-	c_Node40* m__head;
-	c_List23();
-	c_List23* m_new();
-	c_Node40* p_AddLast23(c_Bell*);
-	c_List23* m_new2(Array<c_Bell* >);
+	c_Node41* m__head;
+	c_List24();
+	c_List24* m_new();
+	c_Node41* p_AddLast24(c_Bell*);
+	c_List24* m_new2(Array<c_Bell* >);
 	bool p_Equals17(c_Bell*,c_Bell*);
 	int p_RemoveEach12(c_Bell*);
 	void mark();
 };
-class c_Node40 : public Object{
+class c_Node41 : public Object{
 	public:
-	c_Node40* m__succ;
-	c_Node40* m__pred;
+	c_Node41* m__succ;
+	c_Node41* m__pred;
 	c_Bell* m__data;
-	c_Node40();
-	c_Node40* m_new(c_Node40*,c_Node40*,c_Bell*);
-	c_Node40* m_new2();
+	c_Node41();
+	c_Node41* m_new(c_Node41*,c_Node41*,c_Bell*);
+	c_Node41* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode23 : public c_Node40{
+class c_HeadNode24 : public c_Node41{
 	public:
-	c_HeadNode23();
-	c_HeadNode23* m_new();
+	c_HeadNode24();
+	c_HeadNode24* m_new();
 	void mark();
 };
 class c_DeadRinger : public c_Enemy{
@@ -10921,7 +10977,7 @@ class c_Stack4 : public Object{
 	void p_Push11(Array<c_Point* >,int,int);
 	void p_Push12(Array<c_Point* >,int);
 	c_Point* p_Get2(int);
-	c_Enumerator24* p_ObjectEnumerator();
+	c_Enumerator25* p_ObjectEnumerator();
 	static c_Point* m_NIL;
 	void p_Length2(int);
 	int p_Length();
@@ -10959,29 +11015,29 @@ class c_Stack5 : public Object{
 	bool p_IsEmpty();
 	c_XMLNode* p_Get2(int);
 	void p_Remove4(int);
-	c_Enumerator13* p_ObjectEnumerator();
+	c_Enumerator14* p_ObjectEnumerator();
 	void p_Length2(int);
 	int p_Length();
 	void mark();
 };
-class c_Enumerator12 : public Object{
+class c_Enumerator13 : public Object{
 	public:
 	c_Stack3* m_stack;
 	int m_index;
-	c_Enumerator12();
-	c_Enumerator12* m_new(c_Stack3*);
-	c_Enumerator12* m_new2();
+	c_Enumerator13();
+	c_Enumerator13* m_new(c_Stack3*);
+	c_Enumerator13* m_new2();
 	bool p_HasNext();
 	String p_NextObject();
 	void mark();
 };
-class c_Enumerator13 : public Object{
+class c_Enumerator14 : public Object{
 	public:
 	c_Stack5* m_stack;
 	int m_index;
-	c_Enumerator13();
-	c_Enumerator13* m_new(c_Stack5*);
-	c_Enumerator13* m_new2();
+	c_Enumerator14();
+	c_Enumerator14* m_new(c_Stack5*);
+	c_Enumerator14* m_new2();
 	bool p_HasNext();
 	c_XMLNode* p_NextObject();
 	void mark();
@@ -10998,59 +11054,13 @@ class c_TileObject : public Object{
 	c_TileObject();
 	void mark();
 };
-class c_List24 : public Object{
-	public:
-	c_Node41* m__head;
-	c_List24();
-	c_List24* m_new();
-	c_Node41* p_AddLast24(c_TileObject*);
-	c_List24* m_new2(Array<c_TileObject* >);
-	c_Enumerator14* p_ObjectEnumerator();
-	void mark();
-};
-class c_Node41 : public Object{
-	public:
-	c_Node41* m__succ;
-	c_Node41* m__pred;
-	c_TileObject* m__data;
-	c_Node41();
-	c_Node41* m_new(c_Node41*,c_Node41*,c_TileObject*);
-	c_Node41* m_new2();
-	void mark();
-};
-class c_HeadNode24 : public c_Node41{
-	public:
-	c_HeadNode24();
-	c_HeadNode24* m_new();
-	void mark();
-};
-class c_Enumerator14 : public Object{
-	public:
-	c_List24* m__list;
-	c_Node41* m__curr;
-	c_Enumerator14();
-	c_Enumerator14* m_new(c_List24*);
-	c_Enumerator14* m_new2();
-	bool p_HasNext();
-	c_TileObject* p_NextObject();
-	void mark();
-};
-class c_TrapObject : public Object{
-	public:
-	int m_type;
-	int m_x;
-	int m_y;
-	int m_subtype;
-	c_TrapObject();
-	void mark();
-};
 class c_List25 : public Object{
 	public:
 	c_Node42* m__head;
 	c_List25();
 	c_List25* m_new();
-	c_Node42* p_AddLast25(c_TrapObject*);
-	c_List25* m_new2(Array<c_TrapObject* >);
+	c_Node42* p_AddLast25(c_TileObject*);
+	c_List25* m_new2(Array<c_TileObject* >);
 	c_Enumerator15* p_ObjectEnumerator();
 	void mark();
 };
@@ -11058,9 +11068,9 @@ class c_Node42 : public Object{
 	public:
 	c_Node42* m__succ;
 	c_Node42* m__pred;
-	c_TrapObject* m__data;
+	c_TileObject* m__data;
 	c_Node42();
-	c_Node42* m_new(c_Node42*,c_Node42*,c_TrapObject*);
+	c_Node42* m_new(c_Node42*,c_Node42*,c_TileObject*);
 	c_Node42* m_new2();
 	void mark();
 };
@@ -11077,6 +11087,52 @@ class c_Enumerator15 : public Object{
 	c_Enumerator15();
 	c_Enumerator15* m_new(c_List25*);
 	c_Enumerator15* m_new2();
+	bool p_HasNext();
+	c_TileObject* p_NextObject();
+	void mark();
+};
+class c_TrapObject : public Object{
+	public:
+	int m_type;
+	int m_x;
+	int m_y;
+	int m_subtype;
+	c_TrapObject();
+	void mark();
+};
+class c_List26 : public Object{
+	public:
+	c_Node43* m__head;
+	c_List26();
+	c_List26* m_new();
+	c_Node43* p_AddLast26(c_TrapObject*);
+	c_List26* m_new2(Array<c_TrapObject* >);
+	c_Enumerator16* p_ObjectEnumerator();
+	void mark();
+};
+class c_Node43 : public Object{
+	public:
+	c_Node43* m__succ;
+	c_Node43* m__pred;
+	c_TrapObject* m__data;
+	c_Node43();
+	c_Node43* m_new(c_Node43*,c_Node43*,c_TrapObject*);
+	c_Node43* m_new2();
+	void mark();
+};
+class c_HeadNode26 : public c_Node43{
+	public:
+	c_HeadNode26();
+	c_HeadNode26* m_new();
+	void mark();
+};
+class c_Enumerator16 : public Object{
+	public:
+	c_List26* m__list;
+	c_Node43* m__curr;
+	c_Enumerator16();
+	c_Enumerator16* m_new(c_List26*);
+	c_Enumerator16* m_new2();
 	bool p_HasNext();
 	c_TrapObject* p_NextObject();
 	void mark();
@@ -11131,57 +11187,57 @@ class c_FireTrap : public c_Trap{
 	void p_Update();
 	void mark();
 };
-class c_List26 : public Object{
+class c_List27 : public Object{
 	public:
-	c_Node43* m__head;
-	c_List26();
-	c_List26* m_new();
-	c_Node43* p_AddLast26(c_Point*);
-	c_List26* m_new2(Array<c_Point* >);
+	c_Node44* m__head;
+	c_List27();
+	c_List27* m_new();
+	c_Node44* p_AddLast27(c_Point*);
+	c_List27* m_new2(Array<c_Point* >);
 	int p_Count();
-	c_Enumerator16* p_ObjectEnumerator();
+	c_Enumerator17* p_ObjectEnumerator();
 	Array<c_Point* > p_ToArray();
 	c_Point* p_RemoveFirst();
 	virtual bool p_Equals18(c_Point*,c_Point*);
-	c_Node43* p_Find9(c_Point*,c_Node43*);
-	c_Node43* p_Find10(c_Point*);
+	c_Node44* p_Find9(c_Point*,c_Node44*);
+	c_Node44* p_Find10(c_Point*);
 	void p_RemoveFirst6(c_Point*);
 	int p_Clear();
 	int p_RemoveEach13(c_Point*);
 	bool p_IsEmpty();
 	void mark();
 };
-class c_IntPointList : public c_List26{
+class c_IntPointList : public c_List27{
 	public:
 	c_IntPointList();
 	c_IntPointList* m_new();
 	bool p_Equals18(c_Point*,c_Point*);
 	void mark();
 };
-class c_Node43 : public Object{
+class c_Node44 : public Object{
 	public:
-	c_Node43* m__succ;
-	c_Node43* m__pred;
+	c_Node44* m__succ;
+	c_Node44* m__pred;
 	c_Point* m__data;
-	c_Node43();
-	c_Node43* m_new(c_Node43*,c_Node43*,c_Point*);
-	c_Node43* m_new2();
+	c_Node44();
+	c_Node44* m_new(c_Node44*,c_Node44*,c_Point*);
+	c_Node44* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode26 : public c_Node43{
+class c_HeadNode27 : public c_Node44{
 	public:
-	c_HeadNode26();
-	c_HeadNode26* m_new();
+	c_HeadNode27();
+	c_HeadNode27* m_new();
 	void mark();
 };
-class c_Enumerator16 : public Object{
+class c_Enumerator17 : public Object{
 	public:
-	c_List26* m__list;
-	c_Node43* m__curr;
-	c_Enumerator16();
-	c_Enumerator16* m_new(c_List26*);
-	c_Enumerator16* m_new2();
+	c_List27* m__list;
+	c_Node44* m__curr;
+	c_Enumerator17();
+	c_Enumerator17* m_new(c_List27*);
+	c_Enumerator17* m_new2();
 	bool p_HasNext();
 	c_Point* p_NextObject();
 	void mark();
@@ -11215,33 +11271,33 @@ class c_Medic : public c_NPC{
 	c_Medic* m_new2();
 	void mark();
 };
-class c_List27 : public Object{
+class c_List28 : public Object{
 	public:
-	c_Node44* m__head;
-	c_List27();
-	c_List27* m_new();
-	c_Node44* p_AddLast27(c_SaleItem*);
-	c_List27* m_new2(Array<c_SaleItem* >);
+	c_Node45* m__head;
+	c_List28();
+	c_List28* m_new();
+	c_Node45* p_AddLast28(c_SaleItem*);
+	c_List28* m_new2(Array<c_SaleItem* >);
 	bool p_Equals19(c_SaleItem*,c_SaleItem*);
 	int p_RemoveEach14(c_SaleItem*);
-	c_Enumerator31* p_ObjectEnumerator();
+	c_Enumerator32* p_ObjectEnumerator();
 	void mark();
 };
-class c_Node44 : public Object{
+class c_Node45 : public Object{
 	public:
-	c_Node44* m__succ;
-	c_Node44* m__pred;
+	c_Node45* m__succ;
+	c_Node45* m__pred;
 	c_SaleItem* m__data;
-	c_Node44();
-	c_Node44* m_new(c_Node44*,c_Node44*,c_SaleItem*);
-	c_Node44* m_new2();
+	c_Node45();
+	c_Node45* m_new(c_Node45*,c_Node45*,c_SaleItem*);
+	c_Node45* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode27 : public c_Node44{
+class c_HeadNode28 : public c_Node45{
 	public:
-	c_HeadNode27();
-	c_HeadNode27* m_new();
+	c_HeadNode28();
+	c_HeadNode28* m_new();
 	void mark();
 };
 class c_Thing : public c_Entity{
@@ -11297,33 +11353,33 @@ class c_UncertaintyRingPredicate : public Object,public virtual c_IItemPredicate
 	bool p_Call(c_XMLNode*);
 	void mark();
 };
-class c_List28 : public Object{
+class c_List29 : public Object{
 	public:
-	c_Node45* m__head;
-	c_List28();
-	c_List28* m_new();
-	c_Node45* p_AddLast28(c_Shrine*);
-	c_List28* m_new2(Array<c_Shrine* >);
-	c_Enumerator28* p_ObjectEnumerator();
+	c_Node46* m__head;
+	c_List29();
+	c_List29* m_new();
+	c_Node46* p_AddLast29(c_Shrine*);
+	c_List29* m_new2(Array<c_Shrine* >);
+	c_Enumerator29* p_ObjectEnumerator();
 	bool p_Equals20(c_Shrine*,c_Shrine*);
 	int p_RemoveEach15(c_Shrine*);
 	void mark();
 };
-class c_Node45 : public Object{
+class c_Node46 : public Object{
 	public:
-	c_Node45* m__succ;
-	c_Node45* m__pred;
+	c_Node46* m__succ;
+	c_Node46* m__pred;
 	c_Shrine* m__data;
-	c_Node45();
-	c_Node45* m_new(c_Node45*,c_Node45*,c_Shrine*);
-	c_Node45* m_new2();
+	c_Node46();
+	c_Node46* m_new(c_Node46*,c_Node46*,c_Shrine*);
+	c_Node46* m_new2();
 	int p_Remove();
 	void mark();
 };
-class c_HeadNode28 : public c_Node45{
+class c_HeadNode29 : public c_Node46{
 	public:
-	c_HeadNode28();
-	c_HeadNode28* m_new();
+	c_HeadNode29();
+	c_HeadNode29* m_new();
 	void mark();
 };
 class c_EnemyObject : public Object{
@@ -11336,61 +11392,13 @@ class c_EnemyObject : public Object{
 	c_EnemyObject();
 	void mark();
 };
-class c_List29 : public Object{
-	public:
-	c_Node46* m__head;
-	c_List29();
-	c_List29* m_new();
-	c_Node46* p_AddLast29(c_EnemyObject*);
-	c_List29* m_new2(Array<c_EnemyObject* >);
-	c_Enumerator17* p_ObjectEnumerator();
-	void mark();
-};
-class c_Node46 : public Object{
-	public:
-	c_Node46* m__succ;
-	c_Node46* m__pred;
-	c_EnemyObject* m__data;
-	c_Node46();
-	c_Node46* m_new(c_Node46*,c_Node46*,c_EnemyObject*);
-	c_Node46* m_new2();
-	void mark();
-};
-class c_HeadNode29 : public c_Node46{
-	public:
-	c_HeadNode29();
-	c_HeadNode29* m_new();
-	void mark();
-};
-class c_Enumerator17 : public Object{
-	public:
-	c_List29* m__list;
-	c_Node46* m__curr;
-	c_Enumerator17();
-	c_Enumerator17* m_new(c_List29*);
-	c_Enumerator17* m_new2();
-	bool p_HasNext();
-	c_EnemyObject* p_NextObject();
-	void mark();
-};
-class c_ItemObject : public Object{
-	public:
-	Float m_bloodCost;
-	int m_saleCost;
-	int m_x;
-	int m_y;
-	String m_type;
-	bool m_singleChoice;
-	c_ItemObject();
-	void mark();
-};
 class c_List30 : public Object{
 	public:
 	c_Node47* m__head;
 	c_List30();
 	c_List30* m_new();
-	c_Node47* p_AddLast30(c_ItemObject*);
-	c_List30* m_new2(Array<c_ItemObject* >);
+	c_Node47* p_AddLast30(c_EnemyObject*);
+	c_List30* m_new2(Array<c_EnemyObject* >);
 	c_Enumerator18* p_ObjectEnumerator();
 	void mark();
 };
@@ -11398,9 +11406,9 @@ class c_Node47 : public Object{
 	public:
 	c_Node47* m__succ;
 	c_Node47* m__pred;
-	c_ItemObject* m__data;
+	c_EnemyObject* m__data;
 	c_Node47();
-	c_Node47* m_new(c_Node47*,c_Node47*,c_ItemObject*);
+	c_Node47* m_new(c_Node47*,c_Node47*,c_EnemyObject*);
 	c_Node47* m_new2();
 	void mark();
 };
@@ -11418,19 +11426,18 @@ class c_Enumerator18 : public Object{
 	c_Enumerator18* m_new(c_List30*);
 	c_Enumerator18* m_new2();
 	bool p_HasNext();
-	c_ItemObject* p_NextObject();
+	c_EnemyObject* p_NextObject();
 	void mark();
 };
-class c_ChestObject : public Object{
+class c_ItemObject : public Object{
 	public:
+	Float m_bloodCost;
 	int m_saleCost;
 	int m_x;
 	int m_y;
-	String m_contents;
-	bool m_hidden;
-	int m_color;
+	String m_type;
 	bool m_singleChoice;
-	c_ChestObject();
+	c_ItemObject();
 	void mark();
 };
 class c_List31 : public Object{
@@ -11438,8 +11445,8 @@ class c_List31 : public Object{
 	c_Node48* m__head;
 	c_List31();
 	c_List31* m_new();
-	c_Node48* p_AddLast31(c_ChestObject*);
-	c_List31* m_new2(Array<c_ChestObject* >);
+	c_Node48* p_AddLast31(c_ItemObject*);
+	c_List31* m_new2(Array<c_ItemObject* >);
 	c_Enumerator19* p_ObjectEnumerator();
 	void mark();
 };
@@ -11447,9 +11454,9 @@ class c_Node48 : public Object{
 	public:
 	c_Node48* m__succ;
 	c_Node48* m__pred;
-	c_ChestObject* m__data;
+	c_ItemObject* m__data;
 	c_Node48();
-	c_Node48* m_new(c_Node48*,c_Node48*,c_ChestObject*);
+	c_Node48* m_new(c_Node48*,c_Node48*,c_ItemObject*);
 	c_Node48* m_new2();
 	void mark();
 };
@@ -11467,7 +11474,19 @@ class c_Enumerator19 : public Object{
 	c_Enumerator19* m_new(c_List31*);
 	c_Enumerator19* m_new2();
 	bool p_HasNext();
-	c_ChestObject* p_NextObject();
+	c_ItemObject* p_NextObject();
+	void mark();
+};
+class c_ChestObject : public Object{
+	public:
+	int m_saleCost;
+	int m_x;
+	int m_y;
+	String m_contents;
+	bool m_hidden;
+	int m_color;
+	bool m_singleChoice;
+	c_ChestObject();
 	void mark();
 };
 class c_List32 : public Object{
@@ -11475,24 +11494,19 @@ class c_List32 : public Object{
 	c_Node49* m__head;
 	c_List32();
 	c_List32* m_new();
-	c_Node49* p_AddLast32(c_Chest*);
-	c_List32* m_new2(Array<c_Chest* >);
-	c_Enumerator27* p_ObjectEnumerator();
-	bool p_Equals21(c_Chest*,c_Chest*);
-	int p_RemoveEach16(c_Chest*);
-	bool p_IsEmpty();
-	c_Chest* p_First();
+	c_Node49* p_AddLast32(c_ChestObject*);
+	c_List32* m_new2(Array<c_ChestObject* >);
+	c_Enumerator20* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node49 : public Object{
 	public:
 	c_Node49* m__succ;
 	c_Node49* m__pred;
-	c_Chest* m__data;
+	c_ChestObject* m__data;
 	c_Node49();
-	c_Node49* m_new(c_Node49*,c_Node49*,c_Chest*);
+	c_Node49* m_new(c_Node49*,c_Node49*,c_ChestObject*);
 	c_Node49* m_new2();
-	int p_Remove();
 	void mark();
 };
 class c_HeadNode32 : public c_Node49{
@@ -11501,10 +11515,15 @@ class c_HeadNode32 : public c_Node49{
 	c_HeadNode32* m_new();
 	void mark();
 };
-class c_ChestColor : public Object{
+class c_Enumerator20 : public Object{
 	public:
-	c_ChestColor();
-	static String m_ToString(int);
+	c_List32* m__list;
+	c_Node49* m__curr;
+	c_Enumerator20();
+	c_Enumerator20* m_new(c_List32*);
+	c_Enumerator20* m_new2();
+	bool p_HasNext();
+	c_ChestObject* p_NextObject();
 	void mark();
 };
 class c_List33 : public Object{
@@ -11512,19 +11531,22 @@ class c_List33 : public Object{
 	c_Node50* m__head;
 	c_List33();
 	c_List33* m_new();
-	c_Node50* p_AddLast33(c_SaleChest*);
-	c_List33* m_new2(Array<c_SaleChest* >);
-	bool p_Equals22(c_SaleChest*,c_SaleChest*);
-	int p_RemoveEach17(c_SaleChest*);
+	c_Node50* p_AddLast33(c_Chest*);
+	c_List33* m_new2(Array<c_Chest* >);
+	c_Enumerator28* p_ObjectEnumerator();
+	bool p_Equals21(c_Chest*,c_Chest*);
+	int p_RemoveEach16(c_Chest*);
+	bool p_IsEmpty();
+	c_Chest* p_First();
 	void mark();
 };
 class c_Node50 : public Object{
 	public:
 	c_Node50* m__succ;
 	c_Node50* m__pred;
-	c_SaleChest* m__data;
+	c_Chest* m__data;
 	c_Node50();
-	c_Node50* m_new(c_Node50*,c_Node50*,c_SaleChest*);
+	c_Node50* m_new(c_Node50*,c_Node50*,c_Chest*);
 	c_Node50* m_new2();
 	int p_Remove();
 	void mark();
@@ -11533,6 +11555,40 @@ class c_HeadNode33 : public c_Node50{
 	public:
 	c_HeadNode33();
 	c_HeadNode33* m_new();
+	void mark();
+};
+class c_ChestColor : public Object{
+	public:
+	c_ChestColor();
+	static String m_ToString(int);
+	void mark();
+};
+class c_List34 : public Object{
+	public:
+	c_Node51* m__head;
+	c_List34();
+	c_List34* m_new();
+	c_Node51* p_AddLast34(c_SaleChest*);
+	c_List34* m_new2(Array<c_SaleChest* >);
+	bool p_Equals22(c_SaleChest*,c_SaleChest*);
+	int p_RemoveEach17(c_SaleChest*);
+	void mark();
+};
+class c_Node51 : public Object{
+	public:
+	c_Node51* m__succ;
+	c_Node51* m__pred;
+	c_SaleChest* m__data;
+	c_Node51();
+	c_Node51* m_new(c_Node51*,c_Node51*,c_SaleChest*);
+	c_Node51* m_new2();
+	int p_Remove();
+	void mark();
+};
+class c_HeadNode34 : public c_Node51{
+	public:
+	c_HeadNode34();
+	c_HeadNode34* m_new();
 	void mark();
 };
 class c_CrateObject : public Object{
@@ -11544,58 +11600,13 @@ class c_CrateObject : public Object{
 	c_CrateObject();
 	void mark();
 };
-class c_List34 : public Object{
-	public:
-	c_Node51* m__head;
-	c_List34();
-	c_List34* m_new();
-	c_Node51* p_AddLast34(c_CrateObject*);
-	c_List34* m_new2(Array<c_CrateObject* >);
-	c_Enumerator20* p_ObjectEnumerator();
-	void mark();
-};
-class c_Node51 : public Object{
-	public:
-	c_Node51* m__succ;
-	c_Node51* m__pred;
-	c_CrateObject* m__data;
-	c_Node51();
-	c_Node51* m_new(c_Node51*,c_Node51*,c_CrateObject*);
-	c_Node51* m_new2();
-	void mark();
-};
-class c_HeadNode34 : public c_Node51{
-	public:
-	c_HeadNode34();
-	c_HeadNode34* m_new();
-	void mark();
-};
-class c_Enumerator20 : public Object{
-	public:
-	c_List34* m__list;
-	c_Node51* m__curr;
-	c_Enumerator20();
-	c_Enumerator20* m_new(c_List34*);
-	c_Enumerator20* m_new2();
-	bool p_HasNext();
-	c_CrateObject* p_NextObject();
-	void mark();
-};
-class c_ShrineObject : public Object{
-	public:
-	int m_x;
-	int m_y;
-	int m_type;
-	c_ShrineObject();
-	void mark();
-};
 class c_List35 : public Object{
 	public:
 	c_Node52* m__head;
 	c_List35();
 	c_List35* m_new();
-	c_Node52* p_AddLast35(c_ShrineObject*);
-	c_List35* m_new2(Array<c_ShrineObject* >);
+	c_Node52* p_AddLast35(c_CrateObject*);
+	c_List35* m_new2(Array<c_CrateObject* >);
 	c_Enumerator21* p_ObjectEnumerator();
 	void mark();
 };
@@ -11603,9 +11614,9 @@ class c_Node52 : public Object{
 	public:
 	c_Node52* m__succ;
 	c_Node52* m__pred;
-	c_ShrineObject* m__data;
+	c_CrateObject* m__data;
 	c_Node52();
-	c_Node52* m_new(c_Node52*,c_Node52*,c_ShrineObject*);
+	c_Node52* m_new(c_Node52*,c_Node52*,c_CrateObject*);
 	c_Node52* m_new2();
 	void mark();
 };
@@ -11622,6 +11633,51 @@ class c_Enumerator21 : public Object{
 	c_Enumerator21();
 	c_Enumerator21* m_new(c_List35*);
 	c_Enumerator21* m_new2();
+	bool p_HasNext();
+	c_CrateObject* p_NextObject();
+	void mark();
+};
+class c_ShrineObject : public Object{
+	public:
+	int m_x;
+	int m_y;
+	int m_type;
+	c_ShrineObject();
+	void mark();
+};
+class c_List36 : public Object{
+	public:
+	c_Node53* m__head;
+	c_List36();
+	c_List36* m_new();
+	c_Node53* p_AddLast36(c_ShrineObject*);
+	c_List36* m_new2(Array<c_ShrineObject* >);
+	c_Enumerator22* p_ObjectEnumerator();
+	void mark();
+};
+class c_Node53 : public Object{
+	public:
+	c_Node53* m__succ;
+	c_Node53* m__pred;
+	c_ShrineObject* m__data;
+	c_Node53();
+	c_Node53* m_new(c_Node53*,c_Node53*,c_ShrineObject*);
+	c_Node53* m_new2();
+	void mark();
+};
+class c_HeadNode36 : public c_Node53{
+	public:
+	c_HeadNode36();
+	c_HeadNode36* m_new();
+	void mark();
+};
+class c_Enumerator22 : public Object{
+	public:
+	c_List36* m__list;
+	c_Node53* m__curr;
+	c_Enumerator22();
+	c_Enumerator22* m_new(c_List36*);
+	c_Enumerator22* m_new2();
 	bool p_HasNext();
 	c_ShrineObject* p_NextObject();
 	void mark();
@@ -11686,19 +11742,19 @@ class c_IntPointSet : public c_Set3{
 };
 class c_Map17 : public Object{
 	public:
-	c_Node53* m_root;
+	c_Node54* m_root;
 	c_Map17();
 	c_Map17* m_new();
 	virtual int p_Compare3(c_Point*,c_Point*)=0;
-	c_Node53* p_FindNode3(c_Point*);
+	c_Node54* p_FindNode3(c_Point*);
 	bool p_Contains5(c_Point*);
-	int p_RotateLeft16(c_Node53*);
-	int p_RotateRight16(c_Node53*);
-	int p_InsertFixup16(c_Node53*);
+	int p_RotateLeft16(c_Node54*);
+	int p_RotateRight16(c_Node54*);
+	int p_InsertFixup16(c_Node54*);
 	bool p_Set19(c_Point*,Object*);
 	bool p_Insert10(c_Point*,Object*);
 	c_MapKeys2* p_Keys();
-	c_Node53* p_FirstNode();
+	c_Node54* p_FirstNode();
 	void mark();
 };
 class c_IntPointMap : public c_Map17{
@@ -11708,25 +11764,25 @@ class c_IntPointMap : public c_Map17{
 	int p_Compare3(c_Point*,c_Point*);
 	void mark();
 };
-class c_Node53 : public Object{
+class c_Node54 : public Object{
 	public:
 	c_Point* m_key;
-	c_Node53* m_right;
-	c_Node53* m_left;
+	c_Node54* m_right;
+	c_Node54* m_left;
 	Object* m_value;
 	int m_color;
-	c_Node53* m_parent;
-	c_Node53();
-	c_Node53* m_new(c_Point*,Object*,int,c_Node53*);
-	c_Node53* m_new2();
-	c_Node53* p_NextNode();
+	c_Node54* m_parent;
+	c_Node54();
+	c_Node54* m_new(c_Point*,Object*,int,c_Node54*);
+	c_Node54* m_new2();
+	c_Node54* p_NextNode();
 	void mark();
 };
 class c_KeyEnumerator2 : public Object{
 	public:
-	c_Node53* m_node;
+	c_Node54* m_node;
 	c_KeyEnumerator2();
-	c_KeyEnumerator2* m_new(c_Node53*);
+	c_KeyEnumerator2* m_new(c_Node54*);
 	c_KeyEnumerator2* m_new2();
 	bool p_HasNext();
 	c_Point* p_NextObject();
@@ -11751,19 +11807,19 @@ class c_Stack7 : public Object{
 	void p_Push19(c_TileData*);
 	void p_Push20(Array<c_TileData* >,int,int);
 	void p_Push21(Array<c_TileData* >,int);
-	c_Enumerator22* p_ObjectEnumerator();
+	c_Enumerator23* p_ObjectEnumerator();
 	static c_TileData* m_NIL;
 	void p_Length2(int);
 	int p_Length();
 	void mark();
 };
-class c_Enumerator22 : public Object{
+class c_Enumerator23 : public Object{
 	public:
 	c_Stack7* m_stack;
 	int m_index;
-	c_Enumerator22();
-	c_Enumerator22* m_new(c_Stack7*);
-	c_Enumerator22* m_new2();
+	c_Enumerator23();
+	c_Enumerator23* m_new(c_Stack7*);
+	c_Enumerator23* m_new2();
 	bool p_HasNext();
 	c_TileData* p_NextObject();
 	void mark();
@@ -11811,7 +11867,7 @@ class c_Stack8 : public Object{
 	void p_Push22(c_PortalSeg*);
 	void p_Push23(Array<c_PortalSeg* >,int,int);
 	void p_Push24(Array<c_PortalSeg* >,int);
-	c_Enumerator23* p_ObjectEnumerator();
+	c_Enumerator24* p_ObjectEnumerator();
 	static c_PortalSeg* m_NIL;
 	void p_Length2(int);
 	int p_Length();
@@ -11827,13 +11883,13 @@ class c_StackEx3 : public c_Stack8{
 	void p_Extend(c_StackEx3*);
 	void mark();
 };
-class c_Enumerator23 : public Object{
+class c_Enumerator24 : public Object{
 	public:
 	c_Stack8* m_stack;
 	int m_index;
-	c_Enumerator23();
-	c_Enumerator23* m_new(c_Stack8*);
-	c_Enumerator23* m_new2();
+	c_Enumerator24();
+	c_Enumerator24* m_new(c_Stack8*);
+	c_Enumerator24* m_new2();
 	bool p_HasNext();
 	c_PortalSeg* p_NextObject();
 	void mark();
@@ -11847,13 +11903,13 @@ class c_RoomWithDoor : public c_RectRoom{
 	bool p_IsWall3(int,int);
 	void mark();
 };
-class c_Enumerator24 : public Object{
+class c_Enumerator25 : public Object{
 	public:
 	c_Stack4* m_stack;
 	int m_index;
-	c_Enumerator24();
-	c_Enumerator24* m_new(c_Stack4*);
-	c_Enumerator24* m_new2();
+	c_Enumerator25();
+	c_Enumerator25* m_new(c_Stack4*);
+	c_Enumerator25* m_new2();
 	bool p_HasNext();
 	c_Point* p_NextObject();
 	void mark();
@@ -11898,20 +11954,20 @@ class c_Stack10 : public Object{
 	void p_Push28(c_RoomBase*);
 	void p_Push29(Array<c_RoomBase* >,int,int);
 	void p_Push30(Array<c_RoomBase* >,int);
-	c_Enumerator25* p_ObjectEnumerator();
+	c_Enumerator26* p_ObjectEnumerator();
 	static c_RoomBase* m_NIL;
 	void p_Length2(int);
 	int p_Length();
 	c_RoomBase* p_Get2(int);
 	void mark();
 };
-class c_Enumerator25 : public Object{
+class c_Enumerator26 : public Object{
 	public:
 	c_Stack10* m_stack;
 	int m_index;
-	c_Enumerator25();
-	c_Enumerator25* m_new(c_Stack10*);
-	c_Enumerator25* m_new2();
+	c_Enumerator26();
+	c_Enumerator26* m_new(c_Stack10*);
+	c_Enumerator26* m_new2();
 	bool p_HasNext();
 	c_RoomBase* p_NextObject();
 	void mark();
@@ -11928,13 +11984,13 @@ class c_SecretRoomData : public Object{
 	c_SecretRoomData* m_new2();
 	void mark();
 };
-class c_Enumerator26 : public Object{
+class c_Enumerator27 : public Object{
 	public:
 	c_List14* m__list;
 	c_Node30* m__curr;
-	c_Enumerator26();
-	c_Enumerator26* m_new(c_List14*);
-	c_Enumerator26* m_new2();
+	c_Enumerator27();
+	c_Enumerator27* m_new(c_List14*);
+	c_Enumerator27* m_new2();
 	bool p_HasNext();
 	c_RoomData* p_NextObject();
 	void mark();
@@ -11981,35 +12037,35 @@ class c_ToughSarcophagus : public c_Enemy{
 	void p_Update();
 	void mark();
 };
-class c_Enumerator27 : public Object{
+class c_Enumerator28 : public Object{
 	public:
-	c_List32* m__list;
-	c_Node49* m__curr;
-	c_Enumerator27();
-	c_Enumerator27* m_new(c_List32*);
-	c_Enumerator27* m_new2();
+	c_List33* m__list;
+	c_Node50* m__curr;
+	c_Enumerator28();
+	c_Enumerator28* m_new(c_List33*);
+	c_Enumerator28* m_new2();
 	bool p_HasNext();
 	c_Chest* p_NextObject();
 	void mark();
 };
-class c_Enumerator28 : public Object{
+class c_Enumerator29 : public Object{
 	public:
-	c_List28* m__list;
-	c_Node45* m__curr;
-	c_Enumerator28();
-	c_Enumerator28* m_new(c_List28*);
-	c_Enumerator28* m_new2();
+	c_List29* m__list;
+	c_Node46* m__curr;
+	c_Enumerator29();
+	c_Enumerator29* m_new(c_List29*);
+	c_Enumerator29* m_new2();
 	bool p_HasNext();
 	c_Shrine* p_NextObject();
 	void mark();
 };
-class c_Enumerator29 : public Object{
+class c_Enumerator30 : public Object{
 	public:
-	c_List22* m__list;
-	c_Node39* m__curr;
-	c_Enumerator29();
-	c_Enumerator29* m_new(c_List22*);
-	c_Enumerator29* m_new2();
+	c_List23* m__list;
+	c_Node40* m__curr;
+	c_Enumerator30();
+	c_Enumerator30* m_new(c_List23*);
+	c_Enumerator30* m_new2();
 	bool p_HasNext();
 	c_NPC* p_NextObject();
 	void mark();
@@ -12086,36 +12142,36 @@ class c_Switch : public c_Trap{
 	int m_trigger;
 	c_Switch* m_pairedSwitch;
 	c_Switch();
-	static c_List36* m_switches;
+	static c_List37* m_switches;
 	c_Switch* m_new(int,int,int,c_Switch*);
 	c_Switch* m_new2();
 	void p_Die();
 	void p_Update();
 	void mark();
 };
-class c_List36 : public Object{
+class c_List37 : public Object{
 	public:
-	c_Node54* m__head;
-	c_List36();
-	c_List36* m_new();
-	c_Node54* p_AddLast36(c_Switch*);
-	c_List36* m_new2(Array<c_Switch* >);
+	c_Node55* m__head;
+	c_List37();
+	c_List37* m_new();
+	c_Node55* p_AddLast37(c_Switch*);
+	c_List37* m_new2(Array<c_Switch* >);
 	void mark();
 };
-class c_Node54 : public Object{
+class c_Node55 : public Object{
 	public:
-	c_Node54* m__succ;
-	c_Node54* m__pred;
+	c_Node55* m__succ;
+	c_Node55* m__pred;
 	c_Switch* m__data;
-	c_Node54();
-	c_Node54* m_new(c_Node54*,c_Node54*,c_Switch*);
-	c_Node54* m_new2();
+	c_Node55();
+	c_Node55* m_new(c_Node55*,c_Node55*,c_Switch*);
+	c_Node55* m_new2();
 	void mark();
 };
-class c_HeadNode36 : public c_Node54{
+class c_HeadNode37 : public c_Node55{
 	public:
-	c_HeadNode36();
-	c_HeadNode36* m_new();
+	c_HeadNode37();
+	c_HeadNode37* m_new();
 	void mark();
 };
 class c_GuiComponent : public c_GuiContainer{
@@ -12183,13 +12239,13 @@ class c_ControllerChangeLog : public c_Controller{
 	void p_Update();
 	void mark();
 };
-class c_Enumerator30 : public Object{
+class c_Enumerator31 : public Object{
 	public:
 	c_List7* m__list;
 	c_Node12* m__curr;
-	c_Enumerator30();
-	c_Enumerator30* m_new(c_List7*);
-	c_Enumerator30* m_new2();
+	c_Enumerator31();
+	c_Enumerator31* m_new(c_List7*);
+	c_Enumerator31* m_new2();
 	bool p_HasNext();
 	String p_NextObject();
 	void mark();
@@ -12216,13 +12272,13 @@ class c_ControllerInputPopup : public c_Controller{
 	void mark();
 };
 extern bool bb_controller_game_incrementFixedBeatNum;
-class c_Enumerator31 : public Object{
+class c_Enumerator32 : public Object{
 	public:
-	c_List27* m__list;
-	c_Node44* m__curr;
-	c_Enumerator31();
-	c_Enumerator31* m_new(c_List27*);
-	c_Enumerator31* m_new2();
+	c_List28* m__list;
+	c_Node45* m__curr;
+	c_Enumerator32();
+	c_Enumerator32* m_new(c_List28*);
+	c_Enumerator32* m_new2();
 	bool p_HasNext();
 	c_SaleItem* p_NextObject();
 	void mark();
@@ -12254,46 +12310,9 @@ class c_ControllerPause : public c_Controller{
 class c_Doppelganger : public Object{
 	public:
 	c_Doppelganger();
-	static c_List37* m_doppelgangers;
+	static c_List38* m_doppelgangers;
 	void p_Update();
 	static void m_UpdateAll();
-	void mark();
-};
-class c_List37 : public Object{
-	public:
-	c_Node55* m__head;
-	c_List37();
-	c_List37* m_new();
-	c_Node55* p_AddLast37(c_Doppelganger*);
-	c_List37* m_new2(Array<c_Doppelganger* >);
-	c_Enumerator32* p_ObjectEnumerator();
-	void mark();
-};
-class c_Node55 : public Object{
-	public:
-	c_Node55* m__succ;
-	c_Node55* m__pred;
-	c_Doppelganger* m__data;
-	c_Node55();
-	c_Node55* m_new(c_Node55*,c_Node55*,c_Doppelganger*);
-	c_Node55* m_new2();
-	void mark();
-};
-class c_HeadNode37 : public c_Node55{
-	public:
-	c_HeadNode37();
-	c_HeadNode37* m_new();
-	void mark();
-};
-class c_Enumerator32 : public Object{
-	public:
-	c_List37* m__list;
-	c_Node55* m__curr;
-	c_Enumerator32();
-	c_Enumerator32* m_new(c_List37*);
-	c_Enumerator32* m_new2();
-	bool p_HasNext();
-	c_Doppelganger* p_NextObject();
 	void mark();
 };
 class c_List38 : public Object{
@@ -12301,8 +12320,8 @@ class c_List38 : public Object{
 	c_Node56* m__head;
 	c_List38();
 	c_List38* m_new();
-	c_Node56* p_AddLast38(c_Flyaway*);
-	c_List38* m_new2(Array<c_Flyaway* >);
+	c_Node56* p_AddLast38(c_Doppelganger*);
+	c_List38* m_new2(Array<c_Doppelganger* >);
 	c_Enumerator33* p_ObjectEnumerator();
 	void mark();
 };
@@ -12310,9 +12329,9 @@ class c_Node56 : public Object{
 	public:
 	c_Node56* m__succ;
 	c_Node56* m__pred;
-	c_Flyaway* m__data;
+	c_Doppelganger* m__data;
 	c_Node56();
-	c_Node56* m_new(c_Node56*,c_Node56*,c_Flyaway*);
+	c_Node56* m_new(c_Node56*,c_Node56*,c_Doppelganger*);
 	c_Node56* m_new2();
 	void mark();
 };
@@ -12330,16 +12349,53 @@ class c_Enumerator33 : public Object{
 	c_Enumerator33* m_new(c_List38*);
 	c_Enumerator33* m_new2();
 	bool p_HasNext();
-	c_Flyaway* p_NextObject();
+	c_Doppelganger* p_NextObject();
+	void mark();
+};
+class c_List39 : public Object{
+	public:
+	c_Node57* m__head;
+	c_List39();
+	c_List39* m_new();
+	c_Node57* p_AddLast39(c_Flyaway*);
+	c_List39* m_new2(Array<c_Flyaway* >);
+	c_Enumerator34* p_ObjectEnumerator();
+	void mark();
+};
+class c_Node57 : public Object{
+	public:
+	c_Node57* m__succ;
+	c_Node57* m__pred;
+	c_Flyaway* m__data;
+	c_Node57();
+	c_Node57* m_new(c_Node57*,c_Node57*,c_Flyaway*);
+	c_Node57* m_new2();
+	void mark();
+};
+class c_HeadNode39 : public c_Node57{
+	public:
+	c_HeadNode39();
+	c_HeadNode39* m_new();
 	void mark();
 };
 class c_Enumerator34 : public Object{
 	public:
+	c_List39* m__list;
+	c_Node57* m__curr;
+	c_Enumerator34();
+	c_Enumerator34* m_new(c_List39*);
+	c_Enumerator34* m_new2();
+	bool p_HasNext();
+	c_Flyaway* p_NextObject();
+	void mark();
+};
+class c_Enumerator35 : public Object{
+	public:
 	c_List16* m__list;
 	c_Node32* m__curr;
-	c_Enumerator34();
-	c_Enumerator34* m_new(c_List16*);
-	c_Enumerator34* m_new2();
+	c_Enumerator35();
+	c_Enumerator35* m_new(c_List16*);
+	c_Enumerator35* m_new2();
 	bool p_HasNext();
 	c_ParticleSystem* p_NextObject();
 	void mark();
@@ -12354,7 +12410,7 @@ class c_CrystalShards : public c_Entity{
 	public:
 	c_CrystalShards();
 	static void m_MoveAll();
-	static c_List40* m_shardsList;
+	static c_List41* m_shardsList;
 	c_CrystalShards* m_new(int,int);
 	c_CrystalShards* m_new2();
 	void p_Die();
@@ -12362,47 +12418,22 @@ class c_CrystalShards : public c_Entity{
 	void mark();
 };
 extern bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
-class c_List39 : public Object{
-	public:
-	c_Node57* m__head;
-	c_List39();
-	c_List39* m_new();
-	c_Node57* p_AddLast39(c_Bomb*);
-	c_List39* m_new2(Array<c_Bomb* >);
-	void mark();
-};
-class c_Node57 : public Object{
-	public:
-	c_Node57* m__succ;
-	c_Node57* m__pred;
-	c_Bomb* m__data;
-	c_Node57();
-	c_Node57* m_new(c_Node57*,c_Node57*,c_Bomb*);
-	c_Node57* m_new2();
-	void mark();
-};
-class c_HeadNode39 : public c_Node57{
-	public:
-	c_HeadNode39();
-	c_HeadNode39* m_new();
-	void mark();
-};
 class c_List40 : public Object{
 	public:
 	c_Node58* m__head;
 	c_List40();
 	c_List40* m_new();
-	c_Node58* p_AddLast40(c_CrystalShards*);
-	c_List40* m_new2(Array<c_CrystalShards* >);
+	c_Node58* p_AddLast40(c_Bomb*);
+	c_List40* m_new2(Array<c_Bomb* >);
 	void mark();
 };
 class c_Node58 : public Object{
 	public:
 	c_Node58* m__succ;
 	c_Node58* m__pred;
-	c_CrystalShards* m__data;
+	c_Bomb* m__data;
 	c_Node58();
-	c_Node58* m_new(c_Node58*,c_Node58*,c_CrystalShards*);
+	c_Node58* m_new(c_Node58*,c_Node58*,c_Bomb*);
 	c_Node58* m_new2();
 	void mark();
 };
@@ -12410,6 +12441,31 @@ class c_HeadNode40 : public c_Node58{
 	public:
 	c_HeadNode40();
 	c_HeadNode40* m_new();
+	void mark();
+};
+class c_List41 : public Object{
+	public:
+	c_Node59* m__head;
+	c_List41();
+	c_List41* m_new();
+	c_Node59* p_AddLast41(c_CrystalShards*);
+	c_List41* m_new2(Array<c_CrystalShards* >);
+	void mark();
+};
+class c_Node59 : public Object{
+	public:
+	c_Node59* m__succ;
+	c_Node59* m__pred;
+	c_CrystalShards* m__data;
+	c_Node59();
+	c_Node59* m_new(c_Node59*,c_Node59*,c_CrystalShards*);
+	c_Node59* m_new2();
+	void mark();
+};
+class c_HeadNode41 : public c_Node59{
+	public:
+	c_HeadNode41();
+	c_HeadNode41* m_new();
 	void mark();
 };
 void bb_fmod_StopSoundFMOD(int);
@@ -12422,40 +12478,40 @@ class c_ConductorBattery : public c_Enemy{
 	void p_Update();
 	void mark();
 };
-class c_List41 : public Object{
+class c_List42 : public Object{
 	public:
-	c_Node59* m__head;
-	c_List41();
-	c_List41* m_new();
-	c_Node59* p_AddLast41(c_Player*);
-	c_List41* m_new2(Array<c_Player* >);
-	c_Enumerator35* p_ObjectEnumerator();
+	c_Node60* m__head;
+	c_List42();
+	c_List42* m_new();
+	c_Node60* p_AddLast42(c_Player*);
+	c_List42* m_new2(Array<c_Player* >);
+	c_Enumerator36* p_ObjectEnumerator();
 	bool p_IsEmpty();
 	void mark();
 };
-class c_Node59 : public Object{
+class c_Node60 : public Object{
 	public:
-	c_Node59* m__succ;
-	c_Node59* m__pred;
+	c_Node60* m__succ;
+	c_Node60* m__pred;
 	c_Player* m__data;
-	c_Node59();
-	c_Node59* m_new(c_Node59*,c_Node59*,c_Player*);
-	c_Node59* m_new2();
+	c_Node60();
+	c_Node60* m_new(c_Node60*,c_Node60*,c_Player*);
+	c_Node60* m_new2();
 	void mark();
 };
-class c_HeadNode41 : public c_Node59{
+class c_HeadNode42 : public c_Node60{
 	public:
-	c_HeadNode41();
-	c_HeadNode41* m_new();
+	c_HeadNode42();
+	c_HeadNode42* m_new();
 	void mark();
 };
-class c_Enumerator35 : public Object{
+class c_Enumerator36 : public Object{
 	public:
-	c_List41* m__list;
-	c_Node59* m__curr;
-	c_Enumerator35();
-	c_Enumerator35* m_new(c_List41*);
-	c_Enumerator35* m_new2();
+	c_List42* m__list;
+	c_Node60* m__curr;
+	c_Enumerator36();
+	c_Enumerator36* m_new(c_List42*);
+	c_Enumerator36* m_new2();
 	bool p_HasNext();
 	c_Player* p_NextObject();
 	void mark();
@@ -13523,8 +13579,23 @@ bool c_Util::m_AreAriaOrCodaActive(){
 	return m_IsCharacterActive(2) || m_IsCharacterActive(7);
 }
 Float c_Util::m_GetDistFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDistFromClosestPlayer(Int, Int, Bool)",45));
-	return 0;
+	Float t_dist=FLOAT(99999.0);
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(!t_player->p_Perished()){
+			Float t_distToPlayer=m_GetDist(t_player->m_x,t_player->m_y,t_xVal,t_yVal);
+			t_dist=bb_math_Min2(t_dist,t_distToPlayer);
+		}
+	}
+	if(t_includeSouls){
+		c_Enumerator9* t_=c_SoulFamiliar::m_allSouls->p_ObjectEnumerator();
+		while(t_->p_HasNext()){
+			c_SoulFamiliar* t_soulFamiliar=t_->p_NextObject();
+			Float t_distToSoulFamiliar=m_GetDist(t_soulFamiliar->m_x,t_soulFamiliar->m_y,t_xVal,t_yVal);
+			t_dist=bb_math_Min2(t_dist,t_distToSoulFamiliar);
+		}
+	}
+	return t_dist;
 }
 bool c_Util::m_IsGlobalCollisionAt(int t_xVal,int t_yVal,bool t_isPlayer,bool t_ignoreWalls,bool t_includeTheNothing,bool t_includeShopWallsDespiteIgnoringWalls,bool t_skipIgnoreWalls){
 	if(t_includeTheNothing && c_Level::m_GetTileAt(t_xVal,t_yVal)==0){
@@ -13805,19 +13876,32 @@ c_Player* c_Util::m_GetAnyPlayerAt(int t_xVal,int t_yVal){
 	}
 	return 0;
 }
-c_List41* c_Util::m_GetPlayersAt(c_Rect* t_where){
-	c_List41* t_playersAt=(new c_List41)->m_new();
+c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
+	Float t_dist=FLOAT(99999.0);
+	c_Player* t_closestPlayer=bb_controller_game_players[bb_controller_game_player1];
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		Float t_distToPlayer=m_GetDist(t_player->m_x,t_player->m_y,t_xVal,t_yVal);
+		if(t_dist>t_distToPlayer){
+			t_dist=t_distToPlayer;
+			t_closestPlayer=t_player;
+		}
+	}
+	return t_closestPlayer;
+}
+c_List42* c_Util::m_GetPlayersAt(c_Rect* t_where){
+	c_List42* t_playersAt=(new c_List42)->m_new();
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
 		c_Player* t_player=bb_controller_game_players[t_i];
 		if(!t_player->p_Perished()){
 			if(t_where->p_Contains5(t_player->p_GetLocation())){
-				t_playersAt->p_AddLast41(t_player);
+				t_playersAt->p_AddLast42(t_player);
 			}
 		}
 	}
 	return t_playersAt;
 }
-c_List41* c_Util::m_GetPlayersAt2(int t_xVal,int t_yVal){
+c_List42* c_Util::m_GetPlayersAt2(int t_xVal,int t_yVal){
 	return m_GetPlayersAt((new c_Rect)->m_new(t_xVal,t_yVal,0,0));
 }
 void c_Util::mark(){
@@ -17385,8 +17469,8 @@ c_TextSprite::c_TextSprite(){
 	m_shadowOffX=1;
 	m_shadowOffY=1;
 	m_fontScale=1;
-	m_containedSprites=(new c_List21)->m_new();
-	m_containedSpriteShadows=(new c_List21)->m_new();
+	m_containedSprites=(new c_List22)->m_new();
+	m_containedSpriteShadows=(new c_List22)->m_new();
 }
 void c_TextSprite::m_Init(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.Init()",17));
@@ -17437,12 +17521,12 @@ void c_TextSprite::p_SetText(String t_t,bool t_force){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TextSprite.SetText(String, Bool)",32));
 }
 void c_TextSprite::p_InWorld(bool t_b){
-	c_Enumerator11* t_=this->m_containedSprites->p_ObjectEnumerator();
+	c_Enumerator12* t_=this->m_containedSprites->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Sprite* t_containedSprite=t_->p_NextObject();
 		t_containedSprite->p_InWorld(t_b);
 	}
-	c_Enumerator11* t_2=this->m_containedSpriteShadows->p_ObjectEnumerator();
+	c_Enumerator12* t_2=this->m_containedSpriteShadows->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_Sprite* t_containedSpriteShadow=t_2->p_NextObject();
 		t_containedSpriteShadow->p_InWorld(t_b);
@@ -17711,6 +17795,7 @@ int c_Audio::m_GetNextBeatDuration(){
 	}
 	return t_duration;
 }
+bool c_Audio::m_songPaused;
 int c_Audio::m_songShopkeeper;
 Float c_Audio::m_GetPercentDistanceFromNextBeat(){
 	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
@@ -19533,7 +19618,7 @@ void c_Level::m_CreateBossBattle1(){
 	c_Enemy::m_enemiesPaused=true;
 }
 void c_Level::m_ClearMinibossWall(){
-	c_Enumerator9* t_=m_minibossFormerWall->p_ObjectEnumerator();
+	c_Enumerator10* t_=m_minibossFormerWall->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_MinibossTileData* t_tileData=t_->p_NextObject();
 		c_Tile* t_tile=m_GetTileAt(t_tileData->m_x,t_tileData->m_y);
@@ -20258,7 +20343,7 @@ void c_Level::m_AddCrackedWall(int t_roomType){
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false)){
 				if(t_tile->m_health<=1){
-					t_lowHealthWallLocations->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+					t_lowHealthWallLocations->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 				}
 			}
 		}
@@ -20469,7 +20554,7 @@ void c_Level::m_AddSpecialRoom(int t_roomType,bool t_addCrack){
 				t_glassItems->p_Push7(String(L"torch_glass",11));
 				t_glassItems->p_Push7(String(L"feet_glass_slippers",19));
 				c_Stack3* t_validGlassItems=(new c_Stack3)->m_new();
-				c_Enumerator12* t_=t_glassItems->p_ObjectEnumerator();
+				c_Enumerator13* t_=t_glassItems->p_ObjectEnumerator();
 				while(t_->p_HasNext()){
 					String t_glassItem=t_->p_NextObject();
 					c_XMLNode* t_glassItemNode=c_Item::m_GetItemXML(t_glassItem);
@@ -20479,7 +20564,7 @@ void c_Level::m_AddSpecialRoom(int t_roomType,bool t_addCrack){
 				}
 				c_Stack3* t_anotherItems=(new c_Stack3)->m_new();
 				c_StringSet* t_newItems=(new c_StringSet)->m_new();
-				c_Enumerator12* t_2=t_validGlassItems->p_ObjectEnumerator();
+				c_Enumerator13* t_2=t_validGlassItems->p_ObjectEnumerator();
 				while(t_2->p_HasNext()){
 					String t_validGlassItem=t_2->p_NextObject();
 					if(!c_Item::m_seenItems->p_Contains4(t_validGlassItem)){
@@ -20487,7 +20572,7 @@ void c_Level::m_AddSpecialRoom(int t_roomType,bool t_addCrack){
 						t_newItems->p_Insert6(t_validGlassItem);
 					}
 				}
-				c_Enumerator12* t_4=t_validGlassItems->p_ObjectEnumerator();
+				c_Enumerator13* t_4=t_validGlassItems->p_ObjectEnumerator();
 				while(t_4->p_HasNext()){
 					String t_validGlassItem2=t_4->p_NextObject();
 					if(!t_newItems->p_Contains4(t_validGlassItem2)){
@@ -20905,7 +20990,7 @@ void c_Level::m_PlaceShopItemsAt(int t_tmpX,int t_tmpY,c_Rect* t_door){
 		m_lockedShopPlaced=true;
 	}else{
 		if(!m_isHardcoreMode || ((c_Util::m_RndIntRangeFromZero(8,true))!=0)){
-			c_Enumerator24* t_=t_door->p_GetPoints()->p_ObjectEnumerator();
+			c_Enumerator25* t_=t_door->p_GetPoints()->p_ObjectEnumerator();
 			while(t_->p_HasNext()){
 				c_Point* t_point=t_->p_NextObject();
 				c_Tile* t_tile=(new c_Tile)->m_new(t_point->m_x,t_point->m_y,103,false,-1);
@@ -21098,7 +21183,7 @@ c_RoomWithDoor* c_Level::m_PlaceRoomZone52(c_StackEx3* t_portalSegs,int t_width,
 }
 c_RoomWithDoor* c_Level::m_CreateRoomZone52(c_StackEx3* t_portalSegs,int t_width,int t_height,int t_minEntryDist,int t_roomType){
 	t_portalSegs->p_Shuffle(true);
-	c_Enumerator23* t_=t_portalSegs->p_ObjectEnumerator();
+	c_Enumerator24* t_=t_portalSegs->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_PortalSeg* t_portalSeg=t_->p_NextObject();
 		c_RoomWithDoor* t_room=m_PlaceRoomZone5(t_portalSeg,t_width,t_height,t_minEntryDist);
@@ -21132,9 +21217,9 @@ bool c_Level::m_IsExitAt(int t_x,int t_y){
 bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 	bb_logger_Debug->p_Log(String(L"PLACEWIRE: Wiring ",18)+t_src->p_ToString()+String(L" to ",4)+t_dst->p_ToString());
 	c_IntPointMap2* t_connections=(new c_IntPointMap2)->m_new();
-	c_List26* t_wirePoints=(new c_List26)->m_new();
+	c_List27* t_wirePoints=(new c_List27)->m_new();
 	t_connections->p_Add7(t_src,0);
-	t_wirePoints->p_AddLast26(t_src);
+	t_wirePoints->p_AddLast27(t_src);
 	while(t_wirePoints->p_Count()>0){
 		c_Point* t_wirePoint=t_wirePoints->p_RemoveFirst();
 		for(int t_dir=0;t_dir<=3;t_dir=t_dir+1){
@@ -21143,7 +21228,7 @@ bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 			if(t_wirePointCandidate->p_Equals7(t_dst) || !m_IsWallAdjacent8(t_wirePointCandidate->m_x,t_wirePointCandidate->m_y)){
 				if(m_IsFloorAt(t_wirePointCandidate->m_x,t_wirePointCandidate->m_y) && !t_connections->p_Contains5(t_wirePointCandidate)){
 					t_connections->p_Add7(t_wirePointCandidate,t_wirePoint);
-					t_wirePoints->p_AddLast26(t_wirePointCandidate);
+					t_wirePoints->p_AddLast27(t_wirePointCandidate);
 				}
 			}
 		}
@@ -21248,7 +21333,7 @@ bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 bool c_Level::m_IsTileTypeAdjacent(int t_xVal,int t_yVal,int t_tempType){
 	return m_GetTileTypeAt(t_xVal-1,t_yVal)==t_tempType || m_GetTileTypeAt(t_xVal+1,t_yVal)==t_tempType || m_GetTileTypeAt(t_xVal,t_yVal-1)==t_tempType || m_GetTileTypeAt(t_xVal,t_yVal+1)==t_tempType;
 }
-c_List26* c_Level::m_tempTileWalk;
+c_List27* c_Level::m_tempTileWalk;
 void c_Level::m_RandomWalkOfTempTiles(int t_xVal,int t_yVal,int t_distCounter){
 	do{
 		if(c_Util::m_RndBool(true)){
@@ -21264,7 +21349,7 @@ void c_Level::m_RandomWalkOfTempTiles(int t_xVal,int t_yVal,int t_distCounter){
 				t_yVal-=1;
 			}
 		}
-		m_tempTileWalk->p_AddLast26((new c_Point)->m_new(t_xVal,t_yVal));
+		m_tempTileWalk->p_AddLast27((new c_Point)->m_new(t_xVal,t_yVal));
 		t_distCounter-=1;
 	}while(!(t_distCounter<=0));
 }
@@ -21284,7 +21369,7 @@ void c_Level::m_PadWalls(){
 			}
 		}
 	}
-	c_Enumerator16* t_3=m_tempTileWalk->p_ObjectEnumerator();
+	c_Enumerator17* t_3=m_tempTileWalk->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_Point* t_location=t_3->p_NextObject();
 		int t_x2=t_location->m_x;
@@ -21526,7 +21611,7 @@ void c_Level::m_MakeInvisibleChestAt(int t_tmpX,int t_tmpY){
 	(new c_Chest)->m_new(t_tmpX,t_tmpY,t_itemName,true,false,true,0);
 }
 bool c_Level::m_FillSecretRoomsZone4(){
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		if(!m_IsSecretRoom(t_room->m_type)){
@@ -21801,7 +21886,7 @@ bool c_Level::m_FillSecretRoomsZone2(){
 	if(m_isHardcoreMode || m_isDDRMode || m_isLevelEditor){
 		t_placeGlassKey=false;
 	}
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		if(!m_IsSecretRoom(t_room->m_type)){
@@ -22054,7 +22139,7 @@ bool c_Level::m_FillSecretRoomsZone1(){
 	if(m_isHardcoreMode || m_isDDRMode){
 		t_placeGoldenKey=false;
 	}
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		if(!m_IsSecretRoom(t_room->m_type)){
@@ -22355,7 +22440,7 @@ void c_Level::m_AddStone(){
 	if(m_isHardcoreMode){
 		t_stoneCountMultiplier+=FLOAT(0.13);
 	}
-	c_List26* t_stoneCandidateLocations=(new c_List26)->m_new();
+	c_List27* t_stoneCandidateLocations=(new c_List27)->m_new();
 	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Node26* t_tilesOnXNode=t_->p_NextObject();
@@ -22364,7 +22449,7 @@ void c_Level::m_AddStone(){
 			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false) && t_tile->m_health<=1 && !t_tile->m_isCracked){
-				t_stoneCandidateLocations->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+				t_stoneCandidateLocations->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 			}
 		}
 	}
@@ -22515,7 +22600,7 @@ void c_Level::m_PlaceTrapZone5(int t_xVal,int t_yVal,int t_wVal,int t_hVal){
 	m_PlaceTrapInRoom2(t_xVal,t_yVal,t_wVal,t_hVal,t_trapType,-1);
 }
 void c_Level::m_PlaceTrapsZone5(){
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_157=t_room->m_type;
@@ -22617,7 +22702,7 @@ void c_Level::m_PlaceTrapZone4(int t_xVal,int t_yVal,int t_wVal,int t_hVal){
 	m_PlaceTrapInRoom2(t_xVal,t_yVal,t_wVal,t_hVal,t_trapType,t_direction);
 }
 void c_Level::m_PlaceTrapsZone4(){
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_155=t_room->m_type;
@@ -22682,7 +22767,7 @@ void c_Level::m_PlaceTrapsZone4(){
 			c_Node27* t_tileNode=t_3->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false)){
-				t_destructibleWalls->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+				t_destructibleWalls->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 			}
 		}
 	}
@@ -22753,7 +22838,7 @@ void c_Level::m_PlaceTrapZone3(int t_xVal,int t_yVal,int t_wVal,int t_hVal){
 	m_PlaceTrapInRoom2(t_xVal,t_yVal,t_wVal,t_hVal,t_trapType,t_direction);
 }
 void c_Level::m_PlaceTrapsZone3(){
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_153=t_room->m_type;
@@ -22828,7 +22913,7 @@ void c_Level::m_PlaceTrapsZone3(){
 	}
 }
 void c_Level::m_PlaceTrapsZone2(){
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_151=t_room->m_type;
@@ -22940,7 +23025,7 @@ void c_Level::m_PlaceTrapsZone2(){
 	}
 }
 void c_Level::m_PlaceTrapsZone1(){
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_149=t_room->m_type;
@@ -23552,7 +23637,7 @@ void c_Level::m_PutVariedEnemiesZone5(c_StackEx2* t_pts){
 	t_picker->p_Push4(100);
 	t_picker->p_Push4(100);
 	Array<int > t_selected=Array<int >(7);
-	c_Enumerator24* t_=t_pts->p_ObjectEnumerator();
+	c_Enumerator25* t_=t_pts->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_point=t_->p_NextObject();
 		int t_minSelected=999;
@@ -23720,7 +23805,7 @@ void c_Level::m_PutRoomEnemiesZone5(c_RoomBase* t_room,bool t_hasExit){
 void c_Level::m_PlaceEnemiesZone5(){
 	bb_logger_Debug->p_Log(String(L"PLACEENEMIES: Placing zone 5 enemies",36));
 	c_StackEx5* t_wraithRooms=(new c_StackEx5)->m_new();
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_roomData=t_->p_NextObject();
 		int t_106=t_roomData->m_type;
@@ -23777,7 +23862,7 @@ c_Gargoyle* c_Level::m_PlaceGargoyle2(int t_xVal,int t_yVal){
 }
 void c_Level::m_PlaceEnemiesZone4(){
 	bb_logger_Debug->p_Log(String(L"PLACEENEMIES: Placing zone 4 enemies",36));
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_104=t_room->m_type;
@@ -23985,7 +24070,7 @@ void c_Level::m_PlaceEnemiesZone4(){
 			if(t_tile->m_health>=3){
 				continue;
 			}
-			t_walls->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+			t_walls->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 		}
 	}
 	for(int t_numSpiders=3;t_numSpiders>0;t_numSpiders=t_numSpiders+-1){
@@ -24037,7 +24122,7 @@ c_Enemy* c_Level::m_PlaceZone3Beetle(int t_xVal,int t_yVal){
 }
 void c_Level::m_PlaceEnemiesZone3(){
 	bb_logger_Debug->p_Log(String(L"PLACEENEMIES: Placing zone 3 enemies",36));
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_101=t_room->m_type;
@@ -24365,7 +24450,7 @@ void c_Level::m_PlaceEnemiesZone3(){
 }
 void c_Level::m_PlaceEnemiesZone2(){
 	bb_logger_Debug->p_Log(String(L"PLACEENEMIES: Placing zone 2 enemies",36));
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_98=t_room->m_type;
@@ -24768,7 +24853,7 @@ void c_Level::m_PlaceEnemiesZone2(){
 }
 void c_Level::m_PlaceEnemiesZone1(){
 	bb_logger_Debug->p_Log(String(L"PLACEENEMIES: Placing zone 1 enemies",36));
-	c_Enumerator26* t_=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
 		int t_94=t_room->m_type;
@@ -25766,7 +25851,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 		t_hallway->p_RotateCWAbout(t_rotationPoint);
 	}
 	c_Stack7* t_hallwayTiles=t_hallway->p_MakeTiles();
-	c_Enumerator22* t_=t_hallwayTiles->p_ObjectEnumerator();
+	c_Enumerator23* t_=t_hallwayTiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_TileData* t_hallwayTile=t_->p_NextObject();
 		m_PlaceTileRemovingExistingTiles2(t_hallwayTile->m_x,t_hallwayTile->m_y,t_hallwayTile->m_type);
@@ -25775,10 +25860,10 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 	m_DumpMap();
 	bool t_isEntryDoorPlaced=false;
 	c_RectRoom* t_room1=(new c_RectRoom)->m_new2(t_room1Data->p_GetBounds());
-	c_Enumerator23* t_2=t_room1->p_GetPortalSegs()->p_ObjectEnumerator();
+	c_Enumerator24* t_2=t_room1->p_GetPortalSegs()->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_PortalSeg* t_room1PortalSeg=t_2->p_NextObject();
-		c_Enumerator23* t_3=t_hallway->p_GetPortalSegs()->p_ObjectEnumerator();
+		c_Enumerator24* t_3=t_hallway->p_GetPortalSegs()->p_ObjectEnumerator();
 		while(t_3->p_HasNext()){
 			c_PortalSeg* t_hallwayPortalSeg=t_3->p_NextObject();
 			c_PortalSeg* t_intersection=t_room1PortalSeg->p_Intersect(t_hallwayPortalSeg);
@@ -25878,7 +25963,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 	t_points->p_Shuffle(true);
 	bb_logger_Debug->p_Log(String(L"CREATEMAPZONE5: Place wire",26));
 	t_points->p_Pop();
-	c_Enumerator24* t_4=t_points->p_ObjectEnumerator();
+	c_Enumerator25* t_4=t_points->p_ObjectEnumerator();
 	while(t_4->p_HasNext()){
 		c_Point* t_point3=t_4->p_NextObject();
 		m_PlaceWire(t_exitPoint,t_point3);
@@ -25891,7 +25976,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 	t_rooms->p_Push28(t_smallRoom2);
 	t_rooms->p_Push28(t_smallRoom3);
 	t_rooms->p_Push28(t_smallRoom4);
-	c_Enumerator25* t_5=t_rooms->p_ObjectEnumerator();
+	c_Enumerator26* t_5=t_rooms->p_ObjectEnumerator();
 	while(t_5->p_HasNext()){
 		c_RoomBase* t_room=t_5->p_NextObject();
 		c_IntPointStack* t_internalNodePoints=(new c_IntPointStack)->m_new();
@@ -25903,7 +25988,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 			t_hasExit=true;
 		}
 		bool t_hasStart=t_room->p_IsFloor2(0,0);
-		c_Enumerator24* t_6=t_room->p_GetFloor()->p_ObjectEnumerator();
+		c_Enumerator25* t_6=t_room->p_GetFloor()->p_ObjectEnumerator();
 		while(t_6->p_HasNext()){
 			c_Point* t_roomFloorPoint=t_6->p_NextObject();
 			if(m_IsTileTypeAdjacent(t_roomFloorPoint->m_x,t_roomFloorPoint->m_y,118)){
@@ -26224,7 +26309,7 @@ void c_Level::m_AddHarderStone(){
 			c_Node27* t_tileNode=t_3->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,true,false,false) && t_tile->m_health<=1 && !t_tile->m_isCracked){
-				t_conversionCandidates->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+				t_conversionCandidates->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 			}
 		}
 	}
@@ -26257,7 +26342,7 @@ void c_Level::m_CheckMapConsistency(){
 			}
 		}
 	}
-	c_Enumerator10* t_2=c_Item::m_pickupList->p_ObjectEnumerator();
+	c_Enumerator11* t_2=c_Item::m_pickupList->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_Item* t_pickup=t_2->p_NextObject();
 		if(m_IsWallAt(t_pickup->m_x,t_pickup->m_y,false,false)){
@@ -26885,7 +26970,7 @@ void c_Level::m_RemoveSomeWallsAwayFromCorridors(Float t_percentToRemove,bool t_
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(!t_includeCorridors,true,false,false)){
 				if(t_tile->m_health<=t_maxHealth){
-					t_removalCandidates->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+					t_removalCandidates->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 				}
 			}
 		}
@@ -26924,11 +27009,11 @@ void c_Level::m_WidenCorridors(){
 			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_GetType()==101){
-				t_corridorWallLocations->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+				t_corridorWallLocations->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 			}
 		}
 	}
-	c_Enumerator16* t_3=t_corridorWallLocations->p_ObjectEnumerator();
+	c_Enumerator17* t_3=t_corridorWallLocations->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_Point* t_corridorWallLocation=t_3->p_NextObject();
 		m_PlaceTileRemovingExistingTiles2(t_corridorWallLocation->m_x,t_corridorWallLocation->m_y,0);
@@ -26967,7 +27052,7 @@ void c_Level::m_AddSomePillarsInOpenSpace(){
 			if(t_distFromClosestNPC<=FLOAT(6.0)){
 				continue;
 			}
-			t_pillarCandidates->p_AddLast26((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
+			t_pillarCandidates->p_AddLast27((new c_Point)->m_new(t_tile->m_x,t_tile->m_y));
 		}
 	}
 	int t_i=500;
@@ -27279,13 +27364,13 @@ bool c_Level::m_CreateMapZone3(){
 		}
 	}
 	c_List14* t_anotherRooms=(new c_List14)->m_new();
-	c_Enumerator26* t_3=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_3=m_rooms->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_RoomData* t_room=t_3->p_NextObject();
 		t_anotherRooms->p_AddLast14(t_room);
 	}
 	t_anotherRooms->p_AddLast14(t_room1);
-	c_Enumerator26* t_4=t_anotherRooms->p_ObjectEnumerator();
+	c_Enumerator27* t_4=t_anotherRooms->p_ObjectEnumerator();
 	while(t_4->p_HasNext()){
 		c_RoomData* t_room8=t_4->p_NextObject();
 		int t_numTorch=c_Util::m_RndIntRange(t_minTorch,t_maxTorch,true,-1);
@@ -27805,7 +27890,7 @@ bool c_Level::m_CreateMapZone2(){
 	}
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE2: Placing glowing mushrooms",42));
 	c_List14* t_anotherRooms=(new c_List14)->m_new();
-	c_Enumerator26* t_3=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_3=m_rooms->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_RoomData* t_room=t_3->p_NextObject();
 		t_anotherRooms->p_AddLast14(t_room);
@@ -27817,7 +27902,7 @@ bool c_Level::m_CreateMapZone2(){
 		(new c_MushroomLight)->m_new2(t_room1->m_x+t_room1->m_w-2,t_room1->m_y+2,1,true);
 		(new c_MushroomLight)->m_new2(t_room1->m_x+2,t_room1->m_y+t_room1->m_h-2,1,true);
 	}
-	c_Enumerator26* t_4=t_anotherRooms->p_ObjectEnumerator();
+	c_Enumerator27* t_4=t_anotherRooms->p_ObjectEnumerator();
 	while(t_4->p_HasNext()){
 		c_RoomData* t_room8=t_4->p_NextObject();
 		if(t_room8->m_type==3){
@@ -27851,13 +27936,13 @@ bool c_Level::m_CreateMapZone2(){
 		t_maxTorch=2*t_minTorch+1;
 	}
 	t_anotherRooms=(new c_List14)->m_new();
-	c_Enumerator26* t_5=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_5=m_rooms->p_ObjectEnumerator();
 	while(t_5->p_HasNext()){
 		c_RoomData* t_room9=t_5->p_NextObject();
 		t_anotherRooms->p_AddLast14(t_room9);
 	}
 	t_anotherRooms->p_AddLast14(t_room1);
-	c_Enumerator26* t_6=t_anotherRooms->p_ObjectEnumerator();
+	c_Enumerator27* t_6=t_anotherRooms->p_ObjectEnumerator();
 	while(t_6->p_HasNext()){
 		c_RoomData* t_room10=t_6->p_NextObject();
 		int t_numTorch=c_Util::m_RndIntRange(t_minTorch,t_maxTorch,true,-1);
@@ -28461,13 +28546,13 @@ bool c_Level::m_CreateMapZone1(){
 	}
 	int t_maxTorch=t_minTorch+1;
 	c_List14* t_rooms=(new c_List14)->m_new();
-	c_Enumerator26* t_3=m_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_3=m_rooms->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_RoomData* t_room=t_3->p_NextObject();
 		t_rooms->p_AddLast14(t_room);
 	}
 	t_rooms->p_AddLast14(t_room1);
-	c_Enumerator26* t_4=t_rooms->p_ObjectEnumerator();
+	c_Enumerator27* t_4=t_rooms->p_ObjectEnumerator();
 	while(t_4->p_HasNext()){
 		c_RoomData* t_room8=t_4->p_NextObject();
 		int t_numTorch=c_Util::m_RndIntRange(t_minTorch,t_maxTorch,true,-1);
@@ -28512,7 +28597,7 @@ bool c_Level::m_IsPassable(){
 	c_IntPointList* t_points=(new c_IntPointList)->m_new();
 	c_IntPointSet* t_visitedPoints=(new c_IntPointSet)->m_new();
 	c_Point* t_startPoint=(new c_Point)->m_new(0,0);
-	t_points->p_AddLast26(t_startPoint);
+	t_points->p_AddLast27(t_startPoint);
 	t_visitedPoints->p_Insert9(t_startPoint);
 	while(!t_points->p_IsEmpty()){
 		c_Point* t_point=t_points->p_RemoveFirst();
@@ -28534,7 +28619,7 @@ bool c_Level::m_IsPassable(){
 						if(c_Shrine::m_GetShrineAt(t_x,t_y)!=0){
 							continue;
 						}
-						t_points->p_AddLast26(t_nextPoint);
+						t_points->p_AddLast27(t_nextPoint);
 						t_visitedPoints->p_Insert9(t_nextPoint);
 					}
 				}
@@ -30285,7 +30370,7 @@ void c_Level::m_DoRestart(){
 }
 int c_Level::m_lastTileCount;
 c_IntPointList* c_Level::m_tileObstructionList;
-c_List26* c_Level::m_GetTileObstructionList(bool t_includeOffscreen){
+c_List27* c_Level::m_GetTileObstructionList(bool t_includeOffscreen){
 	m_tileObstructionList->p_Clear();
 	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
@@ -30295,7 +30380,7 @@ c_List26* c_Level::m_GetTileObstructionList(bool t_includeOffscreen){
 			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWall(false,false,true,false) && (t_includeOffscreen || t_tile->p_IsOnScreen())){
-				m_tileObstructionList->p_AddLast26(t_tile->p_GetLocation());
+				m_tileObstructionList->p_AddLast27(t_tile->p_GetLocation());
 			}
 		}
 	}
@@ -30309,7 +30394,7 @@ bool c_Level::m_CheckLOS(int t_x1,int t_y1,int t_x2,int t_y2,bool t_includeOffsc
 	bool t_notLineSegmentTileIntersect2=true;
 	bool t_notLineSegmentTileIntersect3=true;
 	bool t_notLineSegmentTileIntersect4=true;
-	c_Enumerator16* t_=m_GetTileObstructionList(false)->p_ObjectEnumerator();
+	c_Enumerator17* t_=m_GetTileObstructionList(false)->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_tileObstruction=t_->p_NextObject();
 		if(t_tileObstruction->m_x==t_x2 && t_tileObstruction->m_y==t_y2){
@@ -31048,6 +31133,33 @@ bool c_Entity::p_IsVisible(){
 	}
 	return c_Level::m_IsVisibleTileAt(this->m_x,this->m_y);
 }
+bool c_Entity::m_anyPlayerHaveNazarCharmCached;
+bool c_Entity::m_AnyPlayerHaveNazarCharm(){
+	if(m_anyPlayerHaveNazarCharmCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		m_anyPlayerHaveNazarCharmCachedFrame=bb_necrodancergame_globalFrameCounter;
+		m_anyPlayerHaveNazarCharmCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"charm_nazar",11),false);
+	}
+	return m_anyPlayerHaveNazarCharmCached;
+}
+bool c_Entity::m_anyPlayerHaveCircletCached;
+bool c_Entity::m_AnyPlayerHaveCirclet(){
+	if(m_anyPlayerHaveCircletCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		m_anyPlayerHaveCircletCachedFrame=bb_necrodancergame_globalFrameCounter;
+		m_anyPlayerHaveCircletCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"head_circlet_telepathy",22),false) || c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"head_sonar",10),false);
+	}
+	return m_anyPlayerHaveCircletCached;
+}
+bool c_Entity::m_anyPlayerHaveGlassTorchCached;
+bool c_Entity::m_AnyPlayerHaveGlassTorch(){
+	if(m_anyPlayerHaveGlassTorchCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		m_anyPlayerHaveGlassTorchCachedFrame=bb_necrodancergame_globalFrameCounter;
+		m_anyPlayerHaveGlassTorchCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"torch_glass",11),false);
+	}
+	return m_anyPlayerHaveGlassTorchCached;
+}
+bool c_Entity::m_AnyPlayerHaveCircletOrGlassTorch(){
+	return m_AnyPlayerHaveCirclet() || m_AnyPlayerHaveGlassTorch();
+}
 bool c_Entity::m_anyPlayerHaveWallsTorchCached;
 bool c_Entity::m_AnyPlayerHaveWallsTorch(){
 	if(m_anyPlayerHaveWallsTorchCachedFrame!=bb_necrodancergame_globalFrameCounter){
@@ -31241,7 +31353,7 @@ void c_Shrine::p_GenPainContents(){
 	this->m_contents2=this->p_RandomGlassWeapon();
 	this->m_contents3=this->p_RandomGlassWeapon();
 }
-c_List28* c_Shrine::m_shrineList;
+c_List29* c_Shrine::m_shrineList;
 c_Shrine* c_Shrine::m_new(int t_xVal,int t_yVal,int t_cType,c_RNG* t_rng_,bool t_saleShrine,bool t_pending){
 	c_Entity::m_new();
 	this->m_x=t_xVal;
@@ -31383,7 +31495,7 @@ c_Shrine* c_Shrine::m_new(int t_xVal,int t_yVal,int t_cType,c_RNG* t_rng_,bool t
 	}
 	this->m_image->p_SetZOff(FLOAT(20.0));
 	this->m_collides=true;
-	m_shrineList->p_AddLast28(this);
+	m_shrineList->p_AddLast29(this);
 	if(!t_pending){
 		m_usedShrines->p_Insert4(this->m_type);
 	}
@@ -31394,14 +31506,14 @@ c_Shrine* c_Shrine::m_new2(){
 	return this;
 }
 void c_Shrine::m_AddPendingShrinesToUsedList(){
-	c_Enumerator28* t_=m_shrineList->p_ObjectEnumerator();
+	c_Enumerator29* t_=m_shrineList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Shrine* t_shrine=t_->p_NextObject();
 		m_usedShrines->p_Insert4(t_shrine->m_type);
 	}
 }
 c_Shrine* c_Shrine::m_GetShrineAt(int t_xVal,int t_yVal){
-	c_Enumerator28* t_=m_shrineList->p_ObjectEnumerator();
+	c_Enumerator29* t_=m_shrineList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Shrine* t_shrine=t_->p_NextObject();
 		if(t_shrine->m_x==t_xVal && t_shrine->m_y==t_yVal){
@@ -34286,14 +34398,14 @@ void c_ParticleSystem::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ParticleSystem.Update()",23));
 }
 void c_ParticleSystem::m_UpdateAll(){
-	c_Enumerator34* t_=m_systems->p_ObjectEnumerator();
+	c_Enumerator35* t_=m_systems->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_ParticleSystem* t_system=t_->p_NextObject();
 		if(t_system->m_visible){
 			t_system->p_Update();
 		}
 	}
-	c_Enumerator34* t_2=m_systems->p_ObjectEnumerator();
+	c_Enumerator35* t_2=m_systems->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_ParticleSystem* t_system2=t_2->p_NextObject();
 		if(t_system2->m_visible && !t_system2->m_active){
@@ -34649,14 +34761,14 @@ c_List* c_Item::m_GetAllItemsInClass(String t_itemClass){
 	c_XMLNode* t_itemsNode=bb_necrodancergame_xmlData->p_GetChild2(String(L"items",5),false);
 	return t_itemsNode->p_GetChildrenWithAttributes(t_itemClass+String(L"=True",5),0,false);
 }
-c_List20* c_Item::m_pickupList;
-c_List20* c_Item::m_GetPickupsAt(int t_xVal,int t_yVal,c_Item* t_slf){
-	c_List20* t_pickups=(new c_List20)->m_new();
-	c_Enumerator10* t_=m_pickupList->p_ObjectEnumerator();
+c_List21* c_Item::m_pickupList;
+c_List21* c_Item::m_GetPickupsAt(int t_xVal,int t_yVal,c_Item* t_slf){
+	c_List21* t_pickups=(new c_List21)->m_new();
+	c_Enumerator11* t_=m_pickupList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Item* t_pickup=t_->p_NextObject();
 		if(t_pickup!=t_slf && !t_pickup->m_flaggedForDeath && !t_pickup->m_dead && t_pickup->m_pickupable && (t_pickup->m_x==t_xVal && t_pickup->m_y==t_yVal) && (t_pickup->m_dropX!=t_xVal || t_pickup->m_dropY!=t_yVal)){
-			t_pickups->p_AddLast20(t_pickup);
+			t_pickups->p_AddLast21(t_pickup);
 		}
 	}
 	return t_pickups;
@@ -34709,7 +34821,7 @@ c_Item* c_Item::m_new(int t_xVal,int t_yVal,String t_type,bool t_drop,int t_utl,
 		if(!c_Level::m_IsWallAt(this->m_x,this->m_y+1,false,false)){
 			this->m_yOff+=FLOAT(5.0);
 		}
-		c_Enumerator10* t_=m_GetPickupsAt(this->m_x,this->m_y,this)->p_ObjectEnumerator();
+		c_Enumerator11* t_=m_GetPickupsAt(this->m_x,this->m_y,this)->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_Item* t_pickup=t_->p_NextObject();
 			if(!t_pickup->p_IsItemOfType(String(L"isCoin",6))){
@@ -34795,7 +34907,7 @@ c_Item* c_Item::m_new(int t_xVal,int t_yVal,String t_type,bool t_drop,int t_utl,
 		this->p_ActivateLight(FLOAT(1.0),t_lMax);
 	}
 	m_AddToSeenItems(this->m_itemType);
-	m_pickupList->p_AddLast20(this);
+	m_pickupList->p_AddLast21(this);
 	c_FamiliarFixed* t_familiar=c_FamiliarFixed::m_GetFamiliarAt(this->m_x,this->m_y);
 	if(t_familiar!=0){
 		t_familiar->p_TryPickup();
@@ -35306,7 +35418,7 @@ void c_Item::m_CreateItemPools(){
 				while(t_->p_HasNext()){
 					c_XMLNode* t_itemNode=t_->p_NextObject();
 					int t_m=0;
-					c_Enumerator12* t_2=t_attributeNames->p_ObjectEnumerator();
+					c_Enumerator13* t_2=t_attributeNames->p_ObjectEnumerator();
 					while(t_2->p_HasNext()){
 						String t_attributeName=t_2->p_NextObject();
 						String t_chancesStr=t_itemNode->p_GetAttribute5(t_attributeName,String(L"0",1));
@@ -35366,7 +35478,7 @@ void c_Item::m_CreateItemPools(){
 					t_unlockedItems->p_Remove4(t_n);
 					t_unlockedItemsChances->p_Remove4(t_n);
 				}
-				c_Enumerator13* t_4=t_itemPoolCandidates->p_ObjectEnumerator();
+				c_Enumerator14* t_4=t_itemPoolCandidates->p_ObjectEnumerator();
 				while(t_4->p_HasNext()){
 					c_XMLNode* t_itemPoolCandidate2=t_4->p_NextObject();
 					if(!m_IsValidItemForCurrentChars(t_itemPoolCandidate2)){
@@ -35417,7 +35529,7 @@ void c_Item::p_Die(){
 	c_Entity::p_Die();
 }
 c_Item* c_Item::m_GetPickupAt(int t_xVal,int t_yVal,c_Item* t_slf){
-	c_Enumerator10* t_=m_pickupList->p_ObjectEnumerator();
+	c_Enumerator11* t_=m_pickupList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Item* t_pickup=t_->p_NextObject();
 		if(t_pickup->m_x==t_xVal && t_pickup->m_y==t_yVal){
@@ -35426,7 +35538,7 @@ c_Item* c_Item::m_GetPickupAt(int t_xVal,int t_yVal,c_Item* t_slf){
 			}
 		}
 	}
-	c_Enumerator10* t_2=m_pickupList->p_ObjectEnumerator();
+	c_Enumerator11* t_2=m_pickupList->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_Item* t_pickup2=t_2->p_NextObject();
 		if(t_pickup2==t_slf){
@@ -35456,7 +35568,7 @@ c_List7* c_Item::m_diamondDealerItems1;
 c_List7* c_Item::m_diamondDealerItems2;
 c_List7* c_Item::m_diamondDealerItems3;
 void c_Item::m_FilterDisabledItems(c_List7* t_list){
-	c_Enumerator30* t_=t_list->p_ObjectEnumerator();
+	c_Enumerator31* t_=t_list->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		String t_itemName=t_->p_NextObject();
 		if(m_IsDisabled(t_itemName)){
@@ -35685,7 +35797,7 @@ void c_Item::m_ClearAllSingleChoiceItems(c_Item* t_takenItem){
 		bool t_loop=false;
 		do{
 			t_loop=false;
-			c_Enumerator10* t_=m_pickupList->p_ObjectEnumerator();
+			c_Enumerator11* t_=m_pickupList->p_ObjectEnumerator();
 			while(t_->p_HasNext()){
 				c_Item* t_pickup=t_->p_NextObject();
 				if(t_pickup->m_singleChoiceItem && t_pickup!=t_takenItem && c_Util::m_GetDist(t_pickup->m_x,t_pickup->m_y,t_takenItem->m_x,t_takenItem->m_y)<FLOAT(5.0)){
@@ -35773,7 +35885,7 @@ String c_Item::p_Pickup(c_Player* t_player){
 }
 int c_Item::m_ConsumeCoinsRemainingOnLevel(){
 	int t_numCoins=0;
-	c_Enumerator10* t_=m_pickupList->p_ObjectEnumerator();
+	c_Enumerator11* t_=m_pickupList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Item* t_pickup=t_->p_NextObject();
 		if(!t_pickup->m_flaggedForDeath && !t_pickup->m_dead && t_pickup->m_pickupable && t_pickup->p_IsItemOfType(String(L"isCoin",6))){
@@ -35820,7 +35932,7 @@ c_List7* c_SaleItem::m_randomSaleItemList;
 void c_SaleItem::m_ResetCosts(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleItem.ResetCosts()",21));
 }
-c_List27* c_SaleItem::m_currentSaleItems;
+c_List28* c_SaleItem::m_currentSaleItems;
 bool c_SaleItem::p_CostsBlood(){
 	return this->m_bloodCost>FLOAT(0.0);
 }
@@ -35898,7 +36010,7 @@ void c_SaleItem::p_SetCost(){
 c_SaleItem* c_SaleItem::m_new(int t_xVal,int t_yVal,String t_type,bool t_bldCost,c_Shopkeeper* t_sk,Float t_fCost,c_Medic* t_m){
 	c_Item::m_new(t_xVal,t_yVal,t_type,false,-1,false);
 	this->m_isSaleItem=true;
-	m_currentSaleItems->p_AddLast27(this);
+	m_currentSaleItems->p_AddLast28(this);
 	this->m_hasBloodCost=t_bldCost;
 	this->m_forceCost=t_fCost;
 	this->p_SetCost();
@@ -35972,7 +36084,7 @@ Float c_SaleItem::p_GetCost(){
 }
 int c_SaleItem::m_GetMinCost(){
 	int t_minCost=999999;
-	c_Enumerator31* t_=m_currentSaleItems->p_ObjectEnumerator();
+	c_Enumerator32* t_=m_currentSaleItems->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_SaleItem* t_currentSaleItem=t_->p_NextObject();
 		Float t_cost=t_currentSaleItem->p_GetCost();
@@ -36018,7 +36130,7 @@ bool c_Chest::m_IsItemAppropriateForChestColor(String t_cont,int t_tmpColor){
 	}
 	return t_tmpColor==1;
 }
-c_List32* c_Chest::m_chestList;
+c_List33* c_Chest::m_chestList;
 c_Chest* c_Chest::m_new(int t_xVal,int t_yVal,String t_cont,bool t_invis,bool t_isLocked,bool t_isSecret,int t_tmpColor){
 	c_Entity::m_new();
 	this->m_isChest=true;
@@ -36078,7 +36190,7 @@ c_Chest* c_Chest::m_new(int t_xVal,int t_yVal,String t_cont,bool t_invis,bool t_
 	this->m_yOff=FLOAT(6.0);
 	this->m_collides=true;
 	this->m_secretChest=t_isSecret;
-	m_chestList->p_AddLast32(this);
+	m_chestList->p_AddLast33(this);
 	bb_logger_Debug->p_WriteLine2(String(L"Placed ",7)+c_ChestColor::m_ToString(this->m_chestColor)+String(L" Chest at ",10)+((new c_Point)->m_new(this->m_x,this->m_y))->p_ToString());
 	bb_logger_Debug->p_WriteLine2(String(L"    with ",9)+c_Item::m_GetDisplayName(this->m_contents));
 	return this;
@@ -36089,7 +36201,7 @@ c_Chest* c_Chest::m_new2(){
 }
 int c_Chest::m_GetNumEmptySecretChests(){
 	int t_numEmptySecretChests=0;
-	c_Enumerator27* t_=m_chestList->p_ObjectEnumerator();
+	c_Enumerator28* t_=m_chestList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Chest* t_chest=t_->p_NextObject();
 		if(!t_chest->m_saleChest && t_chest->m_secretChest && t_chest->m_contents==String(L"no_item",7) && !t_chest->m_invisible){
@@ -36100,7 +36212,7 @@ int c_Chest::m_GetNumEmptySecretChests(){
 }
 int c_Chest::m_GetNumEmptyNonSecretChests(){
 	int t_numEmptyNonSecretChests=0;
-	c_Enumerator27* t_=m_chestList->p_ObjectEnumerator();
+	c_Enumerator28* t_=m_chestList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Chest* t_chest=t_->p_NextObject();
 		if(!t_chest->m_saleChest && !t_chest->m_secretChest && t_chest->m_contents==String(L"no_item",7) && !t_chest->m_invisible){
@@ -36110,7 +36222,7 @@ int c_Chest::m_GetNumEmptyNonSecretChests(){
 	return t_numEmptyNonSecretChests;
 }
 c_Chest* c_Chest::m_GetEmptySecretChest(){
-	c_Enumerator27* t_=m_chestList->p_ObjectEnumerator();
+	c_Enumerator28* t_=m_chestList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Chest* t_chest=t_->p_NextObject();
 		if(!t_chest->m_saleChest && t_chest->m_secretChest && t_chest->m_contents==String(L"no_item",7) && !t_chest->m_invisible){
@@ -36130,7 +36242,7 @@ void c_Chest::p_AddKeyToContents(){
 	this->p_Die();
 }
 c_Chest* c_Chest::m_GetEmptyNonSecretChest(){
-	c_Enumerator27* t_=m_chestList->p_ObjectEnumerator();
+	c_Enumerator28* t_=m_chestList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Chest* t_chest=t_->p_NextObject();
 		if(!t_chest->m_saleChest && !t_chest->m_secretChest && t_chest->m_contents==String(L"no_item",7) && !t_chest->m_invisible){
@@ -36225,6 +36337,7 @@ c_Enemy::c_Enemy(){
 	m_animOffset=0;
 	m_justSpawned=true;
 	m_enableDeathEffects=true;
+	m_earthquaked=false;
 }
 c_EnemyList* c_Enemy::m_enemyList;
 void c_Enemy::p_ApplyMonkeyPaw(){
@@ -40496,8 +40609,8 @@ int c_List7::p_Sort(int t_ascending){
 		t_insize*=2;
 	}while(!(false));
 }
-c_Enumerator30* c_List7::p_ObjectEnumerator(){
-	return (new c_Enumerator30)->m_new(this);
+c_Enumerator31* c_List7::p_ObjectEnumerator(){
+	return (new c_Enumerator31)->m_new(this);
 }
 int c_List7::p_RemoveEach4(String t_value){
 	c_Node12* t_node=m__head->m__succ;
@@ -40618,7 +40731,7 @@ void c_Flyaway::p_CenterX(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Flyaway.CenterX()",17));
 }
 int c_Flyaway::m_temporarilyDisableNewFlyaways;
-c_List38* c_Flyaway::m_activeFlyaways;
+c_List39* c_Flyaway::m_activeFlyaways;
 void c_Flyaway::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Flyaway.Update()",16));
 }
@@ -40626,7 +40739,7 @@ void c_Flyaway::m_UpdateAll(){
 	if(m_temporarilyDisableNewFlyaways>0){
 		m_temporarilyDisableNewFlyaways-=1;
 	}
-	c_Enumerator33* t_=m_activeFlyaways->p_ObjectEnumerator();
+	c_Enumerator34* t_=m_activeFlyaways->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Flyaway* t_flyaway=t_->p_NextObject();
 		t_flyaway->p_Update();
@@ -40642,16 +40755,16 @@ void c_LevelType::mark(){
 }
 c_LevelObject::c_LevelObject(){
 	m_bossNum=-1;
-	m_tiles=(new c_List24)->m_new();
-	m_traps=(new c_List25)->m_new();
-	m_enemies=(new c_List29)->m_new();
-	m_items=(new c_List30)->m_new();
-	m_chests=(new c_List31)->m_new();
-	m_crates=(new c_List34)->m_new();
-	m_shrines=(new c_List35)->m_new();
+	m_tiles=(new c_List25)->m_new();
+	m_traps=(new c_List26)->m_new();
+	m_enemies=(new c_List30)->m_new();
+	m_items=(new c_List31)->m_new();
+	m_chests=(new c_List32)->m_new();
+	m_crates=(new c_List35)->m_new();
+	m_shrines=(new c_List36)->m_new();
 }
 void c_LevelObject::p_CreateMap(){
-	c_Enumerator14* t_=m_tiles->p_ObjectEnumerator();
+	c_Enumerator15* t_=m_tiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_TileObject* t_tileObj=t_->p_NextObject();
 		c_Tile* t_tile=c_Level::m_PlaceTileRemovingExistingTiles(t_tileObj->m_x,t_tileObj->m_y,t_tileObj->m_type,false,t_tileObj->m_zone,false);
@@ -40673,7 +40786,7 @@ void c_LevelObject::p_CreateMap(){
 		}
 	}
 	c_Tile::m_GenerateWireConnections();
-	c_Enumerator15* t_3=m_traps->p_ObjectEnumerator();
+	c_Enumerator16* t_3=m_traps->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_TrapObject* t_trapObj=t_3->p_NextObject();
 		int t_32=t_trapObj->m_type;
@@ -40726,7 +40839,7 @@ void c_LevelObject::p_CreateMap(){
 			}
 		}
 	}
-	c_Enumerator17* t_4=m_enemies->p_ObjectEnumerator();
+	c_Enumerator18* t_4=m_enemies->p_ObjectEnumerator();
 	while(t_4->p_HasNext()){
 		c_EnemyObject* t_enemyObj=t_4->p_NextObject();
 		c_Enemy* t_enemy=c_Enemy::m_MakeEnemy(t_enemyObj->m_x,t_enemyObj->m_y,t_enemyObj->m_type);
@@ -40740,7 +40853,7 @@ void c_LevelObject::p_CreateMap(){
 			t_enemy->m_isStairLockingMiniboss=true;
 		}
 	}
-	c_Enumerator18* t_5=m_items->p_ObjectEnumerator();
+	c_Enumerator19* t_5=m_items->p_ObjectEnumerator();
 	while(t_5->p_HasNext()){
 		c_ItemObject* t_itemObj=t_5->p_NextObject();
 		c_Item* t_item=0;
@@ -40755,7 +40868,7 @@ void c_LevelObject::p_CreateMap(){
 		}
 		t_item->m_singleChoiceItem=t_itemObj->m_singleChoice;
 	}
-	c_Enumerator19* t_6=m_chests->p_ObjectEnumerator();
+	c_Enumerator20* t_6=m_chests->p_ObjectEnumerator();
 	while(t_6->p_HasNext()){
 		c_ChestObject* t_chestObj=t_6->p_NextObject();
 		c_Chest* t_chest=0;
@@ -40766,12 +40879,12 @@ void c_LevelObject::p_CreateMap(){
 		}
 		t_chest->m_singleChoiceChest=t_chestObj->m_singleChoice;
 	}
-	c_Enumerator20* t_7=m_crates->p_ObjectEnumerator();
+	c_Enumerator21* t_7=m_crates->p_ObjectEnumerator();
 	while(t_7->p_HasNext()){
 		c_CrateObject* t_crateObj=t_7->p_NextObject();
 		(new c_Crate)->m_new(t_crateObj->m_x,t_crateObj->m_y,t_crateObj->m_type,t_crateObj->m_contents);
 	}
-	c_Enumerator21* t_8=m_shrines->p_ObjectEnumerator();
+	c_Enumerator22* t_8=m_shrines->p_ObjectEnumerator();
 	while(t_8->p_HasNext()){
 		c_ShrineObject* t_shrineObj=t_8->p_NextObject();
 		(new c_Shrine)->m_new(t_shrineObj->m_x,t_shrineObj->m_y,t_shrineObj->m_type,0,false,false);
@@ -44250,8 +44363,8 @@ void c_Tile::p_Update(){
 		}
 	}
 	if(c_Level::m_isNoReturnMode){
-		c_List41* t_playersAt=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
-		c_Enumerator35* t_=t_playersAt->p_ObjectEnumerator();
+		c_List42* t_playersAt=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
+		c_Enumerator36* t_=t_playersAt->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_Player* t_player=t_->p_NextObject();
 			if(this->m_playerWasOnTileAtBeat==c_Audio::m_GetClosestBeatNum(true)-1 && !this->m_playerWasOnTileLastFrame && ((this->m_playerWasOnTileLastFrame)?1:0)>0 && c_Shrine::m_noReturnShrineActive){
@@ -44267,8 +44380,8 @@ void c_Tile::p_Update(){
 		}
 	}
 	if(this->m_trigger!=0){
-		c_List41* t_playersAt2=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
-		c_Enumerator35* t_2=t_playersAt2->p_ObjectEnumerator();
+		c_List42* t_playersAt2=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
+		c_Enumerator36* t_2=t_playersAt2->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
 			c_Player* t_player2=t_2->p_NextObject();
 			if(t_player2!=this->m_triggerPlayer){
@@ -44416,7 +44529,7 @@ void c_Minimap::m_AddDirty(c_Point* t_p){
 void c_Minimap::m_AddDirty2(int t_x,int t_y){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.AddDirty(Int, Int)",26));
 }
-c_List26* c_Minimap::m_dirtyPoints;
+c_List27* c_Minimap::m_dirtyPoints;
 c_Minimap* c_Minimap::m_new(){
 	m_dirtyPoints->p_Clear();
 	this->m_width=c_Level::m_maxLevelMinimapX-c_Level::m_minLevelMinimapX+1;
@@ -45018,7 +45131,7 @@ c_SaleChest::c_SaleChest(){
 void c_SaleChest::m_ResetCosts(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SaleChest.ResetCosts()",22));
 }
-c_List33* c_SaleChest::m_currentSaleChests;
+c_List34* c_SaleChest::m_currentSaleChests;
 void c_SaleChest::p_SetCost(){
 	int t_1=this->m_chestColor;
 	if(t_1==4 || t_1==2){
@@ -45044,7 +45157,7 @@ void c_SaleChest::p_SetCost(){
 c_SaleChest* c_SaleChest::m_new(int t_xVal,int t_yVal,String t_cont,bool t_invis,bool t_isLocked,bool t_isSecret,int t_tmpColor){
 	c_Chest::m_new(t_xVal,t_yVal,t_cont,t_invis,t_isLocked,t_isSecret,t_tmpColor);
 	this->m_saleChest=true;
-	m_currentSaleChests->p_AddLast33(this);
+	m_currentSaleChests->p_AddLast34(this);
 	this->p_SetCost();
 	return this;
 }
@@ -45074,6 +45187,7 @@ c_SoulFamiliar* c_SoulFamiliar::m_new2(){
 	c_FamiliarFixed::m_new();
 	return this;
 }
+c_List20* c_SoulFamiliar::m_allSouls;
 void c_SoulFamiliar::p_Die(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.Die()",18));
 }
@@ -46363,8 +46477,8 @@ int c_List13::p_Clear(){
 	gc_assign(m__head->m__pred,m__head);
 	return 0;
 }
-c_Enumerator9* c_List13::p_ObjectEnumerator(){
-	return (new c_Enumerator9)->m_new(this);
+c_Enumerator10* c_List13::p_ObjectEnumerator(){
+	return (new c_Enumerator10)->m_new(this);
 }
 void c_List13::mark(){
 	Object::mark();
@@ -46465,8 +46579,8 @@ int c_List14::p_Clear(){
 c_RoomData* c_List14::p_Last2(){
 	return m__head->m__pred->m__data;
 }
-c_Enumerator26* c_List14::p_ObjectEnumerator(){
-	return (new c_Enumerator26)->m_new(this);
+c_Enumerator27* c_List14::p_ObjectEnumerator(){
+	return (new c_Enumerator27)->m_new(this);
 }
 int c_List14::p_Count(){
 	int t_n=0;
@@ -46480,7 +46594,7 @@ int c_List14::p_Count(){
 Array<c_RoomData* > c_List14::p_ToArray(){
 	Array<c_RoomData* > t_arr=Array<c_RoomData* >(p_Count());
 	int t_i=0;
-	c_Enumerator26* t_=this->p_ObjectEnumerator();
+	c_Enumerator27* t_=this->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_t=t_->p_NextObject();
 		gc_assign(t_arr[t_i],t_t);
@@ -46771,8 +46885,8 @@ int c_List16::p_Clear(){
 	gc_assign(m__head->m__pred,m__head);
 	return 0;
 }
-c_Enumerator34* c_List16::p_ObjectEnumerator(){
-	return (new c_Enumerator34)->m_new(this);
+c_Enumerator35* c_List16::p_ObjectEnumerator(){
+	return (new c_Enumerator35)->m_new(this);
 }
 bool c_List16::p_Equals13(c_ParticleSystem* t_lhs,c_ParticleSystem* t_rhs){
 	return t_lhs==t_rhs;
@@ -46919,7 +47033,7 @@ c_NPC* c_NPC::m_new(){
 	this->m_isNPC=true;
 	return this;
 }
-c_List22* c_NPC::m_npcList;
+c_List23* c_NPC::m_npcList;
 void c_NPC::p_NPCInit(int t_xVal,int t_yVal,int t_l,String t_name,bool t_captv,bool t_glCage){
 	this->m_captive=t_captv;
 	this->m_wasCaptive=t_captv;
@@ -46933,11 +47047,11 @@ void c_NPC::p_NPCInit(int t_xVal,int t_yVal,int t_l,String t_name,bool t_captv,b
 		gc_assign(this->m_cageBackImage,(new c_Sprite)->m_new2(String(L"level/cage_back.png",19),1,c_Image::m_DefaultFlags));
 	}
 	this->p_Init3(t_xVal,t_yVal,t_l,t_name,String(),-1,-1);
-	m_npcList->p_AddLast22(this);
+	m_npcList->p_AddLast23(this);
 }
 Float c_NPC::m_GetDistFromClosestNPC(int t_xVal,int t_yVal){
 	Float t_closestDist=FLOAT(99999.0);
-	c_Enumerator29* t_=m_npcList->p_ObjectEnumerator();
+	c_Enumerator30* t_=m_npcList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_NPC* t_npc=t_->p_NextObject();
 		if(t_npc->m_dead){
@@ -47328,8 +47442,8 @@ void c_Stack3::p_Clear(){
 	}
 	m_length=0;
 }
-c_Enumerator12* c_Stack3::p_ObjectEnumerator(){
-	return (new c_Enumerator12)->m_new(this);
+c_Enumerator13* c_Stack3::p_ObjectEnumerator(){
+	return (new c_Enumerator13)->m_new(this);
 }
 void c_Stack3::p_Length2(int t_newlength){
 	if(t_newlength<m_length){
@@ -48528,72 +48642,27 @@ Float bb_fmod_GetSongPositionFMOD(int t_ch){
 	return 0;
 }
 Array<int > bb_controller_game_beatData;
-c_Enumerator9::c_Enumerator9(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator9* c_Enumerator9::m_new(c_List13* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator9* c_Enumerator9::m_new2(){
-	return this;
-}
-bool c_Enumerator9::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_MinibossTileData* c_Enumerator9::p_NextObject(){
-	c_MinibossTileData* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator9::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-String bb_item_GetResourceCoinType(int t_amount){
-	return String(L"resource_coin",13)+String(bb_math_Clamp(t_amount,1,10));
-}
 c_List20::c_List20(){
 	m__head=((new c_HeadNode20)->m_new());
 }
 c_List20* c_List20::m_new(){
 	return this;
 }
-c_Node37* c_List20::p_AddLast20(c_Item* t_data){
+c_Node37* c_List20::p_AddLast20(c_SoulFamiliar* t_data){
 	return (new c_Node37)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List20* c_List20::m_new2(Array<c_Item* > t_data){
-	Array<c_Item* > t_=t_data;
+c_List20* c_List20::m_new2(Array<c_SoulFamiliar* > t_data){
+	Array<c_SoulFamiliar* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Item* t_t=t_[t_2];
+		c_SoulFamiliar* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast20(t_t);
 	}
 	return this;
 }
-c_Enumerator10* c_List20::p_ObjectEnumerator(){
-	return (new c_Enumerator10)->m_new(this);
-}
-bool c_List20::p_Equals15(c_Item* t_lhs,c_Item* t_rhs){
-	return t_lhs==t_rhs;
-}
-int c_List20::p_RemoveEach10(c_Item* t_value){
-	c_Node37* t_node=m__head->m__succ;
-	while(t_node!=m__head){
-		c_Node37* t_succ=t_node->m__succ;
-		if(p_Equals15(t_node->m__data,t_value)){
-			t_node->p_Remove();
-		}
-		t_node=t_succ;
-	}
-	return 0;
+c_Enumerator9* c_List20::p_ObjectEnumerator(){
+	return (new c_Enumerator9)->m_new(this);
 }
 void c_List20::mark(){
 	Object::mark();
@@ -48604,7 +48673,7 @@ c_Node37::c_Node37(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node37* c_Node37::m_new(c_Node37* t_succ,c_Node37* t_pred,c_Item* t_data){
+c_Node37* c_Node37::m_new(c_Node37* t_succ,c_Node37* t_pred,c_SoulFamiliar* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -48614,11 +48683,6 @@ c_Node37* c_Node37::m_new(c_Node37* t_succ,c_Node37* t_pred,c_Item* t_data){
 }
 c_Node37* c_Node37::m_new2(){
 	return this;
-}
-int c_Node37::p_Remove(){
-	gc_assign(m__succ->m__pred,m__pred);
-	gc_assign(m__pred->m__succ,m__succ);
-	return 0;
 }
 void c_Node37::mark(){
 	Object::mark();
@@ -48637,11 +48701,39 @@ c_HeadNode20* c_HeadNode20::m_new(){
 void c_HeadNode20::mark(){
 	c_Node37::mark();
 }
+c_Enumerator9::c_Enumerator9(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator9* c_Enumerator9::m_new(c_List20* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator9* c_Enumerator9::m_new2(){
+	return this;
+}
+bool c_Enumerator9::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_SoulFamiliar* c_Enumerator9::p_NextObject(){
+	c_SoulFamiliar* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator9::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
 c_Enumerator10::c_Enumerator10(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator10* c_Enumerator10::m_new(c_List20* t_list){
+c_Enumerator10* c_Enumerator10::m_new(c_List13* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
@@ -48655,8 +48747,8 @@ bool c_Enumerator10::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Item* c_Enumerator10::p_NextObject(){
-	c_Item* t_data=m__curr->m__data;
+c_MinibossTileData* c_Enumerator10::p_NextObject(){
+	c_MinibossTileData* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
@@ -48665,47 +48757,8 @@ void c_Enumerator10::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
-c_Bomb::c_Bomb(){
-	m_player=0;
-	m_isBig=false;
-	m_beatsUntilExplosion=-1;
-	m_damageSource=String(L"bomb",4);
-	m_explosionImg=0;
-}
-c_List39* c_Bomb::m_bombList;
-c_Bomb* c_Bomb::m_new(int t_xVal,int t_yVal,c_Player* t_dropper,bool t_playLitSound,bool t_big,String t_dmgSource){
-	c_Item::m_new(t_xVal,t_yVal,String(L"bomb",4),false,-1,false);
-	this->m_pickupable=false;
-	gc_assign(this->m_player,t_dropper);
-	this->m_isBig=t_big;
-	this->m_beatsUntilExplosion=3;
-	this->m_damageSource=t_dmgSource;
-	gc_assign(this->m_explosionImg,(new c_Sprite)->m_new2(String(L"items/3x3_explosion.png",23),8,c_Image::m_DefaultFlags));
-	this->m_explosionImg->p_SetZOff(FLOAT(1000.0));
-	if(t_playLitSound){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.New(Int, Int, Player, Bool, Bool, String) (Audio)",54));
-	}
-	m_bombList->p_AddLast39(this);
-	return this;
-}
-c_Bomb* c_Bomb::m_new2(){
-	c_Item::m_new2();
-	return this;
-}
-void c_Bomb::p_Die(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.Die()",10));
-}
-bool c_Bomb::p_IsVisible(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.IsVisible()",16));
-	return false;
-}
-void c_Bomb::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.Update()",13));
-}
-void c_Bomb::mark(){
-	c_Item::mark();
-	gc_mark_q(m_player);
-	gc_mark_q(m_explosionImg);
+String bb_item_GetResourceCoinType(int t_amount){
+	return String(L"resource_coin",13)+String(bb_math_Clamp(t_amount,1,10));
 }
 c_List21::c_List21(){
 	m__head=((new c_HeadNode21)->m_new());
@@ -48713,14 +48766,14 @@ c_List21::c_List21(){
 c_List21* c_List21::m_new(){
 	return this;
 }
-c_Node38* c_List21::p_AddLast21(c_Sprite* t_data){
+c_Node38* c_List21::p_AddLast21(c_Item* t_data){
 	return (new c_Node38)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List21* c_List21::m_new2(Array<c_Sprite* > t_data){
-	Array<c_Sprite* > t_=t_data;
+c_List21* c_List21::m_new2(Array<c_Item* > t_data){
+	Array<c_Item* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Sprite* t_t=t_[t_2];
+		c_Item* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast21(t_t);
 	}
@@ -48728,6 +48781,20 @@ c_List21* c_List21::m_new2(Array<c_Sprite* > t_data){
 }
 c_Enumerator11* c_List21::p_ObjectEnumerator(){
 	return (new c_Enumerator11)->m_new(this);
+}
+bool c_List21::p_Equals15(c_Item* t_lhs,c_Item* t_rhs){
+	return t_lhs==t_rhs;
+}
+int c_List21::p_RemoveEach10(c_Item* t_value){
+	c_Node38* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		c_Node38* t_succ=t_node->m__succ;
+		if(p_Equals15(t_node->m__data,t_value)){
+			t_node->p_Remove();
+		}
+		t_node=t_succ;
+	}
+	return 0;
 }
 void c_List21::mark(){
 	Object::mark();
@@ -48738,7 +48805,7 @@ c_Node38::c_Node38(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node38* c_Node38::m_new(c_Node38* t_succ,c_Node38* t_pred,c_Sprite* t_data){
+c_Node38* c_Node38::m_new(c_Node38* t_succ,c_Node38* t_pred,c_Item* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -48748,6 +48815,11 @@ c_Node38* c_Node38::m_new(c_Node38* t_succ,c_Node38* t_pred,c_Sprite* t_data){
 }
 c_Node38* c_Node38::m_new2(){
 	return this;
+}
+int c_Node38::p_Remove(){
+	gc_assign(m__succ->m__pred,m__pred);
+	gc_assign(m__pred->m__succ,m__succ);
+	return 0;
 }
 void c_Node38::mark(){
 	Object::mark();
@@ -48784,12 +48856,141 @@ bool c_Enumerator11::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Sprite* c_Enumerator11::p_NextObject(){
-	c_Sprite* t_data=m__curr->m__data;
+c_Item* c_Enumerator11::p_NextObject(){
+	c_Item* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
 void c_Enumerator11::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_Bomb::c_Bomb(){
+	m_player=0;
+	m_isBig=false;
+	m_beatsUntilExplosion=-1;
+	m_damageSource=String(L"bomb",4);
+	m_explosionImg=0;
+}
+c_List40* c_Bomb::m_bombList;
+c_Bomb* c_Bomb::m_new(int t_xVal,int t_yVal,c_Player* t_dropper,bool t_playLitSound,bool t_big,String t_dmgSource){
+	c_Item::m_new(t_xVal,t_yVal,String(L"bomb",4),false,-1,false);
+	this->m_pickupable=false;
+	gc_assign(this->m_player,t_dropper);
+	this->m_isBig=t_big;
+	this->m_beatsUntilExplosion=3;
+	this->m_damageSource=t_dmgSource;
+	gc_assign(this->m_explosionImg,(new c_Sprite)->m_new2(String(L"items/3x3_explosion.png",23),8,c_Image::m_DefaultFlags));
+	this->m_explosionImg->p_SetZOff(FLOAT(1000.0));
+	if(t_playLitSound){
+		bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.New(Int, Int, Player, Bool, Bool, String) (Audio)",54));
+	}
+	m_bombList->p_AddLast40(this);
+	return this;
+}
+c_Bomb* c_Bomb::m_new2(){
+	c_Item::m_new2();
+	return this;
+}
+void c_Bomb::p_Die(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.Die()",10));
+}
+bool c_Bomb::p_IsVisible(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.IsVisible()",16));
+	return false;
+}
+void c_Bomb::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.Update()",13));
+}
+void c_Bomb::mark(){
+	c_Item::mark();
+	gc_mark_q(m_player);
+	gc_mark_q(m_explosionImg);
+}
+c_List22::c_List22(){
+	m__head=((new c_HeadNode22)->m_new());
+}
+c_List22* c_List22::m_new(){
+	return this;
+}
+c_Node39* c_List22::p_AddLast22(c_Sprite* t_data){
+	return (new c_Node39)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List22* c_List22::m_new2(Array<c_Sprite* > t_data){
+	Array<c_Sprite* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_Sprite* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast22(t_t);
+	}
+	return this;
+}
+c_Enumerator12* c_List22::p_ObjectEnumerator(){
+	return (new c_Enumerator12)->m_new(this);
+}
+void c_List22::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_Node39::c_Node39(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node39* c_Node39::m_new(c_Node39* t_succ,c_Node39* t_pred,c_Sprite* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node39* c_Node39::m_new2(){
+	return this;
+}
+void c_Node39::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode22::c_HeadNode22(){
+}
+c_HeadNode22* c_HeadNode22::m_new(){
+	c_Node39::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode22::mark(){
+	c_Node39::mark();
+}
+c_Enumerator12::c_Enumerator12(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator12* c_Enumerator12::m_new(c_List22* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator12* c_Enumerator12::m_new2(){
+	return this;
+}
+bool c_Enumerator12::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_Sprite* c_Enumerator12::p_NextObject(){
+	c_Sprite* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator12::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -48818,6 +49019,8 @@ void c_Zombie::mark(){
 }
 c_Wraith::c_Wraith(){
 	m_crySound=String();
+	m_seeking=false;
+	m_hasRoared=false;
 }
 c_Wraith* c_Wraith::m_theCursedWraith;
 void c_Wraith::p_Die(){
@@ -48865,8 +49068,94 @@ bool c_Wraith::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hi
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Wraith.Hit(String, Int, Int, Entity, Bool, Int)",47));
 	return false;
 }
+void c_Wraith::p_BecomeCorporeal(bool t_force){
+	if(c_Player::m_AllPlayersPerished() || !this->m_invisible){
+		return;
+	}
+	if(!t_force){
+		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
+			return;
+		}
+		for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+			c_Player* t_player=bb_controller_game_players[t_i];
+			if(!t_player->p_Perished() && t_player->m_x<=-180){
+				this->m_coinsToDrop=0;
+				this->p_Die();
+				return;
+			}
+		}
+		if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,false,false,false)){
+			return;
+		}
+	}
+	this->m_invisible=false;
+	this->m_collides=true;
+	this->m_seeking=false;
+	this->m_currentMoveDelay=0;
+	c_Enemy::m_lastWraithSpawnBeat=c_Audio::m_GetClosestBeatNum(true);
+}
+void c_Wraith::p_CheckCorporeality(){
+	if(this->p_IsVisible() || this->m_earthquaked || c_Tile::m_AnyPlayerHaveMonocle() || c_Entity::m_AnyPlayerHaveCircletOrGlassTorch()){
+		this->p_BecomeCorporeal(false);
+	}
+	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);
+	Float t_distFronClosestPlayer=c_Util::m_GetDist(this->m_x,this->m_y,t_closestPlayer->m_x,t_closestPlayer->m_y);
+	if(this->m_seeking || t_distFronClosestPlayer<FLOAT(3.0) && this->m_invisible){
+		this->m_seeking=true;
+		int t_xDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
+		int t_yDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
+		int t_xOff=0;
+		if(t_xDiff<0){
+			t_xOff=-5;
+		}else{
+			if(t_xDiff==0){
+				t_xOff=5;
+			}
+		}
+		int t_yOff=0;
+		if(t_yDiff<0){
+			t_yOff=-5;
+		}else{
+			if(t_yDiff>0){
+				t_yOff=5;
+			}
+		}
+		if(c_Audio::m_GetClosestBeatNum(true)!=0){
+			int t_tempOff=t_xOff;
+			t_xOff=t_yOff;
+			t_yOff=t_tempOff;
+		}
+		int t_x=t_closestPlayer->m_x+t_xOff;
+		int t_y=t_closestPlayer->m_y+t_yOff;
+		if(!c_Util::m_IsGlobalCollisionAt2(t_x,t_y,false,this->m_ignoreWalls,false,false) && c_Util::m_GetDistFromClosestPlayer(t_x,t_y,false)>=FLOAT(5.0)){
+			c_Tile* t_tile=c_Level::m_GetTileAt(t_x,t_y);
+			if(t_tile!=0 && t_tile->p_IsFloor() && t_tile->p_IsVisible()){
+				this->m_seeking=false;
+				this->m_x=t_x;
+				this->m_y=t_y;
+				this->p_BecomeCorporeal(false);
+			}
+		}
+	}
+}
 void c_Wraith::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Wraith.Update()",15));
+	if(bb_controller_game_gamePaused || c_Audio::m_songPaused){
+		return;
+	}
+	if(!this->m_dead){
+		if(c_Entity::m_AnyPlayerHaveNazarCharm()){
+			this->m_coinsToDrop=0;
+			this->p_Die();
+		}
+	}
+	if(c_Enemy::m_EnemiesMovingThisFrame()){
+		this->p_CheckCorporeality();
+	}
+	if(!this->m_invisible && this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		c_Audio::m_PlayGameSoundAt(this->m_crySound,this->m_x,this->m_y,true,-1,false);
+		this->m_hasRoared=true;
+	}
+	c_Enemy::p_Update();
 }
 void c_Wraith::mark(){
 	c_Enemy::mark();
@@ -50156,35 +50445,35 @@ void c_Shopkeeper::p_Update(){
 void c_Shopkeeper::mark(){
 	c_NPC::mark();
 }
-c_List22::c_List22(){
-	m__head=((new c_HeadNode22)->m_new());
+c_List23::c_List23(){
+	m__head=((new c_HeadNode23)->m_new());
 }
-c_List22* c_List22::m_new(){
+c_List23* c_List23::m_new(){
 	return this;
 }
-c_Node39* c_List22::p_AddLast22(c_NPC* t_data){
-	return (new c_Node39)->m_new(m__head,m__head->m__pred,t_data);
+c_Node40* c_List23::p_AddLast23(c_NPC* t_data){
+	return (new c_Node40)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List22* c_List22::m_new2(Array<c_NPC* > t_data){
+c_List23* c_List23::m_new2(Array<c_NPC* > t_data){
 	Array<c_NPC* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
 		c_NPC* t_t=t_[t_2];
 		t_2=t_2+1;
-		p_AddLast22(t_t);
+		p_AddLast23(t_t);
 	}
 	return this;
 }
-c_Enumerator29* c_List22::p_ObjectEnumerator(){
-	return (new c_Enumerator29)->m_new(this);
+c_Enumerator30* c_List23::p_ObjectEnumerator(){
+	return (new c_Enumerator30)->m_new(this);
 }
-bool c_List22::p_Equals16(c_NPC* t_lhs,c_NPC* t_rhs){
+bool c_List23::p_Equals16(c_NPC* t_lhs,c_NPC* t_rhs){
 	return t_lhs==t_rhs;
 }
-int c_List22::p_RemoveEach11(c_NPC* t_value){
-	c_Node39* t_node=m__head->m__succ;
+int c_List23::p_RemoveEach11(c_NPC* t_value){
+	c_Node40* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node39* t_succ=t_node->m__succ;
+		c_Node40* t_succ=t_node->m__succ;
 		if(p_Equals16(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
@@ -50192,16 +50481,16 @@ int c_List22::p_RemoveEach11(c_NPC* t_value){
 	}
 	return 0;
 }
-void c_List22::mark(){
+void c_List23::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node39::c_Node39(){
+c_Node40::c_Node40(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node39* c_Node39::m_new(c_Node39* t_succ,c_Node39* t_pred,c_NPC* t_data){
+c_Node40* c_Node40::m_new(c_Node40* t_succ,c_Node40* t_pred,c_NPC* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -50209,30 +50498,30 @@ c_Node39* c_Node39::m_new(c_Node39* t_succ,c_Node39* t_pred,c_NPC* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node39* c_Node39::m_new2(){
+c_Node40* c_Node40::m_new2(){
 	return this;
 }
-int c_Node39::p_Remove(){
+int c_Node40::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node39::mark(){
+void c_Node40::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
 	gc_mark_q(m__data);
 }
-c_HeadNode22::c_HeadNode22(){
+c_HeadNode23::c_HeadNode23(){
 }
-c_HeadNode22* c_HeadNode22::m_new(){
-	c_Node39::m_new2();
+c_HeadNode23* c_HeadNode23::m_new(){
+	c_Node40::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
-void c_HeadNode22::mark(){
-	c_Node39::mark();
+void c_HeadNode23::mark(){
+	c_Node40::mark();
 }
 c_ShopkeeperGhost::c_ShopkeeperGhost(){
 }
@@ -50997,7 +51286,7 @@ c_Bell::c_Bell(){
 	m_bellNum=-1;
 	m_isBig=false;
 }
-c_List23* c_Bell::m_bells;
+c_List24* c_Bell::m_bells;
 c_Bell* c_Bell::m_new(int t_xVal,int t_yVal,int t_num){
 	c_Enemy::m_new();
 	this->m_bellNum=t_num;
@@ -51009,7 +51298,7 @@ c_Bell* c_Bell::m_new(int t_xVal,int t_yVal,int t_num){
 	this->m_isCrate=true;
 	this->p_Init5(t_xVal,t_yVal,t_l,String(L"bell",4));
 	this->m_overrideDeathSound=String(L"deadRingerBell",14)+String(this->m_bellNum);
-	m_bells->p_AddLast23(this);
+	m_bells->p_AddLast24(this);
 	return this;
 }
 c_Bell* c_Bell::m_new2(){
@@ -51035,32 +51324,32 @@ void c_Bell::p_Update(){
 void c_Bell::mark(){
 	c_Enemy::mark();
 }
-c_List23::c_List23(){
-	m__head=((new c_HeadNode23)->m_new());
+c_List24::c_List24(){
+	m__head=((new c_HeadNode24)->m_new());
 }
-c_List23* c_List23::m_new(){
+c_List24* c_List24::m_new(){
 	return this;
 }
-c_Node40* c_List23::p_AddLast23(c_Bell* t_data){
-	return (new c_Node40)->m_new(m__head,m__head->m__pred,t_data);
+c_Node41* c_List24::p_AddLast24(c_Bell* t_data){
+	return (new c_Node41)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List23* c_List23::m_new2(Array<c_Bell* > t_data){
+c_List24* c_List24::m_new2(Array<c_Bell* > t_data){
 	Array<c_Bell* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
 		c_Bell* t_t=t_[t_2];
 		t_2=t_2+1;
-		p_AddLast23(t_t);
+		p_AddLast24(t_t);
 	}
 	return this;
 }
-bool c_List23::p_Equals17(c_Bell* t_lhs,c_Bell* t_rhs){
+bool c_List24::p_Equals17(c_Bell* t_lhs,c_Bell* t_rhs){
 	return t_lhs==t_rhs;
 }
-int c_List23::p_RemoveEach12(c_Bell* t_value){
-	c_Node40* t_node=m__head->m__succ;
+int c_List24::p_RemoveEach12(c_Bell* t_value){
+	c_Node41* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node40* t_succ=t_node->m__succ;
+		c_Node41* t_succ=t_node->m__succ;
 		if(p_Equals17(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
@@ -51068,16 +51357,16 @@ int c_List23::p_RemoveEach12(c_Bell* t_value){
 	}
 	return 0;
 }
-void c_List23::mark(){
+void c_List24::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node40::c_Node40(){
+c_Node41::c_Node41(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node40* c_Node40::m_new(c_Node40* t_succ,c_Node40* t_pred,c_Bell* t_data){
+c_Node41* c_Node41::m_new(c_Node41* t_succ,c_Node41* t_pred,c_Bell* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -51085,30 +51374,30 @@ c_Node40* c_Node40::m_new(c_Node40* t_succ,c_Node40* t_pred,c_Bell* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node40* c_Node40::m_new2(){
+c_Node41* c_Node41::m_new2(){
 	return this;
 }
-int c_Node40::p_Remove(){
+int c_Node41::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node40::mark(){
+void c_Node41::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
 	gc_mark_q(m__data);
 }
-c_HeadNode23::c_HeadNode23(){
+c_HeadNode24::c_HeadNode24(){
 }
-c_HeadNode23* c_HeadNode23::m_new(){
-	c_Node40::m_new2();
+c_HeadNode24* c_HeadNode24::m_new(){
+	c_Node41::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
-void c_HeadNode23::mark(){
-	c_Node40::mark();
+void c_HeadNode24::mark(){
+	c_Node41::mark();
 }
 c_DeadRinger::c_DeadRinger(){
 	m_seekingBell=0;
@@ -51292,12 +51581,12 @@ c_Stack4* c_Rect::p_GetCorners(){
 }
 int c_Rect::p_GetL1Dist2(c_Rect* t_other){
 	int t_l1Dist=999999;
-	c_Enumerator24* t_=this->p_GetCorners()->p_ObjectEnumerator();
+	c_Enumerator25* t_=this->p_GetCorners()->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_corner=t_->p_NextObject();
 		t_l1Dist=bb_math_Min(t_l1Dist,t_other->p_GetL1Dist(t_corner));
 	}
-	c_Enumerator24* t_2=t_other->p_GetCorners()->p_ObjectEnumerator();
+	c_Enumerator25* t_2=t_other->p_GetCorners()->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_Point* t_otherCorner=t_2->p_NextObject();
 		t_l1Dist=bb_math_Min(t_l1Dist,this->p_GetL1Dist(t_otherCorner));
@@ -51305,7 +51594,7 @@ int c_Rect::p_GetL1Dist2(c_Rect* t_other){
 	return t_l1Dist;
 }
 bool c_Rect::p_ContainsNoCorners(c_Rect* t_other){
-	c_Enumerator24* t_=this->p_GetCorners()->p_ObjectEnumerator();
+	c_Enumerator25* t_=this->p_GetCorners()->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_corner=t_->p_NextObject();
 		if(t_other->p_Contains7(t_corner->m_x,t_corner->m_y)){
@@ -51350,8 +51639,8 @@ void c_Stack4::p_Push12(Array<c_Point* > t_values,int t_offset){
 c_Point* c_Stack4::p_Get2(int t_index){
 	return m_data[t_index];
 }
-c_Enumerator24* c_Stack4::p_ObjectEnumerator(){
-	return (new c_Enumerator24)->m_new(this);
+c_Enumerator25* c_Stack4::p_ObjectEnumerator(){
+	return (new c_Enumerator25)->m_new(this);
 }
 c_Point* c_Stack4::m_NIL;
 void c_Stack4::p_Length2(int t_newlength){
@@ -51469,8 +51758,8 @@ void c_Stack5::p_Remove4(int t_index){
 	m_length-=1;
 	gc_assign(m_data[m_length],m_NIL);
 }
-c_Enumerator13* c_Stack5::p_ObjectEnumerator(){
-	return (new c_Enumerator13)->m_new(this);
+c_Enumerator14* c_Stack5::p_ObjectEnumerator(){
+	return (new c_Enumerator14)->m_new(this);
 }
 void c_Stack5::p_Length2(int t_newlength){
 	if(t_newlength<m_length){
@@ -51491,33 +51780,11 @@ void c_Stack5::mark(){
 	Object::mark();
 	gc_mark_q(m_data);
 }
-c_Enumerator12::c_Enumerator12(){
-	m_stack=0;
-	m_index=0;
-}
-c_Enumerator12* c_Enumerator12::m_new(c_Stack3* t_stack){
-	gc_assign(this->m_stack,t_stack);
-	return this;
-}
-c_Enumerator12* c_Enumerator12::m_new2(){
-	return this;
-}
-bool c_Enumerator12::p_HasNext(){
-	return m_index<m_stack->p_Length();
-}
-String c_Enumerator12::p_NextObject(){
-	m_index+=1;
-	return m_stack->m_data[m_index-1];
-}
-void c_Enumerator12::mark(){
-	Object::mark();
-	gc_mark_q(m_stack);
-}
 c_Enumerator13::c_Enumerator13(){
 	m_stack=0;
 	m_index=0;
 }
-c_Enumerator13* c_Enumerator13::m_new(c_Stack5* t_stack){
+c_Enumerator13* c_Enumerator13::m_new(c_Stack3* t_stack){
 	gc_assign(this->m_stack,t_stack);
 	return this;
 }
@@ -51527,11 +51794,33 @@ c_Enumerator13* c_Enumerator13::m_new2(){
 bool c_Enumerator13::p_HasNext(){
 	return m_index<m_stack->p_Length();
 }
-c_XMLNode* c_Enumerator13::p_NextObject(){
+String c_Enumerator13::p_NextObject(){
 	m_index+=1;
 	return m_stack->m_data[m_index-1];
 }
 void c_Enumerator13::mark(){
+	Object::mark();
+	gc_mark_q(m_stack);
+}
+c_Enumerator14::c_Enumerator14(){
+	m_stack=0;
+	m_index=0;
+}
+c_Enumerator14* c_Enumerator14::m_new(c_Stack5* t_stack){
+	gc_assign(this->m_stack,t_stack);
+	return this;
+}
+c_Enumerator14* c_Enumerator14::m_new2(){
+	return this;
+}
+bool c_Enumerator14::p_HasNext(){
+	return m_index<m_stack->p_Length();
+}
+c_XMLNode* c_Enumerator14::p_NextObject(){
+	m_index+=1;
+	return m_stack->m_data[m_index-1];
+}
+void c_Enumerator14::mark(){
 	Object::mark();
 	gc_mark_q(m_stack);
 }
@@ -51547,116 +51836,20 @@ c_TileObject::c_TileObject(){
 void c_TileObject::mark(){
 	Object::mark();
 }
-c_List24::c_List24(){
-	m__head=((new c_HeadNode24)->m_new());
-}
-c_List24* c_List24::m_new(){
-	return this;
-}
-c_Node41* c_List24::p_AddLast24(c_TileObject* t_data){
-	return (new c_Node41)->m_new(m__head,m__head->m__pred,t_data);
-}
-c_List24* c_List24::m_new2(Array<c_TileObject* > t_data){
-	Array<c_TileObject* > t_=t_data;
-	int t_2=0;
-	while(t_2<t_.Length()){
-		c_TileObject* t_t=t_[t_2];
-		t_2=t_2+1;
-		p_AddLast24(t_t);
-	}
-	return this;
-}
-c_Enumerator14* c_List24::p_ObjectEnumerator(){
-	return (new c_Enumerator14)->m_new(this);
-}
-void c_List24::mark(){
-	Object::mark();
-	gc_mark_q(m__head);
-}
-c_Node41::c_Node41(){
-	m__succ=0;
-	m__pred=0;
-	m__data=0;
-}
-c_Node41* c_Node41::m_new(c_Node41* t_succ,c_Node41* t_pred,c_TileObject* t_data){
-	gc_assign(m__succ,t_succ);
-	gc_assign(m__pred,t_pred);
-	gc_assign(m__succ->m__pred,this);
-	gc_assign(m__pred->m__succ,this);
-	gc_assign(m__data,t_data);
-	return this;
-}
-c_Node41* c_Node41::m_new2(){
-	return this;
-}
-void c_Node41::mark(){
-	Object::mark();
-	gc_mark_q(m__succ);
-	gc_mark_q(m__pred);
-	gc_mark_q(m__data);
-}
-c_HeadNode24::c_HeadNode24(){
-}
-c_HeadNode24* c_HeadNode24::m_new(){
-	c_Node41::m_new2();
-	gc_assign(m__succ,(this));
-	gc_assign(m__pred,(this));
-	return this;
-}
-void c_HeadNode24::mark(){
-	c_Node41::mark();
-}
-c_Enumerator14::c_Enumerator14(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator14* c_Enumerator14::m_new(c_List24* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator14* c_Enumerator14::m_new2(){
-	return this;
-}
-bool c_Enumerator14::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_TileObject* c_Enumerator14::p_NextObject(){
-	c_TileObject* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator14::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-c_TrapObject::c_TrapObject(){
-	m_type=0;
-	m_x=0;
-	m_y=0;
-	m_subtype=-1;
-}
-void c_TrapObject::mark(){
-	Object::mark();
-}
 c_List25::c_List25(){
 	m__head=((new c_HeadNode25)->m_new());
 }
 c_List25* c_List25::m_new(){
 	return this;
 }
-c_Node42* c_List25::p_AddLast25(c_TrapObject* t_data){
+c_Node42* c_List25::p_AddLast25(c_TileObject* t_data){
 	return (new c_Node42)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List25* c_List25::m_new2(Array<c_TrapObject* > t_data){
-	Array<c_TrapObject* > t_=t_data;
+c_List25* c_List25::m_new2(Array<c_TileObject* > t_data){
+	Array<c_TileObject* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_TrapObject* t_t=t_[t_2];
+		c_TileObject* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast25(t_t);
 	}
@@ -51674,7 +51867,7 @@ c_Node42::c_Node42(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node42* c_Node42::m_new(c_Node42* t_succ,c_Node42* t_pred,c_TrapObject* t_data){
+c_Node42* c_Node42::m_new(c_Node42* t_succ,c_Node42* t_pred,c_TileObject* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -51720,12 +51913,108 @@ bool c_Enumerator15::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_TrapObject* c_Enumerator15::p_NextObject(){
-	c_TrapObject* t_data=m__curr->m__data;
+c_TileObject* c_Enumerator15::p_NextObject(){
+	c_TileObject* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
 void c_Enumerator15::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_TrapObject::c_TrapObject(){
+	m_type=0;
+	m_x=0;
+	m_y=0;
+	m_subtype=-1;
+}
+void c_TrapObject::mark(){
+	Object::mark();
+}
+c_List26::c_List26(){
+	m__head=((new c_HeadNode26)->m_new());
+}
+c_List26* c_List26::m_new(){
+	return this;
+}
+c_Node43* c_List26::p_AddLast26(c_TrapObject* t_data){
+	return (new c_Node43)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List26* c_List26::m_new2(Array<c_TrapObject* > t_data){
+	Array<c_TrapObject* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_TrapObject* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast26(t_t);
+	}
+	return this;
+}
+c_Enumerator16* c_List26::p_ObjectEnumerator(){
+	return (new c_Enumerator16)->m_new(this);
+}
+void c_List26::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_Node43::c_Node43(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node43* c_Node43::m_new(c_Node43* t_succ,c_Node43* t_pred,c_TrapObject* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node43* c_Node43::m_new2(){
+	return this;
+}
+void c_Node43::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode26::c_HeadNode26(){
+}
+c_HeadNode26* c_HeadNode26::m_new(){
+	c_Node43::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode26::mark(){
+	c_Node43::mark();
+}
+c_Enumerator16::c_Enumerator16(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator16* c_Enumerator16::m_new(c_List26* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator16* c_Enumerator16::m_new2(){
+	return this;
+}
+bool c_Enumerator16::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_TrapObject* c_Enumerator16::p_NextObject(){
+	c_TrapObject* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator16::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -51855,41 +52144,41 @@ void c_FireTrap::p_Update(){
 void c_FireTrap::mark(){
 	c_Trap::mark();
 }
-c_List26::c_List26(){
-	m__head=((new c_HeadNode26)->m_new());
+c_List27::c_List27(){
+	m__head=((new c_HeadNode27)->m_new());
 }
-c_List26* c_List26::m_new(){
+c_List27* c_List27::m_new(){
 	return this;
 }
-c_Node43* c_List26::p_AddLast26(c_Point* t_data){
-	return (new c_Node43)->m_new(m__head,m__head->m__pred,t_data);
+c_Node44* c_List27::p_AddLast27(c_Point* t_data){
+	return (new c_Node44)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List26* c_List26::m_new2(Array<c_Point* > t_data){
+c_List27* c_List27::m_new2(Array<c_Point* > t_data){
 	Array<c_Point* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
 		c_Point* t_t=t_[t_2];
 		t_2=t_2+1;
-		p_AddLast26(t_t);
+		p_AddLast27(t_t);
 	}
 	return this;
 }
-int c_List26::p_Count(){
+int c_List27::p_Count(){
 	int t_n=0;
-	c_Node43* t_node=m__head->m__succ;
+	c_Node44* t_node=m__head->m__succ;
 	while(t_node!=m__head){
 		t_node=t_node->m__succ;
 		t_n+=1;
 	}
 	return t_n;
 }
-c_Enumerator16* c_List26::p_ObjectEnumerator(){
-	return (new c_Enumerator16)->m_new(this);
+c_Enumerator17* c_List27::p_ObjectEnumerator(){
+	return (new c_Enumerator17)->m_new(this);
 }
-Array<c_Point* > c_List26::p_ToArray(){
+Array<c_Point* > c_List27::p_ToArray(){
 	Array<c_Point* > t_arr=Array<c_Point* >(p_Count());
 	int t_i=0;
-	c_Enumerator16* t_=this->p_ObjectEnumerator();
+	c_Enumerator17* t_=this->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Point* t_t=t_->p_NextObject();
 		gc_assign(t_arr[t_i],t_t);
@@ -51897,15 +52186,15 @@ Array<c_Point* > c_List26::p_ToArray(){
 	}
 	return t_arr;
 }
-c_Point* c_List26::p_RemoveFirst(){
+c_Point* c_List27::p_RemoveFirst(){
 	c_Point* t_data=m__head->m__succ->m__data;
 	m__head->m__succ->p_Remove();
 	return t_data;
 }
-bool c_List26::p_Equals18(c_Point* t_lhs,c_Point* t_rhs){
+bool c_List27::p_Equals18(c_Point* t_lhs,c_Point* t_rhs){
 	return t_lhs==t_rhs;
 }
-c_Node43* c_List26::p_Find9(c_Point* t_value,c_Node43* t_start){
+c_Node44* c_List27::p_Find9(c_Point* t_value,c_Node44* t_start){
 	while(t_start!=m__head){
 		if(p_Equals18(t_value,t_start->m__data)){
 			return t_start;
@@ -51914,24 +52203,24 @@ c_Node43* c_List26::p_Find9(c_Point* t_value,c_Node43* t_start){
 	}
 	return 0;
 }
-c_Node43* c_List26::p_Find10(c_Point* t_value){
+c_Node44* c_List27::p_Find10(c_Point* t_value){
 	return p_Find9(t_value,m__head->m__succ);
 }
-void c_List26::p_RemoveFirst6(c_Point* t_value){
-	c_Node43* t_node=p_Find10(t_value);
+void c_List27::p_RemoveFirst6(c_Point* t_value){
+	c_Node44* t_node=p_Find10(t_value);
 	if((t_node)!=0){
 		t_node->p_Remove();
 	}
 }
-int c_List26::p_Clear(){
+int c_List27::p_Clear(){
 	gc_assign(m__head->m__succ,m__head);
 	gc_assign(m__head->m__pred,m__head);
 	return 0;
 }
-int c_List26::p_RemoveEach13(c_Point* t_value){
-	c_Node43* t_node=m__head->m__succ;
+int c_List27::p_RemoveEach13(c_Point* t_value){
+	c_Node44* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node43* t_succ=t_node->m__succ;
+		c_Node44* t_succ=t_node->m__succ;
 		if(p_Equals18(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
@@ -51939,31 +52228,31 @@ int c_List26::p_RemoveEach13(c_Point* t_value){
 	}
 	return 0;
 }
-bool c_List26::p_IsEmpty(){
+bool c_List27::p_IsEmpty(){
 	return m__head->m__succ==m__head;
 }
-void c_List26::mark(){
+void c_List27::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
 c_IntPointList::c_IntPointList(){
 }
 c_IntPointList* c_IntPointList::m_new(){
-	c_List26::m_new();
+	c_List27::m_new();
 	return this;
 }
 bool c_IntPointList::p_Equals18(c_Point* t_a,c_Point* t_b){
 	return t_a->m_x==t_b->m_x && t_a->m_y==t_b->m_y;
 }
 void c_IntPointList::mark(){
-	c_List26::mark();
+	c_List27::mark();
 }
-c_Node43::c_Node43(){
+c_Node44::c_Node44(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node43* c_Node43::m_new(c_Node43* t_succ,c_Node43* t_pred,c_Point* t_data){
+c_Node44* c_Node44::m_new(c_Node44* t_succ,c_Node44* t_pred,c_Point* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -51971,55 +52260,55 @@ c_Node43* c_Node43::m_new(c_Node43* t_succ,c_Node43* t_pred,c_Point* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node43* c_Node43::m_new2(){
+c_Node44* c_Node44::m_new2(){
 	return this;
 }
-int c_Node43::p_Remove(){
+int c_Node44::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node43::mark(){
+void c_Node44::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
 	gc_mark_q(m__data);
 }
-c_HeadNode26::c_HeadNode26(){
+c_HeadNode27::c_HeadNode27(){
 }
-c_HeadNode26* c_HeadNode26::m_new(){
-	c_Node43::m_new2();
+c_HeadNode27* c_HeadNode27::m_new(){
+	c_Node44::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
-void c_HeadNode26::mark(){
-	c_Node43::mark();
+void c_HeadNode27::mark(){
+	c_Node44::mark();
 }
-c_Enumerator16::c_Enumerator16(){
+c_Enumerator17::c_Enumerator17(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator16* c_Enumerator16::m_new(c_List26* t_list){
+c_Enumerator17* c_Enumerator17::m_new(c_List27* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator16* c_Enumerator16::m_new2(){
+c_Enumerator17* c_Enumerator17::m_new2(){
 	return this;
 }
-bool c_Enumerator16::p_HasNext(){
+bool c_Enumerator17::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Point* c_Enumerator16::p_NextObject(){
+c_Point* c_Enumerator17::p_NextObject(){
 	c_Point* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator16::mark(){
+void c_Enumerator17::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -52086,32 +52375,32 @@ c_Medic* c_Medic::m_new2(){
 void c_Medic::mark(){
 	c_NPC::mark();
 }
-c_List27::c_List27(){
-	m__head=((new c_HeadNode27)->m_new());
+c_List28::c_List28(){
+	m__head=((new c_HeadNode28)->m_new());
 }
-c_List27* c_List27::m_new(){
+c_List28* c_List28::m_new(){
 	return this;
 }
-c_Node44* c_List27::p_AddLast27(c_SaleItem* t_data){
-	return (new c_Node44)->m_new(m__head,m__head->m__pred,t_data);
+c_Node45* c_List28::p_AddLast28(c_SaleItem* t_data){
+	return (new c_Node45)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List27* c_List27::m_new2(Array<c_SaleItem* > t_data){
+c_List28* c_List28::m_new2(Array<c_SaleItem* > t_data){
 	Array<c_SaleItem* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
 		c_SaleItem* t_t=t_[t_2];
 		t_2=t_2+1;
-		p_AddLast27(t_t);
+		p_AddLast28(t_t);
 	}
 	return this;
 }
-bool c_List27::p_Equals19(c_SaleItem* t_lhs,c_SaleItem* t_rhs){
+bool c_List28::p_Equals19(c_SaleItem* t_lhs,c_SaleItem* t_rhs){
 	return t_lhs==t_rhs;
 }
-int c_List27::p_RemoveEach14(c_SaleItem* t_value){
-	c_Node44* t_node=m__head->m__succ;
+int c_List28::p_RemoveEach14(c_SaleItem* t_value){
+	c_Node45* t_node=m__head->m__succ;
 	while(t_node!=m__head){
-		c_Node44* t_succ=t_node->m__succ;
+		c_Node45* t_succ=t_node->m__succ;
 		if(p_Equals19(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
@@ -52119,19 +52408,19 @@ int c_List27::p_RemoveEach14(c_SaleItem* t_value){
 	}
 	return 0;
 }
-c_Enumerator31* c_List27::p_ObjectEnumerator(){
-	return (new c_Enumerator31)->m_new(this);
+c_Enumerator32* c_List28::p_ObjectEnumerator(){
+	return (new c_Enumerator32)->m_new(this);
 }
-void c_List27::mark(){
+void c_List28::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node44::c_Node44(){
+c_Node45::c_Node45(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node44* c_Node44::m_new(c_Node44* t_succ,c_Node44* t_pred,c_SaleItem* t_data){
+c_Node45* c_Node45::m_new(c_Node45* t_succ,c_Node45* t_pred,c_SaleItem* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -52139,30 +52428,30 @@ c_Node44* c_Node44::m_new(c_Node44* t_succ,c_Node44* t_pred,c_SaleItem* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node44* c_Node44::m_new2(){
+c_Node45* c_Node45::m_new2(){
 	return this;
 }
-int c_Node44::p_Remove(){
+int c_Node45::p_Remove(){
 	gc_assign(m__succ->m__pred,m__pred);
 	gc_assign(m__pred->m__succ,m__succ);
 	return 0;
 }
-void c_Node44::mark(){
+void c_Node45::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
 	gc_mark_q(m__data);
 }
-c_HeadNode27::c_HeadNode27(){
+c_HeadNode28::c_HeadNode28(){
 }
-c_HeadNode27* c_HeadNode27::m_new(){
-	c_Node44::m_new2();
+c_HeadNode28* c_HeadNode28::m_new(){
+	c_Node45::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
-void c_HeadNode27::mark(){
-	c_Node44::mark();
+void c_HeadNode28::mark(){
+	c_Node45::mark();
 }
 c_Thing::c_Thing(){
 }
@@ -52318,115 +52607,41 @@ bool c_UncertaintyRingPredicate::p_Call(c_XMLNode* t_n){
 void c_UncertaintyRingPredicate::mark(){
 	Object::mark();
 }
-c_List28::c_List28(){
-	m__head=((new c_HeadNode28)->m_new());
-}
-c_List28* c_List28::m_new(){
-	return this;
-}
-c_Node45* c_List28::p_AddLast28(c_Shrine* t_data){
-	return (new c_Node45)->m_new(m__head,m__head->m__pred,t_data);
-}
-c_List28* c_List28::m_new2(Array<c_Shrine* > t_data){
-	Array<c_Shrine* > t_=t_data;
-	int t_2=0;
-	while(t_2<t_.Length()){
-		c_Shrine* t_t=t_[t_2];
-		t_2=t_2+1;
-		p_AddLast28(t_t);
-	}
-	return this;
-}
-c_Enumerator28* c_List28::p_ObjectEnumerator(){
-	return (new c_Enumerator28)->m_new(this);
-}
-bool c_List28::p_Equals20(c_Shrine* t_lhs,c_Shrine* t_rhs){
-	return t_lhs==t_rhs;
-}
-int c_List28::p_RemoveEach15(c_Shrine* t_value){
-	c_Node45* t_node=m__head->m__succ;
-	while(t_node!=m__head){
-		c_Node45* t_succ=t_node->m__succ;
-		if(p_Equals20(t_node->m__data,t_value)){
-			t_node->p_Remove();
-		}
-		t_node=t_succ;
-	}
-	return 0;
-}
-void c_List28::mark(){
-	Object::mark();
-	gc_mark_q(m__head);
-}
-c_Node45::c_Node45(){
-	m__succ=0;
-	m__pred=0;
-	m__data=0;
-}
-c_Node45* c_Node45::m_new(c_Node45* t_succ,c_Node45* t_pred,c_Shrine* t_data){
-	gc_assign(m__succ,t_succ);
-	gc_assign(m__pred,t_pred);
-	gc_assign(m__succ->m__pred,this);
-	gc_assign(m__pred->m__succ,this);
-	gc_assign(m__data,t_data);
-	return this;
-}
-c_Node45* c_Node45::m_new2(){
-	return this;
-}
-int c_Node45::p_Remove(){
-	gc_assign(m__succ->m__pred,m__pred);
-	gc_assign(m__pred->m__succ,m__succ);
-	return 0;
-}
-void c_Node45::mark(){
-	Object::mark();
-	gc_mark_q(m__succ);
-	gc_mark_q(m__pred);
-	gc_mark_q(m__data);
-}
-c_HeadNode28::c_HeadNode28(){
-}
-c_HeadNode28* c_HeadNode28::m_new(){
-	c_Node45::m_new2();
-	gc_assign(m__succ,(this));
-	gc_assign(m__pred,(this));
-	return this;
-}
-void c_HeadNode28::mark(){
-	c_Node45::mark();
-}
-c_EnemyObject::c_EnemyObject(){
-	m_x=0;
-	m_y=0;
-	m_type=0;
-	m_beatDelay=-1;
-	m_lord=false;
-}
-void c_EnemyObject::mark(){
-	Object::mark();
-}
 c_List29::c_List29(){
 	m__head=((new c_HeadNode29)->m_new());
 }
 c_List29* c_List29::m_new(){
 	return this;
 }
-c_Node46* c_List29::p_AddLast29(c_EnemyObject* t_data){
+c_Node46* c_List29::p_AddLast29(c_Shrine* t_data){
 	return (new c_Node46)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List29* c_List29::m_new2(Array<c_EnemyObject* > t_data){
-	Array<c_EnemyObject* > t_=t_data;
+c_List29* c_List29::m_new2(Array<c_Shrine* > t_data){
+	Array<c_Shrine* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_EnemyObject* t_t=t_[t_2];
+		c_Shrine* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast29(t_t);
 	}
 	return this;
 }
-c_Enumerator17* c_List29::p_ObjectEnumerator(){
-	return (new c_Enumerator17)->m_new(this);
+c_Enumerator29* c_List29::p_ObjectEnumerator(){
+	return (new c_Enumerator29)->m_new(this);
+}
+bool c_List29::p_Equals20(c_Shrine* t_lhs,c_Shrine* t_rhs){
+	return t_lhs==t_rhs;
+}
+int c_List29::p_RemoveEach15(c_Shrine* t_value){
+	c_Node46* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		c_Node46* t_succ=t_node->m__succ;
+		if(p_Equals20(t_node->m__data,t_value)){
+			t_node->p_Remove();
+		}
+		t_node=t_succ;
+	}
+	return 0;
 }
 void c_List29::mark(){
 	Object::mark();
@@ -52437,7 +52652,7 @@ c_Node46::c_Node46(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node46* c_Node46::m_new(c_Node46* t_succ,c_Node46* t_pred,c_EnemyObject* t_data){
+c_Node46* c_Node46::m_new(c_Node46* t_succ,c_Node46* t_pred,c_Shrine* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -52447,6 +52662,11 @@ c_Node46* c_Node46::m_new(c_Node46* t_succ,c_Node46* t_pred,c_EnemyObject* t_dat
 }
 c_Node46* c_Node46::m_new2(){
 	return this;
+}
+int c_Node46::p_Remove(){
+	gc_assign(m__succ->m__pred,m__pred);
+	gc_assign(m__pred->m__succ,m__succ);
+	return 0;
 }
 void c_Node46::mark(){
 	Object::mark();
@@ -52465,43 +52685,14 @@ c_HeadNode29* c_HeadNode29::m_new(){
 void c_HeadNode29::mark(){
 	c_Node46::mark();
 }
-c_Enumerator17::c_Enumerator17(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator17* c_Enumerator17::m_new(c_List29* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator17* c_Enumerator17::m_new2(){
-	return this;
-}
-bool c_Enumerator17::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_EnemyObject* c_Enumerator17::p_NextObject(){
-	c_EnemyObject* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator17::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-c_ItemObject::c_ItemObject(){
-	m_bloodCost=FLOAT(.0);
-	m_saleCost=0;
+c_EnemyObject::c_EnemyObject(){
 	m_x=0;
 	m_y=0;
-	m_type=String();
-	m_singleChoice=false;
+	m_type=0;
+	m_beatDelay=-1;
+	m_lord=false;
 }
-void c_ItemObject::mark(){
+void c_EnemyObject::mark(){
 	Object::mark();
 }
 c_List30::c_List30(){
@@ -52510,14 +52701,14 @@ c_List30::c_List30(){
 c_List30* c_List30::m_new(){
 	return this;
 }
-c_Node47* c_List30::p_AddLast30(c_ItemObject* t_data){
+c_Node47* c_List30::p_AddLast30(c_EnemyObject* t_data){
 	return (new c_Node47)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List30* c_List30::m_new2(Array<c_ItemObject* > t_data){
-	Array<c_ItemObject* > t_=t_data;
+c_List30* c_List30::m_new2(Array<c_EnemyObject* > t_data){
+	Array<c_EnemyObject* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_ItemObject* t_t=t_[t_2];
+		c_EnemyObject* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast30(t_t);
 	}
@@ -52535,7 +52726,7 @@ c_Node47::c_Node47(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node47* c_Node47::m_new(c_Node47* t_succ,c_Node47* t_pred,c_ItemObject* t_data){
+c_Node47* c_Node47::m_new(c_Node47* t_succ,c_Node47* t_pred,c_EnemyObject* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -52581,8 +52772,8 @@ bool c_Enumerator18::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_ItemObject* c_Enumerator18::p_NextObject(){
-	c_ItemObject* t_data=m__curr->m__data;
+c_EnemyObject* c_Enumerator18::p_NextObject(){
+	c_EnemyObject* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
@@ -52591,16 +52782,15 @@ void c_Enumerator18::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
-c_ChestObject::c_ChestObject(){
+c_ItemObject::c_ItemObject(){
+	m_bloodCost=FLOAT(.0);
 	m_saleCost=0;
 	m_x=0;
 	m_y=0;
-	m_contents=String();
-	m_hidden=false;
-	m_color=0;
+	m_type=String();
 	m_singleChoice=false;
 }
-void c_ChestObject::mark(){
+void c_ItemObject::mark(){
 	Object::mark();
 }
 c_List31::c_List31(){
@@ -52609,14 +52799,14 @@ c_List31::c_List31(){
 c_List31* c_List31::m_new(){
 	return this;
 }
-c_Node48* c_List31::p_AddLast31(c_ChestObject* t_data){
+c_Node48* c_List31::p_AddLast31(c_ItemObject* t_data){
 	return (new c_Node48)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List31* c_List31::m_new2(Array<c_ChestObject* > t_data){
-	Array<c_ChestObject* > t_=t_data;
+c_List31* c_List31::m_new2(Array<c_ItemObject* > t_data){
+	Array<c_ItemObject* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_ChestObject* t_t=t_[t_2];
+		c_ItemObject* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast31(t_t);
 	}
@@ -52634,7 +52824,7 @@ c_Node48::c_Node48(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node48* c_Node48::m_new(c_Node48* t_succ,c_Node48* t_pred,c_ChestObject* t_data){
+c_Node48* c_Node48::m_new(c_Node48* t_succ,c_Node48* t_pred,c_ItemObject* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -52680,8 +52870,8 @@ bool c_Enumerator19::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_ChestObject* c_Enumerator19::p_NextObject(){
-	c_ChestObject* t_data=m__curr->m__data;
+c_ItemObject* c_Enumerator19::p_NextObject(){
+	c_ItemObject* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
@@ -52690,47 +52880,39 @@ void c_Enumerator19::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
+c_ChestObject::c_ChestObject(){
+	m_saleCost=0;
+	m_x=0;
+	m_y=0;
+	m_contents=String();
+	m_hidden=false;
+	m_color=0;
+	m_singleChoice=false;
+}
+void c_ChestObject::mark(){
+	Object::mark();
+}
 c_List32::c_List32(){
 	m__head=((new c_HeadNode32)->m_new());
 }
 c_List32* c_List32::m_new(){
 	return this;
 }
-c_Node49* c_List32::p_AddLast32(c_Chest* t_data){
+c_Node49* c_List32::p_AddLast32(c_ChestObject* t_data){
 	return (new c_Node49)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List32* c_List32::m_new2(Array<c_Chest* > t_data){
-	Array<c_Chest* > t_=t_data;
+c_List32* c_List32::m_new2(Array<c_ChestObject* > t_data){
+	Array<c_ChestObject* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Chest* t_t=t_[t_2];
+		c_ChestObject* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast32(t_t);
 	}
 	return this;
 }
-c_Enumerator27* c_List32::p_ObjectEnumerator(){
-	return (new c_Enumerator27)->m_new(this);
-}
-bool c_List32::p_Equals21(c_Chest* t_lhs,c_Chest* t_rhs){
-	return t_lhs==t_rhs;
-}
-int c_List32::p_RemoveEach16(c_Chest* t_value){
-	c_Node49* t_node=m__head->m__succ;
-	while(t_node!=m__head){
-		c_Node49* t_succ=t_node->m__succ;
-		if(p_Equals21(t_node->m__data,t_value)){
-			t_node->p_Remove();
-		}
-		t_node=t_succ;
-	}
-	return 0;
-}
-bool c_List32::p_IsEmpty(){
-	return m__head->m__succ==m__head;
-}
-c_Chest* c_List32::p_First(){
-	return m__head->m__succ->m__data;
+c_Enumerator20* c_List32::p_ObjectEnumerator(){
+	return (new c_Enumerator20)->m_new(this);
 }
 void c_List32::mark(){
 	Object::mark();
@@ -52741,7 +52923,7 @@ c_Node49::c_Node49(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node49* c_Node49::m_new(c_Node49* t_succ,c_Node49* t_pred,c_Chest* t_data){
+c_Node49* c_Node49::m_new(c_Node49* t_succ,c_Node49* t_pred,c_ChestObject* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -52751,11 +52933,6 @@ c_Node49* c_Node49::m_new(c_Node49* t_succ,c_Node49* t_pred,c_Chest* t_data){
 }
 c_Node49* c_Node49::m_new2(){
 	return this;
-}
-int c_Node49::p_Remove(){
-	gc_assign(m__succ->m__pred,m__pred);
-	gc_assign(m__pred->m__succ,m__succ);
-	return 0;
 }
 void c_Node49::mark(){
 	Object::mark();
@@ -52774,29 +52951,33 @@ c_HeadNode32* c_HeadNode32::m_new(){
 void c_HeadNode32::mark(){
 	c_Node49::mark();
 }
-c_ChestColor::c_ChestColor(){
+c_Enumerator20::c_Enumerator20(){
+	m__list=0;
+	m__curr=0;
 }
-String c_ChestColor::m_ToString(int t_color){
-	int t_3=t_color;
-	if(t_3==1){
-		return String(L"Red",3);
-	}else{
-		if(t_3==2){
-			return String(L"Black",5);
-		}else{
-			if(t_3==3){
-				return String(L"Purple",6);
-			}else{
-				if(t_3==4){
-					return String(L"Blue",4);
-				}
-			}
-		}
+c_Enumerator20* c_Enumerator20::m_new(c_List32* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator20* c_Enumerator20::m_new2(){
+	return this;
+}
+bool c_Enumerator20::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
 	}
-	return String(L"None",4);
+	return m__curr!=m__list->m__head;
 }
-void c_ChestColor::mark(){
+c_ChestObject* c_Enumerator20::p_NextObject(){
+	c_ChestObject* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator20::mark(){
 	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
 }
 c_List33::c_List33(){
 	m__head=((new c_HeadNode33)->m_new());
@@ -52804,32 +52985,41 @@ c_List33::c_List33(){
 c_List33* c_List33::m_new(){
 	return this;
 }
-c_Node50* c_List33::p_AddLast33(c_SaleChest* t_data){
+c_Node50* c_List33::p_AddLast33(c_Chest* t_data){
 	return (new c_Node50)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List33* c_List33::m_new2(Array<c_SaleChest* > t_data){
-	Array<c_SaleChest* > t_=t_data;
+c_List33* c_List33::m_new2(Array<c_Chest* > t_data){
+	Array<c_Chest* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_SaleChest* t_t=t_[t_2];
+		c_Chest* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast33(t_t);
 	}
 	return this;
 }
-bool c_List33::p_Equals22(c_SaleChest* t_lhs,c_SaleChest* t_rhs){
+c_Enumerator28* c_List33::p_ObjectEnumerator(){
+	return (new c_Enumerator28)->m_new(this);
+}
+bool c_List33::p_Equals21(c_Chest* t_lhs,c_Chest* t_rhs){
 	return t_lhs==t_rhs;
 }
-int c_List33::p_RemoveEach17(c_SaleChest* t_value){
+int c_List33::p_RemoveEach16(c_Chest* t_value){
 	c_Node50* t_node=m__head->m__succ;
 	while(t_node!=m__head){
 		c_Node50* t_succ=t_node->m__succ;
-		if(p_Equals22(t_node->m__data,t_value)){
+		if(p_Equals21(t_node->m__data,t_value)){
 			t_node->p_Remove();
 		}
 		t_node=t_succ;
 	}
 	return 0;
+}
+bool c_List33::p_IsEmpty(){
+	return m__head->m__succ==m__head;
+}
+c_Chest* c_List33::p_First(){
+	return m__head->m__succ->m__data;
 }
 void c_List33::mark(){
 	Object::mark();
@@ -52840,7 +53030,7 @@ c_Node50::c_Node50(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node50* c_Node50::m_new(c_Node50* t_succ,c_Node50* t_pred,c_SaleChest* t_data){
+c_Node50* c_Node50::m_new(c_Node50* t_succ,c_Node50* t_pred,c_Chest* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -52873,13 +53063,28 @@ c_HeadNode33* c_HeadNode33::m_new(){
 void c_HeadNode33::mark(){
 	c_Node50::mark();
 }
-c_CrateObject::c_CrateObject(){
-	m_x=0;
-	m_y=0;
-	m_type=0;
-	m_contents=String();
+c_ChestColor::c_ChestColor(){
 }
-void c_CrateObject::mark(){
+String c_ChestColor::m_ToString(int t_color){
+	int t_3=t_color;
+	if(t_3==1){
+		return String(L"Red",3);
+	}else{
+		if(t_3==2){
+			return String(L"Black",5);
+		}else{
+			if(t_3==3){
+				return String(L"Purple",6);
+			}else{
+				if(t_3==4){
+					return String(L"Blue",4);
+				}
+			}
+		}
+	}
+	return String(L"None",4);
+}
+void c_ChestColor::mark(){
 	Object::mark();
 }
 c_List34::c_List34(){
@@ -52888,21 +53093,32 @@ c_List34::c_List34(){
 c_List34* c_List34::m_new(){
 	return this;
 }
-c_Node51* c_List34::p_AddLast34(c_CrateObject* t_data){
+c_Node51* c_List34::p_AddLast34(c_SaleChest* t_data){
 	return (new c_Node51)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List34* c_List34::m_new2(Array<c_CrateObject* > t_data){
-	Array<c_CrateObject* > t_=t_data;
+c_List34* c_List34::m_new2(Array<c_SaleChest* > t_data){
+	Array<c_SaleChest* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_CrateObject* t_t=t_[t_2];
+		c_SaleChest* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast34(t_t);
 	}
 	return this;
 }
-c_Enumerator20* c_List34::p_ObjectEnumerator(){
-	return (new c_Enumerator20)->m_new(this);
+bool c_List34::p_Equals22(c_SaleChest* t_lhs,c_SaleChest* t_rhs){
+	return t_lhs==t_rhs;
+}
+int c_List34::p_RemoveEach17(c_SaleChest* t_value){
+	c_Node51* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		c_Node51* t_succ=t_node->m__succ;
+		if(p_Equals22(t_node->m__data,t_value)){
+			t_node->p_Remove();
+		}
+		t_node=t_succ;
+	}
+	return 0;
 }
 void c_List34::mark(){
 	Object::mark();
@@ -52913,7 +53129,7 @@ c_Node51::c_Node51(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node51* c_Node51::m_new(c_Node51* t_succ,c_Node51* t_pred,c_CrateObject* t_data){
+c_Node51* c_Node51::m_new(c_Node51* t_succ,c_Node51* t_pred,c_SaleChest* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -52923,6 +53139,11 @@ c_Node51* c_Node51::m_new(c_Node51* t_succ,c_Node51* t_pred,c_CrateObject* t_dat
 }
 c_Node51* c_Node51::m_new2(){
 	return this;
+}
+int c_Node51::p_Remove(){
+	gc_assign(m__succ->m__pred,m__pred);
+	gc_assign(m__pred->m__succ,m__succ);
+	return 0;
 }
 void c_Node51::mark(){
 	Object::mark();
@@ -52941,40 +53162,13 @@ c_HeadNode34* c_HeadNode34::m_new(){
 void c_HeadNode34::mark(){
 	c_Node51::mark();
 }
-c_Enumerator20::c_Enumerator20(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator20* c_Enumerator20::m_new(c_List34* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator20* c_Enumerator20::m_new2(){
-	return this;
-}
-bool c_Enumerator20::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_CrateObject* c_Enumerator20::p_NextObject(){
-	c_CrateObject* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator20::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-c_ShrineObject::c_ShrineObject(){
+c_CrateObject::c_CrateObject(){
 	m_x=0;
 	m_y=0;
 	m_type=0;
+	m_contents=String();
 }
-void c_ShrineObject::mark(){
+void c_CrateObject::mark(){
 	Object::mark();
 }
 c_List35::c_List35(){
@@ -52983,14 +53177,14 @@ c_List35::c_List35(){
 c_List35* c_List35::m_new(){
 	return this;
 }
-c_Node52* c_List35::p_AddLast35(c_ShrineObject* t_data){
+c_Node52* c_List35::p_AddLast35(c_CrateObject* t_data){
 	return (new c_Node52)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List35* c_List35::m_new2(Array<c_ShrineObject* > t_data){
-	Array<c_ShrineObject* > t_=t_data;
+c_List35* c_List35::m_new2(Array<c_CrateObject* > t_data){
+	Array<c_CrateObject* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_ShrineObject* t_t=t_[t_2];
+		c_CrateObject* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast35(t_t);
 	}
@@ -53008,7 +53202,7 @@ c_Node52::c_Node52(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node52* c_Node52::m_new(c_Node52* t_succ,c_Node52* t_pred,c_ShrineObject* t_data){
+c_Node52* c_Node52::m_new(c_Node52* t_succ,c_Node52* t_pred,c_CrateObject* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -53054,12 +53248,107 @@ bool c_Enumerator21::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_ShrineObject* c_Enumerator21::p_NextObject(){
-	c_ShrineObject* t_data=m__curr->m__data;
+c_CrateObject* c_Enumerator21::p_NextObject(){
+	c_CrateObject* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
 void c_Enumerator21::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_ShrineObject::c_ShrineObject(){
+	m_x=0;
+	m_y=0;
+	m_type=0;
+}
+void c_ShrineObject::mark(){
+	Object::mark();
+}
+c_List36::c_List36(){
+	m__head=((new c_HeadNode36)->m_new());
+}
+c_List36* c_List36::m_new(){
+	return this;
+}
+c_Node53* c_List36::p_AddLast36(c_ShrineObject* t_data){
+	return (new c_Node53)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List36* c_List36::m_new2(Array<c_ShrineObject* > t_data){
+	Array<c_ShrineObject* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_ShrineObject* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast36(t_t);
+	}
+	return this;
+}
+c_Enumerator22* c_List36::p_ObjectEnumerator(){
+	return (new c_Enumerator22)->m_new(this);
+}
+void c_List36::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_Node53::c_Node53(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node53* c_Node53::m_new(c_Node53* t_succ,c_Node53* t_pred,c_ShrineObject* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node53* c_Node53::m_new2(){
+	return this;
+}
+void c_Node53::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode36::c_HeadNode36(){
+}
+c_HeadNode36* c_HeadNode36::m_new(){
+	c_Node53::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode36::mark(){
+	c_Node53::mark();
+}
+c_Enumerator22::c_Enumerator22(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator22* c_Enumerator22::m_new(c_List36* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator22* c_Enumerator22::m_new2(){
+	return this;
+}
+bool c_Enumerator22::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_ShrineObject* c_Enumerator22::p_NextObject(){
+	c_ShrineObject* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator22::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -53326,8 +53615,8 @@ c_Map17::c_Map17(){
 c_Map17* c_Map17::m_new(){
 	return this;
 }
-c_Node53* c_Map17::p_FindNode3(c_Point* t_key){
-	c_Node53* t_node=m_root;
+c_Node54* c_Map17::p_FindNode3(c_Point* t_key){
+	c_Node54* t_node=m_root;
 	while((t_node)!=0){
 		int t_cmp=p_Compare3(t_key,t_node->m_key);
 		if(t_cmp>0){
@@ -53345,8 +53634,8 @@ c_Node53* c_Map17::p_FindNode3(c_Point* t_key){
 bool c_Map17::p_Contains5(c_Point* t_key){
 	return p_FindNode3(t_key)!=0;
 }
-int c_Map17::p_RotateLeft16(c_Node53* t_node){
-	c_Node53* t_child=t_node->m_right;
+int c_Map17::p_RotateLeft16(c_Node54* t_node){
+	c_Node54* t_child=t_node->m_right;
 	gc_assign(t_node->m_right,t_child->m_left);
 	if((t_child->m_left)!=0){
 		gc_assign(t_child->m_left->m_parent,t_node);
@@ -53365,8 +53654,8 @@ int c_Map17::p_RotateLeft16(c_Node53* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map17::p_RotateRight16(c_Node53* t_node){
-	c_Node53* t_child=t_node->m_left;
+int c_Map17::p_RotateRight16(c_Node54* t_node){
+	c_Node54* t_child=t_node->m_left;
 	gc_assign(t_node->m_left,t_child->m_right);
 	if((t_child->m_right)!=0){
 		gc_assign(t_child->m_right->m_parent,t_node);
@@ -53385,10 +53674,10 @@ int c_Map17::p_RotateRight16(c_Node53* t_node){
 	gc_assign(t_node->m_parent,t_child);
 	return 0;
 }
-int c_Map17::p_InsertFixup16(c_Node53* t_node){
+int c_Map17::p_InsertFixup16(c_Node54* t_node){
 	while(((t_node->m_parent)!=0) && t_node->m_parent->m_color==-1 && ((t_node->m_parent->m_parent)!=0)){
 		if(t_node->m_parent==t_node->m_parent->m_parent->m_left){
-			c_Node53* t_uncle=t_node->m_parent->m_parent->m_right;
+			c_Node54* t_uncle=t_node->m_parent->m_parent->m_right;
 			if(((t_uncle)!=0) && t_uncle->m_color==-1){
 				t_node->m_parent->m_color=1;
 				t_uncle->m_color=1;
@@ -53404,7 +53693,7 @@ int c_Map17::p_InsertFixup16(c_Node53* t_node){
 				p_RotateRight16(t_node->m_parent->m_parent);
 			}
 		}else{
-			c_Node53* t_uncle2=t_node->m_parent->m_parent->m_left;
+			c_Node54* t_uncle2=t_node->m_parent->m_parent->m_left;
 			if(((t_uncle2)!=0) && t_uncle2->m_color==-1){
 				t_node->m_parent->m_color=1;
 				t_uncle2->m_color=1;
@@ -53425,8 +53714,8 @@ int c_Map17::p_InsertFixup16(c_Node53* t_node){
 	return 0;
 }
 bool c_Map17::p_Set19(c_Point* t_key,Object* t_value){
-	c_Node53* t_node=m_root;
-	c_Node53* t_parent=0;
+	c_Node54* t_node=m_root;
+	c_Node54* t_parent=0;
 	int t_cmp=0;
 	while((t_node)!=0){
 		t_parent=t_node;
@@ -53442,7 +53731,7 @@ bool c_Map17::p_Set19(c_Point* t_key,Object* t_value){
 			}
 		}
 	}
-	t_node=(new c_Node53)->m_new(t_key,t_value,-1,t_parent);
+	t_node=(new c_Node54)->m_new(t_key,t_value,-1,t_parent);
 	if((t_parent)!=0){
 		if(t_cmp>0){
 			gc_assign(t_parent->m_right,t_node);
@@ -53461,11 +53750,11 @@ bool c_Map17::p_Insert10(c_Point* t_key,Object* t_value){
 c_MapKeys2* c_Map17::p_Keys(){
 	return (new c_MapKeys2)->m_new(this);
 }
-c_Node53* c_Map17::p_FirstNode(){
+c_Node54* c_Map17::p_FirstNode(){
 	if(!((m_root)!=0)){
 		return 0;
 	}
-	c_Node53* t_node=m_root;
+	c_Node54* t_node=m_root;
 	while((t_node->m_left)!=0){
 		t_node=t_node->m_left;
 	}
@@ -53499,7 +53788,7 @@ int c_IntPointMap::p_Compare3(c_Point* t_lhs,c_Point* t_rhs){
 void c_IntPointMap::mark(){
 	c_Map17::mark();
 }
-c_Node53::c_Node53(){
+c_Node54::c_Node54(){
 	m_key=0;
 	m_right=0;
 	m_left=0;
@@ -53507,18 +53796,18 @@ c_Node53::c_Node53(){
 	m_color=0;
 	m_parent=0;
 }
-c_Node53* c_Node53::m_new(c_Point* t_key,Object* t_value,int t_color,c_Node53* t_parent){
+c_Node54* c_Node54::m_new(c_Point* t_key,Object* t_value,int t_color,c_Node54* t_parent){
 	gc_assign(this->m_key,t_key);
 	gc_assign(this->m_value,t_value);
 	this->m_color=t_color;
 	gc_assign(this->m_parent,t_parent);
 	return this;
 }
-c_Node53* c_Node53::m_new2(){
+c_Node54* c_Node54::m_new2(){
 	return this;
 }
-c_Node53* c_Node53::p_NextNode(){
-	c_Node53* t_node=0;
+c_Node54* c_Node54::p_NextNode(){
+	c_Node54* t_node=0;
 	if((m_right)!=0){
 		t_node=m_right;
 		while((t_node->m_left)!=0){
@@ -53527,14 +53816,14 @@ c_Node53* c_Node53::p_NextNode(){
 		return t_node;
 	}
 	t_node=this;
-	c_Node53* t_parent=this->m_parent;
+	c_Node54* t_parent=this->m_parent;
 	while(((t_parent)!=0) && t_node==t_parent->m_right){
 		t_node=t_parent;
 		t_parent=t_parent->m_parent;
 	}
 	return t_parent;
 }
-void c_Node53::mark(){
+void c_Node54::mark(){
 	Object::mark();
 	gc_mark_q(m_key);
 	gc_mark_q(m_right);
@@ -53545,7 +53834,7 @@ void c_Node53::mark(){
 c_KeyEnumerator2::c_KeyEnumerator2(){
 	m_node=0;
 }
-c_KeyEnumerator2* c_KeyEnumerator2::m_new(c_Node53* t_node){
+c_KeyEnumerator2* c_KeyEnumerator2::m_new(c_Node54* t_node){
 	gc_assign(this->m_node,t_node);
 	return this;
 }
@@ -53556,7 +53845,7 @@ bool c_KeyEnumerator2::p_HasNext(){
 	return m_node!=0;
 }
 c_Point* c_KeyEnumerator2::p_NextObject(){
-	c_Node53* t_t=m_node;
+	c_Node54* t_t=m_node;
 	gc_assign(m_node,m_node->p_NextNode());
 	return t_t->m_key;
 }
@@ -53608,8 +53897,8 @@ void c_Stack7::p_Push20(Array<c_TileData* > t_values,int t_offset,int t_count){
 void c_Stack7::p_Push21(Array<c_TileData* > t_values,int t_offset){
 	p_Push20(t_values,t_offset,t_values.Length()-t_offset);
 }
-c_Enumerator22* c_Stack7::p_ObjectEnumerator(){
-	return (new c_Enumerator22)->m_new(this);
+c_Enumerator23* c_Stack7::p_ObjectEnumerator(){
+	return (new c_Enumerator23)->m_new(this);
 }
 c_TileData* c_Stack7::m_NIL;
 void c_Stack7::p_Length2(int t_newlength){
@@ -53631,25 +53920,25 @@ void c_Stack7::mark(){
 	Object::mark();
 	gc_mark_q(m_data);
 }
-c_Enumerator22::c_Enumerator22(){
+c_Enumerator23::c_Enumerator23(){
 	m_stack=0;
 	m_index=0;
 }
-c_Enumerator22* c_Enumerator22::m_new(c_Stack7* t_stack){
+c_Enumerator23* c_Enumerator23::m_new(c_Stack7* t_stack){
 	gc_assign(this->m_stack,t_stack);
 	return this;
 }
-c_Enumerator22* c_Enumerator22::m_new2(){
+c_Enumerator23* c_Enumerator23::m_new2(){
 	return this;
 }
-bool c_Enumerator22::p_HasNext(){
+bool c_Enumerator23::p_HasNext(){
 	return m_index<m_stack->p_Length();
 }
-c_TileData* c_Enumerator22::p_NextObject(){
+c_TileData* c_Enumerator23::p_NextObject(){
 	m_index+=1;
 	return m_stack->m_data[m_index-1];
 }
-void c_Enumerator22::mark(){
+void c_Enumerator23::mark(){
 	Object::mark();
 	gc_mark_q(m_stack);
 }
@@ -53792,8 +54081,8 @@ void c_Stack8::p_Push23(Array<c_PortalSeg* > t_values,int t_offset,int t_count){
 void c_Stack8::p_Push24(Array<c_PortalSeg* > t_values,int t_offset){
 	p_Push23(t_values,t_offset,t_values.Length()-t_offset);
 }
-c_Enumerator23* c_Stack8::p_ObjectEnumerator(){
-	return (new c_Enumerator23)->m_new(this);
+c_Enumerator24* c_Stack8::p_ObjectEnumerator(){
+	return (new c_Enumerator24)->m_new(this);
 }
 c_PortalSeg* c_Stack8::m_NIL;
 void c_Stack8::p_Length2(int t_newlength){
@@ -53839,7 +54128,7 @@ void c_StackEx3::p_Shuffle(bool t_useSeed){
 	}
 }
 void c_StackEx3::p_Extend(c_StackEx3* t_other){
-	c_Enumerator23* t_=t_other->p_ObjectEnumerator();
+	c_Enumerator24* t_=t_other->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_PortalSeg* t_item=t_->p_NextObject();
 		this->p_Push22(t_item);
@@ -53848,25 +54137,25 @@ void c_StackEx3::p_Extend(c_StackEx3* t_other){
 void c_StackEx3::mark(){
 	c_Stack8::mark();
 }
-c_Enumerator23::c_Enumerator23(){
+c_Enumerator24::c_Enumerator24(){
 	m_stack=0;
 	m_index=0;
 }
-c_Enumerator23* c_Enumerator23::m_new(c_Stack8* t_stack){
+c_Enumerator24* c_Enumerator24::m_new(c_Stack8* t_stack){
 	gc_assign(this->m_stack,t_stack);
 	return this;
 }
-c_Enumerator23* c_Enumerator23::m_new2(){
+c_Enumerator24* c_Enumerator24::m_new2(){
 	return this;
 }
-bool c_Enumerator23::p_HasNext(){
+bool c_Enumerator24::p_HasNext(){
 	return m_index<m_stack->p_Length();
 }
-c_PortalSeg* c_Enumerator23::p_NextObject(){
+c_PortalSeg* c_Enumerator24::p_NextObject(){
 	m_index+=1;
 	return m_stack->m_data[m_index-1];
 }
-void c_Enumerator23::mark(){
+void c_Enumerator24::mark(){
 	Object::mark();
 	gc_mark_q(m_stack);
 }
@@ -53891,25 +54180,25 @@ void c_RoomWithDoor::mark(){
 	c_RectRoom::mark();
 	gc_mark_q(m_door);
 }
-c_Enumerator24::c_Enumerator24(){
+c_Enumerator25::c_Enumerator25(){
 	m_stack=0;
 	m_index=0;
 }
-c_Enumerator24* c_Enumerator24::m_new(c_Stack4* t_stack){
+c_Enumerator25* c_Enumerator25::m_new(c_Stack4* t_stack){
 	gc_assign(this->m_stack,t_stack);
 	return this;
 }
-c_Enumerator24* c_Enumerator24::m_new2(){
+c_Enumerator25* c_Enumerator25::m_new2(){
 	return this;
 }
-bool c_Enumerator24::p_HasNext(){
+bool c_Enumerator25::p_HasNext(){
 	return m_index<m_stack->p_Length();
 }
-c_Point* c_Enumerator24::p_NextObject(){
+c_Point* c_Enumerator25::p_NextObject(){
 	m_index+=1;
 	return m_stack->m_data[m_index-1];
 }
-void c_Enumerator24::mark(){
+void c_Enumerator25::mark(){
 	Object::mark();
 	gc_mark_q(m_stack);
 }
@@ -54027,8 +54316,8 @@ void c_Stack10::p_Push29(Array<c_RoomBase* > t_values,int t_offset,int t_count){
 void c_Stack10::p_Push30(Array<c_RoomBase* > t_values,int t_offset){
 	p_Push29(t_values,t_offset,t_values.Length()-t_offset);
 }
-c_Enumerator25* c_Stack10::p_ObjectEnumerator(){
-	return (new c_Enumerator25)->m_new(this);
+c_Enumerator26* c_Stack10::p_ObjectEnumerator(){
+	return (new c_Enumerator26)->m_new(this);
 }
 c_RoomBase* c_Stack10::m_NIL;
 void c_Stack10::p_Length2(int t_newlength){
@@ -54053,25 +54342,25 @@ void c_Stack10::mark(){
 	Object::mark();
 	gc_mark_q(m_data);
 }
-c_Enumerator25::c_Enumerator25(){
+c_Enumerator26::c_Enumerator26(){
 	m_stack=0;
 	m_index=0;
 }
-c_Enumerator25* c_Enumerator25::m_new(c_Stack10* t_stack){
+c_Enumerator26* c_Enumerator26::m_new(c_Stack10* t_stack){
 	gc_assign(this->m_stack,t_stack);
 	return this;
 }
-c_Enumerator25* c_Enumerator25::m_new2(){
+c_Enumerator26* c_Enumerator26::m_new2(){
 	return this;
 }
-bool c_Enumerator25::p_HasNext(){
+bool c_Enumerator26::p_HasNext(){
 	return m_index<m_stack->p_Length();
 }
-c_RoomBase* c_Enumerator25::p_NextObject(){
+c_RoomBase* c_Enumerator26::p_NextObject(){
 	m_index+=1;
 	return m_stack->m_data[m_index-1];
 }
-void c_Enumerator25::mark(){
+void c_Enumerator26::mark(){
 	Object::mark();
 	gc_mark_q(m_stack);
 }
@@ -54096,30 +54385,30 @@ c_SecretRoomData* c_SecretRoomData::m_new2(){
 void c_SecretRoomData::mark(){
 	Object::mark();
 }
-c_Enumerator26::c_Enumerator26(){
+c_Enumerator27::c_Enumerator27(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator26* c_Enumerator26::m_new(c_List14* t_list){
+c_Enumerator27* c_Enumerator27::m_new(c_List14* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator26* c_Enumerator26::m_new2(){
+c_Enumerator27* c_Enumerator27::m_new2(){
 	return this;
 }
-bool c_Enumerator26::p_HasNext(){
+bool c_Enumerator27::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_RoomData* c_Enumerator26::p_NextObject(){
+c_RoomData* c_Enumerator27::p_NextObject(){
 	c_RoomData* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator26::mark(){
+void c_Enumerator27::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -54242,39 +54531,11 @@ void c_ToughSarcophagus::p_Update(){
 void c_ToughSarcophagus::mark(){
 	c_Enemy::mark();
 }
-c_Enumerator27::c_Enumerator27(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator27* c_Enumerator27::m_new(c_List32* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator27* c_Enumerator27::m_new2(){
-	return this;
-}
-bool c_Enumerator27::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_Chest* c_Enumerator27::p_NextObject(){
-	c_Chest* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator27::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
 c_Enumerator28::c_Enumerator28(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator28* c_Enumerator28::m_new(c_List28* t_list){
+c_Enumerator28* c_Enumerator28::m_new(c_List33* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
@@ -54288,8 +54549,8 @@ bool c_Enumerator28::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Shrine* c_Enumerator28::p_NextObject(){
-	c_Shrine* t_data=m__curr->m__data;
+c_Chest* c_Enumerator28::p_NextObject(){
+	c_Chest* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
@@ -54302,7 +54563,7 @@ c_Enumerator29::c_Enumerator29(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator29* c_Enumerator29::m_new(c_List22* t_list){
+c_Enumerator29* c_Enumerator29::m_new(c_List29* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
@@ -54316,12 +54577,40 @@ bool c_Enumerator29::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_NPC* c_Enumerator29::p_NextObject(){
-	c_NPC* t_data=m__curr->m__data;
+c_Shrine* c_Enumerator29::p_NextObject(){
+	c_Shrine* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
 void c_Enumerator29::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_Enumerator30::c_Enumerator30(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator30* c_Enumerator30::m_new(c_List23* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator30* c_Enumerator30::m_new2(){
+	return this;
+}
+bool c_Enumerator30::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_NPC* c_Enumerator30::p_NextObject(){
+	c_NPC* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator30::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -54466,7 +54755,7 @@ c_Switch::c_Switch(){
 	m_trigger=-1;
 	m_pairedSwitch=0;
 }
-c_List36* c_Switch::m_switches;
+c_List37* c_Switch::m_switches;
 c_Switch* c_Switch::m_new(int t_xVal,int t_yVal,int t_triggerNum,c_Switch* t_pair){
 	c_Trap::m_new(t_xVal,t_yVal,12);
 	this->m_xOff=FLOAT(5.0);
@@ -54475,7 +54764,7 @@ c_Switch* c_Switch::m_new(int t_xVal,int t_yVal,int t_triggerNum,c_Switch* t_pai
 	gc_assign(this->m_pairedSwitch,t_pair);
 	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"traps/switch.png",16),14,16,4,c_Image::m_DefaultFlags));
 	this->m_image->p_SetZ(FLOAT(-995.0));
-	m_switches->p_AddLast36(this);
+	m_switches->p_AddLast37(this);
 	this->p_ActivateLight(FLOAT(1.0),FLOAT(1.5));
 	return this;
 }
@@ -54493,35 +54782,35 @@ void c_Switch::mark(){
 	c_Trap::mark();
 	gc_mark_q(m_pairedSwitch);
 }
-c_List36::c_List36(){
-	m__head=((new c_HeadNode36)->m_new());
+c_List37::c_List37(){
+	m__head=((new c_HeadNode37)->m_new());
 }
-c_List36* c_List36::m_new(){
+c_List37* c_List37::m_new(){
 	return this;
 }
-c_Node54* c_List36::p_AddLast36(c_Switch* t_data){
-	return (new c_Node54)->m_new(m__head,m__head->m__pred,t_data);
+c_Node55* c_List37::p_AddLast37(c_Switch* t_data){
+	return (new c_Node55)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List36* c_List36::m_new2(Array<c_Switch* > t_data){
+c_List37* c_List37::m_new2(Array<c_Switch* > t_data){
 	Array<c_Switch* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
 		c_Switch* t_t=t_[t_2];
 		t_2=t_2+1;
-		p_AddLast36(t_t);
+		p_AddLast37(t_t);
 	}
 	return this;
 }
-void c_List36::mark(){
+void c_List37::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
 }
-c_Node54::c_Node54(){
+c_Node55::c_Node55(){
 	m__succ=0;
 	m__pred=0;
 	m__data=0;
 }
-c_Node54* c_Node54::m_new(c_Node54* t_succ,c_Node54* t_pred,c_Switch* t_data){
+c_Node55* c_Node55::m_new(c_Node55* t_succ,c_Node55* t_pred,c_Switch* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -54529,25 +54818,25 @@ c_Node54* c_Node54::m_new(c_Node54* t_succ,c_Node54* t_pred,c_Switch* t_data){
 	gc_assign(m__data,t_data);
 	return this;
 }
-c_Node54* c_Node54::m_new2(){
+c_Node55* c_Node55::m_new2(){
 	return this;
 }
-void c_Node54::mark(){
+void c_Node55::mark(){
 	Object::mark();
 	gc_mark_q(m__succ);
 	gc_mark_q(m__pred);
 	gc_mark_q(m__data);
 }
-c_HeadNode36::c_HeadNode36(){
+c_HeadNode37::c_HeadNode37(){
 }
-c_HeadNode36* c_HeadNode36::m_new(){
-	c_Node54::m_new2();
+c_HeadNode37* c_HeadNode37::m_new(){
+	c_Node55::m_new2();
 	gc_assign(m__succ,(this));
 	gc_assign(m__pred,(this));
 	return this;
 }
-void c_HeadNode36::mark(){
-	c_Node54::mark();
+void c_HeadNode37::mark(){
+	c_Node55::mark();
 }
 c_GuiComponent::c_GuiComponent(){
 }
@@ -54681,30 +54970,30 @@ void c_ControllerChangeLog::p_Update(){
 void c_ControllerChangeLog::mark(){
 	c_Controller::mark();
 }
-c_Enumerator30::c_Enumerator30(){
+c_Enumerator31::c_Enumerator31(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator30* c_Enumerator30::m_new(c_List7* t_list){
+c_Enumerator31* c_Enumerator31::m_new(c_List7* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator30* c_Enumerator30::m_new2(){
+c_Enumerator31* c_Enumerator31::m_new2(){
 	return this;
 }
-bool c_Enumerator30::p_HasNext(){
+bool c_Enumerator31::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-String c_Enumerator30::p_NextObject(){
+String c_Enumerator31::p_NextObject(){
 	String t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator30::mark(){
+void c_Enumerator31::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -54767,30 +55056,30 @@ void c_ControllerInputPopup::mark(){
 	gc_mark_q(m_popupText2);
 }
 bool bb_controller_game_incrementFixedBeatNum;
-c_Enumerator31::c_Enumerator31(){
+c_Enumerator32::c_Enumerator32(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator31* c_Enumerator31::m_new(c_List27* t_list){
+c_Enumerator32* c_Enumerator32::m_new(c_List28* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator31* c_Enumerator31::m_new2(){
+c_Enumerator32* c_Enumerator32::m_new2(){
 	return this;
 }
-bool c_Enumerator31::p_HasNext(){
+bool c_Enumerator32::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_SaleItem* c_Enumerator31::p_NextObject(){
+c_SaleItem* c_Enumerator32::p_NextObject(){
 	c_SaleItem* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator31::mark(){
+void c_Enumerator32::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -54845,12 +55134,12 @@ void c_ControllerPause::mark(){
 }
 c_Doppelganger::c_Doppelganger(){
 }
-c_List37* c_Doppelganger::m_doppelgangers;
+c_List38* c_Doppelganger::m_doppelgangers;
 void c_Doppelganger::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Doppelganger.Update()",21));
 }
 void c_Doppelganger::m_UpdateAll(){
-	c_Enumerator32* t_=m_doppelgangers->p_ObjectEnumerator();
+	c_Enumerator33* t_=m_doppelgangers->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Doppelganger* t_doppelganger=t_->p_NextObject();
 		t_doppelganger->p_Update();
@@ -54859,107 +55148,20 @@ void c_Doppelganger::m_UpdateAll(){
 void c_Doppelganger::mark(){
 	Object::mark();
 }
-c_List37::c_List37(){
-	m__head=((new c_HeadNode37)->m_new());
-}
-c_List37* c_List37::m_new(){
-	return this;
-}
-c_Node55* c_List37::p_AddLast37(c_Doppelganger* t_data){
-	return (new c_Node55)->m_new(m__head,m__head->m__pred,t_data);
-}
-c_List37* c_List37::m_new2(Array<c_Doppelganger* > t_data){
-	Array<c_Doppelganger* > t_=t_data;
-	int t_2=0;
-	while(t_2<t_.Length()){
-		c_Doppelganger* t_t=t_[t_2];
-		t_2=t_2+1;
-		p_AddLast37(t_t);
-	}
-	return this;
-}
-c_Enumerator32* c_List37::p_ObjectEnumerator(){
-	return (new c_Enumerator32)->m_new(this);
-}
-void c_List37::mark(){
-	Object::mark();
-	gc_mark_q(m__head);
-}
-c_Node55::c_Node55(){
-	m__succ=0;
-	m__pred=0;
-	m__data=0;
-}
-c_Node55* c_Node55::m_new(c_Node55* t_succ,c_Node55* t_pred,c_Doppelganger* t_data){
-	gc_assign(m__succ,t_succ);
-	gc_assign(m__pred,t_pred);
-	gc_assign(m__succ->m__pred,this);
-	gc_assign(m__pred->m__succ,this);
-	gc_assign(m__data,t_data);
-	return this;
-}
-c_Node55* c_Node55::m_new2(){
-	return this;
-}
-void c_Node55::mark(){
-	Object::mark();
-	gc_mark_q(m__succ);
-	gc_mark_q(m__pred);
-	gc_mark_q(m__data);
-}
-c_HeadNode37::c_HeadNode37(){
-}
-c_HeadNode37* c_HeadNode37::m_new(){
-	c_Node55::m_new2();
-	gc_assign(m__succ,(this));
-	gc_assign(m__pred,(this));
-	return this;
-}
-void c_HeadNode37::mark(){
-	c_Node55::mark();
-}
-c_Enumerator32::c_Enumerator32(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator32* c_Enumerator32::m_new(c_List37* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator32* c_Enumerator32::m_new2(){
-	return this;
-}
-bool c_Enumerator32::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_Doppelganger* c_Enumerator32::p_NextObject(){
-	c_Doppelganger* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator32::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
 c_List38::c_List38(){
 	m__head=((new c_HeadNode38)->m_new());
 }
 c_List38* c_List38::m_new(){
 	return this;
 }
-c_Node56* c_List38::p_AddLast38(c_Flyaway* t_data){
+c_Node56* c_List38::p_AddLast38(c_Doppelganger* t_data){
 	return (new c_Node56)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List38* c_List38::m_new2(Array<c_Flyaway* > t_data){
-	Array<c_Flyaway* > t_=t_data;
+c_List38* c_List38::m_new2(Array<c_Doppelganger* > t_data){
+	Array<c_Doppelganger* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Flyaway* t_t=t_[t_2];
+		c_Doppelganger* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast38(t_t);
 	}
@@ -54977,7 +55179,7 @@ c_Node56::c_Node56(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node56* c_Node56::m_new(c_Node56* t_succ,c_Node56* t_pred,c_Flyaway* t_data){
+c_Node56* c_Node56::m_new(c_Node56* t_succ,c_Node56* t_pred,c_Doppelganger* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -55023,8 +55225,8 @@ bool c_Enumerator33::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Flyaway* c_Enumerator33::p_NextObject(){
-	c_Flyaway* t_data=m__curr->m__data;
+c_Doppelganger* c_Enumerator33::p_NextObject(){
+	c_Doppelganger* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
@@ -55033,88 +55235,27 @@ void c_Enumerator33::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
-c_Enumerator34::c_Enumerator34(){
-	m__list=0;
-	m__curr=0;
-}
-c_Enumerator34* c_Enumerator34::m_new(c_List16* t_list){
-	gc_assign(m__list,t_list);
-	gc_assign(m__curr,t_list->m__head->m__succ);
-	return this;
-}
-c_Enumerator34* c_Enumerator34::m_new2(){
-	return this;
-}
-bool c_Enumerator34::p_HasNext(){
-	while(m__curr->m__succ->m__pred!=m__curr){
-		gc_assign(m__curr,m__curr->m__succ);
-	}
-	return m__curr!=m__list->m__head;
-}
-c_ParticleSystem* c_Enumerator34::p_NextObject(){
-	c_ParticleSystem* t_data=m__curr->m__data;
-	gc_assign(m__curr,m__curr->m__succ);
-	return t_data;
-}
-void c_Enumerator34::mark(){
-	Object::mark();
-	gc_mark_q(m__list);
-	gc_mark_q(m__curr);
-}
-c_Swarm::c_Swarm(){
-}
-void c_Swarm::m_Move(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Swarm.Move()",12));
-}
-void c_Swarm::mark(){
-	Object::mark();
-}
-c_CrystalShards::c_CrystalShards(){
-}
-void c_CrystalShards::m_MoveAll(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.MoveAll()",23));
-}
-c_List40* c_CrystalShards::m_shardsList;
-c_CrystalShards* c_CrystalShards::m_new(int t_x_,int t_y_){
-	c_Entity::m_new();
-	m_shardsList->p_AddLast40(this);
-	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"entities/crystal_shards.png",27),24,24,2,c_Image::m_DefaultFlags));
-	this->m_image->p_SetZOff(FLOAT(-19.0));
-	return this;
-}
-c_CrystalShards* c_CrystalShards::m_new2(){
-	c_Entity::m_new();
-	return this;
-}
-void c_CrystalShards::p_Die(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.Die()",19));
-}
-bool c_CrystalShards::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.Hit(String, Int, Int, Entity, Bool, Int)",54));
-	return false;
-}
-void c_CrystalShards::mark(){
-	c_Entity::mark();
-}
-bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 c_List39::c_List39(){
 	m__head=((new c_HeadNode39)->m_new());
 }
 c_List39* c_List39::m_new(){
 	return this;
 }
-c_Node57* c_List39::p_AddLast39(c_Bomb* t_data){
+c_Node57* c_List39::p_AddLast39(c_Flyaway* t_data){
 	return (new c_Node57)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List39* c_List39::m_new2(Array<c_Bomb* > t_data){
-	Array<c_Bomb* > t_=t_data;
+c_List39* c_List39::m_new2(Array<c_Flyaway* > t_data){
+	Array<c_Flyaway* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Bomb* t_t=t_[t_2];
+		c_Flyaway* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast39(t_t);
 	}
 	return this;
+}
+c_Enumerator34* c_List39::p_ObjectEnumerator(){
+	return (new c_Enumerator34)->m_new(this);
 }
 void c_List39::mark(){
 	Object::mark();
@@ -55125,7 +55266,7 @@ c_Node57::c_Node57(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node57* c_Node57::m_new(c_Node57* t_succ,c_Node57* t_pred,c_Bomb* t_data){
+c_Node57* c_Node57::m_new(c_Node57* t_succ,c_Node57* t_pred,c_Flyaway* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -55153,20 +55294,112 @@ c_HeadNode39* c_HeadNode39::m_new(){
 void c_HeadNode39::mark(){
 	c_Node57::mark();
 }
+c_Enumerator34::c_Enumerator34(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator34* c_Enumerator34::m_new(c_List39* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator34* c_Enumerator34::m_new2(){
+	return this;
+}
+bool c_Enumerator34::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_Flyaway* c_Enumerator34::p_NextObject(){
+	c_Flyaway* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator34::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_Enumerator35::c_Enumerator35(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator35* c_Enumerator35::m_new(c_List16* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator35* c_Enumerator35::m_new2(){
+	return this;
+}
+bool c_Enumerator35::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_ParticleSystem* c_Enumerator35::p_NextObject(){
+	c_ParticleSystem* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator35::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+c_Swarm::c_Swarm(){
+}
+void c_Swarm::m_Move(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Swarm.Move()",12));
+}
+void c_Swarm::mark(){
+	Object::mark();
+}
+c_CrystalShards::c_CrystalShards(){
+}
+void c_CrystalShards::m_MoveAll(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.MoveAll()",23));
+}
+c_List41* c_CrystalShards::m_shardsList;
+c_CrystalShards* c_CrystalShards::m_new(int t_x_,int t_y_){
+	c_Entity::m_new();
+	m_shardsList->p_AddLast41(this);
+	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"entities/crystal_shards.png",27),24,24,2,c_Image::m_DefaultFlags));
+	this->m_image->p_SetZOff(FLOAT(-19.0));
+	return this;
+}
+c_CrystalShards* c_CrystalShards::m_new2(){
+	c_Entity::m_new();
+	return this;
+}
+void c_CrystalShards::p_Die(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.Die()",19));
+}
+bool c_CrystalShards::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.Hit(String, Int, Int, Entity, Bool, Int)",54));
+	return false;
+}
+void c_CrystalShards::mark(){
+	c_Entity::mark();
+}
+bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 c_List40::c_List40(){
 	m__head=((new c_HeadNode40)->m_new());
 }
 c_List40* c_List40::m_new(){
 	return this;
 }
-c_Node58* c_List40::p_AddLast40(c_CrystalShards* t_data){
+c_Node58* c_List40::p_AddLast40(c_Bomb* t_data){
 	return (new c_Node58)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List40* c_List40::m_new2(Array<c_CrystalShards* > t_data){
-	Array<c_CrystalShards* > t_=t_data;
+c_List40* c_List40::m_new2(Array<c_Bomb* > t_data){
+	Array<c_Bomb* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_CrystalShards* t_t=t_[t_2];
+		c_Bomb* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast40(t_t);
 	}
@@ -55181,7 +55414,7 @@ c_Node58::c_Node58(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node58* c_Node58::m_new(c_Node58* t_succ,c_Node58* t_pred,c_CrystalShards* t_data){
+c_Node58* c_Node58::m_new(c_Node58* t_succ,c_Node58* t_pred,c_Bomb* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -55209,51 +55442,24 @@ c_HeadNode40* c_HeadNode40::m_new(){
 void c_HeadNode40::mark(){
 	c_Node58::mark();
 }
-void bb_fmod_StopSoundFMOD(int t_snd){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"StopSoundFMOD(Int)",18));
-}
-c_ConductorBattery::c_ConductorBattery(){
-}
-void c_ConductorBattery::m_WaterBallDeath(c_WaterBall* t_enemy){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.WaterBallDeath(WaterBall)",42));
-}
-void c_ConductorBattery::p_Die(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Die()",22));
-}
-bool c_ConductorBattery::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Hit(String, Int, Int, Entity, Bool, Int)",57));
-	return false;
-}
-void c_ConductorBattery::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Update()",25));
-}
-void c_ConductorBattery::mark(){
-	c_Enemy::mark();
-}
 c_List41::c_List41(){
 	m__head=((new c_HeadNode41)->m_new());
 }
 c_List41* c_List41::m_new(){
 	return this;
 }
-c_Node59* c_List41::p_AddLast41(c_Player* t_data){
+c_Node59* c_List41::p_AddLast41(c_CrystalShards* t_data){
 	return (new c_Node59)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List41* c_List41::m_new2(Array<c_Player* > t_data){
-	Array<c_Player* > t_=t_data;
+c_List41* c_List41::m_new2(Array<c_CrystalShards* > t_data){
+	Array<c_CrystalShards* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Player* t_t=t_[t_2];
+		c_CrystalShards* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast41(t_t);
 	}
 	return this;
-}
-c_Enumerator35* c_List41::p_ObjectEnumerator(){
-	return (new c_Enumerator35)->m_new(this);
-}
-bool c_List41::p_IsEmpty(){
-	return m__head->m__succ==m__head;
 }
 void c_List41::mark(){
 	Object::mark();
@@ -55264,7 +55470,7 @@ c_Node59::c_Node59(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node59* c_Node59::m_new(c_Node59* t_succ,c_Node59* t_pred,c_Player* t_data){
+c_Node59* c_Node59::m_new(c_Node59* t_succ,c_Node59* t_pred,c_CrystalShards* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -55292,30 +55498,113 @@ c_HeadNode41* c_HeadNode41::m_new(){
 void c_HeadNode41::mark(){
 	c_Node59::mark();
 }
-c_Enumerator35::c_Enumerator35(){
+void bb_fmod_StopSoundFMOD(int t_snd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"StopSoundFMOD(Int)",18));
+}
+c_ConductorBattery::c_ConductorBattery(){
+}
+void c_ConductorBattery::m_WaterBallDeath(c_WaterBall* t_enemy){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.WaterBallDeath(WaterBall)",42));
+}
+void c_ConductorBattery::p_Die(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Die()",22));
+}
+bool c_ConductorBattery::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Hit(String, Int, Int, Entity, Bool, Int)",57));
+	return false;
+}
+void c_ConductorBattery::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Update()",25));
+}
+void c_ConductorBattery::mark(){
+	c_Enemy::mark();
+}
+c_List42::c_List42(){
+	m__head=((new c_HeadNode42)->m_new());
+}
+c_List42* c_List42::m_new(){
+	return this;
+}
+c_Node60* c_List42::p_AddLast42(c_Player* t_data){
+	return (new c_Node60)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List42* c_List42::m_new2(Array<c_Player* > t_data){
+	Array<c_Player* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_Player* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast42(t_t);
+	}
+	return this;
+}
+c_Enumerator36* c_List42::p_ObjectEnumerator(){
+	return (new c_Enumerator36)->m_new(this);
+}
+bool c_List42::p_IsEmpty(){
+	return m__head->m__succ==m__head;
+}
+void c_List42::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_Node60::c_Node60(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node60* c_Node60::m_new(c_Node60* t_succ,c_Node60* t_pred,c_Player* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node60* c_Node60::m_new2(){
+	return this;
+}
+void c_Node60::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode42::c_HeadNode42(){
+}
+c_HeadNode42* c_HeadNode42::m_new(){
+	c_Node60::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode42::mark(){
+	c_Node60::mark();
+}
+c_Enumerator36::c_Enumerator36(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator35* c_Enumerator35::m_new(c_List41* t_list){
+c_Enumerator36* c_Enumerator36::m_new(c_List42* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
 }
-c_Enumerator35* c_Enumerator35::m_new2(){
+c_Enumerator36* c_Enumerator36::m_new2(){
 	return this;
 }
-bool c_Enumerator35::p_HasNext(){
+bool c_Enumerator36::p_HasNext(){
 	while(m__curr->m__succ->m__pred!=m__curr){
 		gc_assign(m__curr,m__curr->m__succ);
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Player* c_Enumerator35::p_NextObject(){
+c_Player* c_Enumerator36::p_NextObject(){
 	c_Player* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
-void c_Enumerator35::mark(){
+void c_Enumerator36::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
@@ -55634,7 +55923,8 @@ int bbInit(){
 	bb_controller_game_beatData=Array<int >();
 	c_Audio::m_numLoops=0;
 	c_Audio::m_songDuration=0;
-	c_Item::m_pickupList=(new c_List20)->m_new();
+	c_SoulFamiliar::m_allSouls=(new c_List20)->m_new();
+	c_Item::m_pickupList=(new c_List21)->m_new();
 	c_FamiliarFixed::m_familiarList=(new c_List4)->m_new();
 	c_Wraith::m_theCursedWraith=0;
 	c_Item::m_itemPoolRandom=(new c_List)->m_new();
@@ -55654,11 +55944,11 @@ int bbInit(){
 	c_ParticleSystemData::m_MOLE_DIG=0;
 	c_Necrodancer::m_necrodancer=0;
 	c_Nightmare::m_nightmare=0;
-	c_NPC::m_npcList=(new c_List22)->m_new();
+	c_NPC::m_npcList=(new c_List23)->m_new();
 	c_Shopkeeper::m_shopkeeperStartX=0;
 	c_Shopkeeper::m_shopkeeperStartY=0;
 	c_Shopkeeper::m_isMonstrous=false;
-	c_Bell::m_bells=(new c_List23)->m_new();
+	c_Bell::m_bells=(new c_List24)->m_new();
 	c_Level::m_charactersJustUnlocked=(new c_List17)->m_new();
 	c_Stack3::m_NIL=String();
 	c_Stack5::m_NIL=0;
@@ -55670,11 +55960,11 @@ int bbInit(){
 	c_Level::m_secretAtY=0;
 	c_Level::m_specialRoomEntranceX=0;
 	c_Level::m_specialRoomEntranceY=0;
-	c_SaleItem::m_currentSaleItems=(new c_List27)->m_new();
+	c_SaleItem::m_currentSaleItems=(new c_List28)->m_new();
 	c_Stack6::m_NIL=false;
-	c_Shrine::m_shrineList=(new c_List28)->m_new();
-	c_Chest::m_chestList=(new c_List32)->m_new();
-	c_SaleChest::m_currentSaleChests=(new c_List33)->m_new();
+	c_Shrine::m_shrineList=(new c_List29)->m_new();
+	c_Chest::m_chestList=(new c_List33)->m_new();
+	c_SaleChest::m_currentSaleChests=(new c_List34)->m_new();
 	c_Crate::m_crateList=(new c_List5)->m_new();
 	c_Stack7::m_NIL=0;
 	c_Stack8::m_NIL=0;
@@ -55682,7 +55972,7 @@ int bbInit(){
 	c_Stack4::m_NIL=0;
 	c_Stack9::m_NIL=0;
 	c_Stack10::m_NIL=0;
-	c_Level::m_tempTileWalk=(new c_List26)->m_new();
+	c_Level::m_tempTileWalk=(new c_List27)->m_new();
 	c_Level::m_chestsStillToPlace=0;
 	c_Poltergeist::m_theGhoul=0;
 	c_Level::m_hallwayZone5=0;
@@ -55693,7 +55983,7 @@ int bbInit(){
 	c_Level::m_zoneOrder=0;
 	c_Level::m_quickRestart=false;
 	c_Necrodancer::m_wallsStep=0;
-	c_Switch::m_switches=(new c_List36)->m_new();
+	c_Switch::m_switches=(new c_List37)->m_new();
 	c_Level::m_justUnlocked=String();
 	c_Level::m_popUpController=0;
 	c_Level::m_popUpType=-1;
@@ -55713,7 +56003,7 @@ int bbInit(){
 	c_Level::m_minLevelMinimapY=0;
 	c_Level::m_maxLevelMinimapX=0;
 	c_Level::m_maxLevelMinimapY=0;
-	c_Minimap::m_dirtyPoints=(new c_List26)->m_new();
+	c_Minimap::m_dirtyPoints=(new c_List27)->m_new();
 	c_Chain::m_waitingForFirstMovement=Array<bool >(4);
 	bb_controller_game_totalPlaytimeLastAdded=0;
 	c_GUI_gameplay::m_errorKey=0;
@@ -55744,14 +56034,18 @@ int bbInit(){
 	c_Audio::m_fadeFrames=-1;
 	c_Audio::m_startFadeFrames=-1;
 	c_Audio::m_startSong=false;
-	c_Doppelganger::m_doppelgangers=(new c_List37)->m_new();
+	c_Doppelganger::m_doppelgangers=(new c_List38)->m_new();
 	c_Flyaway::m_temporarilyDisableNewFlyaways=0;
-	c_Flyaway::m_activeFlyaways=(new c_List38)->m_new();
+	c_Flyaway::m_activeFlyaways=(new c_List39)->m_new();
 	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);
-	c_Bomb::m_bombList=(new c_List39)->m_new();
-	c_CrystalShards::m_shardsList=(new c_List40)->m_new();
+	c_Bomb::m_bombList=(new c_List40)->m_new();
+	c_Audio::m_songPaused=false;
+	c_Entity::m_anyPlayerHaveNazarCharmCached=false;
+	c_Entity::m_anyPlayerHaveCircletCached=false;
+	c_Entity::m_anyPlayerHaveGlassTorchCached=false;
+	c_CrystalShards::m_shardsList=(new c_List41)->m_new();
 	c_Audio::m_songShopkeeper=-1;
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
@@ -55866,6 +56160,7 @@ void gc_mark(){
 	gc_mark_q(c_Sarcophagus::m_sarcophagi);
 	gc_mark_q(c_KingConga::m_theKing);
 	gc_mark_q(bb_controller_game_beatData);
+	gc_mark_q(c_SoulFamiliar::m_allSouls);
 	gc_mark_q(c_Item::m_pickupList);
 	gc_mark_q(c_FamiliarFixed::m_familiarList);
 	gc_mark_q(c_Wraith::m_theCursedWraith);

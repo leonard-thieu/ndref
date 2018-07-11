@@ -28,11 +28,18 @@ Class Entity Extends RenderableObject Abstract
     Global entityList: List<Entity> = New List<Entity>()
 
     Function AnyPlayerHaveCirclet: Bool()
-        Debug.TraceNotImplemented("Entity.AnyPlayerHaveCirclet()")
+        If Entity.anyPlayerHaveCircletCachedFrame <> necrodancergame.globalFrameCounter
+            Entity.anyPlayerHaveCircletCachedFrame = necrodancergame.globalFrameCounter
+            Entity.anyPlayerHaveCircletCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.CircletOfTelepathy, False) Or
+                                                Player.DoesAnyPlayerHaveItemOfType(ItemType.Sonar, False)
+        End If
+
+        Return Entity.anyPlayerHaveCircletCached
     End Function
 
     Function AnyPlayerHaveCircletOrGlassTorch: Bool()
-        Debug.TraceNotImplemented("Entity.AnyPlayerHaveCircletOrGlassTorch()")
+        Return Entity.AnyPlayerHaveCirclet() Or
+               Entity.AnyPlayerHaveGlassTorch()
     End Function
 
     Function AnyPlayerHaveForesightTorch: Bool()
@@ -40,11 +47,21 @@ Class Entity Extends RenderableObject Abstract
     End Function
 
     Function AnyPlayerHaveGlassTorch: Bool()
-        Debug.TraceNotImplemented("Entity.AnyPlayerHaveGlassTorch()")
+        If Entity.anyPlayerHaveGlassTorchCachedFrame <> necrodancergame.globalFrameCounter
+            Entity.anyPlayerHaveGlassTorchCachedFrame = necrodancergame.globalFrameCounter
+            Entity.anyPlayerHaveGlassTorchCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.GlassTorch, False)
+        End If
+
+        Return Entity.anyPlayerHaveGlassTorchCached
     End Function
 
     Function AnyPlayerHaveNazarCharm: Bool()
-        Debug.TraceNotImplemented("Entity.AnyPlayerHaveNazarCharm()")
+        If Entity.anyPlayerHaveNazarCharmCachedFrame <> necrodancergame.globalFrameCounter
+            Entity.anyPlayerHaveNazarCharmCachedFrame = necrodancergame.globalFrameCounter
+            Entity.anyPlayerHaveNazarCharmCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.NazarCharm, False)
+        End If
+
+        Return Entity.anyPlayerHaveNazarCharmCached
     End Function
 
     Function AnyPlayerHaveWallsTorch: Bool()

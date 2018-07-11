@@ -1,12 +1,13 @@
 'Strict
 
+Import monkey.list
 Import entity
 Import familiar_fixed
 Import logger
 
 Class SoulFamiliar Extends FamiliarFixed
 
-    Global allSouls: Object
+    Global allSouls: List<SoulFamiliar> = New List<SoulFamiliar>()
     Global hasPlayedAttackThisFrame: Bool
 
     Function CanAttackEnemy: Bool(e: Object)
