@@ -9491,6 +9491,7 @@ class c_Trap : public c_Entity{
 	bool m_canBeReplacedByTempoTrap;
 	c_Entity* m_triggeredOn;
 	bool m_indestructible;
+	bool m_triggered;
 	c_Trap();
 	static c_TrapList* m_trapList;
 	static c_Trap* m_GetTrapAt(int,int);
@@ -11191,6 +11192,7 @@ class c_TravelRune : public c_Trap{
 	int m_runeType;
 	int m_travelToX;
 	int m_travelToY;
+	int m_retractCounter;
 	c_TravelRune();
 	c_TravelRune* m_new(int,int,int,int,int);
 	c_TravelRune* m_new2();
@@ -46557,6 +46559,7 @@ c_Trap::c_Trap(){
 	m_canBeReplacedByTempoTrap=true;
 	m_triggeredOn=0;
 	m_indestructible=false;
+	m_triggered=false;
 }
 c_TrapList* c_Trap::m_trapList;
 c_Trap* c_Trap::m_GetTrapAt(int t_xVal,int t_yVal){
@@ -52007,6 +52010,7 @@ c_TravelRune::c_TravelRune(){
 	m_runeType=1;
 	m_travelToX=0;
 	m_travelToY=0;
+	m_retractCounter=0;
 }
 c_TravelRune* c_TravelRune::m_new(int t_xVal,int t_yVal,int t_toX,int t_toY,int t_runeNum){
 	c_Trap::m_new(t_xVal,t_yVal,8);
@@ -52025,7 +52029,17 @@ c_TravelRune* c_TravelRune::m_new2(){
 	return this;
 }
 void c_TravelRune::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TravelRune.Update()",19));
+	if(this->m_retractCounter>0){
+		this->m_retractCounter-=1;
+		if(this->m_retractCounter==0){
+			this->m_triggered=false;
+		}
+	}
+	this->m_image->p_SetFrame(1);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(0);
+	}
+	c_Trap::p_Update();
 }
 void c_TravelRune::mark(){
 	c_Trap::mark();

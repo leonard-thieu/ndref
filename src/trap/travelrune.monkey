@@ -26,7 +26,7 @@ Class TravelRune Extends Trap
         Self.image.SetZ(-995.0)
     End Method
 
-    Field runeType: Int = 1
+    Field runeType: Int = TravelRuneType.Transmogrifier
     Field travelToX: Int
     Field travelToY: Int
     Field retractCounter: Int
@@ -36,7 +36,20 @@ Class TravelRune Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("TravelRune.Update()")
+        If Self.retractCounter > 0
+            Self.retractCounter -= 1
+            If Self.retractCounter = 0
+                Self.triggered = False    
+            End If
+        End If
+
+        Self.image.SetFrame(1)
+
+        If Self.triggered
+            Self.image.SetFrame(0)
+        End If
+
+        Super.Update()
     End Method
 
 End Class
