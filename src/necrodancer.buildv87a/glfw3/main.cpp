@@ -12594,7 +12594,13 @@ int c_NecroDancerGame::p_OnUpdate(){
 	bb_steam_SteamPump();
 	c_Util::m_Pump();
 	if(dynamic_cast<c_ControllerGame*>(c_Controller::m_currentController)!=0){
-		bb_app_EndApp();
+		int t_1=bb_controller_game_currentLevel;
+		if(t_1==-2){
+			c_Level::m_randSeedString=String(L"1",1);
+			c_Level::m_NewLevel(-10,bb_controller_game_currentZone,0,false,0,false);
+		}else{
+			bb_app_EndApp();
+		}
 	}
 	return 0;
 }
@@ -13739,8 +13745,44 @@ bool c_Util::m_IsOnScreen(int t_xVal,int t_yVal,Float t_cameraSeekX,Float t_came
 	return true;
 }
 bool c_Util::m_LineSegmentTileIntersect(Float t_p0_x,Float t_p0_y,Float t_p1_x,Float t_p1_y,Float t_p2_x,Float t_p2_y){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.LineSegmentTileIntersect(Float, Float, Float, Float, Float, Float)",71));
-	return false;
+	Float t_p3_x=t_p2_x+FLOAT(1.0);
+	Float t_p3_y=t_p2_y+FLOAT(1.0);
+	Float t_scaled_p0_x=t_p0_x*FLOAT(24.0);
+	Float t_scaled_p1_x=t_p1_x*FLOAT(24.0);
+	Float t_scaled_p2_x=t_p2_x*FLOAT(24.0);
+	Float t_scaled_p3_x=t_p3_x*FLOAT(24.0);
+	Float t_xMax=bb_math_Max2(t_scaled_p0_x,t_scaled_p1_x);
+	Float t_xMin=bb_math_Min2(t_scaled_p0_x,t_scaled_p1_x);
+	Float t_x2Min=bb_math_Min2(t_xMax,t_scaled_p3_x);
+	Float t_x3Max=bb_math_Max2(t_xMin,t_scaled_p2_x);
+	if(t_x3Max>t_x2Min){
+		return false;
+	}
+	Float t_scaled_p0_y=t_p0_y*FLOAT(24.0);
+	Float t_scaled_p1_y=t_p1_y*FLOAT(24.0);
+	Float t_scaled_p2_y=t_p2_y*FLOAT(24.0);
+	Float t_scaled_p3_y=t_p3_y*FLOAT(24.0);
+	Float t_xDiff=t_scaled_p1_x-t_scaled_p0_x;
+	Float t_yDiff=t_scaled_p1_y-t_scaled_p0_y;
+	Float t_v29=FLOAT(.0);
+	Float t_v30=FLOAT(.0);
+	if(bb_math_Abs2(t_xDiff)>FLOAT(0.0000001)){
+		Float t_v38=t_yDiff/t_xDiff;
+		Float t_v39=t_scaled_p0_x*t_v38;
+		t_v29=t_x3Max*t_v38+t_scaled_p0_y-t_scaled_p0_x*t_v38;
+		t_v30=t_scaled_p0_y-t_v39+t_v38*t_x2Min;
+	}else{
+		t_v29=t_scaled_p0_y;
+		t_v30=t_scaled_p1_y;
+	}
+	if(t_v29>t_v30){
+		Float t_v31=t_v29;
+		t_v29=t_v30;
+		t_v30=t_v31;
+	}
+	Float t_v35=bb_math_Min2(t_v30,t_scaled_p3_y);
+	Float t_v37=bb_math_Max2(t_v29,t_scaled_p2_y);
+	return t_v37<=t_v35;
 }
 c_Player* c_Util::m_GetAnyPlayerAt(int t_xVal,int t_yVal){
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){

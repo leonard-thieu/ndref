@@ -185,7 +185,13 @@ Class NecroDancerGame Extends App
 
         ' For testing only.
         If ControllerGame(Controller.currentController) <> Null
-            app.EndApp()
+            Select controller_game.currentLevel
+                Case LevelType.Lobby
+                    Level.randSeedString = "1"
+                    Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
+                Default
+                    app.EndApp()
+            End Select
         End If
 
         Return 0

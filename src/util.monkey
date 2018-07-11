@@ -396,8 +396,56 @@ Class Util
         Return False
     End Function
 
+    ' TODO: Figure out what's actually going on in this function.
     Function LineSegmentTileIntersect: Bool(p0_x: Float, p0_y: Float, p1_x: Float, p1_y: Float, p2_x: Float, p2_y: Float)
-        Debug.TraceNotImplemented("Util.LineSegmentTileIntersect(Float, Float, Float, Float, Float, Float)")
+        Local p3_x := p2_x + 1.0
+        Local p3_y := p2_y + 1.0
+
+        Local scaled_p0_x := p0_x * 24.0
+        Local scaled_p1_x := p1_x * 24.0
+        Local scaled_p2_x := p2_x * 24.0
+        Local scaled_p3_x := p3_x * 24.0
+
+        Local xMax := math.Max(scaled_p0_x, scaled_p1_x)
+        Local xMin := math.Min(scaled_p0_x, scaled_p1_x)
+        Local x2Min := math.Min(xMax, scaled_p3_x)
+        Local x3Max := math.Max(xMin, scaled_p2_x)
+
+        If x3Max > x2Min
+            Return False
+        End If
+
+        Local scaled_p0_y := p0_y * 24.0
+        Local scaled_p1_y := p1_y * 24.0
+        Local scaled_p2_y := p2_y * 24.0
+        Local scaled_p3_y := p3_y * 24.0
+
+        Local xDiff := scaled_p1_x - scaled_p0_x
+        Local yDiff := scaled_p1_y - scaled_p0_y
+
+        Local v29: Float
+        Local v30: Float
+
+        If math.Abs(xDiff) > 0.0000001
+            Local v38 := yDiff / xDiff
+            Local v39 := scaled_p0_x * v38
+            v29 = x3Max * v38 + scaled_p0_y - scaled_p0_x * v38
+            v30 = scaled_p0_y - v39 + v38 * x2Min
+        Else
+            v29 = scaled_p0_y
+            v30 = scaled_p1_y
+        End If
+
+        If v29 > v30
+            Local v31 := v29
+            v29 = v30
+            v30 = v31
+        End If
+
+        Local v35 := math.Min(v30, scaled_p3_y)
+        Local v37 := math.Max(v29, scaled_p2_y)
+
+        Return v37 <= v35
     End Function
 
     Function ParseTextSeed: Int(randSeedString: String)
