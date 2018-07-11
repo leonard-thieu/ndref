@@ -1,6 +1,9 @@
 'Strict
 
 Import enemy
+Import level
+Import audio2
+Import camera
 Import logger
 Import point
 Import shrine
@@ -28,7 +31,21 @@ Class BatMiniboss Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("BatMiniboss.Update()")
+        If Self.IsVisible() And
+           Camera.IsOnScreen(Self.x, Self.y) And
+           Not Self.hasRoared And
+           Not Level.isLevelEditor
+            Audio.PlayGameSoundAt("vampbatCry", Self.x, Self.y, True, -1, False)
+            Self.hasRoared = True
+        End If
+
+        If Self.lastX > Self.x
+            Self.image.FlipX(True, True)
+        Else If Self.lastX < Self.x
+            Self.image.FlipX(False, True)
+        End If
+
+        Super.Update()
     End Method
 
 End Class

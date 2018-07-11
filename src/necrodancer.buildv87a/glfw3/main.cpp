@@ -10574,6 +10574,7 @@ class c_Necrodancer : public c_Enemy{
 };
 class c_BatMiniboss : public c_Enemy{
 	public:
+	bool m_hasRoared;
 	c_BatMiniboss();
 	c_BatMiniboss* m_new(int,int,int);
 	c_BatMiniboss* m_new2();
@@ -50156,6 +50157,7 @@ void c_Necrodancer::mark(){
 	gc_mark_q(m_theLute);
 }
 c_BatMiniboss::c_BatMiniboss(){
+	m_hasRoared=false;
 }
 c_BatMiniboss* c_BatMiniboss::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -50173,7 +50175,18 @@ c_BatMiniboss* c_BatMiniboss::m_new2(){
 	return this;
 }
 void c_BatMiniboss::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"BatMiniboss.Update()",20));
+	if(this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		c_Audio::m_PlayGameSoundAt(String(L"vampbatCry",10),this->m_x,this->m_y,true,-1,false);
+		this->m_hasRoared=true;
+	}
+	if(this->m_lastX>this->m_x){
+		this->m_image->p_FlipX(true,true);
+	}else{
+		if(this->m_lastX<this->m_x){
+			this->m_image->p_FlipX(false,true);
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_BatMiniboss::mark(){
 	c_Enemy::mark();
