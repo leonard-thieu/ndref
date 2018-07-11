@@ -1551,7 +1551,14 @@ Class Item Extends Entity
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Item.Update()")
+        If Not Util.IsAnyPlayerAt(Self.dropX, Self.dropY)
+            Self.dropX = -100000
+            Self.dropY = -100000
+        End If
+
+        Self.image.SetFrame(Self.frameToShow)
+
+        Super.Update()
     End Method
 
 End Class

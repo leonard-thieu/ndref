@@ -7845,6 +7845,7 @@ class c_Item : public c_Entity{
 	bool m_hasBloodCost;
 	bool m_saleItem;
 	bool m_singleChoiceItem;
+	int m_frameToShow;
 	c_Item();
 	static String m_lastChestItemClass1;
 	static String m_lastChestItemClass2;
@@ -34577,6 +34578,7 @@ c_Item::c_Item(){
 	m_hasBloodCost=false;
 	m_saleItem=false;
 	m_singleChoiceItem=false;
+	m_frameToShow=0;
 }
 String c_Item::m_lastChestItemClass1;
 String c_Item::m_lastChestItemClass2;
@@ -35784,7 +35786,12 @@ bool c_Item::p_IsVisible(){
 	return false;
 }
 void c_Item::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.Update()",13));
+	if(!c_Util::m_IsAnyPlayerAt(this->m_dropX,this->m_dropY)){
+		this->m_dropX=-100000;
+		this->m_dropY=-100000;
+	}
+	this->m_image->p_SetFrame(this->m_frameToShow);
+	c_Entity::p_Update();
 }
 void c_Item::mark(){
 	c_Entity::mark();
