@@ -1,10 +1,10 @@
 'Strict
 
 Import mojo.graphics
+Import controller.controller_game
 Import enemy.crate
 Import enemy.necrodancer_enemy
 Import bouncer
-Import gui.controller_game
 Import enemy
 Import entity
 Import level

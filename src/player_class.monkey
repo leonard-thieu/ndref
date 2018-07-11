@@ -6,11 +6,11 @@ Import monkey.math
 Import monkey.set
 Import mojo.app
 Import mojo.graphics
+Import controller.controller_game
+Import controller.controller_input_popup
+Import controller.controller_popup
 Import enemy
 Import enemy.enemyclamper
-Import gui.controller_game
-Import gui.controller_input_popup
-Import gui.controller_popup
 Import gui.flyaway
 Import gui.minimap
 Import familiar

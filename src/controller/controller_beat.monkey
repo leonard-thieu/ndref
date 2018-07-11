@@ -1,7 +1,7 @@
 'Strict
 
 Import monkey.list
-Import gui.controller
+Import controller
 Import gui.textlabel
 Import logger
 Import sprite

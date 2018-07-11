@@ -2,7 +2,7 @@
 
 Import monkey.list
 Import monkey.set
-Import gui.controller_game
+Import controller.controller_game
 Import level
 Import bouncer
 Import chest

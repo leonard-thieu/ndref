@@ -3,8 +3,8 @@
 Import monkey.list
 Import monkey.map
 Import monkey.math
-Import gui.controller_cutscene
-Import gui.controller_game
+Import controller.controller_cutscene
+Import controller.controller_game
 Import fmod
 Import gamedata
 Import logger

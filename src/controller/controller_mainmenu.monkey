@@ -2,11 +2,11 @@
 
 Import mojo.app
 Import mojo.graphics
-Import gui.controller
-Import gui.controller_changelog
-Import gui.controller_cutscene
-Import gui.controller_intro
-Import gui.controller_popup
+Import controller
+Import controller.controller_changelog
+Import controller.controller_cutscene
+Import controller.controller_intro
+Import controller.controller_popup
 Import camera
 Import gamedata
 Import item

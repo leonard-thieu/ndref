@@ -1,10 +1,10 @@
 'Strict
 
 Import monkey.list
+Import controller.controller_game
 Import enemy.gargoyle
 Import bouncer
 Import chest
-Import gui.controller_game
 Import enemy
 Import entity
 Import item

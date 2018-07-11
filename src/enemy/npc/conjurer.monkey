@@ -1,6 +1,6 @@
 'Strict
 
-Import gui.controller_game
+Import controller.controller_game
 Import enemy.npc
 Import item
 Import level

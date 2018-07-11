@@ -1,7 +1,7 @@
 'Strict
 
 Import monkey.list
-Import gui.controller
+Import controller
 Import gui.guiborder
 Import gui.optionlist
 Import gui.textlabel

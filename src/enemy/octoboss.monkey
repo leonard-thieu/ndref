@@ -1,8 +1,8 @@
 'Strict
 
 Import monkey.list
+Import controller.controller_game
 Import enemy.tentacle
-Import gui.controller_game
 Import enemy
 Import entity
 Import level

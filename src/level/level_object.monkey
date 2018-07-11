@@ -1,9 +1,9 @@
 'Strict
 
 Import monkey.list
+Import controller.controller_game
 Import enemy
 Import enemy.crate
-Import gui.controller_game
 Import level
 Import trap
 Import trap.bombtrap

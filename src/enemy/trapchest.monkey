@@ -1,7 +1,7 @@
 'Strict
 
+Import controller.controller_game
 Import enemy
-Import gui.controller_game
 Import level
 Import chest
 Import entity

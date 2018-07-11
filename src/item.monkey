@@ -5,7 +5,7 @@ Import monkey.map
 Import monkey.math
 Import monkey.stack
 Import mojo.app
-Import gui.controller_game
+Import controller.controller_game
 Import enemy.necrodancer_enemy
 Import level
 Import audio2

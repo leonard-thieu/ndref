@@ -1,8 +1,8 @@
 'Strict
 
 Import monkey.math
+Import controller.controller_game
 Import enemy.enemyclamper
-Import gui.controller_game
 Import audio2
 Import entity
 Import logger

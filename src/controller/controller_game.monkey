@@ -3,8 +3,8 @@
 Import monkey.list
 Import mojo.app
 Import mojo.input
-Import gui.controller
-Import gui.controller_pause
+Import controller
+Import controller.controller_pause
 Import gui.flyaway
 Import gui.gui_gameplay
 Import enemy

@@ -3,10 +3,10 @@
 Import monkey.list
 Import monkey.map
 Import monkey.stack
-Import gui.controller
-Import gui.controller_input_popup
-Import gui.controller_load_dungeon
-Import gui.controller_popup
+Import controller
+Import controller.controller_input_popup
+Import controller.controller_load_dungeon
+Import controller.controller_popup
 Import gui.optionlist
 Import gui.textlabel
 Import level.level_object

@@ -1,8 +1,8 @@
 'Strict
 
 Import monkey.list
+Import controller
 Import gui.checkbox
-Import gui.controller
 Import gui.optionlist
 Import gui.textlabel
 Import logger

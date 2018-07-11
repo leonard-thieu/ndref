@@ -1,9 +1,9 @@
 'Strict
 
 Import monkey.stack
+Import controller
+Import controller.controller_popup
 Import gui.checkbox
-Import gui.controller
-Import gui.controller_popup
 Import gui.guiborder
 Import gui.optionlist
 Import gui.textlabel

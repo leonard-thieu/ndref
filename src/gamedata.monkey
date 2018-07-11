@@ -2,7 +2,7 @@
 
 Import os
 Import mojo.app
-Import gui.controller_game
+Import controller.controller_game
 Import level
 Import input2
 Import logger

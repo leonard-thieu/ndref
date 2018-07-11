@@ -3,7 +3,7 @@ Strict
 Import "native/textlog.cpp"
 Import brl.filesystem
 Import mojo.app
-Import gui.controller_game
+Import controller.controller_game
 Import fmod
 Import gamedata
 Import logger

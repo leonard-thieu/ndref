@@ -1,9 +1,9 @@
 'Strict
 
 Import monkey.list
+Import controller.controller_game
 Import enemy.npc.shopkeeper
 Import enemy.npc.medic
-Import gui.controller_game
 Import level
 Import chest
 Import item

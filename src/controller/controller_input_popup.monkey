@@ -1,6 +1,6 @@
 'Strict
 
-Import gui.controller
+Import controller
 Import gui.guiborder
 Import gui.textinput
 Import logger

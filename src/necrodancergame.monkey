@@ -4,9 +4,9 @@ Import monkey.math
 Import mojo.app
 Import mojo.graphics
 Import os
-Import gui.controller
-Import gui.controller_game
-Import gui.controller_mainmenu
+Import controller
+Import controller.controller_game
+Import controller.controller_mainmenu
 Import level
 Import fmod
 Import gamedata

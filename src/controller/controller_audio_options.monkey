@@ -1,7 +1,7 @@
 'Strict
 
+Import controller
 Import gui.checkbox
-Import gui.controller
 Import gui.guiborder
 Import gui.optionlist
 Import gui.slider

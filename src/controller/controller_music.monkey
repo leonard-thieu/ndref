@@ -1,8 +1,8 @@
 'Strict
 
+Import controller
+Import controller.controller_beat
 Import gui.checkbox
-Import gui.controller
-Import gui.controller_beat
 Import gui.filechooser
 Import gui.guiborder
 Import gui.optionlist

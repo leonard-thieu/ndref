@@ -1,7 +1,7 @@
 'Strict
 
-Import gui.controller
-Import gui.controller_game
+Import controller
+Import controller.controller_game
 Import gui.optionlist
 Import gui.textlabel
 Import logger

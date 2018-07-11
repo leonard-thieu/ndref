@@ -1,7 +1,7 @@
 'Strict
 
-Import gui.controller_game
-Import gui.controller_popup
+Import controller.controller_game
+Import controller.controller_popup
 Import enemy
 Import level
 Import audio

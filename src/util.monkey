@@ -7,8 +7,8 @@ Import monkey.math
 Import monkey.random
 Import os
 Import mojo.input
+Import controller.controller_game
 Import familiar_fixed.soul_familiar
-Import gui.controller_game
 Import level
 Import camera
 Import gamedata

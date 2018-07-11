@@ -1,9 +1,9 @@
 'Strict
 
+Import controller
+Import controller.controller_game
+Import controller.controller_leaderboard
 Import gui.checkbox
-Import gui.controller
-Import gui.controller_game
-Import gui.controller_leaderboard
 Import gui.guiborder
 Import gui.optionlist
 Import gui.textlabel

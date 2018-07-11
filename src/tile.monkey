@@ -3,7 +3,7 @@
 Import monkey.list
 Import monkey.math
 Import mojo.graphics
-Import gui.controller_game
+Import controller.controller_game
 Import gui.flyaway
 Import gui.minimap
 Import enemy

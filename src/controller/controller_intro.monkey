@@ -2,8 +2,8 @@
 
 Import monkey.list
 Import mojo.graphics
-Import gui.controller
-Import gui.controller_cutscene
+Import controller
+Import controller.controller_cutscene
 Import audio2
 Import gamedata
 Import logger
