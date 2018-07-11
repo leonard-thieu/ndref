@@ -6680,6 +6680,7 @@ class c_Audio : public Object{
 	static bool m_startSong;
 	static int m_GetDistanceFromNearestBeat();
 	static int m_GetNextBeatDuration();
+	static int m_songShopkeeper;
 	static Float m_GetPercentDistanceFromNextBeat();
 	static int m_GetBeatAnimFrame4();
 	void mark();
@@ -10594,6 +10595,8 @@ class c_MetroGnome : public c_Enemy{
 };
 class c_Shopkeeper : public c_NPC{
 	public:
+	bool m_singingStopped;
+	bool m_hasRoared;
 	c_Shopkeeper();
 	static int m_shopkeeperStartX;
 	static int m_shopkeeperStartY;
@@ -12403,6 +12406,7 @@ class c_HeadNode40 : public c_Node58{
 	c_HeadNode40* m_new();
 	void mark();
 };
+void bb_fmod_StopSoundFMOD(int);
 class c_ConductorBattery : public c_Enemy{
 	public:
 	c_ConductorBattery();
@@ -17701,6 +17705,7 @@ int c_Audio::m_GetNextBeatDuration(){
 	}
 	return t_duration;
 }
+int c_Audio::m_songShopkeeper;
 Float c_Audio::m_GetPercentDistanceFromNextBeat(){
 	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
 	int t_dist=m_TimeUntilSpecificBeat(t_currentBeatNumber);
@@ -50034,6 +50039,8 @@ void c_MetroGnome::mark(){
 	c_Enemy::mark();
 }
 c_Shopkeeper::c_Shopkeeper(){
+	m_singingStopped=false;
+	m_hasRoared=false;
 }
 int c_Shopkeeper::m_shopkeeperStartX;
 int c_Shopkeeper::m_shopkeeperStartY;
@@ -50113,7 +50120,25 @@ bool c_Shopkeeper::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* 
 	return false;
 }
 void c_Shopkeeper::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shopkeeper.Update()",19));
+	bool t_isMainShopShopkeeper=false;
+	if(this->m_level==5 || this->m_level<=1){
+		t_isMainShopShopkeeper=true;
+	}
+	if(!this->m_singingStopped && t_isMainShopShopkeeper){
+		if(this->m_health<this->m_healthMax || this->m_hasRoared || this->m_falling){
+			if(c_Audio::m_songShopkeeper!=-1){
+				bb_fmod_StopSoundFMOD(c_Audio::m_songShopkeeper);
+			}
+			c_Audio::m_songShopkeeper=-1;
+			this->m_singingStopped=true;
+		}
+	}
+	if(this->m_falling){
+		c_Level::m_shopkeeperFell=true;
+	}
+	if(t_isMainShopShopkeeper){
+	}
+	c_NPC::p_Update();
 }
 void c_Shopkeeper::mark(){
 	c_NPC::mark();
@@ -55143,6 +55168,9 @@ c_HeadNode40* c_HeadNode40::m_new(){
 void c_HeadNode40::mark(){
 	c_Node58::mark();
 }
+void bb_fmod_StopSoundFMOD(int t_snd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"StopSoundFMOD(Int)",18));
+}
 c_ConductorBattery::c_ConductorBattery(){
 }
 void c_ConductorBattery::m_WaterBallDeath(c_WaterBall* t_enemy){
@@ -55683,6 +55711,7 @@ int bbInit(){
 	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Bomb::m_bombList=(new c_List39)->m_new();
 	c_CrystalShards::m_shardsList=(new c_List40)->m_new();
+	c_Audio::m_songShopkeeper=-1;
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
 	c_Level::m_mapLightValues=Array<Float >();

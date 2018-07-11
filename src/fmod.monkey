@@ -14,6 +14,10 @@ Function StartFMOD: Void()
     Debug.TraceNotImplemented("StartFMOD()")
 End Function
 
+Function StopSoundFMOD: Void(snd: Int)
+    Debug.TraceNotImplemented("StopSoundFMOD(Int)")
+End Function
+
 Function UpdateFMOD: Void()
     Debug.TraceNotImplemented("UpdateFMOD()")
 End Function

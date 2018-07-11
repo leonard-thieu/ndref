@@ -1,7 +1,10 @@
 'Strict
 
 Import enemy.npc
+Import level
+Import audio2
 Import entity
+Import fmod
 Import gamedata
 Import item
 Import logger
@@ -115,7 +118,37 @@ Class Shopkeeper Extends NPC
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Shopkeeper.Update()")
+        ' Not equivalent to field `isMainShopkeeper`.
+        Local isMainShopShopkeeper := False
+        If Self.level = 5 Or
+           Self.level <= 1
+            isMainShopShopkeeper = True
+        End If
+
+        If Not Self.singingStopped And
+           isMainShopShopkeeper
+            If Self.health < Self.healthMax Or
+               Self.hasRoared Or
+               Self.falling
+                If Audio.songShopkeeper <> -1
+                    fmod.StopSoundFMOD(Audio.songShopkeeper)
+                End If
+
+                Audio.songShopkeeper = -1
+                Self.singingStopped = True
+            End If
+        End If
+
+        If Self.falling
+            Level.shopkeeperFell = True
+        End If
+
+        If isMainShopShopkeeper
+            ' SKIPPED: Audio
+            ' SKIPPED: Musical note flyaway
+        End If
+
+        Super.Update()
     End Method
 
 End Class
