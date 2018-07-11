@@ -13,8 +13,4 @@ Class Medic Extends NPC
         Self.NPCInit(xVal, yVal, l, "medic", captv, False)
     End Method
 
-    Method Update: Void()
-        Debug.TraceNotImplemented("Medic.Update()")
-    End Method
-
 End Class

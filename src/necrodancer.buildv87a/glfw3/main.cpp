@@ -11209,7 +11209,6 @@ class c_Medic : public c_NPC{
 	c_Medic();
 	c_Medic* m_new(int,int,int,bool);
 	c_Medic* m_new2();
-	void p_Update();
 	void mark();
 };
 class c_List27 : public Object{
@@ -52059,9 +52058,6 @@ c_Medic* c_Medic::m_new(int t_xVal,int t_yVal,int t_l,bool t_captv){
 c_Medic* c_Medic::m_new2(){
 	c_NPC::m_new();
 	return this;
-}
-void c_Medic::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Medic.Update()",14));
 }
 void c_Medic::mark(){
 	c_NPC::mark();
