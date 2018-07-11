@@ -10760,9 +10760,13 @@ class c_BounceTrap : public c_Trap{
 	bool m_isRotatingCW;
 	bool m_isRotatingCCW;
 	int m_originalDir;
+	int m_retractCounter;
+	int m_rotatedBeat;
 	c_BounceTrap();
 	c_BounceTrap* m_new(int,int,int);
 	c_BounceTrap* m_new2();
+	void p_Rotate();
+	int p_GetFrameToShow();
 	void p_Update();
 	void mark();
 };
@@ -50636,6 +50640,8 @@ c_BounceTrap::c_BounceTrap(){
 	m_isRotatingCW=false;
 	m_isRotatingCCW=false;
 	m_originalDir=0;
+	m_retractCounter=0;
+	m_rotatedBeat=-1;
 }
 c_BounceTrap* c_BounceTrap::m_new(int t_xVal,int t_yVal,int t_d){
 	c_Trap::m_new(t_xVal,t_yVal,1);
@@ -50705,8 +50711,26 @@ c_BounceTrap* c_BounceTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
+void c_BounceTrap::p_Rotate(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.Rotate()",19));
+}
+int c_BounceTrap::p_GetFrameToShow(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.GetFrameToShow()",27));
+	return 0;
+}
 void c_BounceTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.Update()",19));
+	if(this->m_retractCounter>0){
+		this->m_retractCounter-=1;
+		if(this->m_retractCounter==0){
+			this->m_triggered=false;
+		}
+	}
+	if(this->m_rotatedBeat!=c_Audio::m_GetClosestBeatNum(true)){
+		this->p_Rotate();
+	}
+	int t_frameToShow=this->p_GetFrameToShow();
+	this->m_image->p_SetFrame(t_frameToShow);
+	c_Trap::p_Update();
 }
 void c_BounceTrap::mark(){
 	c_Trap::mark();

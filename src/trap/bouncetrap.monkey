@@ -1,10 +1,11 @@
 'Strict
 
 Import mojo.graphics
-Import entity
 Import level
-Import logger
 Import trap
+Import audio2
+Import entity
+Import logger
 Import util
 
 Class BounceTrap Extends Trap
@@ -95,7 +96,21 @@ Class BounceTrap Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("BounceTrap.Update()")
+        If Self.retractCounter > 0
+            Self.retractCounter -= 1
+            If Self.retractCounter = 0
+                Self.triggered = False
+            End If
+        End If
+
+        If Self.rotatedBeat <> Audio.GetClosestBeatNum(True)
+            Self.Rotate()
+        End If
+
+        Local frameToShow := Self.GetFrameToShow()
+        Self.image.SetFrame(frameToShow)
+
+        Super.Update()
     End Method
 
 End Class
