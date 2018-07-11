@@ -1,7 +1,9 @@
 'Strict
 
+Import monkey.math
 Import enemy.enemyclamper
 Import gui.controller_game
+Import audio2
 Import entity
 Import logger
 Import player_class
@@ -69,7 +71,39 @@ Class Monkey Extends EnemyClamper
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Monkey.Update()")
+        If Self.clampedOn
+            If Self.x <> Self.clampedOnto.x And
+               Self.y <> Self.clampedOnto.y
+                Self.x = Self.clampedOnto.x
+                Self.y = Self.clampedOnto.y
+            End If
+
+            If Self.clampedOnto.Perished
+                Self.clampedOn = False
+                Self.clampedOnto = Null
+                Self.animOverride = -1
+                Self.yOff = 0.0
+                Self.coinsToDrop = Self.startingCoinsToDrop
+
+                If Self.level = 2 And
+                   Self.health <= 3
+                    Self.health = 1
+                Else
+                    Self.health = math.Min(Self.health, Self.startingHealth)
+                End If
+
+                Self.healthMax = Self.startingHealth
+            End If
+        Else
+            Self.yOff = 0.0
+            If Audio.IsBeatAnimTime(False, False)
+                Self.animOverride = 4
+            Else
+                Self.animOverride = 5
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class

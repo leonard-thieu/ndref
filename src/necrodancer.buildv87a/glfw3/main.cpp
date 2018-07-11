@@ -6685,6 +6685,7 @@ class c_Audio : public Object{
 	static bool m_startSong;
 	static int m_GetDistanceFromNearestBeat();
 	static int m_GetNextBeatDuration();
+	static bool m_IsBeatAnimTime(bool,bool);
 	static bool m_songPaused;
 	static int m_songShopkeeper;
 	static Float m_GetPercentDistanceFromNextBeat();
@@ -17794,6 +17795,10 @@ int c_Audio::m_GetNextBeatDuration(){
 		t_duration=1;
 	}
 	return t_duration;
+}
+bool c_Audio::m_IsBeatAnimTime(bool t_a1,bool t_a2){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.IsBeatAnimTime(Bool, Bool)",32));
+	return false;
 }
 bool c_Audio::m_songPaused;
 int c_Audio::m_songShopkeeper;
@@ -48638,7 +48643,33 @@ bool c_Monkey::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hi
 	return false;
 }
 void c_Monkey::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Monkey.Update()",15));
+	if(this->m_clampedOn){
+		if(this->m_x!=this->m_clampedOnto->m_x && this->m_y!=this->m_clampedOnto->m_y){
+			this->m_x=this->m_clampedOnto->m_x;
+			this->m_y=this->m_clampedOnto->m_y;
+		}
+		if(this->m_clampedOnto->p_Perished()){
+			this->m_clampedOn=false;
+			this->m_clampedOnto=0;
+			this->m_animOverride=-1;
+			this->m_yOff=FLOAT(0.0);
+			this->m_coinsToDrop=this->m_startingCoinsToDrop;
+			if(this->m_level==2 && this->m_health<=3){
+				this->m_health=1;
+			}else{
+				this->m_health=bb_math_Min(this->m_health,this->m_startingHealth);
+			}
+			this->m_healthMax=this->m_startingHealth;
+		}
+	}else{
+		this->m_yOff=FLOAT(0.0);
+		if(c_Audio::m_IsBeatAnimTime(false,false)){
+			this->m_animOverride=4;
+		}else{
+			this->m_animOverride=5;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Monkey::mark(){
 	c_EnemyClamper::mark();

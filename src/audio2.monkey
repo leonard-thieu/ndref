@@ -332,6 +332,10 @@ Class Audio
         Debug.TraceNotImplemented("Audio.Init()")
     End Function
 
+    Function IsBeatAnimTime: Bool(a1: Bool, a2: Bool)
+        Debug.TraceNotImplemented("Audio.IsBeatAnimTime(Bool, Bool)")
+    End Function
+
     Function IsLastFrameOfBeat: Bool()
         Debug.TraceNotImplemented("Audio.IsLastFrameOfBeat()")
     End Function
