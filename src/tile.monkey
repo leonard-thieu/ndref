@@ -131,7 +131,49 @@ Class Tile Extends RenderableObject
     End Function
 
     Function MoveAll: Void()
-        Debug.TraceNotImplemented("Tile.MoveAll()")
+        Local floorsToRaise := New List<Tile>()
+
+        For Local floorRising := EachIn Tile.floorRisingList
+            If floorRising.risingTriggered
+                If Not Util.IsGlobalCollisionAt(floorRising.x, floorRising.y, False, False, False, False) And
+                   Not Util.IsAnyPlayerAt(floorRising.x, floorRising.y)
+                    floorsToRaise.AddLast(floorRising)
+                End If
+            End If
+
+            If Util.IsAnyPlayerAt(floorRising.x, floorRising.y)
+                floorRising.risingTriggered = True
+            End If
+        End For
+
+        For Local floorToRaise := EachIn floorsToRaise
+            Audio.PlayGameSoundAt("floorRise", floorToRaise.x, floorToRaise.y, False, -1, False)
+            Level.PlaceTileRemovingExistingTiles(floorToRaise.x, floorToRaise.y, TileType.StoneWall, False, TilesetType.Zone5, False)
+        End For
+
+        Local floorsToRecede := New List<Tile>()
+
+        For Local floorReceded := EachIn Tile.floorRecededList
+            If floorReceded.recedeTimer <= 0
+                If Not Util.IsGlobalCollisionAt(floorReceded.x, floorReceded.y, False, False, False, False) And
+                   Not Util.IsAnyPlayerAt(floorReceded.x, floorReceded.y)
+                    floorsToRecede.AddLast(floorReceded)
+                End If
+            Else
+                floorReceded.recedeTimer -= 1
+            End If
+        End For
+
+        For Local floorToRecede := EachIn floorsToRecede
+            Audio.PlayGameSoundAt("floorRise", floorToRecede.x, floorToRecede.y, False, -1, False)
+            Level.PlaceTileRemovingExistingTiles(floorToRecede.x, floorToRecede.y, TileType.DirtWall, False, TilesetType.Zone5, False)
+
+            Local pickup := Item.GetPickupAt(floorToRecede.x, floorToRecede.y)
+            If pickup <> Null And
+               Not pickup.IsItemOfType("isCoin")
+                pickup.Die()
+            End If
+        End For
     End Function
 
     Function _EditorFix: Void() End
