@@ -7867,6 +7867,7 @@ class c_Item : public c_Entity{
 	bool m_hasBloodCost;
 	bool m_saleItem;
 	bool m_singleChoiceItem;
+	int m_leprechaunBeats;
 	int m_frameToShow;
 	c_Item();
 	static String m_lastChestItemClass1;
@@ -7947,6 +7948,7 @@ class c_Item : public c_Entity{
 	static void m_ClearAllSingleChoiceItems(c_Item*);
 	virtual String p_Pickup(c_Player*);
 	static int m_ConsumeCoinsRemainingOnLevel();
+	void p_CheckAdjacentItems();
 	virtual void p_Move();
 	static void m_MoveAll();
 	bool p_IsVisible();
@@ -8299,6 +8301,8 @@ class c_Leprechaun : public c_Enemy{
 	c_Leprechaun();
 	static bool m_seenLeprechaun;
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	c_Leprechaun* m_new(int,int,int);
+	c_Leprechaun* m_new2();
 	void p_Update();
 	void mark();
 };
@@ -34741,6 +34745,7 @@ c_Item::c_Item(){
 	m_hasBloodCost=false;
 	m_saleItem=false;
 	m_singleChoiceItem=false;
+	m_leprechaunBeats=8;
 	m_frameToShow=0;
 }
 String c_Item::m_lastChestItemClass1;
@@ -35941,8 +35946,22 @@ int c_Item::m_ConsumeCoinsRemainingOnLevel(){
 	}
 	return t_numCoins;
 }
+void c_Item::p_CheckAdjacentItems(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.CheckAdjacentItems()",25));
+}
 void c_Item::p_Move(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Item.Move()",11));
+	if(!c_Leprechaun::m_seenLeprechaun && this->p_IsItemOfType(String(L"isCoin",6)) && this->p_GetValue()>=50 && bb_controller_game_currentLevel<=3 && !c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,false,false,false)){
+		this->m_leprechaunBeats-=1;
+		if(this->m_leprechaunBeats<=0){
+			(new c_Leprechaun)->m_new(this->m_x,this->m_y,1);
+			this->p_Die();
+		}
+	}else{
+		this->m_leprechaunBeats=8;
+	}
+	if(!this->p_IsItemOfType(String(L"isCoin",6))){
+		this->p_CheckAdjacentItems();
+	}
 }
 void c_Item::m_MoveAll(){
 	c_Enumerator11* t_=m_pickupList->p_ObjectEnumerator();
@@ -40730,6 +40749,15 @@ bool c_Leprechaun::m_seenLeprechaun;
 bool c_Leprechaun::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Leprechaun.Hit(String, Int, Int, Entity, Bool, Int)",51));
 	return false;
+}
+c_Leprechaun* c_Leprechaun::m_new(int t_xVal,int t_yVal,int t_l){
+	c_Enemy::m_new();
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Leprechaun.New(Int, Int, Int)",29));
+	return this;
+}
+c_Leprechaun* c_Leprechaun::m_new2(){
+	c_Enemy::m_new();
+	return this;
 }
 void c_Leprechaun::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Leprechaun.Update()",19));

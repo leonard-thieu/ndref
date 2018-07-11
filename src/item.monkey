@@ -6,6 +6,7 @@ Import monkey.math
 Import monkey.stack
 Import mojo.app
 Import controller.controller_game
+Import enemy.leprechaun
 Import enemy.necrodancer_enemy
 Import level
 Import audio2
@@ -1436,7 +1437,23 @@ Class Item Extends Entity
     End Method
 
     Method Move: Void()
-        Debug.TraceNotImplemented("Item.Move()")
+        If Not Leprechaun.seenLeprechaun And
+           Self.IsItemOfType("isCoin") And
+           Self.GetValue() >= 50 And
+           controller_game.currentLevel <= LevelType.Level3 And
+           Not Util.IsGlobalCollisionAt(Self.x, Self.y, False, False, False, False)
+            Self.leprechaunBeats -= 1
+            If Self.leprechaunBeats <= 0
+                New Leprechaun(Self.x, Self.y, 1)
+                Self.Die()
+            End If
+        Else
+            Self.leprechaunBeats = 8
+        End If
+
+        If Not Self.IsItemOfType("isCoin")
+            Self.CheckAdjacentItems()
+        End If
     End Method
 
     Method Pickup: String(player: Player)
