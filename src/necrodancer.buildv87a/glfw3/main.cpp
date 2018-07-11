@@ -36420,8 +36420,15 @@ void c_Enemy::p_Init5(int t_xVal,int t_yVal,int t_l,String t_name){
 	this->p_Init4(t_xVal,t_yVal,t_l,t_name,String());
 }
 int c_Enemy::m_GetNumStairLockingMinibosses(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetNumStairLockingMinibosses()",36));
-	return 0;
+	int t_numStairLockingMinibosses=0;
+	c_Enumerator4* t_=m_enemyList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Enemy* t_enemy=t_->p_NextObject();
+		if(t_enemy->m_isStairLockingMiniboss){
+			t_numStairLockingMinibosses+=1;
+		}
+	}
+	return t_numStairLockingMinibosses;
 }
 bool c_Enemy::m_killingAllEnemies;
 int c_Enemy::m_GetNumPenaltyBoxMinibosses(){

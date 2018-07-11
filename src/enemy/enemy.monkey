@@ -1287,7 +1287,15 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function GetNumStairLockingMinibosses: Int()
-        Debug.TraceNotImplemented("Enemy.GetNumStairLockingMinibosses()")
+        Local numStairLockingMinibosses := 0
+
+        For Local enemy := EachIn Enemy.enemyList
+            If enemy.isStairLockingMiniboss
+                numStairLockingMinibosses += 1
+            End If
+        End For
+
+        Return numStairLockingMinibosses
     End Function
 
     Function GetRandomEnemy: Object()
