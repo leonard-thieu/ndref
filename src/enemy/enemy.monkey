@@ -4,6 +4,8 @@ Import monkey.list
 Import monkey.map
 Import monkey.math
 Import mojo.graphics
+Import controller.controller_game
+Import enemy.npc
 Import enemy.npc.shopkeeper
 Import enemy.armadillo
 Import enemy.armoredskeleton
@@ -63,6 +65,7 @@ Import level
 Import audio2
 Import beatanimationdata
 Import camera
+Import chain
 Import entity
 Import logger
 Import mobileentity
@@ -1764,7 +1767,99 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function MoveAll: Void()
-        Debug.TraceNotImplemented("Enemy.MoveAll()")
+        Enemy.enemiesFearfulDuration -= 1
+
+        If Player.AllPlayersPerished() Or
+           controller_game.players[controller_game.player1].falling Or
+           Level.isLevelEditor
+            Return
+        End If
+
+        Local anyPlayerHasMoved := True
+        If controller_game.currentLevel = LevelType.BossBattle
+            anyPlayerHasMoved = False
+            For Local i := 0 Until controller_game.numPlayers
+                If Not Chain.waitingForFirstMovement[i]
+                    anyPlayerHasMoved = True
+
+                    Exit
+                End If
+            End For
+        End If
+
+        For Local enemy := EachIn Enemy.enemyList
+            If Enemy.enemiesPaused And
+               (Not anyPlayerHasMoved Or Not enemy.exemptFromPause)
+                Continue
+            End If
+
+            enemy.movedThisFrame = False
+            enemy.attemptedMoveThisFrame = False
+            enemy.changedTilePositionThisFrame = False
+            enemy.frozenDuration = math.Max(0, enemy.frozenDuration)
+        End For
+
+        Enemy.enemyList.Sort()
+
+        Local moveSucceeded: Bool
+        Repeat
+            moveSucceeded = False
+
+            For Local enemy := EachIn Enemy.enemyList
+                If Enemy.enemiesPaused And
+                   (Not anyPlayerHasMoved Or Not enemy.exemptFromPause)
+                    Continue
+                End If
+
+                If enemy.movedThisFrame Or
+                   enemy.flaggedForDeath Or
+                   enemy.charmed Or
+                   enemy.IsFrozen(False) Or
+                   enemy.deAggroed
+                    Continue
+                End If
+
+                If Player.AnyPlayerInSpecialRoom() And
+                   Not enemy.inArena And
+                   NPC(enemy) = Null And
+                   Not enemy.isUnaffectedByArenas
+                    Continue
+                End If
+
+                If Not enemy.hasBeenVisible And
+                   Util.GetDistFromClosestPlayer(enemy.x, enemy.y, False) > enemy.minEnemyMoveDistance And
+                   Not enemy.movesRegardlessOfDistance
+                    Continue
+                End If
+
+                If enemy.dontMove
+                    Continue
+                End If
+
+                enemy.attemptedMoveThisFrame = True
+                Select enemy.Move()
+                    Case 1
+                        moveSucceeded = True
+                        enemy.MoveSucceed(False, False)
+                        enemy.movedThisFrame = True
+                    Case 2
+                        moveSucceeded = True
+                        enemy.MoveSucceed(True, False)
+                        enemy.movedThisFrame = True
+                    Case 3
+                        moveSucceeded = True
+                        enemy.MoveSucceed(False, True)
+                        enemy.movedThisFrame = True
+                End Select
+            End For
+        Until Not moveSucceeded
+
+        For Local enemy := EachIn Enemy.enemyList
+            If enemy.attemptedMoveThisFrame And
+               Not enemy.movedThisFrame
+                enemy.MoveFail()
+            End If
+        End For
     End Function
 
     Function MoveSwarmEnemiesAwayFromStartLocation: Void()
