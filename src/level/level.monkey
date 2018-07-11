@@ -13317,7 +13317,44 @@ Class Level
     End Function
 
     Function RecalcLevelBoundaries: Void()
-        Debug.TraceNotImplemented("Level.RecalcLevelBoundaries()")
+        Level.minLevelX = 9999
+        Level.minLevelY = 9999
+        Level.maxLevelX = -9999
+        Level.maxLevelY = -9999
+
+        Level.minLevelMinimapX = 9999
+        Level.minLevelMinimapY = 9999
+        Level.maxLevelMinimapX = -9999
+        Level.maxLevelMinimapY = -9999
+
+        For Local tilesOnXNode := EachIn Level.tiles
+            For Local tileNode := EachIn tilesOnXNode.Value
+                Local tile := tileNode.Value
+
+                Level.minLevelX = math.Min(Level.minLevelX, tile.x)
+                Level.minLevelY = math.Min(Level.minLevelY, tile.y)
+                Level.maxLevelX = math.Max(Level.maxLevelX, tile.x)
+                Level.maxLevelY = math.Max(Level.maxLevelY, tile.y)
+
+                If tile.x > -100
+                    Level.minLevelMinimapX = math.Min(Level.minLevelMinimapX, tile.x)
+                End If
+                If tile.y > -100
+                    Level.minLevelMinimapY = math.Min(Level.minLevelMinimapY, tile.y)
+                End If
+                Level.maxLevelMinimapX = math.Max(Level.maxLevelMinimapX, tile.x)
+                Level.maxLevelMinimapY = math.Max(Level.maxLevelMinimapY, tile.y)
+            End For
+        End For
+
+        Level.mapLightValuesInitialized = False
+        Level.mapLightValuesCachedFrame = -1
+
+        If Level.minimap <> Null
+            Level.minimap.minimapSpr.DiscardTempImage()
+        End If
+
+        Level.minimap = New Minimap()
     End Function
 
     Function RefreshLineOfSightTiles: Void()

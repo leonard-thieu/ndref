@@ -2,6 +2,7 @@
 
 Import monkey.list
 Import mojo.graphics
+Import level
 Import logger
 Import point
 Import sprite
@@ -27,7 +28,35 @@ Class Minimap
     Function _EditorFix: Void() End
 
     Method New()
-        Debug.TraceNotImplemented("Minimap.New()")
+        Minimap.dirtyPoints.Clear()
+
+        Self.width = Level.maxLevelMinimapX - Level.minLevelMinimapX + 1
+        Self.height = Level.maxLevelMinimapY - Level.minLevelMinimapY + 1
+
+        Local pixelDataWidth := 2 * Self.width
+        Local pixelDataHeight := 2 * Self.height
+        Local pixelDataLength := pixelDataWidth * pixelDataHeight
+
+        ' HACK: pixelDataLength can become too large to allocate an array.
+        If pixelDataLength > 10000
+            pixelDataLength = 10000
+        End If
+
+        Self.pixelData = New Int[pixelDataLength]
+
+        Self.minimapImg = graphics.CreateImage(pixelDataWidth, pixelDataHeight)
+        Self.minimapSpr = New Sprite(Self.minimapImg)
+        Self.minimapSpr.SetZ(10000.0)
+        Self.minimapSpr.InWorld = False
+
+        Self.minimapPlayerPixels[0] = New Sprite("level/minimap_player_pixel.png", 1)
+        Self.minimapPlayerPixels[0].SetZ(10001.0)
+        Self.minimapPlayerPixels[0].InWorld = False
+        Self.minimapPlayerPixels[1] = New Sprite("level/minimap_player_pixel.png", 1)
+        Self.minimapPlayerPixels[1].SetZ(10001.0)
+        Self.minimapPlayerPixels[1].InWorld = False
+
+        Self.UpdateAll()
     End Method
 
     Field minimapSpr: Sprite

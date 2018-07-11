@@ -7141,6 +7141,14 @@ class c_Level : public Object{
 	static int m_practiceEnemyNum;
 	static void m_CreateTrainingMap();
 	static String m_todaysRandSeedString;
+	static int m_minLevelX;
+	static int m_minLevelY;
+	static int m_maxLevelX;
+	static int m_maxLevelY;
+	static int m_minLevelMinimapX;
+	static int m_minLevelMinimapY;
+	static int m_maxLevelMinimapX;
+	static int m_maxLevelMinimapY;
 	static void m_RecalcLevelBoundaries();
 	static void m_LoadLevelSong(c_LevelObject*);
 	static void m_NewLevel(int,int,int,bool,c_LevelObject*,bool);
@@ -7161,10 +7169,6 @@ class c_Level : public Object{
 	static void m_PlaceTileTypeAt(int,int,int);
 	static void m_DryUpAllWater(int);
 	static void m_RemoveExit(int,int);
-	static int m_maxLevelX;
-	static int m_minLevelX;
-	static int m_maxLevelY;
-	static int m_minLevelY;
 	static Array<Float > m_mapLightValues;
 	static Array<Float > m_constMapLightValues;
 	static Float m_ActuallyGetMapTileLightValue(int,int,bool);
@@ -8899,10 +8903,18 @@ class c_Tile : public c_RenderableObject{
 };
 class c_Minimap : public Object{
 	public:
+	c_Sprite* m_minimapSpr;
+	int m_width;
+	int m_height;
+	Array<int > m_pixelData;
+	c_Image* m_minimapImg;
+	Array<c_Sprite* > m_minimapPlayerPixels;
 	c_Minimap();
 	void p_UpdateAll();
 	static void m_AddDirty(c_Point*);
 	static void m_AddDirty2(int,int);
+	static c_List26* m_dirtyPoints;
+	c_Minimap* m_new();
 	void p_Update();
 	void mark();
 };
@@ -28906,8 +28918,50 @@ void c_Level::m_CreateTrainingMap(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.CreateTrainingMap()",25));
 }
 String c_Level::m_todaysRandSeedString;
+int c_Level::m_minLevelX;
+int c_Level::m_minLevelY;
+int c_Level::m_maxLevelX;
+int c_Level::m_maxLevelY;
+int c_Level::m_minLevelMinimapX;
+int c_Level::m_minLevelMinimapY;
+int c_Level::m_maxLevelMinimapX;
+int c_Level::m_maxLevelMinimapY;
 void c_Level::m_RecalcLevelBoundaries(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.RecalcLevelBoundaries()",29));
+	m_minLevelX=9999;
+	m_minLevelY=9999;
+	m_maxLevelX=-9999;
+	m_maxLevelY=-9999;
+	m_minLevelMinimapX=9999;
+	m_minLevelMinimapY=9999;
+	m_maxLevelMinimapX=-9999;
+	m_maxLevelMinimapY=-9999;
+	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Node26* t_tilesOnXNode=t_->p_NextObject();
+		c_NodeEnumerator3* t_2=t_tilesOnXNode->p_Value()->p_ObjectEnumerator();
+		while(t_2->p_HasNext()){
+			c_Node27* t_tileNode=t_2->p_NextObject();
+			c_Tile* t_tile=t_tileNode->p_Value();
+			m_minLevelX=bb_math_Min(m_minLevelX,t_tile->m_x);
+			m_minLevelY=bb_math_Min(m_minLevelY,t_tile->m_y);
+			m_maxLevelX=bb_math_Max(m_maxLevelX,t_tile->m_x);
+			m_maxLevelY=bb_math_Max(m_maxLevelY,t_tile->m_y);
+			if(t_tile->m_x>-100){
+				m_minLevelMinimapX=bb_math_Min(m_minLevelMinimapX,t_tile->m_x);
+			}
+			if(t_tile->m_y>-100){
+				m_minLevelMinimapY=bb_math_Min(m_minLevelMinimapY,t_tile->m_y);
+			}
+			m_maxLevelMinimapX=bb_math_Max(m_maxLevelMinimapX,t_tile->m_x);
+			m_maxLevelMinimapY=bb_math_Max(m_maxLevelMinimapY,t_tile->m_y);
+		}
+	}
+	m_mapLightValuesInitialized=false;
+	m_mapLightValuesCachedFrame=-1;
+	if(m_minimap!=0){
+		m_minimap->m_minimapSpr->p_DiscardTempImage();
+	}
+	gc_assign(m_minimap,(new c_Minimap)->m_new());
 }
 void c_Level::m_LoadLevelSong(c_LevelObject* t_levelObj){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.LoadLevelSong(LevelObject)",32));
@@ -30386,10 +30440,6 @@ void c_Level::m_DryUpAllWater(int t_replacementFloor){
 void c_Level::m_RemoveExit(int t_xVal,int t_yVal){
 	m_exits->p_Remove3((new c_Point)->m_new(t_xVal,t_yVal));
 }
-int c_Level::m_maxLevelX;
-int c_Level::m_minLevelX;
-int c_Level::m_maxLevelY;
-int c_Level::m_minLevelY;
 Array<Float > c_Level::m_mapLightValues;
 Array<Float > c_Level::m_constMapLightValues;
 Float c_Level::m_ActuallyGetMapTileLightValue(int t_xVal,int t_yVal,bool t_forVision){
@@ -44284,6 +44334,12 @@ void c_Tile::mark(){
 	gc_mark_q(m_triggerPlayer);
 }
 c_Minimap::c_Minimap(){
+	m_minimapSpr=0;
+	m_width=0;
+	m_height=0;
+	m_pixelData=Array<int >();
+	m_minimapImg=0;
+	m_minimapPlayerPixels=Array<c_Sprite* >(2);
 }
 void c_Minimap::p_UpdateAll(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.UpdateAll()",19));
@@ -44294,11 +44350,40 @@ void c_Minimap::m_AddDirty(c_Point* t_p){
 void c_Minimap::m_AddDirty2(int t_x,int t_y){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.AddDirty(Int, Int)",26));
 }
+c_List26* c_Minimap::m_dirtyPoints;
+c_Minimap* c_Minimap::m_new(){
+	m_dirtyPoints->p_Clear();
+	this->m_width=c_Level::m_maxLevelMinimapX-c_Level::m_minLevelMinimapX+1;
+	this->m_height=c_Level::m_maxLevelMinimapY-c_Level::m_minLevelMinimapY+1;
+	int t_pixelDataWidth=2*this->m_width;
+	int t_pixelDataHeight=2*this->m_height;
+	int t_pixelDataLength=t_pixelDataWidth*t_pixelDataHeight;
+	if(t_pixelDataLength>10000){
+		t_pixelDataLength=10000;
+	}
+	gc_assign(this->m_pixelData,Array<int >(t_pixelDataLength));
+	gc_assign(this->m_minimapImg,bb_graphics_CreateImage(t_pixelDataWidth,t_pixelDataHeight,1,c_Image::m_DefaultFlags));
+	gc_assign(this->m_minimapSpr,(new c_Sprite)->m_new3(this->m_minimapImg));
+	this->m_minimapSpr->p_SetZ(FLOAT(10000.0));
+	this->m_minimapSpr->p_InWorld(false);
+	gc_assign(this->m_minimapPlayerPixels[0],(new c_Sprite)->m_new2(String(L"level/minimap_player_pixel.png",30),1,c_Image::m_DefaultFlags));
+	this->m_minimapPlayerPixels[0]->p_SetZ(FLOAT(10001.0));
+	this->m_minimapPlayerPixels[0]->p_InWorld(false);
+	gc_assign(this->m_minimapPlayerPixels[1],(new c_Sprite)->m_new2(String(L"level/minimap_player_pixel.png",30),1,c_Image::m_DefaultFlags));
+	this->m_minimapPlayerPixels[1]->p_SetZ(FLOAT(10001.0));
+	this->m_minimapPlayerPixels[1]->p_InWorld(false);
+	this->p_UpdateAll();
+	return this;
+}
 void c_Minimap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minimap.Update()",16));
 }
 void c_Minimap::mark(){
 	Object::mark();
+	gc_mark_q(m_minimapSpr);
+	gc_mark_q(m_pixelData);
+	gc_mark_q(m_minimapImg);
+	gc_mark_q(m_minimapPlayerPixels);
 }
 c_Point::c_Point(){
 	m_x=0;
@@ -55502,6 +55587,15 @@ int bbInit(){
 	c_Tile::m_anyPlayerHaveSunglassesCachedFrame=0;
 	c_Entity::m_anyPlayerHaveNazarCharmCachedFrame=0;
 	c_Level::m_todaysRandSeedString=String();
+	c_Level::m_minLevelX=0;
+	c_Level::m_minLevelY=0;
+	c_Level::m_maxLevelX=0;
+	c_Level::m_maxLevelY=0;
+	c_Level::m_minLevelMinimapX=0;
+	c_Level::m_minLevelMinimapY=0;
+	c_Level::m_maxLevelMinimapX=0;
+	c_Level::m_maxLevelMinimapY=0;
+	c_Minimap::m_dirtyPoints=(new c_List26)->m_new();
 	c_Chain::m_waitingForFirstMovement=Array<bool >(4);
 	bb_controller_game_totalPlaytimeLastAdded=0;
 	c_GUI_gameplay::m_errorKey=0;
@@ -55542,10 +55636,6 @@ int bbInit(){
 	c_CrystalShards::m_shardsList=(new c_List40)->m_new();
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
-	c_Level::m_maxLevelX=0;
-	c_Level::m_minLevelX=0;
-	c_Level::m_maxLevelY=0;
-	c_Level::m_minLevelY=0;
 	c_Level::m_mapLightValues=Array<Float >();
 	c_Level::m_constMapLightValues=Array<Float >();
 	c_Tile::m_anyPlayerHaveZoneMapCached=false;
@@ -55698,6 +55788,7 @@ void gc_mark(){
 	gc_mark_q(c_Level::m_zoneOrder);
 	gc_mark_q(c_Switch::m_switches);
 	gc_mark_q(c_Level::m_popUpController);
+	gc_mark_q(c_Minimap::m_dirtyPoints);
 	gc_mark_q(c_Chain::m_waitingForFirstMovement);
 	gc_mark_q(c_GUI_gameplay::m_errorKey);
 	gc_mark_q(c_Spells::m_fireballInWorld);
