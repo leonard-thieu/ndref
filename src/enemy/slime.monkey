@@ -103,7 +103,20 @@ Class Slime Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Slime.Update()")
+        If Self.level = 2
+            Self.animOverride = -1
+            
+            If Self.currentMoveDelay <= 1
+                If Not Player.PlayersHaveMovedThisBeat() And
+                   Audio.CloserToPreviousBeatThanNext()
+                    Self.animOverride = 7
+                End If
+            Else
+                Self.overrideNormal2Timing = 0
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class

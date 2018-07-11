@@ -98,6 +98,13 @@ Class Audio
         Debug.TraceNotImplemented("Audio.CheckNecrodancerTransition()")
     End Function
 
+    Function CloserToPreviousBeatThanNext: Bool()
+        Local timeUntilNextbeat := Audio.TimeUntilBeat(0)
+        Local timeUntilPreviousBeat := Audio.TimeUntilBeat(-1)
+
+        Return math.Abs(timeUntilPreviousBeat) < math.Abs(timeUntilNextbeat)
+    End Function
+
     Function CloserToNextBeatThanPrevious: Bool()
         Debug.TraceNotImplemented("Audio.CloserToNextBeatThanPrevious()")
     End Function
@@ -431,7 +438,9 @@ Class Audio
     End Function
 
     Function TimeUntilBeat: Int(beatOffset: Int)
-        Debug.TraceNotImplemented("Audio.TimeUntilBeat(Int)")
+        Local beatNumber := Audio.GetCurrentBeatNumberIncludingLoops(beatOffset, False)
+
+        Return Audio.TimeUntilSpecificBeat(beatNumber)
     End Function
 
     Function TimeUntilSpecificBeat: Int(beatNum: Int)

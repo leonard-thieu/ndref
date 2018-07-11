@@ -6685,6 +6685,8 @@ class c_Audio : public Object{
 	static bool m_startSong;
 	static int m_GetDistanceFromNearestBeat();
 	static int m_GetNextBeatDuration();
+	static int m_TimeUntilBeat(int);
+	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
 	static bool m_songPaused;
 	static int m_songShopkeeper;
@@ -8073,6 +8075,7 @@ class c_Enemy : public c_MobileEntity{
 	int m_animOffset;
 	bool m_justSpawned;
 	bool m_enableDeathEffects;
+	int m_overrideNormal2Timing;
 	bool m_earthquaked;
 	c_Enemy();
 	static c_EnemyList* m_enemyList;
@@ -17795,6 +17798,15 @@ int c_Audio::m_GetNextBeatDuration(){
 		t_duration=1;
 	}
 	return t_duration;
+}
+int c_Audio::m_TimeUntilBeat(int t_beatOffset){
+	int t_beatNumber=m_GetCurrentBeatNumberIncludingLoops(t_beatOffset,false);
+	return m_TimeUntilSpecificBeat(t_beatNumber);
+}
+bool c_Audio::m_CloserToPreviousBeatThanNext(){
+	int t_timeUntilNextbeat=m_TimeUntilBeat(0);
+	int t_timeUntilPreviousBeat=m_TimeUntilBeat(-1);
+	return bb_math_Abs(t_timeUntilPreviousBeat)<bb_math_Abs(t_timeUntilNextbeat);
 }
 bool c_Audio::m_IsBeatAnimTime(bool t_a1,bool t_a2){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.IsBeatAnimTime(Bool, Bool)",32));
@@ -36342,6 +36354,7 @@ c_Enemy::c_Enemy(){
 	m_animOffset=0;
 	m_justSpawned=true;
 	m_enableDeathEffects=true;
+	m_overrideNormal2Timing=-1;
 	m_earthquaked=false;
 }
 c_EnemyList* c_Enemy::m_enemyList;
@@ -48546,7 +48559,17 @@ void c_Slime::p_Die(){
 	c_Enemy::p_Die();
 }
 void c_Slime::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.Update()",14));
+	if(this->m_level==2){
+		this->m_animOverride=-1;
+		if(this->m_currentMoveDelay<=1){
+			if(!c_Player::m_PlayersHaveMovedThisBeat() && c_Audio::m_CloserToPreviousBeatThanNext()){
+				this->m_animOverride=7;
+			}
+		}else{
+			this->m_overrideNormal2Timing=0;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Slime::mark(){
 	c_Enemy::mark();
