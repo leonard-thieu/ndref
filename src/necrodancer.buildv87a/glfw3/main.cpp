@@ -6656,7 +6656,11 @@ class c_Audio : public Object{
 	static void m_Init();
 	static bool m_songShopOpen;
 	static int m_fixedBeatNum;
+	static void m_UnsetFixedBeat();
+	static void m_SetFixedBeatCurrentBeat(int);
+	static void m_InitFixedBeat();
 	static bool m_debugEnablePlaceholders;
+	static bool m_IsFixedBeatSet();
 	static int m_cachedSongPositionFrame;
 	static int m_cachedSongPosition;
 	static bool m_necrodancerSong2Active;
@@ -6677,6 +6681,7 @@ class c_Audio : public Object{
 	static bool m_cheatingDetected;
 	static int m_GetNonAbsoluteDistanceFromNearestBeat();
 	static void m_PlayGameSound(String,int,Float);
+	static int m_FixedBeatCurrentBeat();
 	static int m_fadeFrames;
 	static int m_startFadeFrames;
 	static bool m_PastLastBeat();
@@ -6685,6 +6690,7 @@ class c_Audio : public Object{
 	static bool m_startSong;
 	static int m_GetDistanceFromNearestBeat();
 	static int m_GetNextBeatDuration();
+	static void m_IncrementFixedBeat();
 	static int m_TimeUntilBeat(int);
 	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
@@ -17638,7 +17644,19 @@ void c_Audio::m_Init(){
 }
 bool c_Audio::m_songShopOpen;
 int c_Audio::m_fixedBeatNum;
+void c_Audio::m_UnsetFixedBeat(){
+	m_fixedBeatNum=-64;
+}
+void c_Audio::m_SetFixedBeatCurrentBeat(int t_beatNum){
+	m_fixedBeatNum=t_beatNum;
+}
+void c_Audio::m_InitFixedBeat(){
+	m_SetFixedBeatCurrentBeat(1);
+}
 bool c_Audio::m_debugEnablePlaceholders;
+bool c_Audio::m_IsFixedBeatSet(){
+	return m_fixedBeatNum!=-64;
+}
 int c_Audio::m_cachedSongPositionFrame;
 int c_Audio::m_cachedSongPosition;
 bool c_Audio::m_necrodancerSong2Active;
@@ -17666,7 +17684,7 @@ int c_Audio::m_GetSongPosition(){
 }
 int c_Audio::m_GetCurrentBeatNumber(int t_beatOffset,bool t_useFixed){
 	if(t_useFixed){
-		if(m_fixedBeatNum!=-64){
+		if(m_IsFixedBeatSet()){
 			return m_fixedBeatNum;
 		}
 	}
@@ -17693,7 +17711,7 @@ int c_Audio::m_GetCurrentBeatNumber(int t_beatOffset,bool t_useFixed){
 int c_Audio::m_numLoops;
 int c_Audio::m_GetCurrentBeatNumberIncludingLoops(int t_beatOffset,bool t_useFixed){
 	if(t_useFixed){
-		if(m_fixedBeatNum!=-64){
+		if(m_IsFixedBeatSet()){
 			return m_fixedBeatNum;
 		}
 	}
@@ -17768,6 +17786,9 @@ int c_Audio::m_GetNonAbsoluteDistanceFromNearestBeat(){
 void c_Audio::m_PlayGameSound(String t_snd,int t_ch,Float t_spd){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSound(String, Int, Float)",39));
 }
+int c_Audio::m_FixedBeatCurrentBeat(){
+	return m_fixedBeatNum;
+}
 int c_Audio::m_fadeFrames;
 int c_Audio::m_startFadeFrames;
 bool c_Audio::m_PastLastBeat(){
@@ -17799,6 +17820,11 @@ int c_Audio::m_GetNextBeatDuration(){
 		t_duration=1;
 	}
 	return t_duration;
+}
+void c_Audio::m_IncrementFixedBeat(){
+	if(m_IsFixedBeatSet()){
+		m_fixedBeatNum+=1;
+	}
 }
 int c_Audio::m_TimeUntilBeat(int t_beatOffset){
 	int t_beatNumber=m_GetCurrentBeatNumberIncludingLoops(t_beatOffset,false);
@@ -18009,9 +18035,9 @@ void c_Input::m_ResetMovementCounters(){
 	bb_controller_game_lastEnemyMoveBeat=0;
 	c_Enemy::m_movesBehind=0;
 	c_Enemy::m_lastWraithSpawnBeat=0;
-	c_Audio::m_fixedBeatNum=-64;
+	c_Audio::m_UnsetFixedBeat();
 	if(!c_Level::m_isReplaying && c_Util::m_IsCharacterActive(9) || c_GameData::m_GetLobbyMove() && (bb_controller_game_currentLevel==-2 || -22<=bb_controller_game_currentLevel && bb_controller_game_currentLevel<=-12)){
-		c_Audio::m_fixedBeatNum=1;
+		c_Audio::m_InitFixedBeat();
 	}
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
 		bb_controller_game_lastPlayerMoveBeat[t_i]=-1;
@@ -33273,12 +33299,12 @@ void c_Player::p_Update2(int t_closestBeatNum){
 		this->m_lastBloodDrumBeat=-1;
 		this->m_bloodDrumBeats=0;
 	}
-	if(this->m_heartTransplantTime!=-1 && c_Audio::m_fixedBeatNum!=-64 && this->m_heartTransplantTime+20000<bb_app_Millisecs()){
+	if(this->m_heartTransplantTime!=-1 && c_Audio::m_IsFixedBeatSet() && this->m_heartTransplantTime+20000<bb_app_Millisecs()){
 		if(!c_Level::m_isReplaying && c_Level::m_replay!=0){
-			c_Level::m_replay->m_beatOffset+=c_Audio::m_fixedBeatNum-c_Audio::m_GetClosestBeatNum(false)-1;
+			c_Level::m_replay->m_beatOffset+=c_Audio::m_FixedBeatCurrentBeat()-c_Audio::m_GetClosestBeatNum(false)-1;
 		}
 		this->m_heartTransplantTime=-1;
-		c_Audio::m_fixedBeatNum=-64;
+		c_Audio::m_UnsetFixedBeat();
 		bb_controller_game_lastEnemyMoveBeat=c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,true);
 		if(!this->p_IsSlidingOnIce()){
 			this->m_lastIceSlideBeat=-1;
@@ -33975,7 +34001,7 @@ bool c_Player::m_AllPlayersPerished(){
 	return true;
 }
 bool c_Player::m_PlayersHaveMovedThisBeat(){
-	if(c_Audio::m_fixedBeatNum==-64){
+	if(!c_Audio::m_IsFixedBeatSet()){
 		for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
 			c_Player* t_player=bb_controller_game_players[t_i];
 			if(!t_player->p_Perished() && bb_controller_game_lastPlayerMoveBeat[t_i]<c_Audio::m_GetClosestBeatNum(true) && t_player->m_lastIceSlideBeat<c_Audio::m_GetClosestBeatNum(true) && t_player->m_queuedMoveBeat<c_Audio::m_GetClosestBeatNum(true) && !t_player->m_queuedMove){
@@ -39904,7 +39930,7 @@ c_Sprite* c_Enemy::m_LoadBestiarySprite(int t_type){
 	return t_sprite;
 }
 bool c_Enemy::m_EnemiesHaveMovedThisBeat(){
-	if(c_Audio::m_fixedBeatNum==-64){
+	if(!c_Audio::m_IsFixedBeatSet()){
 		return c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,true)<=bb_controller_game_lastEnemyMoveBeat;
 	}
 	return c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,true)<bb_controller_game_lastEnemyMoveBeat;
@@ -45819,9 +45845,7 @@ void c_ControllerGame::p_Update(){
 		bb_controller_game_lastEnemyMoveBeat+=1;
 	}
 	if(bb_controller_game_incrementFixedBeatNum){
-		if(c_Audio::m_fixedBeatNum!=-64){
-			c_Audio::m_fixedBeatNum+=1;
-		}
+		c_Audio::m_IncrementFixedBeat();
 		bb_controller_game_incrementFixedBeatNum=false;
 	}
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Playtime)",34));

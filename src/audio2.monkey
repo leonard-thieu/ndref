@@ -13,6 +13,8 @@ Import sounddata
 Import sprite
 Import xml
 
+Const FIXED_BEAT_NONE: Int = -64
+
 Class Audio
 
     Global BEAT_TARGET_X: Int
@@ -37,7 +39,7 @@ Class Audio
     Global fadeFactor: Float = 1.0
     Global fadeFrames: Int = -1
     Global firstUpdate: Bool = True
-    Global fixedBeatNum: Int = -64
+    Global fixedBeatNum: Int = audio2.FIXED_BEAT_NONE
     Global includeVideoLatency: Bool
     Global lastBeatNum: Int = -1
     Global lastRndSnd: StringMap<Int> = New StringMap<Int>()
@@ -121,6 +123,10 @@ Class Audio
         Debug.TraceNotImplemented("Audio.FinishNecrodancerTransition(Object)")
     End Function
 
+    Function FixedBeatCurrentBeat: Int()
+        Return Audio.fixedBeatNum
+    End Function
+
     Function GeneratePlaylist: Void()
         Debug.TraceNotImplemented("Audio.GeneratePlaylist()")
     End Function
@@ -167,7 +173,7 @@ Class Audio
 
     Function GetCurrentBeatNumber: Int(beatOffset: Int, useFixed: Bool)
         If useFixed
-            If Audio.fixedBeatNum <> -64
+            If Audio.IsFixedBeatSet()
                 Return Audio.fixedBeatNum
             End If
         End If
@@ -197,7 +203,7 @@ Class Audio
 
     Function GetCurrentBeatNumberIncludingLoops: Int(beatOffset: Int, useFixed: Bool)
         If useFixed
-            If Audio.fixedBeatNum <> -64
+            If Audio.IsFixedBeatSet()
                 Return Audio.fixedBeatNum
             End If
         End If
@@ -335,12 +341,26 @@ Class Audio
         Debug.TraceNotImplemented("Audio.HitBeat(Int)")
     End Function
 
+    Function IncrementFixedBeat: Void()
+        If Audio.IsFixedBeatSet()
+            Audio.fixedBeatNum += 1
+        End If
+    End Function
+
     Function Init: Void()
         Debug.TraceNotImplemented("Audio.Init()")
     End Function
 
+    Function InitFixedBeat: Void()
+        Audio.SetFixedBeatCurrentBeat(1)
+    End Function
+
     Function IsBeatAnimTime: Bool(a1: Bool, a2: Bool)
         Debug.TraceNotImplemented("Audio.IsBeatAnimTime(Bool, Bool)")
+    End Function
+
+    Function IsFixedBeatSet: Bool()
+        Return Audio.fixedBeatNum <> audio2.FIXED_BEAT_NONE
     End Function
 
     Function IsLastFrameOfBeat: Bool()
@@ -421,6 +441,10 @@ Class Audio
         Debug.TraceNotImplemented("Audio.ResetBeatMarkers(Bool, Bool, Bool, Bool)")
     End Function
 
+    Function SetFixedBeatCurrentBeat: Void(beatNum: Int)
+        Audio.fixedBeatNum = beatNum
+    End Function
+
     Function SetMusicVolPercent: Void(percent: Float, tmpSongNum: Int)
         Debug.TraceNotImplemented("Audio.SetMusicVolPercent(Float, Int)")
     End Function
@@ -475,6 +499,10 @@ Class Audio
 
     Function ToggleSongPause: Void()
         Debug.TraceNotImplemented("Audio.ToggleSongPause()")
+    End Function
+
+    Function UnsetFixedBeat: Void()
+        Audio.fixedBeatNum = audio2.FIXED_BEAT_NONE
     End Function
 
     Function Update: Void(hasLoadedGameData: Bool)

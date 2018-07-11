@@ -360,10 +360,7 @@ Class ControllerGame Extends Controller
         End If
 
         If controller_game.incrementFixedBeatNum
-            If Audio.fixedBeatNum <> -64
-                Audio.fixedBeatNum += 1
-            End If
-
+            Audio.IncrementFixedBeat()
             controller_game.incrementFixedBeatNum = False
         End If
 

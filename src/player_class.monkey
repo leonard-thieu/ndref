@@ -333,7 +333,7 @@ Class Player Extends MobileEntity
     End Function
 
     Function PlayersHaveMovedThisBeat: Bool()
-        If Audio.fixedBeatNum = -64
+        If Not Audio.IsFixedBeatSet()
             ' TODO: Double check this.
             For Local i := 0 Until controller_game.numPlayers
                 Local player := controller_game.players[i]
@@ -3104,15 +3104,15 @@ Class Player Extends MobileEntity
         End If
 
         If Self.heartTransplantTime <> -1 And
-           Audio.fixedBeatNum <> -64 And
+           Audio.IsFixedBeatSet() And
            Self.heartTransplantTime + 20000 < app.Millisecs()
             If Not Level.isReplaying And
                Level.replay <> Null
-                Level.replay.beatOffset += Audio.fixedBeatNum - Audio.GetClosestBeatNum(False) - 1
+                Level.replay.beatOffset += Audio.FixedBeatCurrentBeat() - Audio.GetClosestBeatNum(False) - 1
             End If
 
             Self.heartTransplantTime = -1
-            Audio.fixedBeatNum = -64
+            Audio.UnsetFixedBeat()
             controller_game.lastEnemyMoveBeat = Audio.GetCurrentBeatNumberIncludingLoops(0, True)
 
             If Not Self.IsSlidingOnIce()

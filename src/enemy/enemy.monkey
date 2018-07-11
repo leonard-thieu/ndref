@@ -938,7 +938,7 @@ Class Enemy Extends MobileEntity Abstract
     End Function
 
     Function EnemiesHaveMovedThisBeat: Bool()
-        If Audio.fixedBeatNum = -64
+        If Not Audio.IsFixedBeatSet()
             Return Audio.GetCurrentBeatNumberIncludingLoops(0, True) <= controller_game.lastEnemyMoveBeat
         End If
 

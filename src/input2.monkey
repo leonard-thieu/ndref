@@ -205,14 +205,14 @@ Class Input
         Enemy.movesBehind = 0
         Enemy.lastWraithSpawnBeat = 0
 
-        Audio.fixedBeatNum = -64
+        Audio.UnsetFixedBeat()
 
         If (Not Level.isReplaying And
             Util.IsCharacterActive(Character.Bard)) Or
            (GameData.GetLobbyMove() And
             (controller_game.currentLevel = LevelType.Lobby Or
             (LevelType.MinLobbyArea <= controller_game.currentLevel And controller_game.currentLevel <= LevelType.MaxLobbyArea)))
-            Audio.fixedBeatNum = 1
+            Audio.InitFixedBeat()
         End If
 
         For Local i := 0 Until controller_game.numPlayers
