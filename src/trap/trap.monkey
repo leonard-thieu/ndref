@@ -44,7 +44,11 @@ Class Trap Extends Entity Abstract
     End Function
 
     Function MoveAll: Void()
-        Debug.TraceNotImplemented("Trap.MoveAll()")
+        Trap.trapList.Sort()
+
+        For Local trap := EachIn Trap.trapList
+            trap.Move()
+        End For
     End Function
 
     Function RemoveAll: Void()

@@ -9550,6 +9550,7 @@ class c_Trap : public c_Entity{
 	void p_Die();
 	bool p_IsLive();
 	static bool m_IsLiveTrapAt(int,int);
+	virtual void p_Move();
 	static void m_MoveAll();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
@@ -9568,12 +9569,15 @@ class c_List15 : public Object{
 	Array<c_Trap* > p_ToArray();
 	bool p_Equals12(c_Trap*,c_Trap*);
 	int p_RemoveEach7(c_Trap*);
+	virtual int p_Compare5(c_Trap*,c_Trap*);
+	int p_Sort(int);
 	void mark();
 };
 class c_TrapList : public c_List15{
 	public:
 	c_TrapList();
 	c_TrapList* m_new();
+	int p_Compare5(c_Trap*,c_Trap*);
 	void mark();
 };
 class c_Node31 : public Object{
@@ -11279,6 +11283,7 @@ class c_FireTrap : public c_Trap{
 	c_FireTrap* m_new(int,int,int,bool);
 	c_FireTrap* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_Move();
 	void p_Update();
 	void mark();
 };
@@ -47075,8 +47080,16 @@ bool c_Trap::m_IsLiveTrapAt(int t_xVal,int t_yVal){
 	}
 	return false;
 }
+void c_Trap::p_Move(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.Move()",11));
+}
 void c_Trap::m_MoveAll(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.MoveAll()",14));
+	m_trapList->p_Sort(1);
+	c_Enumerator7* t_=m_trapList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Trap* t_trap=t_->p_NextObject();
+		t_trap->p_Move();
+	}
 }
 bool c_Trap::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.Hit(String, Int, Int, Entity, Bool, Int)",45));
@@ -47150,6 +47163,71 @@ int c_List15::p_RemoveEach7(c_Trap* t_value){
 	}
 	return 0;
 }
+int c_List15::p_Compare5(c_Trap* t_lhs,c_Trap* t_rhs){
+	bbError(String(L"Unable to compare items",23));
+	return 0;
+}
+int c_List15::p_Sort(int t_ascending){
+	int t_ccsgn=-1;
+	if((t_ascending)!=0){
+		t_ccsgn=1;
+	}
+	int t_insize=1;
+	do{
+		int t_merges=0;
+		c_Node31* t_tail=m__head;
+		c_Node31* t_p=m__head->m__succ;
+		while(t_p!=m__head){
+			t_merges+=1;
+			c_Node31* t_q=t_p->m__succ;
+			int t_qsize=t_insize;
+			int t_psize=1;
+			while(t_psize<t_insize && t_q!=m__head){
+				t_psize+=1;
+				t_q=t_q->m__succ;
+			}
+			do{
+				c_Node31* t_t=0;
+				if(((t_psize)!=0) && ((t_qsize)!=0) && t_q!=m__head){
+					int t_cc=p_Compare5(t_p->m__data,t_q->m__data)*t_ccsgn;
+					if(t_cc<=0){
+						t_t=t_p;
+						t_p=t_p->m__succ;
+						t_psize-=1;
+					}else{
+						t_t=t_q;
+						t_q=t_q->m__succ;
+						t_qsize-=1;
+					}
+				}else{
+					if((t_psize)!=0){
+						t_t=t_p;
+						t_p=t_p->m__succ;
+						t_psize-=1;
+					}else{
+						if(((t_qsize)!=0) && t_q!=m__head){
+							t_t=t_q;
+							t_q=t_q->m__succ;
+							t_qsize-=1;
+						}else{
+							break;
+						}
+					}
+				}
+				gc_assign(t_t->m__pred,t_tail);
+				gc_assign(t_tail->m__succ,t_t);
+				t_tail=t_t;
+			}while(!(false));
+			t_p=t_q;
+		}
+		gc_assign(t_tail->m__succ,m__head);
+		gc_assign(m__head->m__pred,t_tail);
+		if(t_merges<=1){
+			return 0;
+		}
+		t_insize*=2;
+	}while(!(false));
+}
 void c_List15::mark(){
 	Object::mark();
 	gc_mark_q(m__head);
@@ -47159,6 +47237,10 @@ c_TrapList::c_TrapList(){
 c_TrapList* c_TrapList::m_new(){
 	c_List15::m_new();
 	return this;
+}
+int c_TrapList::p_Compare5(c_Trap* t_a,c_Trap* t_b){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapList.Compare(Trap, Trap)",28));
+	return 0;
 }
 void c_TrapList::mark(){
 	c_List15::mark();
@@ -52718,6 +52800,9 @@ c_FireTrap* c_FireTrap::m_new2(){
 bool c_FireTrap::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Hit(String, Int, Int, Entity, Bool, Int)",49));
 	return false;
+}
+void c_FireTrap::p_Move(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Move()",15));
 }
 void c_FireTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Update()",17));
