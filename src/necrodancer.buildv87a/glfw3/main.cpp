@@ -47951,7 +47951,14 @@ bool c_Bat::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitte
 	return false;
 }
 void c_Bat::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Bat.Update()",12));
+	if(this->m_lastX>this->m_x){
+		this->m_image->p_FlipX(true,true);
+	}else{
+		if(this->m_x>this->m_lastX){
+			this->m_image->p_FlipX(false,true);
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Bat::mark(){
 	c_Enemy::mark();

@@ -53,7 +53,13 @@ Class Bat Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Bat.Update()")
+        If Self.lastX > Self.x
+            Self.image.FlipX(True, True)
+        Else If Self.x > Self.lastX
+            Self.image.FlipX(False, True)
+        End If
+
+        Super.Update()
     End Method
 
 End Class
