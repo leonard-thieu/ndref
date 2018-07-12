@@ -5,6 +5,7 @@ Import audio2
 Import enemy
 Import level
 Import logger
+Import player_class
 Import point
 
 Class WaterBall Extends Enemy
@@ -27,8 +28,8 @@ Class WaterBall Extends Enemy
         End If
     End Method
 
-    Method AfterHitPlayer: Void(p: Object)
-        Debug.TraceNotImplemented("WaterBall.AfterHitPlayer(Object)")
+    Method AfterHitPlayer: Void(p: Player)
+        Debug.TraceNotImplemented("WaterBall.AfterHitPlayer(Player)")
     End Method
 
     Method Die: Void()

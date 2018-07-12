@@ -14,7 +14,7 @@ Class SoulFamiliar Extends FamiliarFixed
         Debug.TraceNotImplemented("SoulFamiliar.CanAttackEnemy(Object)")
     End Function
 
-    Function GetSoulAt: Object(x: Int, y: Int)
+    Function GetSoulAt: SoulFamiliar(x: Int, y: Int)
         Debug.TraceNotImplemented("SoulFamiliar.GetSoulAt(Int, Int)")
     End Function
 

@@ -1,6 +1,9 @@
 'Strict
 
 Import monkey.list
+Import controller.controller_game
+Import familiar
+Import familiar_fixed.soul_familiar
 Import level
 Import audio2
 Import bouncer
@@ -8,9 +11,12 @@ Import item
 Import logger
 Import necrodancergame
 Import particles
+Import player_class
+Import rect
 Import renderableobject
 Import sprite
 Import tile
+Import util
 
 Class Entity Extends RenderableObject Abstract
 
@@ -173,6 +179,10 @@ Class Entity Extends RenderableObject Abstract
     Field neverSilhouette: Bool
     Field showConfuseOverride: Bool
 
+    Method AfterHitPlayer: Void(p: Player)
+        ' Empty implementation
+    End Method
+
     Method BounceInPlace: Void(bufferTween: Bool)
         Debug.TraceNotImplemented("Entity.BounceInPlace(Bool)")
     End Method
@@ -264,7 +274,68 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method PerformMovement: Int(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Entity.PerformMovement(Int, Int)")
+        If Self.falling
+            Return 0
+        End If
+
+        Local includeShopWallsDespiteIgnoringWalls := controller_game.currentLevel > 3
+        If (Level.GetTileAt(xVal, yVal) = Null Or
+            Util.IsGlobalCollisionAt(xVal, yVal, Self.isPlayer, Self.ignoreWalls, includeShopWallsDespiteIgnoringWalls, False)) And
+           Not Self.ignoreCollisionWhenMoving
+            Return 0
+        End If
+
+        Local dir := Direction.None
+
+        If xVal > Self.x
+            dir = Direction.Right
+        Else If xVal < Self.x
+            dir = Direction.Left
+        End If
+
+        If yVal > Self.y
+            dir = Direction.Up
+        Else If yVal < Self.y
+            dir = Direction.Down
+        End If
+
+        Local where := New Rect(xVal, yVal, 0, 0)
+        Local playersAt := Util.GetPlayersAt(where)
+        Local soulFamiliarAt := SoulFamiliar.GetSoulAt(xVal, yVal)
+        Local familiarAt := Familiar.GetFamiliarAt(xVal, yVal)
+        Local isUnlockedExit := Level.IsExit(xVal, yVal) And
+                                Not Level.IsLockedExit(xVal, yVal)
+
+        If (playersAt.IsEmpty() And
+            familiarAt = Null And
+            soulFamiliarAt = Null) Or
+           Self.isPlayer Or
+           Self.canMoveOntoPlayer
+            Self.x = xVal
+            Self.y = yVal
+
+            Return 1
+        End If
+
+        For Local player := EachIn playersAt
+            If Not isUnlockedExit And
+               Not Self.isGentle
+                player.Hit(Self.friendlyName, Self.damagePerHit, dir, Self, False, Self.hitType)
+                Self.AfterHitPlayer(player)
+            End If
+        End For
+
+        If soulFamiliarAt <> Null
+            soulFamiliarAt.Die()
+        End If
+
+        If familiarAt <> Null
+            If playersAt.IsEmpty()
+                familiarAt.Hit(Self.friendlyName, Self.damagePerHit, dir, Self, False, Self.hitType)
+            End If
+        End If
+
+        Return 2
     End Method
 
     Method PerformMovement: Int(p: Point)

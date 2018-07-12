@@ -55,8 +55,8 @@ Class Wraith Extends Enemy
     Field seeking: Bool
     Field hasRoared: Bool
 
-    Method AfterHitPlayer: Void(p: Object)
-        Debug.TraceNotImplemented("Wraith.AfterHitPlayer(Object)")
+    Method AfterHitPlayer: Void(p: Player)
+        Debug.TraceNotImplemented("Wraith.AfterHitPlayer(Player)")
     End Method
 
     Method BecomeCorporeal: Void(force: Bool)

@@ -11,7 +11,7 @@ Class Familiar Extends MobileEntity
 
     Global familiarList: List<Familiar> = New List<Familiar>()
 
-    Function GetFamiliarAt: Object(x: Int, y: Int)
+    Function GetFamiliarAt: Familiar(x: Int, y: Int)
         Debug.TraceNotImplemented("Familiar.GetFamiliarAt(Int, Int)")
     End Function
 

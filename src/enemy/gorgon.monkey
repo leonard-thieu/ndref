@@ -1,9 +1,10 @@
 'Strict
 
-Import enemy.crate
 Import enemy
+Import enemy.crate
 Import item
 Import logger
+Import player_class
 Import shrine
 Import util
 
@@ -28,8 +29,8 @@ Class Gorgon Extends Enemy
 
     Field statueFlashFrames: Int
 
-    Method AfterHitPlayer: Void(p: Object)
-        Debug.TraceNotImplemented("Gorgon.AfterHitPlayer(Object)")
+    Method AfterHitPlayer: Void(p: Player)
+        Debug.TraceNotImplemented("Gorgon.AfterHitPlayer(Player)")
     End Method
 
     Method Die: Void()
