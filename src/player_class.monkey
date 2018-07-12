@@ -1820,7 +1820,45 @@ Class Player Extends MobileEntity
     End Method
 
     Method HandleIceAndCoals: Void()
-        Debug.TraceNotImplemented("Player.HandleIceAndCoals()")
+        If Not Self.Perished And
+           Not Self.floating
+            If Level.GetTileTypeAt(Self.x, Self.y) = TileType.Ice
+                If Self.moveLastBeat <> -1 Or
+                   Self.lastIceSlideBeat = Audio.GetClosestBeatNum(False)
+                    If Not Self.FeetIgnoreIce()
+                        Local dir := Util.GetDirFromDiff(Self.x - Self.lastX, Self.y - Self.lastY)
+                        Local dirPoint := Util.GetPointFromDir(dir)
+                        If Not Util.IsGlobalCollisionAt(Self.x + dirPoint.x, Self.y + dirPoint.y, True, False, False, False)
+                            Self.slidingDir = Util.GetDirFromDiff(Self.x - Self.lastX, Self.y - Self.lastY)
+
+                            If Self.lastIceSlideBeat <> Audio.GetClosestBeatNum(False)
+                                Self.PlayVO("IceSlide")
+                            End If
+
+                            Self.lastIceSlideBeat = Audio.GetClosestBeatNum(False)
+                        End If
+                    End If
+                End If
+            End If
+        End If
+
+        Local closestBeatNum := Audio.GetClosestBeatNum(True)
+        If Enemy.movesBehind > 0
+            closestBeatNum -= 1
+        End If
+
+        If Not Self.Perished And
+           Not Self.floating
+            If Level.GetTileTypeAt(Self.x, Self.y) = TileType.HotCoal
+                If closestBeatNum > Self.lastPlayerMoveBeatIncludeShoves
+                    If Not Self.FeetIgnoreCoals()
+                        Self.Hit("hotCoal", 2, Direction.None, Null, False, 1)
+
+                        Camera.overlayRedDuration = 12
+                    End If
+                End If
+            End If
+        End If
     End Method
 
     Method HasCouponLike: Bool()

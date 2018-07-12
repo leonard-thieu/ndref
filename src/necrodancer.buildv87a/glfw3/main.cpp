@@ -6727,6 +6727,7 @@ class c_Camera : public Object{
 	static int m_GetFixedHeight();
 	static int m_GetFixedWidth();
 	static void m_FadeOutThenExecute(int,c_Callback*);
+	static int m_overlayRedDuration;
 	static Float m_shakeOffX;
 	static Float m_GetX();
 	static Float m_shakeOffY;
@@ -7550,6 +7551,7 @@ class c_Player : public c_MobileEntity{
 	int m_heartTransplantTime;
 	bool m_readyToThrow;
 	bool m_wasClamped;
+	int m_lastPlayerMoveBeatIncludeShoves;
 	Float m_trapSight;
 	c_Player();
 	void p_ClearAllFamiliars(bool);
@@ -7646,6 +7648,8 @@ class c_Player : public c_MobileEntity{
 	static bool m_PlayersHaveMovedThisBeat();
 	static bool m_AnyPlayerInSpecialRoom();
 	bool p_IsPhasing();
+	bool p_FeetIgnoreIce();
+	bool p_FeetIgnoreCoals();
 	void p_HandleIceAndCoals();
 	void p_AfterEnemyMovement();
 	bool p_IsVisible();
@@ -18206,6 +18210,7 @@ void c_Camera::m_FadeOutThenExecute(int t_dur,c_Callback* t_cBack){
 	m_fadeOutDuration=t_dur;
 	m_fadeOutCurrent=t_dur;
 }
+int c_Camera::m_overlayRedDuration;
 Float c_Camera::m_shakeOffX;
 Float c_Camera::m_GetX(){
 	return Float(m_x)+m_shakeOffX;
@@ -32134,6 +32139,7 @@ c_Player::c_Player(){
 	m_heartTransplantTime=-1;
 	m_readyToThrow=false;
 	m_wasClamped=false;
+	m_lastPlayerMoveBeatIncludeShoves=-1;
 	m_trapSight=FLOAT(100.0);
 }
 void c_Player::p_ClearAllFamiliars(bool t_includeLamb){
@@ -34384,8 +34390,46 @@ bool c_Player::p_IsPhasing(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsPhasing()",18));
 	return false;
 }
+bool c_Player::p_FeetIgnoreIce(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.FeetIgnoreIce()",22));
+	return false;
+}
+bool c_Player::p_FeetIgnoreCoals(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.FeetIgnoreCoals()",24));
+	return false;
+}
 void c_Player::p_HandleIceAndCoals(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.HandleIceAndCoals()",26));
+	if(!this->p_Perished() && !this->m_floating){
+		if(c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==11){
+			if(this->m_moveLastBeat!=-1 || this->m_lastIceSlideBeat==c_Audio::m_GetClosestBeatNum(false)){
+				if(!this->p_FeetIgnoreIce()){
+					int t_dir=c_Util::m_GetDirFromDiff(this->m_x-this->m_lastX,this->m_y-this->m_lastY);
+					c_Point* t_dirPoint=c_Util::m_GetPointFromDir(t_dir);
+					if(!c_Util::m_IsGlobalCollisionAt2(this->m_x+t_dirPoint->m_x,this->m_y+t_dirPoint->m_y,true,false,false,false)){
+						this->m_slidingDir=c_Util::m_GetDirFromDiff(this->m_x-this->m_lastX,this->m_y-this->m_lastY);
+						if(this->m_lastIceSlideBeat!=c_Audio::m_GetClosestBeatNum(false)){
+							this->p_PlayVO(String(L"IceSlide",8));
+						}
+						this->m_lastIceSlideBeat=c_Audio::m_GetClosestBeatNum(false);
+					}
+				}
+			}
+		}
+	}
+	int t_closestBeatNum=c_Audio::m_GetClosestBeatNum(true);
+	if(c_Enemy::m_movesBehind>0){
+		t_closestBeatNum-=1;
+	}
+	if(!this->p_Perished() && !this->m_floating){
+		if(c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==10){
+			if(t_closestBeatNum>this->m_lastPlayerMoveBeatIncludeShoves){
+				if(!this->p_FeetIgnoreCoals()){
+					this->p_Hit(String(L"hotCoal",7),2,-1,0,false,1);
+					c_Camera::m_overlayRedDuration=12;
+				}
+			}
+		}
+	}
 }
 void c_Player::p_AfterEnemyMovement(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.AfterEnemyMovement()",27));
@@ -57812,6 +57856,7 @@ int bbInit(){
 	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_FamiliarFixed::m_debugTouchDamage=true;
 	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;
+	c_Camera::m_overlayRedDuration=0;
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Bomb::m_bombList=(new c_List41)->m_new();
