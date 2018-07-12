@@ -15,7 +15,14 @@ Class SoulFamiliar Extends FamiliarFixed
     End Function
 
     Function GetSoulAt: SoulFamiliar(x: Int, y: Int)
-        Debug.TraceNotImplemented("SoulFamiliar.GetSoulAt(Int, Int)")
+        For Local soulFamiliar := EachIn SoulFamiliar.allSouls
+            If soulFamiliar.x = x And
+               soulFamiliar.y = y
+                Return soulFamiliar
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function ResetSoulMovement: Void()

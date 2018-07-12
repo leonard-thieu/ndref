@@ -45975,7 +45975,13 @@ bool c_SoulFamiliar::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity
 	return false;
 }
 c_SoulFamiliar* c_SoulFamiliar::m_GetSoulAt(int t_x,int t_y){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SoulFamiliar.GetSoulAt(Int, Int)",32));
+	c_Enumerator9* t_=m_allSouls->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_SoulFamiliar* t_soulFamiliar=t_->p_NextObject();
+		if(t_soulFamiliar->m_x==t_x && t_soulFamiliar->m_y==t_y){
+			return t_soulFamiliar;
+		}
+	}
 	return 0;
 }
 void c_SoulFamiliar::p_Update(){
