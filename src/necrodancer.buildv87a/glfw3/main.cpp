@@ -45475,7 +45475,21 @@ c_EnemyList* c_EnemyList::m_new(){
 	return this;
 }
 int c_EnemyList::p_Compare4(c_Enemy* t_a,c_Enemy* t_b){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"EnemyList.Compare(Enemy, Enemy)",31));
+	if(t_a->m_movePriority>t_b->m_movePriority){
+		return -1;
+	}
+	if(t_a->m_movePriority<t_b->m_movePriority){
+		return 1;
+	}
+	c_Player* t_player1=bb_controller_game_players[bb_controller_game_player1];
+	Float t_distA=c_Util::m_GetDist(t_a->m_x,t_a->m_y,t_player1->m_x,t_player1->m_y);
+	Float t_distB=c_Util::m_GetDist(t_b->m_x,t_b->m_y,t_player1->m_x,t_player1->m_y);
+	if(t_distA<t_distB){
+		return -1;
+	}
+	if(t_distA>t_distB){
+		return 1;
+	}
 	return 0;
 }
 void c_EnemyList::mark(){

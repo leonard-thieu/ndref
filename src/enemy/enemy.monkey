@@ -2765,7 +2765,27 @@ Class EnemyList Extends List<Enemy>
     Function _EditorFix: Void() End
 
     Method Compare: Int(a: Enemy, b: Enemy)
-        Debug.TraceNotImplemented("EnemyList.Compare(Enemy, Enemy)")
+        If a.movePriority > b.movePriority
+            Return -1
+        End If
+
+        If a.movePriority < b.movePriority
+            Return 1
+        End If
+
+        Local player1 := controller_game.players[controller_game.player1]
+        Local distA := Util.GetDist(a.x, a.y, player1.x, player1.y)
+        Local distB := Util.GetDist(b.x, b.y, player1.x, player1.y)
+
+        If distA < distB
+            Return -1
+        End If
+
+        If distA > distB
+            Return 1
+        End If
+
+        Return 0
     End Method
 
 End Class
