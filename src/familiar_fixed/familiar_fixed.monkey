@@ -7,7 +7,7 @@ Import player_class
 
 Class FamiliarFixed Extends Entity Abstract
 
-    Global debugTouchDamage: Bool
+    Global debugTouchDamage: Bool = True
     Global familiarList: List<FamiliarFixed> = New List<FamiliarFixed>()
 
     Function GetFamiliarAt: FamiliarFixed(x: Int, y: Int)
@@ -29,6 +29,10 @@ Class FamiliarFixed Extends Entity Abstract
     Field enableAutoFlip: Bool
     Field owner: Player
     Field hasMovedThisFrame: Bool
+
+    Method ApplyEffect: Bool(dir: Int)
+        Return False
+    End Method
 
     Method Die: Void()
         Debug.TraceNotImplemented("FamiliarFixed.Die()")

@@ -7803,6 +7803,8 @@ class c_FamiliarFixed : public c_Entity{
 	static c_List4* m_familiarList;
 	static c_FamiliarFixed* m_GetFamiliarAt(int,int);
 	void p_TryPickup();
+	static bool m_debugTouchDamage;
+	bool p_ApplyEffect(int);
 	void p_Update();
 	void mark();
 };
@@ -34939,6 +34941,10 @@ c_FamiliarFixed* c_FamiliarFixed::m_GetFamiliarAt(int t_x,int t_y){
 }
 void c_FamiliarFixed::p_TryPickup(){
 }
+bool c_FamiliarFixed::m_debugTouchDamage;
+bool c_FamiliarFixed::p_ApplyEffect(int t_dir){
+	return false;
+}
 void c_FamiliarFixed::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FamiliarFixed.Update()",22));
 }
@@ -40380,7 +40386,12 @@ void c_Enemy::p_InitDirtJump(int t_xVal,int t_yVal){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.InitDirtJump(Int, Int)",28));
 }
 void c_Enemy::p_CheckFamiliarTouch(int t_dir){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.CheckFamiliarTouch(Int)",29));
+	if(c_FamiliarFixed::m_debugTouchDamage){
+		c_FamiliarFixed* t_familiarFixed=c_FamiliarFixed::m_GetFamiliarAt(this->m_x,this->m_y);
+		if(t_familiarFixed!=0){
+			t_familiarFixed->p_ApplyEffect(-1);
+		}
+	}
 }
 int c_Enemy::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	if(this->m_flaggedForDeath){
@@ -57790,6 +57801,7 @@ int bbInit(){
 	c_Doppelganger::m_doppelgangers=(new c_List38)->m_new();
 	c_Flyaway::m_temporarilyDisableNewFlyaways=0;
 	c_Flyaway::m_activeFlyaways=(new c_List39)->m_new();
+	c_FamiliarFixed::m_debugTouchDamage=true;
 	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;
 	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_Camera::m_shakeOffX=FLOAT(.0);

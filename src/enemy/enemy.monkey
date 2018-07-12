@@ -61,6 +61,7 @@ Import enemy.wraith
 Import enemy.yeti
 Import enemy.zombie
 Import enemy.zombie_electric
+Import familiar_fixed
 Import level
 Import trap
 Import audio2
@@ -2379,7 +2380,12 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method CheckFamiliarTouch: Void(dir: Int)
-        Debug.TraceNotImplemented("Enemy.CheckFamiliarTouch(Int)")
+        If FamiliarFixed.debugTouchDamage
+            Local familiarFixed := FamiliarFixed.GetFamiliarAt(Self.x, Self.y)
+            If familiarFixed <> Null
+                familiarFixed.ApplyEffect(Direction.None)
+            End If
+        End If
     End Method
 
     Method Cull: Void()
