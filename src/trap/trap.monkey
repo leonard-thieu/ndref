@@ -2,9 +2,13 @@
 
 Import monkey.list
 Import controller.controller_game
+Import enemy
+Import audio2
 Import entity
+Import item
 Import logger
 Import mobileentity
+Import player_class
 Import util
 
 Class Trap Extends Entity Abstract
@@ -102,7 +106,50 @@ Class Trap Extends Entity Abstract
     End Method
 
     Method Move: Void()
-        Debug.TraceNotImplemented("Trap.Move()")
+        If Not Player.AllPlayersPerished()
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                If Self.x = player.x And
+                   Self.y = player.y And
+                   Self.triggeredOn <> player And
+                   (Self.isRune Or
+                    (Not player.floating And
+                     Not player.IsLordCrownActive() And
+                     player.GetItemInSlot("head", False) <> ItemType.NinjaMask))
+                    Self.triggeredOnBeat = Audio.GetClosestBeatNum(True)
+
+                    If Self.trapType <> TrapType.BounceTrap And
+                       (Not player.IsStandingStill() Or
+                        (Not Enemy.EnemiesHaveMovedClosestBeat() And
+                         Not Audio.PastLastBeat())) And
+                       Not Self.newTrap
+                        Self.willTriggerOn = player
+                    Else
+                        Self.Trigger(player)
+                    End If
+                End If
+            End For
+
+            Local enemy := Enemy.GetEnemyAt(Self.x, Self.y, False)
+            If enemy <> Null
+                Self.triggeredOnBeat = Audio.GetClosestBeatNum(True)
+
+                If Not enemy.floating And
+                   Not enemy.isMassive And
+                   Self.triggeredOn <> enemy 
+                    If Self.trapType = TrapType.BounceTrap Or
+                       enemy.IsStandingStill() Or
+                       Self.newTrap
+                        Self.Trigger(enemy)
+                    Else If Self.trapType <> TrapType.BounceTrap And
+                            Self.willTriggerOn = Null
+                        Self.willTriggerOn = enemy
+                    End If
+                End If
+            End If
+        End If
+
+        Self.newTrap = False
     End Method
 
     Method Trigger: Void(ent: Entity)

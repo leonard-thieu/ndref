@@ -8197,6 +8197,7 @@ class c_Enemy : public c_MobileEntity{
 	virtual void p_MoveSucceed(bool,bool);
 	virtual void p_MoveFail();
 	static void m_MoveAll();
+	static bool m_EnemiesHaveMovedClosestBeat();
 	void p_AnimateToTheBeat();
 	void p_Update();
 	static void m_SetEnemiesToDropNoCoinsOverride();
@@ -9591,6 +9592,8 @@ class c_Trap : public c_Entity{
 	c_Entity* m_triggeredOn;
 	c_Entity* m_willTriggerOn;
 	bool m_triggered;
+	int m_triggeredOnBeat;
+	bool m_newTrap;
 	bool m_playerWasClose;
 	bool m_indestructible;
 	c_Trap();
@@ -40629,6 +40632,10 @@ void c_Enemy::m_MoveAll(){
 		}
 	}
 }
+bool c_Enemy::m_EnemiesHaveMovedClosestBeat(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.EnemiesHaveMovedClosestBeat()",35));
+	return false;
+}
 void c_Enemy::p_AnimateToTheBeat(){
 	if(this->m_animOverrideState!=-1){
 		this->m_image->p_SetFrame(this->m_animOverrideState);
@@ -47583,6 +47590,8 @@ c_Trap::c_Trap(){
 	m_triggeredOn=0;
 	m_willTriggerOn=0;
 	m_triggered=false;
+	m_triggeredOnBeat=-1;
+	m_newTrap=true;
 	m_playerWasClose=false;
 	m_indestructible=false;
 }
@@ -47649,7 +47658,33 @@ void c_Trap::p_Trigger(c_Entity* t_ent){
 	this->m_triggered=true;
 }
 void c_Trap::p_Move(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.Move()",11));
+	if(!c_Player::m_AllPlayersPerished()){
+		for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+			c_Player* t_player=bb_controller_game_players[t_i];
+			if(this->m_x==t_player->m_x && this->m_y==t_player->m_y && this->m_triggeredOn!=(t_player) && (this->m_isRune || !t_player->m_floating && !t_player->p_IsLordCrownActive() && t_player->p_GetItemInSlot(String(L"head",4),false)!=String(L"head_ninja_mask",15))){
+				this->m_triggeredOnBeat=c_Audio::m_GetClosestBeatNum(true);
+				if(this->m_trapType!=1 && (!t_player->p_IsStandingStill() || !c_Enemy::m_EnemiesHaveMovedClosestBeat() && !c_Audio::m_PastLastBeat()) && !this->m_newTrap){
+					gc_assign(this->m_willTriggerOn,(t_player));
+				}else{
+					this->p_Trigger(t_player);
+				}
+			}
+		}
+		c_Enemy* t_enemy=c_Enemy::m_GetEnemyAt(this->m_x,this->m_y,false);
+		if(t_enemy!=0){
+			this->m_triggeredOnBeat=c_Audio::m_GetClosestBeatNum(true);
+			if(!t_enemy->m_floating && !t_enemy->m_isMassive && this->m_triggeredOn!=(t_enemy)){
+				if(this->m_trapType==1 || t_enemy->p_IsStandingStill() || this->m_newTrap){
+					this->p_Trigger(t_enemy);
+				}else{
+					if(this->m_trapType!=1 && this->m_willTriggerOn==0){
+						gc_assign(this->m_willTriggerOn,(t_enemy));
+					}
+				}
+			}
+		}
+	}
+	this->m_newTrap=false;
 }
 void c_Trap::m_MoveAll(){
 	m_trapList->p_Sort(1);
