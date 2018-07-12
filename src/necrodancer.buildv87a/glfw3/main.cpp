@@ -34141,7 +34141,12 @@ bool c_Player::m_PlayersHaveMovedThisBeat(){
 	return bb_controller_game_incrementFixedBeatNum;
 }
 bool c_Player::m_AnyPlayerInSpecialRoom(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.AnyPlayerInSpecialRoom()",31));
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(!t_player->p_Perished() && t_player->m_x<=-180){
+			return true;
+		}
+	}
 	return false;
 }
 void c_Player::p_HandleIceAndCoals(){
@@ -49735,13 +49740,10 @@ void c_Wraith::p_BecomeCorporeal(bool t_force){
 		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
 			return;
 		}
-		for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-			c_Player* t_player=bb_controller_game_players[t_i];
-			if(!t_player->p_Perished() && t_player->m_x<=-180){
-				this->m_coinsToDrop=0;
-				this->p_Die();
-				return;
-			}
+		if(c_Player::m_AnyPlayerInSpecialRoom()){
+			this->m_coinsToDrop=0;
+			this->p_Die();
+			return;
 		}
 		if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,false,false,false)){
 			return;

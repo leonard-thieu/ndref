@@ -73,16 +73,12 @@ Class Wraith Extends Enemy
                 Return
             End If
 
-            For Local i := 0 Until controller_game.numPlayers
-                Local player := controller_game.players[i]
-                If Not player.Perished And
-                   player.x <= -180
-                    Self.coinsToDrop = 0
-                    Self.Die()
+            If Player.AnyPlayerInSpecialRoom()
+                Self.coinsToDrop = 0
+                Self.Die()
 
-                    Return
-                End If
-            End For
+                Return
+            End If
 
             If Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 3.0 Or
                Util.IsGlobalCollisionAt(Self.x, Self.y, False, False, False, False)
