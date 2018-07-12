@@ -2,6 +2,7 @@
 
 Import monkey.list
 Import level
+Import audio2
 Import bouncer
 Import item
 Import logger
@@ -218,7 +219,7 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method IsConfused: Bool()
-        Debug.TraceNotImplemented("Entity.IsConfused()")
+        Return Self.confusedUntil > Audio.GetClosestBeatNum(True)
     End Method
 
     Method IsFrozen: Bool(ignoreLastBeat: Bool)

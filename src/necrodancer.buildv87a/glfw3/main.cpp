@@ -31381,8 +31381,7 @@ void c_Entity::p_BounceToward(c_Point* t_p,bool t_bufferTween){
 	this->p_PerformTween(this->m_x+t_p->m_x,this->m_y+t_p->m_y,this->m_x,this->m_y,10,11,t_bufferTween);
 }
 bool c_Entity::p_IsConfused(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.IsConfused()",19));
-	return false;
+	return this->m_confusedUntil>c_Audio::m_GetClosestBeatNum(true);
 }
 int c_Entity::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.MoveImmediate(Int, Int, String)",38));
