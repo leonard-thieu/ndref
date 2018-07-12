@@ -1444,7 +1444,7 @@ Class Tile Extends RenderableObject
                    Not Self.playerWasOnTileLastFrame And
                    Self.playerWasOnTileLastFrame > 0 And
                    Shrine.noReturnShrineActive
-                    Shrine.noReturnShrinePlayer.Hit("SHRINE OF NO RETURN", 1, -1, Null, False, 0)
+                    Shrine.noReturnShrinePlayer.Hit("SHRINE OF NO RETURN", 1)
                     Shrine.noReturnShrineActive = False
                 End If
 
@@ -1462,7 +1462,7 @@ Class Tile Extends RenderableObject
                    Not Self.playerWasOnTileLastFrame And
                    Self.playerWasOnTileLastFrame > 0 And
                    Shrine.noReturnShrineActive
-                    Shrine.noReturnShrinePlayer.Hit("NO RETURN MODE", 1, -1, Null, False, 0)
+                    Shrine.noReturnShrinePlayer.Hit("NO RETURN MODE", 1)
                     Shrine.noReturnShrineActive = False
                 End If
             End for

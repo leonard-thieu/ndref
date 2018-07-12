@@ -2437,7 +2437,7 @@ Class Player Extends MobileEntity
            closestBeatNum > 64 And
            Self.paceBeat = -1 And
            Not Self.falling
-            Self.Hit("SHRINE OF PACE", 1, -1, Null, False, 0)
+            Self.Hit("SHRINE OF PACE", 1)
 
             Local slothFlyaway := New Flyaway("|255|SLOTH! (SHRINE OF PACE)|", Self.x, Self.y, 0, -22, True, 0.0, 0.2, True, 120)
             slothFlyaway.CenterX()

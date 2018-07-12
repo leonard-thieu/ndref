@@ -304,7 +304,7 @@ Class ControllerGame Extends Controller
                                 End If
 
                                 If Util.IsCharacterActive(Character.Dove)
-                                    player.Hit("COWARDICE", 99999, -1, Null, False, 0)
+                                    player.Hit("COWARDICE", 99999)
 
                                     Continue
                                 End If
