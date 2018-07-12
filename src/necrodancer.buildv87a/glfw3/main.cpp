@@ -5957,6 +5957,7 @@ class c_Util : public Object{
 	static bool m_IsOnScreen(int,int,Float,Float);
 	static bool m_LineSegmentTileIntersect(Float,Float,Float,Float,Float,Float);
 	static c_Player* m_GetAnyPlayerAt(int,int);
+	static int m_GetDirFromDiff(int,int);
 	static c_Player* m_GetClosestPlayer(int,int);
 	static c_List42* m_GetPlayersAt(c_Rect*);
 	static c_List42* m_GetPlayersAt2(int,int);
@@ -7355,6 +7356,8 @@ class c_Entity : public c_RenderableObject{
 	void p_BounceToward(c_Point*,bool);
 	bool p_IsConfused();
 	virtual int p_MoveImmediate(int,int,String);
+	virtual int p_PerformMovement(int,int);
+	int p_PerformMovement2(c_Point*);
 	static void m_UpdateVisibility();
 	virtual bool p_IsVisible();
 	static bool m_anyPlayerHaveNazarCharmCached;
@@ -8094,6 +8097,10 @@ class c_Enemy : public c_MobileEntity{
 	bool m_isUnaffectedByArenas;
 	c_Point* m_lastAttemptedMove;
 	bool m_tramples;
+	bool m_bounceOnMovementFail;
+	int m_renderSwipeTime;
+	int m_attackSwipeDir;
+	c_Point* m_attackSwipePoint;
 	bool m_useLastPosForSwipe;
 	bool m_justHitPlayer;
 	c_Player* m_seekingPlayer;
@@ -8167,6 +8174,9 @@ class c_Enemy : public c_MobileEntity{
 	virtual bool p_ImmuneToFear();
 	c_Point* p_BasicFlee(bool);
 	virtual c_Point* p_GetMovementDirection();
+	void p_AfterHitHook(int,int);
+	void p_InitDirtJump(int,int);
+	void p_CheckFamiliarTouch(int);
 	int p_MoveImmediate(int,int,String);
 	int p_AttemptMove(int,int);
 	virtual int p_Move();
@@ -9564,9 +9574,9 @@ class c_Trap : public c_Entity{
 	bool m_isRune;
 	bool m_canBeReplacedByTempoTrap;
 	c_Entity* m_triggeredOn;
+	c_Entity* m_willTriggerOn;
 	bool m_triggered;
 	bool m_playerWasClose;
-	c_Entity* m_willTriggerOn;
 	bool m_indestructible;
 	c_Trap();
 	static c_TrapList* m_trapList;
@@ -9578,10 +9588,10 @@ class c_Trap : public c_Entity{
 	void p_Die();
 	bool p_IsLive();
 	static bool m_IsLiveTrapAt(int,int);
+	virtual void p_Trigger(c_Entity*);
 	virtual void p_Move();
 	static void m_MoveAll();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
-	virtual void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -10206,6 +10216,7 @@ class c_Slime : public c_Enemy{
 	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
+	int p_PerformMovement(int,int);
 	void p_Update();
 	void mark();
 };
@@ -10237,6 +10248,7 @@ class c_Monkey : public c_EnemyClamper{
 	c_Monkey* m_new(int,int,int);
 	c_Monkey* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	int p_PerformMovement(int,int);
 	void p_Update();
 	void mark();
 };
@@ -10494,6 +10506,7 @@ class c_TarMonster : public c_EnemyClamper{
 	void p_Die();
 	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
+	int p_PerformMovement(int,int);
 	void p_Update();
 	void mark();
 };
@@ -10897,6 +10910,7 @@ class c_Fortissimole : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
+	int p_PerformMovement(int,int);
 	void p_Update();
 	void mark();
 };
@@ -14096,6 +14110,10 @@ c_Player* c_Util::m_GetAnyPlayerAt(int t_xVal,int t_yVal){
 			}
 		}
 	}
+	return 0;
+}
+int c_Util::m_GetDirFromDiff(int t_xDiff,int t_yDiff){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDirFromDiff(Int, Int)",29));
 	return 0;
 }
 c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
@@ -31387,6 +31405,13 @@ int c_Entity::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.MoveImmediate(Int, Int, String)",38));
 	return 0;
 }
+int c_Entity::p_PerformMovement(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.PerformMovement(Int, Int)",32));
+	return 0;
+}
+int c_Entity::p_PerformMovement2(c_Point* t_p){
+	return this->p_PerformMovement(t_p->m_x,t_p->m_y);
+}
 void c_Entity::m_UpdateVisibility(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
 }
@@ -36648,6 +36673,10 @@ c_Enemy::c_Enemy(){
 	m_isUnaffectedByArenas=false;
 	m_lastAttemptedMove=(new c_Point)->m_new(0,0);
 	m_tramples=false;
+	m_bounceOnMovementFail=true;
+	m_renderSwipeTime=0;
+	m_attackSwipeDir=-1;
+	m_attackSwipePoint=(new c_Point)->m_new(0,0);
 	m_useLastPosForSwipe=false;
 	m_justHitPlayer=false;
 	m_seekingPlayer=0;
@@ -40233,9 +40262,67 @@ c_Point* c_Enemy::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetMovementDirection()",28));
 	return 0;
 }
+void c_Enemy::p_AfterHitHook(int t_diffX,int t_diffY){
+}
+void c_Enemy::p_InitDirtJump(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.InitDirtJump(Int, Int)",28));
+}
+void c_Enemy::p_CheckFamiliarTouch(int t_dir){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.CheckFamiliarTouch(Int)",29));
+}
 int c_Enemy::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.MoveImmediate(Int, Int, String)",37));
-	return 0;
+	if(this->m_flaggedForDeath){
+		return 0;
+	}
+	c_Trap* t_trap=c_Trap::m_GetTrapAt(this->m_x,this->m_y);
+	if(t_trap!=0){
+		if(t_trap->m_willTriggerOn==(this)){
+			t_trap->p_Trigger(this);
+		}
+	}
+	this->m_lastX=this->m_x;
+	this->m_lastY=this->m_y;
+	if(this->p_IsStuckInLiquid()){
+		return 0;
+	}
+	int t_nextX=this->m_x+t_xVal;
+	int t_nextY=this->m_y+t_yVal;
+	int t_moveResult=this->p_PerformMovement(t_nextX,t_nextY);
+	int t_19=t_moveResult;
+	if(t_19==0){
+		if(this->m_bounceOnMovementFail){
+			c_Point* t_bounceTo=(new c_Point)->m_new(t_xVal,t_yVal);
+			bool t_bufferTween=t_movementSource==String(L"bounceTrap",10);
+			this->p_BounceToward(t_bounceTo,t_bufferTween);
+		}
+	}else{
+		if(t_19==2){
+			this->p_PerformTween(t_nextX,t_nextY,this->m_lastX,this->m_lastY,this->m_hitTween,this->m_hitShadowTween,false);
+			if(!this->m_isGentle){
+				this->m_renderSwipeTime=10;
+			}
+			this->m_attackSwipeDir=c_Util::m_GetDirFromDiff(t_xVal,t_yVal);
+			gc_assign(this->m_attackSwipePoint,(new c_Point)->m_new(t_xVal,t_yVal));
+			this->p_AfterHitHook(t_xVal,t_yVal);
+			this->p_InitDirtJump(this->m_lastX,this->m_lastY);
+		}else{
+			bool t_bufferTween2=t_movementSource==String(L"bounceTrap",10);
+			this->p_PerformTween(this->m_x,this->m_y,this->m_lastX,this->m_lastY,this->m_moveTween,this->m_moveShadowTween,t_bufferTween2);
+			this->m_gotOutOfTar=false;
+			if(this->m_overrideMoveSound!=String()){
+				c_Audio::m_PlayGameSoundAt(this->m_overrideMoveSound,this->m_x,this->m_y,false,-1,false);
+			}
+			if(c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==18 && !this->m_floating){
+				this->p_Hit(String(L"LAVA",4),999,-1,0,false,0);
+			}
+			int t_dir=c_Util::m_GetDirFromDiff(t_xVal,t_yVal);
+			this->p_CheckFamiliarTouch(t_dir);
+			this->p_InitDirtJump(this->m_lastX,this->m_lastY);
+			this->m_changedTilePositionThisFrame=true;
+			t_moveResult=1;
+		}
+	}
+	return t_moveResult;
 }
 int c_Enemy::p_AttemptMove(int t_xVal,int t_yVal){
 	if(this->p_IsConfused()){
@@ -40446,6 +40533,7 @@ void c_Enemy::mark(){
 	gc_mark_q(m_attackSwipeImage);
 	gc_mark_q(m_jumpDirt);
 	gc_mark_q(m_lastAttemptedMove);
+	gc_mark_q(m_attackSwipePoint);
 	gc_mark_q(m_seekingPlayer);
 }
 c_Crate::c_Crate(){
@@ -47305,9 +47393,9 @@ c_Trap::c_Trap(){
 	m_isRune=false;
 	m_canBeReplacedByTempoTrap=true;
 	m_triggeredOn=0;
+	m_willTriggerOn=0;
 	m_triggered=false;
 	m_playerWasClose=false;
-	m_willTriggerOn=0;
 	m_indestructible=false;
 }
 c_TrapList* c_Trap::m_trapList;
@@ -47367,6 +47455,11 @@ bool c_Trap::m_IsLiveTrapAt(int t_xVal,int t_yVal){
 	}
 	return false;
 }
+void c_Trap::p_Trigger(c_Entity* t_ent){
+	this->m_willTriggerOn=0;
+	gc_assign(this->m_triggeredOn,t_ent);
+	this->m_triggered=true;
+}
 void c_Trap::p_Move(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.Move()",11));
 }
@@ -47381,11 +47474,6 @@ void c_Trap::m_MoveAll(){
 bool c_Trap::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.Hit(String, Int, Int, Entity, Bool, Int)",45));
 	return false;
-}
-void c_Trap::p_Trigger(c_Entity* t_ent){
-	this->m_willTriggerOn=0;
-	gc_assign(this->m_triggeredOn,t_ent);
-	this->m_triggered=true;
 }
 void c_Trap::p_Update(){
 	bool t_isInTrapSightRange=false;
@@ -49587,6 +49675,10 @@ void c_Slime::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	}
 	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
+int c_Slime::p_PerformMovement(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.PerformMovement(Int, Int)",31));
+	return 0;
+}
 void c_Slime::p_Update(){
 	if(this->m_level==2){
 		this->m_animOverride=-1;
@@ -49701,6 +49793,10 @@ c_Monkey* c_Monkey::m_new2(){
 bool c_Monkey::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Monkey.Hit(String, Int, Int, Entity, Bool, Int)",47));
 	return false;
+}
+int c_Monkey::p_PerformMovement(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Monkey.PerformMovement(Int, Int)",32));
+	return 0;
 }
 void c_Monkey::p_Update(){
 	if(this->m_clampedOn){
@@ -50605,6 +50701,10 @@ c_Point* c_TarMonster::p_GetMovementDirection(){
 }
 void c_TarMonster::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.MoveSucceed(Bool, Bool)",34));
+}
+int c_TarMonster::p_PerformMovement(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.PerformMovement(Int, Int)",36));
+	return 0;
 }
 void c_TarMonster::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.Update()",19));
@@ -51961,6 +52061,10 @@ void c_Fortissimole::p_MoveFail(){
 }
 void c_Fortissimole::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.MoveSucceed(Bool, Bool)",36));
+}
+int c_Fortissimole::p_PerformMovement(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.PerformMovement(Int, Int)",38));
+	return 0;
 }
 void c_Fortissimole::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.Update()",21));

@@ -62,6 +62,7 @@ Import enemy.yeti
 Import enemy.zombie
 Import enemy.zombie_electric
 Import level
+Import trap
 Import audio2
 Import beatanimationdata
 Import camera
@@ -73,7 +74,7 @@ Import necrodancergame
 Import player_class
 Import point
 Import sprite
-Import trap
+Import tile
 Import util
 Import xml
 
@@ -2263,6 +2264,10 @@ Class Enemy Extends MobileEntity Abstract
         End If
     End Method
 
+    Method AfterHitHook: Void(diffX: Int, diffY: Int)
+        ' Empty implementation
+    End Method
+
     Method AnimateToTheBeat: Void()
         If Self.animOverrideState <> -1
             Self.image.SetFrame(Self.animOverrideState)
@@ -2497,7 +2502,7 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.GetMovementDirection()")
     End Method
 
-    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
         Debug.TraceNotImplemented("Enemy.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
@@ -2755,7 +2760,70 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
-        Debug.TraceNotImplemented("Enemy.MoveImmediate(Int, Int, String)")
+        If Self.flaggedForDeath
+            Return 0
+        End If
+
+        Local trap := Trap.GetTrapAt(Self.x, Self.y)
+        If trap <> Null
+            If trap.willTriggerOn = Self
+                trap.Trigger(Self)
+            End If
+        End If
+
+        Self.lastX = Self.x
+        Self.lastY = Self.y
+
+        If Self.IsStuckInLiquid()
+            Return 0
+        End If
+
+        Local nextX := Self.x + xVal
+        Local nextY := Self.y + yVal
+
+        Local moveResult := Self.PerformMovement(nextX, nextY)
+        Select moveResult
+            Case 0
+                If Self.bounceOnMovementFail
+                    Local bounceTo := New Point(xVal, yVal)
+                    Local bufferTween := movementSource = "bounceTrap"
+                    Self.BounceToward(bounceTo, bufferTween)
+                End If
+            Case 2
+                Self.PerformTween(nextX, nextY, Self.lastX, Self.lastY, Self.hitTween, Self.hitShadowTween, False)
+
+                If Not Self.isGentle
+                    Self.renderSwipeTime = 10
+                End If
+
+                Self.attackSwipeDir = Util.GetDirFromDiff(xVal, yVal)
+                Self.attackSwipePoint = New Point(xVal, yVal)
+                Self.AfterHitHook(xVal, yVal)
+                Self.InitDirtJump(Self.lastX, Self.lastY)
+            Default
+                Local bufferTween := movementSource = "bounceTrap"
+                Self.PerformTween(Self.x, Self.y, Self.lastX, Self.lastY, Self.moveTween, Self.moveShadowTween, bufferTween)
+
+                Self.gotOutOfTar = False
+
+                If Self.overrideMoveSound <> ""
+                    Audio.PlayGameSoundAt(Self.overrideMoveSound, Self.x, Self.y, False, -1, False)
+                End If
+
+                If Level.GetTileTypeAt(Self.x, Self.y) = TileType.Lava And
+                   Not Self.floating
+                    Self.Hit("LAVA", 999)
+                End If
+
+                Local dir := Util.GetDirFromDiff(xVal, yVal)
+                Self.CheckFamiliarTouch(dir)
+                Self.InitDirtJump(Self.lastX, Self.lastY)
+                Self.changedTilePositionThisFrame = True
+
+                moveResult = 1
+        End Select
+
+        Return moveResult
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
