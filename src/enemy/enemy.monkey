@@ -2308,7 +2308,27 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method AttemptMove: Int(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Enemy.AttemptMove(Int, Int)")
+        If Self.IsConfused()
+            xVal = -xVal
+            yVal = -yVal
+        End If
+
+        Self.lastAttemptedMove.x = xVal
+        Self.lastAttemptedMove.y = yVal
+
+        Local nextX := Self.x + xVal
+        Local nextY := Self.y + yVal
+
+        Local enemy := Enemy.GetEnemyAt(nextX, nextY, True)
+        If enemy <> Null And
+           enemy.collides And
+           enemy <> Self And
+           Not Self.tramples And
+           Not Util.IsAnyPlayerAt(nextX, nextY)
+            Return 4
+        End If
+
+        Return Self.MoveImmediate(xVal, yVal, "self")
     End Method
 
     Method BasicFlee: Point(includeDiagonals: Bool)
