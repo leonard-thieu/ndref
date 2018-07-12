@@ -31862,8 +31862,7 @@ bool c_MobileEntity::p_IsSlidingOnIce(){
 	return this->m_slidingDir!=-1;
 }
 bool c_MobileEntity::p_IsStuckInLiquid(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"MobileEntity.IsStuckInLiquid()",30));
-	return false;
+	return (c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==4 || c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==5 || c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==8) && (!this->m_floating && !this->m_gotOutOfTar && !this->m_isMassive && !this->m_ignoreLiquids);
 }
 void c_MobileEntity::mark(){
 	c_Entity::mark();

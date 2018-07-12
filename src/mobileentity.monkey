@@ -46,7 +46,13 @@ Class MobileEntity Extends Entity Abstract
     End Method
 
     Method IsStuckInLiquid: Bool()
-        Debug.TraceNotImplemented("MobileEntity.IsStuckInLiquid()")
+        Return (Level.GetTileTypeAt(Self.x, Self.y) = TileType.Water Or
+                Level.GetTileTypeAt(Self.x, Self.y) = TileType.DeepWater Or
+                Level.GetTileTypeAt(Self.x, Self.y) = TileType.Tar) And
+               (Not Self.floating And
+                Not Self.gotOutOfTar And
+                Not Self.isMassive And
+                Not Self.ignoreLiquids)
     End Method
 
     Method Splash: Void(destroyWater: Bool)
