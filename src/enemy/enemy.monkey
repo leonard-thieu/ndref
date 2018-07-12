@@ -2298,7 +2298,7 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.AttemptMove(Int, Int)")
     End Method
 
-    Method BasicFlee: Object(includeDiagonals: Bool)
+    Method BasicFlee: Point(includeDiagonals: Bool)
         Debug.TraceNotImplemented("Enemy.BasicFlee(Bool)")
     End Method
 
@@ -2470,6 +2470,10 @@ Class Enemy Extends MobileEntity Abstract
 
     Method ImageFlipX: Void(flipX: Bool)
         Debug.TraceNotImplemented("Enemy.ImageFlipX(Bool)")
+    End Method
+
+    Method ImmuneToFear: Bool()
+        Return False
     End Method
 
     Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String)
@@ -2687,7 +2691,30 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method Move: Int()
-        Debug.TraceNotImplemented("Enemy.Move()")
+        If Self.flaggedForDeath
+            Return 0
+        End If
+
+        If Self.currentMoveDelay > 1 And
+           (Enemy.enemiesFearfulDuration <= 0 Or Self.isCrate)
+            Return 3
+        End If
+
+        Local movementDirection: Point
+        If Enemy.enemiesFearfulDuration > 0 And
+           Not Self.isCrate And
+           Not Self.ImmuneToFear()
+            movementDirection = Self.BasicFlee(False)
+        Else
+            movementDirection = Self.GetMovementDirection()
+        End If
+
+        If movementDirection.x = 0 And
+           movementDirection.y = 0
+            Return 3
+        End If
+
+        Return Self.AttemptMove(movementDirection.x, movementDirection.y)
     End Method
 
     Method MoveFail: Void()

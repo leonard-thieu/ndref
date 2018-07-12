@@ -8153,6 +8153,10 @@ class c_Enemy : public c_MobileEntity{
 	static c_Sprite* m_LoadBestiarySprite(int);
 	static bool m_EnemiesHaveMovedThisBeat();
 	static bool m_EnemiesMovingThisFrame();
+	virtual bool p_ImmuneToFear();
+	c_Point* p_BasicFlee(bool);
+	virtual c_Point* p_GetMovementDirection();
+	int p_AttemptMove(int,int);
 	virtual int p_Move();
 	virtual void p_MoveSucceed(bool,bool);
 	virtual void p_MoveFail();
@@ -8188,6 +8192,7 @@ class c_Crate : public c_Enemy{
 	static void m_ProcessFallenCrates();
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -8240,6 +8245,7 @@ class c_Gargoyle : public c_Enemy{
 	void p_OpenAsCrate(bool);
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -8319,6 +8325,7 @@ class c_Leprechaun : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	c_Leprechaun* m_new(int,int,int);
 	c_Leprechaun* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -9697,6 +9704,7 @@ class c_Transmogrifier : public c_NPC{
 	c_Transmogrifier* m_new(int,int,int,bool);
 	c_Transmogrifier* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void mark();
 };
@@ -9937,7 +9945,9 @@ class c_KingConga : public c_Enemy{
 	c_KingConga* m_new2();
 	void p_AddZombieFriend(c_Enemy*);
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	bool p_ImmuneToFear();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -9951,6 +9961,7 @@ class c_ZombieSnake : public c_Enemy{
 	c_ZombieSnake* m_new2();
 	void p_SetChild(c_ZombieSnake*);
 	void p_SetParent(c_ZombieSnake*);
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -9963,6 +9974,7 @@ class c_Ghost : public c_Enemy{
 	c_Ghost();
 	c_Ghost* m_new(int,int,int);
 	c_Ghost* m_new2();
+	c_Point* p_GetMovementDirection();
 	int p_Move();
 	void p_Update();
 	void mark();
@@ -9972,6 +9984,7 @@ class c_Bat : public c_Enemy{
 	c_Bat();
 	c_Bat* m_new(int,int,int);
 	c_Bat* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
@@ -9982,6 +9995,7 @@ class c_SkeletonMage : public c_Enemy{
 	c_SkeletonMage();
 	c_SkeletonMage* m_new(int,int,int);
 	c_SkeletonMage* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_Update();
 	void mark();
 };
@@ -9990,6 +10004,7 @@ class c_Armadillo : public c_Enemy{
 	c_Armadillo();
 	c_Armadillo* m_new(int,int,int);
 	c_Armadillo* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10021,6 +10036,7 @@ class c_Goblin : public c_Enemy{
 	c_Goblin();
 	c_Goblin* m_new(int,int,int);
 	c_Goblin* m_new2();
+	c_Point* p_GetMovementDirection();
 	int p_Move();
 	void p_Update();
 	void mark();
@@ -10051,6 +10067,7 @@ class c_Blademaster : public c_Enemy{
 	c_Blademaster();
 	c_Blademaster* m_new(int,int,int);
 	c_Blademaster* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10062,6 +10079,7 @@ class c_Harpy : public c_Enemy{
 	c_Harpy();
 	c_Harpy* m_new(int,int,int);
 	c_Harpy* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -10081,6 +10099,7 @@ class c_GoblinBomber : public c_Enemy{
 	c_GoblinBomber* m_new(int,int,int);
 	c_GoblinBomber* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	void p_Update();
 	void mark();
 };
@@ -10105,6 +10124,7 @@ class c_EvilEye : public c_Enemy{
 	c_EvilEye();
 	c_EvilEye* m_new(int,int,int);
 	c_EvilEye* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -10146,6 +10166,7 @@ class c_DeathMetal : public c_Enemy{
 	c_DeathMetal();
 	c_DeathMetal* m_new(int,int,int);
 	c_DeathMetal* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10164,6 +10185,7 @@ class c_Slime : public c_Enemy{
 	c_Slime* m_new2();
 	bool p_CanBeLord();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10175,6 +10197,7 @@ class c_Skeleton : public c_Enemy{
 	c_Skeleton* m_new(int,int,int);
 	c_Skeleton* m_new2();
 	bool p_CanBeLord();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
@@ -10349,6 +10372,7 @@ class c_Zombie : public c_Enemy{
 	c_Zombie();
 	c_Zombie* m_new(int,int,int);
 	c_Zombie* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_Update();
 	void mark();
@@ -10363,6 +10387,7 @@ class c_Wraith : public c_Enemy{
 	void p_Die();
 	c_Wraith* m_new(int,int,int);
 	c_Wraith* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_BecomeCorporeal(bool);
 	void p_CheckCorporeality();
@@ -10379,6 +10404,7 @@ class c_TrapChest : public c_Enemy{
 	c_TrapChest* m_new2();
 	void p_DropItem2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
@@ -10404,6 +10430,7 @@ class c_ArmoredSkeleton : public c_Enemy{
 	c_ArmoredSkeleton* m_new(int,int,int);
 	c_ArmoredSkeleton* m_new2();
 	bool p_CanBeLord();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10432,6 +10459,7 @@ class c_Clone : public c_Enemy{
 	c_Clone();
 	c_Clone* m_new(int,int,int);
 	c_Clone* m_new2();
+	c_Point* p_GetMovementDirection();
 	void mark();
 };
 class c_TarMonster : public c_EnemyClamper{
@@ -10445,6 +10473,7 @@ class c_TarMonster : public c_EnemyClamper{
 	c_TarMonster* m_new(int,int,int);
 	c_TarMonster* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -10458,6 +10487,7 @@ class c_Mole : public c_Enemy{
 	c_Mole* m_new(int,int,int);
 	c_Mole* m_new2();
 	void p_Delete();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10489,6 +10519,7 @@ class c_Wight : public c_Enemy{
 	c_Wight();
 	c_Wight* m_new(int,int,int);
 	c_Wight* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_Update();
 	void mark();
 };
@@ -10500,6 +10531,7 @@ class c_FakeWall : public c_Enemy{
 	c_FakeWall* m_new2();
 	void p_DropItem2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	void p_Update();
 	void mark();
 };
@@ -10524,6 +10556,7 @@ class c_SkeletonKnight : public c_Enemy{
 	c_SkeletonKnight* m_new(int,int,int);
 	c_SkeletonKnight* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10553,6 +10586,7 @@ class c_Ghast : public c_Enemy{
 	c_Ghast();
 	c_Ghast* m_new(int,int,int);
 	c_Ghast* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
@@ -10563,6 +10597,7 @@ class c_TrapCauldron : public c_Enemy{
 	c_TrapCauldron* m_new(int,int,int);
 	c_TrapCauldron* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	void p_Update();
 	void mark();
 };
@@ -10580,6 +10615,7 @@ class c_SleepingGoblin : public c_Enemy{
 	c_SleepingGoblin();
 	c_SleepingGoblin* m_new(int,int,int);
 	c_SleepingGoblin* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_Update();
 	void mark();
@@ -10589,6 +10625,7 @@ class c_Ghoul : public c_Enemy{
 	c_Ghoul();
 	c_Ghoul* m_new(int,int,int);
 	c_Ghoul* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
@@ -10608,6 +10645,7 @@ class c_Pixie : public c_Enemy{
 	c_Pixie* m_new(int,int,int);
 	c_Pixie* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10618,6 +10656,7 @@ class c_Spider : public c_Enemy{
 	c_Spider();
 	c_Spider* m_new(int,int,int);
 	c_Spider* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -10627,6 +10666,7 @@ class c_Mummy : public c_Enemy{
 	c_Mummy();
 	c_Mummy* m_new(int,int,int);
 	c_Mummy* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -10645,6 +10685,7 @@ class c_Necrodancer : public c_Enemy{
 	c_Necrodancer* m_new(int,int,int);
 	c_Necrodancer* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10657,6 +10698,7 @@ class c_BatMiniboss : public c_Enemy{
 	c_BatMiniboss();
 	c_BatMiniboss* m_new(int,int,int);
 	c_BatMiniboss* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_Update();
 	void mark();
 };
@@ -10667,6 +10709,7 @@ class c_Dragon : public c_Enemy{
 	c_Dragon();
 	c_Dragon* m_new(int,int,int);
 	c_Dragon* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10689,6 +10732,7 @@ class c_Minotaur : public c_Enemy{
 	c_Minotaur();
 	c_Minotaur* m_new(int,int,int);
 	c_Minotaur* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10702,6 +10746,7 @@ class c_Nightmare : public c_Enemy{
 	c_Nightmare* m_new(int,int,int);
 	c_Nightmare* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	bool p_IsVisible();
 	void p_MoveFail();
@@ -10727,6 +10772,7 @@ class c_Ogre : public c_Enemy{
 	c_Ogre();
 	c_Ogre* m_new(int,int,int);
 	c_Ogre* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -10739,6 +10785,7 @@ class c_MetroGnome : public c_Enemy{
 	c_MetroGnome();
 	c_MetroGnome* m_new(int,int,int);
 	c_MetroGnome* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10756,6 +10803,7 @@ class c_Shopkeeper : public c_NPC{
 	c_Shopkeeper* m_new(int,int,int,bool);
 	c_Shopkeeper* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10821,6 +10869,7 @@ class c_Fortissimole : public c_Enemy{
 	static void m_SpawnFans();
 	void p_UnoccupyDirt();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10832,6 +10881,7 @@ class c_Pawn : public c_Enemy{
 	c_Pawn();
 	c_Pawn* m_new(int,int,int);
 	c_Pawn* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void mark();
@@ -10842,6 +10892,7 @@ class c_Knight : public c_Enemy{
 	c_Knight();
 	c_Knight* m_new(int,int,int);
 	c_Knight* m_new2();
+	c_Point* p_GetMovementDirection();
 	void mark();
 };
 class c_Bishop : public c_Enemy{
@@ -10849,6 +10900,7 @@ class c_Bishop : public c_Enemy{
 	c_Bishop();
 	c_Bishop* m_new(int,int,int);
 	c_Bishop* m_new2();
+	c_Point* p_GetMovementDirection();
 	void mark();
 };
 class c_Rook : public c_Enemy{
@@ -10857,6 +10909,7 @@ class c_Rook : public c_Enemy{
 	c_Rook();
 	c_Rook* m_new(int,int,int);
 	c_Rook* m_new2();
+	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -10878,6 +10931,7 @@ class c_WaterBall : public c_Enemy{
 	c_WaterBall* m_new2();
 	void p_PlaceTileAt(int,int);
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	void mark();
 };
 class c_Gorgon : public c_Enemy{
@@ -10896,6 +10950,7 @@ class c_ZombieElectric : public c_Enemy{
 	int p_GetMovementDir();
 	c_ZombieElectric* m_new(int,int,int);
 	c_ZombieElectric* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10908,6 +10963,7 @@ class c_Orc : public c_Enemy{
 	c_Orc();
 	c_Orc* m_new(int,int,int);
 	c_Orc* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10944,6 +11000,7 @@ class c_King : public c_Enemy{
 	c_King* m_new(int,int,int);
 	c_King* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -10965,6 +11022,7 @@ class c_Octoboss : public c_Enemy{
 	c_Octoboss* m_new(int,int,int);
 	c_Octoboss* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -10984,6 +11042,7 @@ class c_Tentacle : public c_Enemy{
 	c_Tentacle();
 	c_Tentacle* m_new(int,int,int);
 	c_Tentacle* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -11042,6 +11101,7 @@ class c_DeadRinger : public c_Enemy{
 	c_DeadRinger* m_new(int,int,int,c_Bell*,c_Bell*,c_Bell*,c_Bell*);
 	c_DeadRinger* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	int p_Move();
 	void p_MoveFail();
@@ -12124,6 +12184,7 @@ class c_Poltergeist : public c_Enemy{
 	void p_Die();
 	c_Poltergeist* m_new(int,int,int);
 	c_Poltergeist* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -12155,6 +12216,7 @@ class c_ToughSarcophagus : public c_Enemy{
 	static int m_GetPerRoomCount();
 	c_ToughSarcophagus* m_new(int,int,int);
 	c_ToughSarcophagus* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -40110,9 +40172,38 @@ bool c_Enemy::m_EnemiesMovingThisFrame(){
 	}
 	return !m_EnemiesHaveMovedThisBeat();
 }
-int c_Enemy::p_Move(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.Move()",12));
+bool c_Enemy::p_ImmuneToFear(){
+	return false;
+}
+c_Point* c_Enemy::p_BasicFlee(bool t_includeDiagonals){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicFlee(Bool)",21));
 	return 0;
+}
+c_Point* c_Enemy::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetMovementDirection()",28));
+	return 0;
+}
+int c_Enemy::p_AttemptMove(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.AttemptMove(Int, Int)",27));
+	return 0;
+}
+int c_Enemy::p_Move(){
+	if(this->m_flaggedForDeath){
+		return 0;
+	}
+	if(this->m_currentMoveDelay>1 && (m_enemiesFearfulDuration<=0 || this->m_isCrate)){
+		return 3;
+	}
+	c_Point* t_movementDirection=0;
+	if(m_enemiesFearfulDuration>0 && !this->m_isCrate && !this->p_ImmuneToFear()){
+		t_movementDirection=this->p_BasicFlee(false);
+	}else{
+		t_movementDirection=this->p_GetMovementDirection();
+	}
+	if(t_movementDirection->m_x==0 && t_movementDirection->m_y==0){
+		return 3;
+	}
+	return this->p_AttemptMove(t_movementDirection->m_x,t_movementDirection->m_y);
 }
 void c_Enemy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.MoveSucceed(Bool, Bool)",29));
@@ -40500,6 +40591,10 @@ bool c_Crate::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Crate.Hit(String, Int, Int, Entity, Bool, Int)",46));
 	return false;
 }
+c_Point* c_Crate::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Crate.GetMovementDirection()",28));
+	return 0;
+}
 void c_Crate::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Crate.MoveFail()",16));
 }
@@ -40689,6 +40784,10 @@ void c_Gargoyle::p_Die(){
 bool c_Gargoyle::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Gargoyle.Hit(String, Int, Int, Entity, Bool, Int)",49));
 	return false;
+}
+c_Point* c_Gargoyle::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Gargoyle.GetMovementDirection()",31));
+	return 0;
 }
 void c_Gargoyle::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Gargoyle.MoveSucceed(Bool, Bool)",32));
@@ -40986,6 +41085,10 @@ c_Leprechaun* c_Leprechaun::m_new(int t_xVal,int t_yVal,int t_l){
 c_Leprechaun* c_Leprechaun::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Leprechaun::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Leprechaun.GetMovementDirection()",33));
+	return 0;
 }
 void c_Leprechaun::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Leprechaun.MoveSucceed(Bool, Bool)",34));
@@ -47671,6 +47774,10 @@ void c_Transmogrifier::p_Die(){
 		c_NPC::p_Die();
 	}
 }
+c_Point* c_Transmogrifier::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Transmogrifier.GetMovementDirection()",37));
+	return 0;
+}
 bool c_Transmogrifier::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Transmogrifier.Hit(String, Int, Int, Entity, Bool, Int)",55));
 	return false;
@@ -48395,8 +48502,16 @@ void c_KingConga::p_Die(){
 	c_Enemy::p_Die();
 	c_Enemy::m_KillAllEnemies();
 }
+c_Point* c_KingConga::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"KingConga.GetMovementDirection()",32));
+	return 0;
+}
 bool c_KingConga::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"KingConga.Hit(String, Int, Int, Entity, Bool, Int)",50));
+	return false;
+}
+bool c_KingConga::p_ImmuneToFear(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"KingConga.ImmuneToFear()",24));
 	return false;
 }
 void c_KingConga::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
@@ -48433,6 +48548,10 @@ void c_ZombieSnake::p_SetParent(c_ZombieSnake* t_zs){
 	gc_assign(this->m_zsParent,t_zs);
 	this->m_movePriority=t_zs->m_movePriority-1;
 }
+c_Point* c_ZombieSnake::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieSnake.GetMovementDirection()",34));
+	return 0;
+}
 bool c_ZombieSnake::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieSnake.Hit(String, Int, Int, Entity, Bool, Int)",52));
 	return false;
@@ -48468,6 +48587,10 @@ c_Ghost* c_Ghost::m_new(int t_xVal,int t_yVal,int t_l){
 c_Ghost* c_Ghost::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Ghost::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.GetMovementDirection()",28));
+	return 0;
 }
 int c_Ghost::p_Move(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.Move()",12));
@@ -48512,6 +48635,10 @@ c_Bat* c_Bat::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Bat::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bat.GetMovementDirection()",26));
+	return 0;
+}
 bool c_Bat::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Bat.Hit(String, Int, Int, Entity, Bool, Int)",44));
 	return false;
@@ -48548,6 +48675,10 @@ c_SkeletonMage* c_SkeletonMage::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_SkeletonMage::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonMage.GetMovementDirection()",35));
+	return 0;
+}
 void c_SkeletonMage::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonMage.Update()",21));
 }
@@ -48571,6 +48702,10 @@ c_Armadillo* c_Armadillo::m_new(int t_xVal,int t_yVal,int t_l){
 c_Armadillo* c_Armadillo::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Armadillo::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.GetMovementDirection()",32));
+	return 0;
 }
 bool c_Armadillo::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.Hit(String, Int, Int, Entity, Bool, Int)",50));
@@ -48665,6 +48800,10 @@ c_Goblin* c_Goblin::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Goblin::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Goblin.GetMovementDirection()",29));
+	return 0;
+}
 int c_Goblin::p_Move(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Goblin.Move()",13));
 	return 0;
@@ -48741,6 +48880,10 @@ c_Blademaster* c_Blademaster::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Blademaster::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.GetMovementDirection()",34));
+	return 0;
+}
 bool c_Blademaster::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.Hit(String, Int, Int, Entity, Bool, Int)",52));
 	return false;
@@ -48771,6 +48914,10 @@ c_Harpy* c_Harpy::m_new(int t_xVal,int t_yVal,int t_l){
 c_Harpy* c_Harpy::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Harpy::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.GetMovementDirection()",28));
+	return 0;
 }
 void c_Harpy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.MoveSucceed(Bool, Bool)",29));
@@ -48829,6 +48976,10 @@ void c_GoblinBomber::p_Die(){
 			(new c_Bomb)->m_new(this->m_x,this->m_y,0,true,false,String(L"bomb",4));
 		}
 	}
+}
+c_Point* c_GoblinBomber::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"GoblinBomber.GetMovementDirection()",35));
+	return 0;
 }
 void c_GoblinBomber::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GoblinBomber.Update()",21));
@@ -48904,6 +49055,10 @@ c_EvilEye* c_EvilEye::m_new(int t_x_,int t_y_,int t_l){
 c_EvilEye* c_EvilEye::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_EvilEye::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"EvilEye.GetMovementDirection()",30));
+	return 0;
 }
 void c_EvilEye::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"EvilEye.MoveSucceed(Bool, Bool)",31));
@@ -49062,6 +49217,10 @@ c_DeathMetal* c_DeathMetal::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_DeathMetal::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.GetMovementDirection()",33));
+	return 0;
+}
 bool c_DeathMetal::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Hit(String, Int, Int, Entity, Bool, Int)",51));
 	return false;
@@ -49149,6 +49308,10 @@ void c_Slime::p_Die(){
 	}
 	c_Enemy::p_Die();
 }
+c_Point* c_Slime::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.GetMovementDirection()",28));
+	return 0;
+}
 void c_Slime::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.MoveFail()",16));
 }
@@ -49198,6 +49361,10 @@ c_Skeleton* c_Skeleton::m_new2(){
 bool c_Skeleton::p_CanBeLord(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Skeleton.CanBeLord()",20));
 	return false;
+}
+c_Point* c_Skeleton::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Skeleton.GetMovementDirection()",31));
+	return 0;
 }
 bool c_Skeleton::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Skeleton.Hit(String, Int, Int, Entity, Bool, Int)",49));
@@ -49672,6 +49839,10 @@ c_Zombie* c_Zombie::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Zombie::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Zombie.GetMovementDirection()",29));
+	return 0;
+}
 void c_Zombie::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Zombie.MoveFail()",17));
 }
@@ -49727,6 +49898,10 @@ c_Wraith* c_Wraith::m_new(int t_xVal,int t_yVal,int t_l){
 c_Wraith* c_Wraith::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Wraith::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Wraith.GetMovementDirection()",29));
+	return 0;
 }
 bool c_Wraith::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Wraith.Hit(String, Int, Int, Entity, Bool, Int)",47));
@@ -49876,6 +50051,10 @@ void c_TrapChest::p_Die(){
 		c_Enemy::p_Die();
 	}
 }
+c_Point* c_TrapChest::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapChest.GetMovementDirection()",32));
+	return 0;
+}
 bool c_TrapChest::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapChest.Hit(String, Int, Int, Entity, Bool, Int)",50));
 	return false;
@@ -49951,6 +50130,10 @@ c_ArmoredSkeleton* c_ArmoredSkeleton::m_new2(){
 bool c_ArmoredSkeleton::p_CanBeLord(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.CanBeLord()",27));
 	return false;
+}
+c_Point* c_ArmoredSkeleton::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.GetMovementDirection()",38));
+	return 0;
 }
 bool c_ArmoredSkeleton::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.Hit(String, Int, Int, Entity, Bool, Int)",56));
@@ -50088,6 +50271,10 @@ c_Clone* c_Clone::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Clone::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Clone.GetMovementDirection()",28));
+	return 0;
+}
 void c_Clone::mark(){
 	c_Enemy::mark();
 }
@@ -50140,6 +50327,10 @@ void c_TarMonster::p_Die(){
 	}
 	c_Enemy::p_Die();
 }
+c_Point* c_TarMonster::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.GetMovementDirection()",33));
+	return 0;
+}
 void c_TarMonster::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.MoveSucceed(Bool, Bool)",34));
 }
@@ -50188,6 +50379,10 @@ c_Mole* c_Mole::m_new2(){
 void c_Mole::p_Delete(){
 	this->p_UnoccupyDirt();
 	c_Enemy::p_Delete();
+}
+c_Point* c_Mole::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Mole.GetMovementDirection()",27));
+	return 0;
 }
 bool c_Mole::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Mole.Hit(String, Int, Int, Entity, Bool, Int)",45));
@@ -50270,6 +50465,10 @@ c_Wight* c_Wight::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Wight::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.GetMovementDirection()",28));
+	return 0;
+}
 void c_Wight::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.Update()",14));
 }
@@ -50305,6 +50504,10 @@ void c_FakeWall::p_DropItem2(){
 void c_FakeWall::p_Die(){
 	this->p_DropItem2();
 	c_Enemy::p_Die();
+}
+c_Point* c_FakeWall::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"FakeWall.GetMovementDirection()",31));
+	return 0;
 }
 void c_FakeWall::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FakeWall.Update()",17));
@@ -50412,6 +50615,10 @@ void c_SkeletonKnight::p_Die(){
 	}
 	c_Enemy::p_Die();
 }
+c_Point* c_SkeletonKnight::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.GetMovementDirection()",37));
+	return 0;
+}
 bool c_SkeletonKnight::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.Hit(String, Int, Int, Entity, Bool, Int)",55));
 	return false;
@@ -50503,6 +50710,10 @@ c_Ghast* c_Ghast::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Ghast::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghast.GetMovementDirection()",28));
+	return 0;
+}
 bool c_Ghast::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghast.Hit(String, Int, Int, Entity, Bool, Int)",46));
 	return false;
@@ -50536,6 +50747,10 @@ void c_TrapCauldron::p_Die(){
 		}
 		c_Enemy::p_Die();
 	}
+}
+c_Point* c_TrapCauldron::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapCauldron.GetMovementDirection()",35));
+	return 0;
 }
 void c_TrapCauldron::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapCauldron.Update()",21));
@@ -50593,6 +50808,10 @@ c_SleepingGoblin* c_SleepingGoblin::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_SleepingGoblin::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SleepingGoblin.GetMovementDirection()",37));
+	return 0;
+}
 void c_SleepingGoblin::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SleepingGoblin.MoveFail()",25));
 }
@@ -50612,6 +50831,10 @@ c_Ghoul* c_Ghoul::m_new(int t_xVal,int t_yVal,int t_l){
 c_Ghoul* c_Ghoul::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Ghoul::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghoul.GetMovementDirection()",28));
+	return 0;
 }
 bool c_Ghoul::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghoul.Hit(String, Int, Int, Entity, Bool, Int)",46));
@@ -50670,6 +50893,10 @@ void c_Pixie::p_Die(){
 	}
 	c_Enemy::p_Die();
 }
+c_Point* c_Pixie::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Pixie.GetMovementDirection()",28));
+	return 0;
+}
 bool c_Pixie::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Pixie.Hit(String, Int, Int, Entity, Bool, Int)",46));
 	return false;
@@ -50704,6 +50931,10 @@ c_Spider* c_Spider::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Spider::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Spider.GetMovementDirection()",29));
+	return 0;
+}
 void c_Spider::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Spider.MoveSucceed(Bool, Bool)",30));
 }
@@ -50729,6 +50960,10 @@ c_Mummy* c_Mummy::m_new(int t_xVal,int t_yVal,int t_l){
 c_Mummy* c_Mummy::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Mummy::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Mummy.GetMovementDirection()",28));
+	return 0;
 }
 void c_Mummy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Mummy.MoveSucceed(Bool, Bool)",29));
@@ -50781,6 +51016,10 @@ c_Necrodancer* c_Necrodancer::m_new2(){
 void c_Necrodancer::p_Die(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.Die()",17));
 }
+c_Point* c_Necrodancer::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.GetMovementDirection()",34));
+	return 0;
+}
 bool c_Necrodancer::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.Hit(String, Int, Int, Entity, Bool, Int)",52));
 	return false;
@@ -50817,6 +51056,10 @@ c_BatMiniboss* c_BatMiniboss::m_new(int t_xVal,int t_yVal,int t_l){
 c_BatMiniboss* c_BatMiniboss::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_BatMiniboss::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"BatMiniboss.GetMovementDirection()",34));
+	return 0;
 }
 void c_BatMiniboss::p_Update(){
 	if(this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
@@ -50858,6 +51101,10 @@ c_Dragon* c_Dragon::m_new(int t_xVal,int t_yVal,int t_l){
 c_Dragon* c_Dragon::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Dragon::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.GetMovementDirection()",29));
+	return 0;
 }
 bool c_Dragon::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.Hit(String, Int, Int, Entity, Bool, Int)",47));
@@ -50926,6 +51173,10 @@ c_Minotaur* c_Minotaur::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Minotaur::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.GetMovementDirection()",31));
+	return 0;
+}
 void c_Minotaur::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.MoveFail()",19));
 }
@@ -50967,6 +51218,10 @@ c_Nightmare* c_Nightmare::m_new2(){
 void c_Nightmare::p_Die(){
 	c_Enemy::p_Die();
 	m_nightmare=0;
+}
+c_Point* c_Nightmare::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.GetMovementDirection()",32));
+	return 0;
 }
 bool c_Nightmare::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.Hit(String, Int, Int, Entity, Bool, Int)",50));
@@ -51033,6 +51288,10 @@ c_Ogre* c_Ogre::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Ogre::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.GetMovementDirection()",27));
+	return 0;
+}
 void c_Ogre::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.MoveSucceed(Bool, Bool)",28));
 }
@@ -51071,6 +51330,10 @@ c_MetroGnome* c_MetroGnome::m_new(int t_x_,int t_y_,int t_l){
 c_MetroGnome* c_MetroGnome::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_MetroGnome::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"MetroGnome.GetMovementDirection()",33));
+	return 0;
 }
 bool c_MetroGnome::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"MetroGnome.Hit(String, Int, Int, Entity, Bool, Int)",51));
@@ -51164,6 +51427,10 @@ void c_Shopkeeper::p_Die(){
 		}
 		m_isMonstrous=false;
 	}
+}
+c_Point* c_Shopkeeper::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shopkeeper.GetMovementDirection()",33));
+	return 0;
 }
 bool c_Shopkeeper::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Shopkeeper.Hit(String, Int, Int, Entity, Bool, Int)",51));
@@ -51389,6 +51656,10 @@ void c_Fortissimole::p_Die(){
 	c_Enemy::p_Die();
 	c_Enemy::m_KillAllEnemies();
 }
+c_Point* c_Fortissimole::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.GetMovementDirection()",35));
+	return 0;
+}
 bool c_Fortissimole::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.Hit(String, Int, Int, Entity, Bool, Int)",53));
 	return false;
@@ -51425,6 +51696,10 @@ c_Pawn* c_Pawn::m_new(int t_xVal,int t_yVal,int t_l){
 c_Pawn* c_Pawn::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Pawn::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Pawn.GetMovementDirection()",27));
+	return 0;
 }
 bool c_Pawn::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Pawn.Hit(String, Int, Int, Entity, Bool, Int)",45));
@@ -51467,6 +51742,10 @@ c_Knight* c_Knight::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Knight::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Knight.GetMovementDirection()",29));
+	return 0;
+}
 void c_Knight::mark(){
 	c_Enemy::mark();
 	gc_mark_q(m_customAttackSwipe);
@@ -51491,6 +51770,10 @@ c_Bishop* c_Bishop::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Bishop::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bishop.GetMovementDirection()",29));
+	return 0;
+}
 void c_Bishop::mark(){
 	c_Enemy::mark();
 }
@@ -51514,6 +51797,10 @@ c_Rook* c_Rook::m_new(int t_xVal,int t_yVal,int t_l){
 c_Rook* c_Rook::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Rook::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Rook.GetMovementDirection()",27));
+	return 0;
 }
 void c_Rook::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Rook.MoveSucceed(Bool, Bool)",28));
@@ -51592,6 +51879,10 @@ void c_WaterBall::p_Die(){
 		this->p_PlaceTileAt(this->m_x,this->m_y);
 	}
 }
+c_Point* c_WaterBall::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"WaterBall.GetMovementDirection()",32));
+	return 0;
+}
 void c_WaterBall::mark(){
 	c_Enemy::mark();
 }
@@ -51651,6 +51942,10 @@ c_ZombieElectric* c_ZombieElectric::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_ZombieElectric::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.GetMovementDirection()",37));
+	return 0;
+}
 bool c_ZombieElectric::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.Hit(String, Int, Int, Entity, Bool, Int)",55));
 	return false;
@@ -51685,6 +51980,10 @@ c_Orc* c_Orc::m_new(int t_x_,int t_y_,int t_l){
 c_Orc* c_Orc::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Orc::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Orc.GetMovementDirection()",26));
+	return 0;
 }
 bool c_Orc::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Orc.Hit(String, Int, Int, Entity, Bool, Int)",44));
@@ -51889,6 +52188,10 @@ void c_King::p_Die(){
 	c_Enemy::p_Die();
 	c_Enemy::m_KillAllEnemies();
 }
+c_Point* c_King::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"King.GetMovementDirection()",27));
+	return 0;
+}
 bool c_King::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"King.Hit(String, Int, Int, Entity, Bool, Int)",45));
 	return false;
@@ -52014,6 +52317,10 @@ void c_Octoboss::p_Die(){
 	c_Enemy::p_Die();
 	c_Enemy::m_KillAllEnemies();
 }
+c_Point* c_Octoboss::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Octoboss.GetMovementDirection()",31));
+	return 0;
+}
 bool c_Octoboss::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Octoboss.Hit(String, Int, Int, Entity, Bool, Int)",49));
 	return false;
@@ -52067,6 +52374,10 @@ c_Tentacle* c_Tentacle::m_new(int t_xVal,int t_yVal,int t_l){
 c_Tentacle* c_Tentacle::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Tentacle::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Tentacle.GetMovementDirection()",31));
+	return 0;
 }
 bool c_Tentacle::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Tentacle.Hit(String, Int, Int, Entity, Bool, Int)",49));
@@ -52243,6 +52554,10 @@ void c_DeadRinger::p_Die(){
 			t_bigBell->p_Die();
 		}
 	}
+}
+c_Point* c_DeadRinger::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeadRinger.GetMovementDirection()",33));
+	return 0;
 }
 bool c_DeadRinger::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeadRinger.Hit(String, Int, Int, Entity, Bool, Int)",51));
@@ -55293,6 +55608,10 @@ c_Poltergeist* c_Poltergeist::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+c_Point* c_Poltergeist::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.GetMovementDirection()",34));
+	return 0;
+}
 bool c_Poltergeist::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.Hit(String, Int, Int, Entity, Bool, Int)",52));
 	return false;
@@ -55361,6 +55680,10 @@ c_ToughSarcophagus* c_ToughSarcophagus::m_new(int t_xVal,int t_yVal,int t_etype)
 c_ToughSarcophagus* c_ToughSarcophagus::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_ToughSarcophagus::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ToughSarcophagus.GetMovementDirection()",39));
+	return 0;
 }
 bool c_ToughSarcophagus::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ToughSarcophagus.Hit(String, Int, Int, Entity, Bool, Int)",57));
