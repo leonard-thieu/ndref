@@ -224,10 +224,6 @@ Class Slime Extends Enemy
         Super.MoveSucceed(hitPlayer, moveDelayed)
     End Method
 
-    Method PerformMovement: Int(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Slime.PerformMovement(Int, Int)")
-    End Method
-
     Method Update: Void()
         If Self.level = 2
             Self.animOverride = -1

@@ -10216,7 +10216,6 @@ class c_Slime : public c_Enemy{
 	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
-	int p_PerformMovement(int,int);
 	void p_Update();
 	void mark();
 };
@@ -49674,10 +49673,6 @@ void c_Slime::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 		this->m_moveCount+=1;
 	}
 	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
-}
-int c_Slime::p_PerformMovement(int t_xVal,int t_yVal){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.PerformMovement(Int, Int)",31));
-	return 0;
 }
 void c_Slime::p_Update(){
 	if(this->m_level==2){
