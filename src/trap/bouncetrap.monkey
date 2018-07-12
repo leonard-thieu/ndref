@@ -84,7 +84,13 @@ Class BounceTrap Extends Trap
     End Method
 
     Method Rotate: Void()
-        Debug.TraceNotImplemented("BounceTrap.Rotate()")
+        If Self.isRotatingCW
+            Self.bounceDir = Self.RotateDir(Self.bounceDir, True)
+        Else If Self.isRotatingCCW
+            Self.bounceDir = Self.RotateDir(Self.bounceDir, False)
+        End If
+
+        Self.rotatedBeat = Audio.GetClosestBeatNum(True)
     End Method
 
     Method RotateDir: Int(dir: Int, cw: Bool)

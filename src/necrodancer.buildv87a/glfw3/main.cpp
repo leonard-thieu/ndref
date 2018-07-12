@@ -10925,6 +10925,7 @@ class c_BounceTrap : public c_Trap{
 	c_BounceTrap* m_new(int,int,int);
 	c_BounceTrap* m_new2();
 	void p_Trigger(c_Entity*);
+	int p_RotateDir(int,bool);
 	void p_Rotate();
 	int p_GetFrameToShow();
 	void p_Update();
@@ -51761,8 +51762,19 @@ c_BounceTrap* c_BounceTrap::m_new2(){
 void c_BounceTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.Trigger(Entity)",26));
 }
+int c_BounceTrap::p_RotateDir(int t_dir,bool t_cw){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.RotateDir(Int, Bool)",31));
+	return 0;
+}
 void c_BounceTrap::p_Rotate(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.Rotate()",19));
+	if(this->m_isRotatingCW){
+		this->m_bounceDir=this->p_RotateDir(this->m_bounceDir,true);
+	}else{
+		if(this->m_isRotatingCCW){
+			this->m_bounceDir=this->p_RotateDir(this->m_bounceDir,false);
+		}
+	}
+	this->m_rotatedBeat=c_Audio::m_GetClosestBeatNum(true);
 }
 int c_BounceTrap::p_GetFrameToShow(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.GetFrameToShow()",27));
