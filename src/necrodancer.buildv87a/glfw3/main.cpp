@@ -49309,8 +49309,167 @@ void c_Slime::p_Die(){
 	c_Enemy::p_Die();
 }
 c_Point* c_Slime::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.GetMovementDirection()",28));
-	return 0;
+	c_Point* t_movementDirection=(new c_Point)->m_new(0,0);
+	int t_2=this->m_level;
+	if(t_2==8){
+		int t_3=this->m_moveCount % 8;
+		if(t_3==0 || t_3==1){
+			t_movementDirection->m_x=1;
+			this->m_image->p_FlipX(true,true);
+		}else{
+			if(t_3==2){
+				t_movementDirection->m_y=1;
+				this->m_image->p_FlipX(true,true);
+			}else{
+				if(t_3==3){
+					t_movementDirection->m_y=1;
+					this->m_image->p_FlipX(false,true);
+				}else{
+					if(t_3==4 || t_3==5){
+						t_movementDirection->m_x=-1;
+						this->m_image->p_FlipX(true,true);
+					}else{
+						if(t_3==6){
+							t_movementDirection->m_y=-1;
+							this->m_image->p_FlipX(true,true);
+						}else{
+							if(t_3==7){
+								t_movementDirection->m_y=-1;
+								this->m_image->p_FlipX(false,true);
+							}
+						}
+					}
+				}
+			}
+		}
+	}else{
+		if(t_2==7){
+			int t_4=this->m_moveCount % 4;
+			if(t_4==0){
+				t_movementDirection->m_x=1;
+				this->m_image->p_FlipX(false,true);
+			}else{
+				if(t_4==1){
+					t_movementDirection->m_x=-1;
+					t_movementDirection->m_y=1;
+					this->m_image->p_FlipX(false,true);
+				}else{
+					if(t_4==2){
+						t_movementDirection->m_x=-1;
+						this->m_image->p_FlipX(true,true);
+					}else{
+						if(t_4==3){
+							t_movementDirection->m_x=1;
+							t_movementDirection->m_y=-1;
+							this->m_image->p_FlipX(true,true);
+						}
+					}
+				}
+			}
+		}else{
+			if(t_2==6){
+				int t_5=this->m_moveCount % 4;
+				if(t_5==0 || t_5==2){
+					t_movementDirection->m_x=1;
+					this->m_image->p_FlipX(false,true);
+				}else{
+					if(t_5==1){
+						t_movementDirection->m_x=-1;
+						t_movementDirection->m_y=1;
+						this->m_image->p_FlipX(true,true);
+					}else{
+						if(t_5==3){
+							t_movementDirection->m_x=-1;
+							t_movementDirection->m_y=-1;
+							this->m_image->p_FlipX(true,true);
+						}
+					}
+				}
+			}else{
+				if(t_2==5){
+					int t_6=this->m_moveCount % 4;
+					if(t_6==0){
+						t_movementDirection->m_x=-1;
+						t_movementDirection->m_y=1;
+					}else{
+						if(t_6==1){
+							t_movementDirection->m_x=1;
+							t_movementDirection->m_y=1;
+							this->m_image->p_FlipX(true,true);
+						}else{
+							if(t_6==2){
+								t_movementDirection->m_x=1;
+								t_movementDirection->m_y=-1;
+							}else{
+								if(t_6==3){
+									t_movementDirection->m_x=-1;
+									t_movementDirection->m_y=-1;
+									this->m_image->p_FlipX(false,true);
+								}
+							}
+						}
+					}
+				}else{
+					if(t_2==4){
+						int t_7=this->m_moveCount % 4;
+						if(t_7==0){
+							t_movementDirection->m_x=1;
+							t_movementDirection->m_y=1;
+							this->m_image->p_FlipX(false,true);
+						}else{
+							if(t_7==1){
+								t_movementDirection->m_x=-1;
+								t_movementDirection->m_y=1;
+							}else{
+								if(t_7==2){
+									t_movementDirection->m_x=-1;
+									t_movementDirection->m_y=-1;
+								}else{
+									if(t_7==3){
+										t_movementDirection->m_x=1;
+										t_movementDirection->m_y=-1;
+										this->m_image->p_FlipX(true,true);
+									}
+								}
+							}
+						}
+					}else{
+						if(t_2==3){
+							int t_8=this->m_moveCount % 4;
+							if(t_8==0){
+								t_movementDirection->m_x=1;
+							}else{
+								if(t_8==1){
+									t_movementDirection->m_y=1;
+								}else{
+									if(t_8==2){
+										t_movementDirection->m_x=-1;
+									}else{
+										if(t_8==3){
+											t_movementDirection->m_y=-1;
+											this->m_image->p_FlipX(true,true);
+										}
+									}
+								}
+							}
+						}else{
+							if(t_2==2){
+								int t_9=this->m_moveCount % 2;
+								if(t_9==0){
+									t_movementDirection->m_y=-1;
+								}else{
+									if(t_9==1){
+										t_movementDirection->m_y=1;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return t_movementDirection;
 }
 void c_Slime::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.MoveFail()",16));

@@ -87,7 +87,120 @@ Class Slime Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Slime.GetMovementDirection()")
+        Local movementDirection := New Point(0, 0)
+
+        Select Self.level
+            Case 8
+                Select Self.moveCount Mod 8
+                    Case 0,
+                         1
+                        movementDirection.x = 1
+                        Self.image.FlipX(True, True)
+                    Case 2
+                        movementDirection.y = 1
+                        Self.image.FlipX(True, True)
+                    Case 3
+                        movementDirection.y = 1
+                        Self.image.FlipX(False, True)
+                    Case 4,
+                         5
+                        movementDirection.x = -1
+                        Self.image.FlipX(True, True)
+                    Case 6
+                        movementDirection.y = -1
+                        Self.image.FlipX(True, True)
+                    Case 7
+                        movementDirection.y = -1
+                        Self.image.FlipX(False, True)
+                End Select
+            Case 7
+                Select Self.moveCount Mod 4
+                    Case 0
+                        movementDirection.x = 1
+                        Self.image.FlipX(False, True)
+                    Case 1
+                        movementDirection.x = -1
+                        movementDirection.y = 1
+                        Self.image.FlipX(False, True)
+                    Case 2
+                        movementDirection.x = -1
+                        Self.image.FlipX(True, True)
+                    Case 3
+                        movementDirection.x = 1
+                        movementDirection.y = -1
+                        Self.image.FlipX(True, True)
+                End Select
+            Case 6
+                Select Self.moveCount Mod 4
+                    Case 0,
+                         2
+                        movementDirection.x = 1
+                        Self.image.FlipX(False, True)
+                    Case 1
+                        movementDirection.x = -1
+                        movementDirection.y = 1
+                        Self.image.FlipX(True, True)
+                    Case 3
+                        movementDirection.x = -1
+                        movementDirection.y = -1
+                        Self.image.FlipX(True, True)
+                End Select
+            Case 5
+                Select Self.moveCount Mod 4
+                    Case 0
+                        movementDirection.x = -1
+                        movementDirection.y = 1
+                    Case 1
+                        movementDirection.x = 1
+                        movementDirection.y = 1
+                        Self.image.FlipX(True, True)
+                    Case 2
+                        movementDirection.x = 1
+                        movementDirection.y = -1
+                    Case 3
+                        movementDirection.x = -1
+                        movementDirection.y = -1
+                        Self.image.FlipX(False, True)
+                End Select
+            Case 4
+                Select Self.moveCount Mod 4
+                    Case 0
+                        movementDirection.x = 1
+                        movementDirection.y = 1
+                        Self.image.FlipX(False, True)
+                    Case 1
+                        movementDirection.x = -1
+                        movementDirection.y = 1
+                    Case 2
+                        movementDirection.x = -1
+                        movementDirection.y = -1
+                    Case 3
+                        movementDirection.x = 1
+                        movementDirection.y = -1
+                        Self.image.FlipX(True, True)
+                End Select
+            Case 3
+                Select Self.moveCount Mod 4
+                    Case 0
+                        movementDirection.x = 1
+                    Case 1
+                        movementDirection.y = 1
+                    Case 2
+                        movementDirection.x = -1
+                    Case 3
+                        movementDirection.y = -1
+                        Self.image.FlipX(True, True)
+                End Select
+            Case 2
+                Select Self.moveCount Mod 2
+                    Case 0
+                        movementDirection.y = -1
+                    Case 1
+                        movementDirection.y = 1
+                End Select
+        End Select
+
+        Return movementDirection
     End Method
 
     Method MoveFail: Void()
