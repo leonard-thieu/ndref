@@ -7362,8 +7362,8 @@ class c_Entity : public c_RenderableObject{
 	virtual void p_AfterHitPlayer(c_Player*);
 	virtual int p_PerformMovement(int,int);
 	int p_PerformMovement2(c_Point*);
-	static void m_UpdateVisibility();
 	virtual bool p_IsVisible();
+	static void m_UpdateVisibility();
 	static bool m_anyPlayerHaveNazarCharmCached;
 	static bool m_AnyPlayerHaveNazarCharm();
 	static bool m_anyPlayerHaveCircletCached;
@@ -8108,6 +8108,8 @@ class c_Enemy : public c_MobileEntity{
 	int m_renderSwipeTime;
 	int m_attackSwipeDir;
 	c_Point* m_attackSwipePoint;
+	int m_jumpDirtX;
+	int m_jumpDirtY;
 	bool m_useLastPosForSwipe;
 	bool m_justHitPlayer;
 	c_Player* m_seekingPlayer;
@@ -8898,9 +8900,9 @@ class c_Tile : public c_RenderableObject{
 	int m_cachedLOSFrame;
 	bool m_cachedTrueLOS;
 	int m_cachedTrueLOSFrame;
+	Float m_constAlpha;
 	bool m_risingTriggered;
 	int m_recedeTimer;
-	Float m_constAlpha;
 	int m_nextEruptionBeat;
 	int m_playerWasOnTileAtBeat;
 	bool m_playerWasOnTileLastFrame;
@@ -8975,8 +8977,8 @@ class c_Tile : public c_RenderableObject{
 	static bool m_CheckRingOfShadows();
 	bool p_IsInAnyPlayerTrueLineOfSight();
 	bool p_IsInAnyPlayerLineOfSight();
-	static void m_MoveAll();
 	bool p_IsVisible();
+	static void m_MoveAll();
 	Float p_CalculateTileLightValue(bool);
 	static bool m_anyPlayerHaveZoneMapCached;
 	static bool m_AnyPlayerHaveZoneMap();
@@ -12690,6 +12692,7 @@ class c_Enumerator37 : public Object{
 	c_Player* p_NextObject();
 	void mark();
 };
+extern bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 extern bool bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT;
 class c_Enumerator38 : public Object{
 	public:
@@ -12713,7 +12716,6 @@ class c_CrystalShards : public c_Entity{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void mark();
 };
-extern bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 class c_List41 : public Object{
 	public:
 	c_Node59* m__head;
@@ -31516,9 +31518,6 @@ int c_Entity::p_PerformMovement(int t_xVal,int t_yVal){
 int c_Entity::p_PerformMovement2(c_Point* t_p){
 	return this->p_PerformMovement(t_p->m_x,t_p->m_y);
 }
-void c_Entity::m_UpdateVisibility(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
-}
 bool c_Entity::p_IsVisible(){
 	if(this->m_clampedOn){
 		return true;
@@ -31527,6 +31526,9 @@ bool c_Entity::p_IsVisible(){
 		return false;
 	}
 	return c_Level::m_IsVisibleTileAt(this->m_x,this->m_y);
+}
+void c_Entity::m_UpdateVisibility(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
 }
 bool c_Entity::m_anyPlayerHaveNazarCharmCached;
 bool c_Entity::m_AnyPlayerHaveNazarCharm(){
@@ -36795,6 +36797,8 @@ c_Enemy::c_Enemy(){
 	m_renderSwipeTime=0;
 	m_attackSwipeDir=-1;
 	m_attackSwipePoint=(new c_Point)->m_new(0,0);
+	m_jumpDirtX=0;
+	m_jumpDirtY=0;
 	m_useLastPosForSwipe=false;
 	m_justHitPlayer=false;
 	m_seekingPlayer=0;
@@ -40383,7 +40387,11 @@ c_Point* c_Enemy::p_GetMovementDirection(){
 void c_Enemy::p_AfterHitHook(int t_diffX,int t_diffY){
 }
 void c_Enemy::p_InitDirtJump(int t_xVal,int t_yVal){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.InitDirtJump(Int, Int)",28));
+	if(!this->m_floating && this->p_IsVisible()){
+		this->m_jumpDirtTimer=0;
+		this->m_jumpDirtX=t_xVal;
+		this->m_jumpDirtY=t_yVal;
+	}
 }
 void c_Enemy::p_CheckFamiliarTouch(int t_dir){
 	if(c_FamiliarFixed::m_debugTouchDamage){
@@ -43918,9 +43926,9 @@ c_Tile::c_Tile(){
 	m_cachedLOSFrame=-1;
 	m_cachedTrueLOS=false;
 	m_cachedTrueLOSFrame=-1;
+	m_constAlpha=FLOAT(.0);
 	m_risingTriggered=false;
 	m_recedeTimer=2;
-	m_constAlpha=FLOAT(.0);
 	m_nextEruptionBeat=0;
 	m_playerWasOnTileAtBeat=-1;
 	m_playerWasOnTileLastFrame=false;
@@ -44915,6 +44923,24 @@ bool c_Tile::p_IsInAnyPlayerLineOfSight(){
 	}
 	return false;
 }
+bool c_Tile::p_IsVisible(){
+	if(bb_controller_game_DEBUG_ALL_TILES_VISIBLE){
+		return true;
+	}
+	if(c_Level::m_isLevelEditor){
+		return true;
+	}
+	if(this->p_IsNecrodancerPlatform()){
+		return true;
+	}
+	if(this->m_hasResource==1 && m_AnyPlayerHaveMonocle()){
+		return true;
+	}
+	if(this->m_isCracked && m_AnyPlayerHaveMonocle() && c_Level::m_secretAtX==this->m_x && c_Level::m_secretAtY==this->m_y){
+		return true;
+	}
+	return this->m_constAlpha>FLOAT(0.3);
+}
 void c_Tile::m_MoveAll(){
 	c_List12* t_floorsToRaise=(new c_List12)->m_new();
 	c_Enumerator38* t_=m_floorRisingList->p_ObjectEnumerator();
@@ -44957,24 +44983,6 @@ void c_Tile::m_MoveAll(){
 			t_pickup->p_Die();
 		}
 	}
-}
-bool c_Tile::p_IsVisible(){
-	if(bb_controller_game_DEBUG_ALL_TILES_VISIBLE){
-		return true;
-	}
-	if(c_Level::m_isLevelEditor){
-		return true;
-	}
-	if(this->p_IsNecrodancerPlatform()){
-		return true;
-	}
-	if(this->m_hasResource==1 && m_AnyPlayerHaveMonocle()){
-		return true;
-	}
-	if(this->m_isCracked && m_AnyPlayerHaveMonocle() && c_Level::m_secretAtX==this->m_x && c_Level::m_secretAtY==this->m_y){
-		return true;
-	}
-	return this->m_constAlpha>FLOAT(0.3);
 }
 Float c_Tile::p_CalculateTileLightValue(bool t_forVision){
 	if(this->m_lightValueFrameNum!=bb_necrodancergame_globalFrameCounter){
@@ -57183,6 +57191,7 @@ void c_Enumerator37::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
+bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 bool bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT;
 c_Enumerator38::c_Enumerator38(){
 	m__list=0;
@@ -57239,7 +57248,6 @@ bool c_CrystalShards::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entit
 void c_CrystalShards::mark(){
 	c_Entity::mark();
 }
-bool bb_controller_game_DEBUG_ALL_TILES_VISIBLE;
 c_List41::c_List41(){
 	m__head=((new c_HeadNode41)->m_new());
 }
@@ -57801,9 +57809,9 @@ int bbInit(){
 	c_Doppelganger::m_doppelgangers=(new c_List38)->m_new();
 	c_Flyaway::m_temporarilyDisableNewFlyaways=0;
 	c_Flyaway::m_activeFlyaways=(new c_List39)->m_new();
+	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_FamiliarFixed::m_debugTouchDamage=true;
 	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;
-	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Bomb::m_bombList=(new c_List41)->m_new();

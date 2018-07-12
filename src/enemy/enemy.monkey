@@ -2678,7 +2678,12 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method InitDirtJump: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Enemy.InitDirtJump(Int, Int)")
+        If Not Self.floating And
+           Self.IsVisible()
+            Self.jumpDirtTimer = 0
+            Self.jumpDirtX = xVal
+            Self.jumpDirtY = yVal
+        End If
     End Method
 
     Method InitImage: Void(enemyXML: XMLNode, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
