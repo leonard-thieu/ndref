@@ -142,7 +142,33 @@ Class Util
     End Function
 
     Function GetDirFromDiff: Int(xDiff: Int, yDiff: Int)
-        Debug.TraceNotImplemented("Util.GetDirFromDiff(Int, Int)")
+        Local dir := Direction.None
+
+        If xDiff < 0
+            If yDiff < 0
+                dir = Direction.UpLeft
+            Else If yDiff > 0
+                dir = Direction.DownLeft
+            Else
+                dir = Direction.Left
+            End If
+        Else If xDiff > 0
+            If yDiff < 0
+                dir = Direction.UpRight
+            Else If yDiff > 0
+                dir = Direction.DownRight
+            Else
+                dir = Direction.Right
+            End If
+        Else
+            If yDiff < 0
+                dir = Direction.Up
+            Else If yDiff > 0
+                dir = Direction.Down
+            End If
+        End If
+
+        Return dir
     End Function
 
     Function GetDirRotationOrder: Object()

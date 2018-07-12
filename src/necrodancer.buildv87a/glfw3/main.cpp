@@ -14148,8 +14148,39 @@ c_List40* c_Util::m_GetPlayersAt2(int t_xVal,int t_yVal){
 	return m_GetPlayersAt((new c_Rect)->m_new(t_xVal,t_yVal,0,0));
 }
 int c_Util::m_GetDirFromDiff(int t_xDiff,int t_yDiff){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDirFromDiff(Int, Int)",29));
-	return 0;
+	int t_dir=-1;
+	if(t_xDiff<0){
+		if(t_yDiff<0){
+			t_dir=6;
+		}else{
+			if(t_yDiff>0){
+				t_dir=5;
+			}else{
+				t_dir=2;
+			}
+		}
+	}else{
+		if(t_xDiff>0){
+			if(t_yDiff<0){
+				t_dir=7;
+			}else{
+				if(t_yDiff>0){
+					t_dir=4;
+				}else{
+					t_dir=0;
+				}
+			}
+		}else{
+			if(t_yDiff<0){
+				t_dir=3;
+			}else{
+				if(t_yDiff>0){
+					t_dir=1;
+				}
+			}
+		}
+	}
+	return t_dir;
 }
 c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
 	Float t_dist=FLOAT(99999.0);
