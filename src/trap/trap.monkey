@@ -155,7 +155,43 @@ Class TrapList Extends List<Trap>
     Function _EditorFix: Void() End
 
     Method Compare: Int(a: Trap, b: Trap)
-        Debug.TraceNotImplemented("TrapList.Compare(Trap, Trap)")
+        If a.trapType = TrapType.FireTrap
+            If b.trapType <> TrapType.FireTrap
+                Return -1
+            End If
+
+            Return 0
+        End If
+
+        If b.trapType = TrapType.FireTrap
+            Return 1
+        End If
+
+        If a.trapType = TrapType.BounceTrap
+            If b.trapType <> TrapType.BounceTrap
+                Return -1
+            End If
+
+            Return 0
+        End If
+
+        If b.trapType = TrapType.BounceTrap
+            Return 1
+        End If
+
+        If a.trapType = TrapType.TeleportTrap
+            If b.trapType <> TrapType.TeleportTrap
+                Return -1
+            End If
+
+            Return 0
+        End If
+
+        If b.trapType = TrapType.TeleportTrap
+            Return 1
+        End If
+
+        Return 0
     End Method
 
 End Class

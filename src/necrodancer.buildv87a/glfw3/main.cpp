@@ -47831,7 +47831,33 @@ c_TrapList* c_TrapList::m_new(){
 	return this;
 }
 int c_TrapList::p_Compare5(c_Trap* t_a,c_Trap* t_b){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapList.Compare(Trap, Trap)",28));
+	if(t_a->m_trapType==10){
+		if(t_b->m_trapType!=10){
+			return -1;
+		}
+		return 0;
+	}
+	if(t_b->m_trapType==10){
+		return 1;
+	}
+	if(t_a->m_trapType==1){
+		if(t_b->m_trapType!=1){
+			return -1;
+		}
+		return 0;
+	}
+	if(t_b->m_trapType==1){
+		return 1;
+	}
+	if(t_a->m_trapType==5){
+		if(t_b->m_trapType!=5){
+			return -1;
+		}
+		return 0;
+	}
+	if(t_b->m_trapType==5){
+		return 1;
+	}
 	return 0;
 }
 void c_TrapList::mark(){
