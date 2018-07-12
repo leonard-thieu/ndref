@@ -7539,6 +7539,7 @@ class c_Player : public c_MobileEntity{
 	int m_heartTransplantTime;
 	bool m_readyToThrow;
 	bool m_wasClamped;
+	Float m_trapSight;
 	c_Player();
 	void p_ClearAllFamiliars(bool);
 	void p_Die();
@@ -9542,8 +9543,10 @@ class c_Trap : public c_Entity{
 	bool m_isRune;
 	bool m_canBeReplacedByTempoTrap;
 	c_Entity* m_triggeredOn;
-	bool m_indestructible;
 	bool m_triggered;
+	bool m_playerWasClose;
+	c_Entity* m_willTriggerOn;
+	bool m_indestructible;
 	c_Trap();
 	static c_TrapList* m_trapList;
 	static c_Trap* m_GetTrapAt(int,int);
@@ -9557,6 +9560,7 @@ class c_Trap : public c_Entity{
 	virtual void p_Move();
 	static void m_MoveAll();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	virtual void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -10110,6 +10114,7 @@ class c_SpikeTrap : public c_Trap{
 	c_SpikeTrap();
 	c_SpikeTrap* m_new(int,int);
 	c_SpikeTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -10124,6 +10129,7 @@ class c_SpeedUpTrap : public c_Trap{
 	c_SpeedUpTrap();
 	c_SpeedUpTrap* m_new(int,int);
 	c_SpeedUpTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -10132,6 +10138,7 @@ class c_ConfuseTrap : public c_Trap{
 	c_ConfuseTrap();
 	c_ConfuseTrap* m_new(int,int);
 	c_ConfuseTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void mark();
 };
 class c_DeathMetal : public c_Enemy{
@@ -10917,6 +10924,7 @@ class c_BounceTrap : public c_Trap{
 	c_BounceTrap();
 	c_BounceTrap* m_new(int,int,int);
 	c_BounceTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Rotate();
 	int p_GetFrameToShow();
 	void p_Update();
@@ -11245,6 +11253,7 @@ class c_TrapDoor : public c_Trap{
 	c_TrapDoor();
 	c_TrapDoor* m_new(int,int);
 	c_TrapDoor* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -11253,6 +11262,7 @@ class c_TeleportTrap : public c_Trap{
 	c_TeleportTrap();
 	c_TeleportTrap* m_new(int,int);
 	c_TeleportTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -11261,6 +11271,7 @@ class c_SlowDownTrap : public c_Trap{
 	c_SlowDownTrap();
 	c_SlowDownTrap* m_new(int,int);
 	c_SlowDownTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -11269,6 +11280,7 @@ class c_BombTrap : public c_Trap{
 	c_BombTrap();
 	c_BombTrap* m_new(int,int);
 	c_BombTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void mark();
 };
 class c_ScatterTrap : public c_Trap{
@@ -11276,6 +11288,7 @@ class c_ScatterTrap : public c_Trap{
 	c_ScatterTrap();
 	c_ScatterTrap* m_new(int,int);
 	c_ScatterTrap* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -11288,6 +11301,7 @@ class c_FireTrap : public c_Trap{
 	c_FireTrap* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Move();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -11360,6 +11374,7 @@ class c_TravelRune : public c_Trap{
 	c_TravelRune();
 	c_TravelRune* m_new(int,int,int,int,int);
 	c_TravelRune* m_new2();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -12253,6 +12268,7 @@ class c_Switch : public c_Trap{
 	c_Switch* m_new(int,int,int,c_Switch*);
 	c_Switch* m_new2();
 	void p_Die();
+	void p_Trigger(c_Entity*);
 	void p_Update();
 	void mark();
 };
@@ -31886,6 +31902,7 @@ c_Player::c_Player(){
 	m_heartTransplantTime=-1;
 	m_readyToThrow=false;
 	m_wasClamped=false;
+	m_trapSight=FLOAT(100.0);
 }
 void c_Player::p_ClearAllFamiliars(bool t_includeLamb){
 	c_Enumerator2* t_=this->m_familiars->p_ObjectEnumerator();
@@ -47080,8 +47097,10 @@ c_Trap::c_Trap(){
 	m_isRune=false;
 	m_canBeReplacedByTempoTrap=true;
 	m_triggeredOn=0;
-	m_indestructible=false;
 	m_triggered=false;
+	m_playerWasClose=false;
+	m_willTriggerOn=0;
+	m_indestructible=false;
 }
 c_TrapList* c_Trap::m_trapList;
 c_Trap* c_Trap::m_GetTrapAt(int t_xVal,int t_yVal){
@@ -47155,12 +47174,41 @@ bool c_Trap::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitt
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.Hit(String, Int, Int, Entity, Bool, Int)",45));
 	return false;
 }
+void c_Trap::p_Trigger(c_Entity* t_ent){
+	this->m_willTriggerOn=0;
+	gc_assign(this->m_triggeredOn,t_ent);
+	this->m_triggered=true;
+}
 void c_Trap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.Update()",13));
+	bool t_isInTrapSightRange=false;
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(t_player->m_trapSight>=c_Util::m_GetDist(this->m_x,this->m_y,t_player->m_x,t_player->m_y)){
+			t_isInTrapSightRange=true;
+			break;
+		}
+	}
+	if(t_isInTrapSightRange || this->m_triggered || this->m_playerWasClose){
+		this->m_playerWasClose=true;
+		this->m_image->p_SetAlphaValue(FLOAT(1.0));
+	}else{
+		this->m_image->p_SetAlphaValue(FLOAT(0.0));
+	}
+	c_MobileEntity* t_triggeredOn=dynamic_cast<c_MobileEntity*>(this->m_willTriggerOn);
+	if(t_triggeredOn!=0){
+		if(t_triggeredOn->p_IsStandingStill()){
+			this->p_Trigger(this->m_willTriggerOn);
+		}
+	}
+	if(this->m_triggeredOn!=0 && (this->m_triggeredOn->m_dead || this->m_triggeredOn->m_x!=this->m_x || this->m_triggeredOn->m_y!=this->m_y)){
+		this->m_triggeredOn=0;
+	}
+	c_Entity::p_Update();
 }
 void c_Trap::mark(){
 	c_Entity::mark();
 	gc_mark_q(m_triggeredOn);
+	gc_mark_q(m_willTriggerOn);
 }
 c_List15::c_List15(){
 	m__head=((new c_HeadNode15)->m_new());
@@ -48860,6 +48908,9 @@ c_SpikeTrap* c_SpikeTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
+void c_SpikeTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SpikeTrap.Trigger(Entity)",25));
+}
 void c_SpikeTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SpikeTrap.Update()",18));
 }
@@ -48944,6 +48995,9 @@ c_SpeedUpTrap* c_SpeedUpTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
+void c_SpeedUpTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SpeedUpTrap.Trigger(Entity)",27));
+}
 void c_SpeedUpTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SpeedUpTrap.Update()",20));
 }
@@ -48963,6 +49017,9 @@ c_ConfuseTrap* c_ConfuseTrap::m_new(int t_xVal,int t_yVal){
 c_ConfuseTrap* c_ConfuseTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
+}
+void c_ConfuseTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConfuseTrap.Trigger(Entity)",27));
 }
 void c_ConfuseTrap::mark(){
 	c_Trap::mark();
@@ -51701,6 +51758,9 @@ c_BounceTrap* c_BounceTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
+void c_BounceTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.Trigger(Entity)",26));
+}
 void c_BounceTrap::p_Rotate(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.Rotate()",19));
 }
@@ -52756,6 +52816,9 @@ c_TrapDoor* c_TrapDoor::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
+void c_TrapDoor::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapDoor.Trigger(Entity)",24));
+}
 void c_TrapDoor::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapDoor.Update()",17));
 }
@@ -52775,6 +52838,9 @@ c_TeleportTrap* c_TeleportTrap::m_new(int t_xVal,int t_yVal){
 c_TeleportTrap* c_TeleportTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
+}
+void c_TeleportTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TeleportTrap.Trigger(Entity)",28));
 }
 void c_TeleportTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TeleportTrap.Update()",21));
@@ -52796,6 +52862,9 @@ c_SlowDownTrap* c_SlowDownTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
+void c_SlowDownTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SlowDownTrap.Trigger(Entity)",28));
+}
 void c_SlowDownTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SlowDownTrap.Update()",21));
 }
@@ -52816,6 +52885,9 @@ c_BombTrap* c_BombTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
+void c_BombTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"BombTrap.Trigger(Entity)",24));
+}
 void c_BombTrap::mark(){
 	c_Trap::mark();
 }
@@ -52832,6 +52904,9 @@ c_ScatterTrap* c_ScatterTrap::m_new(int t_xVal,int t_yVal){
 c_ScatterTrap* c_ScatterTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
+}
+void c_ScatterTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ScatterTrap.Trigger(Entity)",27));
 }
 void c_ScatterTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ScatterTrap.Update()",20));
@@ -52863,6 +52938,9 @@ bool c_FireTrap::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_
 }
 void c_FireTrap::p_Move(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Move()",15));
+}
+void c_FireTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Trigger(Entity)",24));
 }
 void c_FireTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Update()",17));
@@ -53065,6 +53143,9 @@ c_TravelRune* c_TravelRune::m_new(int t_xVal,int t_yVal,int t_toX,int t_toY,int 
 c_TravelRune* c_TravelRune::m_new2(){
 	c_Trap::m_new2();
 	return this;
+}
+void c_TravelRune::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TravelRune.Trigger(Entity)",26));
 }
 void c_TravelRune::p_Update(){
 	if(this->m_retractCounter>0){
@@ -55509,6 +55590,9 @@ c_Switch* c_Switch::m_new2(){
 }
 void c_Switch::p_Die(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Switch.Die()",12));
+}
+void c_Switch::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Switch.Trigger(Entity)",22));
 }
 void c_Switch::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Switch.Update()",15));

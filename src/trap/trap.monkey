@@ -1,8 +1,10 @@
 'Strict
 
 Import monkey.list
+Import controller.controller_game
 Import entity
 Import logger
+Import mobileentity
 Import util
 
 Class Trap Extends Entity Abstract
@@ -110,7 +112,40 @@ Class Trap Extends Entity Abstract
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Trap.Update()")
+        Local isInTrapSightRange := False
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If player.trapSight >= Util.GetDist(Self.x, Self.y, player.x, player.y)
+                isInTrapSightRange = True
+
+                Exit
+            End If
+        End For
+
+        If isInTrapSightRange Or
+           Self.triggered Or
+           Self.playerWasClose
+            Self.playerWasClose = True
+            Self.image.SetAlphaValue(1.0)
+        Else
+            Self.image.SetAlphaValue(0.0)
+        End If
+
+        Local triggeredOn := MobileEntity(Self.willTriggerOn)
+        If triggeredOn <> Null
+            If triggeredOn.IsStandingStill()
+                Self.Trigger(Self.willTriggerOn)
+            End If
+        End If
+
+        If Self.triggeredOn <> Null And
+           (Self.triggeredOn.dead Or
+            Self.triggeredOn.x <> Self.x Or
+            Self.triggeredOn.y <> Self.y)
+            Self.triggeredOn = Null
+        End If
+
+        Super.Update()
     End Method
 
 End Class
