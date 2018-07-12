@@ -12,7 +12,14 @@ Class Familiar Extends MobileEntity
     Global familiarList: List<Familiar> = New List<Familiar>()
 
     Function GetFamiliarAt: Familiar(x: Int, y: Int)
-        Debug.TraceNotImplemented("Familiar.GetFamiliarAt(Int, Int)")
+        For Local familiar := EachIn Familiar.familiarList
+            If familiar.x = x And
+               familiar.y = y
+                Return familiar
+            End If
+        End For
+
+        Return Null
     End Function
 
     Function IsAnyAt: Bool(x: Int, y: Int)

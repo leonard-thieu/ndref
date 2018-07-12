@@ -5673,6 +5673,7 @@ class c_Node58;
 class c_HeadNode40;
 class c_Enumerator36;
 class c_Enumerator37;
+class c_Enumerator38;
 class c_CrystalShards;
 class c_List41;
 class c_Node59;
@@ -9157,6 +9158,7 @@ class c_List11 : public Object{
 	c_List11* m_new();
 	c_Node24* p_AddLast11(c_Familiar*);
 	c_List11* m_new2(Array<c_Familiar* >);
+	c_Enumerator36* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node24 : public Object{
@@ -9463,7 +9465,7 @@ class c_List12 : public Object{
 	c_Node28* p_Find5(c_Tile*,c_Node28*);
 	c_Node28* p_Find6(c_Tile*);
 	void p_RemoveFirst4(c_Tile*);
-	c_Enumerator37* p_ObjectEnumerator();
+	c_Enumerator38* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node28 : public Object{
@@ -12645,7 +12647,7 @@ class c_List40 : public Object{
 	c_Node58* p_AddLast40(c_Player*);
 	c_List40* m_new2(Array<c_Player* >);
 	bool p_IsEmpty();
-	c_Enumerator36* p_ObjectEnumerator();
+	c_Enumerator37* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node58 : public Object{
@@ -12666,23 +12668,34 @@ class c_HeadNode40 : public c_Node58{
 };
 class c_Enumerator36 : public Object{
 	public:
+	c_List11* m__list;
+	c_Node24* m__curr;
+	c_Enumerator36();
+	c_Enumerator36* m_new(c_List11*);
+	c_Enumerator36* m_new2();
+	bool p_HasNext();
+	c_Familiar* p_NextObject();
+	void mark();
+};
+class c_Enumerator37 : public Object{
+	public:
 	c_List40* m__list;
 	c_Node58* m__curr;
-	c_Enumerator36();
-	c_Enumerator36* m_new(c_List40*);
-	c_Enumerator36* m_new2();
+	c_Enumerator37();
+	c_Enumerator37* m_new(c_List40*);
+	c_Enumerator37* m_new2();
 	bool p_HasNext();
 	c_Player* p_NextObject();
 	void mark();
 };
 extern bool bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT;
-class c_Enumerator37 : public Object{
+class c_Enumerator38 : public Object{
 	public:
 	c_List12* m__list;
 	c_Node28* m__curr;
-	c_Enumerator37();
-	c_Enumerator37* m_new(c_List12*);
-	c_Enumerator37* m_new2();
+	c_Enumerator38();
+	c_Enumerator38* m_new(c_List12*);
+	c_Enumerator38* m_new2();
 	bool p_HasNext();
 	c_Tile* p_NextObject();
 	void mark();
@@ -31449,7 +31462,7 @@ int c_Entity::p_PerformMovement(int t_xVal,int t_yVal){
 		this->m_y=t_yVal;
 		return 1;
 	}
-	c_Enumerator36* t_=t_playersAt->p_ObjectEnumerator();
+	c_Enumerator37* t_=t_playersAt->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Player* t_player=t_->p_NextObject();
 		if(!t_isUnlockedExit && !this->m_isGentle){
@@ -35029,7 +35042,13 @@ bool c_Familiar::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_
 	return false;
 }
 c_Familiar* c_Familiar::m_GetFamiliarAt(int t_x,int t_y){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Familiar.GetFamiliarAt(Int, Int)",32));
+	c_Enumerator36* t_=m_familiarList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Familiar* t_familiar=t_->p_NextObject();
+		if(t_familiar->m_x==t_x && t_familiar->m_y==t_y){
+			return t_familiar;
+		}
+	}
 	return 0;
 }
 void c_Familiar::p_Update(){
@@ -44856,7 +44875,7 @@ bool c_Tile::p_IsInAnyPlayerLineOfSight(){
 }
 void c_Tile::m_MoveAll(){
 	c_List12* t_floorsToRaise=(new c_List12)->m_new();
-	c_Enumerator37* t_=m_floorRisingList->p_ObjectEnumerator();
+	c_Enumerator38* t_=m_floorRisingList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Tile* t_floorRising=t_->p_NextObject();
 		if(t_floorRising->m_risingTriggered){
@@ -44868,14 +44887,14 @@ void c_Tile::m_MoveAll(){
 			t_floorRising->m_risingTriggered=true;
 		}
 	}
-	c_Enumerator37* t_2=t_floorsToRaise->p_ObjectEnumerator();
+	c_Enumerator38* t_2=t_floorsToRaise->p_ObjectEnumerator();
 	while(t_2->p_HasNext()){
 		c_Tile* t_floorToRaise=t_2->p_NextObject();
 		c_Audio::m_PlayGameSoundAt(String(L"floorRise",9),t_floorToRaise->m_x,t_floorToRaise->m_y,false,-1,false);
 		c_Level::m_PlaceTileRemovingExistingTiles(t_floorToRaise->m_x,t_floorToRaise->m_y,107,false,6,false);
 	}
 	c_List12* t_floorsToRecede=(new c_List12)->m_new();
-	c_Enumerator37* t_3=m_floorRecededList->p_ObjectEnumerator();
+	c_Enumerator38* t_3=m_floorRecededList->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_Tile* t_floorReceded=t_3->p_NextObject();
 		if(t_floorReceded->m_recedeTimer<=0){
@@ -44886,7 +44905,7 @@ void c_Tile::m_MoveAll(){
 			t_floorReceded->m_recedeTimer-=1;
 		}
 	}
-	c_Enumerator37* t_4=t_floorsToRecede->p_ObjectEnumerator();
+	c_Enumerator38* t_4=t_floorsToRecede->p_ObjectEnumerator();
 	while(t_4->p_HasNext()){
 		c_Tile* t_floorToRecede=t_4->p_NextObject();
 		c_Audio::m_PlayGameSoundAt(String(L"floorRise",9),t_floorToRecede->m_x,t_floorToRecede->m_y,false,-1,false);
@@ -45060,7 +45079,7 @@ void c_Tile::p_Update(){
 	}
 	if(c_Level::m_isNoReturnMode){
 		c_List40* t_playersAt=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
-		c_Enumerator36* t_=t_playersAt->p_ObjectEnumerator();
+		c_Enumerator37* t_=t_playersAt->p_ObjectEnumerator();
 		while(t_->p_HasNext()){
 			c_Player* t_player=t_->p_NextObject();
 			if(this->m_playerWasOnTileAtBeat==c_Audio::m_GetClosestBeatNum(true)-1 && !this->m_playerWasOnTileLastFrame && ((this->m_playerWasOnTileLastFrame)?1:0)>0 && c_Shrine::m_noReturnShrineActive){
@@ -45077,7 +45096,7 @@ void c_Tile::p_Update(){
 	}
 	if(this->m_trigger!=0){
 		c_List40* t_playersAt2=c_Util::m_GetPlayersAt2(this->m_x,this->m_y);
-		c_Enumerator36* t_2=t_playersAt2->p_ObjectEnumerator();
+		c_Enumerator37* t_2=t_playersAt2->p_ObjectEnumerator();
 		while(t_2->p_HasNext()){
 			c_Player* t_player2=t_2->p_NextObject();
 			if(t_player2!=this->m_triggerPlayer){
@@ -46008,6 +46027,9 @@ c_List11* c_List11::m_new2(Array<c_Familiar* > t_data){
 		p_AddLast11(t_t);
 	}
 	return this;
+}
+c_Enumerator36* c_List11::p_ObjectEnumerator(){
+	return (new c_Enumerator36)->m_new(this);
 }
 void c_List11::mark(){
 	Object::mark();
@@ -47186,8 +47208,8 @@ void c_List12::p_RemoveFirst4(c_Tile* t_value){
 		t_node->p_Remove();
 	}
 }
-c_Enumerator37* c_List12::p_ObjectEnumerator(){
-	return (new c_Enumerator37)->m_new(this);
+c_Enumerator38* c_List12::p_ObjectEnumerator(){
+	return (new c_Enumerator38)->m_new(this);
 }
 void c_List12::mark(){
 	Object::mark();
@@ -57023,8 +57045,8 @@ c_List40* c_List40::m_new2(Array<c_Player* > t_data){
 bool c_List40::p_IsEmpty(){
 	return m__head->m__succ==m__head;
 }
-c_Enumerator36* c_List40::p_ObjectEnumerator(){
-	return (new c_Enumerator36)->m_new(this);
+c_Enumerator37* c_List40::p_ObjectEnumerator(){
+	return (new c_Enumerator37)->m_new(this);
 }
 void c_List40::mark(){
 	Object::mark();
@@ -57067,7 +57089,7 @@ c_Enumerator36::c_Enumerator36(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator36* c_Enumerator36::m_new(c_List40* t_list){
+c_Enumerator36* c_Enumerator36::m_new(c_List11* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
@@ -57081,8 +57103,8 @@ bool c_Enumerator36::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Player* c_Enumerator36::p_NextObject(){
-	c_Player* t_data=m__curr->m__data;
+c_Familiar* c_Enumerator36::p_NextObject(){
+	c_Familiar* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
@@ -57091,12 +57113,11 @@ void c_Enumerator36::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
-bool bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT;
 c_Enumerator37::c_Enumerator37(){
 	m__list=0;
 	m__curr=0;
 }
-c_Enumerator37* c_Enumerator37::m_new(c_List12* t_list){
+c_Enumerator37* c_Enumerator37::m_new(c_List40* t_list){
 	gc_assign(m__list,t_list);
 	gc_assign(m__curr,t_list->m__head->m__succ);
 	return this;
@@ -57110,12 +57131,41 @@ bool c_Enumerator37::p_HasNext(){
 	}
 	return m__curr!=m__list->m__head;
 }
-c_Tile* c_Enumerator37::p_NextObject(){
-	c_Tile* t_data=m__curr->m__data;
+c_Player* c_Enumerator37::p_NextObject(){
+	c_Player* t_data=m__curr->m__data;
 	gc_assign(m__curr,m__curr->m__succ);
 	return t_data;
 }
 void c_Enumerator37::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
+bool bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT;
+c_Enumerator38::c_Enumerator38(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator38* c_Enumerator38::m_new(c_List12* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator38* c_Enumerator38::m_new2(){
+	return this;
+}
+bool c_Enumerator38::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_Tile* c_Enumerator38::p_NextObject(){
+	c_Tile* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator38::mark(){
 	Object::mark();
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
