@@ -189,45 +189,12 @@ Class ControllerGame Extends Controller
             Return
         End If
 
-        Local pause: Bool
-
         Local keyBinding_0_11 := GameData.GetKeyBinding(0, 11)
-        If keyBinding_0_11 < 0
-            If (input.KeyHit(input.KEY_JOY0_LB) And Not Input.IsRedefined(input.KEY_JOY0_LB)) Or
-               (input.KeyHit(input.KEY_JOY0_RB) And Not Input.IsRedefined(input.KEY_JOY0_RB))
-                pause = True
-            End If
-        Else
-            If keyBinding_0_11 < 512 And
-               Not Input.keysHitLastFrame[keyBinding_0_11] And
-               Not Input.keysHit2FramesAgo[keyBinding_0_11]
-                Select keyBinding_0_11
-                    Case 384
-                        If Input.stickDown[0]
-                            pause = True
-                        End If
-                    Case 385
-                        If Input.stickRight[0]
-                            pause = True
-                        End If
-                    Case 386
-                        If Input.stickLeft[0]
-                            pause = True
-                        End If
-                    Default
-                        If Input.KeyWasHit(keyBinding_0_11)
-                            pause = True
-                        End If
-                End Select
-            End If
-        End If
-
-        If Not pause And
+        If (keyBinding_0_11 < 0 And
+            (input.KeyHit(input.KEY_JOY0_LB) And Not Input.IsRedefined(input.KEY_JOY0_LB)) Or
+            (input.KeyHit(input.KEY_JOY0_RB) And Not Input.IsRedefined(input.KEY_JOY0_RB))) Or
+           Input.KeyWasHit(keyBinding_0_11) Or
            input.KeyHit(input.KEY_ESCAPE)
-            pause = True
-        End If
-
-        If pause
             controller_game.gamePaused = True
             Audio.PauseSong(True)
             New ControllerPause(Self)
