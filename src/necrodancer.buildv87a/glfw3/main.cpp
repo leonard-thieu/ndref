@@ -7634,6 +7634,7 @@ class c_Player : public c_MobileEntity{
 	static bool m_AllPlayersPerished();
 	static bool m_PlayersHaveMovedThisBeat();
 	static bool m_AnyPlayerInSpecialRoom();
+	bool p_IsPhasing();
 	void p_HandleIceAndCoals();
 	void p_AfterEnemyMovement();
 	bool p_IsVisible();
@@ -8086,6 +8087,9 @@ class c_Enemy : public c_MobileEntity{
 	bool m_charmed;
 	bool m_inArena;
 	bool m_isUnaffectedByArenas;
+	bool m_useLastPosForSwipe;
+	bool m_justHitPlayer;
+	c_Player* m_seekingPlayer;
 	bool m_executedCry;
 	int m_animOverrideState;
 	bool m_wasFrozen;
@@ -8158,6 +8162,7 @@ class c_Enemy : public c_MobileEntity{
 	virtual c_Point* p_GetMovementDirection();
 	int p_AttemptMove(int,int);
 	virtual int p_Move();
+	void p_AdvanceMovementDelay();
 	virtual void p_MoveSucceed(bool,bool);
 	virtual void p_MoveFail();
 	static void m_MoveAll();
@@ -12592,6 +12597,7 @@ class c_Swarm : public Object{
 	static void m_Move();
 	void mark();
 };
+extern bool bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT;
 class c_Enumerator36 : public Object{
 	public:
 	c_List12* m__list;
@@ -34211,6 +34217,10 @@ bool c_Player::m_AnyPlayerInSpecialRoom(){
 	}
 	return false;
 }
+bool c_Player::p_IsPhasing(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsPhasing()",18));
+	return false;
+}
 void c_Player::p_HandleIceAndCoals(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.HandleIceAndCoals()",26));
 }
@@ -36601,6 +36611,9 @@ c_Enemy::c_Enemy(){
 	m_charmed=false;
 	m_inArena=false;
 	m_isUnaffectedByArenas=false;
+	m_useLastPosForSwipe=false;
+	m_justHitPlayer=false;
+	m_seekingPlayer=0;
 	m_executedCry=false;
 	m_animOverrideState=-1;
 	m_wasFrozen=false;
@@ -40205,8 +40218,22 @@ int c_Enemy::p_Move(){
 	}
 	return this->p_AttemptMove(t_movementDirection->m_x,t_movementDirection->m_y);
 }
+void c_Enemy::p_AdvanceMovementDelay(){
+	if(bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT || bb_controller_game_showScoreMessage || bb_controller_game_hasWon){
+		this->m_currentMoveDelay=2;
+	}else{
+		if(this->m_ignoreWalls || this->m_justHitPlayer || this->m_seekingPlayer==0 || !this->m_seekingPlayer->p_IsPhasing() || !c_Level::m_IsWallAt2(this->m_seekingPlayer->m_x,this->m_seekingPlayer->m_y)){
+			this->m_currentMoveDelay-=1;
+			if(this->m_currentMoveDelay<=0){
+				this->m_currentMoveDelay=this->m_beatsPerMove;
+			}
+		}
+	}
+}
 void c_Enemy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.MoveSucceed(Bool, Bool)",29));
+	this->m_useLastPosForSwipe=false;
+	this->m_justHitPlayer=t_hitPlayer;
+	this->p_AdvanceMovementDelay();
 }
 void c_Enemy::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.MoveFail()",16));
@@ -40366,6 +40393,7 @@ void c_Enemy::mark(){
 	gc_mark_q(m_animTellBlink);
 	gc_mark_q(m_attackSwipeImage);
 	gc_mark_q(m_jumpDirt);
+	gc_mark_q(m_seekingPlayer);
 }
 c_Crate::c_Crate(){
 	m_initialYOff=0;
@@ -56686,6 +56714,7 @@ void c_Swarm::m_Move(){
 void c_Swarm::mark(){
 	Object::mark();
 }
+bool bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT;
 c_Enumerator36::c_Enumerator36(){
 	m__list=0;
 	m__curr=0;
@@ -57393,6 +57422,7 @@ int bbInit(){
 	c_Doppelganger::m_doppelgangers=(new c_List38)->m_new();
 	c_Flyaway::m_temporarilyDisableNewFlyaways=0;
 	c_Flyaway::m_activeFlyaways=(new c_List39)->m_new();
+	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;
 	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);

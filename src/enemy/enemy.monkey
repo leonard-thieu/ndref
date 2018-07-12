@@ -2247,7 +2247,20 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method AdvanceMovementDelay: Void()
-        Debug.TraceNotImplemented("Enemy.AdvanceMovementDelay()")
+        If necrodancergame.DEBUG_STOP_ENEMY_MOVEMENT Or
+           controller_game.showScoreMessage Or
+           controller_game.hasWon
+            Self.currentMoveDelay = 2
+        Else If Self.ignoreWalls Or
+                Self.justHitPlayer Or
+                Self.seekingPlayer = Null Or
+                Not Self.seekingPlayer.IsPhasing Or
+                Not Level.IsWallAt(Self.seekingPlayer.x, Self.seekingPlayer.y)
+            Self.currentMoveDelay -= 1
+            If Self.currentMoveDelay <= 0
+                Self.currentMoveDelay = Self.beatsPerMove
+            End If
+        End If
     End Method
 
     Method AnimateToTheBeat: Void()
@@ -2726,7 +2739,10 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Enemy.MoveSucceed(Bool, Bool)")
+        Self.useLastPosForSwipe = False
+        Self.justHitPlayer = hitPlayer
+
+        Self.AdvanceMovementDelay()
     End Method
 
     Method RandomIncludeDiagonals: Object(trueRandom: Bool, ignoreRingOfLuck: Bool)
