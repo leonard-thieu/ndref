@@ -5678,6 +5678,7 @@ class c_CrystalShards;
 class c_List41;
 class c_Node59;
 class c_HeadNode41;
+class c_Enumerator39;
 class c_List42;
 class c_Node60;
 class c_HeadNode42;
@@ -10368,7 +10369,7 @@ class c_Bomb : public c_Item{
 	String m_damageSource;
 	c_Sprite* m_explosionImg;
 	c_Bomb();
-	static c_List41* m_bombList;
+	static c_List42* m_bombList;
 	c_Bomb* m_new(int,int,c_Player*,bool,bool,String);
 	c_Bomb* m_new2();
 	void p_Die();
@@ -12715,8 +12716,9 @@ class c_Enumerator38 : public Object{
 class c_CrystalShards : public c_Entity{
 	public:
 	c_CrystalShards();
+	static c_List41* m_shardsList;
+	void p_Move();
 	static void m_MoveAll();
-	static c_List42* m_shardsList;
 	c_CrystalShards* m_new(int,int);
 	c_CrystalShards* m_new2();
 	void p_Die();
@@ -12728,17 +12730,18 @@ class c_List41 : public Object{
 	c_Node59* m__head;
 	c_List41();
 	c_List41* m_new();
-	c_Node59* p_AddLast41(c_Bomb*);
-	c_List41* m_new2(Array<c_Bomb* >);
+	c_Node59* p_AddLast41(c_CrystalShards*);
+	c_List41* m_new2(Array<c_CrystalShards* >);
+	c_Enumerator39* p_ObjectEnumerator();
 	void mark();
 };
 class c_Node59 : public Object{
 	public:
 	c_Node59* m__succ;
 	c_Node59* m__pred;
-	c_Bomb* m__data;
+	c_CrystalShards* m__data;
 	c_Node59();
-	c_Node59* m_new(c_Node59*,c_Node59*,c_Bomb*);
+	c_Node59* m_new(c_Node59*,c_Node59*,c_CrystalShards*);
 	c_Node59* m_new2();
 	void mark();
 };
@@ -12748,22 +12751,33 @@ class c_HeadNode41 : public c_Node59{
 	c_HeadNode41* m_new();
 	void mark();
 };
+class c_Enumerator39 : public Object{
+	public:
+	c_List41* m__list;
+	c_Node59* m__curr;
+	c_Enumerator39();
+	c_Enumerator39* m_new(c_List41*);
+	c_Enumerator39* m_new2();
+	bool p_HasNext();
+	c_CrystalShards* p_NextObject();
+	void mark();
+};
 class c_List42 : public Object{
 	public:
 	c_Node60* m__head;
 	c_List42();
 	c_List42* m_new();
-	c_Node60* p_AddLast42(c_CrystalShards*);
-	c_List42* m_new2(Array<c_CrystalShards* >);
+	c_Node60* p_AddLast42(c_Bomb*);
+	c_List42* m_new2(Array<c_Bomb* >);
 	void mark();
 };
 class c_Node60 : public Object{
 	public:
 	c_Node60* m__succ;
 	c_Node60* m__pred;
-	c_CrystalShards* m__data;
+	c_Bomb* m__data;
 	c_Node60();
-	c_Node60* m_new(c_Node60*,c_Node60*,c_CrystalShards*);
+	c_Node60* m_new(c_Node60*,c_Node60*,c_Bomb*);
 	c_Node60* m_new2();
 	void mark();
 };
@@ -50312,7 +50326,7 @@ c_Bomb::c_Bomb(){
 	m_damageSource=String(L"bomb",4);
 	m_explosionImg=0;
 }
-c_List41* c_Bomb::m_bombList;
+c_List42* c_Bomb::m_bombList;
 c_Bomb* c_Bomb::m_new(int t_xVal,int t_yVal,c_Player* t_dropper,bool t_playLitSound,bool t_big,String t_dmgSource){
 	c_Item::m_new(t_xVal,t_yVal,String(L"bomb",4),false,-1,false);
 	this->m_pickupable=false;
@@ -50325,7 +50339,7 @@ c_Bomb* c_Bomb::m_new(int t_xVal,int t_yVal,c_Player* t_dropper,bool t_playLitSo
 	if(t_playLitSound){
 		bb_logger_Debug->p_TraceNotImplemented(String(L"Bomb.New(Int, Int, Player, Bool, Bool, String) (Audio)",54));
 	}
-	m_bombList->p_AddLast41(this);
+	m_bombList->p_AddLast42(this);
 	return this;
 }
 c_Bomb* c_Bomb::m_new2(){
@@ -57328,13 +57342,20 @@ void c_Enumerator38::mark(){
 }
 c_CrystalShards::c_CrystalShards(){
 }
-void c_CrystalShards::m_MoveAll(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.MoveAll()",23));
+c_List41* c_CrystalShards::m_shardsList;
+void c_CrystalShards::p_Move(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"CrystalShards.Move()",20));
 }
-c_List42* c_CrystalShards::m_shardsList;
+void c_CrystalShards::m_MoveAll(){
+	c_Enumerator39* t_=m_shardsList->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_CrystalShards* t_crystalShard=t_->p_NextObject();
+		t_crystalShard->p_Move();
+	}
+}
 c_CrystalShards* c_CrystalShards::m_new(int t_x_,int t_y_){
 	c_Entity::m_new();
-	m_shardsList->p_AddLast42(this);
+	m_shardsList->p_AddLast41(this);
 	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"entities/crystal_shards.png",27),24,24,2,c_Image::m_DefaultFlags));
 	this->m_image->p_SetZOff(FLOAT(-19.0));
 	return this;
@@ -57359,18 +57380,21 @@ c_List41::c_List41(){
 c_List41* c_List41::m_new(){
 	return this;
 }
-c_Node59* c_List41::p_AddLast41(c_Bomb* t_data){
+c_Node59* c_List41::p_AddLast41(c_CrystalShards* t_data){
 	return (new c_Node59)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List41* c_List41::m_new2(Array<c_Bomb* > t_data){
-	Array<c_Bomb* > t_=t_data;
+c_List41* c_List41::m_new2(Array<c_CrystalShards* > t_data){
+	Array<c_CrystalShards* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_Bomb* t_t=t_[t_2];
+		c_CrystalShards* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast41(t_t);
 	}
 	return this;
+}
+c_Enumerator39* c_List41::p_ObjectEnumerator(){
+	return (new c_Enumerator39)->m_new(this);
 }
 void c_List41::mark(){
 	Object::mark();
@@ -57381,7 +57405,7 @@ c_Node59::c_Node59(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node59* c_Node59::m_new(c_Node59* t_succ,c_Node59* t_pred,c_Bomb* t_data){
+c_Node59* c_Node59::m_new(c_Node59* t_succ,c_Node59* t_pred,c_CrystalShards* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -57409,20 +57433,48 @@ c_HeadNode41* c_HeadNode41::m_new(){
 void c_HeadNode41::mark(){
 	c_Node59::mark();
 }
+c_Enumerator39::c_Enumerator39(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator39* c_Enumerator39::m_new(c_List41* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator39* c_Enumerator39::m_new2(){
+	return this;
+}
+bool c_Enumerator39::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_CrystalShards* c_Enumerator39::p_NextObject(){
+	c_CrystalShards* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator39::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
+}
 c_List42::c_List42(){
 	m__head=((new c_HeadNode42)->m_new());
 }
 c_List42* c_List42::m_new(){
 	return this;
 }
-c_Node60* c_List42::p_AddLast42(c_CrystalShards* t_data){
+c_Node60* c_List42::p_AddLast42(c_Bomb* t_data){
 	return (new c_Node60)->m_new(m__head,m__head->m__pred,t_data);
 }
-c_List42* c_List42::m_new2(Array<c_CrystalShards* > t_data){
-	Array<c_CrystalShards* > t_=t_data;
+c_List42* c_List42::m_new2(Array<c_Bomb* > t_data){
+	Array<c_Bomb* > t_=t_data;
 	int t_2=0;
 	while(t_2<t_.Length()){
-		c_CrystalShards* t_t=t_[t_2];
+		c_Bomb* t_t=t_[t_2];
 		t_2=t_2+1;
 		p_AddLast42(t_t);
 	}
@@ -57437,7 +57489,7 @@ c_Node60::c_Node60(){
 	m__pred=0;
 	m__data=0;
 }
-c_Node60* c_Node60::m_new(c_Node60* t_succ,c_Node60* t_pred,c_CrystalShards* t_data){
+c_Node60* c_Node60::m_new(c_Node60* t_succ,c_Node60* t_pred,c_Bomb* t_data){
 	gc_assign(m__succ,t_succ);
 	gc_assign(m__pred,t_pred);
 	gc_assign(m__succ->m__pred,this);
@@ -57918,14 +57970,14 @@ int bbInit(){
 	c_FamiliarFixed::m_debugTouchDamage=true;
 	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;
 	c_Camera::m_overlayRedDuration=0;
+	c_CrystalShards::m_shardsList=(new c_List41)->m_new();
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);
-	c_Bomb::m_bombList=(new c_List41)->m_new();
+	c_Bomb::m_bombList=(new c_List42)->m_new();
 	c_Audio::m_songPaused=false;
 	c_Entity::m_anyPlayerHaveNazarCharmCached=false;
 	c_Entity::m_anyPlayerHaveCircletCached=false;
 	c_Entity::m_anyPlayerHaveGlassTorchCached=false;
-	c_CrystalShards::m_shardsList=(new c_List42)->m_new();
 	c_Audio::m_songShopkeeper=-1;
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
@@ -58103,8 +58155,8 @@ void gc_mark(){
 	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_IN);
 	gc_mark_q(c_Doppelganger::m_doppelgangers);
 	gc_mark_q(c_Flyaway::m_activeFlyaways);
-	gc_mark_q(c_Bomb::m_bombList);
 	gc_mark_q(c_CrystalShards::m_shardsList);
+	gc_mark_q(c_Bomb::m_bombList);
 	gc_mark_q(c_ParticleSystemData::m_GEYSER);
 	gc_mark_q(c_Level::m_mapLightValues);
 	gc_mark_q(c_Level::m_constMapLightValues);

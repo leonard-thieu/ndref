@@ -14,7 +14,9 @@ Class CrystalShards Extends Entity
     End Function
 
     Function MoveAll: Void()
-        Debug.TraceNotImplemented("CrystalShards.MoveAll()")
+        For Local crystalShard := EachIn CrystalShards.shardsList
+            crystalShard.Move()
+        End For
     End Function
 
     Function _EditorFix: Void() End
