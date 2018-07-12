@@ -177,7 +177,7 @@ Class Entity Extends RenderableObject Abstract
     End Method
 
     Method BounceToward: Void(p: Point, bufferTween: Bool)
-        Debug.TraceNotImplemented("Entity.BounceToward(Point, Bool)")
+        Self.PerformTween(Self.x + p.x, Self.y + p.y, Self.x, Self.y, 10, 11, bufferTween)
     End Method
 
     Method CancelTween: Void()

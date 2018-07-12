@@ -7351,6 +7351,7 @@ class c_Entity : public c_RenderableObject{
 	bool p_IsFrozen(bool);
 	bool p_IsInAnyPlayerLineOfSight();
 	void p_Update();
+	virtual void p_PerformTween(int,int,int,int,int,int,bool);
 	void p_BounceToward(c_Point*,bool);
 	static void m_UpdateVisibility();
 	virtual bool p_IsVisible();
@@ -7639,6 +7640,7 @@ class c_Player : public c_MobileEntity{
 	void p_HandleIceAndCoals();
 	void p_AfterEnemyMovement();
 	bool p_IsVisible();
+	void p_PerformTween(int,int,int,int,int,int,bool);
 	static bool m_AnyPlayerTemporaryMapSight();
 	void mark();
 };
@@ -31356,8 +31358,11 @@ void c_Entity::p_Update(){
 	}
 	this->m_wasTeleported=false;
 }
+void c_Entity::p_PerformTween(int t_xVal,int t_yVal,int t_oldX,int t_oldY,int t_tweenType,int t_shadowTweenType,bool t_bufferTween){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.PerformTween(Int, Int, Int, Int, Int, Int, Bool)",55));
+}
 void c_Entity::p_BounceToward(c_Point* t_p,bool t_bufferTween){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.BounceToward(Point, Bool)",32));
+	this->p_PerformTween(this->m_x+t_p->m_x,this->m_y+t_p->m_y,this->m_x,this->m_y,10,11,t_bufferTween);
 }
 void c_Entity::m_UpdateVisibility(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
@@ -34234,6 +34239,9 @@ void c_Player::p_AfterEnemyMovement(){
 bool c_Player::p_IsVisible(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsVisible()",18));
 	return false;
+}
+void c_Player::p_PerformTween(int t_xVal,int t_yVal,int t_oldX,int t_oldY,int t_tweenType,int t_shadowTweenType,bool t_bufferTween){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.PerformTween(Int, Int, Int, Int, Int, Int, Bool)",55));
 }
 bool c_Player::m_AnyPlayerTemporaryMapSight(){
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
