@@ -208,7 +208,20 @@ Class Slime Extends Enemy
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Slime.MoveSucceed(Bool, Bool)")
+        If moveDelayed And
+           Self.level = 1
+            If Not Self.IsStuckInLiquid()
+                Local bounceTo := New Point(0, -1)
+                Self.BounceToward(bounceTo, False)
+            End If
+        End If
+
+        If Not hitPlayer And
+           Not moveDelayed
+            Self.moveCount += 1
+        End If
+
+        Super.MoveSucceed(hitPlayer, moveDelayed)
     End Method
 
     Method PerformMovement: Int(xVal: Int, yVal: Int)

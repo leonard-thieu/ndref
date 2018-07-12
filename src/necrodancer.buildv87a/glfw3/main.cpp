@@ -7428,6 +7428,7 @@ class c_MobileEntity : public c_Entity{
 	bool p_IsStandingStill();
 	void p_Update();
 	bool p_IsSlidingOnIce();
+	bool p_IsStuckInLiquid();
 	void mark();
 };
 class c_Player : public c_MobileEntity{
@@ -31860,6 +31861,10 @@ void c_MobileEntity::p_Update(){
 bool c_MobileEntity::p_IsSlidingOnIce(){
 	return this->m_slidingDir!=-1;
 }
+bool c_MobileEntity::p_IsStuckInLiquid(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"MobileEntity.IsStuckInLiquid()",30));
+	return false;
+}
 void c_MobileEntity::mark(){
 	c_Entity::mark();
 }
@@ -49503,7 +49508,16 @@ void c_Slime::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.MoveFail()",16));
 }
 void c_Slime::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.MoveSucceed(Bool, Bool)",29));
+	if(t_moveDelayed && this->m_level==1){
+		if(!this->p_IsStuckInLiquid()){
+			c_Point* t_bounceTo=(new c_Point)->m_new(0,-1);
+			this->p_BounceToward(t_bounceTo,false);
+		}
+	}
+	if(!t_hitPlayer && !t_moveDelayed){
+		this->m_moveCount+=1;
+	}
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
 void c_Slime::p_Update(){
 	if(this->m_level==2){
