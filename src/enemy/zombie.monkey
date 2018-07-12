@@ -24,7 +24,7 @@ Class Zombie Extends Enemy
     Field facing: Int = -1
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Zombie.GetMovementDirection()")
+        Return Util.GetPointFromDir(Self.facing)
     End Method
 
     Method MoveFail: Void()

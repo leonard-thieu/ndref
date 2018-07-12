@@ -49999,8 +49999,7 @@ c_Zombie* c_Zombie::m_new2(){
 	return this;
 }
 c_Point* c_Zombie::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Zombie.GetMovementDirection()",29));
-	return 0;
+	return c_Util::m_GetPointFromDir(this->m_facing);
 }
 void c_Zombie::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Zombie.MoveFail()",17));
