@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import logger
 Import point
 Import util
@@ -12,7 +13,7 @@ Class Zombie Extends Enemy
     Method New(xVal: Int, yVal: Int, l: Int)
         Super.New()
 
-        Self.Init(xVal, yVal, l, "zombie", "", -1, -1)
+        Self.Init(xVal, yVal, l, "zombie")
 
         Self.movesRegardlessOfDistance = True
         Self.facing = Util.RndIntRangeFromZero(3, True)
@@ -32,7 +33,26 @@ Class Zombie Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Zombie.Update()")
+        Local animOffset: Int
+
+        Select Self.facing
+            Case Direction.Left
+                Self.image.FlipX(False, True)
+                animOffset = 0
+            Case Direction.Right
+                Self.image.FlipX(True, True)
+                animOffset = 8
+            Case Direction.Down
+                animOffset = 16
+        End Select
+
+        If Self.currentMoveDelay >= 2
+            animOffset += 4
+        End If
+
+        Self.animOverride = Audio.GetBeatAnimFrame4() + animOffset
+
+        Super.Update()
     End Method
 
 End Class

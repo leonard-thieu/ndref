@@ -6700,10 +6700,10 @@ class c_Audio : public Object{
 	static int m_TimeUntilBeat(int);
 	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
-	static bool m_songPaused;
-	static int m_songShopkeeper;
 	static Float m_GetPercentDistanceFromNextBeat();
 	static int m_GetBeatAnimFrame4();
+	static bool m_songPaused;
+	static int m_songShopkeeper;
 	void mark();
 };
 class c_Camera : public Object{
@@ -18171,8 +18171,6 @@ bool c_Audio::m_IsBeatAnimTime(bool t_a1,bool t_a2){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.IsBeatAnimTime(Bool, Bool)",32));
 	return false;
 }
-bool c_Audio::m_songPaused;
-int c_Audio::m_songShopkeeper;
 Float c_Audio::m_GetPercentDistanceFromNextBeat(){
 	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
 	int t_dist=m_TimeUntilSpecificBeat(t_currentBeatNumber);
@@ -18198,6 +18196,8 @@ int c_Audio::m_GetBeatAnimFrame4(){
 	}
 	return 3;
 }
+bool c_Audio::m_songPaused;
+int c_Audio::m_songShopkeeper;
 void c_Audio::mark(){
 	Object::mark();
 }
@@ -50627,7 +50627,7 @@ c_Zombie::c_Zombie(){
 }
 c_Zombie* c_Zombie::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init3(t_xVal,t_yVal,t_l,String(L"zombie",6),String(),-1,-1);
+	this->p_Init5(t_xVal,t_yVal,t_l,String(L"zombie",6));
 	this->m_movesRegardlessOfDistance=true;
 	this->m_facing=c_Util::m_RndIntRangeFromZero(3,true);
 	this->m_overrideAttackSound=String(L"zombieAttack",12);
@@ -50645,7 +50645,26 @@ void c_Zombie::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Zombie.MoveFail()",17));
 }
 void c_Zombie::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Zombie.Update()",15));
+	int t_animOffset=0;
+	int t_1=this->m_facing;
+	if(t_1==2){
+		this->m_image->p_FlipX(false,true);
+		t_animOffset=0;
+	}else{
+		if(t_1==0){
+			this->m_image->p_FlipX(true,true);
+			t_animOffset=8;
+		}else{
+			if(t_1==1){
+				t_animOffset=16;
+			}
+		}
+	}
+	if(this->m_currentMoveDelay>=2){
+		t_animOffset+=4;
+	}
+	this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+t_animOffset;
+	c_Enemy::p_Update();
 }
 void c_Zombie::mark(){
 	c_Enemy::mark();
