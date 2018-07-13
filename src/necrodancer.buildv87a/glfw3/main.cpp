@@ -10253,6 +10253,8 @@ class c_Slime : public c_Enemy{
 };
 class c_Skeleton : public c_Enemy{
 	public:
+	int m_directionHitFrom;
+	bool m_gotBounced;
 	c_Skeleton();
 	c_Skeleton* m_new(int,int,int);
 	c_Skeleton* m_new2();
@@ -50126,13 +50128,15 @@ void c_Slime::mark(){
 	c_Enemy::mark();
 }
 c_Skeleton::c_Skeleton(){
+	m_directionHitFrom=-1;
+	m_gotBounced=false;
 }
 c_Skeleton* c_Skeleton::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
 	if(c_Shrine::m_warShrineActive){
 		t_l=bb_math_Max(t_l,3);
 	}
-	this->p_Init3(t_xVal,t_yVal,t_l,String(L"skeleton",8),String(),-1,-1);
+	this->p_Init5(t_xVal,t_yVal,t_l,String(L"skeleton",8));
 	this->m_overrideHitSound=String(L"skeletonHit",11);
 	this->m_overrideDeathSound=String(L"skeletonDeath",13);
 	this->m_overrideAttackSound=String(L"skeletonAttack",14);
@@ -50166,7 +50170,27 @@ int c_Skeleton::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	return 0;
 }
 void c_Skeleton::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Skeleton.Update()",17));
+	if(this->m_directionHitFrom!=-1 && this->m_gotBounced){
+		if(this->m_x>this->m_lastX){
+			this->m_directionHitFrom=0;
+		}else{
+			if(this->m_x<this->m_lastX){
+				this->m_directionHitFrom=2;
+			}else{
+				if(this->m_y>this->m_lastY){
+					this->m_directionHitFrom=1;
+				}else{
+					if(this->m_y<this->m_lastY){
+						this->m_directionHitFrom=3;
+					}
+				}
+			}
+		}
+	}
+	if(this->m_isMosh && this->m_level<=3){
+		this->m_animOffset=8;
+	}
+	c_Enemy::p_Update();
 }
 void c_Skeleton::mark(){
 	c_Enemy::mark();

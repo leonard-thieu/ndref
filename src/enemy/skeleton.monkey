@@ -7,6 +7,7 @@ Import entity
 Import logger
 Import point
 Import shrine
+Import util
 
 Class Skeleton Extends Enemy
 
@@ -19,7 +20,7 @@ Class Skeleton Extends Enemy
             l = math.Max(l, 3)
         End If
 
-        Self.Init(xVal, yVal, l, "skeleton", "", -1, -1)
+        Self.Init(xVal, yVal, l, "skeleton")
 
         Self.overrideHitSound = "skeletonHit"
         Self.overrideDeathSound = "skeletonDeath"
@@ -61,7 +62,25 @@ Class Skeleton Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Skeleton.Update()")
+        If Self.directionHitFrom <> Direction.None And
+           Self.gotBounced
+            If Self.x > Self.lastX
+                Self.directionHitFrom = Direction.Right
+            Else If Self.x < Self.lastX
+                Self.directionHitFrom = Direction.Left
+            Else If Self.y > Self.lastY
+                Self.directionHitFrom = Direction.Down
+            Else If Self.y < Self.lastY
+                Self.directionHitFrom = Direction.Up
+            End If
+        End If
+
+        If Self.isMosh And
+           Self.level <= 3
+            Self.animOffset = 8
+        End If
+
+        Super.Update()
     End Method
 
 End Class
