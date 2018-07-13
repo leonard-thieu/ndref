@@ -2957,7 +2957,15 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method RelativeVideoTimeUntilBeat: Float()
-        Debug.TraceNotImplemented("Enemy.RelativeVideoTimeUntilBeat()")
+        Audio.includeVideoLatency = True
+
+        Local dist := Audio.GetDistanceFromNearestBeat()
+        Local duration := Audio.GetNextBeatDuration()
+        Local percentDist := dist / Float(duration)
+
+        Audio.includeVideoLatency = False
+
+        Return percentDist
     End Method
 
     Method Render: Void()

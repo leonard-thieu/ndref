@@ -40688,8 +40688,12 @@ int c_Enemy::p_GetBeatNum(){
 	return t_beatNum;
 }
 Float c_Enemy::p_RelativeVideoTimeUntilBeat(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.RelativeVideoTimeUntilBeat()",34));
-	return 0;
+	c_Audio::m_includeVideoLatency=true;
+	int t_dist=c_Audio::m_GetDistanceFromNearestBeat();
+	int t_duration=c_Audio::m_GetNextBeatDuration();
+	Float t_percentDist=Float(t_dist)/Float(t_duration);
+	c_Audio::m_includeVideoLatency=false;
+	return t_percentDist;
 }
 bool c_Enemy::p_IsBetweenFraction(Float t_on,Float t_off){
 	Float t_relativeVideoTimeUntilBeat=this->p_RelativeVideoTimeUntilBeat();
