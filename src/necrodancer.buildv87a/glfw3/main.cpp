@@ -8024,6 +8024,10 @@ class c_Chest : public c_Entity{
 	bool m_secretChest;
 	bool m_saleChest;
 	bool m_singleChoiceChest;
+	c_Sprite* m_image2;
+	int m_image2XOff;
+	int m_image2YOff;
+	c_Bouncer* m_bounce2;
 	c_Chest();
 	static int m_lastChestColor;
 	static int m_lastChestColor2;
@@ -8040,6 +8044,7 @@ class c_Chest : public c_Entity{
 	void p_BecomeLocked();
 	virtual bool p_Open(Object*);
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	String p_DetermineContentsNow_PlayerDoesntOwn();
 	void p_Update();
 	void mark();
 };
@@ -36667,6 +36672,10 @@ c_Chest::c_Chest(){
 	m_secretChest=false;
 	m_saleChest=false;
 	m_singleChoiceChest=false;
+	m_image2=0;
+	m_image2XOff=0;
+	m_image2YOff=0;
+	m_bounce2=0;
 }
 int c_Chest::m_lastChestColor;
 int c_Chest::m_lastChestColor2;
@@ -36817,11 +36826,45 @@ bool c_Chest::p_Open(Object* t_player){
 bool c_Chest::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	return false;
 }
+String c_Chest::p_DetermineContentsNow_PlayerDoesntOwn(){
+	if(this->m_contents==String(L"no_item",7)){
+		if(this->m_lockChest){
+			this->m_contents=c_Item::m_GetRandomItemInClass(String(),bb_controller_game_currentLevel,String(L"lockedChestChance",17),0,false,String(),false);
+		}else{
+			if(c_ControllerLevelEditor::m_playingLevel!=-1){
+				this->m_contents=c_Item::m_GetRandomItemInClass(String(),c_ControllerLevelEditor::m_playingLevel,String(L"chestChance",11),this->m_chestColor,false,String(),false);
+			}else{
+				this->m_contents=c_Item::m_GetRandomItemInClass(String(),bb_controller_game_currentLevel,String(L"chestChance",11),this->m_chestColor,false,String(),false);
+			}
+		}
+	}
+	return this->m_contents;
+}
 void c_Chest::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Chest.Update()",14));
+	if(c_Util::m_IsCharacterActive(15) || c_Item::m_GetSlot2(this->m_contents)==String(L"weapon",6) && c_Util::m_IsWeaponlessCharacterActive() || c_Item::m_GetSlot2(this->m_contents)==String(L"shovel",6) && c_Util::m_IsCharacterActive(4)){
+		this->p_Die();
+	}
+	if(this->p_IsVisible() && (c_Tile::m_AnyPlayerHaveMonocle() || c_Level::m_isLevelEditor && this->m_contents!=String(L"no_item",7)) && this->m_image2==0){
+		String t_contents=this->p_DetermineContentsNow_PlayerDoesntOwn();
+		c_XMLNode* t_contentsNode=c_Item::m_GetItemXML(t_contents);
+		c_ItemData* t_itemData=(new c_ItemData)->m_new(t_contentsNode);
+		this->m_image2XOff=t_itemData->m_xOff;
+		this->m_image2YOff=t_itemData->m_yOff;
+		gc_assign(this->m_image2,(new c_Sprite)->m_new(String(L"items/",6)+t_contentsNode->p_value(),t_itemData->m_imageW,t_itemData->m_imageH,t_itemData->m_imageFrames,c_Image::m_DefaultFlags));
+		this->m_image2->p_SetZOff(Float(17-t_itemData->m_yOff));
+		this->m_image2->p_SetAlphaValue(FLOAT(0.6));
+		gc_assign(this->m_bounce2,(new c_Bouncer)->m_new(FLOAT(-2.5),FLOAT(0.0),FLOAT(1.5),40));
+	}
+	if(this->m_bounce2!=0){
+		this->m_bounce2->p_Update();
+	}
+	this->m_image->p_SetFrame(0);
+	c_Entity::p_Update();
 }
 void c_Chest::mark(){
 	c_Entity::mark();
+	gc_mark_q(m_image2);
+	gc_mark_q(m_bounce2);
 }
 c_Enemy::c_Enemy(){
 	m_isMonkeyLike=false;

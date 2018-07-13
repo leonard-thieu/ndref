@@ -1,11 +1,15 @@
 'Strict
 
 Import monkey.list
+Import controller.controller_game
+Import controller.controller_level_editor
 Import bouncer
 Import entity
 Import item
 Import logger
+Import player_class
 Import sprite
+Import util
 
 Class Chest Extends Entity
 
@@ -197,8 +201,18 @@ Class Chest Extends Entity
         Self.lockChest = True
     End Method
 
-    Method DetermineContentsNow_PlayerDoesntOwn: Int()
-        Debug.TraceNotImplemented("Chest.DetermineContentsNow_PlayerDoesntOwn()")
+    Method DetermineContentsNow_PlayerDoesntOwn: String()
+        If Self.contents = ItemType.NoItem
+            If Self.lockChest
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "lockedChestChance")
+            Else If ControllerLevelEditor.playingLevel <> -1
+                Self.contents = Item.GetRandomItemInClass("", ControllerLevelEditor.playingLevel, "chestChance", Self.chestColor)
+            Else
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "chestChance", Self.chestColor)
+            End If
+        End If
+
+        Return Self.contents
     End Method
 
     Method Die: Void()
@@ -222,7 +236,39 @@ Class Chest Extends Entity
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Chest.Update()")
+        If Util.IsCharacterActive(Character.Ghost) Or
+           (Item.GetSlot(Self.contents) = "weapon" And
+            Util.IsWeaponlessCharacterActive()) Or
+           (Item.GetSlot(Self.contents) = "shovel" And
+            Util.IsCharacterActive(Character.Eli))
+            Self.Die()
+        End If
+
+        If Self.IsVisible() And
+           (Tile.AnyPlayerHaveMonocle() Or
+            (Level.isLevelEditor And Self.contents <> ItemType.NoItem)) And
+           Self.image2 = Null
+            Local contents := Self.DetermineContentsNow_PlayerDoesntOwn()
+            Local contentsNode := Item.GetItemXML(contents)
+            Local itemData := New ItemData(contentsNode)
+
+            Self.image2XOff = itemData.xOff
+            Self.image2YOff = itemData.yOff
+
+            Self.image2 = New Sprite("items/" + contentsNode.value, itemData.imageW, itemData.imageH, itemData.imageFrames)
+            Self.image2.SetZOff(17 - itemData.yOff)
+            Self.image2.SetAlphaValue(0.6)
+
+            Self.bounce2 = New Bouncer(-2.5, 0.0, 1.5, 40)
+        End If
+
+        If Self.bounce2 <> Null
+            Self.bounce2.Update()
+        End If
+
+        Self.image.SetFrame(0)
+
+        Super.Update()
     End Method
 
 End Class
