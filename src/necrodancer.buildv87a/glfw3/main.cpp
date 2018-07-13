@@ -8224,6 +8224,9 @@ class c_Crate : public c_Enemy{
 	bool m_determinedContents;
 	bool m_gorgonFlipX;
 	int m_gorgonFlashFrames;
+	c_Sprite* m_image2;
+	c_Bouncer* m_bounce2;
+	int m_chargingDir;
 	c_Crate();
 	static c_List5* m_fallenCrates;
 	static c_List6* m_fallenGargoyles;
@@ -8241,6 +8244,8 @@ class c_Crate : public c_Enemy{
 	void p_MoveFail();
 	int p_MoveImmediate(int,int,String);
 	void p_MoveSucceed(bool,bool);
+	String p_DetermineContentsNow_PlayerDoesntOwn();
+	bool p_IsGorgonStatue();
 	void p_Update();
 	void mark();
 };
@@ -40871,6 +40876,9 @@ c_Crate::c_Crate(){
 	m_determinedContents=false;
 	m_gorgonFlipX=false;
 	m_gorgonFlashFrames=0;
+	m_image2=0;
+	m_bounce2=0;
+	m_chargingDir=-1;
 }
 c_List5* c_Crate::m_fallenCrates;
 c_List6* c_Crate::m_fallenGargoyles;
@@ -41098,11 +41106,120 @@ int c_Crate::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 void c_Crate::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Crate.MoveSucceed(Bool, Bool)",29));
 }
+String c_Crate::p_DetermineContentsNow_PlayerDoesntOwn(){
+	if(!this->m_determinedContents){
+		this->p_DetermineContents();
+	}
+	return this->m_contents;
+}
+bool c_Crate::p_IsGorgonStatue(){
+	int t_3=this->m_crateType;
+	if(t_3==3 || t_3==4){
+		return true;
+	}
+	return false;
+}
 void c_Crate::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Crate.Update()",14));
+	if(this->p_IsVisible()){
+		if(c_Tile::m_AnyPlayerHaveMonocle() && this->m_image2==0){
+			String t_contents=this->p_DetermineContentsNow_PlayerDoesntOwn();
+			if(!this->m_beEmpty || this->m_emptyCoins>=-2){
+				if(this->m_beEmpty){
+					int t_4=this->m_emptyCoins;
+					if(t_4==-2){
+						if(c_Util::m_IsBomblessCharacterActive()){
+							t_contents=String(L"resource_coin10",15);
+						}else{
+							t_contents=String(L"bomb_3",6);
+						}
+					}else{
+						if(t_4==-1){
+							if(c_Util::m_IsBomblessCharacterActive()){
+								t_contents=String(L"resource_coin10",15);
+							}else{
+								t_contents=String(L"bomb",4);
+							}
+						}else{
+							if(t_4==10){
+								t_contents=String(L"resource_coin10",15);
+							}else{
+								if(t_4==30){
+									t_contents=String(L"resource_hoard_gold_small",25);
+								}else{
+									t_contents=String(L"resource_hoard_gold",19);
+								}
+							}
+						}
+					}
+				}
+				c_XMLNode* t_contentsNode=c_Item::m_GetItemXML(t_contents);
+				String t_framePath=String(L"items/",6)+t_contentsNode->p_value();
+				int t_frameW=t_contentsNode->p_GetAttribute3(String(L"imageW",6),24);
+				int t_frameH=t_contentsNode->p_GetAttribute3(String(L"imageH",6),24);
+				int t_numFrames=t_contentsNode->p_GetAttribute3(String(L"numFrames",9),1);
+				gc_assign(this->m_image2,(new c_Sprite)->m_new(t_framePath,t_frameW,t_frameH,2*t_numFrames,c_Image::m_DefaultFlags));
+				this->m_image2->p_SetZ(FLOAT(17.0));
+				this->m_image2->p_SetAlphaValue(FLOAT(0.6));
+				String t_5=t_contents;
+				if(t_5==String(L"resource_coin10",15) || t_5==String(L"resource_hoard_gold_small",25) || t_5==String(L"resource_hoard_gold",19)){
+				}else{
+					gc_assign(this->m_bounce2,(new c_Bouncer)->m_new(FLOAT(-2.5),FLOAT(0.0),FLOAT(1.5),40));
+				}
+			}
+		}
+	}
+	if(this->m_bounce2!=0){
+		this->m_bounce2->p_Update();
+	}
+	this->m_image->p_SetFrame(0);
+	this->m_yOff=Float(this->m_initialYOff);
+	if(this->m_crateType==1){
+		if(this->m_lastX>this->m_x){
+			this->m_image->p_FlipX(false,true);
+		}else{
+			if(this->m_lastX<this->m_x){
+				this->m_image->p_FlipX(true,true);
+			}
+		}
+		int t_6=this->m_chargingDir;
+		if(t_6==0 || t_6==2 || t_6==6 || t_6==7 || t_6==5 || t_6==4){
+			Float t_animOverrideBase=Float(bb_necrodancergame_globalFrameCounter % 16)*FLOAT(0.25);
+			t_animOverrideBase=(Float)floor(t_animOverrideBase);
+			this->m_animOverride=int(t_animOverrideBase+FLOAT(9.0));
+		}else{
+			if(t_6==3){
+				this->m_yOff+=FLOAT(4.0);
+				Float t_animOverrideBase2=Float(bb_necrodancergame_globalFrameCounter % 16)*FLOAT(0.25);
+				t_animOverrideBase2=(Float)floor(t_animOverrideBase2);
+				this->m_animOverride=int(t_animOverrideBase2+FLOAT(5.0));
+			}else{
+				if(t_6==1){
+					Float t_animOverrideBase3=Float(bb_necrodancergame_globalFrameCounter % 16)*FLOAT(0.25);
+					t_animOverrideBase3=(Float)floor(t_animOverrideBase3);
+					this->m_animOverride=int(t_animOverrideBase3+FLOAT(1.0));
+				}else{
+					if(t_6==-1){
+						this->m_animOverride=0;
+					}
+				}
+			}
+		}
+	}
+	if(this->p_IsGorgonStatue()){
+		this->m_image->p_FlipX(this->m_gorgonFlipX,true);
+		if(this->m_gorgonFlashFrames<=0){
+			this->m_animOverride=-1;
+		}else{
+			this->m_gorgonFlashFrames-=1;
+			this->m_animOverride=4;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Crate::mark(){
 	c_Enemy::mark();
+	gc_mark_q(m_image2);
+	gc_mark_q(m_bounce2);
 }
 c_List5::c_List5(){
 	m__head=((new c_HeadNode5)->m_new());

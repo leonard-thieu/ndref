@@ -1,6 +1,7 @@
 'Strict
 
 Import monkey.list
+Import monkey.math
 Import controller.controller_game
 Import enemy.gargoyle
 Import bouncer
@@ -10,9 +11,11 @@ Import entity
 Import item
 Import level
 Import logger
+Import necrodancergame
 Import player_class
 Import point
 Import sprite
+Import tile
 Import util
 
 Class Crate Extends Enemy
@@ -264,8 +267,12 @@ Class Crate Extends Enemy
         Self.determinedContents = True
     End Method
 
-    Method DetermineContentsNow_PlayerDoesntOwn: Int()
-        Debug.TraceNotImplemented("Crate.DetermineContentsNow_PlayerDoesntOwn()")
+    Method DetermineContentsNow_PlayerDoesntOwn: String()
+        If Not Self.determinedContents
+            Self.DetermineContents()
+        End If
+
+        Return Self.contents
     End Method
 
     Method Die: Void()
@@ -290,7 +297,13 @@ Class Crate Extends Enemy
     End Method
 
     Method IsGorgonStatue: Bool()
-        Debug.TraceNotImplemented("Crate.IsGorgonStatue()")
+        Select Self.crateType
+            Case Crate.TYPE_GREEN_GORGON_STATUE,
+                 Crate.TYPE_GOLD_GORGON_STATUE
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method Knockback: Void(dir: Int)
@@ -318,7 +331,109 @@ Class Crate Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Crate.Update()")
+        If Self.IsVisible()
+            If Tile.AnyPlayerHaveMonocle() And
+               Self.image2 = Null
+                Local contents := Self.DetermineContentsNow_PlayerDoesntOwn()
+                If Not Self.beEmpty Or
+                   Self.emptyCoins >= -2
+                    If Self.beEmpty
+                        Select Self.emptyCoins
+                            Case -2
+                                If Util.IsBomblessCharacterActive()
+                                    contents = ItemType.Coin10
+                                Else
+                                    contents = ItemType.Bomb3
+                                End If
+                            Case -1
+                                If Util.IsBomblessCharacterActive()
+                                    contents = ItemType.Coin10
+                                Else
+                                    contents = ItemType.Bomb
+                                End If
+                            Case 10
+                                contents = ItemType.Coin10
+                            Case 30
+                                contents = ItemType.SmallGoldHoard
+                            Default
+                                contents = ItemType.GoldHoard
+                        End Select
+                    End If
+
+                    Local contentsNode := Item.GetItemXML(contents)
+                    Local framePath := "items/" + contentsNode.value
+                    Local frameW := contentsNode.GetAttribute("imageW", 24)
+                    Local frameH := contentsNode.GetAttribute("imageH", 24)
+                    Local numFrames := contentsNode.GetAttribute("numFrames", 1)
+
+                    Self.image2 = New Sprite(framePath, frameW, frameH, 2 * numFrames)
+                    Self.image2.SetZ(17.0)
+                    Self.image2.SetAlphaValue(0.6)
+
+                    Select contents
+                        Case ItemType.Coin10,
+                             ItemType.SmallGoldHoard,
+                             ItemType.GoldHoard
+                            ' Do nothing
+                        Default
+                            Self.bounce2 = New Bouncer(-2.5, 0.0, 1.5, 40)
+                    End Select
+                End If
+            End If
+        End If
+
+        If Self.bounce2 <> Null
+            Self.bounce2.Update()
+        End If
+
+        Self.image.SetFrame(0)
+
+        Self.yOff = Self.initialYOff
+
+        If Self.crateType = Crate.TYPE_BARREL
+            If Self.lastX > Self.x
+                Self.image.FlipX(False, True)
+            Else If Self.lastX < Self.x
+                Self.image.FlipX(True, True)
+            End If
+
+            Select Self.chargingDir
+                Case Direction.Right,
+                     Direction.Left,
+                     Direction.UpLeft,
+                     Direction.UpRight,
+                     Direction.DownLeft,
+                     Direction.DownRight
+                    Local animOverrideBase := (necrodancergame.globalFrameCounter Mod 16) * 0.25
+                    animOverrideBase = math.Floor(animOverrideBase)
+                    Self.animOverride = animOverrideBase + 9
+                Case Direction.Up
+                    Self.yOff += 4.0
+
+                    Local animOverrideBase := (necrodancergame.globalFrameCounter Mod 16) * 0.25
+                    animOverrideBase = math.Floor(animOverrideBase)
+                    Self.animOverride = animOverrideBase + 5
+                Case Direction.Down
+                    Local animOverrideBase := (necrodancergame.globalFrameCounter Mod 16) * 0.25
+                    animOverrideBase = math.Floor(animOverrideBase)
+                    Self.animOverride = animOverrideBase + 1
+                Case Direction.None
+                    Self.animOverride = 0
+            End Select
+        End If
+
+        If Self.IsGorgonStatue()
+            Self.image.FlipX(Self.gorgonFlipX, True)
+
+            If Self.gorgonFlashFrames <= 0
+                Self.animOverride = -1
+            Else
+                Self.gorgonFlashFrames -= 1
+                Self.animOverride = 4
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class
