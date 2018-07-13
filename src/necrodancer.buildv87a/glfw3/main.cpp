@@ -6413,6 +6413,7 @@ class c_Sprite : public c_Tweenable{
 	Float m_renderLastX;
 	Float m_renderY;
 	Float m_renderLastY;
+	String m_path;
 	c_Sprite();
 	static bool m_scaleToFitScreen;
 	c_Sprite* m_new(String,int,int,int,int);
@@ -8126,9 +8127,10 @@ class c_Enemy : public c_MobileEntity{
 	int m_blinkDelay;
 	int m_blinkDuration;
 	int m_animOffset;
+	int m_overrideNormal2Timing;
+	int m_overrideTellTiming;
 	bool m_justSpawned;
 	bool m_enableDeathEffects;
-	int m_overrideNormal2Timing;
 	bool m_earthquaked;
 	c_Enemy();
 	static c_EnemyList* m_enemyList;
@@ -8201,6 +8203,8 @@ class c_Enemy : public c_MobileEntity{
 	virtual void p_MoveFail();
 	static void m_MoveAll();
 	static bool m_EnemiesHaveMovedClosestBeat();
+	int p_GetBeatNum();
+	bool p_IsBetweenFraction(Float,Float);
 	void p_AnimateToTheBeat();
 	void p_Update();
 	static void m_SetEnemiesToDropNoCoinsOverride();
@@ -9929,6 +9933,9 @@ class c_Map16 : public Object{
 	int p_InsertFixup15(c_Node35*);
 	bool p_Set16(int,c_BeatAnimationData*);
 	bool p_IsEmpty();
+	c_Node35* p_FindNode(int);
+	bool p_Contains(int);
+	c_BeatAnimationData* p_Get2(int);
 	void mark();
 };
 class c_IntMap8 : public c_Map16{
@@ -16645,6 +16652,7 @@ c_Sprite::c_Sprite(){
 	m_renderLastX=FLOAT(.0);
 	m_renderY=FLOAT(.0);
 	m_renderLastY=FLOAT(.0);
+	m_path=String();
 }
 bool c_Sprite::m_scaleToFitScreen;
 c_Sprite* c_Sprite::m_new(String t_p,int t_frameWidth,int t_frameHeight,int t_frameCount,int t_flags){
@@ -36890,9 +36898,10 @@ c_Enemy::c_Enemy(){
 	m_blinkDelay=0;
 	m_blinkDuration=0;
 	m_animOffset=0;
+	m_overrideNormal2Timing=-1;
+	m_overrideTellTiming=-1;
 	m_justSpawned=true;
 	m_enableDeathEffects=true;
-	m_overrideNormal2Timing=-1;
 	m_earthquaked=false;
 }
 c_EnemyList* c_Enemy::m_enemyList;
@@ -37002,23 +37011,23 @@ void c_Enemy::p_Init3(int t_xVal,int t_yVal,int t_l,String t_name,String t_overr
 		c_BeatAnimationData* t_beatAnimationData=(new c_BeatAnimationData)->m_new(t_inSheet-1,t_onFraction,t_offFraction,t_singleFrame);
 		String t_animType=t_frameNode->p_GetAttribute5(String(L"animType",8),String(L"normal",6));
 		int t_inAnim=t_frameNode->p_GetAttribute3(String(L"inAnim",6),1);
-		String t_17=t_animType;
-		if(t_17==String(L"normal",6)){
+		String t_18=t_animType;
+		if(t_18==String(L"normal",6)){
 			this->m_animNormal->p_Set16(t_inAnim-1,t_beatAnimationData);
 		}else{
-			if(t_17==String(L"normal2",7)){
+			if(t_18==String(L"normal2",7)){
 				this->m_animNormal2->p_Set16(t_inAnim-1,t_beatAnimationData);
 			}else{
-				if(t_17==String(L"normal3",7)){
+				if(t_18==String(L"normal3",7)){
 					this->m_animNormal3->p_Set16(t_inAnim-1,t_beatAnimationData);
 				}else{
-					if(t_17==String(L"blink",5)){
+					if(t_18==String(L"blink",5)){
 						this->m_animBlink->p_Set16(t_inAnim-1,t_beatAnimationData);
 					}else{
-						if(t_17==String(L"tell",4)){
+						if(t_18==String(L"tell",4)){
 							this->m_animTell->p_Set16(t_inAnim-1,t_beatAnimationData);
 						}else{
-							if(t_17==String(L"tellBlink",9)){
+							if(t_18==String(L"tellBlink",9)){
 								this->m_animTellBlink->p_Set16(t_inAnim-1,t_beatAnimationData);
 							}
 						}
@@ -37057,20 +37066,20 @@ void c_Enemy::p_Init3(int t_xVal,int t_yVal,int t_l,String t_name,String t_overr
 		}
 	}
 	String t_movement=t_statsNode->p_GetAttribute5(String(L"movement",8),String(L"custom",6));
-	String t_18=t_movement;
-	if(t_18==String(L"random",6)){
+	String t_19=t_movement;
+	if(t_19==String(L"random",6)){
 		this->m_movementType=1;
 	}else{
-		if(t_18==String(L"basicSeek",9)){
+		if(t_19==String(L"basicSeek",9)){
 			this->m_movementType=2;
 		}else{
-			if(t_18==String(L"basicSeekNoTraps",16)){
+			if(t_19==String(L"basicSeekNoTraps",16)){
 				this->m_movementType=3;
 			}else{
-				if(t_18==String(L"seekWithDiagonals",17)){
+				if(t_19==String(L"seekWithDiagonals",17)){
 					this->m_movementType=4;
 				}else{
-					if(t_18==String(L"randomWithDiagonals",19)){
+					if(t_19==String(L"randomWithDiagonals",19)){
 						this->m_movementType=5;
 					}else{
 						this->m_movementType=0;
@@ -40501,15 +40510,15 @@ int c_Enemy::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	int t_nextX=this->m_x+t_xVal;
 	int t_nextY=this->m_y+t_yVal;
 	int t_moveResult=this->p_PerformMovement(t_nextX,t_nextY);
-	int t_19=t_moveResult;
-	if(t_19==0){
+	int t_20=t_moveResult;
+	if(t_20==0){
 		if(this->m_bounceOnMovementFail){
 			c_Point* t_bounceTo=(new c_Point)->m_new(t_xVal,t_yVal);
 			bool t_bufferTween=t_movementSource==String(L"bounceTrap",10);
 			this->p_BounceToward(t_bounceTo,t_bufferTween);
 		}
 	}else{
-		if(t_19==2){
+		if(t_20==2){
 			this->p_PerformTween(t_nextX,t_nextY,this->m_lastX,this->m_lastY,this->m_hitTween,this->m_hitShadowTween,false);
 			if(!this->m_isGentle){
 				this->m_renderSwipeTime=10;
@@ -40671,6 +40680,14 @@ bool c_Enemy::m_EnemiesHaveMovedClosestBeat(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.EnemiesHaveMovedClosestBeat()",35));
 	return false;
 }
+int c_Enemy::p_GetBeatNum(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetBeatNum()",18));
+	return 0;
+}
+bool c_Enemy::p_IsBetweenFraction(Float t_on,Float t_off){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.IsBetweenFraction(Float, Float)",37));
+	return false;
+}
 void c_Enemy::p_AnimateToTheBeat(){
 	if(this->m_animOverrideState!=-1){
 		this->m_image->p_SetFrame(this->m_animOverrideState);
@@ -40691,13 +40708,90 @@ void c_Enemy::p_AnimateToTheBeat(){
 		this->m_blinkDelay=c_Util::m_RndIntRange(this->m_blink_MIN,this->m_blink_MAX,false,-1);
 		this->m_blinkDuration=this->m_blink_DUR;
 	}
-	if(this->m_animOverride==-1){
-		if(this->m_animNormal->p_IsEmpty()){
+	if(this->m_animOverride!=-1){
+		int t_animOverride=this->m_animOverride;
+		if(this->m_animOverrideState!=-1){
+			t_animOverride+=this->m_animOverrideState;
+		}
+		this->m_image->p_SetFrame(t_animOverride);
+		return;
+	}
+	if(this->m_animNormal->p_IsEmpty()){
+		return;
+	}
+	this->m_image->p_SetFrame(this->m_animOffset);
+	bool t_useAnimNormal2=false;
+	if(!this->m_animNormal2->p_IsEmpty()){
+		t_useAnimNormal2=this->p_GetBeatNum() % 2==0;
+	}
+	int t_17=this->m_overrideNormal2Timing;
+	if(t_17==0){
+		t_useAnimNormal2=false;
+	}else{
+		if(t_17==1){
+			t_useAnimNormal2=true;
+		}
+	}
+	bool t_useAnimNormal3=false;
+	if(!this->m_animNormal3->p_IsEmpty()){
+		t_useAnimNormal3=this->p_GetBeatNum() % 3==2;
+		t_useAnimNormal2=this->p_GetBeatNum() % 3==1;
+	}
+	bool t_useAnimTellBlink=false;
+	bool t_useAnimTell=false;
+	if(this->m_overrideTellTiming!=0 && (this->m_overrideTellTiming==1 || this->m_currentMoveDelay<=1)){
+		t_useAnimTellBlink=true;
+		t_useAnimTell=false;
+		if(this->m_animTell->p_Contains(0)){
+			c_BeatAnimationData* t_animTell0=this->m_animTell->p_Get2(0);
+			if(t_animTell0->m_onFraction!=FLOAT(1.0)){
+				t_useAnimTellBlink=true;
+				t_useAnimTell=true;
+			}
+		}
+	}
+	int t_i=0;
+	c_BeatAnimationData* t_animData=0;
+	do{
+		t_animData=this->m_animNormal->p_Get2(t_i);
+		if(t_useAnimNormal2){
+			t_animData=this->m_animNormal2->p_Get2(t_i);
+		}
+		if(t_useAnimNormal3){
+			t_animData=this->m_animNormal3->p_Get2(t_i);
+		}
+		if(t_useAnimTell){
+			t_animData=this->m_animTell->p_Get2(t_i);
+		}
+		if(this->p_IsBetweenFraction(t_animData->m_onFraction,t_animData->m_offFraction) || t_animData->m_singleFrame){
+			break;
+		}
+		t_i+=1;
+		if(!t_useAnimTell && !this->m_animNormal->p_Contains(t_i)){
+			c_TextLog::m_Message(String(L"WARNING, AnimateToTheBeat: Attempted to animate a frame that doesn't exist!  Frame: ",84)+String(t_animData->m_frame)+String(L" Sprite filename: ",18)+this->m_image->m_path);
 			return;
 		}
-		this->m_image->p_SetFrame(this->m_animOffset);
+	}while(!(false));
+	if(this->m_enableTell){
+		if(this->m_animTellBlink->p_Contains(t_i) && t_useAnimTellBlink && this->m_blinkDuration>0){
+			t_animData=this->m_animTellBlink->p_Get2(t_i);
+		}else{
+			if(this->m_enableTell && this->m_animTell->p_Contains(t_i) && t_useAnimTellBlink){
+				if(!t_useAnimTell){
+					t_animData=this->m_animTell->p_Get2(t_i);
+				}
+			}else{
+				if(this->m_animBlink->p_Contains(t_i) && this->m_blinkDuration>0){
+					t_animData=this->m_animBlink->p_Get2(t_i);
+				}
+			}
+		}
+	}else{
+		if(this->m_animBlink->p_Contains(t_i) && this->m_blinkDuration>0){
+			t_animData=this->m_animBlink->p_Get2(t_i);
+		}
 	}
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.AnimateToTheBeat()",24));
+	this->m_image->p_SetFrame(t_animData->m_frame+this->m_animOffset);
 }
 void c_Enemy::p_Update(){
 	if(this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_executedCry && !c_Level::m_isLevelEditor){
@@ -48807,6 +48901,32 @@ bool c_Map16::p_Set16(int t_key,c_BeatAnimationData* t_value){
 }
 bool c_Map16::p_IsEmpty(){
 	return m_root==0;
+}
+c_Node35* c_Map16::p_FindNode(int t_key){
+	c_Node35* t_node=m_root;
+	while((t_node)!=0){
+		int t_cmp=p_Compare(t_key,t_node->m_key);
+		if(t_cmp>0){
+			t_node=t_node->m_right;
+		}else{
+			if(t_cmp<0){
+				t_node=t_node->m_left;
+			}else{
+				return t_node;
+			}
+		}
+	}
+	return t_node;
+}
+bool c_Map16::p_Contains(int t_key){
+	return p_FindNode(t_key)!=0;
+}
+c_BeatAnimationData* c_Map16::p_Get2(int t_key){
+	c_Node35* t_node=p_FindNode(t_key);
+	if((t_node)!=0){
+		return t_node->m_value;
+	}
+	return 0;
 }
 void c_Map16::mark(){
 	Object::mark();

@@ -75,6 +75,7 @@ Import necrodancergame
 Import player_class
 Import point
 Import sprite
+Import textlog
 Import tile
 Import util
 Import xml
@@ -2294,15 +2295,110 @@ Class Enemy Extends MobileEntity Abstract
             Self.blinkDuration = Self.blink_DUR
         End If
 
-        If Self.animOverride = -1
-            If Self.animNormal.IsEmpty()
-                Return
+        If Self.animOverride <> -1
+            Local animOverride := Self.animOverride
+            If Self.animOverrideState <> -1
+                animOverride += Self.animOverrideState
             End If
 
-            Self.image.SetFrame(Self.animOffset)
+            Self.image.SetFrame(animOverride)
+
+            Return
         End If
 
-        Debug.TraceNotImplemented("Enemy.AnimateToTheBeat()")
+        If Self.animNormal.IsEmpty()
+            Return
+        End If
+
+        Self.image.SetFrame(Self.animOffset)
+
+        Local useAnimNormal2 := False
+        If Not Self.animNormal2.IsEmpty()
+            useAnimNormal2 = (Self.GetBeatNum() Mod 2 = 0)
+        End If
+
+        Select Self.overrideNormal2Timing
+            Case 0
+                useAnimNormal2 = False
+            Case 1
+                useAnimNormal2 = True
+        End Select
+
+        Local useAnimNormal3 := False
+        If Not Self.animNormal3.IsEmpty()
+            useAnimNormal3 = (Self.GetBeatNum() Mod 3 = 2)
+            useAnimNormal2 = (Self.GetBeatNum() Mod 3 = 1)
+        End If
+
+        Local useAnimTellBlink := False
+        Local useAnimTell := False
+        If Self.overrideTellTiming <> 0 And
+           (Self.overrideTellTiming = 1 Or
+            Self.currentMoveDelay <= 1)
+            useAnimTellBlink = True
+            useAnimTell = False
+            If Self.animTell.Contains(0)
+                Local animTell0 := Self.animTell.Get(0)
+                If animTell0.onFraction <> 1.0
+                    useAnimTellBlink = True
+                    useAnimTell = True
+                End If
+            End If
+        End If
+
+        Local i := 0
+        Local animData: BeatAnimationData
+        Repeat
+            animData = Self.animNormal.Get(i)
+
+            If useAnimNormal2
+                animData = Self.animNormal2.Get(i)
+            End If
+
+            If useAnimNormal3
+                animData = Self.animNormal3.Get(i)
+            End If
+
+            If useAnimTell
+                animData = Self.animTell.Get(i)
+            End If
+
+            If Self.IsBetweenFraction(animData.onFraction, animData.offFraction) Or
+               animData.singleFrame
+                Exit
+            End If
+
+            i += 1
+
+            If Not useAnimTell And
+               Not Self.animNormal.Contains(i)
+                TextLog.Message("WARNING, AnimateToTheBeat: Attempted to animate a frame that doesn't exist!  Frame: " + animData.frame + " Sprite filename: " + Self.image.path)
+
+                Return
+            End If
+        Forever
+
+        If Self.enableTell
+            If Self.animTellBlink.Contains(i) And
+               useAnimTellBlink And
+               Self.blinkDuration > 0
+                animData = Self.animTellBlink.Get(i)
+            Else If Self.enableTell And
+                    Self.animTell.Contains(i) And
+                    useAnimTellBlink
+                If Not useAnimTell
+                    animData = Self.animTell.Get(i)
+                End If
+            Else If Self.animBlink.Contains(i) And
+                    Self.blinkDuration > 0
+                animData = Self.animBlink.Get(i)
+            End If
+        Else If Self.animBlink.Contains(i) And
+                Self.blinkDuration > 0
+            animData = Self.animBlink.Get(i)
+        End If
+
+        Self.image.SetFrame(animData.frame + Self.animOffset)
     End Method
 
     Method ApplyMonkeyPaw: Void()
