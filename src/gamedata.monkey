@@ -932,8 +932,20 @@ Class GameData
         Debug.TraceNotImplemented("GameData.SetNPCUnlock(Int, Bool)")
     End Function
 
-    Function SetNPCVisited: Void(npcName: Int, visited: Bool)
-        Debug.TraceNotImplemented("GameData.SetNPCVisited(Int, Bool)")
+    Function SetNPCVisited: Void(npcName: String, visited: Bool)
+        If Level.isReplaying
+            Return
+        End If
+
+        Local visitedStr: String
+        If visited
+            visitedStr = "true"
+        Else
+            visitedStr = "false"
+        End If
+
+        Local npcNode := GameData.xmlSaveData.GetChild("npc")
+        npcNode.SetAttribute(npcName + "_visited", visitedStr)
     End Function
 
     Function SetNumPendingSpawnItems: Void(num: Int)

@@ -4971,6 +4971,13 @@ int BBFileStream::Write( BBDataBuffer *buffer,int offset,int count ){
 	return n;
 }
 
+String globalAppFolder;
+
+String GetAppFolder()
+{
+    return globalAppFolder;
+}
+
 
 // Stdcpp trans.system runtime.
 //
@@ -5175,13 +5182,6 @@ void AppendToLog(const String &line, const String &path, bool flush)
             fflush(stdout);
         }
     }
-}
-
-String globalAppFolder;
-
-String GetAppFolder()
-{
-    return globalAppFolder;
 }
 
 class c_App;
@@ -6072,6 +6072,7 @@ class c_GameData : public Object{
 	static void m_SetStoryModeComplete();
 	static void m_SetTutorialComplete();
 	static int m_GetKeyBinding(int,int);
+	static void m_SetNPCVisited(String,bool);
 	static void m_SetKilledEnemy(String,int,bool);
 	void mark();
 };
@@ -7653,6 +7654,7 @@ class c_Player : public c_MobileEntity{
 	bool p_FeetIgnoreCoals();
 	void p_HandleIceAndCoals();
 	void p_AfterEnemyMovement();
+	static void m_ActuallyPlayVO(String,c_Player*);
 	bool p_IsVisible();
 	void p_PerformTween(int,int,int,int,int,int,bool);
 	static bool m_AnyPlayerTemporaryMapSight();
@@ -9727,6 +9729,9 @@ class c_NPC : public c_Enemy{
 	c_Sprite* m_cageFrontImage;
 	c_Sprite* m_cageBackImage;
 	bool m_isMainShopkeeper;
+	int m_flyawayDelay;
+	bool m_saidHi;
+	bool m_saysHi;
 	c_NPC();
 	c_NPC* m_new();
 	static c_List23* m_npcList;
@@ -14741,6 +14746,19 @@ void c_GameData::m_SetTutorialComplete(){
 int c_GameData::m_GetKeyBinding(int t_player,int t_index){
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
 	return t_gameNode->p_GetAttribute3(String(L"keybinding",10)+String(t_player)+String(L"_",1)+String(t_index),-1);
+}
+void c_GameData::m_SetNPCVisited(String t_npcName,bool t_visited){
+	if(c_Level::m_isReplaying){
+		return;
+	}
+	String t_visitedStr=String();
+	if(t_visited){
+		t_visitedStr=String(L"true",4);
+	}else{
+		t_visitedStr=String(L"false",5);
+	}
+	c_XMLNode* t_npcNode=m_xmlSaveData->p_GetChild2(String(L"npc",3),false);
+	t_npcNode->p_SetAttribute5(t_npcName+String(L"_visited",8),t_visitedStr);
 }
 void c_GameData::m_SetKilledEnemy(String t_enemyName,int t_type,bool t_val){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetKilledEnemy(String, Int, Bool)",42));
@@ -34451,6 +34469,9 @@ void c_Player::p_HandleIceAndCoals(){
 void c_Player::p_AfterEnemyMovement(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.AfterEnemyMovement()",27));
 }
+void c_Player::m_ActuallyPlayVO(String t_voSound,c_Player* t_player){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.ActuallyPlayVO(String, Player)",37));
+}
 bool c_Player::p_IsVisible(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsVisible()",18));
 	return false;
@@ -46590,42 +46611,8 @@ void c_ControllerGame::p_Update(){
 	if(!this->m_ignoreInput && !c_Input::m_GameUpdate()){
 		return;
 	}
-	bool t_pause=false;
 	int t_keyBinding_0_11=c_GameData::m_GetKeyBinding(0,11);
-	if(t_keyBinding_0_11<0){
-		if(((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261)){
-			t_pause=true;
-		}
-	}else{
-		if(t_keyBinding_0_11<512 && !c_Input::m_keysHitLastFrame[t_keyBinding_0_11] && !c_Input::m_keysHit2FramesAgo[t_keyBinding_0_11]){
-			int t_1=t_keyBinding_0_11;
-			if(t_1==384){
-				if(c_Input::m_stickDown[0]){
-					t_pause=true;
-				}
-			}else{
-				if(t_1==385){
-					if(c_Input::m_stickRight[0]){
-						t_pause=true;
-					}
-				}else{
-					if(t_1==386){
-						if(c_Input::m_stickLeft[0]){
-							t_pause=true;
-						}
-					}else{
-						if((c_Input::m_KeyWasHit(t_keyBinding_0_11))!=0){
-							t_pause=true;
-						}
-					}
-				}
-			}
-		}
-	}
-	if(!t_pause && ((bb_input_KeyHit(27))!=0)){
-		t_pause=true;
-	}
-	if(t_pause){
+	if(t_keyBinding_0_11<0 && (((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260)) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261) || ((c_Input::m_KeyWasHit(t_keyBinding_0_11))!=0) || ((bb_input_KeyHit(27))!=0)){
 		bb_controller_game_gamePaused=true;
 		c_Audio::m_PauseSong(true);
 		(new c_ControllerPause)->m_new(this);
@@ -48116,6 +48103,9 @@ c_NPC::c_NPC(){
 	m_cageFrontImage=0;
 	m_cageBackImage=0;
 	m_isMainShopkeeper=false;
+	m_flyawayDelay=0;
+	m_saidHi=false;
+	m_saysHi=true;
 }
 c_NPC* c_NPC::m_new(){
 	c_Enemy::m_new();
@@ -48135,7 +48125,7 @@ void c_NPC::p_NPCInit(int t_xVal,int t_yVal,int t_l,String t_name,bool t_captv,b
 		}
 		gc_assign(this->m_cageBackImage,(new c_Sprite)->m_new2(String(L"level/cage_back.png",19),1,c_Image::m_DefaultFlags));
 	}
-	this->p_Init3(t_xVal,t_yVal,t_l,t_name,String(),-1,-1);
+	this->p_Init5(t_xVal,t_yVal,t_l,t_name);
 	m_npcList->p_AddLast23(this);
 }
 Float c_NPC::m_GetDistFromClosestNPC(int t_xVal,int t_yVal){
@@ -48165,7 +48155,57 @@ void c_NPC::p_Die(){
 	}
 }
 void c_NPC::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"NPC.Update()",12));
+	if(dynamic_cast<c_Shopkeeper*>(this)==0 && dynamic_cast<c_Transmogrifier*>(this)==0 && dynamic_cast<c_Conjurer*>(this)==0 && dynamic_cast<c_Shriner*>(this)==0 && dynamic_cast<c_Pawnbroker*>(this)==0){
+		this->m_health=this->m_healthMax;
+	}
+	if(this->p_IsVisible()){
+		this->m_flyawayDelay+=1;
+		int t_1=this->m_flyawayDelay;
+		if(t_1==120){
+			if(this->m_captive){
+				c_Flyaway* t_flyaway=(new c_Flyaway)->m_new(String(L"|211|HELP ME!|",14),this->m_x,this->m_y,-1,-14,true,FLOAT(0.0),FLOAT(0.2),true,-1);
+				t_flyaway->p_CenterX();
+			}else{
+				if(this->m_wasCaptive){
+					c_Flyaway* t_flyaway2=(new c_Flyaway)->m_new(String(L"|212|THANK YOU!!!|",18),this->m_x,this->m_y,-8,-6,true,FLOAT(0.0),FLOAT(0.2),true,-1);
+					t_flyaway2->p_CenterX();
+				}
+			}
+		}else{
+			if(t_1==210){
+				if(this->m_captive){
+					String t_2=this->m_xmlName;
+					if(t_2==String(L"merlin",6)){
+						c_Flyaway* t_flyaway3=(new c_Flyaway)->m_new(String(L"|213|DIG FOR THE GOLDEN KEY!|",29),this->m_x,this->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,-1);
+						t_flyaway3->p_CenterX();
+					}else{
+						if(t_2==String(L"diamonddealer",13)){
+							c_Flyaway* t_flyaway4=(new c_Flyaway)->m_new(String(L"|214|DID YOU BRING THE GLASS KEY?|",34),this->m_x,this->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,-1);
+							t_flyaway4->p_CenterX();
+						}else{
+							c_Flyaway* t_flyaway5=(new c_Flyaway)->m_new(String(L"|215|BUY THE GOLDEN KEY!|",25),this->m_x,this->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,-1);
+							t_flyaway5->p_CenterX();
+						}
+					}
+				}else{
+					if(this->m_wasCaptive){
+						c_Flyaway* t_flyaway6=(new c_Flyaway)->m_new(String(L"|216|SEE YOU IN THE LOBBY|",26),this->m_x,this->m_y,-20,-6,true,FLOAT(0.0),FLOAT(0.2),true,-1);
+						t_flyaway6->p_CenterX();
+					}
+				}
+				this->m_flyawayDelay=0;
+			}
+		}
+	}
+	if(!this->m_saidHi && bb_controller_game_currentLevel==-2 && c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(4.0) && !c_Level::m_GetTileAt(this->m_x,this->m_y)->p_IsInAnyPlayerTrueLineOfSight()){
+		if(this->m_saysHi){
+			c_Player* t_player=bb_controller_game_players[0];
+			c_Player::m_ActuallyPlayVO(String(L"Hi",2),t_player);
+		}
+		this->m_saidHi=true;
+		c_GameData::m_SetNPCVisited(this->m_xmlName,true);
+	}
+	c_Enemy::p_Update();
 }
 void c_NPC::mark(){
 	c_Enemy::mark();

@@ -2,8 +2,18 @@
 
 Import monkey.list
 Import monkey.math
+Import controller.controller_game
 Import enemy
+Import enemy.npc.conjurer
+Import enemy.npc.pawnbroker
+Import enemy.npc.shopkeeper
+Import enemy.npc.shriner
+Import enemy.npc.transmogrifier
+Import gui.flyaway
+Import level
+Import gamedata
 Import logger
+Import player_class
 Import sprite
 Import util
 
@@ -80,7 +90,7 @@ Class NPC Extends Enemy Abstract
             Self.cageBackImage = New Sprite("level/cage_back.png", 1)
         End If
 
-        Self.Init(xVal, yVal, l, name, "", -1, -1)
+        Self.Init(xVal, yVal, l, name)
 
         NPC.npcList.AddLast(Self)
     End Method
@@ -94,7 +104,63 @@ Class NPC Extends Enemy Abstract
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("NPC.Update()")
+        If Shopkeeper(Self) = Null And
+           Transmogrifier(Self) = Null And
+           Conjurer(Self) = Null And
+           Shriner(Self) = Null And
+           Pawnbroker(Self) = Null
+            Self.health = Self.healthMax
+        End If
+
+        If Self.IsVisible()
+            Self.flyawayDelay += 1
+
+            Select Self.flyawayDelay
+                Case 120
+                    If Self.captive
+                        Local flyaway := New Flyaway("|211|HELP ME!|", Self.x, Self.y, -1, -14, True, 0.0, 0.2, True, -1)
+                        flyaway.CenterX()
+                    Else If Self.wasCaptive
+                        Local flyaway := New Flyaway("|212|THANK YOU!!!|", Self.x, Self.y, -8, -6, True, 0.0, 0.2, True, -1)
+                        flyaway.CenterX()
+                    End If
+                Case 210
+                    If Self.captive
+                        Select Self.xmlName
+                            Case "merlin"
+                                Local flyaway := New Flyaway("|213|DIG FOR THE GOLDEN KEY!|", Self.x, Self.y, 0, -14, True, 0.0, 0.2, True, -1)
+                                flyaway.CenterX()
+                            Case "diamonddealer"
+                                Local flyaway := New Flyaway("|214|DID YOU BRING THE GLASS KEY?|", Self.x, Self.y, 0, -14, True, 0.0, 0.2, True, -1)
+                                flyaway.CenterX()
+                            Default
+                                Local flyaway := New Flyaway("|215|BUY THE GOLDEN KEY!|", Self.x, Self.y, 0, -14, True, 0.0, 0.2, True, -1)
+                                flyaway.CenterX()
+                        End Select
+                    Else If Self.wasCaptive
+                        Local flyaway := New Flyaway("|216|SEE YOU IN THE LOBBY|", Self.x, Self.y, -20, -6, True, 0.0, 0.2, True, -1)
+                        flyaway.CenterX()
+                    End If
+
+                    Self.flyawayDelay = 0
+            End Select
+        End If
+
+        If Not Self.saidHi And
+           controller_game.currentLevel = LevelType.Lobby And
+           Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 4.0 And
+           Not Level.GetTileAt(Self.x, Self.y).IsInAnyPlayerTrueLineOfSight()
+            If Self.saysHi
+                Local player := controller_game.players[0]
+                Player.ActuallyPlayVO("Hi", player)
+            End If
+
+            Self.saidHi = True
+
+            GameData.SetNPCVisited(Self.xmlName, True)
+        End If
+
+        Super.Update()
     End Method
 
 End Class
