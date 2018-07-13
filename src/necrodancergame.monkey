@@ -166,6 +166,9 @@ Class NecroDancerGame Extends App
         Debug.TraceNotImplemented("NecroDancerGame.OnSuspend()")
     End Method
 
+    ' For testing only.
+    Field numUpdates: Int
+
     Method OnUpdate: Int()
         If app.Millisecs() - necrodancergame.lastFrameTimeUpdate >= 1000
             necrodancergame.lastFrameTimeUpdate = app.Millisecs()
@@ -189,9 +192,12 @@ Class NecroDancerGame Extends App
                 Case LevelType.Lobby
                     Level.randSeedString = "1"
                     Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
-                Default
-                    app.EndApp()
             End Select
+
+            Self.numUpdates += 1
+            If Self.numUpdates >= 60
+                app.EndApp()
+            End If
         End If
 
         Return 0

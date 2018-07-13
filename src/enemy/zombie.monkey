@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import enemy
 Import audio2
@@ -22,14 +22,17 @@ Class Zombie Extends Enemy
         Self.overrideDeathSound = "zombieDeath"
     End Method
 
-    Field facing: Int = -1
+    Field facing: Int = Direction.None
 
     Method GetMovementDirection: Point()
         Return Util.GetPointFromDir(Self.facing)
     End Method
 
     Method MoveFail: Void()
-        Debug.TraceNotImplemented("Zombie.MoveFail()")
+        Super.MoveFail()
+
+        Self.currentMoveDelay = 2
+        Self.facing = Util.InvertDir(Self.facing)
     End Method
 
     Method Update: Void()

@@ -5700,6 +5700,7 @@ class c_App : public Object{
 };
 class c_NecroDancerGame : public c_App{
 	public:
+	int m_numUpdates;
 	c_NecroDancerGame();
 	c_NecroDancerGame* m_new();
 	static int m_lastViewMultiplier;
@@ -5962,6 +5963,7 @@ class c_Util : public Object{
 	static c_List40* m_GetPlayersAt(c_Rect*);
 	static c_List40* m_GetPlayersAt2(int,int);
 	static int m_GetDirFromDiff(int,int);
+	static int m_InvertDir(int);
 	static c_Player* m_GetClosestPlayer(int,int);
 	void mark();
 };
@@ -12867,6 +12869,7 @@ void c_App::mark(){
 	Object::mark();
 }
 c_NecroDancerGame::c_NecroDancerGame(){
+	m_numUpdates=0;
 }
 c_NecroDancerGame* c_NecroDancerGame::m_new(){
 	c_App::m_new();
@@ -12970,7 +12973,9 @@ int c_NecroDancerGame::p_OnUpdate(){
 		if(t_1==-2){
 			c_Level::m_randSeedString=String(L"1",1);
 			c_Level::m_NewLevel(-10,bb_controller_game_currentZone,0,false,0,false);
-		}else{
+		}
+		this->m_numUpdates+=1;
+		if(this->m_numUpdates>=60){
 			bb_app_EndApp();
 		}
 	}
@@ -13908,8 +13913,8 @@ bool c_Util::m_IsGlobalCollisionAt(int t_xVal,int t_yVal,bool t_isPlayer,bool t_
 		return true;
 	}
 	if(t_includeShopWallsDespiteIgnoringWalls){
-		int t_3=c_Level::m_GetTileTypeAt(t_xVal,t_yVal);
-		if(t_3==104 || t_3==105 || t_3==109){
+		int t_4=c_Level::m_GetTileTypeAt(t_xVal,t_yVal);
+		if(t_4==104 || t_4==105 || t_4==109){
 			return true;
 		}
 	}
@@ -14231,6 +14236,42 @@ int c_Util::m_GetDirFromDiff(int t_xDiff,int t_yDiff){
 		}
 	}
 	return t_dir;
+}
+int c_Util::m_InvertDir(int t_dir){
+	int t_inverted=-1;
+	int t_3=t_dir;
+	if(t_3==3){
+		t_inverted=1;
+	}else{
+		if(t_3==1){
+			t_inverted=3;
+		}else{
+			if(t_3==2){
+				t_inverted=0;
+			}else{
+				if(t_3==0){
+					t_inverted=2;
+				}else{
+					if(t_3==6){
+						t_inverted=4;
+					}else{
+						if(t_3==7){
+							t_inverted=5;
+						}else{
+							if(t_3==5){
+								t_inverted=7;
+							}else{
+								if(t_3==4){
+									t_inverted=6;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return t_inverted;
 }
 c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
 	Float t_dist=FLOAT(99999.0);
@@ -50826,7 +50867,9 @@ c_Point* c_Zombie::p_GetMovementDirection(){
 	return c_Util::m_GetPointFromDir(this->m_facing);
 }
 void c_Zombie::p_MoveFail(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Zombie.MoveFail()",17));
+	c_Enemy::p_MoveFail();
+	this->m_currentMoveDelay=2;
+	this->m_facing=c_Util::m_InvertDir(this->m_facing);
 }
 void c_Zombie::p_Update(){
 	int t_animOffset=0;

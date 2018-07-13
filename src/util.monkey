@@ -327,7 +327,28 @@ Class Util
     End Function
 
     Function InvertDir: Int(dir: Int)
-        Debug.TraceNotImplemented("Util.InvertDir(Int)")
+        Local inverted := Direction.None
+
+        Select dir
+            Case Direction.Up
+                inverted = Direction.Down
+            Case Direction.Down
+                inverted = Direction.Up
+            Case Direction.Left
+                inverted = Direction.Right
+            Case Direction.Right
+                inverted = Direction.Left
+            Case Direction.UpLeft
+                inverted = Direction.DownRight
+            Case Direction.UpRight
+                inverted = Direction.DownLeft
+            Case Direction.DownLeft
+                inverted = Direction.UpRight
+            Case Direction.DownRight
+                inverted = Direction.UpLeft
+        End Select
+
+        Return inverted
     End Function
 
     Function IsAnyPlayerAt: Bool(xVal: Int, yVal: Int)
