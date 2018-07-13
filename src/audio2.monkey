@@ -334,7 +334,14 @@ Class Audio
     End Function
 
     Function HasSongEnded: Bool()
-        Debug.TraceNotImplemented("Audio.HasSongEnded()")
+        Local ch := 1
+        If Audio.necrodancerSong2Active
+            ch = 2
+        End If
+
+        Local songPosition := fmod.GetSongPositionFMOD(ch)
+
+        Return songPosition = -1.0
     End Function
 
     Function HitBeat: Void(bNum: Int)

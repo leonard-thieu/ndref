@@ -18187,8 +18187,12 @@ bool c_Audio::m_PastLastBeat(){
 	return m_GetSongPosition()>t_lastBeat;
 }
 bool c_Audio::m_HasSongEnded(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.HasSongEnded()",20));
-	return false;
+	int t_ch=1;
+	if(m_necrodancerSong2Active){
+		t_ch=2;
+	}
+	Float t_songPosition=bb_fmod_GetSongPositionFMOD(t_ch);
+	return t_songPosition==FLOAT(-1.0);
 }
 bool c_Audio::m_DoingNecrodancerTransition(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.DoingNecrodancerTransition()",34));
