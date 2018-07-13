@@ -1,5 +1,6 @@
-'Strict
+Strict
 
+Import monkey.math
 Import gui.flyaway
 Import level
 Import audio2
@@ -53,7 +54,37 @@ Class SpeedUpTrap Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("SpeedUpTrap.Update()")
+        If Self.speedUpStartBeat <> -1
+            Local timeUntilStart := Audio.TimeUntilSpecificBeat(Self.speedUpStartBeat)
+            Local timeUntilAfterStart := Audio.TimeUntilSpecificBeat(Self.speedUpStartBeat + 2)
+            Local timeUntilBeforeEnd := Audio.TimeUntilSpecificBeat(Self.speedUpStartBeat + 18)
+            Local timeUntilEnd := Audio.TimeUntilSpecificBeat(Self.speedUpStartBeat + 20)
+
+            If timeUntilAfterStart > 0
+                Self.currentMusicSpeed = 1.125 + (timeUntilAfterStart / (timeUntilAfterStart - timeUntilStart)) * -0.125
+            Else If timeUntilBeforeEnd > 0
+                Self.currentMusicSpeed = 1.125
+            Else If timeUntilEnd > 0
+                Self.currentMusicSpeed = 1.0 - (timeUntilEnd / (timeUntilEnd - timeUntilBeforeEnd)) * 0.125
+            Else
+                Self.currentMusicSpeed = 1.0
+                Self.speedUpStartBeat = -1
+            End If
+
+            Self.currentMusicSpeed = math.Max(1.0, Self.currentMusicSpeed)
+            Audio.ModifyMusicSpeed(Self.currentMusicSpeed)
+        End If
+
+        If Self.speedUpStartBeat <> -1
+            Self.triggered = False
+        End If
+
+        Self.image.SetFrame(1)
+        If Self.triggered
+            Self.image.SetFrame(0)
+        End If
+
+        Super.Update()
     End Method
 
 End Class

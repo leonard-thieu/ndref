@@ -6700,6 +6700,7 @@ class c_Audio : public Object{
 	static int m_GetNextBeatDuration();
 	static void m_IncrementFixedBeat();
 	static Float m_musicSpeed;
+	static void m_ModifyMusicSpeed(Float);
 	static int m_TimeUntilBeat(int);
 	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
@@ -18217,6 +18218,9 @@ void c_Audio::m_IncrementFixedBeat(){
 	}
 }
 Float c_Audio::m_musicSpeed;
+void c_Audio::m_ModifyMusicSpeed(Float t_spd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.ModifyMusicSpeed(Float)",29));
+}
 int c_Audio::m_TimeUntilBeat(int t_beatOffset){
 	int t_beatNumber=m_GetCurrentBeatNumberIncludingLoops(t_beatOffset,false);
 	return m_TimeUntilSpecificBeat(t_beatNumber);
@@ -50042,7 +50046,36 @@ void c_SpeedUpTrap::p_Trigger(c_Entity* t_ent){
 	c_Trap::p_Trigger(t_ent);
 }
 void c_SpeedUpTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SpeedUpTrap.Update()",20));
+	if(this->m_speedUpStartBeat!=-1){
+		int t_timeUntilStart=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat);
+		int t_timeUntilAfterStart=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+2);
+		int t_timeUntilBeforeEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+18);
+		int t_timeUntilEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+20);
+		if(t_timeUntilAfterStart>0){
+			this->m_currentMusicSpeed=FLOAT(1.125)+Float(t_timeUntilAfterStart/(t_timeUntilAfterStart-t_timeUntilStart))*FLOAT(-0.125);
+		}else{
+			if(t_timeUntilBeforeEnd>0){
+				this->m_currentMusicSpeed=FLOAT(1.125);
+			}else{
+				if(t_timeUntilEnd>0){
+					this->m_currentMusicSpeed=FLOAT(1.0)-Float(t_timeUntilEnd/(t_timeUntilEnd-t_timeUntilBeforeEnd))*FLOAT(0.125);
+				}else{
+					this->m_currentMusicSpeed=FLOAT(1.0);
+					this->m_speedUpStartBeat=-1;
+				}
+			}
+		}
+		this->m_currentMusicSpeed=bb_math_Max2(FLOAT(1.0),this->m_currentMusicSpeed);
+		c_Audio::m_ModifyMusicSpeed(this->m_currentMusicSpeed);
+	}
+	if(this->m_speedUpStartBeat!=-1){
+		this->m_triggered=false;
+	}
+	this->m_image->p_SetFrame(1);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(0);
+	}
+	c_Trap::p_Update();
 }
 void c_SpeedUpTrap::mark(){
 	c_Trap::mark();
