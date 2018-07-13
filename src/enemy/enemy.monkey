@@ -2581,7 +2581,11 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method GetBeatNum: Int()
-        Debug.TraceNotImplemented("Enemy.GetBeatNum()")
+        Audio.includeVideoLatency = True
+        Local beatNum := Audio.GetCurrentBeatNumberIncludingLoops(0, False)
+        Audio.includeVideoLatency = False
+
+        Return beatNum
     End Method
 
     Method GetClosestMovement: Object(targetX: Int, targetY: Int, dirVal: Int, allowLiquids: Bool, allowTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)

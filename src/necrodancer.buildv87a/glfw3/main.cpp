@@ -40681,8 +40681,10 @@ bool c_Enemy::m_EnemiesHaveMovedClosestBeat(){
 	return false;
 }
 int c_Enemy::p_GetBeatNum(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetBeatNum()",18));
-	return 0;
+	c_Audio::m_includeVideoLatency=true;
+	int t_beatNum=c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,false);
+	c_Audio::m_includeVideoLatency=false;
+	return t_beatNum;
 }
 bool c_Enemy::p_IsBetweenFraction(Float t_on,Float t_off){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.IsBetweenFraction(Float, Float)",37));
