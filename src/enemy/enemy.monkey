@@ -2871,7 +2871,20 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method MoveFail: Void()
-        Debug.TraceNotImplemented("Enemy.MoveFail()")
+        If Self.IsStuckInLiquid()
+            Self.Splash(True)
+            Self.AdvanceMovementDelay()
+        End If
+
+        If Self.bounceOnMovementFail
+            If (Self.lastAttemptedMove.x = 0 And
+                Self.lastAttemptedMove.y = 0) Or
+               Level.IsWaterOrTarAt(Self.x, Self.y)
+                Self.BounceInPlace(False)
+            Else
+                Self.BounceToward(Self.lastAttemptedMove, False)
+            End If
+        End If
     End Method
 
     Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)

@@ -7369,6 +7369,7 @@ class c_Entity : public c_RenderableObject{
 	virtual int p_PerformMovement(int,int);
 	int p_PerformMovement2(c_Point*);
 	virtual bool p_IsVisible();
+	void p_BounceInPlace(bool);
 	static void m_UpdateVisibility();
 	static bool m_anyPlayerHaveNazarCharmCached;
 	static bool m_AnyPlayerHaveNazarCharm();
@@ -7445,6 +7446,7 @@ class c_MobileEntity : public c_Entity{
 	void p_Update();
 	bool p_IsSlidingOnIce();
 	bool p_IsStuckInLiquid();
+	void p_Splash(bool);
 	void mark();
 };
 class c_Player : public c_MobileEntity{
@@ -31629,6 +31631,9 @@ bool c_Entity::p_IsVisible(){
 	}
 	return c_Level::m_IsVisibleTileAt(this->m_x,this->m_y);
 }
+void c_Entity::p_BounceInPlace(bool t_bufferTween){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.BounceInPlace(Bool)",26));
+}
 void c_Entity::m_UpdateVisibility(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
 }
@@ -32124,6 +32129,9 @@ bool c_MobileEntity::p_IsSlidingOnIce(){
 }
 bool c_MobileEntity::p_IsStuckInLiquid(){
 	return (c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==4 || c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==5 || c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==8) && (!this->m_floating && !this->m_gotOutOfTar && !this->m_isMassive && !this->m_ignoreLiquids);
+}
+void c_MobileEntity::p_Splash(bool t_destroyWater){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"MobileEntity.Splash(Bool)",25));
 }
 void c_MobileEntity::mark(){
 	c_Entity::mark();
@@ -40689,7 +40697,17 @@ void c_Enemy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	this->p_AdvanceMovementDelay();
 }
 void c_Enemy::p_MoveFail(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.MoveFail()",16));
+	if(this->p_IsStuckInLiquid()){
+		this->p_Splash(true);
+		this->p_AdvanceMovementDelay();
+	}
+	if(this->m_bounceOnMovementFail){
+		if(this->m_lastAttemptedMove->m_x==0 && this->m_lastAttemptedMove->m_y==0 || c_Level::m_IsWaterOrTarAt(this->m_x,this->m_y)){
+			this->p_BounceInPlace(false);
+		}else{
+			this->p_BounceToward(this->m_lastAttemptedMove,false);
+		}
+	}
 }
 void c_Enemy::m_MoveAll(){
 	m_enemiesFearfulDuration-=1;
