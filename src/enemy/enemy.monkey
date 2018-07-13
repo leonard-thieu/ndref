@@ -2798,7 +2798,11 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method IsBetweenFraction: Bool(on: Float, off: Float)
-        Debug.TraceNotImplemented("Enemy.IsBetweenFraction(Float, Float)")
+        Local relativeVideoTimeUntilBeat := Self.RelativeVideoTimeUntilBeat()
+
+        Return relativeVideoTimeUntilBeat >= on And
+               (on <= off And off > relativeVideoTimeUntilBeat) Or
+               (on > off And off <= relativeVideoTimeUntilBeat)
     End Method
 
     Method IsCullable: Bool()

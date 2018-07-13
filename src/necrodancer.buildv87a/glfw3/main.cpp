@@ -8204,6 +8204,7 @@ class c_Enemy : public c_MobileEntity{
 	static void m_MoveAll();
 	static bool m_EnemiesHaveMovedClosestBeat();
 	int p_GetBeatNum();
+	Float p_RelativeVideoTimeUntilBeat();
 	bool p_IsBetweenFraction(Float,Float);
 	void p_AnimateToTheBeat();
 	void p_Update();
@@ -40686,9 +40687,13 @@ int c_Enemy::p_GetBeatNum(){
 	c_Audio::m_includeVideoLatency=false;
 	return t_beatNum;
 }
+Float c_Enemy::p_RelativeVideoTimeUntilBeat(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.RelativeVideoTimeUntilBeat()",34));
+	return 0;
+}
 bool c_Enemy::p_IsBetweenFraction(Float t_on,Float t_off){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.IsBetweenFraction(Float, Float)",37));
-	return false;
+	Float t_relativeVideoTimeUntilBeat=this->p_RelativeVideoTimeUntilBeat();
+	return t_relativeVideoTimeUntilBeat>=t_on && (t_on<=t_off && t_off>t_relativeVideoTimeUntilBeat) || t_on>t_off && t_off<=t_relativeVideoTimeUntilBeat;
 }
 void c_Enemy::p_AnimateToTheBeat(){
 	if(this->m_animOverrideState!=-1){
