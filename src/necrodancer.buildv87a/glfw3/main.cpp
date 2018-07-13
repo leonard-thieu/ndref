@@ -6699,6 +6699,7 @@ class c_Audio : public Object{
 	static int m_GetDistanceFromNearestBeat();
 	static int m_GetNextBeatDuration();
 	static void m_IncrementFixedBeat();
+	static Float m_musicSpeed;
 	static int m_TimeUntilBeat(int);
 	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
@@ -10220,6 +10221,8 @@ class c_TrapType : public Object{
 };
 class c_SpeedUpTrap : public c_Trap{
 	public:
+	int m_speedUpStartBeat;
+	Float m_currentMusicSpeed;
 	c_SpeedUpTrap();
 	c_SpeedUpTrap* m_new(int,int);
 	c_SpeedUpTrap* m_new2();
@@ -18213,6 +18216,7 @@ void c_Audio::m_IncrementFixedBeat(){
 		m_fixedBeatNum+=1;
 	}
 }
+Float c_Audio::m_musicSpeed;
 int c_Audio::m_TimeUntilBeat(int t_beatOffset){
 	int t_beatNumber=m_GetCurrentBeatNumberIncludingLoops(t_beatOffset,false);
 	return m_TimeUntilSpecificBeat(t_beatNumber);
@@ -50001,6 +50005,8 @@ void c_TrapType::mark(){
 	Object::mark();
 }
 c_SpeedUpTrap::c_SpeedUpTrap(){
+	m_speedUpStartBeat=-1;
+	m_currentMusicSpeed=FLOAT(1.0);
 }
 c_SpeedUpTrap* c_SpeedUpTrap::m_new(int t_xVal,int t_yVal){
 	c_Trap::m_new(t_xVal,t_yVal,7);
@@ -50015,7 +50021,25 @@ c_SpeedUpTrap* c_SpeedUpTrap::m_new2(){
 	return this;
 }
 void c_SpeedUpTrap::p_Trigger(c_Entity* t_ent){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SpeedUpTrap.Trigger(Entity)",27));
+	if(!t_ent->m_isPlayer){
+		return;
+	}
+	this->m_image->p_SetFrame(0);
+	if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"head_spiked_ears",16),false)){
+		c_Flyaway* t_flyaway=(new c_Flyaway)->m_new(String(L"|14000|MUFFLED!|",16),t_ent->m_x,t_ent->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,120);
+		t_flyaway->p_CenterX();
+	}else{
+		if(this->m_speedUpStartBeat==-1){
+			if(!c_Level::m_isReplaying || c_Audio::m_musicSpeed==FLOAT(1.0)){
+				this->m_currentMusicSpeed=FLOAT(1.0);
+				this->m_speedUpStartBeat=c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,false);
+			}
+			c_Flyaway* t_flyaway2=(new c_Flyaway)->m_new(String(L"|232|TEMPO UP!|",15),t_ent->m_x,t_ent->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,120);
+			t_flyaway2->p_CenterX();
+			c_Audio::m_PlayGameSoundAt(String(L"trapdoorOpen",12),this->m_x,this->m_y,false,-1,false);
+		}
+	}
+	c_Trap::p_Trigger(t_ent);
 }
 void c_SpeedUpTrap::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SpeedUpTrap.Update()",20));
@@ -58409,6 +58433,7 @@ int bbInit(){
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Bomb::m_bombList=(new c_List42)->m_new();
+	c_Audio::m_musicSpeed=FLOAT(1.0);
 	c_Audio::m_songPaused=false;
 	c_Entity::m_anyPlayerHaveNazarCharmCached=false;
 	c_Entity::m_anyPlayerHaveCircletCached=false;

@@ -1,7 +1,13 @@
 'Strict
 
+Import gui.flyaway
+Import level
+Import audio2
 Import entity
+Import item
 Import logger
+Import player_class
+Import sprite
 Import trap
 
 Class SpeedUpTrap Extends Trap
@@ -21,7 +27,29 @@ Class SpeedUpTrap Extends Trap
     Field currentMusicSpeed: Float = 1.0
 
     Method Trigger: Void(ent: Entity)
-        Debug.TraceNotImplemented("SpeedUpTrap.Trigger(Entity)")
+        If Not ent.isPlayer
+            Return
+        End If
+
+        Self.image.SetFrame(0)
+
+        If Player.DoesAnyPlayerHaveItemOfType(ItemType.SpikedEars, False)
+            Local flyaway := New Flyaway("|14000|MUFFLED!|", ent.x, ent.y, 0, -14, True, 0.0, 0.2, True, 120)
+            flyaway.CenterX()
+        Else If Self.speedUpStartBeat = -1
+            If Not Level.isReplaying Or
+               Audio.musicSpeed = 1.0
+                Self.currentMusicSpeed = 1.0
+                Self.speedUpStartBeat = Audio.GetCurrentBeatNumberIncludingLoops(False, False)
+            End If
+
+            Local flyaway := New Flyaway("|232|TEMPO UP!|", ent.x, ent.y, 0, -14, True, 0.0, 0.2, True, 120)
+            flyaway.CenterX()
+
+            Audio.PlayGameSoundAt("trapdoorOpen", Self.x, Self.y, False, -1, False)
+        End If
+
+        Super.Trigger(ent)
     End Method
 
     Method Update: Void()
