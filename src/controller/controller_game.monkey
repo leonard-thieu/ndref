@@ -59,10 +59,10 @@ Global hardcoreModeSuccessScore: Int = -1
 Global hasWon: Bool
 Global incrementFixedBeatNum: Bool
 Global lastEnemyMoveBeat: Int
-Global lastPlayerMoveBeat: Int[4]
+Global lastPlayerMoveBeat: Int[necrodancergame.MAX_NUM_PLAYERS]
 Global numPlayers: Int = 1
 Global player1: Int
-Global players: Player[4]
+Global players: Player[necrodancergame.MAX_NUM_PLAYERS]
 Global runPlaytimeLastAdded: Int
 Global runPlaytimeMilliseconds: Int
 Global showScoreMessage: Bool

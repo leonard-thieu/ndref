@@ -2,6 +2,7 @@
 
 Import enemy
 Import logger
+Import necrodancergame
 Import point
 
 Class Ghost Extends Enemy
@@ -23,7 +24,7 @@ Class Ghost Extends Enemy
         Self.overrideDeathSound = "ghostDeath"
     End Method
 
-    Field lastDist: Float[4]
+    Field lastDist: Float[necrodancergame.MAX_NUM_PLAYERS]
     Field movingAway: Bool
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)

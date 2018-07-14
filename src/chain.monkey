@@ -1,6 +1,7 @@
 'Strict
 
 Import logger
+Import necrodancergame
 
 Class Chain
 
@@ -9,7 +10,7 @@ Class Chain
     Global lastActor: Object
     Global lastGrooveColor: Int
     Global lastGrooveLevel: Int
-    Global waitingForFirstMovement: Bool[4]
+    Global waitingForFirstMovement: Bool[necrodancergame.MAX_NUM_PLAYERS]
 
     Function Break: Void(player: Object, gotHit: Bool, plSound: Bool, lackOfMovement: Bool)
         Debug.TraceNotImplemented("Chain.Break(Object, Bool, Bool, Bool)")

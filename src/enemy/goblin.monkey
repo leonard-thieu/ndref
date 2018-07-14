@@ -2,6 +2,7 @@
 
 Import enemy
 Import logger
+Import necrodancergame
 Import point
 Import shrine
 
@@ -29,7 +30,7 @@ Class Goblin Extends Enemy
         Self.swarmCulprit = True
     End Method
 
-    Field lastDist: Float[4]
+    Field lastDist: Float[necrodancergame.MAX_NUM_PLAYERS]
     Field movingAway: Bool
     Field lastVocalization: Int = -1
 

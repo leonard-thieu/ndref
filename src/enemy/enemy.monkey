@@ -2153,8 +2153,8 @@ Class Enemy Extends MobileEntity Abstract
     Field isSarcophagus: Bool
     Field inArena: Bool
     Field stealth: Bool
-    Field lastPlayerHitFrame: Int[4]
-    Field lastPlayerHitSource: String[4]
+    Field lastPlayerHitFrame: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Field lastPlayerHitSource: String[necrodancergame.MAX_NUM_PLAYERS]
     Field heartXOff: Int
     Field heartYOff: Int
     Field storedZOff: Int

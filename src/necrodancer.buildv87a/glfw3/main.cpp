@@ -18492,7 +18492,7 @@ bool c_Input::m_IsRedefined(int t_key){
 	return false;
 }
 int c_Input::m_KeyWasHit(int t_keyID){
-	if(0<=t_keyID && t_keyID<=511 && !m_keysHitLastFrame[t_keyID] && !m_keysHit2FramesAgo[t_keyID]){
+	if(0<=t_keyID && t_keyID<512 && !m_keysHitLastFrame[t_keyID] && !m_keysHit2FramesAgo[t_keyID]){
 		int t_1=t_keyID;
 		if(t_1==384){
 			return ((m_stickDown[0])?1:0);

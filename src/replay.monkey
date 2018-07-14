@@ -3,6 +3,7 @@
 Import monkey.list
 Import monkey.map
 Import logger
+Import necrodancergame
 
 Class Replay
 
@@ -101,8 +102,8 @@ Class ReplayData
     Field randSeed: Int
     Field numPlayers: Int
     Field lastBeat: Int
-    Field charID: Int[4]
-    Field playerInputs: IntMap<Int>[4]
-    Field missedBeats: List<Int>[4]
+    Field charID: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Field playerInputs: IntMap<Int>[necrodancergame.MAX_NUM_PLAYERS]
+    Field missedBeats: List<Int>[necrodancergame.MAX_NUM_PLAYERS]
 
 End Class

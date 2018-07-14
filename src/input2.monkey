@@ -12,34 +12,36 @@ Import logger
 Import necrodancergame
 Import player_class
 
+Const NUM_KEYS: Int = 512
+
 Class Input
 
-    Global keysHit2FramesAgo: Bool[512]
-    Global keysHitLastFrame: Bool[512]
-    Global lastBeatMissed: Int[4]
-    Global lastBeatMovedOn: Int[4]
+    Global keysHit2FramesAgo: Bool[input2.NUM_KEYS]
+    Global keysHitLastFrame: Bool[input2.NUM_KEYS]
+    Global lastBeatMissed: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Global lastBeatMovedOn: Int[necrodancergame.MAX_NUM_PLAYERS]
     Global lastBeatSkippedFlyaway: Int = -1
-    Global lastJoyX: Float[4]
-    Global lastJoyX2: Float[4]
-    Global lastJoyY: Float[4]
-    Global lastJoyY2: Float[4]
-    Global lastOffbeatMovedOn: Int[4]
-    Global movementBuffer: Int[4]
-    Global movementBufferFrame: Int[4]
-    Global offbeatMovementBuffer: Int[4]
-    Global offbeatMovementBufferFrame: Int[4]
+    Global lastJoyX: Float[necrodancergame.MAX_NUM_PLAYERS]
+    Global lastJoyX2: Float[necrodancergame.MAX_NUM_PLAYERS]
+    Global lastJoyY: Float[necrodancergame.MAX_NUM_PLAYERS]
+    Global lastJoyY2: Float[necrodancergame.MAX_NUM_PLAYERS]
+    Global lastOffbeatMovedOn: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Global movementBuffer: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Global movementBufferFrame: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Global offbeatMovementBuffer: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Global offbeatMovementBufferFrame: Int[necrodancergame.MAX_NUM_PLAYERS]
     Global popUpController: ControllerPopUp
     Global popupFrame: Int = -1
-    Global punishmentBeatToSkip: Int[4]
-    Global punishmentBeatToSkipQueue: Int[4]
-    Global stickDown: Bool[4]
-    Global stickDown2: Bool[4]
-    Global stickLeft: Bool[4]
-    Global stickLeft2: Bool[4]
-    Global stickRight: Bool[4]
-    Global stickRight2: Bool[4]
-    Global stickUp: Bool[4]
-    Global stickUp2: Bool[4]
+    Global punishmentBeatToSkip: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Global punishmentBeatToSkipQueue: Int[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickDown: Bool[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickDown2: Bool[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickLeft: Bool[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickLeft2: Bool[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickRight: Bool[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickRight2: Bool[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickUp: Bool[necrodancergame.MAX_NUM_PLAYERS]
+    Global stickUp2: Bool[necrodancergame.MAX_NUM_PLAYERS]
 
     Function GameUpdate: Bool()
         Debug.TraceNotImplemented("Input.GameUpdate()")
@@ -80,7 +82,7 @@ Class Input
     End Function
 
     Function Init: Void()
-        For Local i := 0 Until 4
+        For Local i := 0 Until necrodancergame.MAX_NUM_PLAYERS
             Input.stickLeft[i] = False
             Input.stickRight[i] = False
             Input.stickUp[i] = False
@@ -111,7 +113,7 @@ Class Input
             Input.punishmentBeatToSkipQueue[i] = -1
         End For
 
-        For Local i := 0 Until 512
+        For Local i := 0 Until input2.NUM_KEYS
             Input.keysHitLastFrame[i] = False
             Input.keysHit2FramesAgo[i] = False
         End For
@@ -122,7 +124,7 @@ Class Input
     End Function
 
     Function KeyWasHit: Int(keyID: Int)
-        If (0 <= keyID And keyID <= 511) And
+        If (0 <= keyID And keyID < input2.NUM_KEYS) And
            Not Input.keysHitLastFrame[keyID] And
            Not Input.keysHit2FramesAgo[keyID]
             Select keyID
@@ -258,7 +260,7 @@ Class Input
     End Function
 
     Function UpdateKeysHit: Void()
-        For Local i := 0 Until 512
+        For Local i := 0 Until input2.NUM_KEYS
             Input.keysHit2FramesAgo[i] = Input.keysHitLastFrame[i]
             Input.keysHitLastFrame[i] = input.KeyHit(i) > 0
         End For

@@ -18,6 +18,8 @@ Import textlog
 Import util
 Import xml
 
+Const MAX_NUM_PLAYERS: Int = 4
+
 Global CHRISTMAS_MODE: Bool
 Global DEBUG_DISABLE_CLOUD_SAVES: Bool
 Global DEBUG_DISCOFLOOR_ON: Bool
