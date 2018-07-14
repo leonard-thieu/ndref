@@ -5655,6 +5655,7 @@ class c_Enumerator31;
 class c_ControllerInputPopup;
 class c_Enumerator32;
 class c_TextInput;
+class c_ControlIndex;
 class c_InputValue;
 class c_ControllerPause;
 class c_Doppelganger;
@@ -6789,6 +6790,7 @@ class c_Input : public Object{
 	static bool m_GameUpdate();
 	static bool m_IsRedefined(int);
 	static int m_KeyWasHit(int);
+	static c_List17* m_GetDirectionsHit(int,bool);
 	static void m_UpdateKeysHit();
 	void mark();
 };
@@ -9368,6 +9370,8 @@ class c_ControllerGame : public c_Controller{
 	c_Bouncer* m_restartBounce;
 	c_TextSprite* m_replayInstructions;
 	bool m_ignoreInput;
+	int m_movementBufferFrame;
+	int m_movementBuffer;
 	int m_pendingScores;
 	c_ControllerGame();
 	void p_ResetPostDeathReplay();
@@ -9717,6 +9721,10 @@ class c_List17 : public Object{
 	c_Node33* p_AddLast17(int);
 	c_List17* m_new2(Array<int >);
 	int p_Clear();
+	bool p_IsEmpty();
+	int p_First();
+	int p_Last2();
+	int p_Count();
 	void mark();
 };
 class c_IntList : public c_List17{
@@ -12566,6 +12574,11 @@ class c_TextInput : public c_TextLabel{
 	c_TextInput();
 	c_TextInput* m_new(String,int,Float,int);
 	c_TextInput* m_new2();
+	void mark();
+};
+class c_ControlIndex : public Object{
+	public:
+	c_ControlIndex();
 	void mark();
 };
 class c_InputValue : public Object{
@@ -18611,6 +18624,10 @@ int c_Input::m_KeyWasHit(int t_keyID){
 			}
 		}
 	}
+	return 0;
+}
+c_List17* c_Input::m_GetDirectionsHit(int t_playerNum,bool t_takeReplayIntoAccount){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Input.GetDirectionsHit(Int, Bool)",33));
 	return 0;
 }
 void c_Input::m_UpdateKeysHit(){
@@ -46893,6 +46910,8 @@ c_ControllerGame::c_ControllerGame(){
 	m_restartBounce=0;
 	m_replayInstructions=0;
 	m_ignoreInput=false;
+	m_movementBufferFrame=0;
+	m_movementBuffer=-1;
 	m_pendingScores=0;
 }
 void c_ControllerGame::p_ResetPostDeathReplay(){
@@ -46949,15 +46968,15 @@ void c_ControllerGame::p_Update(){
 	if(!this->m_ignoreInput && !c_Input::m_GameUpdate()){
 		return;
 	}
-	int t_keyBinding_0_11=c_GameData::m_GetKeyBinding(0,11);
-	if(t_keyBinding_0_11<0 && (((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260)) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261) || ((c_Input::m_KeyWasHit(t_keyBinding_0_11))!=0) || ((bb_input_KeyHit(27))!=0)){
+	int t_upRightKeyBinding=c_GameData::m_GetKeyBinding(0,11);
+	if(t_upRightKeyBinding<0 && (((bb_input_KeyHit(260))!=0) && !c_Input::m_IsRedefined(260) || ((bb_input_KeyHit(261))!=0) && !c_Input::m_IsRedefined(261)) || t_upRightKeyBinding>=0 && ((c_Input::m_KeyWasHit(t_upRightKeyBinding))!=0) || ((bb_input_KeyHit(27))!=0)){
 		bb_controller_game_gamePaused=true;
 		c_Audio::m_PauseSong(true);
 		(new c_ControllerPause)->m_new(this);
 	}
 	bool t_allPlayersPerished=c_Player::m_AllPlayersPerished();
-	int t_keyBinding_0_10=c_GameData::m_GetKeyBinding(0,10);
-	if((c_Input::m_KeyWasHit(t_keyBinding_0_10))!=0){
+	int t_upLeftKeyBinding=c_GameData::m_GetKeyBinding(0,10);
+	if(t_upLeftKeyBinding>=0 && ((c_Input::m_KeyWasHit(t_upLeftKeyBinding))!=0)){
 		if((t_allPlayersPerished || bb_controller_game_hasWon) && !c_Level::m_isReplaying){
 			if(c_Level::m_replay!=0){
 				if(c_Level::m_replay->m_replayStr==String()){
@@ -46975,50 +46994,71 @@ void c_ControllerGame::p_Update(){
 		}
 	}
 	if(t_allPlayersPerished || bb_controller_game_showScoreMessage){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - death)",42));
-	}
-	if(bb_controller_game_hasWon && !((this->m_pendingScores)!=0) && (bb_controller_game_showScoreMessage || c_GameData::m_modGamedataChanges)){
-		bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Postgame - win)",40));
-	}
-	bool t_songHasNotLooped=false;
-	if(!c_Audio::m_PastLastBeat() && !c_Audio::m_HasSongEnded()){
-		t_songHasNotLooped=false;
-	}else{
-		t_songHasNotLooped=c_Audio::m_songLoops==0;
-	}
-	if(c_Level::m_isReplaying){
-		if(c_Level::m_replay->p_GetNumBeats()<c_Audio::m_GetClosestBeatNum(true)){
-			t_songHasNotLooped=!c_Audio::m_DoingNecrodancerTransition();
-		}
-	}
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		if(!t_songHasNotLooped){
-			continue;
-		}
-		if(this->p_HasFocus()){
-			if(!bb_controller_game_hasWon && !c_Audio::m_startSong){
-				c_Player* t_player=bb_controller_game_players[t_i];
-				if(!t_player->m_isHelper && !t_player->m_falling){
-					if(t_player->p_IsStandingStill()){
-						if(c_Level::m_IsLockedExit(t_player->m_x,t_player->m_y)){
-							if(c_Level::m_bossNumber==7 && (bb_controller_game_currentLevel==-493 || bb_controller_game_currentLevel==5)){
-								c_Level::m_ActivateTrigger(53,0,0);
-								continue;
+		c_List17* t_directionsHit=c_Input::m_GetDirectionsHit(0,false);
+		if(!t_directionsHit->p_IsEmpty()){
+			int t_firstDirection=t_directionsHit->p_First();
+			int t_lastDirection=t_directionsHit->p_Last2();
+			if(t_directionsHit->p_Count()==1){
+				t_lastDirection=-1;
+			}
+			if(bb_necrodancergame_globalFrameCounter-this->m_movementBufferFrame>10){
+				this->m_movementBuffer=-1;
+			}
+			if((t_lastDirection!=0 || t_firstDirection!=2) && (t_lastDirection!=2 || t_firstDirection!=0) && (t_lastDirection!=0 || this->m_movementBuffer!=2)){
+				if(t_firstDirection==2 && this->m_movementBuffer!=0 || t_firstDirection!=0 && t_firstDirection!=2 && (t_lastDirection!=2 || this->m_movementBuffer!=0) && (t_firstDirection==0 && this->m_movementBuffer!=2 && (t_lastDirection!=2 || this->m_movementBuffer!=0))){
+				}else{
+					if(this->m_pendingScores<=0 || bb_controller_game_showScoreMessage){
+						bb_controller_game_showScoreMessage=false;
+						this->m_pendingScores=0;
+						if(!c_Level::m_isTrainingMode && bb_controller_game_hasWon){
+							bb_controller_game_hasWon=false;
+							if(!this->m_specialScoreSubmit){
+								(new c_ControllerPostGame)->m_new(this,c_Level::m_isHardcoreMode,c_Level::m_isDailyChallenge,c_Level::m_isAllCharactersMode,c_Level::m_isDeathlessMode,false,this->m_coinVal,this->m_timeVal);
+							}else{
+								this->m_specialScoreSubmit=false;
+								c_Level::m_TakeActionAfterAllCharsScoreSubmit();
 							}
-							if(c_Util::m_IsCharacterActive(6)){
-								t_player->p_Hit(String(L"COWARDICE",9),99999,-1,0,false,0);
-								continue;
-							}
-							c_Trap* t_trap=c_Trap::m_GetTrapAt(t_player->m_x,t_player->m_y);
-							if(t_trap!=0){
-								t_trap->p_Die();
-							}
-							t_player->m_lordCrownActiveBeat=-1;
-							t_player->m_shieldActiveBeat=-1;
-							(new c_TrapDoor)->m_new(t_player->m_x,t_player->m_y);
+						}else{
+							(new c_ControllerPostGame)->m_new(this,c_Level::m_isHardcoreMode,c_Level::m_isDailyChallenge,c_Level::m_isAllCharactersMode,c_Level::m_isDeathlessMode,true,-1,-1);
 						}
+					}else{
+						bb_controller_game_showScoreMessage=true;
 					}
 				}
+			}
+			this->m_movementBuffer=t_directionsHit->p_First();
+			this->m_movementBufferFrame=bb_necrodancergame_globalFrameCounter;
+		}
+	}
+	if(bb_controller_game_hasWon && !((this->m_pendingScores)!=0) && (bb_controller_game_showScoreMessage || c_GameData::m_modGamedataChanges)){
+		bb_controller_game_hasWon=false;
+		bb_controller_game_showScoreMessage=false;
+		if(!this->m_specialScoreSubmit){
+			(new c_ControllerPostGame)->m_new(this,c_Level::m_isHardcoreMode,c_Level::m_isDailyChallenge,c_Level::m_isAllCharactersMode,c_Level::m_isDeathlessMode,false,this->m_coinVal,this->m_timeVal);
+		}else{
+			this->m_specialScoreSubmit=false;
+			c_Level::m_TakeActionAfterAllCharsScoreSubmit();
+		}
+	}
+	if((c_Audio::m_PastLastBeat() || c_Audio::m_HasSongEnded()) && c_Audio::m_songLoops==0 || c_Level::m_isReplaying && c_Level::m_replay->p_GetNumBeats()<c_Audio::m_GetClosestBeatNum(true) && !c_Audio::m_DoingNecrodancerTransition()){
+		for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+			c_Player* t_player=bb_controller_game_players[t_i];
+			if(this->p_HasFocus() && !bb_controller_game_hasWon && !c_Audio::m_startSong && !t_player->m_isHelper && !t_player->m_falling && t_player->p_IsStandingStill() && c_Level::m_IsLockedExit(t_player->m_x,t_player->m_y)){
+				if(c_Level::m_bossNumber==7 && (bb_controller_game_currentLevel==-493 || bb_controller_game_currentLevel==5)){
+					c_Level::m_ActivateTrigger(53,0,0);
+					continue;
+				}
+				if(c_Util::m_IsCharacterActive(6)){
+					t_player->p_Hit(String(L"COWARDICE",9),99999,-1,0,false,0);
+					continue;
+				}
+				c_Trap* t_trap=c_Trap::m_GetTrapAt(t_player->m_x,t_player->m_y);
+				if(t_trap!=0){
+					t_trap->p_Die();
+				}
+				t_player->m_lordCrownActiveBeat=-1;
+				t_player->m_shieldActiveBeat=-1;
+				(new c_TrapDoor)->m_new(t_player->m_x,t_player->m_y);
 			}
 		}
 	}
@@ -47054,7 +47094,56 @@ void c_ControllerGame::p_Update(){
 		c_Audio::m_IncrementFixedBeat();
 		bb_controller_game_incrementFixedBeatNum=false;
 	}
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerGame.Update() (Playtime)",34));
+	if(!this->p_HasFocus() || c_Level::m_isLevelEnding){
+		bb_controller_game_totalPlaytimeLastAdded=bb_app_Millisecs();
+	}else{
+		if(bb_controller_game_totalPlaytimeLastAdded==0){
+			bb_controller_game_totalPlaytimeLastAdded=bb_app_Millisecs();
+		}
+		if(bb_app_Millisecs()-bb_controller_game_totalPlaytimeLastAdded>1000){
+			bb_controller_game_totalPlaytimeMilliseconds+=bb_app_Millisecs()-bb_controller_game_totalPlaytimeLastAdded;
+			bb_controller_game_totalPlaytimeLastAdded=bb_app_Millisecs();
+		}
+	}
+	if(t_allPlayersPerished){
+		if(bb_controller_game_runPlaytimeLastAdded==0){
+			return;
+		}
+		bb_controller_game_runPlaytimeMilliseconds+=bb_app_Millisecs()-bb_controller_game_runPlaytimeLastAdded;
+		bb_controller_game_subRunPlaytimeMilliseconds+=bb_app_Millisecs()-bb_controller_game_runPlaytimeLastAdded;
+		if(c_Level::m_isReplaying){
+			bb_controller_game_subRunPlaytimeMilliseconds=c_Level::m_replay->m_runTime;
+		}else{
+			if(c_Level::m_replay!=0){
+				c_Level::m_replay->m_runTime=bb_controller_game_runPlaytimeMilliseconds;
+			}
+		}
+		bb_controller_game_runPlaytimeLastAdded=0;
+		return;
+	}
+	if(!this->p_HasFocus() || c_Level::m_isLevelEnding){
+		if(bb_controller_game_runPlaytimeLastAdded!=0){
+			bb_controller_game_runPlaytimeMilliseconds+=bb_app_Millisecs()-bb_controller_game_runPlaytimeLastAdded;
+			bb_controller_game_subRunPlaytimeMilliseconds+=bb_app_Millisecs()-bb_controller_game_runPlaytimeLastAdded;
+			bb_controller_game_runPlaytimeLastAdded=0;
+			return;
+		}
+	}else{
+		if(bb_controller_game_runPlaytimeLastAdded==0){
+			bb_controller_game_runPlaytimeLastAdded=bb_app_Millisecs();
+		}
+		if(bb_app_Millisecs()-bb_controller_game_runPlaytimeLastAdded>1000){
+			int t_runPlaytimeOffset=bb_app_Millisecs()-bb_controller_game_runPlaytimeLastAdded;
+			if(c_Level::m_isReplaying){
+				if(c_Audio::m_musicSpeed<FLOAT(0.8) || c_Audio::m_musicSpeed>FLOAT(1.2)){
+					t_runPlaytimeOffset=int(Float(t_runPlaytimeOffset)*c_Audio::m_musicSpeed);
+				}
+			}
+			bb_controller_game_runPlaytimeMilliseconds+=t_runPlaytimeOffset;
+			bb_controller_game_subRunPlaytimeMilliseconds+=t_runPlaytimeOffset;
+			bb_controller_game_runPlaytimeLastAdded=bb_app_Millisecs();
+		}
+	}
 }
 void c_ControllerGame::mark(){
 	c_Controller::mark();
@@ -48384,6 +48473,24 @@ int c_List17::p_Clear(){
 	gc_assign(m__head->m__succ,m__head);
 	gc_assign(m__head->m__pred,m__head);
 	return 0;
+}
+bool c_List17::p_IsEmpty(){
+	return m__head->m__succ==m__head;
+}
+int c_List17::p_First(){
+	return m__head->m__succ->m__data;
+}
+int c_List17::p_Last2(){
+	return m__head->m__pred->m__data;
+}
+int c_List17::p_Count(){
+	int t_n=0;
+	c_Node33* t_node=m__head->m__succ;
+	while(t_node!=m__head){
+		t_node=t_node->m__succ;
+		t_n+=1;
+	}
+	return t_n;
 }
 void c_List17::mark(){
 	Object::mark();
@@ -57428,6 +57535,11 @@ c_TextInput* c_TextInput::m_new2(){
 void c_TextInput::mark(){
 	c_TextLabel::mark();
 }
+c_ControlIndex::c_ControlIndex(){
+}
+void c_ControlIndex::mark(){
+	Object::mark();
+}
 c_InputValue::c_InputValue(){
 }
 void c_InputValue::mark(){
@@ -58467,10 +58579,10 @@ int bbInit(){
 	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;
 	c_Camera::m_overlayRedDuration=0;
 	c_CrystalShards::m_shardsList=(new c_List41)->m_new();
+	c_Audio::m_musicSpeed=FLOAT(1.0);
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);
 	c_Bomb::m_bombList=(new c_List42)->m_new();
-	c_Audio::m_musicSpeed=FLOAT(1.0);
 	c_Audio::m_songPaused=false;
 	c_Entity::m_anyPlayerHaveNazarCharmCached=false;
 	c_Entity::m_anyPlayerHaveCircletCached=false;

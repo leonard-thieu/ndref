@@ -4,10 +4,12 @@ Import monkey.list
 Import mojo.app
 Import mojo.input
 Import controller
+Import controller.controller_game
 Import controller.controller_pause
+Import controller.controller_postgame
+Import enemy
 Import gui.flyaway
 Import gui.gui_gameplay
-Import enemy
 Import level
 Import trap
 Import trap.trapdoor
@@ -22,6 +24,7 @@ Import input2
 Import item
 Import logger
 Import necrodancer
+Import necrodancergame
 Import particles
 Import player_class
 Import renderableobject
@@ -189,11 +192,12 @@ Class ControllerGame Extends Controller
             Return
         End If
 
-        Local keyBinding_0_11 := GameData.GetKeyBinding(0, 11)
-        If (keyBinding_0_11 < 0 And
-            (input.KeyHit(input.KEY_JOY0_LB) And Not Input.IsRedefined(input.KEY_JOY0_LB)) Or
-            (input.KeyHit(input.KEY_JOY0_RB) And Not Input.IsRedefined(input.KEY_JOY0_RB))) Or
-           Input.KeyWasHit(keyBinding_0_11) Or
+        Local upRightKeyBinding := GameData.GetKeyBinding(0, ControlIndex.UpRight)
+        If (upRightKeyBinding < 0 And
+            ((input.KeyHit(input.KEY_JOY0_LB) And Not Input.IsRedefined(input.KEY_JOY0_LB)) Or
+             (input.KeyHit(input.KEY_JOY0_RB) And Not Input.IsRedefined(input.KEY_JOY0_RB)))) Or
+           (upRightKeyBinding >= 0 And
+            Input.KeyWasHit(upRightKeyBinding)) Or
            input.KeyHit(input.KEY_ESCAPE)
             controller_game.gamePaused = True
             Audio.PauseSong(True)
@@ -202,9 +206,11 @@ Class ControllerGame Extends Controller
 
         Local allPlayersPerished := Player.AllPlayersPerished()
 
-        Local keyBinding_0_10 := GameData.GetKeyBinding(0, 10)
-        If Input.KeyWasHit(keyBinding_0_10)
-            If (allPlayersPerished Or controller_game.hasWon) And
+        Local upLeftKeyBinding := GameData.GetKeyBinding(0, ControlIndex.UpLeft)
+        If upLeftKeyBinding >= 0 And
+           Input.KeyWasHit(upLeftKeyBinding)
+            If (allPlayersPerished Or
+                controller_game.hasWon) And
                Not Level.isReplaying
                 If Level.replay <> Null
                     If Level.replay.replayStr = ""
@@ -226,71 +232,138 @@ Class ControllerGame Extends Controller
 
         If allPlayersPerished Or
            controller_game.showScoreMessage
-            Debug.TraceNotImplemented("ControllerGame.Update() (Postgame - death)")
+            Local directionsHit := Input.GetDirectionsHit(0, False)
+            If Not directionsHit.IsEmpty()
+                Local firstDirection := directionsHit.First()
+                Local lastDirection := directionsHit.Last()
+
+                If directionsHit.Count() = 1
+                    lastDirection = Direction.None
+                End If
+
+                If necrodancergame.globalFrameCounter - Self.movementBufferFrame > 10
+                    Self.movementBuffer = Direction.None
+                End If
+
+                If (lastDirection <> Direction.Right Or firstDirection <> Direction.Left) And
+                   (lastDirection <> Direction.Left Or firstDirection <> Direction.Right) And
+                   (lastDirection <> Direction.Right Or Self.movementBuffer <> Direction.Left)
+                    If (firstDirection = Direction.Left And Self.movementBuffer <> Direction.Right) Or
+                       (firstDirection <> Direction.Right And firstDirection <> Direction.Left And
+                        (lastDirection <> Direction.Left Or Self.movementBuffer <> Direction.Right)) And
+                       (firstDirection = Direction.Right And Self.movementBuffer <> Direction.Left And
+                        (lastDirection <> Direction.Left Or Self.movementBuffer <> Direction.Right))
+                        ' Do nothing
+                    Else
+                        If Self.pendingScores <= 0 Or
+                           controller_game.showScoreMessage
+                            controller_game.showScoreMessage = False
+                            Self.pendingScores = 0
+
+                            If Not Level.isTrainingMode And
+                               controller_game.hasWon
+                                controller_game.hasWon = False
+
+                                If Not Self.specialScoreSubmit
+                                    New ControllerPostGame(
+                                        Self,
+                                        Level.isHardcoreMode,
+                                        Level.isDailyChallenge,
+                                        Level.isAllCharactersMode,
+                                        Level.isDeathlessMode,
+                                        False,
+                                        Self.coinVal,
+                                        Self.timeVal)
+                                Else
+                                    Self.specialScoreSubmit = False
+                                    Level.TakeActionAfterAllCharsScoreSubmit()
+                                End If
+                            Else
+                                New ControllerPostGame(
+                                    Self,
+                                    Level.isHardcoreMode,
+                                    Level.isDailyChallenge,
+                                    Level.isAllCharactersMode,
+                                    Level.isDeathlessMode,
+                                    True,
+                                    -1,
+                                    -1)
+                            End If
+                        Else
+                            controller_game.showScoreMessage = True
+                        End If
+                    End If
+                End If
+
+                Self.movementBuffer = directionsHit.First()
+                Self.movementBufferFrame = necrodancergame.globalFrameCounter
+            End If
         End If
 
         If controller_game.hasWon And
            Not Self.pendingScores And
-           (controller_game.showScoreMessage Or GameData.modGamedataChanges)
-            Debug.TraceNotImplemented("ControllerGame.Update() (Postgame - win)")
-        End If
+           (controller_game.showScoreMessage Or
+            GameData.modGamedataChanges)
+            controller_game.hasWon = False
+            controller_game.showScoreMessage = False
 
-        Local songHasNotLooped: Bool
-        If Not Audio.PastLastBeat() And
-           Not Audio.HasSongEnded()
-            songHasNotLooped = False
-        Else
-            songHasNotLooped = (Audio.songLoops = 0)
-        End If
-
-        If Level.isReplaying
-            If Level.replay.GetNumBeats() < Audio.GetClosestBeatNum(True)
-                songHasNotLooped = Not Audio.DoingNecrodancerTransition()
+            If Not Self.specialScoreSubmit
+                New ControllerPostGame(
+                    Self,
+                    Level.isHardcoreMode,
+                    Level.isDailyChallenge,
+                    Level.isAllCharactersMode,
+                    Level.isDeathlessMode,
+                    False,
+                    Self.coinVal,
+                    Self.timeVal)
+            Else
+                Self.specialScoreSubmit = False
+                Level.TakeActionAfterAllCharsScoreSubmit()
             End If
         End If
 
-        For Local i := 0 Until controller_game.numPlayers
-            If Not songHasNotLooped
-                Continue
-            End If
+        If ((Audio.PastLastBeat() Or
+             Audio.HasSongEnded()) And
+            Audio.songLoops = 0) Or
+           (Level.isReplaying And
+            Level.replay.GetNumBeats() < Audio.GetClosestBeatNum(True) And
+            Not Audio.DoingNecrodancerTransition())
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                If Self.HasFocus() And
+                   Not controller_game.hasWon And
+                   Not Audio.startSong And
+                   Not player.isHelper And
+                   Not player.falling And
+                   player.IsStandingStill() And
+                   Level.IsLockedExit(player.x, player.y)
+                    If Level.bossNumber = BossBattleType.NecroDancer2 And
+                       (controller_game.currentLevel = LevelType.TrainingNecroDancer2Battle Or
+                        controller_game.currentLevel = LevelType.FinalBossBattle)
+                        Level.ActivateTrigger(53, Null, Null)
 
-            If Self.HasFocus()
-                If Not controller_game.hasWon And
-                   Not Audio.startSong
-                    Local player := controller_game.players[i]
-                    If Not player.isHelper And
-                       Not player.falling
-                        If player.IsStandingStill()
-                            If Level.IsLockedExit(player.x, player.y)
-                                If Level.bossNumber = BossBattleType.NecroDancer2 And
-                                   (controller_game.currentLevel = LevelType.TrainingNecroDancer2Battle Or
-                                    controller_game.currentLevel = LevelType.FinalBossBattle)
-                                    Level.ActivateTrigger(53, Null, Null)
-
-                                    Continue
-                                End If
-
-                                If Util.IsCharacterActive(Character.Dove)
-                                    player.Hit("COWARDICE", 99999)
-
-                                    Continue
-                                End If
-
-                                Local trap := Trap.GetTrapAt(player.x, player.y)
-                                If trap <> Null
-                                    trap.Die()
-                                End If
-
-                                player.lordCrownActiveBeat = -1
-                                player.shieldActiveBeat = -1
-
-                                New TrapDoor(player.x, player.y)
-                            End If
-                        End If
+                        Continue
                     End If
+
+                    If Util.IsCharacterActive(Character.Dove)
+                        player.Hit("COWARDICE", 99999)
+
+                        Continue
+                    End If
+
+                    Local trap := Trap.GetTrapAt(player.x, player.y)
+                    If trap <> Null
+                        trap.Die()
+                    End If
+
+                    player.lordCrownActiveBeat = -1
+                    player.shieldActiveBeat = -1
+
+                    New TrapDoor(player.x, player.y)
                 End If
-            End If
-        End For
+            End For
+        End If
 
         Audio.Update(True)
         RenderableObject.UpdateAll()
@@ -333,35 +406,68 @@ Class ControllerGame Extends Controller
             controller_game.incrementFixedBeatNum = False
         End If
 
-        Debug.TraceNotImplemented("ControllerGame.Update() (Playtime)")
+        If Not Self.HasFocus() Or
+           Level.isLevelEnding
+            controller_game.totalPlaytimeLastAdded = app.Millisecs()
+        Else
+            If controller_game.totalPlaytimeLastAdded = 0
+                controller_game.totalPlaytimeLastAdded = app.Millisecs()
+            End If
 
-        'If Self.HasFocus() And
-        '   Not Level.isLevelEnding
-        '    If controller_game.totalPlaytimeLastAdded = 0
-        '        controller_game.totalPlaytimeLastAdded = app.Millisecs()
-        '    End If
+            If app.Millisecs() - controller_game.totalPlaytimeLastAdded > 1000
+                controller_game.totalPlaytimeMilliseconds += app.Millisecs() - controller_game.totalPlaytimeLastAdded
+                controller_game.totalPlaytimeLastAdded = app.Millisecs()
+            End If
+        End If
 
-        '    If app.Millisecs() - controller_game.totalPlaytimeLastAdded <= 1000
-        '        If allPlayersPerished
-        '            If controller_game.runPlaytimeLastAdded = 0
-        '                Return
-        '            End If
+        If allPlayersPerished
+            If controller_game.runPlaytimeLastAdded = 0
+                Return
+            End If
 
-        '            controller_game.runPlaytimeMilliseconds += app.Millisecs() - controller_game.runPlaytimeLastAdded
-        '            controller_game.subRunPlaytimeMilliseconds += app.Millisecs() - controller_game.runPlaytimeLastAdded
+            controller_game.runPlaytimeMilliseconds += app.Millisecs() - controller_game.runPlaytimeLastAdded
+            controller_game.subRunPlaytimeMilliseconds += app.Millisecs() - controller_game.runPlaytimeLastAdded
 
-        '            If Level.isReplaying
-        '                controller_game.subRunPlaytimeMilliseconds = Level.replay.runTime
-        '            Else If Level.replay <> Null
-        '                Level.replay.runTime = controller_game.runPlaytimeMilliseconds
-        '            End If
+            If Level.isReplaying
+                controller_game.subRunPlaytimeMilliseconds = Level.replay.runTime
+            Else If Level.replay <> Null
+                Level.replay.runTime = controller_game.runPlaytimeMilliseconds
+            End If
 
-        '            controller_game.runPlaytimeLastAdded = 0
+            controller_game.runPlaytimeLastAdded = 0
 
-        '            Return
-        '        End If
-        '    End If
-        'End If
+            Return
+        End If
+
+        If Not Self.HasFocus() Or
+           Level.isLevelEnding
+            If controller_game.runPlaytimeLastAdded <> 0
+                controller_game.runPlaytimeMilliseconds += app.Millisecs() - controller_game.runPlaytimeLastAdded
+                controller_game.subRunPlaytimeMilliseconds += app.Millisecs() - controller_game.runPlaytimeLastAdded
+                controller_game.runPlaytimeLastAdded = 0
+
+                Return
+            End If
+        Else
+            If controller_game.runPlaytimeLastAdded = 0
+                controller_game.runPlaytimeLastAdded = app.Millisecs()
+            End If
+
+            If app.Millisecs() - controller_game.runPlaytimeLastAdded > 1000
+                Local runPlaytimeOffset := app.Millisecs() - controller_game.runPlaytimeLastAdded
+
+                If Level.isReplaying
+                    If Audio.musicSpeed < 0.8 Or
+                       Audio.musicSpeed > 1.2
+                        runPlaytimeOffset *= Audio.musicSpeed
+                    End If
+                End If
+
+                controller_game.runPlaytimeMilliseconds += runPlaytimeOffset
+                controller_game.subRunPlaytimeMilliseconds += runPlaytimeOffset
+                controller_game.runPlaytimeLastAdded = app.Millisecs()
+            End If
+        End If
     End Method
 
 End Class

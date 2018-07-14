@@ -1,5 +1,6 @@
 'Strict
 
+Import monkey.list
 Import controller.controller_game
 Import controller.controller_popup
 Import enemy
@@ -50,7 +51,7 @@ Class Input
         Debug.TraceNotImplemented("Input.GetDefaultHUDText(Int, Int)")
     End Function
 
-    Function GetDirectionsHit: Object(playerNum: Int, takeReplayIntoAccount: Bool)
+    Function GetDirectionsHit: List<Int>(playerNum: Int, takeReplayIntoAccount: Bool)
         Debug.TraceNotImplemented("Input.GetDirectionsHit(Int, Bool)")
     End Function
 
@@ -424,5 +425,27 @@ Class InputValue
     Const RightPlayer2: Int = 393
     Const RightPlayer3: Int = 401
     Const RightPlayer4: Int = 409
+
+End Class
+
+Class ControlIndex
+
+    Const None: Int = -1
+    Const Up: Int = 0
+    Const Right: Int = 1
+    Const Down: Int = 2
+    Const Left: Int = 3
+    Const UpAlternate: Int = 4
+    Const RightAlternate: Int = 5
+    Const DownAlternate: Int = 6
+    Const LeftAlternate: Int = 7
+    Const LeftRight: Int = 8
+    Const UpDown: Int = 9
+    Const UpLeft: Int = 10
+    Const UpRight: Int = 11
+    Const DownLeft: Int = 12
+    Const DownRight: Int = 13
+    Const QuickRestart: Int = 14
+    Const Pause: Int = 15
 
 End Class
