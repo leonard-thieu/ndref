@@ -45184,7 +45184,7 @@ void c_Tile::m_GenerateWireConnections(){
 			c_Tile* t_tile=t_tileNode->p_Value();
 			if(t_tile->p_IsWire()){
 				t_tile->m_wireMask=0;
-				for(int t_i=0;t_i<=4;t_i=t_i+1){
+				for(int t_i=0;t_i<4;t_i=t_i+1){
 					c_Point* t_adjacentLocation=t_tile->p_GetLocation()->p_Add6(c_Util::m_GetPointFromDir(t_i));
 					c_Tile* t_adjacentTile=c_Level::m_GetTileAt(t_adjacentLocation->m_x,t_adjacentLocation->m_y);
 					if((t_adjacentTile)!=0){

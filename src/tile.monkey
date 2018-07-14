@@ -105,7 +105,7 @@ Class Tile Extends RenderableObject
                 If tile.IsWire()
                     tile.wireMask = 0
 
-                    For Local i := 0 To 4
+                    For Local i := 0 Until 4
                         Local adjacentLocation := tile.GetLocation().Add(Util.GetPointFromDir(i))
                         Local adjacentTile := Level.GetTileAt(adjacentLocation.x, adjacentLocation.y)
                         If adjacentTile
