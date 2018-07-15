@@ -29879,6 +29879,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 	if(!m_isReplaying && !m_isLevelEditor && t_levelObj==0){
 		int t_69=bb_controller_game_currentLevel;
 		if(t_69==1 || t_69==-8){
+			String t_saveData=c_GameData::m_xmlSaveData->p_Export(1);
 		}
 	}
 	int t_creatingMapStart=bb_app_Millisecs();

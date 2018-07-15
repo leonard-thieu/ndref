@@ -7399,8 +7399,8 @@ Class Level
             Select controller_game.currentLevel
                 Case LevelType.Level1,
                      LevelType.DancePadMode
-                    ' TODO: This needs to be converted back to the XML API.
-                    'GameData.xmlSaveData.Export(1)
+                    ' ???
+                    Local saveData := GameData.xmlSaveData.Export(xml.XML_STRIP_WHITESPACE)
             End Select
         End If
 
