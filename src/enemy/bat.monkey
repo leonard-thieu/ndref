@@ -9,6 +9,7 @@ Import logger
 Import player_class
 Import point
 Import shrine
+Import tile
 Import util
 
 Class Bat Extends Enemy
@@ -48,7 +49,44 @@ Class Bat Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Bat.GetMovementDirection()")
+        If Self.level = 4
+            If Not Tile.AnyPlayerHaveRingOfLuck()
+                Local x: Int
+                Local y: Int
+
+                x = 1
+                y = 0
+                If Util.IsAnyPlayerAt(Self.x + x, Self.y + y)
+                    Return New Point(x, y)
+                End If
+
+                x = -1
+                y = 0
+                If Util.IsAnyPlayerAt(Self.x + x, Self.y + y)
+                    Return New Point(x, y)
+                End If
+
+                x = 0
+                y = 1
+                If Util.IsAnyPlayerAt(Self.x + x, Self.y + y)
+                    Return New Point(x, y)
+                End If
+
+                x = 0
+                y = -1
+                If Util.IsAnyPlayerAt(Self.x + x, Self.y + y)
+                    Return New Point(x, y)
+                End If
+            End If
+
+            Return Self.RandomSeek(False, False)
+        End If
+
+        If Self.confusedUntil > Audio.GetClosestBeatNum(True)
+            Return Self.BasicSeek()
+        End If
+
+        Return Super.GetMovementDirection()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)

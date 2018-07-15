@@ -49657,8 +49657,37 @@ c_Bat* c_Bat::m_new2(){
 	return this;
 }
 c_Point* c_Bat::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Bat.GetMovementDirection()",26));
-	return 0;
+	if(this->m_level==4){
+		if(!c_Tile::m_AnyPlayerHaveRingOfLuck()){
+			int t_x=0;
+			int t_y=0;
+			t_x=1;
+			t_y=0;
+			if(c_Util::m_IsAnyPlayerAt(this->m_x+t_x,this->m_y+t_y)){
+				return (new c_Point)->m_new(t_x,t_y);
+			}
+			t_x=-1;
+			t_y=0;
+			if(c_Util::m_IsAnyPlayerAt(this->m_x+t_x,this->m_y+t_y)){
+				return (new c_Point)->m_new(t_x,t_y);
+			}
+			t_x=0;
+			t_y=1;
+			if(c_Util::m_IsAnyPlayerAt(this->m_x+t_x,this->m_y+t_y)){
+				return (new c_Point)->m_new(t_x,t_y);
+			}
+			t_x=0;
+			t_y=-1;
+			if(c_Util::m_IsAnyPlayerAt(this->m_x+t_x,this->m_y+t_y)){
+				return (new c_Point)->m_new(t_x,t_y);
+			}
+		}
+		return this->p_RandomSeek(false,false);
+	}
+	if(this->m_confusedUntil>c_Audio::m_GetClosestBeatNum(true)){
+		return this->p_BasicSeek();
+	}
+	return c_Enemy::p_GetMovementDirection();
 }
 bool c_Bat::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Bat.Hit(String, Int, Int, Entity, Bool, Int)",44));
