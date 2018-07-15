@@ -704,10 +704,16 @@ End Class
 Class Direction
 
     Const None: Int = -1
+
+    Const MinCardinalDirection: Int = 0
+    Const MaxCardinalDirection: Int = 3
     Const Right: Int = 0
     Const Down: Int = 1
     Const Left: Int = 2
     Const Up: Int = 3
+
+    Const MinDiagonalDirection: Int = 4
+    Const MaxDiagonalDirection: Int = 7
     Const DownRight: Int = 4
     Const DownLeft: Int = 5
     Const UpLeft: Int = 6

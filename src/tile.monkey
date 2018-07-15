@@ -67,7 +67,13 @@ Class Tile Extends RenderableObject
     End Function
 
     Function AnyPlayerHaveRingOfLuck: Bool()
-        Debug.TraceNotImplemented("Tile.AnyPlayerHaveRingOfLuck()")
+        If Tile.anyPlayerHaveRingOfLuckCachedFrame <> necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveRingOfLuckCachedFrame = necrodancergame.globalFrameCounter
+            Tile.anyPlayerHaveRingOfLuckCached = Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck, False) Or
+                                                 Player.DoesAnyPlayerHaveItemOfType(ItemType.LuckyCharm, False)
+        End If
+
+        Return Tile.anyPlayerHaveRingOfLuckCached
     End Function
 
     Function AnyPlayerHaveSunglasses: Bool()

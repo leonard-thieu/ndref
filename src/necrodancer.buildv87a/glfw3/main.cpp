@@ -5414,6 +5414,7 @@ class c_BeatAnimationData;
 class c_Map16;
 class c_IntMap8;
 class c_Node35;
+class c_MovementType;
 class c_List19;
 class c_Node36;
 class c_HeadNode19;
@@ -5701,6 +5702,7 @@ class c_App : public Object{
 };
 class c_NecroDancerGame : public c_App{
 	public:
+	bool m_ranUpdate;
 	c_NecroDancerGame();
 	c_NecroDancerGame* m_new();
 	static int m_lastViewMultiplier;
@@ -5711,7 +5713,6 @@ class c_NecroDancerGame : public c_App{
 	int p_OnRender();
 	int p_OnResume();
 	int p_OnSuspend();
-	void p_TestSeededAllZonesMode(int,String);
 	int p_OnUpdate();
 	static c_Image* m_textFont;
 	void mark();
@@ -8204,6 +8205,12 @@ class c_Enemy : public c_MobileEntity{
 	static bool m_EnemiesMovingThisFrame();
 	virtual bool p_ImmuneToFear();
 	c_Point* p_BasicFlee(bool);
+	void p_ImageFlipX(bool);
+	c_Point* p_RandomSeek(bool,bool);
+	c_Point* p_BasicSeek();
+	c_Point* p_BasicSeekNoTraps();
+	c_Point* p_BasicSeekIncludeDiagonals();
+	c_Point* p_RandomIncludeDiagonals(bool,bool);
 	virtual c_Point* p_GetMovementDirection();
 	void p_AfterHitHook(int,int);
 	void p_InitDirtJump(int,int);
@@ -9008,6 +9015,8 @@ class c_Tile : public c_RenderableObject{
 	static bool m_CheckRingOfShadows();
 	bool p_IsInAnyPlayerTrueLineOfSight();
 	bool p_IsInAnyPlayerLineOfSight();
+	static bool m_anyPlayerHaveRingOfLuckCached;
+	static bool m_AnyPlayerHaveRingOfLuck();
 	bool p_IsVisible();
 	static void m_MoveAll();
 	Float p_CalculateTileLightValue(bool);
@@ -9981,6 +9990,11 @@ class c_Node35 : public Object{
 	c_Node35();
 	c_Node35* m_new(int,c_BeatAnimationData*,int,c_Node35*);
 	c_Node35* m_new2();
+	void mark();
+};
+class c_MovementType : public Object{
+	public:
+	c_MovementType();
 	void mark();
 };
 class c_List19 : public Object{
@@ -12888,6 +12902,7 @@ void c_App::mark(){
 	Object::mark();
 }
 c_NecroDancerGame::c_NecroDancerGame(){
+	m_ranUpdate=false;
 }
 c_NecroDancerGame* c_NecroDancerGame::m_new(){
 	c_App::m_new();
@@ -12974,31 +12989,6 @@ int c_NecroDancerGame::p_OnSuspend(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"NecroDancerGame.OnSuspend()",27));
 	return 0;
 }
-void c_NecroDancerGame::p_TestSeededAllZonesMode(int t_character,String t_randSeedString){
-	gc_assign(bb_controller_game_players[0],(new c_Player)->m_new(0,t_character));
-	c_Level::m_randSeedString=t_randSeedString;
-	c_Level::m_NewLevel(-10,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-	c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
-}
 int c_NecroDancerGame::p_OnUpdate(){
 	if(bb_app_Millisecs()-bb_necrodancergame_lastFrameTimeUpdate>=1000){
 		bb_necrodancergame_lastFrameTimeUpdate=bb_app_Millisecs();
@@ -13013,8 +13003,21 @@ int c_NecroDancerGame::p_OnUpdate(){
 	bb_steam_SteamPump();
 	c_Util::m_Pump();
 	if(dynamic_cast<c_ControllerGame*>(c_Controller::m_currentController)!=0){
-		this->p_TestSeededAllZonesMode(0,String(L"1",1));
-		bb_app_EndApp();
+		if(!this->m_ranUpdate){
+			int t_1=bb_controller_game_currentLevel;
+			if(t_1==-2){
+				c_Level::m_randSeedString=String(L"1",1);
+				c_Level::m_NewLevel(-10,bb_controller_game_currentZone,0,false,0,false);
+			}else{
+				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
+			}
+		}else{
+			int t_2=bb_controller_game_currentLevel;
+			if(t_2==2){
+				bb_app_EndApp();
+			}
+		}
+		this->m_ranUpdate=!this->m_ranUpdate;
 	}
 	return 0;
 }
@@ -37135,23 +37138,23 @@ void c_Enemy::p_Init3(int t_xVal,int t_yVal,int t_l,String t_name,String t_overr
 		c_BeatAnimationData* t_beatAnimationData=(new c_BeatAnimationData)->m_new(t_inSheet-1,t_onFraction,t_offFraction,t_singleFrame);
 		String t_animType=t_frameNode->p_GetAttribute5(String(L"animType",8),String(L"normal",6));
 		int t_inAnim=t_frameNode->p_GetAttribute3(String(L"inAnim",6),1);
-		String t_18=t_animType;
-		if(t_18==String(L"normal",6)){
+		String t_19=t_animType;
+		if(t_19==String(L"normal",6)){
 			this->m_animNormal->p_Set16(t_inAnim-1,t_beatAnimationData);
 		}else{
-			if(t_18==String(L"normal2",7)){
+			if(t_19==String(L"normal2",7)){
 				this->m_animNormal2->p_Set16(t_inAnim-1,t_beatAnimationData);
 			}else{
-				if(t_18==String(L"normal3",7)){
+				if(t_19==String(L"normal3",7)){
 					this->m_animNormal3->p_Set16(t_inAnim-1,t_beatAnimationData);
 				}else{
-					if(t_18==String(L"blink",5)){
+					if(t_19==String(L"blink",5)){
 						this->m_animBlink->p_Set16(t_inAnim-1,t_beatAnimationData);
 					}else{
-						if(t_18==String(L"tell",4)){
+						if(t_19==String(L"tell",4)){
 							this->m_animTell->p_Set16(t_inAnim-1,t_beatAnimationData);
 						}else{
-							if(t_18==String(L"tellBlink",9)){
+							if(t_19==String(L"tellBlink",9)){
 								this->m_animTellBlink->p_Set16(t_inAnim-1,t_beatAnimationData);
 							}
 						}
@@ -37190,20 +37193,20 @@ void c_Enemy::p_Init3(int t_xVal,int t_yVal,int t_l,String t_name,String t_overr
 		}
 	}
 	String t_movement=t_statsNode->p_GetAttribute5(String(L"movement",8),String(L"custom",6));
-	String t_19=t_movement;
-	if(t_19==String(L"random",6)){
+	String t_20=t_movement;
+	if(t_20==String(L"random",6)){
 		this->m_movementType=1;
 	}else{
-		if(t_19==String(L"basicSeek",9)){
+		if(t_20==String(L"basicSeek",9)){
 			this->m_movementType=2;
 		}else{
-			if(t_19==String(L"basicSeekNoTraps",16)){
+			if(t_20==String(L"basicSeekNoTraps",16)){
 				this->m_movementType=3;
 			}else{
-				if(t_19==String(L"seekWithDiagonals",17)){
+				if(t_20==String(L"seekWithDiagonals",17)){
 					this->m_movementType=4;
 				}else{
-					if(t_19==String(L"randomWithDiagonals",19)){
+					if(t_20==String(L"randomWithDiagonals",19)){
 						this->m_movementType=5;
 					}else{
 						this->m_movementType=0;
@@ -40595,9 +40598,80 @@ c_Point* c_Enemy::p_BasicFlee(bool t_includeDiagonals){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicFlee(Bool)",21));
 	return 0;
 }
-c_Point* c_Enemy::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetMovementDirection()",28));
+void c_Enemy::p_ImageFlipX(bool t_flipX){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.ImageFlipX(Bool)",22));
+}
+c_Point* c_Enemy::p_RandomSeek(bool t_trueRandom,bool t_ignoreRingOfLuck){
+	c_Stack4* t_directions=(new c_Stack4)->m_new();
+	for(int t_dir=0;t_dir<=3;t_dir=t_dir+1){
+		c_Point* t_dirPoint=c_Util::m_GetPointFromDir(t_dir);
+		c_Point* t_location=this->p_GetLocation();
+		c_Point* t_adjacentDir=t_location->p_Add6(t_dirPoint);
+		if((t_ignoreRingOfLuck || !c_Tile::m_AnyPlayerHaveRingOfLuck() || !c_Util::m_IsAnyPlayerAt(t_adjacentDir->m_x,t_adjacentDir->m_y)) && (t_trueRandom || !c_Util::m_IsGlobalCollisionAt2(t_adjacentDir->m_x,t_adjacentDir->m_y,false,this->m_ignoreWalls,false,false))){
+			t_directions->p_Push10(t_dirPoint);
+		}
+	}
+	if(t_directions->p_Length()==0){
+		if(!t_ignoreRingOfLuck){
+			return this->p_RandomSeek(t_trueRandom,true);
+		}
+		if(!t_trueRandom){
+			return this->p_RandomSeek(true,true);
+		}
+		bb_logger_Debug->p_Assert(t_directions->p_Length()==4,String());
+	}
+	int t_randomDirectionIndex=c_Util::m_RndIntRange(0,t_directions->p_Length()-1,false,0);
+	c_Point* t_direction=t_directions->p_Get2(t_randomDirectionIndex);
+	if(t_direction->m_x>0){
+		this->p_ImageFlipX(false);
+	}else{
+		if(t_direction->m_x<0){
+			this->p_ImageFlipX(true);
+		}
+	}
+	return t_direction;
+}
+c_Point* c_Enemy::p_BasicSeek(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicSeek()",17));
 	return 0;
+}
+c_Point* c_Enemy::p_BasicSeekNoTraps(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicSeekNoTraps()",24));
+	return 0;
+}
+c_Point* c_Enemy::p_BasicSeekIncludeDiagonals(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicSeekIncludeDiagonals()",33));
+	return 0;
+}
+c_Point* c_Enemy::p_RandomIncludeDiagonals(bool t_trueRandom,bool t_ignoreRingOfLuck){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.RandomIncludeDiagonals(Bool, Bool)",40));
+	return 0;
+}
+c_Point* c_Enemy::p_GetMovementDirection(){
+	c_Point* t_movementDirection=0;
+	int t_18=this->m_movementType;
+	if(t_18==1){
+		t_movementDirection=this->p_RandomSeek(false,false);
+	}else{
+		if(t_18==2){
+			t_movementDirection=this->p_BasicSeek();
+		}else{
+			if(t_18==3){
+				t_movementDirection=this->p_BasicSeekNoTraps();
+			}else{
+				if(t_18==4){
+					t_movementDirection=this->p_BasicSeekIncludeDiagonals();
+				}else{
+					if(t_18==5){
+						t_movementDirection=this->p_RandomIncludeDiagonals(false,false);
+					}else{
+						t_movementDirection=(new c_Point)->m_new(0,0);
+					}
+				}
+			}
+		}
+	}
+	return t_movementDirection;
 }
 void c_Enemy::p_AfterHitHook(int t_diffX,int t_diffY){
 }
@@ -40634,15 +40708,15 @@ int c_Enemy::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	int t_nextX=this->m_x+t_xVal;
 	int t_nextY=this->m_y+t_yVal;
 	int t_moveResult=this->p_PerformMovement(t_nextX,t_nextY);
-	int t_20=t_moveResult;
-	if(t_20==0){
+	int t_21=t_moveResult;
+	if(t_21==0){
 		if(this->m_bounceOnMovementFail){
 			c_Point* t_bounceTo=(new c_Point)->m_new(t_xVal,t_yVal);
 			bool t_bufferTween=t_movementSource==String(L"bounceTrap",10);
 			this->p_BounceToward(t_bounceTo,t_bufferTween);
 		}
 	}else{
-		if(t_20==2){
+		if(t_21==2){
 			this->p_PerformTween(t_nextX,t_nextY,this->m_lastX,this->m_lastY,this->m_hitTween,this->m_hitShadowTween,false);
 			if(!this->m_isGentle){
 				this->m_renderSwipeTime=10;
@@ -45359,6 +45433,14 @@ bool c_Tile::p_IsInAnyPlayerLineOfSight(){
 	}
 	return false;
 }
+bool c_Tile::m_anyPlayerHaveRingOfLuckCached;
+bool c_Tile::m_AnyPlayerHaveRingOfLuck(){
+	if(m_anyPlayerHaveRingOfLuckCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		m_anyPlayerHaveRingOfLuckCachedFrame=bb_necrodancergame_globalFrameCounter;
+		m_anyPlayerHaveRingOfLuckCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_luck",9),false) || c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"charm_luck",10),false);
+	}
+	return m_anyPlayerHaveRingOfLuckCached;
+}
 bool c_Tile::p_IsVisible(){
 	if(bb_controller_game_DEBUG_ALL_TILES_VISIBLE){
 		return true;
@@ -49315,6 +49397,11 @@ void c_Node35::mark(){
 	gc_mark_q(m_value);
 	gc_mark_q(m_parent);
 }
+c_MovementType::c_MovementType(){
+}
+void c_MovementType::mark(){
+	Object::mark();
+}
 c_List19::c_List19(){
 	m__head=((new c_HeadNode19)->m_new());
 }
@@ -52299,7 +52386,7 @@ c_BatMiniboss* c_BatMiniboss::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init3(t_xVal,t_yVal,t_l,String(L"bat_miniboss",12),String(),-1,-1);
+	this->p_Init5(t_xVal,t_yVal,t_l,String(L"bat_miniboss",12));
 	this->m_overrideAttackSound=String(L"vampbatAttack",13);
 	this->m_overrideHitSound=String(L"vampbatHit",10);
 	this->m_overrideDeathSound=String(L"vampbatDeath",12);
@@ -52310,8 +52397,10 @@ c_BatMiniboss* c_BatMiniboss::m_new2(){
 	return this;
 }
 c_Point* c_BatMiniboss::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"BatMiniboss.GetMovementDirection()",34));
-	return 0;
+	if(this->m_confusedUntil>c_Audio::m_GetClosestBeatNum(true)){
+		return this->p_BasicSeek();
+	}
+	return c_Enemy::p_GetMovementDirection();
 }
 void c_BatMiniboss::p_Update(){
 	if(this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
@@ -58569,6 +58658,7 @@ int bbInit(){
 	c_Doppelganger::m_doppelgangers=(new c_List38)->m_new();
 	c_Flyaway::m_temporarilyDisableNewFlyaways=0;
 	c_Flyaway::m_activeFlyaways=(new c_List39)->m_new();
+	c_Tile::m_anyPlayerHaveRingOfLuckCached=false;
 	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_FamiliarFixed::m_debugTouchDamage=true;
 	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;

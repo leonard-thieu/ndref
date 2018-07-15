@@ -171,8 +171,7 @@ Class NecroDancerGame Extends App
         Debug.TraceNotImplemented("NecroDancerGame.OnSuspend()")
     End Method
 
-    '' For testing only.
-    'Field numUpdates: Int
+    Field ranUpdate: Bool
 
     Method OnUpdate: Int()
         If app.Millisecs() - necrodancergame.lastFrameTimeUpdate >= 1000
@@ -193,19 +192,22 @@ Class NecroDancerGame Extends App
 
         ' For testing only.
         If ControllerGame(Controller.currentController) <> Null
-            Self.TestSeededAllZonesMode(Character.Cadence, "1")
-            app.EndApp()
+            If Not Self.ranUpdate
+                Select controller_game.currentLevel
+                    Case LevelType.Lobby
+                        Level.randSeedString = "1"
+                        Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
+                    Default
+                        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
+                End Select
+            Else
+                Select controller_game.currentLevel
+                    Case LevelType.Level2
+                        app.EndApp()
+                End Select
+            End If
 
-            'Select controller_game.currentLevel
-            '    Case LevelType.Lobby
-            '        Level.randSeedString = "1"
-            '        Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
-            'End Select
-
-            'Self.numUpdates += 1
-            'If Self.numUpdates >= 60
-            '    app.EndApp()
-            'End If
+            Self.ranUpdate = Not Self.ranUpdate
         End If
 
         Return 0

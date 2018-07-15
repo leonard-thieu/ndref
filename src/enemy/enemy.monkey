@@ -3,6 +3,7 @@
 Import monkey.list
 Import monkey.map
 Import monkey.math
+Import monkey.stack
 Import mojo.graphics
 Import controller.controller_game
 Import enemy.npc
@@ -2437,7 +2438,7 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.BasicFlee(Bool)")
     End Method
 
-    Method BasicSeek: Object()
+    Method BasicSeek: Point()
         Debug.TraceNotImplemented("Enemy.BasicSeek()")
     End Method
 
@@ -2445,7 +2446,7 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.BasicSeekAvoidLiquids()")
     End Method
 
-    Method BasicSeekIncludeDiagonals: Object()
+    Method BasicSeekIncludeDiagonals: Point()
         Debug.TraceNotImplemented("Enemy.BasicSeekIncludeDiagonals()")
     End Method
 
@@ -2453,7 +2454,7 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.BasicSeekInWalls()")
     End Method
 
-    Method BasicSeekNoTraps: Object()
+    Method BasicSeekNoTraps: Point()
         Debug.TraceNotImplemented("Enemy.BasicSeekNoTraps()")
     End Method
 
@@ -2605,7 +2606,24 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Enemy.GetMovementDirection()")
+        Local movementDirection: Point
+
+        Select Self.movementType
+            Case MovementType.Random
+                movementDirection = Self.RandomSeek(False, False)
+            Case MovementType.BasicSeek
+                movementDirection = Self.BasicSeek()
+            Case MovementType.BasicSeekNoTraps
+                movementDirection = Self.BasicSeekNoTraps()
+            Case MovementType.SeekWithDiagonals
+                movementDirection = Self.BasicSeekIncludeDiagonals()
+            Case MovementType.RandomWithDiagonals
+                movementDirection = Self.RandomIncludeDiagonals(False, False)
+            Default
+                movementDirection = New Point(0, 0)
+        End Select
+
+        Return movementDirection
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
@@ -2741,12 +2759,12 @@ Class Enemy Extends MobileEntity Abstract
 
         Local movement := statsNode.GetAttribute("movement", "custom")
         Select movement
-            Case "random" Self.movementType = 1
-            Case "basicSeek" Self.movementType = 2
-            Case "basicSeekNoTraps" Self.movementType = 3
-            Case "seekWithDiagonals" Self.movementType = 4
-            Case "randomWithDiagonals" Self.movementType = 5
-            Default Self.movementType = 0
+            Case "random" Self.movementType = MovementType.Random
+            Case "basicSeek" Self.movementType = MovementType.BasicSeek
+            Case "basicSeekNoTraps" Self.movementType = MovementType.BasicSeekNoTraps
+            Case "seekWithDiagonals" Self.movementType = MovementType.SeekWithDiagonals
+            Case "randomWithDiagonals" Self.movementType = MovementType.RandomWithDiagonals
+            Default Self.movementType = MovementType.None
         End Select
 
         Self.attackSwipeImage = New Sprite("swipes/swipe_enemy.png", 5, Image.MidHandle)
@@ -2960,12 +2978,50 @@ Class Enemy Extends MobileEntity Abstract
         Self.AdvanceMovementDelay()
     End Method
 
-    Method RandomIncludeDiagonals: Object(trueRandom: Bool, ignoreRingOfLuck: Bool)
+    Method RandomIncludeDiagonals: Point(trueRandom: Bool, ignoreRingOfLuck: Bool)
         Debug.TraceNotImplemented("Enemy.RandomIncludeDiagonals(Bool, Bool)")
     End Method
 
-    Method RandomSeek: Object(trueRandom: Bool, ignoreRingOfLuck: Bool)
-        Debug.TraceNotImplemented("Enemy.RandomSeek(Bool, Bool)")
+    Method RandomSeek: Point(trueRandom: Bool, ignoreRingOfLuck: Bool)
+        Local directions := New Stack<Point>()
+
+        For Local dir := Direction.MinCardinalDirection To Direction.MaxCardinalDirection
+            Local dirPoint := Util.GetPointFromDir(dir)
+            Local location := Self.GetLocation()
+            Local adjacentDir := location.Add(dirPoint)
+
+            If (ignoreRingOfLuck Or
+                Not Tile.AnyPlayerHaveRingOfLuck() Or
+                Not Util.IsAnyPlayerAt(adjacentDir.x, adjacentDir.y)) And
+               (trueRandom Or
+                Not Util.IsGlobalCollisionAt(adjacentDir.x, adjacentDir.y, False, Self.ignoreWalls, False, False))
+                directions.Push(dirPoint)
+            End If
+        End For
+
+        If directions.Length = 0
+            If Not ignoreRingOfLuck
+                Return Self.RandomSeek(trueRandom, True)
+            End If
+
+            If Not trueRandom
+                Return Self.RandomSeek(True, True)
+            End If
+
+            ' ???
+            Debug.Assert(directions.Length = 4)
+        End If
+
+        Local randomDirectionIndex := Util.RndIntRange(0, directions.Length - 1, False, 0)
+        Local direction := directions.Get(randomDirectionIndex)
+
+        If direction.x > 0
+            Self.ImageFlipX(False)
+        Else If direction.x < 0
+            Self.ImageFlipX(True)
+        End If
+
+        Return direction
     End Method
 
     Method RelativeVideoTimeUntilBeat: Float()
@@ -3301,5 +3357,16 @@ Class EnemyBaseType
     Const Bishop: Int = 804
     Const Rook: Int = 806
     Const Queen: Int = 808
+
+End Class
+
+Class MovementType
+
+    Const None: Int = 0
+    Const Random: Int = 1
+    Const BasicSeek: Int = 2
+    Const BasicSeekNoTraps: Int = 3
+    Const SeekWithDiagonals: Int = 4
+    Const RandomWithDiagonals: Int = 5
 
 End Class

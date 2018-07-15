@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import enemy
 Import level
@@ -17,7 +17,7 @@ Class BatMiniboss Extends Enemy
 
         If Shrine.warShrineActive Then l = 2
 
-        Self.Init(xVal, yVal, l, "bat_miniboss", "", -1, -1)
+        Self.Init(xVal, yVal, l, "bat_miniboss")
 
         Self.overrideAttackSound = "vampbatAttack"
         Self.overrideHitSound = "vampbatHit"
@@ -27,7 +27,11 @@ Class BatMiniboss Extends Enemy
     Field hasRoared: Bool
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("BatMiniboss.GetMovementDirection()")
+        If Self.confusedUntil > Audio.GetClosestBeatNum(True)
+            Return Self.BasicSeek()
+        End If
+
+        Return Super.GetMovementDirection()
     End Method
 
     Method Update: Void()
