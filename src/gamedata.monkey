@@ -1051,7 +1051,12 @@ Class GameData
     End Function
 
     Function SetTutorialComplete: Void()
-        Debug.TraceNotImplemented("GameData.SetTutorialComplete()")
+        If Level.isReplaying
+            Return
+        End If
+
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+        gameNode.SetAttribute("tutorialComplete", "true")
     End Function
 
     Function SetUseChoral: Void(b: Bool)

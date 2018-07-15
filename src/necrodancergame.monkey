@@ -116,6 +116,9 @@ Class NecroDancerGame Extends App
         New ControllerMainMenu()
         TextLog.Message("ControllerMainMenu LOADED")
 
+        ' For testing only
+        GameData.SetTutorialComplete()
+
         Return 0
     End Method
 
@@ -168,8 +171,8 @@ Class NecroDancerGame Extends App
         Debug.TraceNotImplemented("NecroDancerGame.OnSuspend()")
     End Method
 
-    ' For testing only.
-    Field numUpdates: Int
+    '' For testing only.
+    'Field numUpdates: Int
 
     Method OnUpdate: Int()
         If app.Millisecs() - necrodancergame.lastFrameTimeUpdate >= 1000
@@ -190,16 +193,19 @@ Class NecroDancerGame Extends App
 
         ' For testing only.
         If ControllerGame(Controller.currentController) <> Null
-            Select controller_game.currentLevel
-                Case LevelType.Lobby
-                    Level.randSeedString = "1"
-                    Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
-            End Select
+            Self.TestSeededAllZonesMode(Character.Cadence, "1")
+            app.EndApp()
 
-            Self.numUpdates += 1
-            If Self.numUpdates >= 60
-                app.EndApp()
-            End If
+            'Select controller_game.currentLevel
+            '    Case LevelType.Lobby
+            '        Level.randSeedString = "1"
+            '        Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
+            'End Select
+
+            'Self.numUpdates += 1
+            'If Self.numUpdates >= 60
+            '    app.EndApp()
+            'End If
         End If
 
         Return 0

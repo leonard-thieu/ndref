@@ -3979,16 +3979,6 @@ Class Level
         End For
 
         Level.PlaceTorchesAnywhere()
-
-        ' TODO: Temporary bypass until `PlaceTorchesAnywhere` is fixed.
-        If Level.randSeed = 1
-            Select controller_game.currentLevel
-                Case 1 Util.SeedRnd($E15869CC)
-                Case 2 Util.SeedRnd($EEA1C47C)
-                Case 3 Util.SeedRnd($2CBF91E4)
-            End Select
-        End If
-
         Level.PlaceCrateOrBarrel()
         Level.PlaceChests(False)
         Level.PlaceResourceWall()
@@ -4308,16 +4298,6 @@ Class Level
         Level.PlaceEnemies()
 
         Level.PlaceTorchesAnywhere()
-
-        ' TODO: Temporary bypass until `PlaceTorchesAnywhere` is fixed.
-        If Level.randSeed = 1
-            Select controller_game.currentLevel
-                Case 1 Util.SeedRnd($70721534)
-                Case 2 Util.SeedRnd($B553431E)
-                Case 3 Util.SeedRnd($A6660B28)
-            End Select
-        End If
-
         Level.PlaceCrateOrBarrel()
         Level.PlaceChests(False)
         Level.PlaceResourceWall()
@@ -12238,7 +12218,7 @@ Class Level
         For Local limit := 5000 Until 0 Step -1
             Local wallTypeRoll := Util.RndIntRangeFromZero(1, True)
             Local wallType := TileType.ShopWall
-            If wallType = 0
+            If wallTypeRoll = 0
                 wallType = TileType.DirtWall
             End If
 
