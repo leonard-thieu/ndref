@@ -2646,7 +2646,6 @@ Class Enemy Extends MobileEntity Abstract
         End For
 
         Local enemyNode := Enemy.GetEnemyXML(name, l)
-        ' TODO: Need `nullNode` behavior?
         If enemyNode = necrodancergame.xmlData.doc.nullNode
             Debug.Log("ERROR: No enemy with name '" + name + "'")
         End If
