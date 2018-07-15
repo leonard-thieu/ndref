@@ -2638,15 +2638,7 @@ Class Enemy Extends MobileEntity Abstract
         Return False
     End Method
 
-    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String)
-        Self.Init(xVal, yVal, l, name, "")
-    End Method
-
-    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String)
-        Self.Init(xVal, yVal, l, name, overrideSpriteName, -1, -1)
-    End Method
-
-    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
+    Method Init: Void(xVal: Int, yVal: Int, l: Int, name: String, overrideSpriteName: String = "", overrideFrameW: Int = -1, overrideFrameH: Int = -1)
         Self.x = xVal
         Self.y = yVal
         Self.lastX = xVal

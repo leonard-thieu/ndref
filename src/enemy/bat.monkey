@@ -3,9 +3,10 @@
 Import controller.controller_game
 Import controller.controller_level_editor
 Import enemy
-Import entity
 Import level
+Import entity
 Import logger
+Import player_class
 Import point
 Import shrine
 Import util
@@ -19,25 +20,27 @@ Class Bat Extends Enemy
 
         Select l
             Case 1
-                If Shrine.warShrineActive Then l = 2
+                If Shrine.warShrineActive
+                    l = 2
+                End If
             Case 2,
                  4
             If Util.IsCharacterActive(Character.Bolt) Or
                Util.AreAriaOrCodaActive()
                 If Not Level.isBeastmaster And
-                   controller_game.currentLevel <> -3000
+                   controller_game.currentLevel <> LevelType.Test
                     l = 1
                 Else If l = 2 And
                         Not Level.isTrainingMode And
                         Not Level.isHardcoreMode And
-                        controller_game.currentLevel <> -3000 And
+                        controller_game.currentLevel <> LevelType.Test And
                         ControllerLevelEditor.playingLevel = -1
                     l = 1
                 End If
             End If
         End Select
 
-        Self.Init(xVal, yVal, l, "bat", "", -1, -1)
+        Self.Init(xVal, yVal, l, "bat")
 
         Self.overrideAttackSound = "batAttack"
         Self.overrideHitSound = "batHit"

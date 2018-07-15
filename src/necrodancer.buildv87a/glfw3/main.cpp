@@ -8162,8 +8162,6 @@ class c_Enemy : public c_MobileEntity{
 	static c_Sprite* m_heartSmall;
 	static c_Sprite* m_heartEmptySmall;
 	void p_Init3(int,int,int,String,String,int,int);
-	void p_Init4(int,int,int,String,String);
-	void p_Init5(int,int,int,String);
 	static int m_GetNumStairLockingMinibosses();
 	static bool m_killingAllEnemies;
 	static int m_GetNumPenaltyBoxMinibosses();
@@ -37235,12 +37233,6 @@ void c_Enemy::p_Init3(int t_xVal,int t_yVal,int t_l,String t_name,String t_overr
 	String t_displayName=t_enemyNode->p_GetAttribute5(String(L"displayName",11),this->m_friendlyName);
 	bb_logger_Debug->p_WriteLine2(String(L"Placed ",7)+t_displayName+String(L" at ",4)+((new c_Point)->m_new(t_xVal,t_yVal))->p_ToString());
 }
-void c_Enemy::p_Init4(int t_xVal,int t_yVal,int t_l,String t_name,String t_overrideSpriteName){
-	this->p_Init3(t_xVal,t_yVal,t_l,t_name,t_overrideSpriteName,-1,-1);
-}
-void c_Enemy::p_Init5(int t_xVal,int t_yVal,int t_l,String t_name){
-	this->p_Init4(t_xVal,t_yVal,t_l,t_name,String());
-}
 int c_Enemy::m_GetNumStairLockingMinibosses(){
 	int t_numStairLockingMinibosses=0;
 	c_Enumerator4* t_=m_enemyList->p_ObjectEnumerator();
@@ -41565,7 +41557,7 @@ c_Gargoyle* c_Gargoyle::m_new(int t_xVal,int t_yVal,int t_l){
 			}
 		}
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"gargoyle",8));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"gargoyle",8),String(),-1,-1);
 	if(this->m_level==1){
 		gc_assign(this->m_gustImage,(new c_Sprite)->m_new2(String(L"particles/wind_gust.png",23),7,1));
 	}
@@ -48647,7 +48639,7 @@ void c_NPC::p_NPCInit(int t_xVal,int t_yVal,int t_l,String t_name,bool t_captv,b
 		}
 		gc_assign(this->m_cageBackImage,(new c_Sprite)->m_new2(String(L"level/cage_back.png",19),1,c_Image::m_DefaultFlags));
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,t_name);
+	this->p_Init3(t_xVal,t_yVal,t_l,t_name,String(),-1,-1);
 	m_npcList->p_AddLast23(this);
 }
 Float c_NPC::m_GetDistFromClosestNPC(int t_xVal,int t_yVal){
@@ -49150,7 +49142,7 @@ c_Sarcophagus* c_Sarcophagus::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=3;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"sarcophagus",11));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"sarcophagus",11),String(),-1,-1);
 	m_sarcophagi->p_AddLast19(this);
 	this->m_overrideHitSound=String(L"sarcophagusHit",14);
 	this->m_overrideDeathSound=String(L"sarcophagusDeath",16);
@@ -49496,7 +49488,7 @@ c_KingConga::c_KingConga(){
 c_KingConga* c_KingConga::m_theKing;
 c_KingConga* c_KingConga::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"king_conga",10));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"king_conga",10),String(),-1,-1);
 	this->m_initX=t_xVal;
 	this->m_initY=t_yVal;
 	gc_assign(m_theKing,this);
@@ -49560,7 +49552,7 @@ c_ZombieSnake::c_ZombieSnake(){
 }
 c_ZombieSnake* c_ZombieSnake::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"zombie_snake",12));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"zombie_snake",12),String(),-1,-1);
 	this->m_movesRegardlessOfDistance=true;
 	this->m_wasSeekingX=false;
 	this->p_ActivateLight(FLOAT(0.01),FLOAT(0.02));
@@ -49693,7 +49685,7 @@ c_SkeletonMage* c_SkeletonMage::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=3;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"skeletonmage",12));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"skeletonmage",12),String(),-1,-1);
 	gc_assign(this->m_gustImage,(new c_Sprite)->m_new2(String(L"particles/wind_gust.png",23),7,1));
 	this->m_overrideHitSound=String(L"skeletonHit",11);
 	this->m_overrideDeathSound=String(L"skeletonDeath",13);
@@ -49726,7 +49718,7 @@ c_Armadillo* c_Armadillo::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive && t_l==1){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"armadillo",9));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"armadillo",9),String(),-1,-1);
 	this->m_overrideHitSound=String(L"armadilloHit",12);
 	this->m_overrideAttackSound=String(L"armadilloAttack",15);
 	this->m_overrideDeathSound=String(L"armadilloDeath",14);
@@ -49764,7 +49756,7 @@ c_Hellhound::c_Hellhound(){
 }
 c_Hellhound* c_Hellhound::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"hellhound",9));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"hellhound",9),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"hellhoundAttack",15);
 	this->m_overrideDeathSound=String(L"hellhoundDeath",14);
 	this->m_swarmCulprit=true;
@@ -49787,7 +49779,7 @@ c_Yeti::c_Yeti(){
 }
 c_Yeti* c_Yeti::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"yeti",4));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"yeti",4),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"yetiAttack",10);
 	this->m_overrideDeathSound=String(L"yetiDeath",9);
 	this->m_swarmCulprit=true;
@@ -49823,7 +49815,7 @@ c_Goblin* c_Goblin::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"goblin",6));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"goblin",6),String(),-1,-1);
 	for(int t_i=0;t_i<this->m_lastDist.Length();t_i=t_i+1){
 		this->m_lastDist[t_i]=FLOAT(9999.0);
 	}
@@ -49872,7 +49864,7 @@ c_IceElemental::c_IceElemental(){
 }
 c_IceElemental* c_IceElemental::m_new(int t_xVal,int t_yVal,int t_l){
 	c_ElementalBase::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"iceelemental",12));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"iceelemental",12),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"elementalIceAttack",18);
 	this->m_overrideHitSound=String(L"elementalIceHit",15);
 	this->m_overrideDeathSound=String(L"elementalIceDeath",17);
@@ -49889,7 +49881,7 @@ c_FireElemental::c_FireElemental(){
 }
 c_FireElemental* c_FireElemental::m_new(int t_xVal,int t_yVal,int t_l){
 	c_ElementalBase::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"fireelemental",13));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"fireelemental",13),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"elementalFireAttack",19);
 	this->m_overrideHitSound=String(L"elementalFireHit",16);
 	this->m_overrideDeathSound=String(L"elementalFireDeath",18);
@@ -49911,7 +49903,7 @@ c_Blademaster* c_Blademaster::m_new(int t_xVal,int t_yVal,int t_l){
 			t_l=2;
 		}
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"blademaster",11));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"blademaster",11),String(),-1,-1);
 	this->m_overrideHitSound=String(L"blademasterHit",14);
 	this->m_overrideAttackSound=String(L"blademasterAttackNear",21);
 	this->m_overrideDeathSound=String(L"blademasterDeath",16);
@@ -49945,7 +49937,7 @@ c_Harpy::c_Harpy(){
 }
 c_Harpy* c_Harpy::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"harpy",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"harpy",5),String(),-1,-1);
 	this->m_movesRegardlessOfDistance=true;
 	this->m_overrideHitSound=String(L"harpyHit",8);
 	this->m_overrideDeathSound=String(L"harpyDeath",10);
@@ -49978,7 +49970,7 @@ c_Warlock* c_Warlock::m_new(int t_xVal,int t_yVal,int t_l){
 			t_l=2;
 		}
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"warlock",7));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"warlock",7),String(),-1,-1);
 	this->m_overrideHitSound=String(L"warlockHit",10);
 	this->m_overrideDeathSound=String(L"warlockDeath",12);
 	this->m_overrideAttackSound=String(L"warlockAttack",13);
@@ -50000,7 +49992,7 @@ c_GoblinBomber::c_GoblinBomber(){
 }
 c_GoblinBomber* c_GoblinBomber::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"goblin_bomber",13));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"goblin_bomber",13),String(),-1,-1);
 	this->m_isGentle=true;
 	this->m_overrideAttackSound=String(L"goblinAttack",12);
 	this->m_overrideDeathSound=String(L"goblinDeath",11);
@@ -50035,7 +50027,7 @@ c_ElectricMage* c_ElectricMage::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=3;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"electric_mage",13));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"electric_mage",13),String(),-1,-1);
 	this->m_overrideHitSound=String(L"elecmageHit",11);
 	this->m_overrideDeathSound=String(L"elecmageDeath",13);
 	this->m_overrideAttackSound=String(L"elecmageAttackMelee",19);
@@ -50059,7 +50051,7 @@ c_Devil* c_Devil::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"devil",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"devil",5),String(),-1,-1);
 	this->m_allowDiagonalFlip=true;
 	this->m_overrideAttackSound=String(L"devilAttack",11);
 	this->m_overrideHitSound=String(L"devilHit",8);
@@ -50087,7 +50079,7 @@ c_EvilEye* c_EvilEye::m_new(int t_x_,int t_y_,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_x_,t_y_,t_l,String(L"evileye",7));
+	this->p_Init3(t_x_,t_y_,t_l,String(L"evileye",7),String(),-1,-1);
 	this->m_image->p_FlipX(false,true);
 	if(c_Util::m_RndBool(false)){
 		this->m_image->p_FlipX(true,true);
@@ -50297,7 +50289,7 @@ c_DeathMetal::c_DeathMetal(){
 }
 c_DeathMetal* c_DeathMetal::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"deathmetal",10));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"deathmetal",10),String(),-1,-1);
 	this->m_animOverride=0;
 	this->m_overrideHitSound=String(L"deathMetal_hit",14);
 	this->m_overrideDeathSound=String(L"deathMetal_death",16);
@@ -50605,7 +50597,7 @@ c_Skeleton* c_Skeleton::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=bb_math_Max(t_l,3);
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"skeleton",8));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"skeleton",8),String(),-1,-1);
 	this->m_overrideHitSound=String(L"skeletonHit",11);
 	this->m_overrideDeathSound=String(L"skeletonDeath",13);
 	this->m_overrideAttackSound=String(L"skeletonAttack",14);
@@ -51120,7 +51112,7 @@ c_Zombie::c_Zombie(){
 }
 c_Zombie* c_Zombie::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"zombie",6));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"zombie",6),String(),-1,-1);
 	this->m_movesRegardlessOfDistance=true;
 	this->m_facing=c_Util::m_RndIntRangeFromZero(3,true);
 	this->m_overrideAttackSound=String(L"zombieAttack",12);
@@ -51334,7 +51326,7 @@ void c_TrapChest::p_DetermineContents(){
 }
 c_TrapChest* c_TrapChest::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"trapchest",9));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"trapchest",9),String(),-1,-1);
 	this->m_stealth=true;
 	this->m_containsItem=true;
 	this->m_overrideAttackSound=String(L"mimicAttack",11);
@@ -51424,7 +51416,7 @@ c_ArmoredSkeleton* c_ArmoredSkeleton::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=bb_math_Min(3,t_l);
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"armoredskeleton",15));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"armoredskeleton",15),String(),-1,-1);
 	this->m_animOverride=0;
 	this->m_overrideHitSound=String(L"skeletonHit",11);
 	this->m_overrideDeathSound=String(L"skeletonDeath",13);
@@ -51470,7 +51462,7 @@ c_Mushroom* c_Mushroom::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"mushroom",8));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"mushroom",8),String(),-1,-1);
 	this->m_overrideHitSound=String(L"mushroomHit",11);
 	this->m_overrideDeathSound=String(L"mushroomDeath",13);
 	return this;
@@ -51495,7 +51487,7 @@ c_Golem* c_Golem::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive && t_l==1){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"golem",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"golem",5),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"golemAttack",11);
 	this->m_overrideHitSound=String(L"golemHit",8);
 	this->m_overrideDeathSound=String(L"golemDeath",10);
@@ -51522,16 +51514,16 @@ c_Clone* c_Clone::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
 	int t_1=bb_controller_game_players[0]->m_characterID;
 	if(t_1==2){
-		this->p_Init4(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_aria.png",23));
+		this->p_Init3(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_aria.png",23),-1,-1);
 	}else{
 		if(t_1==9){
-			this->p_Init4(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_bard.png",23));
+			this->p_Init3(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_bard.png",23),-1,-1);
 		}else{
 			if(t_1==5){
-				this->p_Init4(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_monk.png",23));
+				this->p_Init3(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_monk.png",23),-1,-1);
 			}else{
 				if(t_1==8){
-					this->p_Init4(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_bolt.png",23));
+					this->p_Init3(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_bolt.png",23),-1,-1);
 				}else{
 					if(t_1==1){
 						this->p_Init3(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_melody.png",25),19,23);
@@ -51563,7 +51555,7 @@ c_Clone* c_Clone::m_new(int t_xVal,int t_yVal,int t_l){
 														if(t_1==12){
 															this->p_Init3(t_xVal,t_yVal,t_l,String(L"clone",5),String(L"entities/clone_mary.png",23),19,25);
 														}else{
-															this->p_Init5(t_xVal,t_yVal,t_l,String(L"clone",5));
+															this->p_Init3(t_xVal,t_yVal,t_l,String(L"clone",5),String(),-1,-1);
 														}
 													}
 												}
@@ -51602,7 +51594,7 @@ c_TarMonster::c_TarMonster(){
 }
 c_TarMonster* c_TarMonster::m_new(int t_xVal,int t_yVal,int t_l){
 	c_EnemyClamper::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"tarmonster",10));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"tarmonster",10),String(),-1,-1);
 	this->m_stealth=true;
 	c_XMLNode* t_tarMonsterNode=c_Enemy::m_GetEnemyXML(String(L"tarmonster",10),t_l);
 	c_XMLNode* t_spritesheetNode=t_tarMonsterNode->p_GetChild2(String(L"spritesheet",11),false);
@@ -51678,7 +51670,7 @@ void c_Mole::p_PutDirt(){
 }
 c_Mole* c_Mole::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"mole",4));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"mole",4),String(),-1,-1);
 	this->m_animOverride=0;
 	this->m_overrideAttackSound=String(L"moleAttack",10);
 	this->m_overrideDeathSound=String(L"moleDeath",9);
@@ -51764,7 +51756,7 @@ c_Wight::c_Wight(){
 }
 c_Wight* c_Wight::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"wight",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"wight",5),String(),-1,-1);
 	this->m_invisible=true;
 	this->m_collides=false;
 	this->m_blink_MIN=120;
@@ -51799,7 +51791,7 @@ c_FakeWall::c_FakeWall(){
 }
 c_FakeWall* c_FakeWall::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"fakewall",8));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"fakewall",8),String(),-1,-1);
 	this->m_stealth=true;
 	if(this->m_level==2){
 		this->m_containsItem=true;
@@ -51916,7 +51908,7 @@ c_SkeletonKnight* c_SkeletonKnight::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=bb_math_Max(3,t_l);
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"skeletonknight",14));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"skeletonknight",14),String(),-1,-1);
 	this->m_enableTell=false;
 	this->m_swarmCulprit=true;
 	this->m_overrideHitSound=String(L"skeletonKnightDeath",19);
@@ -51962,7 +51954,7 @@ c_Beetle::c_Beetle(){
 }
 c_Beetle* c_Beetle::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"beetle",6));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"beetle",6),String(),-1,-1);
 	this->m_overrideHitSound=String(L"beetleHit",9);
 	this->m_overrideAttackSound=String(L"beetleAttack",12);
 	this->m_overrideDeathSound=String(L"beetleDeath",11);
@@ -51994,7 +51986,7 @@ c_ShoveMonster* c_ShoveMonster::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=bb_math_Max(2,t_l);
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"shovemonster",12));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"shovemonster",12),String(),-1,-1);
 	this->m_overrideDeathSound=String(L"shovemonsterDeath",17);
 	this->m_isGentle=true;
 	this->m_swarmCulprit=true;
@@ -52017,7 +52009,7 @@ c_Ghast::c_Ghast(){
 }
 c_Ghast* c_Ghast::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"ghast",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"ghast",5),String(),-1,-1);
 	this->m_invisible=true;
 	this->m_collides=false;
 	this->m_blink_MIN=120;
@@ -52055,7 +52047,7 @@ c_TrapCauldron::c_TrapCauldron(){
 }
 c_TrapCauldron* c_TrapCauldron::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"trapcauldron",12));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"trapcauldron",12),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"mimicAttack",11);
 	this->m_overrideDeathSound=String(L"mimicDeath",10);
 	this->m_overrideMoveSound=String(L"mimicChase",10);
@@ -52089,7 +52081,7 @@ c_Cauldron::c_Cauldron(){
 }
 c_Cauldron* c_Cauldron::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"cauldron",8));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"cauldron",8),String(),-1,-1);
 	this->p_ActivateLight(FLOAT(0.5),FLOAT(3.0));
 	bool t_flipXRoll=c_Util::m_RndBool(true);
 	if(t_flipXRoll){
@@ -52124,7 +52116,7 @@ c_SleepingGoblin::c_SleepingGoblin(){
 }
 c_SleepingGoblin* c_SleepingGoblin::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"sleeping_goblin",15));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"sleeping_goblin",15),String(),-1,-1);
 	this->m_animOverride=4;
 	this->m_overrideAttackSound=String(L"goblinAttack",12);
 	this->m_overrideDeathSound=String(L"goblinDeath",11);
@@ -52181,7 +52173,7 @@ c_Lich* c_Lich::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=3;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"lich",4));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"lich",4),String(),-1,-1);
 	gc_assign(this->m_gustImage,(new c_Sprite)->m_new2(String(L"particles/wind_gust.png",23),7,1));
 	this->m_overrideHitSound=String(L"skeletonHit",11);
 	this->m_overrideDeathSound=String(L"skeletonDeath",13);
@@ -52205,7 +52197,7 @@ c_Pixie::c_Pixie(){
 }
 c_Pixie* c_Pixie::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"pixie",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"pixie",5),String(),-1,-1);
 	this->m_hasSilhouette=false;
 	this->m_canMoveOntoPlayer=true;
 	gc_assign(this->m_explosionImg,(new c_Sprite)->m_new2(String(L"items/3x3_explosion.png",23),8,c_Image::m_DefaultFlags));
@@ -52250,7 +52242,7 @@ c_Spider::c_Spider(){
 }
 c_Spider* c_Spider::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"spider",6));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"spider",6),String(),-1,-1);
 	this->m_overrideDeathSound=String(L"spiderDeath",11);
 	this->m_overrideAttackSound=String(L"spiderAttack",12);
 	this->m_image->p_SetZOff(FLOAT(18.0));
@@ -52287,7 +52279,7 @@ c_Mummy::c_Mummy(){
 }
 c_Mummy* c_Mummy::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"mummy",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"mummy",5),String(),-1,-1);
 	this->m_movesRegardlessOfDistance=true;
 	this->m_overrideAttackSound=String(L"mummyAttack",11);
 	this->m_overrideDeathSound=String(L"mummyDeath",10);
@@ -52325,7 +52317,7 @@ c_Necrodancer* c_Necrodancer::m_necrodancer;
 int c_Necrodancer::m_wallsStep;
 c_Necrodancer* c_Necrodancer::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"necrodancer",11));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"necrodancer",11),String(),-1,-1);
 	this->m_isNecroDancer=true;
 	gc_assign(m_necrodancer,this);
 	gc_assign(this->m_iceBlast,(new c_Sprite)->m_new2(String(L"spells/ice_blast.png",20),8,1));
@@ -52386,7 +52378,7 @@ c_BatMiniboss* c_BatMiniboss::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"bat_miniboss",12));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"bat_miniboss",12),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"vampbatAttack",13);
 	this->m_overrideHitSound=String(L"vampbatHit",10);
 	this->m_overrideDeathSound=String(L"vampbatDeath",12);
@@ -52471,7 +52463,7 @@ c_Banshee* c_Banshee::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"banshee",7));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"banshee",7),String(),-1,-1);
 	this->m_overrideAttackSound=String(L"bansheeAttack",13);
 	this->m_overrideDeathSound=String(L"bansheeDeath",12);
 	this->m_overrideHitSound=String(L"bansheeHit",10);
@@ -52539,7 +52531,7 @@ c_Nightmare* c_Nightmare::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"nightmare",9));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"nightmare",9),String(),-1,-1);
 	if(t_l>1){
 		this->m_NIGHTMARE_DARKNESS_RADIUS=FLOAT(3.5);
 	}
@@ -52588,7 +52580,7 @@ c_Mommy::c_Mommy(){
 }
 c_Mommy* c_Mommy::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"mommy",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"mommy",5),String(),-1,-1);
 	this->m_overrideHitSound=String(L"mommyHit",8);
 	this->m_overrideDeathSound=String(L"mommyDeath",10);
 	this->m_overrideCrySound=String(L"mommyCry",8);
@@ -52615,7 +52607,7 @@ c_Ogre::c_Ogre(){
 }
 c_Ogre* c_Ogre::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"ogre",4));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"ogre",4),String(),-1,-1);
 	gc_assign(this->m_imageStandard,this->m_image);
 	gc_assign(this->m_imageSmashLeft,(new c_Sprite)->m_new(String(L"entities/ogre_left.png",22),124,72,16,c_Image::m_DefaultFlags));
 	gc_assign(this->m_imageSmashDown,(new c_Sprite)->m_new(String(L"entities/ogre_down.png",22),46,142,16,c_Image::m_DefaultFlags));
@@ -52916,7 +52908,7 @@ c_Skull* c_Skull::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=bb_math_Min(3,t_l);
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"skull",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"skull",5),String(),-1,-1);
 	this->m_overrideHitSound=String(L"skullHit",8);
 	this->m_overrideDeathSound=String(L"skullDeath",10);
 	this->m_overrideAttackSound=String(L"skullAttack",11);
@@ -52941,7 +52933,7 @@ c_Fortissimole::c_Fortissimole(){
 }
 c_Fortissimole* c_Fortissimole::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"fortissimole",12));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"fortissimole",12),String(),-1,-1);
 	this->m_yOffOffstage=int(this->m_yOff);
 	this->m_yOffOnstage=int(this->m_yOff-FLOAT(8.0));
 	this->m_overrideHitSound=String(L"fortissimoleVoHit",17);
@@ -53192,7 +53184,7 @@ c_WaterBall::c_WaterBall(){
 }
 c_WaterBall* c_WaterBall::m_new(int t_x_,int t_y_,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_x_,t_y_,t_l,String(L"water_ball",10));
+	this->p_Init3(t_x_,t_y_,t_l,String(L"water_ball",10),String(),-1,-1);
 	this->m_isGentle=true;
 	if(this->m_level==1){
 		this->m_overrideDeathSound=String(L"waterballDeath",14);
@@ -53242,7 +53234,7 @@ c_Gorgon* c_Gorgon::m_new(int t_xVal,int t_yVal,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=2;
 	}
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"gorgon",6));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"gorgon",6),String(),-1,-1);
 	this->m_isGentle=true;
 	this->m_overrideHitSound=String(L"gorgonHit",9);
 	this->m_overrideDeathSound=String(L"gorgonDeath",11);
@@ -53280,7 +53272,7 @@ int c_ZombieElectric::p_GetMovementDir(){
 }
 c_ZombieElectric* c_ZombieElectric::m_new(int t_x_,int t_y_,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_x_,t_y_,t_l,String(L"zombie_electric",15));
+	this->p_Init3(t_x_,t_y_,t_l,String(L"zombie_electric",15),String(),-1,-1);
 	this->m_facing=c_Util::m_RndIntRangeFromZero(3,true);
 	int t_movementDir=this->p_GetMovementDir();
 	this->m_movesRegardlessOfDistance=true;
@@ -53321,7 +53313,7 @@ c_Orc* c_Orc::m_new(int t_x_,int t_y_,int t_l){
 	if(c_Shrine::m_warShrineActive){
 		t_l=3;
 	}
-	this->p_Init5(t_x_,t_y_,t_l,String(L"orc",3));
+	this->p_Init3(t_x_,t_y_,t_l,String(L"orc",3),String(),-1,-1);
 	this->m_facing=c_Util::m_RndIntRangeFromZero(3,true);
 	this->m_overrideAttackSound=String(L"orcAttack",9);
 	this->m_overrideHitSound=String(L"orcHit",6);
@@ -53570,7 +53562,7 @@ c_Octoboss::c_Octoboss(){
 }
 c_Octoboss* c_Octoboss::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"coralriff",9));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"coralriff",9),String(),-1,-1);
 	this->m_initXOff=int(this->m_xOff);
 	int t_currentDepth=bb_controller_game_currentDepth;
 	if(c_Shrine::m_warShrineActive){
@@ -53711,7 +53703,7 @@ c_Tentacle* c_Tentacle::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
 	this->m_initX=t_xVal;
 	this->m_initY=t_yVal;
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"tentacle",8));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"tentacle",8),String(),-1,-1);
 	this->m_initialXOff=int(this->m_xOff);
 	gc_assign(this->m_image2,(new c_Sprite)->m_new2(String(L"entities/tentacle_tell.png",26),1,c_Image::m_DefaultFlags));
 	this->m_image2->p_SetZ(FLOAT(-991.0));
@@ -53759,7 +53751,7 @@ c_Bell* c_Bell::m_new(int t_xVal,int t_yVal,int t_num){
 		this->m_isBig=true;
 	}
 	this->m_isCrate=true;
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"bell",4));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"bell",4),String(),-1,-1);
 	this->m_overrideDeathSound=String(L"deadRingerBell",14)+String(this->m_bellNum);
 	m_bells->p_AddLast24(this);
 	return this;
@@ -53872,7 +53864,7 @@ c_DeadRinger::c_DeadRinger(){
 }
 c_DeadRinger* c_DeadRinger::m_new(int t_xVal,int t_yVal,int t_l,c_Bell* t_b1,c_Bell* t_b2,c_Bell* t_b3,c_Bell* t_b4){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"dead_ringer",11));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"dead_ringer",11),String(),-1,-1);
 	this->m_overrideHitSound=String(L"deadRingerHit",13);
 	this->m_overrideDeathSound=String(L"deadRingerDeath",15);
 	if(t_xVal>0){
@@ -56929,7 +56921,7 @@ void c_Poltergeist::p_Die(){
 }
 c_Poltergeist* c_Poltergeist::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,t_l,String(L"ghoul",5));
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"ghoul",5),String(),-1,-1);
 	this->m_invisible=true;
 	this->m_collides=false;
 	this->m_blink_MIN=120;
@@ -57021,7 +57013,7 @@ int c_ToughSarcophagus::m_GetPerRoomCount(){
 }
 c_ToughSarcophagus* c_ToughSarcophagus::m_new(int t_xVal,int t_yVal,int t_etype){
 	c_Enemy::m_new();
-	this->p_Init5(t_xVal,t_yVal,1,String(L"toughsarcophagus",16));
+	this->p_Init3(t_xVal,t_yVal,1,String(L"toughsarcophagus",16),String(),-1,-1);
 	this->m_isSarcophagus=true;
 	this->m_overrideHitSound=String(L"sarcophagusHit",14);
 	this->m_overrideDeathSound=String(L"sarcophagusDeath",16);
