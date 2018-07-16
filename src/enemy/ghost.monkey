@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import controller.controller_game
 Import enemy
@@ -67,7 +67,64 @@ Class Ghost Extends Enemy
     End Method
 
     Method ProcessDistanceChanges: Void()
-        Debug.TraceNotImplemented("Ghost.ProcessDistanceChanges()")
+        Local dist := 999999.0
+        Local v44: Bool[necrodancergame.MAX_NUM_PLAYERS]
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished
+                Local distToPlayer := Util.GetDist(Self.x, Self.y, player.x, player.y)
+                Local lastDistToPlayer := Util.GetDist(Self.x, Self.y, player.lastX, player.lastY)
+
+                If distToPlayer * 1000.0 < dist * 1000.0
+                    dist = distToPlayer
+                End If
+
+                If Not player.IsStandingStill()
+                    If lastDistToPlayer * 1000.0 < dist * 1000.0
+                        dist = lastDistToPlayer
+                    End If
+                End If
+            End If
+        End For
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished
+                Local distToPlayer := Util.GetDist(Self.x, Self.y, player.x, player.y)
+                Local lastDistToPlayer := Util.GetDist(Self.x, Self.y, player.lastX, player.lastY)
+
+                If distToPlayer * 1000.0 > dist * 1000.0
+                    If Not player.IsStandingStill()
+                        If lastDistToPlayer * 1000.0 <= dist * 1000.0
+                            v44[i] = True
+                        End If
+                    End If
+                Else
+                    v44[i] = True
+                End If
+            End If
+        End For
+
+        Local v43 := False
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            Local distToPlayer := Util.GetDist(Self.x, Self.y, player.x, player.y)
+
+            If v44[i]
+                If distToPlayer * 1000.0 > Self.lastDist[i] * 1000.0
+                    v43 = True
+                Else If distToPlayer * 1000.0 < Self.lastDist[i] * 1000.0
+                    Self.movingAway = False
+                End If
+            End If
+
+            Self.lastDist[i] = distToPlayer
+        End For
+
+        If v43
+            Self.movingAway = True
+        End If
     End Method
 
     Method Update: Void()

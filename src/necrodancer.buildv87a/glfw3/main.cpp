@@ -49738,7 +49738,57 @@ c_Point* c_Ghost::p_GetMovementDirection(){
 	return (new c_Point)->m_new(0,0);
 }
 void c_Ghost::p_ProcessDistanceChanges(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.ProcessDistanceChanges()",30));
+	Float t_dist=FLOAT(999999.0);
+	Array<bool > t_v44=Array<bool >(4);
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(!t_player->p_Perished()){
+			Float t_distToPlayer=c_Util::m_GetDist(this->m_x,this->m_y,t_player->m_x,t_player->m_y);
+			Float t_lastDistToPlayer=c_Util::m_GetDist(this->m_x,this->m_y,t_player->m_lastX,t_player->m_lastY);
+			if(t_distToPlayer*FLOAT(1000.0)<t_dist*FLOAT(1000.0)){
+				t_dist=t_distToPlayer;
+			}
+			if(!t_player->p_IsStandingStill()){
+				if(t_lastDistToPlayer*FLOAT(1000.0)<t_dist*FLOAT(1000.0)){
+					t_dist=t_lastDistToPlayer;
+				}
+			}
+		}
+	}
+	for(int t_i2=0;t_i2<bb_controller_game_numPlayers;t_i2=t_i2+1){
+		c_Player* t_player2=bb_controller_game_players[t_i2];
+		if(!t_player2->p_Perished()){
+			Float t_distToPlayer2=c_Util::m_GetDist(this->m_x,this->m_y,t_player2->m_x,t_player2->m_y);
+			Float t_lastDistToPlayer2=c_Util::m_GetDist(this->m_x,this->m_y,t_player2->m_lastX,t_player2->m_lastY);
+			if(t_distToPlayer2*FLOAT(1000.0)>t_dist*FLOAT(1000.0)){
+				if(!t_player2->p_IsStandingStill()){
+					if(t_lastDistToPlayer2*FLOAT(1000.0)<=t_dist*FLOAT(1000.0)){
+						t_v44[t_i2]=true;
+					}
+				}
+			}else{
+				t_v44[t_i2]=true;
+			}
+		}
+	}
+	bool t_v43=false;
+	for(int t_i3=0;t_i3<bb_controller_game_numPlayers;t_i3=t_i3+1){
+		c_Player* t_player3=bb_controller_game_players[t_i3];
+		Float t_distToPlayer3=c_Util::m_GetDist(this->m_x,this->m_y,t_player3->m_x,t_player3->m_y);
+		if(t_v44[t_i3]){
+			if(t_distToPlayer3*FLOAT(1000.0)>this->m_lastDist[t_i3]*FLOAT(1000.0)){
+				t_v43=true;
+			}else{
+				if(t_distToPlayer3*FLOAT(1000.0)<this->m_lastDist[t_i3]*FLOAT(1000.0)){
+					this->m_movingAway=false;
+				}
+			}
+		}
+		this->m_lastDist[t_i3]=t_distToPlayer3;
+	}
+	if(t_v43){
+		this->m_movingAway=true;
+	}
 }
 int c_Ghost::p_Move(){
 	this->p_ProcessDistanceChanges();
