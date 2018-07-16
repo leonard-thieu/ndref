@@ -80,7 +80,32 @@ Class BounceTrap Extends Trap
     Field rotatedBeat: Int = -1
 
     Method GetFrameToShow: Int()
-        Debug.TraceNotImplemented("BounceTrap.GetFrameToShow()")
+        Select Self.originalDir
+            Case BounceTrapDirection.Right
+                Self.image.FlipX(True, False)
+            Case BounceTrapDirection.Left
+                Self.image.FlipX(False, False)
+        End Select
+
+        Local frame := 0
+
+        Select Self.originalDir
+            Case BounceTrapDirection.Right,
+                 BounceTrapDirection.Left,
+                 BounceTrapDirection.DownRight
+                frame = 2
+            Case BounceTrapDirection.Down,
+                 BounceTrapDirection.UpRight
+                frame = 4
+            Case BounceTrapDirection.UpLeft
+                frame = 6
+        End Select
+
+        If Self.triggered
+            frame += 1
+        End If
+
+        Return frame
     End Method
 
     Method Rotate: Void()

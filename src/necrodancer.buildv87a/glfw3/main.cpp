@@ -53817,8 +53817,31 @@ void c_BounceTrap::p_Rotate(){
 	this->m_rotatedBeat=c_Audio::m_GetClosestBeatNum(true);
 }
 int c_BounceTrap::p_GetFrameToShow(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.GetFrameToShow()",27));
-	return 0;
+	int t_4=this->m_originalDir;
+	if(t_4==0){
+		this->m_image->p_FlipX(true,false);
+	}else{
+		if(t_4==1){
+			this->m_image->p_FlipX(false,false);
+		}
+	}
+	int t_frame=0;
+	int t_5=this->m_originalDir;
+	if(t_5==0 || t_5==1 || t_5==4){
+		t_frame=2;
+	}else{
+		if(t_5==2 || t_5==7){
+			t_frame=4;
+		}else{
+			if(t_5==6){
+				t_frame=6;
+			}
+		}
+	}
+	if(this->m_triggered){
+		t_frame+=1;
+	}
+	return t_frame;
 }
 void c_BounceTrap::p_Update(){
 	if(this->m_retractCounter>0){
@@ -53840,35 +53863,35 @@ void c_BounceTrap::mark(){
 c_BounceTrapDirection::c_BounceTrapDirection(){
 }
 String c_BounceTrapDirection::m_ToString(int t_dir){
-	int t_4=t_dir;
-	if(t_4==0){
+	int t_6=t_dir;
+	if(t_6==0){
 		return String(L"Right",5);
 	}else{
-		if(t_4==1){
+		if(t_6==1){
 			return String(L"Left",4);
 		}else{
-			if(t_4==2){
+			if(t_6==2){
 				return String(L"Down",4);
 			}else{
-				if(t_4==3){
+				if(t_6==3){
 					return String(L"Up",2);
 				}else{
-					if(t_4==4){
+					if(t_6==4){
 						return String(L"Down Right",10);
 					}else{
-						if(t_4==5){
+						if(t_6==5){
 							return String(L"Down Left",9);
 						}else{
-							if(t_4==6){
+							if(t_6==6){
 								return String(L"Up Left",7);
 							}else{
-								if(t_4==7){
+								if(t_6==7){
 									return String(L"Up Right",8);
 								}else{
-									if(t_4==8){
+									if(t_6==8){
 										return String(L"Omni",4);
 									}else{
-										if(t_4==9){
+										if(t_6==9){
 											return String(L"Spin",4);
 										}
 									}
