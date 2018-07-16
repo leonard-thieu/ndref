@@ -7384,6 +7384,7 @@ class c_Entity : public c_RenderableObject{
 	static bool m_anyPlayerHaveGlassTorchCached;
 	static bool m_AnyPlayerHaveGlassTorch();
 	static bool m_AnyPlayerHaveCircletOrGlassTorch();
+	virtual void p_Fall(bool);
 	static bool m_anyPlayerHaveWallsTorchCached;
 	static bool m_AnyPlayerHaveWallsTorch();
 	void mark();
@@ -7666,6 +7667,7 @@ class c_Player : public c_MobileEntity{
 	void p_HandleIceAndCoals();
 	void p_AfterEnemyMovement();
 	static void m_ActuallyPlayVO(String,c_Player*);
+	void p_Fall(bool);
 	bool p_IsVisible();
 	void p_PerformTween(int,int,int,int,int,int,bool);
 	static bool m_AnyPlayerTemporaryMapSight();
@@ -8232,6 +8234,7 @@ class c_Enemy : public c_MobileEntity{
 	void p_Update();
 	static void m_SetEnemiesToDropNoCoinsOverride();
 	static void m_KillAllEnemies();
+	void p_Fall(bool);
 	void mark();
 };
 class c_Crate : public c_Enemy{
@@ -31711,6 +31714,9 @@ bool c_Entity::m_AnyPlayerHaveGlassTorch(){
 bool c_Entity::m_AnyPlayerHaveCircletOrGlassTorch(){
 	return m_AnyPlayerHaveCirclet() || m_AnyPlayerHaveGlassTorch();
 }
+void c_Entity::p_Fall(bool t_keepMultiplier){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.Fall(Bool)",17));
+}
 bool c_Entity::m_anyPlayerHaveWallsTorchCached;
 bool c_Entity::m_AnyPlayerHaveWallsTorch(){
 	if(m_anyPlayerHaveWallsTorchCachedFrame!=bb_necrodancergame_globalFrameCounter){
@@ -34587,6 +34593,9 @@ void c_Player::p_AfterEnemyMovement(){
 }
 void c_Player::m_ActuallyPlayVO(String t_voSound,c_Player* t_player){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.ActuallyPlayVO(String, Player)",37));
+}
+void c_Player::p_Fall(bool t_keepMultiplier){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.Fall(Bool)",17));
 }
 bool c_Player::p_IsVisible(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsVisible()",18));
@@ -40662,7 +40671,7 @@ c_Point* c_Enemy::p_BasicSeekTarget(int t_targetX,int t_targetY,int t_targetLast
 	c_Point* t_closestMovement=this->p_GetAdjacentTileThatIsClosestToTarget(t_targetLastX,t_targetLastY,-1);
 	int t_nextX=this->m_x+t_closestMovement->m_x;
 	int t_nextY=this->m_y+t_closestMovement->m_y;
-	if(c_Util::m_IsGlobalCollisionAt2(t_nextX,t_nextY,false,this->m_ignoreWalls,false,false) || !t_ignoreLiquids && c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || t_liquidsOnly && !c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || !t_ignoreTraps && c_Trap::m_GetTrapTypeAt(t_nextX,t_nextY)==2 || t_wallsOnly && c_Level::m_IsWallAt(t_nextX,t_nextY,false,true)){
+	if(c_Util::m_IsGlobalCollisionAt2(t_nextX,t_nextY,false,this->m_ignoreWalls,false,false) || !t_ignoreLiquids && c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || t_liquidsOnly && !c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || !t_ignoreTraps && c_Trap::m_GetTrapTypeAt(t_nextX,t_nextY)==2 || t_wallsOnly && !c_Level::m_IsWallAt(t_nextX,t_nextY,false,true)){
 		if(this->m_wasSeekingX){
 			if(this->m_x==t_targetX || this->m_x==t_targetLastX || this->m_lastX==t_targetX || this->m_lastX==t_targetLastX){
 				t_closestMovement=this->p_GetClosestMovement(t_targetX,t_targetY,-2,t_ignoreLiquids,t_ignoreTraps,t_liquidsOnly,t_wallsOnly);
@@ -41129,6 +41138,9 @@ void c_Enemy::m_KillAllEnemies(){
 		t_enemy->p_Die();
 	}
 	m_killingAllEnemies=false;
+}
+void c_Enemy::p_Fall(bool t_keepMultiplier){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.Fall(Bool)",16));
 }
 void c_Enemy::mark(){
 	c_MobileEntity::mark();
@@ -54636,7 +54648,15 @@ void c_TrapDoor::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapDoor.Trigger(Entity)",24));
 }
 void c_TrapDoor::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TrapDoor.Update()",17));
+	this->m_image->p_SetFrame(0);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(1);
+		c_Item* t_pickup=c_Item::m_GetPickupAt(this->m_x,this->m_y,0);
+		if(t_pickup!=0){
+			t_pickup->p_Fall(false);
+		}
+	}
+	c_Trap::p_Update();
 }
 void c_TrapDoor::mark(){
 	c_Trap::mark();

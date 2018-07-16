@@ -1,7 +1,9 @@
 'Strict
 
 Import entity
+Import item
 Import logger
+Import sprite
 Import trap
 
 Class TrapDoor Extends Trap
@@ -25,7 +27,18 @@ Class TrapDoor Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("TrapDoor.Update()")
+        Self.image.SetFrame(0)
+
+        If Self.triggered
+            Self.image.SetFrame(1)
+
+            Local pickup := Item.GetPickupAt(Self.x, Self.y)
+            If pickup <> Null
+                pickup.Fall(False)
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class
