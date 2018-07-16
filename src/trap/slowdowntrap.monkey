@@ -1,7 +1,10 @@
 'Strict
 
+Import monkey.math
+Import audio2
 Import entity
 Import logger
+Import sprite
 Import trap
 
 Class SlowDownTrap Extends Trap
@@ -26,7 +29,37 @@ Class SlowDownTrap Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("SlowDownTrap.Update()")
+        If Self.slowDownStartBeat <> -1
+            Local timeUntilStart := Audio.TimeUntilSpecificBeat(Self.slowDownStartBeat)
+            Local timeUntilAfterStart := Audio.TimeUntilSpecificBeat(Self.slowDownStartBeat + 1)
+            Local timeUntilBeforeEnd := Audio.TimeUntilSpecificBeat(Self.slowDownStartBeat + 13)
+            Local timeUntilEnd := Audio.TimeUntilSpecificBeat(Self.slowDownStartBeat + 14)
+
+            If timeUntilAfterStart > 0
+                Self.currentMusicSpeed = 0.875 + (timeUntilAfterStart / (timeUntilAfterStart - timeUntilStart)) * -0.125
+            Else If timeUntilBeforeEnd > 0
+                Self.currentMusicSpeed = 0.875
+            Else If timeUntilEnd > 0
+                Self.currentMusicSpeed = 1.0 - (timeUntilEnd / (timeUntilEnd - timeUntilBeforeEnd)) * 0.125
+            Else
+                Self.currentMusicSpeed = 1.0
+                Self.slowDownStartBeat = -1
+            End If
+
+            Self.currentMusicSpeed = math.Min(1.0, Self.currentMusicSpeed)
+            Audio.ModifyMusicSpeed(Self.currentMusicSpeed)
+        End If
+
+        If Self.slowDownStartBeat <> -1
+            Self.triggered = False
+        End If
+
+        Self.image.SetFrame(1)
+        If Self.triggered
+            Self.image.SetFrame(0)
+        End If
+
+        Super.Update()
     End Method
 
 End Class

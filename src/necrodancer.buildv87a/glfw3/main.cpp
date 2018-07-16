@@ -11449,6 +11449,8 @@ class c_TeleportTrap : public c_Trap{
 };
 class c_SlowDownTrap : public c_Trap{
 	public:
+	int m_slowDownStartBeat;
+	Float m_currentMusicSpeed;
 	c_SlowDownTrap();
 	c_SlowDownTrap* m_new(int,int);
 	c_SlowDownTrap* m_new2();
@@ -54685,6 +54687,8 @@ void c_TeleportTrap::mark(){
 	c_Trap::mark();
 }
 c_SlowDownTrap::c_SlowDownTrap(){
+	m_slowDownStartBeat=-1;
+	m_currentMusicSpeed=FLOAT(1.0);
 }
 c_SlowDownTrap* c_SlowDownTrap::m_new(int t_xVal,int t_yVal){
 	c_Trap::m_new(t_xVal,t_yVal,6);
@@ -54702,7 +54706,36 @@ void c_SlowDownTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SlowDownTrap.Trigger(Entity)",28));
 }
 void c_SlowDownTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SlowDownTrap.Update()",21));
+	if(this->m_slowDownStartBeat!=-1){
+		int t_timeUntilStart=c_Audio::m_TimeUntilSpecificBeat(this->m_slowDownStartBeat);
+		int t_timeUntilAfterStart=c_Audio::m_TimeUntilSpecificBeat(this->m_slowDownStartBeat+1);
+		int t_timeUntilBeforeEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_slowDownStartBeat+13);
+		int t_timeUntilEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_slowDownStartBeat+14);
+		if(t_timeUntilAfterStart>0){
+			this->m_currentMusicSpeed=FLOAT(0.875)+Float(t_timeUntilAfterStart/(t_timeUntilAfterStart-t_timeUntilStart))*FLOAT(-0.125);
+		}else{
+			if(t_timeUntilBeforeEnd>0){
+				this->m_currentMusicSpeed=FLOAT(0.875);
+			}else{
+				if(t_timeUntilEnd>0){
+					this->m_currentMusicSpeed=FLOAT(1.0)-Float(t_timeUntilEnd/(t_timeUntilEnd-t_timeUntilBeforeEnd))*FLOAT(0.125);
+				}else{
+					this->m_currentMusicSpeed=FLOAT(1.0);
+					this->m_slowDownStartBeat=-1;
+				}
+			}
+		}
+		this->m_currentMusicSpeed=bb_math_Min2(FLOAT(1.0),this->m_currentMusicSpeed);
+		c_Audio::m_ModifyMusicSpeed(this->m_currentMusicSpeed);
+	}
+	if(this->m_slowDownStartBeat!=-1){
+		this->m_triggered=false;
+	}
+	this->m_image->p_SetFrame(1);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(0);
+	}
+	c_Trap::p_Update();
 }
 void c_SlowDownTrap::mark(){
 	c_Trap::mark();
