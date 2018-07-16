@@ -7348,6 +7348,7 @@ class c_Entity : public c_RenderableObject{
 	bool m_deAggroed;
 	bool m_ignoreCollisionWhenMoving;
 	int m_hitType;
+	bool m_renderSilhouette;
 	c_Entity();
 	static c_List3* m_entityList;
 	static c_List3* m_deadEntityList;
@@ -7377,13 +7378,13 @@ class c_Entity : public c_RenderableObject{
 	virtual bool p_IsVisible();
 	void p_BounceInPlace(bool);
 	static void m_UpdateVisibility();
-	static bool m_anyPlayerHaveNazarCharmCached;
-	static bool m_AnyPlayerHaveNazarCharm();
 	static bool m_anyPlayerHaveCircletCached;
 	static bool m_AnyPlayerHaveCirclet();
 	static bool m_anyPlayerHaveGlassTorchCached;
 	static bool m_AnyPlayerHaveGlassTorch();
 	static bool m_AnyPlayerHaveCircletOrGlassTorch();
+	static bool m_anyPlayerHaveNazarCharmCached;
+	static bool m_AnyPlayerHaveNazarCharm();
 	virtual void p_Fall(bool);
 	static bool m_anyPlayerHaveWallsTorchCached;
 	static bool m_AnyPlayerHaveWallsTorch();
@@ -9264,6 +9265,7 @@ class c_Bouncer : public Object{
 	void p_Disable();
 	void p_Update();
 	void p_Enable();
+	Float p_GetVal();
 	void mark();
 };
 extern int bb_random_Seed;
@@ -10070,11 +10072,13 @@ class c_ZombieSnake : public c_Enemy{
 class c_Ghost : public c_Enemy{
 	public:
 	Array<Float > m_lastDist;
+	bool m_movingAway;
 	c_Ghost();
 	c_Ghost* m_new(int,int,int);
 	c_Ghost* m_new2();
 	c_Point* p_GetMovementDirection();
 	int p_Move();
+	void p_ProcessDistanceChanges();
 	void p_Update();
 	void mark();
 };
@@ -31513,6 +31517,7 @@ c_Entity::c_Entity(){
 	m_deAggroed=false;
 	m_ignoreCollisionWhenMoving=false;
 	m_hitType=0;
+	m_renderSilhouette=false;
 }
 c_List3* c_Entity::m_entityList;
 c_List3* c_Entity::m_deadEntityList;
@@ -31698,14 +31703,6 @@ void c_Entity::p_BounceInPlace(bool t_bufferTween){
 void c_Entity::m_UpdateVisibility(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
 }
-bool c_Entity::m_anyPlayerHaveNazarCharmCached;
-bool c_Entity::m_AnyPlayerHaveNazarCharm(){
-	if(m_anyPlayerHaveNazarCharmCachedFrame!=bb_necrodancergame_globalFrameCounter){
-		m_anyPlayerHaveNazarCharmCachedFrame=bb_necrodancergame_globalFrameCounter;
-		m_anyPlayerHaveNazarCharmCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"charm_nazar",11),false);
-	}
-	return m_anyPlayerHaveNazarCharmCached;
-}
 bool c_Entity::m_anyPlayerHaveCircletCached;
 bool c_Entity::m_AnyPlayerHaveCirclet(){
 	if(m_anyPlayerHaveCircletCachedFrame!=bb_necrodancergame_globalFrameCounter){
@@ -31724,6 +31721,14 @@ bool c_Entity::m_AnyPlayerHaveGlassTorch(){
 }
 bool c_Entity::m_AnyPlayerHaveCircletOrGlassTorch(){
 	return m_AnyPlayerHaveCirclet() || m_AnyPlayerHaveGlassTorch();
+}
+bool c_Entity::m_anyPlayerHaveNazarCharmCached;
+bool c_Entity::m_AnyPlayerHaveNazarCharm(){
+	if(m_anyPlayerHaveNazarCharmCachedFrame!=bb_necrodancergame_globalFrameCounter){
+		m_anyPlayerHaveNazarCharmCachedFrame=bb_necrodancergame_globalFrameCounter;
+		m_anyPlayerHaveNazarCharmCached=c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"charm_nazar",11),false);
+	}
+	return m_anyPlayerHaveNazarCharmCached;
 }
 void c_Entity::p_Fall(bool t_keepMultiplier){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.Fall(Bool)",17));
@@ -46811,6 +46816,10 @@ void c_Bouncer::p_Update(){
 void c_Bouncer::p_Enable(){
 	this->m_enabled=true;
 }
+Float c_Bouncer::p_GetVal(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Bouncer.GetVal()",16));
+	return 0;
+}
 void c_Bouncer::mark(){
 	Object::mark();
 }
@@ -49705,6 +49714,7 @@ void c_ZombieSnake::mark(){
 }
 c_Ghost::c_Ghost(){
 	m_lastDist=Array<Float >(4);
+	m_movingAway=false;
 }
 c_Ghost* c_Ghost::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -49729,8 +49739,27 @@ int c_Ghost::p_Move(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.Move()",12));
 	return 0;
 }
+void c_Ghost::p_ProcessDistanceChanges(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.ProcessDistanceChanges()",30));
+}
 void c_Ghost::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.Update()",14));
+	if(c_Util::m_IsCharacterActive(12)){
+		this->m_coinsToDrop=0;
+		this->p_Die();
+	}
+	if(this->m_frozenDuration<=0 && !this->m_movingAway && c_Enemy::m_enemiesFearfulDuration<=0){
+		this->m_image->p_SetAlphaTweenFromCurrent(FLOAT(0.4),5);
+	}else{
+		this->m_image->p_SetAlphaTweenFromCurrent(FLOAT(1.0),5);
+	}
+	if(this->m_renderSilhouette && !this->p_IsInAnyPlayerLineOfSight() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch()){
+		this->m_image->p_SetAlphaTweenFromCurrent(FLOAT(1.0),5);
+	}
+	if(this->m_bounce!=0){
+		this->m_yOff=this->m_bounce->p_GetVal()-FLOAT(4.0);
+	}
+	this->p_ProcessDistanceChanges();
+	c_Enemy::p_Update();
 }
 void c_Ghost::mark(){
 	c_Enemy::mark();
@@ -58933,11 +58962,11 @@ int bbInit(){
 	c_Audio::m_musicSpeed=FLOAT(1.0);
 	c_Camera::m_shakeOffX=FLOAT(.0);
 	c_Camera::m_shakeOffY=FLOAT(.0);
+	c_Entity::m_anyPlayerHaveCircletCached=false;
+	c_Entity::m_anyPlayerHaveGlassTorchCached=false;
 	c_Bomb::m_bombList=(new c_List42)->m_new();
 	c_Audio::m_songPaused=false;
 	c_Entity::m_anyPlayerHaveNazarCharmCached=false;
-	c_Entity::m_anyPlayerHaveCircletCached=false;
-	c_Entity::m_anyPlayerHaveGlassTorchCached=false;
 	c_Audio::m_songShopkeeper=-1;
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
