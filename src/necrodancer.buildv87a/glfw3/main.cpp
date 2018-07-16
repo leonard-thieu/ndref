@@ -10825,6 +10825,11 @@ class c_Dragon : public c_Enemy{
 	public:
 	c_Sprite* m_iceBlast;
 	int m_seekDistance;
+	bool m_firstFrame;
+	bool m_hasRoared;
+	int m_lastFireballBeat;
+	bool m_playerMoveOverride;
+	int m_attackState;
 	c_Dragon();
 	c_Dragon* m_new(int,int,int);
 	c_Dragon* m_new2();
@@ -10832,6 +10837,8 @@ class c_Dragon : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
+	bool p_Shoots();
+	void p_DoShot();
 	void p_Update();
 	void mark();
 };
@@ -52570,6 +52577,11 @@ void c_BatMiniboss::mark(){
 c_Dragon::c_Dragon(){
 	m_iceBlast=0;
 	m_seekDistance=7;
+	m_firstFrame=true;
+	m_hasRoared=false;
+	m_lastFireballBeat=0;
+	m_playerMoveOverride=false;
+	m_attackState=0;
 }
 c_Dragon* c_Dragon::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -52605,8 +52617,72 @@ void c_Dragon::p_MoveFail(){
 void c_Dragon::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.MoveSucceed(Bool, Bool)",30));
 }
+bool c_Dragon::p_Shoots(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.Shoots()",15));
+	return false;
+}
+void c_Dragon::p_DoShot(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.DoShot()",15));
+}
 void c_Dragon::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.Update()",15));
+	this->m_firstFrame=false;
+	if(this->p_IsVisible() && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		c_Audio::m_PlayGameSoundAt(String(L"dragonRoar",10),this->m_x,this->m_y,true,-1,false);
+		this->m_hasRoared=true;
+		this->m_lastFireballBeat=c_Audio::m_GetClosestBeatNum(true);
+	}
+	if(Float(this->m_seekDistance)>=c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false) || this->m_hasRoared){
+		this->m_movesRegardlessOfDistance=true;
+		this->m_dontMove=false;
+	}
+	if(this->p_Shoots() && this->m_frozenDuration<=0 && c_Enemy::m_enemiesFearfulDuration<0){
+		int t_v6=((c_Player::m_PlayersHaveMovedThisBeat())?1:0);
+		if(this->m_playerMoveOverride){
+			this->m_playerMoveOverride=false;
+			t_v6=1;
+		}
+		int t_1=this->m_attackState;
+		if(t_1==1){
+			int t_2=this->m_animOverride;
+			if(t_2==4){
+				if(c_Audio::m_GetPercentDistanceFromNextBeat()<=FLOAT(0.5) && !((t_v6)!=0)){
+					this->m_animOverride=5;
+				}
+			}else{
+				if(t_2==5){
+					if(c_Audio::m_GetPercentDistanceFromNextBeat()>FLOAT(0.5) || this->m_animOverride==6){
+					}
+				}else{
+					if(t_2==6){
+						if((t_v6)!=0){
+							this->m_attackState=2;
+						}
+					}
+				}
+			}
+		}else{
+			if(t_1==2){
+				int t_3=this->m_animOverride;
+				if(t_3==8){
+					if(!((t_v6)!=0)){
+						this->m_attackState=0;
+						this->m_currentMoveDelay=2;
+					}
+				}
+				if(this->m_animOverride>6){
+					if(c_Audio::m_GetPercentDistanceFromNextBeat()<FLOAT(0.75)){
+						this->m_animOverride=8;
+					}
+				}else{
+					this->p_DoShot();
+					this->m_animOverride=7;
+				}
+			}else{
+				this->m_animOverride=-1;
+			}
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Dragon::mark(){
 	c_Enemy::mark();

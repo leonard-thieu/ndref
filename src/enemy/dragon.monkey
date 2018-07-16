@@ -2,8 +2,11 @@
 
 Import mojo.graphics
 Import enemy
+Import level
+Import audio2
 Import entity
 Import logger
+Import player_class
 Import point
 Import shrine
 Import sprite
@@ -19,7 +22,7 @@ Class Dragon Extends Enemy
             l = Util.RndIntRange(2, 3, False, -1)
         End If
 
-        Self.Init(xVal, yVal, l, "dragon", "", -1, -1)
+        Self.Init(xVal, yVal, l, "dragon")
 
         Self.overrideAttackSound = "dragonAttack"
         Self.overrideDeathSound = "dragonDeath"
@@ -35,7 +38,7 @@ Class Dragon Extends Enemy
     Field iceBlast: Sprite
     Field seekDistance: Int = 7
     Field lastFireballBeat: Int
-    Field firstFrame: Bool = 1
+    Field firstFrame: Bool = True
     Field hasRoared: Bool
     Field playerMoveOverride: Bool
     Field attackState: Int
@@ -90,7 +93,78 @@ Class Dragon Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Dragon.Update()")
+        Self.firstFrame = False
+
+        If Self.IsVisible() And
+           Not Self.hasRoared And
+           Not Level.isLevelEditor
+            Audio.PlayGameSoundAt("dragonRoar", Self.x, Self.y, True, -1, False)
+            Self.hasRoared = True
+            Self.lastFireballBeat = Audio.GetClosestBeatNum(True)
+        End If
+
+        If Self.seekDistance >= Util.GetDistFromClosestPlayer(Self.x, Self.y, False) Or
+           Self.hasRoared
+            Self.movesRegardlessOfDistance = True
+            Self.dontMove = False
+        End If
+
+        If Self.Shoots() And
+           Self.frozenDuration <= 0 And
+           Enemy.enemiesFearfulDuration < 0
+            ' Linux version only?
+            'Local v6 := controller_game.incrementFixedBeatNum
+            'If Audio.IsFixedBeatSet()
+            '    v6 = Player.PlayersHaveMovedThisBeat()
+            'End If
+
+            Local v6 = Player.PlayersHaveMovedThisBeat()
+
+            If Self.playerMoveOverride
+                Self.playerMoveOverride = False
+                v6 = True
+            End If
+
+            Select Self.attackState
+                Case 1
+                    Select Self.animOverride
+                        Case 4
+                            If Audio.GetPercentDistanceFromNextBeat() <= 0.5 And
+                               Not v6
+                                Self.animOverride = 5
+                            End If
+                        Case 5
+                            If Audio.GetPercentDistanceFromNextBeat() > 0.5 Or
+                                Self.animOverride = 6
+                            End If
+                        Case 6
+                            If v6
+                                Self.attackState = 2
+                            End If
+                    End Select
+                Case 2
+                    Select Self.animOverride
+                        Case 8
+                            If Not v6
+                                Self.attackState = 0
+                                Self.currentMoveDelay = 2
+                            End If
+                    End Select
+
+                    If Self.animOverride > 6
+                        If Audio.GetPercentDistanceFromNextBeat() < 0.75
+                            Self.animOverride = 8
+                        End If
+                    Else
+                        Self.DoShot()
+                        Self.animOverride = 7
+                    End If
+                Default
+                    Self.animOverride = -1
+            End Select
+        End If
+
+        Super.Update()
     End Method
 
 End Class
