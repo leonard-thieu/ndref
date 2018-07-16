@@ -19,26 +19,19 @@ Class Slime Extends Enemy
             l = Util.RndIntRange(2, 3, False, -1)
         End If
 
-        Self.Init(xVal, yVal, l, "slime", "", -1, -1)
+        Self.Init(xVal, yVal, l, "slime")
 
         Self.moveCount = Util.RndIntRangeFromZero(3, True)
 
-        ' TODO: Probably a much simpler way to write this.
-        If level = 3
-            If Level.IsWallAt(xVal + 1, yVal) Or Level.IsWallAt(xVal + 1, yVal + 1)
-                If Level.IsWallAt(xVal, yVal - 1) Or Level.IsWallAt(xVal + 1, yVal - 1)
-                    If Level.IsWallAt(xVal - 1, yVal) Or Level.IsWallAt(xVal - 1, yVal - 1)
-                        If Not Level.IsWallAt(xVal, yVal + 1) And Not Level.IsWallAt(xVal - 1, yVal + 1)
-                            Self.moveCount = 1
-                        End If
-                    Else
-                        Self.moveCount = 2
-                    End If
-                Else
-                    Self.moveCount = 3
-                End If
-            Else
+        If Self.level = 3
+            If Not Level.IsWallAt(xVal + 1, yVal) And Not Level.IsWallAt(xVal + 1, yVal + 1)
                 Self.moveCount = 0
+            Else If Not Level.IsWallAt(xVal, yVal - 1) And Not Level.IsWallAt(xVal + 1, yVal - 1)
+                Self.moveCount = 3
+            Else If Not Level.IsWallAt(xVal - 1, yVal) And Not Level.IsWallAt(xVal - 1, yVal - 1)
+                Self.moveCount = 2
+            Else If Not Level.IsWallAt(xVal, yVal + 1) And Not Level.IsWallAt(xVal - 1, yVal + 1)
+                Self.moveCount = 1
             End If
         Else
             If Not Level.IsWallAt(xVal, yVal + 1)

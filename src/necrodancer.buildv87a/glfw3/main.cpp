@@ -50529,21 +50529,21 @@ c_Slime* c_Slime::m_new(int t_xVal,int t_yVal,int t_l){
 	}
 	this->p_Init3(t_xVal,t_yVal,t_l,String(L"slime",5),String(),-1,-1);
 	this->m_moveCount=c_Util::m_RndIntRangeFromZero(3,true);
-	if(m_level==3){
-		if(c_Level::m_IsWallAt2(t_xVal+1,t_yVal) || c_Level::m_IsWallAt2(t_xVal+1,t_yVal+1)){
-			if(c_Level::m_IsWallAt2(t_xVal,t_yVal-1) || c_Level::m_IsWallAt2(t_xVal+1,t_yVal-1)){
-				if(c_Level::m_IsWallAt2(t_xVal-1,t_yVal) || c_Level::m_IsWallAt2(t_xVal-1,t_yVal-1)){
+	if(this->m_level==3){
+		if(!c_Level::m_IsWallAt2(t_xVal+1,t_yVal) && !c_Level::m_IsWallAt2(t_xVal+1,t_yVal+1)){
+			this->m_moveCount=0;
+		}else{
+			if(!c_Level::m_IsWallAt2(t_xVal,t_yVal-1) && !c_Level::m_IsWallAt2(t_xVal+1,t_yVal-1)){
+				this->m_moveCount=3;
+			}else{
+				if(!c_Level::m_IsWallAt2(t_xVal-1,t_yVal) && !c_Level::m_IsWallAt2(t_xVal-1,t_yVal-1)){
+					this->m_moveCount=2;
+				}else{
 					if(!c_Level::m_IsWallAt2(t_xVal,t_yVal+1) && !c_Level::m_IsWallAt2(t_xVal-1,t_yVal+1)){
 						this->m_moveCount=1;
 					}
-				}else{
-					this->m_moveCount=2;
 				}
-			}else{
-				this->m_moveCount=3;
 			}
-		}else{
-			this->m_moveCount=0;
 		}
 	}else{
 		if(!c_Level::m_IsWallAt2(t_xVal,t_yVal+1)){
