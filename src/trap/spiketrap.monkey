@@ -2,6 +2,7 @@
 
 Import entity
 Import logger
+Import sprite
 Import trap
 
 Class SpikeTrap Extends Trap
@@ -26,7 +27,18 @@ Class SpikeTrap Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("SpikeTrap.Update()")
+        If Self.retractCounter > 0
+            Self.retractCounter -= 1
+
+            If Self.retractCounter = 0
+                Self.triggered = False
+                Self.frameToShow = 0
+            End If
+        End If
+
+        Self.image.SetFrame(Self.frameToShow)
+
+        Super.Update()
     End Method
 
 End Class

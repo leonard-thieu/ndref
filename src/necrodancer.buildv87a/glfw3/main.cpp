@@ -10234,6 +10234,8 @@ class c_EvilEye : public c_Enemy{
 };
 class c_SpikeTrap : public c_Trap{
 	public:
+	int m_retractCounter;
+	int m_frameToShow;
 	c_SpikeTrap();
 	c_SpikeTrap* m_new(int,int);
 	c_SpikeTrap* m_new2();
@@ -50239,6 +50241,8 @@ void c_EvilEye::mark(){
 	c_Enemy::mark();
 }
 c_SpikeTrap::c_SpikeTrap(){
+	m_retractCounter=0;
+	m_frameToShow=0;
 }
 c_SpikeTrap* c_SpikeTrap::m_new(int t_xVal,int t_yVal){
 	c_Trap::m_new(t_xVal,t_yVal,2);
@@ -50256,7 +50260,15 @@ void c_SpikeTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SpikeTrap.Trigger(Entity)",25));
 }
 void c_SpikeTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SpikeTrap.Update()",18));
+	if(this->m_retractCounter>0){
+		this->m_retractCounter-=1;
+		if(this->m_retractCounter==0){
+			this->m_triggered=false;
+			this->m_frameToShow=0;
+		}
+	}
+	this->m_image->p_SetFrame(this->m_frameToShow);
+	c_Trap::p_Update();
 }
 void c_SpikeTrap::mark(){
 	c_Trap::mark();
