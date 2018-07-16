@@ -14,6 +14,7 @@ Import rng
 Import saleitem
 Import sprite
 Import textsprite
+Import tile
 Import weighted_picker
 
 Class Shrine Extends Entity
@@ -432,7 +433,24 @@ Class Shrine Extends Entity
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Shrine.Update()")
+        If Self.active
+            Self.image.SetFrame(1)
+        Else
+            Self.image.SetFrame(0)
+        End If
+
+        If Self.IsVisible() And
+           Tile.AnyPlayerHaveMonocle() And
+           Self.image2 = Null And
+           Self.type <> Shrine.SHRINE_CHANCE
+            Self.LoadBombImage()
+        End If
+
+        If Self.bounce2 <> Null
+            Self.bounce2.Update()
+        End If
+
+        Super.Update()
     End Method
 
 End Class

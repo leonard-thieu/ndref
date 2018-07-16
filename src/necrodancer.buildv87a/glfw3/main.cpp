@@ -7403,6 +7403,9 @@ class c_Shrine : public c_Entity{
 	String m_contents6;
 	int m_cost;
 	c_TextSprite* m_hintText;
+	bool m_active;
+	c_Sprite* m_image2;
+	c_Bouncer* m_bounce2;
 	c_Shrine();
 	static bool m_darknessShrineActive;
 	static bool m_rhythmShrineActive;
@@ -7433,6 +7436,7 @@ class c_Shrine : public c_Entity{
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_SetCost();
+	void p_LoadBombImage();
 	void p_Update();
 	void mark();
 };
@@ -31763,6 +31767,9 @@ c_Shrine::c_Shrine(){
 	m_contents6=String();
 	m_cost=0;
 	m_hintText=0;
+	m_active=false;
+	m_image2=0;
+	m_bounce2=0;
 }
 bool c_Shrine::m_darknessShrineActive;
 bool c_Shrine::m_rhythmShrineActive;
@@ -32112,13 +32119,29 @@ bool c_Shrine::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hi
 void c_Shrine::p_SetCost(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.SetCost()",16));
 }
+void c_Shrine::p_LoadBombImage(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.LoadBombImage()",22));
+}
 void c_Shrine::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shrine.Update()",15));
+	if(this->m_active){
+		this->m_image->p_SetFrame(1);
+	}else{
+		this->m_image->p_SetFrame(0);
+	}
+	if(this->p_IsVisible() && c_Tile::m_AnyPlayerHaveMonocle() && this->m_image2==0 && this->m_type!=12){
+		this->p_LoadBombImage();
+	}
+	if(this->m_bounce2!=0){
+		this->m_bounce2->p_Update();
+	}
+	c_Entity::p_Update();
 }
 void c_Shrine::mark(){
 	c_Entity::mark();
 	gc_mark_q(m_rng);
 	gc_mark_q(m_hintText);
+	gc_mark_q(m_image2);
+	gc_mark_q(m_bounce2);
 }
 c_MobileEntity::c_MobileEntity(){
 	m_moveShadowTween=2;
