@@ -52618,7 +52618,10 @@ void c_Dragon::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.MoveSucceed(Bool, Bool)",30));
 }
 bool c_Dragon::p_Shoots(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.Shoots()",15));
+	int t_1=this->m_level;
+	if(t_1==2 || t_1==3){
+		return true;
+	}
 	return false;
 }
 void c_Dragon::p_DoShot(){
@@ -52641,19 +52644,19 @@ void c_Dragon::p_Update(){
 			this->m_playerMoveOverride=false;
 			t_v6=1;
 		}
-		int t_1=this->m_attackState;
-		if(t_1==1){
-			int t_2=this->m_animOverride;
-			if(t_2==4){
+		int t_2=this->m_attackState;
+		if(t_2==1){
+			int t_3=this->m_animOverride;
+			if(t_3==4){
 				if(c_Audio::m_GetPercentDistanceFromNextBeat()<=FLOAT(0.5) && !((t_v6)!=0)){
 					this->m_animOverride=5;
 				}
 			}else{
-				if(t_2==5){
+				if(t_3==5){
 					if(c_Audio::m_GetPercentDistanceFromNextBeat()>FLOAT(0.5) || this->m_animOverride==6){
 					}
 				}else{
-					if(t_2==6){
+					if(t_3==6){
 						if((t_v6)!=0){
 							this->m_attackState=2;
 						}
@@ -52661,9 +52664,9 @@ void c_Dragon::p_Update(){
 				}
 			}
 		}else{
-			if(t_1==2){
-				int t_3=this->m_animOverride;
-				if(t_3==8){
+			if(t_2==2){
+				int t_4=this->m_animOverride;
+				if(t_4==8){
 					if(!((t_v6)!=0)){
 						this->m_attackState=0;
 						this->m_currentMoveDelay=2;

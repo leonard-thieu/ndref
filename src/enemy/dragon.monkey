@@ -88,8 +88,15 @@ Class Dragon Extends Enemy
         Debug.TraceNotImplemented("Dragon.Render()")
     End Method
 
+    ' This appears in Windows symbols but not in Windows decompilation.
     Method Shoots: Bool()
-        Debug.TraceNotImplemented("Dragon.Shoots()")
+        Select Self.level
+            Case 2,
+                 3
+                Return True
+        End Select
+
+        Return False
     End Method
 
     Method Update: Void()
