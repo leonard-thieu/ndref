@@ -197,7 +197,43 @@ Class Slime Extends Enemy
     End Method
 
     Method MoveFail: Void()
-        Debug.TraceNotImplemented("Slime.MoveFail()")
+        Select Self.level
+            Case 4,
+                 5
+                Local movementDirection := Self.GetMovementDirection()
+                Local tile := Level.GetTileAt(Self.x + movementDirection.x, Self.y + movementDirection.y)
+                If tile <> Null
+                    If tile.IsWall() And
+                       tile.health <= 2
+                        Select Self.level
+                            Case 4
+                                Select Self.moveCount Mod 4
+                                    Case 0
+                                        tile.Hit(Self.friendlyName, 2, Direction.Right)
+                                    Case 1
+                                        tile.Hit(Self.friendlyName, 2, Direction.Down)
+                                    Case 2
+                                        tile.Hit(Self.friendlyName, 2, Direction.Left)
+                                    Case 3
+                                        tile.Hit(Self.friendlyName, 2, Direction.Up)
+                                End Select
+                            Case 5
+                                Select Self.moveCount Mod 4
+                                    Case 0
+                                        tile.Hit(Self.friendlyName, 2, Direction.Left)
+                                    Case 1
+                                        tile.Hit(Self.friendlyName, 2, Direction.Down)
+                                    Case 2
+                                        tile.Hit(Self.friendlyName, 2, Direction.Right)
+                                    Case 3
+                                        tile.Hit(Self.friendlyName, 2, Direction.Up)
+                                End Select
+                        End Select
+                    End If
+                End If
+        End Select
+
+        Super.MoveFail()
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)

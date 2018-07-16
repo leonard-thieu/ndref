@@ -50752,7 +50752,54 @@ c_Point* c_Slime::p_GetMovementDirection(){
 	return t_movementDirection;
 }
 void c_Slime::p_MoveFail(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Slime.MoveFail()",16));
+	int t_10=this->m_level;
+	if(t_10==4 || t_10==5){
+		c_Point* t_movementDirection=this->p_GetMovementDirection();
+		c_Tile* t_tile=c_Level::m_GetTileAt(this->m_x+t_movementDirection->m_x,this->m_y+t_movementDirection->m_y);
+		if(t_tile!=0){
+			if(t_tile->p_IsWall2() && t_tile->m_health<=2){
+				int t_11=this->m_level;
+				if(t_11==4){
+					int t_12=this->m_moveCount % 4;
+					if(t_12==0){
+						t_tile->p_Hit(this->m_friendlyName,2,0,0,false,0);
+					}else{
+						if(t_12==1){
+							t_tile->p_Hit(this->m_friendlyName,2,1,0,false,0);
+						}else{
+							if(t_12==2){
+								t_tile->p_Hit(this->m_friendlyName,2,2,0,false,0);
+							}else{
+								if(t_12==3){
+									t_tile->p_Hit(this->m_friendlyName,2,3,0,false,0);
+								}
+							}
+						}
+					}
+				}else{
+					if(t_11==5){
+						int t_13=this->m_moveCount % 4;
+						if(t_13==0){
+							t_tile->p_Hit(this->m_friendlyName,2,2,0,false,0);
+						}else{
+							if(t_13==1){
+								t_tile->p_Hit(this->m_friendlyName,2,1,0,false,0);
+							}else{
+								if(t_13==2){
+									t_tile->p_Hit(this->m_friendlyName,2,0,0,false,0);
+								}else{
+									if(t_13==3){
+										t_tile->p_Hit(this->m_friendlyName,2,3,0,false,0);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	c_Enemy::p_MoveFail();
 }
 void c_Slime::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	if(t_moveDelayed && this->m_level==1){
