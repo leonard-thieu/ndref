@@ -10829,19 +10829,20 @@ class c_Dragon : public c_Enemy{
 	public:
 	c_Sprite* m_iceBlast;
 	int m_seekDistance;
+	bool m_failedLastMove;
+	int m_attackState;
 	bool m_firstFrame;
 	bool m_hasRoared;
 	int m_lastFireballBeat;
 	bool m_playerMoveOverride;
-	int m_attackState;
 	c_Dragon();
 	c_Dragon* m_new(int,int,int);
 	c_Dragon* m_new2();
+	bool p_Shoots();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
-	bool p_Shoots();
 	void p_DoShot();
 	void p_Update();
 	void mark();
@@ -13034,7 +13035,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 			}
 		}else{
 			int t_2=bb_controller_game_currentLevel;
-			if(t_2==2){
+			if(t_2==3){
 				bb_app_EndApp();
 			}
 		}
@@ -52717,11 +52718,12 @@ void c_BatMiniboss::mark(){
 c_Dragon::c_Dragon(){
 	m_iceBlast=0;
 	m_seekDistance=7;
+	m_failedLastMove=false;
+	m_attackState=0;
 	m_firstFrame=true;
 	m_hasRoared=false;
 	m_lastFireballBeat=0;
 	m_playerMoveOverride=false;
-	m_attackState=0;
 }
 c_Dragon* c_Dragon::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -52743,9 +52745,21 @@ c_Dragon* c_Dragon::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+bool c_Dragon::p_Shoots(){
+	int t_1=this->m_level;
+	if(t_1==2 || t_1==3){
+		return true;
+	}
+	return false;
+}
 c_Point* c_Dragon::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.GetMovementDirection()",29));
-	return 0;
+	if(this->m_failedLastMove && !this->m_hasBeenVisible){
+		return this->p_RandomSeek(true,false);
+	}
+	if(!this->p_Shoots() || this->m_attackState==0){
+		return this->p_BasicSeek();
+	}
+	return (new c_Point)->m_new(0,0);
 }
 bool c_Dragon::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.Hit(String, Int, Int, Entity, Bool, Int)",47));
@@ -52756,13 +52770,6 @@ void c_Dragon::p_MoveFail(){
 }
 void c_Dragon::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.MoveSucceed(Bool, Bool)",30));
-}
-bool c_Dragon::p_Shoots(){
-	int t_1=this->m_level;
-	if(t_1==2 || t_1==3){
-		return true;
-	}
-	return false;
 }
 void c_Dragon::p_DoShot(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.DoShot()",15));

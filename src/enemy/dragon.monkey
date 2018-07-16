@@ -57,7 +57,17 @@ Class Dragon Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Dragon.GetMovementDirection()")
+        If Self.failedLastMove And
+           Not Self.hasBeenVisible
+            Return Self.RandomSeek(True, False)
+        End If
+
+        If Not Self.Shoots() Or
+           Self.attackState = 0
+            Return Self.BasicSeek()
+        End If
+
+        Return New Point(0, 0)
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
