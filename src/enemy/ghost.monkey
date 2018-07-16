@@ -1,5 +1,6 @@
 'Strict
 
+Import controller.controller_game
 Import enemy
 Import entity
 Import logger
@@ -35,11 +36,34 @@ Class Ghost Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Ghost.GetMovementDirection()")
+        If Self.movingAway
+            Return Self.BasicSeek()
+        End If
+
+        Return New Point(0, 0)
     End Method
 
     Method Move: Int()
-        Debug.TraceNotImplemented("Ghost.Move()")
+        Self.ProcessDistanceChanges()
+
+        If Not Self.flaggedForDeath
+            If Self.currentMoveDelay <= 1 Or
+               (Enemy.enemiesFearfulDuration > 0 And
+                Not Self.isCrate)
+                Return Super.Move()
+            End If
+        End If
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            Self.lastDist[i] = Util.GetDist(Self.x, Self.y, player.x, player.y)
+        End For
+
+        If Not Self.flaggedForDeath
+            Return 3
+        End If
+
+        Return 0
     End Method
 
     Method ProcessDistanceChanges: Void()

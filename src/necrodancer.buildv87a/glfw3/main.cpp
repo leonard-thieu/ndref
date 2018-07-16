@@ -10077,8 +10077,8 @@ class c_Ghost : public c_Enemy{
 	c_Ghost* m_new(int,int,int);
 	c_Ghost* m_new2();
 	c_Point* p_GetMovementDirection();
-	int p_Move();
 	void p_ProcessDistanceChanges();
+	int p_Move();
 	void p_Update();
 	void mark();
 };
@@ -49732,15 +49732,29 @@ c_Ghost* c_Ghost::m_new2(){
 	return this;
 }
 c_Point* c_Ghost::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.GetMovementDirection()",28));
-	return 0;
-}
-int c_Ghost::p_Move(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.Move()",12));
-	return 0;
+	if(this->m_movingAway){
+		return this->p_BasicSeek();
+	}
+	return (new c_Point)->m_new(0,0);
 }
 void c_Ghost::p_ProcessDistanceChanges(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghost.ProcessDistanceChanges()",30));
+}
+int c_Ghost::p_Move(){
+	this->p_ProcessDistanceChanges();
+	if(!this->m_flaggedForDeath){
+		if(this->m_currentMoveDelay<=1 || c_Enemy::m_enemiesFearfulDuration>0 && !this->m_isCrate){
+			return c_Enemy::p_Move();
+		}
+	}
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		this->m_lastDist[t_i]=c_Util::m_GetDist(this->m_x,this->m_y,t_player->m_x,t_player->m_y);
+	}
+	if(!this->m_flaggedForDeath){
+		return 3;
+	}
+	return 0;
 }
 void c_Ghost::p_Update(){
 	if(c_Util::m_IsCharacterActive(12)){
