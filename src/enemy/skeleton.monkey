@@ -46,7 +46,23 @@ Class Skeleton Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Skeleton.GetMovementDirection()")
+        If Self.isDancer
+            Return New Point(0, 0)
+        End If
+
+        If Self.isFormationDancer
+            Return New Point(0, 1)
+        End If
+
+        If Self.hasHead
+            If Self.isMosh
+                Return New Point(0, 0)
+            End If
+            
+            Return Self.BasicSeek()
+        End If
+
+        Return Util.GetPointFromDir(Self.directionHitFrom)
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)

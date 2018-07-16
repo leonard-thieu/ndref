@@ -2439,7 +2439,14 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method BasicSeek: Point()
-        Debug.TraceNotImplemented("Enemy.BasicSeek()")
+        Local player := Util.GetClosestPlayerIncludeItemEffects(Self.x, Self.y, Self.ignoreWalls)
+        If player <> Null
+            Self.seekingPlayer = player
+
+            Return Self.BasicSeekTarget(player.x, player.y, player.lastX, player.lastY, True, True, False, False)
+        End If
+
+        Return New Point(0, 0)
     End Method
 
     Method BasicSeekAvoidLiquids: Object()
@@ -2458,8 +2465,95 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.BasicSeekNoTraps()")
     End Method
 
-    Method BasicSeekTarget: Object(targetX: Int, targetY: Int, targetLastX: Int, targetLastY: Int, ignoreLiquids: Bool, ignoreTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
-        Debug.TraceNotImplemented("Enemy.BasicSeekTarget(Int, Int, Int, Int, Bool, Bool, Bool, Bool)")
+    Method BasicSeekTarget: Point(targetX: Int, targetY: Int, targetLastX: Int, targetLastY: Int, ignoreLiquids: Bool, ignoreTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
+        If math.Abs(targetX - Self.x) + math.Abs(targetY - Self.y) <= 1
+            Return Self.GetAdjacentTileThatIsClosestToTarget(targetX, targetY, -1)
+        End If
+
+        If math.Abs(targetLastY - Self.y) + math.Abs(targetLastX - Self.x) <> 1
+            Return New Point(0, 0)
+        End If
+        
+        Local closestMovement := Self.GetAdjacentTileThatIsClosestToTarget(targetLastX, targetLastY, -1)
+        Local nextX = Self.x + closestMovement.x
+        Local nextY = Self.y + closestMovement.y
+
+        If (Util.IsGlobalCollisionAt(nextX, nextY, False, Self.ignoreWalls, False, False)) Or
+           (Not ignoreLiquids And Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (liquidsOnly And Not Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (Not ignoreTraps And Trap.GetTrapTypeAt(nextX, nextY) = TrapType.SpikeTrap) Or
+           (wallsOnly And Not Level.IsWallAt(nextX, nextY, False, True))
+            If Self.wasSeekingX
+                If Self.x = targetX Or
+                   Self.x = targetLastX Or
+                   Self.lastX = targetX Or
+                   Self.lastX = targetLastX
+                    closestMovement = Self.GetClosestMovement(targetX, targetY, -2, ignoreLiquids, ignoreTraps, liquidsOnly, wallsOnly)
+                Else
+                    closestMovement = Self.GetClosestMovement(targetX, targetY, 1, ignoreLiquids, ignoreTraps, liquidsOnly, wallsOnly)
+                    If closestMovement.x = 0 And
+                       closestMovement.y = 0
+                        closestMovement = Self.GetClosestMovement(targetX, targetY, 2, ignoreLiquids, ignoreTraps, liquidsOnly, wallsOnly)
+                    End If
+                End If
+            Else
+                If Self.y = targetY Or
+                   Self.y = targetLastY Or
+                   Self.lastY = targetY Or
+                   Self.lastY = targetLastY
+                    closestMovement = Self.GetClosestMovement(targetX, targetY, -1, ignoreLiquids, ignoreTraps, liquidsOnly, wallsOnly)
+                Else
+                    closestMovement = Self.GetClosestMovement(targetX, targetY, 2, ignoreLiquids, ignoreTraps, liquidsOnly, wallsOnly)
+                    If closestMovement.x = 0 And
+                       closestMovement.y = 0
+                        closestMovement = Self.GetClosestMovement(targetX, targetY, 1, ignoreLiquids, ignoreTraps, liquidsOnly, wallsOnly)
+                    End If
+                End If
+            End If
+        End If
+
+        nextX = Self.x + closestMovement.x
+        nextY = Self.y + closestMovement.y
+
+        If (Not ignoreLiquids And Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (liquidsOnly And Not Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (Not ignoreTraps And Trap.GetTrapTypeAt(nextX, nextY) = TrapType.SpikeTrap) Or
+           (wallsOnly And Not Level.IsWallAt(nextX, nextY, False, True))
+            Return New Point(0, 0)
+        End If
+
+        If (closestMovement.x = 0 And closestMovement.y = 0) Or
+           Util.IsGlobalCollisionAt(nextX, nextY, False, Self.ignoreWalls, False, False) Or
+           (Not ignoreLiquids And Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (liquidsOnly And Not Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (Not ignoreTraps And Trap.GetTrapTypeAt(nextX, nextY) = TrapType.SpikeTrap) Or
+           (wallsOnly And Not Level.IsWallAt(nextX, nextY, False, True))
+            closestMovement = Self.GetAdjacentTileThatIsClosestToTarget(targetX, targetY, -1)
+        End If
+
+        nextX = Self.x + closestMovement.x
+        nextY = Self.y + closestMovement.y
+
+        If (Not ignoreLiquids And Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (liquidsOnly And Not Level.IsWaterOrTarAt(nextX, nextY)) Or
+           (Not ignoreTraps And Trap.GetTrapTypeAt(nextX, nextY) = TrapType.SpikeTrap) Or
+           (wallsOnly And Not Level.IsWallAt(nextX, nextY, False, True))
+            Return New Point(0, 0)
+        End If
+
+        If closestMovement.x = 0
+            Self.wasSeekingX = False
+        Else
+            If closestMovement.x < 0
+                Self.ImageFlipX(False)
+            Else
+                Self.ImageFlipX(True)
+            End If
+
+            Self.wasSeekingX = True
+        End If
+
+        Return closestMovement
     End Method
 
     Method BasicSeekTargetIncludeDiagonals: Object(targetX: Int, targetY: Int)
@@ -2577,7 +2671,7 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.Fall(Bool)")
     End Method
 
-    Method GetAdjacentTileThatIsClosestToTarget: Object(targetX: Int, targetY: Int, moveDistVal: Int)
+    Method GetAdjacentTileThatIsClosestToTarget: Point(targetX: Int, targetY: Int, moveDistVal: Int)
         Debug.TraceNotImplemented("Enemy.GetAdjacentTileThatIsClosestToTarget(Int, Int, Int)")
     End Method
 
@@ -2589,7 +2683,7 @@ Class Enemy Extends MobileEntity Abstract
         Return beatNum
     End Method
 
-    Method GetClosestMovement: Object(targetX: Int, targetY: Int, dirVal: Int, allowLiquids: Bool, allowTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
+    Method GetClosestMovement: Point(targetX: Int, targetY: Int, dirVal: Int, allowLiquids: Bool, allowTraps: Bool, liquidsOnly: Bool, wallsOnly: Bool)
         Debug.TraceNotImplemented("Enemy.GetClosestMovement(Int, Int, Int, Bool, Bool, Bool, Bool)")
     End Method
 

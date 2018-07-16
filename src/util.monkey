@@ -12,6 +12,7 @@ Import familiar_fixed.soul_familiar
 Import level
 Import camera
 Import gamedata
+Import item
 Import logger
 Import necrodancer
 Import player_class
@@ -133,8 +134,28 @@ Class Util
         Return closestPlayer
     End Function
 
-    Function GetClosestPlayerIncludeItemEffects: Object(xVal: Int, yVal: Int, ignorePhasing: Bool)
-        Debug.TraceNotImplemented("Util.GetClosestPlayerIncludeItemEffects(Int, Int, Bool)")
+    Function GetClosestPlayerIncludeItemEffects: Player(xVal: Int, yVal: Int, ignorePhasing: Bool)
+        Local dist := 99999.0
+        Local closestPlayer: Player
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            Local distToPlayer := Util.GetDist(player.x, player.y, xVal, yVal)
+
+            If distToPlayer <= 3.0 Or
+               player.GetItemInSlot("head", False) = ItemType.NinjaMask
+                If ignorePhasing Or
+                   Not player.IsPhasing() Or
+                   Not Level.IsWallAt(player.x, player.y)
+                    If dist > distToPlayer
+                        dist = distToPlayer
+                        closestPlayer = player
+                    End If
+                End If
+            End If
+        End For
+
+        Return closestPlayer
     End Function
 
     Function GetDirAfterRotation: Int(dir: Int, rotation: Int, includeDiagonals: Bool)

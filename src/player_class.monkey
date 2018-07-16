@@ -1952,7 +1952,8 @@ Class Player Extends MobileEntity
     End Method
 
     Method IsPhasing: Bool()
-        Debug.TraceNotImplemented("Player.IsPhasing()")
+        Return Self.HasItemOfType(ItemType.RingOfPhasing, False) Or
+               Level.isPhasingMode
     End Method
 
     Method IsShieldActive: Bool()

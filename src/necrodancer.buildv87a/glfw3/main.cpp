@@ -5962,6 +5962,7 @@ class c_Util : public Object{
 	static bool m_IsOnScreen(int,int,Float,Float);
 	static bool m_LineSegmentTileIntersect(Float,Float,Float,Float,Float,Float);
 	static c_Player* m_GetAnyPlayerAt(int,int);
+	static c_Player* m_GetClosestPlayerIncludeItemEffects(int,int,bool);
 	static c_List40* m_GetPlayersAt(c_Rect*);
 	static c_List40* m_GetPlayersAt2(int,int);
 	static int m_GetDirFromDiff(int,int);
@@ -8124,6 +8125,7 @@ class c_Enemy : public c_MobileEntity{
 	bool m_charmed;
 	bool m_inArena;
 	bool m_isUnaffectedByArenas;
+	c_Player* m_seekingPlayer;
 	c_Point* m_lastAttemptedMove;
 	bool m_tramples;
 	bool m_bounceOnMovementFail;
@@ -8134,7 +8136,6 @@ class c_Enemy : public c_MobileEntity{
 	int m_jumpDirtY;
 	bool m_useLastPosForSwipe;
 	bool m_justHitPlayer;
-	c_Player* m_seekingPlayer;
 	bool m_executedCry;
 	int m_animOverrideState;
 	bool m_wasFrozen;
@@ -8205,6 +8206,9 @@ class c_Enemy : public c_MobileEntity{
 	c_Point* p_BasicFlee(bool);
 	void p_ImageFlipX(bool);
 	c_Point* p_RandomSeek(bool,bool);
+	c_Point* p_GetAdjacentTileThatIsClosestToTarget(int,int,int);
+	c_Point* p_GetClosestMovement(int,int,int,bool,bool,bool,bool);
+	c_Point* p_BasicSeekTarget(int,int,int,int,bool,bool,bool,bool);
 	c_Point* p_BasicSeek();
 	c_Point* p_BasicSeekNoTraps();
 	c_Point* p_BasicSeekIncludeDiagonals();
@@ -10291,6 +10295,7 @@ class c_Slime : public c_Enemy{
 };
 class c_Skeleton : public c_Enemy{
 	public:
+	bool m_hasHead;
 	int m_directionHitFrom;
 	bool m_gotBounced;
 	c_Skeleton();
@@ -14224,6 +14229,23 @@ c_Player* c_Util::m_GetAnyPlayerAt(int t_xVal,int t_yVal){
 		}
 	}
 	return 0;
+}
+c_Player* c_Util::m_GetClosestPlayerIncludeItemEffects(int t_xVal,int t_yVal,bool t_ignorePhasing){
+	Float t_dist=FLOAT(99999.0);
+	c_Player* t_closestPlayer=0;
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		Float t_distToPlayer=m_GetDist(t_player->m_x,t_player->m_y,t_xVal,t_yVal);
+		if(t_distToPlayer<=FLOAT(3.0) || t_player->p_GetItemInSlot(String(L"head",4),false)==String(L"head_ninja_mask",15)){
+			if(t_ignorePhasing || !t_player->p_IsPhasing() || !c_Level::m_IsWallAt2(t_player->m_x,t_player->m_y)){
+				if(t_dist>t_distToPlayer){
+					t_dist=t_distToPlayer;
+					t_closestPlayer=t_player;
+				}
+			}
+		}
+	}
+	return t_closestPlayer;
 }
 c_List40* c_Util::m_GetPlayersAt(c_Rect* t_where){
 	c_List40* t_playersAt=(new c_List40)->m_new();
@@ -34517,8 +34539,7 @@ bool c_Player::m_AnyPlayerInSpecialRoom(){
 	return false;
 }
 bool c_Player::p_IsPhasing(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsPhasing()",18));
-	return false;
+	return this->p_HasItemOfType(String(L"ring_phasing",12),false) || c_Level::m_isPhasingMode;
 }
 bool c_Player::p_FeetIgnoreIce(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.FeetIgnoreIce()",22));
@@ -37006,6 +37027,7 @@ c_Enemy::c_Enemy(){
 	m_charmed=false;
 	m_inArena=false;
 	m_isUnaffectedByArenas=false;
+	m_seekingPlayer=0;
 	m_lastAttemptedMove=(new c_Point)->m_new(0,0);
 	m_tramples=false;
 	m_bounceOnMovementFail=true;
@@ -37016,7 +37038,6 @@ c_Enemy::c_Enemy(){
 	m_jumpDirtY=0;
 	m_useLastPosForSwipe=false;
 	m_justHitPlayer=false;
-	m_seekingPlayer=0;
 	m_executedCry=false;
 	m_animOverrideState=-1;
 	m_wasFrozen=false;
@@ -40623,9 +40644,77 @@ c_Point* c_Enemy::p_RandomSeek(bool t_trueRandom,bool t_ignoreRingOfLuck){
 	}
 	return t_direction;
 }
-c_Point* c_Enemy::p_BasicSeek(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicSeek()",17));
+c_Point* c_Enemy::p_GetAdjacentTileThatIsClosestToTarget(int t_targetX,int t_targetY,int t_moveDistVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetAdjacentTileThatIsClosestToTarget(Int, Int, Int)",57));
 	return 0;
+}
+c_Point* c_Enemy::p_GetClosestMovement(int t_targetX,int t_targetY,int t_dirVal,bool t_allowLiquids,bool t_allowTraps,bool t_liquidsOnly,bool t_wallsOnly){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.GetClosestMovement(Int, Int, Int, Bool, Bool, Bool, Bool)",63));
+	return 0;
+}
+c_Point* c_Enemy::p_BasicSeekTarget(int t_targetX,int t_targetY,int t_targetLastX,int t_targetLastY,bool t_ignoreLiquids,bool t_ignoreTraps,bool t_liquidsOnly,bool t_wallsOnly){
+	if(bb_math_Abs(t_targetX-this->m_x)+bb_math_Abs(t_targetY-this->m_y)<=1){
+		return this->p_GetAdjacentTileThatIsClosestToTarget(t_targetX,t_targetY,-1);
+	}
+	if(bb_math_Abs(t_targetLastY-this->m_y)+bb_math_Abs(t_targetLastX-this->m_x)!=1){
+		return (new c_Point)->m_new(0,0);
+	}
+	c_Point* t_closestMovement=this->p_GetAdjacentTileThatIsClosestToTarget(t_targetLastX,t_targetLastY,-1);
+	int t_nextX=this->m_x+t_closestMovement->m_x;
+	int t_nextY=this->m_y+t_closestMovement->m_y;
+	if(c_Util::m_IsGlobalCollisionAt2(t_nextX,t_nextY,false,this->m_ignoreWalls,false,false) || !t_ignoreLiquids && c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || t_liquidsOnly && !c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || !t_ignoreTraps && c_Trap::m_GetTrapTypeAt(t_nextX,t_nextY)==2 || t_wallsOnly && c_Level::m_IsWallAt(t_nextX,t_nextY,false,true)){
+		if(this->m_wasSeekingX){
+			if(this->m_x==t_targetX || this->m_x==t_targetLastX || this->m_lastX==t_targetX || this->m_lastX==t_targetLastX){
+				t_closestMovement=this->p_GetClosestMovement(t_targetX,t_targetY,-2,t_ignoreLiquids,t_ignoreTraps,t_liquidsOnly,t_wallsOnly);
+			}else{
+				t_closestMovement=this->p_GetClosestMovement(t_targetX,t_targetY,1,t_ignoreLiquids,t_ignoreTraps,t_liquidsOnly,t_wallsOnly);
+				if(t_closestMovement->m_x==0 && t_closestMovement->m_y==0){
+					t_closestMovement=this->p_GetClosestMovement(t_targetX,t_targetY,2,t_ignoreLiquids,t_ignoreTraps,t_liquidsOnly,t_wallsOnly);
+				}
+			}
+		}else{
+			if(this->m_y==t_targetY || this->m_y==t_targetLastY || this->m_lastY==t_targetY || this->m_lastY==t_targetLastY){
+				t_closestMovement=this->p_GetClosestMovement(t_targetX,t_targetY,-1,t_ignoreLiquids,t_ignoreTraps,t_liquidsOnly,t_wallsOnly);
+			}else{
+				t_closestMovement=this->p_GetClosestMovement(t_targetX,t_targetY,2,t_ignoreLiquids,t_ignoreTraps,t_liquidsOnly,t_wallsOnly);
+				if(t_closestMovement->m_x==0 && t_closestMovement->m_y==0){
+					t_closestMovement=this->p_GetClosestMovement(t_targetX,t_targetY,1,t_ignoreLiquids,t_ignoreTraps,t_liquidsOnly,t_wallsOnly);
+				}
+			}
+		}
+	}
+	t_nextX=this->m_x+t_closestMovement->m_x;
+	t_nextY=this->m_y+t_closestMovement->m_y;
+	if(!t_ignoreLiquids && c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || t_liquidsOnly && !c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || !t_ignoreTraps && c_Trap::m_GetTrapTypeAt(t_nextX,t_nextY)==2 || t_wallsOnly && !c_Level::m_IsWallAt(t_nextX,t_nextY,false,true)){
+		return (new c_Point)->m_new(0,0);
+	}
+	if(t_closestMovement->m_x==0 && t_closestMovement->m_y==0 || c_Util::m_IsGlobalCollisionAt2(t_nextX,t_nextY,false,this->m_ignoreWalls,false,false) || !t_ignoreLiquids && c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || t_liquidsOnly && !c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || !t_ignoreTraps && c_Trap::m_GetTrapTypeAt(t_nextX,t_nextY)==2 || t_wallsOnly && !c_Level::m_IsWallAt(t_nextX,t_nextY,false,true)){
+		t_closestMovement=this->p_GetAdjacentTileThatIsClosestToTarget(t_targetX,t_targetY,-1);
+	}
+	t_nextX=this->m_x+t_closestMovement->m_x;
+	t_nextY=this->m_y+t_closestMovement->m_y;
+	if(!t_ignoreLiquids && c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || t_liquidsOnly && !c_Level::m_IsWaterOrTarAt(t_nextX,t_nextY) || !t_ignoreTraps && c_Trap::m_GetTrapTypeAt(t_nextX,t_nextY)==2 || t_wallsOnly && !c_Level::m_IsWallAt(t_nextX,t_nextY,false,true)){
+		return (new c_Point)->m_new(0,0);
+	}
+	if(t_closestMovement->m_x==0){
+		this->m_wasSeekingX=false;
+	}else{
+		if(t_closestMovement->m_x<0){
+			this->p_ImageFlipX(false);
+		}else{
+			this->p_ImageFlipX(true);
+		}
+		this->m_wasSeekingX=true;
+	}
+	return t_closestMovement;
+}
+c_Point* c_Enemy::p_BasicSeek(){
+	c_Player* t_player=c_Util::m_GetClosestPlayerIncludeItemEffects(this->m_x,this->m_y,this->m_ignoreWalls);
+	if(t_player!=0){
+		gc_assign(this->m_seekingPlayer,t_player);
+		return this->p_BasicSeekTarget(t_player->m_x,t_player->m_y,t_player->m_lastX,t_player->m_lastY,true,true,false,false);
+	}
+	return (new c_Point)->m_new(0,0);
 }
 c_Point* c_Enemy::p_BasicSeekNoTraps(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicSeekNoTraps()",24));
@@ -41053,9 +41142,9 @@ void c_Enemy::mark(){
 	gc_mark_q(m_animTellBlink);
 	gc_mark_q(m_attackSwipeImage);
 	gc_mark_q(m_jumpDirt);
+	gc_mark_q(m_seekingPlayer);
 	gc_mark_q(m_lastAttemptedMove);
 	gc_mark_q(m_attackSwipePoint);
-	gc_mark_q(m_seekingPlayer);
 }
 c_Crate::c_Crate(){
 	m_initialYOff=0;
@@ -50618,6 +50707,7 @@ void c_Slime::mark(){
 	c_Enemy::mark();
 }
 c_Skeleton::c_Skeleton(){
+	m_hasHead=true;
 	m_directionHitFrom=-1;
 	m_gotBounced=false;
 }
@@ -50648,8 +50738,19 @@ bool c_Skeleton::p_CanBeLord(){
 	return false;
 }
 c_Point* c_Skeleton::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Skeleton.GetMovementDirection()",31));
-	return 0;
+	if(this->m_isDancer){
+		return (new c_Point)->m_new(0,0);
+	}
+	if(this->m_isFormationDancer){
+		return (new c_Point)->m_new(0,1);
+	}
+	if(this->m_hasHead){
+		if(this->m_isMosh){
+			return (new c_Point)->m_new(0,0);
+		}
+		return this->p_BasicSeek();
+	}
+	return c_Util::m_GetPointFromDir(this->m_directionHitFrom);
 }
 bool c_Skeleton::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Skeleton.Hit(String, Int, Int, Entity, Bool, Int)",49));
