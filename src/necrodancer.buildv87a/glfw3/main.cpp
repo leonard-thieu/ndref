@@ -7124,6 +7124,7 @@ class c_Camera : public Object{
 	static Float m_shakeOffY;
 	static Float m_GetY();
 	static bool m_IsOnScreen(int,int);
+	static bool m_IsOnScreenStandardized(int,int);
 	static int m_overlayWhiteDuration;
 	static void m_Shake(int,int,int);
 	void mark();
@@ -10864,6 +10865,8 @@ class c_Banshee : public c_Enemy{
 class c_Minotaur : public c_Enemy{
 	public:
 	int m_initalYOff;
+	bool m_hasRoared;
+	int m_chargingDir;
 	c_Minotaur();
 	c_Minotaur* m_new(int,int,int);
 	c_Minotaur* m_new2();
@@ -30777,6 +30780,10 @@ bool c_Camera::m_IsOnScreen(int t_xVal,int t_yVal){
 			return true;
 		}
 	}
+	return false;
+}
+bool c_Camera::m_IsOnScreenStandardized(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.IsOnScreenStandardized(Int, Int)",39));
 	return false;
 }
 int c_Camera::m_overlayWhiteDuration;
@@ -52894,6 +52901,8 @@ void c_Banshee::mark(){
 }
 c_Minotaur::c_Minotaur(){
 	m_initalYOff=0;
+	m_hasRoared=false;
+	m_chargingDir=-1;
 }
 c_Minotaur* c_Minotaur::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -52922,7 +52931,38 @@ void c_Minotaur::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.MoveSucceed(Bool, Bool)",32));
 }
 void c_Minotaur::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.Update()",17));
+	if(this->m_animOverride<4){
+		this->m_yOff=Float(this->m_initalYOff);
+	}else{
+		if(this->m_animOverride>4){
+			this->m_yOff=Float(this->m_initalYOff+6);
+			this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+5;
+		}else{
+			this->m_yOff=Float(this->m_initalYOff+3);
+		}
+	}
+	if(this->p_IsVisible() && c_Camera::m_IsOnScreenStandardized(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		c_Audio::m_PlayGameSoundAt(String(L"minotaurCry",11),this->m_x,this->m_y,true,-1,false);
+		this->m_hasRoared=true;
+	}
+	if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(7.0) || this->m_hasRoared){
+		this->m_movesRegardlessOfDistance=true;
+	}
+	if(c_Enemy::m_enemiesFearfulDuration>0){
+		this->m_chargingDir=-1;
+		this->m_animOverride=-1;
+	}else{
+		if(this->m_chargingDir!=-1){
+			if(this->m_x<this->m_lastX){
+				this->m_image->p_FlipX(false,true);
+			}else{
+				if(this->m_x>this->m_lastX){
+					this->m_image->p_FlipX(true,true);
+				}
+			}
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Minotaur::mark(){
 	c_Enemy::mark();

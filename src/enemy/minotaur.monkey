@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import logger
 Import point
 Import shrine
@@ -14,7 +15,7 @@ Class Minotaur Extends Enemy
             l = 2
         End If
 
-        Self.Init(xVal, yVal, l, "minotaur", "", -1, -1)
+        Self.Init(xVal, yVal, l, "minotaur")
 
         Self.overrideHitSound = "minotaurHit"
         Self.overrideAttackSound = "minotaurAttack"
@@ -45,7 +46,40 @@ Class Minotaur Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Minotaur.Update()")
+        If Self.animOverride < 4
+            Self.yOff = Self.initalYOff
+        Else If Self.animOverride > 4
+            Self.yOff = Self.initalYOff + 6
+            Self.animOverride = Audio.GetBeatAnimFrame4() + 5
+        Else
+            Self.yOff = Self.initalYOff + 3
+        End If
+
+        If Self.IsVisible() And
+           Camera.IsOnScreenStandardized(Self.x, Self.y) And
+           Not Self.hasRoared And
+           Not Level.isLevelEditor
+            Audio.PlayGameSoundAt("minotaurCry", Self.x, Self.y, True, -1, False)
+            Self.hasRoared = True
+        End If
+
+        If Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 7.0 Or
+           Self.hasRoared
+            Self.movesRegardlessOfDistance = True
+        End If
+
+        If Enemy.enemiesFearfulDuration > 0
+            Self.chargingDir = -1
+            Self.animOverride = -1
+        Else If Self.chargingDir <> -1
+            If Self.x < Self.lastX
+                Self.image.FlipX(False, True)
+            Else If Self.x > Self.lastX
+                Self.image.FlipX(True, True)
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class
