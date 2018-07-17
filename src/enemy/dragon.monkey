@@ -4,6 +4,7 @@ Import mojo.graphics
 Import enemy
 Import level
 Import audio2
+Import camera
 Import entity
 Import logger
 Import player_class
@@ -48,7 +49,7 @@ Class Dragon Extends Enemy
     Field failedLastMove: Bool
     Field hasEarthed: Bool
 
-    Method ClearShot: Object()
+    Method ClearShot: Player()
         Debug.TraceNotImplemented("Dragon.ClearShot()")
     End Method
 
@@ -87,7 +88,44 @@ Class Dragon Extends Enemy
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Dragon.MoveSucceed(Bool, Bool)")
+        If Not moveDelayed
+            Camera.Shake(1, Self.x, Self.y)
+            Audio.PlayGameSoundAt("dragonWalk", Self.x, Self.y, False, -1, False)
+        End If
+
+        If Self.Shoots() And
+           Self.frozenDuration <= 0 And
+           Enemy.enemiesFearfulDuration < 0 And
+           Not hitPlayer
+            If Self.attackState > 0 And
+               Self.animOverride <= 6
+                Self.DoShot()
+                Self.animOverride = 7
+                Self.attackState = 2
+            End If
+
+            Local clearShotPlayer := Self.ClearShot()
+            If clearShotPlayer <> Null And
+               Self.attackState = 0 And
+               Self.hasRoared And
+               Self.lastFireballBeat < Audio.GetClosestBeatNum(True) - 2 And
+               Camera.IsOnScreenStandardized(Self.x, Self.y)
+                Self.attackState = 1
+                Self.animOverride = 4
+
+                Audio.PlayGameSound("dragonPrefire", -1, 1.0)
+
+                If clearShotPlayer.x > Self.x
+                    Self.image.FlipX(True, True)
+                    Self.facingLeft = False
+                Else If clearShotPlayer.x < Self.x
+                    Self.image.FlipX(False, True)
+                    Self.facingLeft = True
+                End If
+            End If
+        End If
+
+        Super.MoveSucceed(hitPlayer, moveDelayed)
     End Method
 
     Method RaiseWallAt: Void(xWall: Int, yWall: Int)

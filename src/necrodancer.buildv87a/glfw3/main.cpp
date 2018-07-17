@@ -7124,9 +7124,9 @@ class c_Camera : public Object{
 	static Float m_shakeOffY;
 	static Float m_GetY();
 	static bool m_IsOnScreen(int,int);
+	static void m_Shake(int,int,int);
 	static bool m_IsOnScreenStandardized(int,int);
 	static int m_overlayWhiteDuration;
-	static void m_Shake(int,int,int);
 	void mark();
 };
 extern int bb_necrodancergame_globalFrameCounter;
@@ -10837,9 +10837,10 @@ class c_Dragon : public c_Enemy{
 	int m_seekDistance;
 	bool m_failedLastMove;
 	int m_attackState;
-	bool m_firstFrame;
 	bool m_hasRoared;
 	int m_lastFireballBeat;
+	bool m_facingLeft;
+	bool m_firstFrame;
 	bool m_playerMoveOverride;
 	c_Dragon();
 	c_Dragon* m_new(int,int,int);
@@ -10848,8 +10849,9 @@ class c_Dragon : public c_Enemy{
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
-	void p_MoveSucceed(bool,bool);
 	void p_DoShot();
+	c_Player* p_ClearShot();
+	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
 };
@@ -30783,14 +30785,14 @@ bool c_Camera::m_IsOnScreen(int t_xVal,int t_yVal){
 	}
 	return false;
 }
+void c_Camera::m_Shake(int t_type,int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Shake(Int, Int, Int)",27));
+}
 bool c_Camera::m_IsOnScreenStandardized(int t_xVal,int t_yVal){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.IsOnScreenStandardized(Int, Int)",39));
 	return false;
 }
 int c_Camera::m_overlayWhiteDuration;
-void c_Camera::m_Shake(int t_type,int t_xVal,int t_yVal){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Camera.Shake(Int, Int, Int)",27));
-}
 void c_Camera::mark(){
 	Object::mark();
 }
@@ -52755,9 +52757,10 @@ c_Dragon::c_Dragon(){
 	m_seekDistance=7;
 	m_failedLastMove=false;
 	m_attackState=0;
-	m_firstFrame=true;
 	m_hasRoared=false;
 	m_lastFireballBeat=0;
+	m_facingLeft=true;
+	m_firstFrame=true;
 	m_playerMoveOverride=false;
 }
 c_Dragon* c_Dragon::m_new(int t_xVal,int t_yVal,int t_l){
@@ -52803,11 +52806,41 @@ bool c_Dragon::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hi
 void c_Dragon::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.MoveFail()",17));
 }
-void c_Dragon::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.MoveSucceed(Bool, Bool)",30));
-}
 void c_Dragon::p_DoShot(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.DoShot()",15));
+}
+c_Player* c_Dragon::p_ClearShot(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.ClearShot()",18));
+	return 0;
+}
+void c_Dragon::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
+	if(!t_moveDelayed){
+		c_Camera::m_Shake(1,this->m_x,this->m_y);
+		c_Audio::m_PlayGameSoundAt(String(L"dragonWalk",10),this->m_x,this->m_y,false,-1,false);
+	}
+	if(this->p_Shoots() && this->m_frozenDuration<=0 && c_Enemy::m_enemiesFearfulDuration<0 && !t_hitPlayer){
+		if(this->m_attackState>0 && this->m_animOverride<=6){
+			this->p_DoShot();
+			this->m_animOverride=7;
+			this->m_attackState=2;
+		}
+		c_Player* t_clearShotPlayer=this->p_ClearShot();
+		if(t_clearShotPlayer!=0 && this->m_attackState==0 && this->m_hasRoared && this->m_lastFireballBeat<c_Audio::m_GetClosestBeatNum(true)-2 && c_Camera::m_IsOnScreenStandardized(this->m_x,this->m_y)){
+			this->m_attackState=1;
+			this->m_animOverride=4;
+			c_Audio::m_PlayGameSound(String(L"dragonPrefire",13),-1,FLOAT(1.0));
+			if(t_clearShotPlayer->m_x>this->m_x){
+				this->m_image->p_FlipX(true,true);
+				this->m_facingLeft=false;
+			}else{
+				if(t_clearShotPlayer->m_x<this->m_x){
+					this->m_image->p_FlipX(false,true);
+					this->m_facingLeft=true;
+				}
+			}
+		}
+	}
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
 void c_Dragon::p_Update(){
 	this->m_firstFrame=false;
