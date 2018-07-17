@@ -31711,7 +31711,7 @@ bool c_Entity::p_IsVisible(){
 	return c_Level::m_IsVisibleTileAt(this->m_x,this->m_y);
 }
 void c_Entity::p_BounceInPlace(bool t_bufferTween){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.BounceInPlace(Bool)",26));
+	this->p_PerformTween(this->m_x,this->m_y,this->m_x,this->m_y,1,2,t_bufferTween);
 }
 void c_Entity::m_UpdateVisibility(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Entity.UpdateVisibility()",25));
