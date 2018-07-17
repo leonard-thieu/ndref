@@ -6,6 +6,7 @@ Import trap
 Import audio2
 Import entity
 Import logger
+Import player_class
 Import util
 
 Class BounceTrap Extends Trap
@@ -123,7 +124,64 @@ Class BounceTrap Extends Trap
     End Method
 
     Method Trigger: Void(ent: Entity)
-        Debug.TraceNotImplemented("BounceTrap.Trigger(Entity)")
+        Local bounceDir := Self.bounceDir
+        Local numRotations := (Self.triggeredOnBeat + 1) Mod 4
+        
+        If Self.isRotatingCW
+            For Local i := 0 Until numRotations
+                bounceDir = Self.RotateDir(bounceDir, True)
+            End For
+        Else If Self.isRotatingCCW
+            For Local i := 0 Until numRotations
+                bounceDir = Self.RotateDir(bounceDir, False)
+            End For
+        End If
+
+        Self.retractCounter = 200
+
+        If bounceDir = BounceTrapDirection.Omni
+            bounceDir = Util.GetDirFromDiff(ent.x - ent.lastX, ent.y - ent.lastY)
+        End If
+
+        Local dirPoint := Util.GetPointFromDir(bounceDir)
+
+        If Util.GetDist(ent.x, ent.y, ent.lastX, ent.lastY) <= 4.2
+            If ent.isPlayer
+                Local player := Player(ent)
+
+                If player.immobilized
+                    Return
+                End If
+
+                If player.IsHeavy()
+                    Audio.PlayGameSound("bounceFail", -1, 1.0)
+                    Super.Trigger(ent)
+
+                    Return
+                End If
+
+                If Util.IsGlobalCollisionAt(player.x + dirPoint.x, player.y + dirPoint.y, False, False, False, False)
+                    ' Called with False in Windows version.
+                    player.BounceInPlace(True)
+                Else
+                    player.ImmediatelyMoveTo(dirPoint.x, dirPoint.y, False, False, True, False, False)
+                End If
+            Else
+                If Util.IsGlobalCollisionAt(ent.x + dirPoint.x, ent.y + dirPoint.y, False, False, False, False)
+                    ent.BounceInPlace(True)
+                Else
+                    ent.MoveImmediate(dirPoint.x, dirPoint.y, "bounceTrap")
+                End If
+            End If
+        Else
+            ent.BounceInPlace(False)
+        End If
+
+        If Not ent.clampedOn
+            Audio.PlayGameSoundAt("bounceTrap", Self.x, Self.y, False, -1, False)
+        End If
+
+        Super.Trigger(ent)
     End Method
 
     Method Update: Void()

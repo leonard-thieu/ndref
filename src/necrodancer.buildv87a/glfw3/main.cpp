@@ -7673,6 +7673,7 @@ class c_Player : public c_MobileEntity{
 	void p_HandleIceAndCoals();
 	void p_AfterEnemyMovement();
 	static void m_ActuallyPlayVO(String,c_Player*);
+	bool p_IsHeavy();
 	void p_Fall(bool);
 	bool p_IsVisible();
 	void p_PerformTween(int,int,int,int,int,int,bool);
@@ -11121,8 +11122,8 @@ class c_BounceTrap : public c_Trap{
 	c_BounceTrap();
 	c_BounceTrap* m_new(int,int,int);
 	c_BounceTrap* m_new2();
-	void p_Trigger(c_Entity*);
 	int p_RotateDir(int,bool);
+	void p_Trigger(c_Entity*);
 	void p_Rotate();
 	int p_GetFrameToShow();
 	void p_Update();
@@ -34641,6 +34642,10 @@ void c_Player::p_AfterEnemyMovement(){
 void c_Player::m_ActuallyPlayVO(String t_voSound,c_Player* t_player){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.ActuallyPlayVO(String, Player)",37));
 }
+bool c_Player::p_IsHeavy(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.IsHeavy()",16));
+	return false;
+}
 void c_Player::p_Fall(bool t_keepMultiplier){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Player.Fall(Bool)",17));
 }
@@ -53862,12 +53867,59 @@ c_BounceTrap* c_BounceTrap::m_new2(){
 	c_Trap::m_new2();
 	return this;
 }
-void c_BounceTrap::p_Trigger(c_Entity* t_ent){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.Trigger(Entity)",26));
-}
 int c_BounceTrap::p_RotateDir(int t_dir,bool t_cw){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"BounceTrap.RotateDir(Int, Bool)",31));
 	return 0;
+}
+void c_BounceTrap::p_Trigger(c_Entity* t_ent){
+	int t_bounceDir=this->m_bounceDir;
+	int t_numRotations=(this->m_triggeredOnBeat+1) % 4;
+	if(this->m_isRotatingCW){
+		for(int t_i=0;t_i<t_numRotations;t_i=t_i+1){
+			t_bounceDir=this->p_RotateDir(t_bounceDir,true);
+		}
+	}else{
+		if(this->m_isRotatingCCW){
+			for(int t_i2=0;t_i2<t_numRotations;t_i2=t_i2+1){
+				t_bounceDir=this->p_RotateDir(t_bounceDir,false);
+			}
+		}
+	}
+	this->m_retractCounter=200;
+	if(t_bounceDir==8){
+		t_bounceDir=c_Util::m_GetDirFromDiff(t_ent->m_x-t_ent->m_lastX,t_ent->m_y-t_ent->m_lastY);
+	}
+	c_Point* t_dirPoint=c_Util::m_GetPointFromDir(t_bounceDir);
+	if(c_Util::m_GetDist(t_ent->m_x,t_ent->m_y,t_ent->m_lastX,t_ent->m_lastY)<=FLOAT(4.2)){
+		if(t_ent->m_isPlayer){
+			c_Player* t_player=dynamic_cast<c_Player*>(t_ent);
+			if(t_player->m_immobilized){
+				return;
+			}
+			if(t_player->p_IsHeavy()){
+				c_Audio::m_PlayGameSound(String(L"bounceFail",10),-1,FLOAT(1.0));
+				c_Trap::p_Trigger(t_ent);
+				return;
+			}
+			if(c_Util::m_IsGlobalCollisionAt2(t_player->m_x+t_dirPoint->m_x,t_player->m_y+t_dirPoint->m_y,false,false,false,false)){
+				t_player->p_BounceInPlace(true);
+			}else{
+				t_player->p_ImmediatelyMoveTo(t_dirPoint->m_x,t_dirPoint->m_y,false,false,true,false,false);
+			}
+		}else{
+			if(c_Util::m_IsGlobalCollisionAt2(t_ent->m_x+t_dirPoint->m_x,t_ent->m_y+t_dirPoint->m_y,false,false,false,false)){
+				t_ent->p_BounceInPlace(true);
+			}else{
+				t_ent->p_MoveImmediate(t_dirPoint->m_x,t_dirPoint->m_y,String(L"bounceTrap",10));
+			}
+		}
+	}else{
+		t_ent->p_BounceInPlace(false);
+	}
+	if(!t_ent->m_clampedOn){
+		c_Audio::m_PlayGameSoundAt(String(L"bounceTrap",10),this->m_x,this->m_y,false,-1,false);
+	}
+	c_Trap::p_Trigger(t_ent);
 }
 void c_BounceTrap::p_Rotate(){
 	if(this->m_isRotatingCW){
