@@ -1,12 +1,15 @@
 'Strict
 
+Import monkey.math
 Import mojo.graphics
+Import controller.controller_game
 Import enemy
 Import level
 Import audio2
 Import camera
 Import entity
 Import logger
+Import necrodancergame
 Import player_class
 Import point
 Import shrine
@@ -50,7 +53,180 @@ Class Dragon Extends Enemy
     Field hasEarthed: Bool
 
     Method ClearShot: Player()
-        Debug.TraceNotImplemented("Dragon.ClearShot()")
+        If necrodancergame.DEBUG_STOP_ENEMY_MOVEMENT
+            Return Null
+        End If
+
+        Select Self.level
+            Case 2
+                Select Self.attackState
+                    Case 0
+                        For Local i := 0 Until controller_game.numPlayers
+                            Local player := controller_game.players[i]
+                            If Not player.Perished And
+                               Self.y = player.y
+                                Local xOff := math.Sgn(Self.x - player.x)
+                                Local isObstructed := False
+                                Local x := Self.x
+                                While x <> player.x
+                                    If Not Level.IsFloorAt(x, player.y)
+                                        isObstructed = True
+
+                                        Exit
+                                    End If
+
+                                    x += xOff
+                                End While
+
+                                If Not isObstructed
+                                    Return player
+                                End If
+                            End If
+                        End For
+
+                        Return Null
+                End Select
+        End Select
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished And
+               player.frozenDuration > 0
+                Return Null
+            End If
+        End for
+
+        Local x := Self.x - 1
+        Local y := Self.y
+        If Util.IsAnyPlayerAt(x, y)
+            Return Util.GetAnyPlayerAt(x, y)
+        End If
+
+        If Level.IsFloorAt(x, y)
+            x = Self.x - 2
+            y = Self.y - 1
+            If Util.IsAnyPlayerAt(x, y)
+                Return Util.GetAnyPlayerAt(x, y)
+            End If
+
+            x = Self.x - 2
+            y = Self.y + 1
+            If Util.IsAnyPlayerAt(x, y)
+                Return Util.GetAnyPlayerAt(x, y)
+            End If
+
+            x = Self.x - 2
+            y = Self.y - 1
+            If Level.IsFloorAt(x, y)
+                x = Self.x - 3
+                y = Self.y - 2
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+
+                x = Self.x - 3
+                y = Self.y - 1
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+            End If
+
+            x = Self.x - 2
+            y = Self.y
+            If Level.IsFloorAt(x, y)
+                x = Self.x - 3
+                y = Self.y
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+            End If
+
+            x = Self.x - 2
+            y = Self.y + 1
+            If Level.IsFloorAt(x, y)
+                x = Self.x - 3
+                y = Self.y + 1
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+
+                x = Self.x - 3
+                y = Self.y + 2
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+            End If
+        End If
+
+        x = Self.x + 1
+        y = Self.y
+        If Util.IsAnyPlayerAt(x, y)
+            Return Util.GetAnyPlayerAt(x, y)
+        End If
+
+        If Level.IsFloorAt(x, y)
+            x = Self.x + 2
+            y = Self.y - 1
+            If Util.IsAnyPlayerAt(x, y)
+                Return Util.GetAnyPlayerAt(x, y)
+            End If
+
+            x = Self.x + 2
+            y = Self.y
+            If Util.IsAnyPlayerAt(x, y)
+                Return Util.GetAnyPlayerAt(x, y)
+            End If
+
+            x = Self.x + 2
+            y = Self.y + 1
+            If Util.IsAnyPlayerAt(x, y)
+                Return Util.GetAnyPlayerAt(x, y)
+            End If
+
+            x = Self.x + 2
+            y = Self.y - 1
+            If Level.IsFloorAt(x, y)
+                x = Self.x + 3
+                y = Self.y - 2
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+
+                x = Self.x + 3
+                y = Self.y - 1
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+            End If
+
+            x = Self.x + 2
+            y = Self.y
+            If Level.IsFloorAt(x, y)
+                x = Self.x + 3
+                y = Self.y
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+            End If
+
+            x = Self.x + 2
+            y = Self.y + 1
+            If Level.IsFloorAt(x, y)
+                x = Self.x + 3
+                y = Self.y + 1
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+
+                x = Self.x + 3
+                y = Self.y + 2
+                If Util.IsAnyPlayerAt(x, y)
+                    Return Util.GetAnyPlayerAt(x, y)
+                End If
+            End If
+        End If
+
+        Return Null
     End Method
 
     Method DoShot: Void()

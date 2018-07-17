@@ -12879,6 +12879,8 @@ class c_HeadNode42 : public c_Node60{
 	c_HeadNode42* m_new();
 	void mark();
 };
+int bb_math_Sgn(int);
+Float bb_math_Sgn2(Float);
 void bb_fmod_StopSoundFMOD(int);
 class c_ConductorBattery : public c_Enemy{
 	public:
@@ -52784,8 +52786,8 @@ c_Dragon* c_Dragon::m_new2(){
 	return this;
 }
 bool c_Dragon::p_Shoots(){
-	int t_1=this->m_level;
-	if(t_1==2 || t_1==3){
+	int t_3=this->m_level;
+	if(t_3==2 || t_3==3){
 		return true;
 	}
 	return false;
@@ -52810,7 +52812,153 @@ void c_Dragon::p_DoShot(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.DoShot()",15));
 }
 c_Player* c_Dragon::p_ClearShot(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Dragon.ClearShot()",18));
+	if(bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT){
+		return 0;
+	}
+	int t_1=this->m_level;
+	if(t_1==2){
+		int t_2=this->m_attackState;
+		if(t_2==0){
+			for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+				c_Player* t_player=bb_controller_game_players[t_i];
+				if(!t_player->p_Perished() && this->m_y==t_player->m_y){
+					int t_xOff=bb_math_Sgn(this->m_x-t_player->m_x);
+					bool t_isObstructed=false;
+					int t_x=this->m_x;
+					while(t_x!=t_player->m_x){
+						if(!c_Level::m_IsFloorAt(t_x,t_player->m_y)){
+							t_isObstructed=true;
+							break;
+						}
+						t_x+=t_xOff;
+					}
+					if(!t_isObstructed){
+						return t_player;
+					}
+				}
+			}
+			return 0;
+		}
+	}
+	for(int t_i2=0;t_i2<bb_controller_game_numPlayers;t_i2=t_i2+1){
+		c_Player* t_player2=bb_controller_game_players[t_i2];
+		if(!t_player2->p_Perished() && t_player2->m_frozenDuration>0){
+			return 0;
+		}
+	}
+	int t_x2=this->m_x-1;
+	int t_y=this->m_y;
+	if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+		return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+	}
+	if(c_Level::m_IsFloorAt(t_x2,t_y)){
+		t_x2=this->m_x-2;
+		t_y=this->m_y-1;
+		if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+			return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+		}
+		t_x2=this->m_x-2;
+		t_y=this->m_y+1;
+		if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+			return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+		}
+		t_x2=this->m_x-2;
+		t_y=this->m_y-1;
+		if(c_Level::m_IsFloorAt(t_x2,t_y)){
+			t_x2=this->m_x-3;
+			t_y=this->m_y-2;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+			t_x2=this->m_x-3;
+			t_y=this->m_y-1;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+		}
+		t_x2=this->m_x-2;
+		t_y=this->m_y;
+		if(c_Level::m_IsFloorAt(t_x2,t_y)){
+			t_x2=this->m_x-3;
+			t_y=this->m_y;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+		}
+		t_x2=this->m_x-2;
+		t_y=this->m_y+1;
+		if(c_Level::m_IsFloorAt(t_x2,t_y)){
+			t_x2=this->m_x-3;
+			t_y=this->m_y+1;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+			t_x2=this->m_x-3;
+			t_y=this->m_y+2;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+		}
+	}
+	t_x2=this->m_x+1;
+	t_y=this->m_y;
+	if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+		return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+	}
+	if(c_Level::m_IsFloorAt(t_x2,t_y)){
+		t_x2=this->m_x+2;
+		t_y=this->m_y-1;
+		if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+			return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+		}
+		t_x2=this->m_x+2;
+		t_y=this->m_y;
+		if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+			return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+		}
+		t_x2=this->m_x+2;
+		t_y=this->m_y+1;
+		if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+			return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+		}
+		t_x2=this->m_x+2;
+		t_y=this->m_y-1;
+		if(c_Level::m_IsFloorAt(t_x2,t_y)){
+			t_x2=this->m_x+3;
+			t_y=this->m_y-2;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+			t_x2=this->m_x+3;
+			t_y=this->m_y-1;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+		}
+		t_x2=this->m_x+2;
+		t_y=this->m_y;
+		if(c_Level::m_IsFloorAt(t_x2,t_y)){
+			t_x2=this->m_x+3;
+			t_y=this->m_y;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+		}
+		t_x2=this->m_x+2;
+		t_y=this->m_y+1;
+		if(c_Level::m_IsFloorAt(t_x2,t_y)){
+			t_x2=this->m_x+3;
+			t_y=this->m_y+1;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+			t_x2=this->m_x+3;
+			t_y=this->m_y+2;
+			if(c_Util::m_IsAnyPlayerAt(t_x2,t_y)){
+				return c_Util::m_GetAnyPlayerAt(t_x2,t_y);
+			}
+		}
+	}
 	return 0;
 }
 void c_Dragon::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
@@ -52859,19 +53007,19 @@ void c_Dragon::p_Update(){
 			this->m_playerMoveOverride=false;
 			t_v6=1;
 		}
-		int t_2=this->m_attackState;
-		if(t_2==1){
-			int t_3=this->m_animOverride;
-			if(t_3==4){
+		int t_4=this->m_attackState;
+		if(t_4==1){
+			int t_5=this->m_animOverride;
+			if(t_5==4){
 				if(c_Audio::m_GetPercentDistanceFromNextBeat()<=FLOAT(0.5) && !((t_v6)!=0)){
 					this->m_animOverride=5;
 				}
 			}else{
-				if(t_3==5){
+				if(t_5==5){
 					if(c_Audio::m_GetPercentDistanceFromNextBeat()>FLOAT(0.5) || this->m_animOverride==6){
 					}
 				}else{
-					if(t_3==6){
+					if(t_5==6){
 						if((t_v6)!=0){
 							this->m_attackState=2;
 						}
@@ -52879,9 +53027,9 @@ void c_Dragon::p_Update(){
 				}
 			}
 		}else{
-			if(t_2==2){
-				int t_4=this->m_animOverride;
-				if(t_4==8){
+			if(t_4==2){
+				int t_6=this->m_animOverride;
+				if(t_6==8){
 					if(!((t_v6)!=0)){
 						this->m_attackState=0;
 						this->m_currentMoveDelay=2;
@@ -58792,6 +58940,21 @@ c_HeadNode42* c_HeadNode42::m_new(){
 }
 void c_HeadNode42::mark(){
 	c_Node60::mark();
+}
+int bb_math_Sgn(int t_x){
+	if(t_x<0){
+		return -1;
+	}
+	return ((t_x>0)?1:0);
+}
+Float bb_math_Sgn2(Float t_x){
+	if(t_x<FLOAT(0.0)){
+		return FLOAT(-1.0);
+	}
+	if(t_x>FLOAT(0.0)){
+		return FLOAT(1.0);
+	}
+	return FLOAT(0.0);
 }
 void bb_fmod_StopSoundFMOD(int t_snd){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"StopSoundFMOD(Int)",18));
