@@ -82,7 +82,7 @@ Class Bat Extends Enemy
             Return Self.RandomSeek(False, False)
         End If
 
-        If Self.confusedUntil > Audio.GetClosestBeatNum(True)
+        If Self.IsConfused()
             Return Self.BasicSeek()
         End If
 

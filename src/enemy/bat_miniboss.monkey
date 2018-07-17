@@ -27,7 +27,7 @@ Class BatMiniboss Extends Enemy
     Field hasRoared: Bool
 
     Method GetMovementDirection: Point()
-        If Self.confusedUntil > Audio.GetClosestBeatNum(True)
+        If Self.IsConfused()
             Return Self.BasicSeek()
         End If
 

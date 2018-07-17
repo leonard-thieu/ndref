@@ -49925,7 +49925,7 @@ c_Point* c_Bat::p_GetMovementDirection(){
 		}
 		return this->p_RandomSeek(false,false);
 	}
-	if(this->m_confusedUntil>c_Audio::m_GetClosestBeatNum(true)){
+	if(this->p_IsConfused()){
 		return this->p_BasicSeek();
 	}
 	return c_Enemy::p_GetMovementDirection();
@@ -52728,7 +52728,7 @@ c_BatMiniboss* c_BatMiniboss::m_new2(){
 	return this;
 }
 c_Point* c_BatMiniboss::p_GetMovementDirection(){
-	if(this->m_confusedUntil>c_Audio::m_GetClosestBeatNum(true)){
+	if(this->p_IsConfused()){
 		return this->p_BasicSeek();
 	}
 	return c_Enemy::p_GetMovementDirection();
