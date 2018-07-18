@@ -11023,6 +11023,7 @@ class c_Fortissimole : public c_Enemy{
 };
 class c_Pawn : public c_Enemy{
 	public:
+	int m_startY;
 	c_Pawn();
 	c_Pawn* m_new(int,int,int);
 	c_Pawn* m_new2();
@@ -53670,6 +53671,7 @@ void c_Fortissimole::mark(){
 	gc_mark_q(m_currentDirt);
 }
 c_Pawn::c_Pawn(){
+	m_startY=0;
 }
 c_Pawn* c_Pawn::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -53677,6 +53679,7 @@ c_Pawn* c_Pawn::m_new(int t_xVal,int t_yVal,int t_l){
 		t_l=2;
 	}
 	this->p_Init3(t_xVal,t_yVal,t_l,String(L"pawn",4),String(),-1,-1);
+	this->m_startY=t_yVal;
 	this->p_ActivateLight(FLOAT(0.01),FLOAT(0.02));
 	this->m_overrideAttackSound=String(L"chessAttack",11);
 	this->m_overrideDeathSound=String(L"chessDeath",10);
