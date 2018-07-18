@@ -206,7 +206,7 @@ Class Item Extends Entity
 
                             If chance > 0
                                 If Level.isHardcoreMode Or
-                                   Item.IsUnlocked(itemNode.GetAttribute("name", ""))
+                                   Item.IsUnlocked(itemNode.name)
                                     unlockedItems.Push(itemNode)
 
                                     If j = jLength - 1

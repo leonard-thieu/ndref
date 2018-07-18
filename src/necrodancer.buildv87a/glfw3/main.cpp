@@ -36141,7 +36141,7 @@ void c_Item::m_CreateItemPools(){
 							}
 						}
 						if(t_chance>0){
-							if(c_Level::m_isHardcoreMode || m_IsUnlocked(t_itemNode->p_GetAttribute5(String(L"name",4),String()))){
+							if(c_Level::m_isHardcoreMode || m_IsUnlocked(t_itemNode->p_name())){
 								t_unlockedItems->p_Push13(t_itemNode);
 								if(t_j==7){
 									t_unlockedItemsChances->p_Push4(1);
