@@ -8149,8 +8149,8 @@ class c_Enemy : public c_MobileEntity{
 	bool m_executedCry;
 	int m_animOverrideState;
 	bool m_wasFrozen;
-	int m_blinkDelay;
 	int m_blinkDuration;
+	int m_blinkDelay;
 	int m_animOffset;
 	int m_overrideNormal2Timing;
 	int m_overrideTellTiming;
@@ -37125,8 +37125,8 @@ c_Enemy::c_Enemy(){
 	m_executedCry=false;
 	m_animOverrideState=-1;
 	m_wasFrozen=false;
-	m_blinkDelay=0;
 	m_blinkDuration=0;
+	m_blinkDelay=0;
 	m_animOffset=0;
 	m_overrideNormal2Timing=-1;
 	m_overrideTellTiming=-1;
@@ -41085,8 +41085,8 @@ void c_Enemy::p_AnimateToTheBeat(){
 		}
 		return;
 	}
-	this->m_blinkDelay-=1;
 	this->m_blinkDuration-=1;
+	this->m_blinkDelay-=1;
 	if(this->m_blinkDelay<=0){
 		this->m_blinkDelay=c_Util::m_RndIntRange(this->m_blink_MIN,this->m_blink_MAX,false,-1);
 		this->m_blinkDuration=this->m_blink_DUR;
@@ -41105,7 +41105,7 @@ void c_Enemy::p_AnimateToTheBeat(){
 	this->m_image->p_SetFrame(this->m_animOffset);
 	bool t_useAnimNormal2=false;
 	if(!this->m_animNormal2->p_IsEmpty()){
-		t_useAnimNormal2=this->p_GetBeatNum() % 2==0;
+		t_useAnimNormal2=this->p_GetBeatNum() % 2==1;
 	}
 	int t_17=this->m_overrideNormal2Timing;
 	if(t_17==0){
@@ -41145,6 +41145,10 @@ void c_Enemy::p_AnimateToTheBeat(){
 		}
 		if(t_useAnimTell){
 			t_animData=this->m_animTell->p_Get2(t_i);
+		}
+		if(t_animData==0){
+			bb_logger_Debug->p_WriteLine2(String(L"`animData` is Null.",19));
+			return;
 		}
 		if(this->p_IsBetweenFraction(t_animData->m_onFraction,t_animData->m_offFraction) || t_animData->m_singleFrame){
 			break;

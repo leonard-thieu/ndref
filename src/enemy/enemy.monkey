@@ -2294,8 +2294,8 @@ Class Enemy Extends MobileEntity Abstract
             Return
         End If
 
-        Self.blinkDelay -= 1
         Self.blinkDuration -= 1
+        Self.blinkDelay -= 1
         If Self.blinkDelay <= 0
             Self.blinkDelay = Util.RndIntRange(Self.blink_MIN, Self.blink_MAX, False)
             Self.blinkDuration = Self.blink_DUR
@@ -2320,7 +2320,7 @@ Class Enemy Extends MobileEntity Abstract
 
         Local useAnimNormal2 := False
         If Not Self.animNormal2.IsEmpty()
-            useAnimNormal2 = (Self.GetBeatNum() Mod 2 = 0)
+            useAnimNormal2 = (Self.GetBeatNum() Mod 2 = 1)
         End If
 
         Select Self.overrideNormal2Timing
@@ -2368,6 +2368,13 @@ Class Enemy Extends MobileEntity Abstract
             If useAnimTell
                 animData = Self.animTell.Get(i)
             End If
+
+            ' TODO: Workaround for implementation issue.
+            If animData = Null
+                Debug.WriteLine("`animData` is Null.")
+                
+                Return
+            End IF
 
             If Self.IsBetweenFraction(animData.onFraction, animData.offFraction) Or
                animData.singleFrame
@@ -2746,11 +2753,11 @@ Class Enemy Extends MobileEntity Abstract
 
         Self.xmlName = name
 
-        For Local i := 0 Until Self.lastPlayerHitFrame.Length()
+        For Local i := 0 Until Self.lastPlayerHitFrame.Length
             Self.lastPlayerHitFrame[i] = -1
         End For
 
-        For Local i := 0 Until Self.lastPlayerHitSource.Length()
+        For Local i := 0 Until Self.lastPlayerHitSource.Length
             Self.lastPlayerHitSource[i] = ""
         End For
 

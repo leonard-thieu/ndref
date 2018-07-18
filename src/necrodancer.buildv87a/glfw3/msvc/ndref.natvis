@@ -96,6 +96,7 @@
   <Type Name="c_Node2">
     <AlternativeType Name="c_Node26"/>
     <AlternativeType Name="c_Node27"/>
+    <AlternativeType Name="c_Node35"/>
     <DisplayString>[{m_key,na}] = {m_value,na}</DisplayString>
     <Expand>
       <Item Name="[value]">m_value,na</Item>
