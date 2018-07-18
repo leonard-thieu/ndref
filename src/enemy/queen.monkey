@@ -16,7 +16,7 @@ Class Queen Extends Enemy
             l = 2
         End If
 
-        Self.Init(xVal, yVal, l, "queen", "", -1, -1)
+        Self.Init(xVal, yVal, l, "queen")
 
         Self.initialYOff = Self.yOff
 
@@ -38,7 +38,11 @@ Class Queen Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Queen.Update()")
+        If Self.bounce <> Null
+            Self.yOff = Self.bounce.GetVal() + Self.initialYOff
+        End If
+
+        Super.Update()
     End Method
 
 End Class

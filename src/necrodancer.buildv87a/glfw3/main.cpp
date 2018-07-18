@@ -53831,7 +53831,10 @@ bool c_Queen::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	return false;
 }
 void c_Queen::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Queen.Update()",14));
+	if(this->m_bounce!=0){
+		this->m_yOff=this->m_bounce->p_GetVal()+Float(this->m_initialYOff);
+	}
+	c_Enemy::p_Update();
 }
 void c_Queen::mark(){
 	c_Enemy::mark();
