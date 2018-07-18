@@ -10558,6 +10558,11 @@ class c_StandardItemPredicate : public Object,public virtual c_IItemPredicate{
 };
 class c_ArmoredSkeleton : public c_Enemy{
 	public:
+	bool m_shieldDestroyed;
+	int m_shieldDir;
+	int m_directionHitFrom;
+	bool m_gotBounced;
+	bool m_hasHead;
 	c_ArmoredSkeleton();
 	c_ArmoredSkeleton* m_new(int,int,int);
 	c_ArmoredSkeleton* m_new2();
@@ -51866,6 +51871,11 @@ void c_StandardItemPredicate::mark(){
 	Object::mark();
 }
 c_ArmoredSkeleton::c_ArmoredSkeleton(){
+	m_shieldDestroyed=false;
+	m_shieldDir=1;
+	m_directionHitFrom=-1;
+	m_gotBounced=false;
+	m_hasHead=true;
 }
 c_ArmoredSkeleton* c_ArmoredSkeleton::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -51906,7 +51916,48 @@ void c_ArmoredSkeleton::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.MoveSucceed(Bool, Bool)",39));
 }
 void c_ArmoredSkeleton::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.Update()",24));
+	if(!this->m_shieldDestroyed){
+		int t_1=this->m_shieldDir;
+		if(t_1==2){
+			this->m_image->p_FlipX(false,true);
+		}else{
+			if(t_1==0){
+				this->m_image->p_FlipX(true,true);
+			}
+		}
+	}
+	if(this->m_directionHitFrom!=-1 && this->m_gotBounced && !this->m_hasHead){
+		this->m_gotBounced=false;
+		if(this->m_x<this->m_lastX){
+			this->m_directionHitFrom=2;
+		}else{
+			if(this->m_x>this->m_lastX){
+				this->m_directionHitFrom=0;
+			}else{
+				if(this->m_y<this->m_lastY){
+					this->m_directionHitFrom=3;
+				}else{
+					if(this->m_y>this->m_lastY){
+						this->m_directionHitFrom=1;
+					}
+				}
+			}
+		}
+	}
+	if(!this->m_shieldDestroyed){
+		int t_2=this->m_shieldDir;
+		if(t_2==2 || t_2==0){
+			this->m_animOverrideState=2;
+		}else{
+			if(t_2==3){
+				this->m_animOverrideState=0;
+			}else{
+				this->m_animOverrideState=4;
+			}
+		}
+		this->m_animOverride=((c_Audio::m_IsBeatAnimTime(false,false))?1:0);
+	}
+	c_Enemy::p_Update();
 }
 void c_ArmoredSkeleton::mark(){
 	c_Enemy::mark();

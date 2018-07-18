@@ -7,6 +7,7 @@ Import entity
 Import logger
 Import point
 Import shrine
+Import util
 
 Class ArmoredSkeleton Extends Enemy
 
@@ -72,7 +73,46 @@ Class ArmoredSkeleton Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("ArmoredSkeleton.Update()")
+        If Not Self.shieldDestroyed
+            Select Self.shieldDir
+                Case Direction.Left
+                    Self.image.FlipX(False, True)
+                Case Direction.Right
+                    Self.image.FlipX(True, True)
+            End Select
+        End If
+
+        If Self.directionHitFrom <> Direction.None And
+           Self.gotBounced And
+           Not Self.hasHead
+            Self.gotBounced = False
+
+            If Self.x < Self.lastX
+                Self.directionHitFrom = Direction.Left
+            Else If Self.x > Self.lastX
+                Self.directionHitFrom = Direction.Right
+            Else If Self.y < Self.lastY
+                Self.directionHitFrom = Direction.Up
+            Else If Self.y > Self.lastY
+                Self.directionHitFrom = Direction.Down
+            End If
+        End If
+
+        If Not Self.shieldDestroyed
+            Select Self.shieldDir
+                Case Direction.Left,
+                     Direction.Right
+                    Self.animOverrideState = 2
+                Case Direction.Up
+                    Self.animOverrideState = 0
+                Default
+                    Self.animOverrideState = 4
+            End Select
+
+            Self.animOverride = Audio.IsBeatAnimTime(False, False)
+        End If
+
+        Super.Update()
     End Method
 
 End Class
