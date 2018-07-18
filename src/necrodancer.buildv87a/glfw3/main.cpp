@@ -53789,7 +53789,8 @@ void c_Rook::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Rook.MoveSucceed(Bool, Bool)",28));
 }
 void c_Rook::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Rook.Update()",13));
+	this->m_image->m_flipX=false;
+	c_Enemy::p_Update();
 }
 void c_Rook::mark(){
 	c_Enemy::mark();
