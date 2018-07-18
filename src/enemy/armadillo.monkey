@@ -1,10 +1,13 @@
 'Strict
 
+Import monkey.math
 Import enemy
 Import entity
 Import logger
+Import necrodancergame
 Import point
 Import shrine
+Import util
 
 Class Armadillo Extends Enemy
 
@@ -25,8 +28,8 @@ Class Armadillo Extends Enemy
         Self.overrideDeathSound = "armadilloDeath"
     End Method
 
-    Field chargeNext: Int = -1
-    Field chargingDir: Int = -1
+    Field chargeNext: Int = Direction.None
+    Field chargingDir: Int = Direction.None
     Field stunnedTime: Int
 
     Method AttemptCharge: Void(target: Entity, immediate: Bool)
@@ -62,7 +65,59 @@ Class Armadillo Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Armadillo.Update()")
+        If Self.lastX > Self.x
+            Self.image.FlipX(False, True)
+        Else If Self.lastX < Self.x
+            Self.image.FlipX(True, True)
+        End If
+
+        Local chargingDir := Self.chargingDir
+
+        If Self.level <> 3
+            Select Self.chargingDir
+                Case Direction.DownLeft,
+                     Direction.UpLeft
+                    chargingDir = Direction.Left
+                Case Direction.DownRight,
+                     Direction.UpRight
+                    chargingDir = Direction.Right
+            End Select
+        End If
+
+        Local animOverrideOffset: Int
+        
+        Select chargingDir
+            Case Direction.UpLeft,
+                 Direction.UpRight
+                animOverrideOffset = 11
+            Case Direction.DownRight,
+                 Direction.DownLeft
+                animOverrideOffset = 15
+            Case Direction.Right,
+                 Direction.Left
+                animOverrideOffset = 7
+            Case Direction.Up,
+                 Direction.Down
+                animOverrideOffset = 3
+            Case Direction.None
+                If Self.stunnedTime <= 0
+                    Self.animOverride = -1
+                End If
+        End Select
+
+        If animOverrideOffset <> 0
+            Self.animOverride = animOverrideOffset + math.Floor((necrodancergame.globalFrameCounter Mod 8) * 0.5)
+
+            If Self.lastX > Self.x
+                Self.image.FlipX(True, True)
+            Else If Self.lastX < Self.x
+                Self.image.FlipX(False, True)
+            End If
+        End If
+
+        Self.AttemptCharge(False)
+
+        Super.Update()
     End Method
 
 End Class

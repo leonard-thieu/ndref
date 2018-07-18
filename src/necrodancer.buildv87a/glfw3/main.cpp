@@ -10114,6 +10114,8 @@ class c_SkeletonMage : public c_Enemy{
 };
 class c_Armadillo : public c_Enemy{
 	public:
+	int m_chargingDir;
+	int m_stunnedTime;
 	c_Armadillo();
 	c_Armadillo* m_new(int,int,int);
 	c_Armadillo* m_new2();
@@ -10122,6 +10124,8 @@ class c_Armadillo : public c_Enemy{
 	void p_MoveFail();
 	int p_MoveImmediate(int,int,String);
 	void p_MoveSucceed(bool,bool);
+	void p_AttemptCharge(c_Entity*,bool);
+	void p_AttemptCharge2(bool);
 	void p_Update();
 	void mark();
 };
@@ -50014,6 +50018,8 @@ void c_SkeletonMage::mark(){
 	gc_mark_q(m_gustImage);
 }
 c_Armadillo::c_Armadillo(){
+	m_chargingDir=-1;
+	m_stunnedTime=0;
 }
 c_Armadillo* c_Armadillo::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -50048,8 +50054,66 @@ int c_Armadillo::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 void c_Armadillo::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.MoveSucceed(Bool, Bool)",33));
 }
+void c_Armadillo::p_AttemptCharge(c_Entity* t_target,bool t_immediate){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.AttemptCharge(Entity, Bool)",37));
+}
+void c_Armadillo::p_AttemptCharge2(bool t_immediate){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.AttemptCharge(Bool)",29));
+}
 void c_Armadillo::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.Update()",18));
+	if(this->m_lastX>this->m_x){
+		this->m_image->p_FlipX(false,true);
+	}else{
+		if(this->m_lastX<this->m_x){
+			this->m_image->p_FlipX(true,true);
+		}
+	}
+	int t_chargingDir=this->m_chargingDir;
+	if(this->m_level!=3){
+		int t_1=this->m_chargingDir;
+		if(t_1==5 || t_1==6){
+			t_chargingDir=2;
+		}else{
+			if(t_1==4 || t_1==7){
+				t_chargingDir=0;
+			}
+		}
+	}
+	int t_animOverrideOffset=0;
+	int t_2=t_chargingDir;
+	if(t_2==6 || t_2==7){
+		t_animOverrideOffset=11;
+	}else{
+		if(t_2==4 || t_2==5){
+			t_animOverrideOffset=15;
+		}else{
+			if(t_2==0 || t_2==2){
+				t_animOverrideOffset=7;
+			}else{
+				if(t_2==3 || t_2==1){
+					t_animOverrideOffset=3;
+				}else{
+					if(t_2==-1){
+						if(this->m_stunnedTime<=0){
+							this->m_animOverride=-1;
+						}
+					}
+				}
+			}
+		}
+	}
+	if(t_animOverrideOffset!=0){
+		this->m_animOverride=int(Float(t_animOverrideOffset)+(Float)floor(Float(bb_necrodancergame_globalFrameCounter % 8)*FLOAT(0.5)));
+		if(this->m_lastX>this->m_x){
+			this->m_image->p_FlipX(true,true);
+		}else{
+			if(this->m_lastX<this->m_x){
+				this->m_image->p_FlipX(false,true);
+			}
+		}
+	}
+	this->p_AttemptCharge2(false);
+	c_Enemy::p_Update();
 }
 void c_Armadillo::mark(){
 	c_Enemy::mark();
