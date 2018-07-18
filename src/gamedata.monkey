@@ -790,7 +790,8 @@ Class GameData
     End Function
 
     Function SetEnableBossIntros: Void(e: Bool)
-        Debug.TraceNotImplemented("GameData.SetEnableBossIntros(Bool)")
+        Local gameNode := GameData.xmlSaveData.GetChild("game")
+        gameNode.SetAttribute("enableBossIntros", e)
     End Function
 
     Function SetEnableCutscenes: Void(e: Bool)

@@ -118,6 +118,7 @@ Class NecroDancerGame Extends App
 
         ' For testing only
         GameData.SetTutorialComplete()
+        GameData.SetEnableBossIntros(False)
 
         Return 0
     End Method

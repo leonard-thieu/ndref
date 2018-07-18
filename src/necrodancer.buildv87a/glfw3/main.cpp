@@ -6005,6 +6005,7 @@ class c_GameData : public Object{
 	static int m_GetResolutionH();
 	static bool m_GetShownSeizureWarning();
 	static void m_SetTutorialComplete();
+	static void m_SetEnableBossIntros(bool);
 	static void m_SetLobbyMove(bool);
 	static void m_SetMentorLevelClear(int);
 	static bool m_GetEnableCutscenes();
@@ -12996,6 +12997,7 @@ int c_NecroDancerGame::p_OnCreate(){
 	(new c_ControllerMainMenu)->m_new();
 	c_TextLog::m_Message(String(L"ControllerMainMenu LOADED",25));
 	c_GameData::m_SetTutorialComplete();
+	c_GameData::m_SetEnableBossIntros(false);
 	return 0;
 }
 int c_NecroDancerGame::p_OnRender(){
@@ -14572,6 +14574,10 @@ void c_GameData::m_SetTutorialComplete(){
 	}
 	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
 	t_gameNode->p_SetAttribute5(String(L"tutorialComplete",16),String(L"true",4));
+}
+void c_GameData::m_SetEnableBossIntros(bool t_e){
+	c_XMLNode* t_gameNode=m_xmlSaveData->p_GetChild2(String(L"game",4),false);
+	t_gameNode->p_SetAttribute2(String(L"enableBossIntros",16),t_e);
 }
 void c_GameData::m_SetLobbyMove(bool t_m){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"GameData.SetLobbyMove(Bool)",27));
