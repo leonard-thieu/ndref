@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
   <Type Name="String">
-    <DisplayString>length = {rep-&gt;length}, {rep-&gt;data}</DisplayString>
+    <DisplayString>{rep-&gt;data,[rep-&gt;length]}</DisplayString>
   </Type>
 
   <Type Name="c_List">
@@ -35,12 +35,34 @@
     <AlternativeType Name="c_List29"/>
     <AlternativeType Name="c_List30"/>
     <AlternativeType Name="c_List31"/>
+    <AlternativeType Name="c_List32"/>
+    <AlternativeType Name="c_List33"/>
+    <AlternativeType Name="c_List34"/>
+    <AlternativeType Name="c_List35"/>
+    <AlternativeType Name="c_List36"/>
+    <AlternativeType Name="c_List37"/>
+    <AlternativeType Name="c_List38"/>
+    <AlternativeType Name="c_List39"/>
+    <AlternativeType Name="c_List40"/>
+    <AlternativeType Name="c_List41"/>
+    <AlternativeType Name="c_List42"/>
     <Expand>
       <LinkedListItems>
         <HeadPointer>m__head-&gt;m__succ</HeadPointer>
         <NextPointer>m__succ</NextPointer>
-        <ValueNode>m__data</ValueNode>
+        <ValueNode>m__data,na</ValueNode>
       </LinkedListItems>
+    </Expand>
+  </Type>
+
+  <Type Name="Array&lt;*&gt;">
+    <DisplayString>{{size = {rep-&gt;length}}}</DisplayString>
+    <Expand>
+      <Item Name="[size]">rep-&gt;length</Item>
+      <ArrayItems>
+        <Size>rep-&gt;length</Size>
+        <ValuePointer>rep-&gt;data,na</ValuePointer>
+      </ArrayItems>
     </Expand>
   </Type>
 
@@ -56,18 +78,33 @@
     <AlternativeType Name="c_Map10"/>
     <AlternativeType Name="c_Map11"/>
     <AlternativeType Name="c_Map12"/>
+    <AlternativeType Name="c_Map13"/>
+    <AlternativeType Name="c_Map14"/>
+    <AlternativeType Name="c_Map15"/>
+    <AlternativeType Name="c_Map16"/>
+    <AlternativeType Name="c_Map17"/>
     <Expand>
       <TreeItems>
         <HeadPointer>m_root</HeadPointer>
         <LeftPointer>m_left</LeftPointer>
         <RightPointer>m_right</RightPointer>
-        <ValueNode>this</ValueNode>
+        <ValueNode>this,na</ValueNode>
       </TreeItems>
     </Expand>
   </Type>
-  
+
+  <Type Name="c_Node2">
+    <AlternativeType Name="c_Node26"/>
+    <AlternativeType Name="c_Node27"/>
+    <DisplayString>[{m_key,na}] = {m_value,na}</DisplayString>
+    <Expand>
+      <Item Name="[value]">m_value,na</Item>
+    </Expand>
+  </Type>
+
   <Type Name="c_Set">
     <AlternativeType Name="c_Set2"/>
+    <AlternativeType Name="c_Set3"/>
     <Expand>
       <TreeItems>
         <HeadPointer>m_map-&gt;m_root</HeadPointer>
@@ -90,19 +127,16 @@
     <DisplayString>({m_x},{m_y}) {m_w}x{m_h} type = {m_type}</DisplayString>
   </Type>
 
-  <Type Name="c_JsonObject">
-    <DisplayString>{m__data}</DisplayString>
+  <Type Name="c_XMLNode">
+    <DisplayString>{m_nameNormalCase,na}</DisplayString>
+    <Expand>
+      <Item Name="[value]">m_fullValue,na</Item>
+      <Item Name="[attributes]">m_attributes,na</Item>
+    </Expand>
   </Type>
 
-  <Type Name="c_JsonValue">
-    <AlternativeType Name="c_JsonString"/>
-    <AlternativeType Name="c_JsonBool"/>
-    <AlternativeType Name="c_JsonNumber"/>
-    <DisplayString>{m__value}</DisplayString>
-  </Type>
-
-  <Type Name="c_JsonNull">
-    <DisplayString>NULL</DisplayString>
+  <Type Name="c_XMLAttribute">
+    <DisplayString>{m_idNormalCase,na} = {m_value,na}</DisplayString>
   </Type>
 
   <Type Name="c_Enumerator22">
