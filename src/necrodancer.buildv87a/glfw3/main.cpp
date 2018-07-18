@@ -10581,6 +10581,8 @@ class c_Mushroom : public c_Enemy{
 };
 class c_Golem : public c_Enemy{
 	public:
+	bool m_droppedOoze;
+	int m_prevFrame;
 	c_Golem();
 	c_Golem* m_new(int,int,int);
 	c_Golem* m_new2();
@@ -51953,6 +51955,8 @@ void c_Mushroom::mark(){
 	c_Enemy::mark();
 }
 c_Golem::c_Golem(){
+	m_droppedOoze=false;
+	m_prevFrame=0;
 }
 c_Golem* c_Golem::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -51975,7 +51979,14 @@ bool c_Golem::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	return false;
 }
 void c_Golem::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Golem.Update()",14));
+	if(this->m_droppedOoze){
+		this->m_animOffset=5;
+		if(this->p_IsFrozen(false)){
+			this->m_animOverrideState=this->m_prevFrame % 5+5;
+		}
+	}
+	c_Enemy::p_Update();
+	this->m_prevFrame=this->m_image->p_GetFrame();
 }
 void c_Golem::mark(){
 	c_Enemy::mark();

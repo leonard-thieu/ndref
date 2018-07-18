@@ -33,7 +33,17 @@ Class Golem Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Golem.Update()")
+        If Self.droppedOoze
+            Self.animOffset = 5
+
+            If Self.IsFrozen(False)
+                Self.animOverrideState = (Self.prevFrame Mod 5) + 5
+            End If
+        End If
+
+        Super.Update()
+
+        Self.prevFrame = Self.image.GetFrame()
     End Method
 
 End Class
