@@ -120,7 +120,7 @@ Class Chest Extends Entity
         If Self.contents = ItemType.NoItem And
            Level.randSeed <> -1
             If Not Self.lockChest
-                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "chestChance", tmpColor, False, "", False)
+                Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "chestChance", tmpColor)
             Else
                 Self.contents = Item.GetRandomItemInClass("", controller_game.currentLevel, "lockedChestChance")
             End If
@@ -144,7 +144,7 @@ Class Chest Extends Entity
                     Local chestColor: Int
 
                     Repeat
-                        chestColor = Util.RndIntRange(1, 3, True, -1)
+                        chestColor = Util.RndIntRange(1, 3, True)
                     Until chestColor = Chest.lastChestColor Or
                           chestColor = Chest.lastChestColor2
                 End If
@@ -173,7 +173,7 @@ Class Chest Extends Entity
 
         Chest.chestList.AddLast(Self)
 
-        Debug.WriteLine("Placed " + ChestColor.ToString(Self.chestColor) + " Chest at " + (New Point(Self.x, Self.y)).ToString())
+        Debug.WriteLine("Placed " + ChestColor.ToString(Self.chestColor) + " Chest at " + New Point(Self.x, Self.y))
         Debug.WriteLine("    with " + Item.GetDisplayName(Self.contents))
     End Method
 

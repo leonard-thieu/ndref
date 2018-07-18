@@ -36929,7 +36929,7 @@ c_Chest* c_Chest::m_new(int t_xVal,int t_yVal,String t_cont,bool t_invis,bool t_
 	this->m_collides=true;
 	this->m_secretChest=t_isSecret;
 	m_chestList->p_AddLast33(this);
-	bb_logger_Debug->p_WriteLine2(String(L"Placed ",7)+c_ChestColor::m_ToString(this->m_chestColor)+String(L" Chest at ",10)+((new c_Point)->m_new(this->m_x,this->m_y))->p_ToString());
+	bb_logger_Debug->p_WriteLine2(String(L"Placed ",7)+c_ChestColor::m_ToString(this->m_chestColor)+String(L" Chest at ",10)+(((new c_Point)->m_new(this->m_x,this->m_y))->p_ToString()));
 	bb_logger_Debug->p_WriteLine2(String(L"    with ",9)+c_Item::m_GetDisplayName(this->m_contents));
 	return this;
 }
