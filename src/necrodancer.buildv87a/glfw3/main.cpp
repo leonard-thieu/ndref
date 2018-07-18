@@ -6684,6 +6684,7 @@ class c_Audio : public Object{
 	static int m_songDuration;
 	static int m_TimeUntilSpecificBeat(int);
 	static int m_GetClosestBeatNum(bool);
+	static void m_PlayGameSound(String,int,Float);
 	static void m_Update(bool);
 	static void m_PauseSong(bool);
 	static void m_UpdateNumLoops();
@@ -6691,7 +6692,6 @@ class c_Audio : public Object{
 	static void m_PlayGameSoundAt2(String,int,int,int,bool,int,bool,Float);
 	static bool m_cheatingDetected;
 	static int m_GetNonAbsoluteDistanceFromNearestBeat();
-	static void m_PlayGameSound(String,int,Float);
 	static int m_FixedBeatCurrentBeat();
 	static int m_fadeFrames;
 	static int m_startFadeFrames;
@@ -12542,8 +12542,17 @@ class c_ControllerPostGame : public c_Controller{
 };
 class c_ControllerBossIntro : public c_Controller{
 	public:
+	c_ControllerGame* m_cGame;
+	c_Sprite* m_overlayBlack;
+	String m_bossNameStr;
+	c_Sprite* m_bossImg;
+	c_Sprite* m_bgGradient;
+	c_Sprite* m_bgBottom;
+	c_Sprite* m_bgTop;
+	c_TextSprite* m_bossName;
 	c_ControllerBossIntro();
-	c_ControllerBossIntro* m_new(Object*,int);
+	static bool m_showingBossIntro;
+	c_ControllerBossIntro* m_new(c_ControllerGame*,int);
 	c_ControllerBossIntro* m_new2();
 	void p_Destructor();
 	void p_RegainFocus();
@@ -13047,7 +13056,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 			}
 		}else{
 			int t_2=bb_controller_game_currentLevel;
-			if(t_2==3){
+			if(t_2==4){
 				bb_app_EndApp();
 			}
 		}
@@ -18239,6 +18248,9 @@ int c_Audio::m_GetClosestBeatNum(bool t_useFixed){
 	}
 	return t_beatNum;
 }
+void c_Audio::m_PlayGameSound(String t_snd,int t_ch,Float t_spd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSound(String, Int, Float)",39));
+}
 void c_Audio::m_Update(bool t_hasLoadedGameData){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.Update(Bool)",18));
 }
@@ -18262,9 +18274,6 @@ int c_Audio::m_GetNonAbsoluteDistanceFromNearestBeat(){
 		return m_TimeUntilSpecificBeat(t_previousBeatNumber);
 	}
 	return m_TimeUntilSpecificBeat(t_currentBeatNumber);
-}
-void c_Audio::m_PlayGameSound(String t_snd,int t_ch,Float t_spd){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.PlayGameSound(String, Int, Float)",39));
 }
 int c_Audio::m_FixedBeatCurrentBeat(){
 	return m_fixedBeatNum;
@@ -30424,7 +30433,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 	int t_79=bb_controller_game_currentLevel;
 	if(t_79==4 || t_79==5){
 		if(c_GameData::m_GetEnableBossIntros() && !m_isReplaying){
-			(new c_ControllerBossIntro)->m_new((bb_controller_game_controllerGamePointer),m_bossNumber);
+			(new c_ControllerBossIntro)->m_new(bb_controller_game_controllerGamePointer,m_bossNumber);
 		}
 	}
 	if(m_mentorLevel!=-1){
@@ -58162,10 +58171,100 @@ void c_ControllerPostGame::mark(){
 	c_Controller::mark();
 }
 c_ControllerBossIntro::c_ControllerBossIntro(){
+	m_cGame=0;
+	m_overlayBlack=0;
+	m_bossNameStr=String();
+	m_bossImg=0;
+	m_bgGradient=0;
+	m_bgBottom=0;
+	m_bgTop=0;
+	m_bossName=0;
 }
-c_ControllerBossIntro* c_ControllerBossIntro::m_new(Object* t_game,int t_bossNum){
+bool c_ControllerBossIntro::m_showingBossIntro;
+c_ControllerBossIntro* c_ControllerBossIntro::m_new(c_ControllerGame* t_game,int t_bossNum){
 	c_Controller::m_new();
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ControllerBossIntro.New(Object, Int)",36));
+	gc_assign(this->m_cGame,t_game);
+	m_showingBossIntro=true;
+	gc_assign(this->m_overlayBlack,(new c_Sprite)->m_new2(String(L"gui/TEMP_overlay_black.png",26),1,c_Image::m_DefaultFlags));
+	this->m_overlayBlack->p_SetZ(FLOAT(20001.0));
+	this->m_overlayBlack->p_InWorld(false);
+	int t_1=t_bossNum;
+	if(t_1==1){
+		this->m_bossNameStr=String(L"|1301|KING CONGA|",17);
+		c_Audio::m_PlayGameSound(String(L"announceKingConga",17),-1,FLOAT(1.0));
+		gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_kingconga.png",27),1,c_Image::m_DefaultFlags));
+	}else{
+		if(t_1==2){
+			this->m_bossNameStr=String(L"|1302|DEATH METAL|",18);
+			c_Audio::m_PlayGameSound(String(L"announceDeathMetal",18),-1,FLOAT(1.0));
+			gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_deathmetal.png",28),1,c_Image::m_DefaultFlags));
+		}else{
+			if(t_1==3){
+				this->m_bossNameStr=String(L"|1303|DEEP BLUES|",17);
+				c_Audio::m_PlayGameSound(String(L"announceDeepBlues",17),-1,FLOAT(1.0));
+				gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_deepblues.png",27),1,c_Image::m_DefaultFlags));
+			}else{
+				if(t_1==4){
+					this->m_bossNameStr=String(L"|1304|CORAL RIFF|",17);
+					c_Audio::m_PlayGameSound(String(L"announceCoralRiff",17),-1,FLOAT(1.0));
+					gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_coralriff.png",27),1,c_Image::m_DefaultFlags));
+				}else{
+					if(t_1==5){
+						this->m_bossNameStr=String(L"|1305|DEAD RINGER|",18);
+						c_Audio::m_PlayGameSound(String(L"announceDeadRinger",18),-1,FLOAT(1.0));
+						gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_deadringer.png",28),1,c_Image::m_DefaultFlags));
+					}else{
+						if(t_1==7){
+							this->m_bossNameStr=String(L"|1300|THE NECRODANCER|",22);
+							c_Audio::m_PlayGameSound(String(L"announceNecroDancer2",20),-1,FLOAT(1.0));
+							gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_necrodancer2.png",30),1,c_Image::m_DefaultFlags));
+						}else{
+							if(t_1==8){
+								this->m_bossNameStr=String(L"|1306|THE GOLDEN LUTE|",22);
+								c_Audio::m_PlayGameSound(String(L"announceGoldenLute",18),-1,FLOAT(1.0));
+								gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_lutedragon.png",28),1,c_Image::m_DefaultFlags));
+							}else{
+								if(t_1==9){
+									this->m_bossNameStr=String(L"|15200|FORTISSIMOLE|",20);
+									c_Audio::m_PlayGameSound(String(L"announceFortissimole",20),-1,FLOAT(1.0));
+									gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_fortissimole.png",30),1,c_Image::m_DefaultFlags));
+								}else{
+									if(t_1==10){
+										this->m_bossNameStr=String(L"|15201|FRANKENSTEINWAY|",23);
+										c_Audio::m_PlayGameSound(String(L"announceFrankensteinway",23),-1,FLOAT(1.0));
+										gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_frankensteinway.png",33),1,c_Image::m_DefaultFlags));
+									}else{
+										if(t_1==11){
+											this->m_bossNameStr=String(L"|15202|THE CONDUCTOR|",21);
+											c_Audio::m_PlayGameSound(String(L"announceConductor",17),-1,FLOAT(1.0));
+											gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_conductor.png",27),1,c_Image::m_DefaultFlags));
+										}else{
+											this->m_bossNameStr=String(L"|1300|THE NECRODANCER|",22);
+											c_Audio::m_PlayGameSound(String(L"announceNecroDancer",19),-1,FLOAT(1.0));
+											gc_assign(this->m_bossImg,(new c_Sprite)->m_new2(String(L"gui/bosscreen_necrodancer.png",29),1,c_Image::m_DefaultFlags));
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	this->m_bossImg->p_SetZ(FLOAT(20003.0));
+	this->m_bossImg->p_InWorld(false);
+	gc_assign(this->m_bgGradient,(new c_Sprite)->m_new2(String(L"gui/bg_gradient.png",19),1,c_Image::m_DefaultFlags));
+	this->m_bgGradient->p_SetZ(FLOAT(20002.0));
+	this->m_bgGradient->p_InWorld(false);
+	gc_assign(this->m_bgBottom,(new c_Sprite)->m_new2(String(L"gui/bg_bottomblade.png",22),1,c_Image::m_DefaultFlags));
+	this->m_bgBottom->p_SetZ(FLOAT(20002.0));
+	this->m_bgBottom->p_InWorld(false);
+	gc_assign(this->m_bgTop,(new c_Sprite)->m_new2(String(L"gui/bg_topblade.png",19),1,c_Image::m_DefaultFlags));
+	this->m_bgTop->p_SetZ(FLOAT(20002.0));
+	this->m_bgTop->p_InWorld(false);
+	gc_assign(this->m_bossName,(new c_TextSprite)->m_new(2,FLOAT(3.0),-1,10000,true,-16777216,1,1));
+	this->m_bossName->m_zVal=20003;
 	return this;
 }
 c_ControllerBossIntro* c_ControllerBossIntro::m_new2(){
@@ -58186,6 +58285,13 @@ void c_ControllerBossIntro::p_Update(){
 }
 void c_ControllerBossIntro::mark(){
 	c_Controller::mark();
+	gc_mark_q(m_cGame);
+	gc_mark_q(m_overlayBlack);
+	gc_mark_q(m_bossImg);
+	gc_mark_q(m_bgGradient);
+	gc_mark_q(m_bgBottom);
+	gc_mark_q(m_bgTop);
+	gc_mark_q(m_bossName);
 }
 void bb_fmod_UpdateFMOD(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"UpdateFMOD()",12));
@@ -59373,6 +59479,7 @@ int bbInit(){
 	c_Level::m_maxLevelMinimapY=0;
 	c_Minimap::m_dirtyPoints=(new c_List27)->m_new();
 	c_Chain::m_waitingForFirstMovement=Array<bool >(4);
+	c_ControllerBossIntro::m_showingBossIntro=false;
 	bb_controller_game_totalPlaytimeLastAdded=0;
 	c_GUI_gameplay::m_errorKey=0;
 	bb_controller_game_gamePaused=false;

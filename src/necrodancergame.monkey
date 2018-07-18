@@ -202,7 +202,7 @@ Class NecroDancerGame Extends App
                 End Select
             Else
                 Select controller_game.currentLevel
-                    Case LevelType.Level3
+                    Case LevelType.BossBattle
                         app.EndApp()
                 End Select
             End If
