@@ -4,6 +4,7 @@ Import controller.controller_game
 Import enemy
 Import entity
 Import logger
+Import player_class
 Import sprite
 Import util
 
@@ -11,16 +12,8 @@ Class MushroomLight Extends Enemy
 
     Function _EditorFix: Void() End
 
-    Method New(xVal: Int, yVal: Int, l: Int, forceNonExploding: Bool, forceExploding: Bool)
+    Method New(xVal: Int, yVal: Int, l: Int, forceNonExploding: Bool = False, forceExploding: Bool = False)
         Self.InitMushroom(xVal, yVal, l, forceNonExploding, forceExploding)
-    End Method
-
-    Method New(xVal: Int, yVal: Int, l: Int, forceNonExploding: Bool)
-        Self.InitMushroom(xVal, yVal, l, forceNonExploding, False)
-    End Method
-
-    Method New(xVal: Int, yVal: Int, l: Int)
-        Self.InitMushroom(xVal, yVal, l, False, False)
     End Method
 
     Field isExploding: Bool
@@ -66,9 +59,9 @@ Class MushroomLight Extends Enemy
         End If
 
         If Self.isExploding
-            Self.Init(xVal, yVal, l, "mushroom_exploding", "", -1, -1)
+            Self.Init(xVal, yVal, l, "mushroom_exploding")
         Else
-            Self.Init(xVal, yVal, l, "mushroom_light", "", -1, -1)
+            Self.Init(xVal, yVal, l, "mushroom_light")
         End If
 
         Local flipXRoll := Util.RndBool(True)
@@ -103,7 +96,20 @@ Class MushroomLight Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("MushroomLight.Update()")
+        Self.constLightSourceMax = 4.125
+        Self.lightSourceMax = 3.0 + Util.RndFloatRange(0.0, 2.25, False)
+
+        Super.Update()
+
+        If Self.isExploding And
+           Self.health = 1
+            Self.vibrateCounter -= 1
+            If Self.vibrateCounter = 0
+                Self.xOff = Self.vibrateOffset
+                Self.vibrateOffset = -Self.vibrateOffset
+                Self.vibrateCounter = 3
+            End If
+        End If
     End Method
 
 End Class

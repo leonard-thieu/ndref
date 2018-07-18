@@ -10666,12 +10666,12 @@ class c_MushroomLight : public c_Enemy{
 	public:
 	bool m_isExploding;
 	c_Sprite* m_explosionImg;
+	int m_vibrateCounter;
+	Float m_vibrateOffset;
 	c_MushroomLight();
 	void p_InitMushroom(int,int,int,bool,bool);
 	c_MushroomLight* m_new(int,int,int,bool,bool);
-	c_MushroomLight* m_new2(int,int,int,bool);
-	c_MushroomLight* m_new3(int,int,int);
-	c_MushroomLight* m_new4();
+	c_MushroomLight* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_Update();
@@ -13061,8 +13061,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			int t_2=bb_controller_game_currentLevel;
-			if(t_2==4){
+			if(bb_controller_game_currentDepth==2 && bb_controller_game_currentLevel==1){
 				bb_app_EndApp();
 			}
 		}
@@ -24588,14 +24587,14 @@ void c_Level::m_PlaceEnemiesZone2(){
 		if(t_point==0){
 			continue;
 		}
-		(new c_MushroomLight)->m_new3(t_point->m_x,t_point->m_y,1);
+		(new c_MushroomLight)->m_new(t_point->m_x,t_point->m_y,1,false,false);
 		int t_mushroomLightRoll=c_Util::m_RndIntRangeFromZero(10,true);
 		if(t_mushroomLightRoll==0){
 			t_point=m_GetRandPointInRoomWithOptions5(t_room,true,true,false);
 			if(t_point==0){
 				continue;
 			}
-			(new c_MushroomLight)->m_new3(t_point->m_x,t_point->m_y,1);
+			(new c_MushroomLight)->m_new(t_point->m_x,t_point->m_y,1,false,false);
 		}
 		c_RectRoom* t_rectRoom=(new c_RectRoom)->m_new(t_room);
 		m_PlaceRareEnemies((t_rectRoom),t_room->m_hasExit);
@@ -27989,11 +27988,11 @@ bool c_Level::m_CreateMapZone2(){
 		t_anotherRooms->p_AddLast14(t_room);
 	}
 	if(c_Util::m_RndBool(true)){
-		(new c_MushroomLight)->m_new2(t_room1->m_x+2,t_room1->m_y+2,1,true);
-		(new c_MushroomLight)->m_new2(t_room1->m_x+t_room1->m_w-2,t_room1->m_y+t_room1->m_h-2,1,true);
+		(new c_MushroomLight)->m_new(t_room1->m_x+2,t_room1->m_y+2,1,true,false);
+		(new c_MushroomLight)->m_new(t_room1->m_x+t_room1->m_w-2,t_room1->m_y+t_room1->m_h-2,1,true,false);
 	}else{
-		(new c_MushroomLight)->m_new2(t_room1->m_x+t_room1->m_w-2,t_room1->m_y+2,1,true);
-		(new c_MushroomLight)->m_new2(t_room1->m_x+2,t_room1->m_y+t_room1->m_h-2,1,true);
+		(new c_MushroomLight)->m_new(t_room1->m_x+t_room1->m_w-2,t_room1->m_y+2,1,true,false);
+		(new c_MushroomLight)->m_new(t_room1->m_x+2,t_room1->m_y+t_room1->m_h-2,1,true,false);
 	}
 	c_Enumerator27* t_4=t_anotherRooms->p_ObjectEnumerator();
 	while(t_4->p_HasNext()){
@@ -52201,6 +52200,8 @@ void c_FakeWall::mark(){
 c_MushroomLight::c_MushroomLight(){
 	m_isExploding=false;
 	m_explosionImg=0;
+	m_vibrateCounter=3;
+	m_vibrateOffset=FLOAT(0.7);
 }
 void c_MushroomLight::p_InitMushroom(int t_xVal,int t_yVal,int t_l,bool t_forceNonExploding,bool t_forceExploding){
 	int t_explodingRoll=c_Util::m_RndIntRangeFromZero(25,true);
@@ -52245,17 +52246,7 @@ c_MushroomLight* c_MushroomLight::m_new(int t_xVal,int t_yVal,int t_l,bool t_for
 	this->p_InitMushroom(t_xVal,t_yVal,t_l,t_forceNonExploding,t_forceExploding);
 	return this;
 }
-c_MushroomLight* c_MushroomLight::m_new2(int t_xVal,int t_yVal,int t_l,bool t_forceNonExploding){
-	c_Enemy::m_new();
-	this->p_InitMushroom(t_xVal,t_yVal,t_l,t_forceNonExploding,false);
-	return this;
-}
-c_MushroomLight* c_MushroomLight::m_new3(int t_xVal,int t_yVal,int t_l){
-	c_Enemy::m_new();
-	this->p_InitMushroom(t_xVal,t_yVal,t_l,false,false);
-	return this;
-}
-c_MushroomLight* c_MushroomLight::m_new4(){
+c_MushroomLight* c_MushroomLight::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
@@ -52267,7 +52258,17 @@ void c_MushroomLight::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"MushroomLight.MoveFail()",24));
 }
 void c_MushroomLight::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"MushroomLight.Update()",22));
+	this->m_constLightSourceMax=FLOAT(4.125);
+	this->m_lightSourceMax=FLOAT(3.0)+c_Util::m_RndFloatRange(FLOAT(0.0),FLOAT(2.25),false);
+	c_Enemy::p_Update();
+	if(this->m_isExploding && this->m_health==1){
+		this->m_vibrateCounter-=1;
+		if(this->m_vibrateCounter==0){
+			this->m_xOff=this->m_vibrateOffset;
+			this->m_vibrateOffset=-this->m_vibrateOffset;
+			this->m_vibrateCounter=3;
+		}
+	}
 }
 void c_MushroomLight::mark(){
 	c_Enemy::mark();
