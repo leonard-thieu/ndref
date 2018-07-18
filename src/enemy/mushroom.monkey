@@ -27,7 +27,26 @@ Class Mushroom Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Mushroom.Update()")
+        If Self.currentMoveDelay <= 1
+            Self.vibrateCounter -= 1
+            If Self.vibrateCounter = 0
+                Self.xOff = Self.vibrateOffset
+
+                If Self.isLord
+                    Self.xOff = Self.vibrateOffset - (Self.image.Width() / 4)
+                End If
+
+                Self.vibrateOffset = -Self.vibrateOffset
+                Self.vibrateCounter = 3
+            End If
+        Else
+            Self.xOff = 0.0
+            If Self.isLord
+                Self.xOff = Self.xOff - (Self.image.Width() / 4)
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class

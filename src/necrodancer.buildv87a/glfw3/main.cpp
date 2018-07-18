@@ -10570,6 +10570,8 @@ class c_ArmoredSkeleton : public c_Enemy{
 };
 class c_Mushroom : public c_Enemy{
 	public:
+	int m_vibrateCounter;
+	Float m_vibrateOffset;
 	c_Mushroom();
 	c_Mushroom* m_new(int,int,int);
 	c_Mushroom* m_new2();
@@ -51908,6 +51910,8 @@ void c_ArmoredSkeleton::mark(){
 	c_Enemy::mark();
 }
 c_Mushroom::c_Mushroom(){
+	m_vibrateCounter=3;
+	m_vibrateOffset=FLOAT(0.7);
 }
 c_Mushroom* c_Mushroom::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -51927,7 +51931,23 @@ void c_Mushroom::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Mushroom.MoveFail()",19));
 }
 void c_Mushroom::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Mushroom.Update()",17));
+	if(this->m_currentMoveDelay<=1){
+		this->m_vibrateCounter-=1;
+		if(this->m_vibrateCounter==0){
+			this->m_xOff=this->m_vibrateOffset;
+			if(this->m_isLord){
+				this->m_xOff=this->m_vibrateOffset-Float(this->m_image->p_Width()/4);
+			}
+			this->m_vibrateOffset=-this->m_vibrateOffset;
+			this->m_vibrateCounter=3;
+		}
+	}else{
+		this->m_xOff=FLOAT(0.0);
+		if(this->m_isLord){
+			this->m_xOff=this->m_xOff-Float(this->m_image->p_Width()/4);
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Mushroom::mark(){
 	c_Enemy::mark();
