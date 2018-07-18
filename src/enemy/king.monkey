@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import logger
 Import player_class
 Import point
@@ -16,7 +17,7 @@ Class King Extends Enemy
             l = 2
         End If
 
-        Self.Init(xVal, yVal, l, "king", "", -1, -1)
+        Self.Init(xVal, yVal, l, "king")
 
         Self.initialYOff = Self.yOff
 
@@ -55,7 +56,20 @@ Class King Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("King.Update()")
+        If Self.bounce <> Null
+            Self.yOff = Self.bounce.GetVal() + Self.initialYOff
+        End If
+
+        If Enemy.GetNumEnemies() <= 1 And
+           Not Self.lastMan
+            Self.lastMan = True
+            Self.beatsPerMove = 1
+            Self.currentMoveDelay = 0
+
+            Audio.PlayGameSoundAt("kingCry", Self.x, Self.y, False, -1, False)
+        End If
+
+        Super.Update()
     End Method
 
 End Class

@@ -8242,6 +8242,7 @@ class c_Enemy : public c_MobileEntity{
 	void p_Update();
 	static void m_SetEnemiesToDropNoCoinsOverride();
 	static void m_KillAllEnemies();
+	static int m_GetNumEnemies();
 	void p_Fall(bool);
 	void mark();
 };
@@ -8273,6 +8274,7 @@ class c_Crate : public c_Enemy{
 	static void m_ProcessFallenCrates();
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	static int m_GetNumCrates();
 	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	int p_MoveImmediate(int,int,String);
@@ -11141,6 +11143,7 @@ class c_BounceTrapDirection : public Object{
 class c_King : public c_Enemy{
 	public:
 	int m_initialYOff;
+	bool m_lastMan;
 	c_King();
 	c_King* m_new(int,int,int);
 	c_King* m_new2();
@@ -41210,6 +41213,9 @@ void c_Enemy::m_KillAllEnemies(){
 	}
 	m_killingAllEnemies=false;
 }
+int c_Enemy::m_GetNumEnemies(){
+	return m_enemyList->p_Count()-c_Crate::m_GetNumCrates();
+}
 void c_Enemy::p_Fall(bool t_keepMultiplier){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.Fall(Bool)",16));
 }
@@ -41455,6 +41461,9 @@ void c_Crate::p_Die(){
 bool c_Crate::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Crate.Hit(String, Int, Int, Entity, Bool, Int)",46));
 	return false;
+}
+int c_Crate::m_GetNumCrates(){
+	return m_crateList->p_Count();
 }
 c_Point* c_Crate::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Crate.GetMovementDirection()",28));
@@ -54222,6 +54231,7 @@ void c_BounceTrapDirection::mark(){
 }
 c_King::c_King(){
 	m_initialYOff=0;
+	m_lastMan=false;
 }
 c_King* c_King::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -54260,7 +54270,16 @@ void c_King::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"King.MoveSucceed(Bool, Bool)",28));
 }
 void c_King::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"King.Update()",13));
+	if(this->m_bounce!=0){
+		this->m_yOff=this->m_bounce->p_GetVal()+Float(this->m_initialYOff);
+	}
+	if(c_Enemy::m_GetNumEnemies()<=1 && !this->m_lastMan){
+		this->m_lastMan=true;
+		this->m_beatsPerMove=1;
+		this->m_currentMoveDelay=0;
+		c_Audio::m_PlayGameSoundAt(String(L"kingCry",7),this->m_x,this->m_y,false,-1,false);
+	}
+	c_Enemy::p_Update();
 }
 void c_King::mark(){
 	c_Enemy::mark();

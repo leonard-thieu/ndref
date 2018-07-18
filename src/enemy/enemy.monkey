@@ -16,6 +16,7 @@ IMport enemy.bishop
 Import enemy.blademaster
 Import enemy.cauldron
 Import enemy.clone
+Import enemy.crate
 Import enemy.devil
 Import enemy.electric_mage
 Import enemy.evileye
@@ -1274,6 +1275,10 @@ Class Enemy Extends MobileEntity Abstract
 
     Function GetNumCullableEnemies: Int()
         Debug.TraceNotImplemented("Enemy.GetNumCullableEnemies()")
+    End Function
+
+    Function GetNumEnemies: Int()
+        Return Enemy.enemyList.Count() - Crate.GetNumCrates()
     End Function
 
     Function GetNumEnemiesIgnoreDancers: Int()

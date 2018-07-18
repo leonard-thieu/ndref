@@ -29,6 +29,10 @@ Class Crate Extends Enemy
     Global fallenCrates: List<Crate> = New List<Crate>()
     Global fallenGargoyles: List<Gargoyle> = New List<Gargoyle>()
 
+    Function GetNumCrates: Int()
+        Return Crate.crateList.Count()
+    End Function
+
     Function ProcessFallenCrates: Void()
         Local x := -1
         Local y := 0
