@@ -51757,7 +51757,7 @@ bool c_StandardItemPredicate::p_Call(c_XMLNode* t_n){
 		}
 	}
 	if(this->m_chestColor!=0){
-		String t_name=t_n->p_GetAttribute5(String(L"name",4),String());
+		String t_name=t_n->p_name();
 		if(!c_Chest::m_IsItemAppropriateForChestColor(t_name,this->m_chestColor)){
 			return false;
 		}

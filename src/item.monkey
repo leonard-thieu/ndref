@@ -1658,7 +1658,7 @@ Class StandardItemPredicate Implements IItemPredicate
         End If
 
         If Self.chestColor <> Chest.CHEST_COLOR_NONE
-            Local name := n.GetAttribute("name", "")
+            Local name := n.name
             If Not Chest.IsItemAppropriateForChestColor(name, Self.chestColor)
                 Return False
             End If
