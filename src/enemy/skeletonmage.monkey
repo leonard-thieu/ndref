@@ -1,8 +1,10 @@
 'Strict
 
+Import monkey.math
 Import mojo.graphics
 Import enemy
 Import logger
+Import necrodancergame
 Import player_class
 Import point
 Import shrine
@@ -45,7 +47,24 @@ Class SkeletonMage Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("SkeletonMage.Update()")
+        If Not Self.wasVisibleLastFrame And
+           Self.hasBeenVisible
+            Self.wasVisibleLastFrame = True
+            Self.currentMoveDelay = 1
+        Else
+            Self.currentMoveDelay = 2
+        End If
+
+        If Self.animOverride <> -1
+            Local animOverride := 1 + math.Floor((necrodancergame.globalFrameCounter - Self.animStartAt) / 5.0)
+            If animOverride > 4
+                animOverride = -1
+            End If
+
+            Self.animOverride = animOverride
+        End If
+
+        Super.Update()
     End Method
 
 End Class

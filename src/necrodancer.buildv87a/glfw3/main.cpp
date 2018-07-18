@@ -8155,6 +8155,7 @@ class c_Enemy : public c_MobileEntity{
 	int m_overrideNormal2Timing;
 	int m_overrideTellTiming;
 	bool m_justSpawned;
+	bool m_wasVisibleLastFrame;
 	bool m_enableDeathEffects;
 	bool m_earthquaked;
 	c_Enemy();
@@ -10104,6 +10105,7 @@ class c_Bat : public c_Enemy{
 class c_SkeletonMage : public c_Enemy{
 	public:
 	c_Sprite* m_gustImage;
+	int m_animStartAt;
 	c_SkeletonMage();
 	c_SkeletonMage* m_new(int,int,int);
 	c_SkeletonMage* m_new2();
@@ -37134,6 +37136,7 @@ c_Enemy::c_Enemy(){
 	m_overrideNormal2Timing=-1;
 	m_overrideTellTiming=-1;
 	m_justSpawned=true;
+	m_wasVisibleLastFrame=false;
 	m_enableDeathEffects=true;
 	m_earthquaked=false;
 }
@@ -49985,6 +49988,7 @@ void c_Bat::mark(){
 }
 c_SkeletonMage::c_SkeletonMage(){
 	m_gustImage=0;
+	m_animStartAt=0;
 }
 c_SkeletonMage* c_SkeletonMage::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -50011,7 +50015,20 @@ int c_SkeletonMage::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSourc
 	return 0;
 }
 void c_SkeletonMage::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonMage.Update()",21));
+	if(!this->m_wasVisibleLastFrame && this->m_hasBeenVisible){
+		this->m_wasVisibleLastFrame=true;
+		this->m_currentMoveDelay=1;
+	}else{
+		this->m_currentMoveDelay=2;
+	}
+	if(this->m_animOverride!=-1){
+		Float t_animOverride=FLOAT(1.0)+(Float)floor(Float(bb_necrodancergame_globalFrameCounter-this->m_animStartAt)/FLOAT(5.0));
+		if(t_animOverride>FLOAT(4.0)){
+			t_animOverride=FLOAT(-1.0);
+		}
+		this->m_animOverride=int(t_animOverride);
+	}
+	c_Enemy::p_Update();
 }
 void c_SkeletonMage::mark(){
 	c_Enemy::mark();
