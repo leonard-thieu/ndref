@@ -5437,12 +5437,10 @@ class c_GoblinBomber;
 class c_ElectricMage;
 class c_Devil;
 class c_EvilEye;
-class c_SpikeTrap;
-class c_TrapType;
-class c_SpeedUpTrap;
-class c_ConfuseTrap;
-class c_DeathMetal;
 class c_EnemyType;
+class c_Stack4;
+class c_StackEx2;
+class c_IntPointStack;
 class c_Slime;
 class c_Skeleton;
 class c_EnemyClamper;
@@ -5514,6 +5512,11 @@ class c_WaterBall;
 class c_Gorgon;
 class c_ZombieElectric;
 class c_Orc;
+class c_SpikeTrap;
+class c_TrapType;
+class c_SpeedUpTrap;
+class c_ConfuseTrap;
+class c_DeathMetal;
 class c_BounceTrap;
 class c_BounceTrapDirection;
 class c_King;
@@ -5525,9 +5528,6 @@ class c_Node41;
 class c_HeadNode24;
 class c_DeadRinger;
 class c_Rect;
-class c_Stack4;
-class c_StackEx2;
-class c_IntPointStack;
 class c_Stack5;
 class c_Enumerator13;
 class c_Enumerator14;
@@ -5944,9 +5944,9 @@ class c_Util : public Object{
 	static int m_GetDistSq(int,int,int,int);
 	static Float m_GetDist(int,int,int,int);
 	static bool m_AreAriaOrCodaActive();
-	static Float m_GetDistFromClosestPlayer(int,int,bool);
 	static bool m_IsGlobalCollisionAt(int,int,bool,bool,bool,bool,bool);
 	static bool m_IsGlobalCollisionAt2(int,int,bool,bool,bool,bool);
+	static Float m_GetDistFromClosestPlayer(int,int,bool);
 	static bool m_IsAnyPlayerAt(int,int);
 	static bool m_IsWeaponlessCharacterActive();
 	static c_Point* m_GetPointFromDir(int);
@@ -6707,7 +6707,6 @@ class c_Audio : public Object{
 	static int m_GetNextBeatDuration();
 	static void m_IncrementFixedBeat();
 	static Float m_musicSpeed;
-	static void m_ModifyMusicSpeed(Float);
 	static int m_TimeUntilBeat(int);
 	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
@@ -6715,6 +6714,7 @@ class c_Audio : public Object{
 	static int m_GetBeatAnimFrame4();
 	static bool m_songPaused;
 	static int m_songShopkeeper;
+	static void m_ModifyMusicSpeed(Float);
 	void mark();
 };
 class c_Level : public Object{
@@ -6883,10 +6883,14 @@ class c_Level : public Object{
 	static void m_SetMagicBarrier(bool);
 	static void m_PaintTriggerInterior(int,int,int,int,int);
 	static c_Point* m_GetRandomOffsetPoint();
-	static void m_BossMaybeMinibossesAt(int,int,int,int);
-	static void m_CreateBossBattle1();
+	static bool m_isHardMode;
+	static c_XMLDoc* m_GetHardModeXML();
+	static bool m_QueryHarderBosses();
 	static void m_ClearMinibossWall();
 	static int m_ActivateTrigger(int,c_Entity*,c_RenderableObject*);
+	static void m_TrySpawnBossMinibossAt(int,int,int);
+	static void m_BossMaybeMinibossesAt(int,int,int,int);
+	static void m_CreateBossBattle1();
 	static void m_CreateBossBattle2();
 	static void m_CreateBossBattle3();
 	static void m_CreateBossBattle4();
@@ -6976,8 +6980,6 @@ class c_Level : public Object{
 	static void m_PlaceTrapsZone1();
 	static void m_PlaceTraps();
 	static c_BlobRoom* m_hallwayZone5;
-	static bool m_isHardMode;
-	static c_XMLDoc* m_GetHardModeXML();
 	static c_Enemy* m_PlaceMinibossOfShapeAt(int,int,int);
 	static void m_PlaceAppropriateMinibosses(c_RoomBase*);
 	static void m_PlaceShopkeeperGhostIfNeededAt(int,int);
@@ -7285,13 +7287,13 @@ class c_RenderableObject : public Object{
 	bool m_collides;
 	bool m_isEnemy;
 	Float m_lightSourceBrightness;
-	bool m_isTrap;
-	bool m_isItem;
-	bool m_isCrate;
-	bool m_isNPC;
 	bool m_playerOverrideCollide;
 	int m_width;
 	int m_height;
+	bool m_isItem;
+	bool m_isCrate;
+	bool m_isNPC;
+	bool m_isTrap;
 	bool m_isChest;
 	bool m_clampedOn;
 	c_RenderableObject();
@@ -8114,7 +8116,6 @@ class c_Enemy : public c_MobileEntity{
 	bool m_wasSeekingX;
 	bool m_swarmCulprit;
 	bool m_allowDiagonalFlip;
-	int m_animOverride;
 	bool m_isFormationDancer;
 	int m_currentMoveDelay;
 	bool m_inPenaltyBox;
@@ -8131,6 +8132,7 @@ class c_Enemy : public c_MobileEntity{
 	bool m_stealth;
 	bool m_containsItem;
 	String m_overrideMoveSound;
+	int m_animOverride;
 	bool m_enableTell;
 	String m_overrideCrySound;
 	bool m_overrideAttackSwipe;
@@ -10264,56 +10266,44 @@ class c_EvilEye : public c_Enemy{
 	void p_Update();
 	void mark();
 };
-class c_SpikeTrap : public c_Trap{
-	public:
-	int m_retractCounter;
-	int m_frameToShow;
-	c_SpikeTrap();
-	c_SpikeTrap* m_new(int,int);
-	c_SpikeTrap* m_new2();
-	void p_Trigger(c_Entity*);
-	void p_Update();
-	void mark();
-};
-class c_TrapType : public Object{
-	public:
-	c_TrapType();
-	static String m_ToDisplayName(int);
-	void mark();
-};
-class c_SpeedUpTrap : public c_Trap{
-	public:
-	int m_speedUpStartBeat;
-	Float m_currentMusicSpeed;
-	c_SpeedUpTrap();
-	c_SpeedUpTrap* m_new(int,int);
-	c_SpeedUpTrap* m_new2();
-	void p_Trigger(c_Entity*);
-	void p_Update();
-	void mark();
-};
-class c_ConfuseTrap : public c_Trap{
-	public:
-	c_ConfuseTrap();
-	c_ConfuseTrap* m_new(int,int);
-	c_ConfuseTrap* m_new2();
-	void p_Trigger(c_Entity*);
-	void mark();
-};
-class c_DeathMetal : public c_Enemy{
-	public:
-	c_DeathMetal();
-	c_DeathMetal* m_new(int,int,int);
-	c_DeathMetal* m_new2();
-	c_Point* p_GetMovementDirection();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
-	void p_MoveSucceed(bool,bool);
-	void p_Update();
-	void mark();
-};
 class c_EnemyType : public Object{
 	public:
 	c_EnemyType();
+	void mark();
+};
+class c_Stack4 : public Object{
+	public:
+	Array<c_Point* > m_data;
+	int m_length;
+	c_Stack4();
+	c_Stack4* m_new();
+	c_Stack4* m_new2(Array<c_Point* >);
+	void p_Push10(c_Point*);
+	void p_Push11(Array<c_Point* >,int,int);
+	void p_Push12(Array<c_Point* >,int);
+	bool p_IsEmpty();
+	static c_Point* m_NIL;
+	void p_Length2(int);
+	int p_Length();
+	c_Point* p_Get2(int);
+	c_Enumerator25* p_ObjectEnumerator();
+	void p_Set17(int,c_Point*);
+	void p_Remove4(int);
+	c_Point* p_Pop();
+	void mark();
+};
+class c_StackEx2 : public c_Stack4{
+	public:
+	c_StackEx2();
+	c_StackEx2* m_new();
+	c_Point* p_ChooseRandom(bool);
+	void p_Shuffle(bool);
+	void mark();
+};
+class c_IntPointStack : public c_StackEx2{
+	public:
+	c_IntPointStack();
+	c_IntPointStack* m_new();
 	void mark();
 };
 class c_Slime : public c_Enemy{
@@ -11147,6 +11137,53 @@ class c_Orc : public c_Enemy{
 	void p_Update();
 	void mark();
 };
+class c_SpikeTrap : public c_Trap{
+	public:
+	int m_retractCounter;
+	int m_frameToShow;
+	c_SpikeTrap();
+	c_SpikeTrap* m_new(int,int);
+	c_SpikeTrap* m_new2();
+	void p_Trigger(c_Entity*);
+	void p_Update();
+	void mark();
+};
+class c_TrapType : public Object{
+	public:
+	c_TrapType();
+	static String m_ToDisplayName(int);
+	void mark();
+};
+class c_SpeedUpTrap : public c_Trap{
+	public:
+	int m_speedUpStartBeat;
+	Float m_currentMusicSpeed;
+	c_SpeedUpTrap();
+	c_SpeedUpTrap* m_new(int,int);
+	c_SpeedUpTrap* m_new2();
+	void p_Trigger(c_Entity*);
+	void p_Update();
+	void mark();
+};
+class c_ConfuseTrap : public c_Trap{
+	public:
+	c_ConfuseTrap();
+	c_ConfuseTrap* m_new(int,int);
+	c_ConfuseTrap* m_new2();
+	void p_Trigger(c_Entity*);
+	void mark();
+};
+class c_DeathMetal : public c_Enemy{
+	public:
+	c_DeathMetal();
+	c_DeathMetal* m_new(int,int,int);
+	c_DeathMetal* m_new2();
+	c_Point* p_GetMovementDirection();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_MoveSucceed(bool,bool);
+	void p_Update();
+	void mark();
+};
 class c_BounceTrap : public c_Trap{
 	public:
 	int m_bounceDir;
@@ -11315,40 +11352,6 @@ class c_Rect : public Object{
 	int p_GetL1Dist2(c_Rect*);
 	bool p_ContainsNoCorners(c_Rect*);
 	c_Rect* p_Copy();
-	void mark();
-};
-class c_Stack4 : public Object{
-	public:
-	Array<c_Point* > m_data;
-	int m_length;
-	c_Stack4();
-	c_Stack4* m_new();
-	c_Stack4* m_new2(Array<c_Point* >);
-	void p_Push10(c_Point*);
-	void p_Push11(Array<c_Point* >,int,int);
-	void p_Push12(Array<c_Point* >,int);
-	c_Point* p_Get2(int);
-	c_Enumerator25* p_ObjectEnumerator();
-	static c_Point* m_NIL;
-	void p_Length2(int);
-	int p_Length();
-	void p_Set17(int,c_Point*);
-	void p_Remove4(int);
-	c_Point* p_Pop();
-	void mark();
-};
-class c_StackEx2 : public c_Stack4{
-	public:
-	c_StackEx2();
-	c_StackEx2* m_new();
-	c_Point* p_ChooseRandom(bool);
-	void p_Shuffle(bool);
-	void mark();
-};
-class c_IntPointStack : public c_StackEx2{
-	public:
-	c_IntPointStack();
-	c_IntPointStack* m_new();
 	void mark();
 };
 class c_Stack5 : public Object{
@@ -14007,25 +14010,6 @@ Float c_Util::m_GetDist(int t_x,int t_y,int t_x2,int t_y2){
 bool c_Util::m_AreAriaOrCodaActive(){
 	return m_IsCharacterActive(2) || m_IsCharacterActive(7);
 }
-Float c_Util::m_GetDistFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls){
-	Float t_dist=FLOAT(99999.0);
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(!t_player->p_Perished()){
-			Float t_distToPlayer=m_GetDist(t_player->m_x,t_player->m_y,t_xVal,t_yVal);
-			t_dist=bb_math_Min2(t_dist,t_distToPlayer);
-		}
-	}
-	if(t_includeSouls){
-		c_Enumerator9* t_=c_SoulFamiliar::m_allSouls->p_ObjectEnumerator();
-		while(t_->p_HasNext()){
-			c_SoulFamiliar* t_soulFamiliar=t_->p_NextObject();
-			Float t_distToSoulFamiliar=m_GetDist(t_soulFamiliar->m_x,t_soulFamiliar->m_y,t_xVal,t_yVal);
-			t_dist=bb_math_Min2(t_dist,t_distToSoulFamiliar);
-		}
-	}
-	return t_dist;
-}
 bool c_Util::m_IsGlobalCollisionAt(int t_xVal,int t_yVal,bool t_isPlayer,bool t_ignoreWalls,bool t_includeTheNothing,bool t_includeShopWallsDespiteIgnoringWalls,bool t_skipIgnoreWalls){
 	if(t_includeTheNothing && c_Level::m_GetTileAt(t_xVal,t_yVal)==0){
 		return true;
@@ -14067,6 +14051,25 @@ bool c_Util::m_IsGlobalCollisionAt(int t_xVal,int t_yVal,bool t_isPlayer,bool t_
 }
 bool c_Util::m_IsGlobalCollisionAt2(int t_xVal,int t_yVal,bool t_isPlayer,bool t_ignoreWalls,bool t_includeShopWallsDespiteIgnoringWalls,bool t_skipIgnoreWalls){
 	return m_IsGlobalCollisionAt(t_xVal,t_yVal,t_isPlayer,t_ignoreWalls,false,t_includeShopWallsDespiteIgnoringWalls,t_skipIgnoreWalls);
+}
+Float c_Util::m_GetDistFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls){
+	Float t_dist=FLOAT(99999.0);
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(!t_player->p_Perished()){
+			Float t_distToPlayer=m_GetDist(t_player->m_x,t_player->m_y,t_xVal,t_yVal);
+			t_dist=bb_math_Min2(t_dist,t_distToPlayer);
+		}
+	}
+	if(t_includeSouls){
+		c_Enumerator9* t_=c_SoulFamiliar::m_allSouls->p_ObjectEnumerator();
+		while(t_->p_HasNext()){
+			c_SoulFamiliar* t_soulFamiliar=t_->p_NextObject();
+			Float t_distToSoulFamiliar=m_GetDist(t_soulFamiliar->m_x,t_soulFamiliar->m_y,t_xVal,t_yVal);
+			t_dist=bb_math_Min2(t_dist,t_distToSoulFamiliar);
+		}
+	}
+	return t_dist;
 }
 bool c_Util::m_IsAnyPlayerAt(int t_xVal,int t_yVal){
 	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
@@ -18390,9 +18393,6 @@ void c_Audio::m_IncrementFixedBeat(){
 	}
 }
 Float c_Audio::m_musicSpeed;
-void c_Audio::m_ModifyMusicSpeed(Float t_spd){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.ModifyMusicSpeed(Float)",29));
-}
 int c_Audio::m_TimeUntilBeat(int t_beatOffset){
 	int t_beatNumber=m_GetCurrentBeatNumberIncludingLoops(t_beatOffset,false);
 	return m_TimeUntilSpecificBeat(t_beatNumber);
@@ -18433,6 +18433,9 @@ int c_Audio::m_GetBeatAnimFrame4(){
 }
 bool c_Audio::m_songPaused;
 int c_Audio::m_songShopkeeper;
+void c_Audio::m_ModifyMusicSpeed(Float t_spd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.ModifyMusicSpeed(Float)",29));
+}
 void c_Audio::mark(){
 	Object::mark();
 }
@@ -18626,8 +18629,8 @@ c_Point* c_Level::m_GetStandardExitCoords(){
 	while(t_->p_HasNext()){
 		c_Node22* t_ex=t_->p_NextObject();
 		c_Point* t_exitValue=t_ex->p_Value();
-		int t_55=t_exitValue->m_x;
-		if(t_55==-3 || t_55==-6){
+		int t_56=t_exitValue->m_x;
+		if(t_56==-3 || t_56==-6){
 			return t_ex->p_Key();
 		}
 	}
@@ -18893,8 +18896,8 @@ int c_Level::m_GetTileTypeAt(int t_xVal,int t_yVal){
 Float c_Level::m_zone3DividingLineX;
 Float c_Level::m_zone3DividingLineY;
 bool c_Level::m_IsFinalBoss(){
-	int t_56=bb_controller_game_currentLevel;
-	if(t_56==-494 || t_56==-493 || t_56==-492 || t_56==-490 || t_56==5){
+	int t_57=bb_controller_game_currentLevel;
+	if(t_57==-494 || t_57==-493 || t_57==-492 || t_57==-490 || t_57==5){
 		return true;
 	}
 	return false;
@@ -18947,12 +18950,12 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 	c_List18* t_tiles=(new c_List18)->m_new();
 	int t_xMax=t_xVal+t_wVal;
 	int t_yMax=t_yVal+t_hVal;
-	int t_37=t_roomType;
-	if(t_37==0){
+	int t_38=t_roomType;
+	if(t_38==0){
 		m__CreateWalls(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,t_wallType);
 		m__CreateFloor(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,0);
 	}else{
-		if(t_37==1){
+		if(t_38==1){
 			m__CreateWalls(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,t_wallType);
 			int t_leftPillarX=t_xVal+2;
 			int t_rightPillarX=t_xVal+t_wVal-2;
@@ -18973,7 +18976,7 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 				}
 			}
 		}else{
-			if(t_37==2){
+			if(t_38==2){
 				m__CreateWalls(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,t_wallType);
 				int t_xInsideMin=t_xVal+1;
 				int t_xInsideMax=t_xMax-1;
@@ -18996,7 +18999,7 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 					}
 				}
 			}else{
-				if(t_37==3){
+				if(t_38==3){
 					m__CreateWalls(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,104);
 					int t_xMid=t_wVal/2+t_xVal;
 					int t_xMidLeft=t_xMid-1;
@@ -19019,14 +19022,14 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 					m_shopW=t_wVal;
 					m_shopH=t_hVal;
 				}else{
-					if(t_37==5){
+					if(t_38==5){
 						m__CreateFloor(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,19);
 					}else{
-						if(t_37==6){
+						if(t_38==6){
 							m__CreateWalls(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,109);
 							m__CreateFloor(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,14);
 						}else{
-							if(t_37==7){
+							if(t_38==7){
 								int t_tileType=107;
 								if(bb_controller_game_currentLevel==3){
 									t_tileType=108;
@@ -19049,7 +19052,7 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 								}
 								m__CreateFloor(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,19);
 							}else{
-								if(t_37==8){
+								if(t_38==8){
 									m__CreateWalls(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,t_wallType);
 									int t_xDiffMin=2;
 									if(t_originX!=t_xVal){
@@ -19069,7 +19072,7 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 										}
 									}
 								}else{
-									if(t_37==10){
+									if(t_38==10){
 										m__CreateWalls(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,104);
 										m__CreateFloor(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,0);
 									}
@@ -19192,17 +19195,17 @@ bool c_Level::m_CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,bool t_pe
 		}
 	}
 	Float t_catacombWallChance=FLOAT(.0);
-	int t_29=bb_controller_game_currentLevel;
-	if(t_29==1){
+	int t_30=bb_controller_game_currentLevel;
+	if(t_30==1){
 		t_catacombWallChance=FLOAT(0.00);
 	}else{
-		if(t_29==2){
+		if(t_30==2){
 			t_catacombWallChance=FLOAT(0.10);
 		}else{
-			if(t_29==3){
+			if(t_30==3){
 				t_catacombWallChance=FLOAT(0.13);
 			}else{
-				if(t_29==4){
+				if(t_30==4){
 					t_catacombWallChance=FLOAT(0.16);
 				}else{
 					if(bb_controller_game_currentLevel>4){
@@ -19218,8 +19221,8 @@ bool c_Level::m_CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,bool t_pe
 	}
 	int t_lastCreatedRoomType=t_roomType;
 	c_List18* t_tiles=(new c_List18)->m_new();
-	int t_30=t_roomType;
-	if(t_30==-1){
+	int t_31=t_roomType;
+	if(t_31==-1){
 		if(bb_controller_game_currentZone==1){
 			if(bb_controller_game_currentLevel==1){
 				if(!c_Util::m_RndBool(true)){
@@ -19230,16 +19233,16 @@ bool c_Level::m_CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,bool t_pe
 					t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,2,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 				}
 			}else{
-				int t_31=c_Util::m_RndIntRangeFromZero(2,true);
-				if(t_31==0){
+				int t_32=c_Util::m_RndIntRangeFromZero(2,true);
+				if(t_32==0){
 					t_lastCreatedRoomType=0;
 					t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,0,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 				}else{
-					if(t_31==1){
+					if(t_32==1){
 						t_lastCreatedRoomType=2;
 						t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,2,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 					}else{
-						if(t_31==2){
+						if(t_32==2){
 							t_lastCreatedRoomType=1;
 							t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,1,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 						}
@@ -19256,20 +19259,20 @@ bool c_Level::m_CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,bool t_pe
 					t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,0,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 				}
 			}else{
-				int t_32=c_Util::m_RndIntRangeFromZero(3,true);
-				if(t_32==0){
+				int t_33=c_Util::m_RndIntRangeFromZero(3,true);
+				if(t_33==0){
 					t_lastCreatedRoomType=0;
 					t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,0,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 				}else{
-					if(t_32==1){
+					if(t_33==1){
 						t_lastCreatedRoomType=2;
 						t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,2,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 					}else{
-						if(t_32==2){
+						if(t_33==2){
 							t_lastCreatedRoomType=1;
 							t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,1,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 						}else{
-							if(t_32==3){
+							if(t_33==3){
 								t_lastCreatedRoomType=0;
 								t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,8,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 							}
@@ -19279,7 +19282,7 @@ bool c_Level::m_CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,bool t_pe
 			}
 		}
 	}else{
-		if(t_30==1 || t_30==2 || t_30==3 || t_30==5 || t_30==6 || t_30==7 || t_30==8 || t_30==10){
+		if(t_31==1 || t_31==2 || t_31==3 || t_31==5 || t_31==6 || t_31==7 || t_31==8 || t_31==10){
 			t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,t_roomType,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
 		}else{
 			t_tiles=m__CreateRoom(t_xVal,t_yVal,t_wVal,t_hVal,0,t_originX,t_originY,t_originX2,t_originY2,t_wideCorridor,t_wallType);
@@ -19292,34 +19295,34 @@ bool c_Level::m_CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,bool t_pe
 		int t_numLiquidMaxPart3=c_Util::m_RndIntRangeFromZero(t_numLiquidMaxPart1,true);
 		int t_numLiquidMax=t_numLiquidMaxPart2+t_numLiquidMaxPart3;
 		int t_liquidTileType=0;
-		int t_33=bb_controller_game_currentZone;
-		if(t_33==2){
+		int t_34=bb_controller_game_currentZone;
+		if(t_34==2){
 			t_numLiquidMaxPart2=c_Util::m_RndIntRange(2,7,true,-1);
 			t_numLiquidMaxPart3=c_Util::m_RndIntRangeFromZero(t_numLiquidMaxPart1,true);
 			t_numLiquidMax=t_numLiquidMaxPart2+t_numLiquidMaxPart3;
 			t_liquidTileType=8;
 		}else{
-			if(t_33==4){
+			if(t_34==4){
 				t_liquidTileType=17;
 			}else{
 				t_liquidTileType=4;
 			}
 		}
 		bool t_placeLiquid=false;
-		int t_34=bb_controller_game_currentZone;
-		if(t_34==1 || t_34==2 || t_34==4){
-			int t_35=bb_controller_game_currentLevel;
-			if(t_35==1){
+		int t_35=bb_controller_game_currentZone;
+		if(t_35==1 || t_35==2 || t_35==4){
+			int t_36=bb_controller_game_currentLevel;
+			if(t_36==1){
 				if(t_liquidRoll<=5){
 					t_placeLiquid=true;
 				}
 			}else{
-				if(t_35==2){
+				if(t_36==2){
 					if(t_liquidRoll<=25){
 						t_placeLiquid=true;
 					}
 				}else{
-					if(t_35==3){
+					if(t_36==3){
 						if(t_liquidRoll<=45){
 							t_placeLiquid=true;
 						}
@@ -19333,8 +19336,8 @@ bool c_Level::m_CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,bool t_pe
 				}
 			}
 		}
-		int t_36=t_lastCreatedRoomType;
-		if(t_36==0 || t_36==1 || t_36==2){
+		int t_37=t_lastCreatedRoomType;
+		if(t_37==0 || t_37==1 || t_37==2){
 		}else{
 			t_placeLiquid=false;
 		}
@@ -19514,8 +19517,104 @@ c_Point* c_Level::m_GetRandomOffsetPoint(){
 	}
 	return (new c_Point)->m_new(t_x,t_y);
 }
+bool c_Level::m_isHardMode;
+c_XMLDoc* c_Level::m_GetHardModeXML(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.GetHardModeXML()",22));
+	return 0;
+}
+bool c_Level::m_QueryHarderBosses(){
+	if(m_isHardMode){
+		c_XMLDoc* t_hardModeXML=m_GetHardModeXML();
+		return t_hardModeXML->p_GetAttribute2(String(L"harderBosses",12),false);
+	}
+	return false;
+}
+void c_Level::m_ClearMinibossWall(){
+	c_Enumerator10* t_=m_minibossFormerWall->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_MinibossTileData* t_tileData=t_->p_NextObject();
+		c_Tile* t_tile=m_GetTileAt(t_tileData->m_x,t_tileData->m_y);
+		if(t_tile!=0 && !t_tile->p_IsFloor()){
+			c_Tile* t_newTile=m_PlaceTileRemovingExistingTiles(t_tileData->m_x,t_tileData->m_y,t_tileData->m_type,false,-1,false);
+			t_newTile->m_wireMask=t_tileData->m_wireMask;
+		}
+	}
+}
+int c_Level::m_ActivateTrigger(int t_triggerNum,c_Entity* t_ent,c_RenderableObject* t_target){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.ActivateTrigger(Int, Entity, RenderableObject)",52));
+	return 0;
+}
+void c_Level::m_TrySpawnBossMinibossAt(int t_x,int t_y,int t_etype){
+	c_IntPointStack* t_points=(new c_IntPointStack)->m_new();
+	if(!c_Util::m_IsGlobalCollisionAt2(t_x,t_y,false,false,false,false)){
+		t_points->p_Push10((new c_Point)->m_new(t_x,t_y));
+	}
+	if(!c_Util::m_IsGlobalCollisionAt2(t_x,t_y+1,false,false,false,false)){
+		t_points->p_Push10((new c_Point)->m_new(t_x,t_y+1));
+	}
+	if(!c_Util::m_IsGlobalCollisionAt2(t_x+1,t_y,false,false,false,false)){
+		t_points->p_Push10((new c_Point)->m_new(t_x+1,t_y));
+	}
+	if(!c_Util::m_IsGlobalCollisionAt2(t_x+1,t_y+1,false,false,false,false)){
+		t_points->p_Push10((new c_Point)->m_new(t_x+1,t_y+1));
+	}
+	if(t_points->p_IsEmpty()){
+		c_TextLog::m_Message(String(L"Couldn't find an unoccupied spawn position for miniboss",55));
+		return;
+	}
+	c_Point* t_randomPoint=t_points->p_ChooseRandom(true);
+	c_Enemy::m_MakeEnemy(t_randomPoint->m_x,t_randomPoint->m_y,t_etype);
+}
 void c_Level::m_BossMaybeMinibossesAt(int t_x1,int t_y1,int t_x2,int t_y2){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.BossMaybeMinibossesAt(Int, Int, Int, Int)",47));
+	if(m_QueryHarderBosses()){
+		int t_minibossType1=0;
+		int t_minibossType2=0;
+		int t_5=bb_controller_game_currentZone;
+		if(t_5==1){
+			if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_peace",10),false)){
+				t_minibossType1=407;
+				t_minibossType2=402;
+			}else{
+				t_minibossType1=408;
+				t_minibossType2=403;
+			}
+		}else{
+			if(t_5==2){
+				if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_peace",10),false)){
+					t_minibossType1=409;
+					t_minibossType2=405;
+				}else{
+					t_minibossType1=410;
+					t_minibossType2=406;
+				}
+			}else{
+				if(t_5==3){
+					if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_peace",10),false)){
+						t_minibossType1=407;
+						t_minibossType2=409;
+					}else{
+						t_minibossType1=408;
+						t_minibossType2=410;
+					}
+				}else{
+					if(t_5==4){
+						t_minibossType1=411;
+						t_minibossType2=412;
+					}else{
+						if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"ring_peace",10),false)){
+							t_minibossType1=413;
+							t_minibossType2=402;
+						}else{
+							t_minibossType1=414;
+							t_minibossType2=415;
+						}
+					}
+				}
+			}
+		}
+		m_TrySpawnBossMinibossAt(t_x1,t_y1,t_minibossType1);
+		m_TrySpawnBossMinibossAt(t_x2,t_y2,t_minibossType2);
+	}
 }
 void c_Level::m_CreateBossBattle1(){
 	bb_logger_Debug->p_Log(String(L"CREATEBOSSBATTLE1: Creating conga line boss battle.",51));
@@ -19609,8 +19708,8 @@ void c_Level::m_CreateBossBattle1(){
 	t_kingConga->p_AddZombieFriend(t_zombieRightTop3);
 	t_kingConga->p_AddZombieFriend(t_zombieRightTop4);
 	c_Point* t_point=0;
-	int t_7=bb_controller_game_currentZone;
-	if(t_7==1){
+	int t_8=bb_controller_game_currentZone;
+	if(t_8==1){
 		t_point=m_GetRandomOffsetPoint();
 		if(t_point->m_y<0){
 			t_point->m_y=1;
@@ -19630,7 +19729,7 @@ void c_Level::m_CreateBossBattle1(){
 		c_Bat* t_redBat=(new c_Bat)->m_new(0,-17,2);
 		t_redBat->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
 	}else{
-		if(t_7==2){
+		if(t_8==2){
 			c_SkeletonMage* t_leftSkeletonMage=(new c_SkeletonMage)->m_new(-7,16,1);
 			t_leftSkeletonMage->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
 			c_SkeletonMage* t_rightSkeletonMage=(new c_SkeletonMage)->m_new(7,15,3);
@@ -19655,7 +19754,7 @@ void c_Level::m_CreateBossBattle1(){
 			c_Bat* t_rightBat2=(new c_Bat)->m_new(6,-8,2);
 			t_rightBat2->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
 		}else{
-			if(t_7==3){
+			if(t_8==3){
 				c_Hellhound* t_hellhound=(new c_Hellhound)->m_new(-7,-16,1);
 				t_hellhound->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
 				c_Yeti* t_yeti=(new c_Yeti)->m_new(7,-15,1);
@@ -19689,7 +19788,7 @@ void c_Level::m_CreateBossBattle1(){
 				c_Bat* t_rightBat3=(new c_Bat)->m_new(6,-8,2);
 				t_rightBat3->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
 			}else{
-				if(t_7==4){
+				if(t_8==4){
 					if(!c_Util::m_IsCharacterActive(3)){
 						c_Blademaster* t_blademaster=(new c_Blademaster)->m_new(-7,-16,2);
 						t_blademaster->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
@@ -19778,8 +19877,8 @@ void c_Level::m_CreateBossBattle1(){
 		}
 	}
 	m_BossMaybeMinibossesAt(-6,0,5,0);
-	int t_8=bb_controller_game_currentZone;
-	if(t_8==1){
+	int t_9=bb_controller_game_currentZone;
+	if(t_9==1){
 		(new c_SpikeTrap)->m_new(-5,-11);
 		(new c_SpikeTrap)->m_new(5,-11);
 		(new c_SpeedUpTrap)->m_new(0,-14);
@@ -19797,21 +19896,6 @@ void c_Level::m_CreateBossBattle1(){
 		(new c_ConfuseTrap)->m_new(5,-8);
 	}
 	c_Enemy::m_enemiesPaused=true;
-}
-void c_Level::m_ClearMinibossWall(){
-	c_Enumerator10* t_=m_minibossFormerWall->p_ObjectEnumerator();
-	while(t_->p_HasNext()){
-		c_MinibossTileData* t_tileData=t_->p_NextObject();
-		c_Tile* t_tile=m_GetTileAt(t_tileData->m_x,t_tileData->m_y);
-		if(t_tile!=0 && !t_tile->p_IsFloor()){
-			c_Tile* t_newTile=m_PlaceTileRemovingExistingTiles(t_tileData->m_x,t_tileData->m_y,t_tileData->m_type,false,-1,false);
-			t_newTile->m_wireMask=t_tileData->m_wireMask;
-		}
-	}
-}
-int c_Level::m_ActivateTrigger(int t_triggerNum,c_Entity* t_ent,c_RenderableObject* t_target){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.ActivateTrigger(Int, Entity, RenderableObject)",52));
-	return 0;
 }
 void c_Level::m_CreateBossBattle2(){
 	bb_logger_Debug->p_Log(String(L"CREATEBOSSBATTLE2: Creating death metal boss battle.",52));
@@ -19834,20 +19918,20 @@ void c_Level::m_CreateBossBattle2(){
 	t_deathMetal->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
 	int t_enemyType1=0;
 	int t_enemyType2=0;
-	int t_9=bb_controller_game_currentZone;
-	if(t_9==1){
+	int t_10=bb_controller_game_currentZone;
+	if(t_10==1){
 		t_enemyType1=11;
 		t_enemyType2=11;
 	}else{
-		if(t_9==2){
+		if(t_10==2){
 			t_enemyType1=112;
 			t_enemyType2=112;
 		}else{
-			if(t_9==3){
+			if(t_10==3){
 				t_enemyType1=210;
 				t_enemyType2=209;
 			}else{
-				if(t_9==4){
+				if(t_10==4){
 					t_enemyType1=319;
 					t_enemyType2=320;
 				}else{
@@ -19931,16 +20015,16 @@ void c_Level::m_CreateBossBattle3(){
 	int t_kingLevel=0;
 	int t_queenLevel=0;
 	int t_rightKnightLevel=0;
-	int t_10=bb_controller_game_currentDepth;
-	if(t_10==2){
-		int t_11=c_Util::m_RndIntRangeFromZero(2,true);
-		if(t_11==0){
+	int t_11=bb_controller_game_currentDepth;
+	if(t_11==2){
+		int t_12=c_Util::m_RndIntRangeFromZero(2,true);
+		if(t_12==0){
 			t_rookLevel=2;
 			t_leftKnightLevel=2;
 			t_bishopLevel=1;
 			t_rightKnightLevel=1;
 		}else{
-			if(t_11==1){
+			if(t_12==1){
 				t_rookLevel=1;
 				t_leftKnightLevel=1;
 				t_bishopLevel=2;
@@ -19955,7 +20039,7 @@ void c_Level::m_CreateBossBattle3(){
 		t_kingLevel=1;
 		t_queenLevel=2;
 	}else{
-		if(t_10==3){
+		if(t_11==3){
 			t_rookLevel=1;
 			t_leftKnightLevel=1;
 			t_bishopLevel=1;
@@ -19963,7 +20047,7 @@ void c_Level::m_CreateBossBattle3(){
 			t_queenLevel=1;
 			t_rightKnightLevel=1;
 		}else{
-			if(t_10==4){
+			if(t_11==4){
 				t_rookLevel=1;
 				t_leftKnightLevel=2;
 				t_bishopLevel=1;
@@ -20152,20 +20236,20 @@ void c_Level::m_CreateBossBattle9(){
 	c_Fortissimole::m_SpawnFans();
 	int t_enemyType1=0;
 	int t_enemyType2=0;
-	int t_12=bb_controller_game_currentZone;
-	if(t_12==1){
+	int t_13=bb_controller_game_currentZone;
+	if(t_13==1){
 		t_enemyType1=11;
 		t_enemyType2=11;
 	}else{
-		if(t_12==2){
+		if(t_13==2){
 			t_enemyType1=103;
 			t_enemyType2=103;
 		}else{
-			if(t_12==3){
+			if(t_13==3){
 				t_enemyType1=205;
 				t_enemyType2=206;
 			}else{
-				if(t_12==4){
+				if(t_13==4){
 					if(c_Util::m_IsCharacterActive(3)){
 						t_enemyType1=308;
 						t_enemyType2=308;
@@ -20191,20 +20275,20 @@ void c_Level::m_CreateBossBattle9(){
 	t_enemy2->p_ActivateLight(FLOAT(0.01),FLOAT(1.5));
 	int t_enemyType3=0;
 	int t_enemyType4=0;
-	int t_13=bb_controller_game_currentZone;
-	if(t_13==1){
+	int t_14=bb_controller_game_currentZone;
+	if(t_14==1){
 		t_enemyType3=11;
 		t_enemyType4=11;
 	}else{
-		if(t_13==2){
+		if(t_14==2){
 			t_enemyType3=108;
 			t_enemyType4=108;
 		}else{
-			if(t_13==3){
+			if(t_14==3){
 				t_enemyType3=211;
 				t_enemyType4=213;
 			}else{
-				if(t_13==4){
+				if(t_14==4){
 					t_enemyType3=307;
 					t_enemyType4=307;
 				}else{
@@ -20242,14 +20326,14 @@ void c_Level::m_PlacePenaltyBoxEnemies(){
 	}
 	c_IntStack* t_enemyTypes=(new c_IntStack)->m_new2();
 	t_enemyTypes->p_Push4(0);
-	int t_110=bb_controller_game_currentZone;
-	if(t_110==1){
-		int t_111=bb_controller_game_currentLevel;
-		if(t_111==2){
+	int t_111=bb_controller_game_currentZone;
+	if(t_111==1){
+		int t_112=bb_controller_game_currentLevel;
+		if(t_112==2){
 			t_enemyTypes->p_Push4(6);
 			t_enemyTypes->p_Push4(3);
 		}else{
-			if(t_111==3){
+			if(t_112==3){
 				t_enemyTypes->p_Push4(7);
 				t_enemyTypes->p_Push4(4);
 			}else{
@@ -20259,13 +20343,13 @@ void c_Level::m_PlacePenaltyBoxEnemies(){
 		}
 		t_enemyTypes->p_Push4(11);
 	}else{
-		if(t_110==2){
-			int t_112=bb_controller_game_currentLevel;
-			if(t_112==2){
+		if(t_111==2){
+			int t_113=bb_controller_game_currentLevel;
+			if(t_113==2){
 				t_enemyTypes->p_Push4(6);
 				t_enemyTypes->p_Push4(100);
 			}else{
-				if(t_112==3){
+				if(t_113==3){
 					t_enemyTypes->p_Push4(7);
 					t_enemyTypes->p_Push4(4);
 				}else{
@@ -20275,17 +20359,17 @@ void c_Level::m_PlacePenaltyBoxEnemies(){
 			}
 			t_enemyTypes->p_Push4(112);
 		}else{
-			if(t_110==3){
+			if(t_111==3){
 				if(bb_controller_game_currentLevel<=3){
 					t_enemyTypes->p_Push4(206);
 				}else{
 					t_enemyTypes->p_Push4(205);
 				}
-				int t_113=bb_controller_game_currentLevel;
-				if(t_113==2){
+				int t_114=bb_controller_game_currentLevel;
+				if(t_114==2){
 					t_enemyTypes->p_Push4(202);
 				}else{
-					if(t_113==3){
+					if(t_114==3){
 						t_enemyTypes->p_Push4(203);
 					}else{
 						t_enemyTypes->p_Push4(204);
@@ -20297,13 +20381,13 @@ void c_Level::m_PlacePenaltyBoxEnemies(){
 					t_enemyTypes->p_Push4(206);
 				}
 			}else{
-				if(t_110==4){
-					int t_114=bb_controller_game_currentLevel;
-					if(t_114==2){
+				if(t_111==4){
+					int t_115=bb_controller_game_currentLevel;
+					if(t_115==2){
 						t_enemyTypes->p_Push4(319);
 						t_enemyTypes->p_Push4(309);
 					}else{
-						if(t_114==3){
+						if(t_115==3){
 							t_enemyTypes->p_Push4(320);
 							t_enemyTypes->p_Push4(310);
 						}else{
@@ -20321,12 +20405,12 @@ void c_Level::m_PlacePenaltyBoxEnemies(){
 						}
 					}
 				}else{
-					int t_115=bb_controller_game_currentLevel;
-					if(t_115==2){
+					int t_116=bb_controller_game_currentLevel;
+					if(t_116==2){
 						t_enemyTypes->p_Push4(710);
 						t_enemyTypes->p_Push4(704);
 					}else{
-						if(t_115==3){
+						if(t_116==3){
 							t_enemyTypes->p_Push4(710);
 							t_enemyTypes->p_Push4(705);
 						}else{
@@ -20431,26 +20515,26 @@ void c_Level::m_CreateBossBattle(){
 		m_forceBoss=-1;
 	}
 	m_usedBosses->p_Insert4(m_bossNumber);
-	int t_6=m_bossNumber;
-	if(t_6==1){
+	int t_7=m_bossNumber;
+	if(t_7==1){
 		m_CreateBossBattle1();
 	}else{
-		if(t_6==2){
+		if(t_7==2){
 			m_CreateBossBattle2();
 		}else{
-			if(t_6==3){
+			if(t_7==3){
 				m_CreateBossBattle3();
 			}else{
-				if(t_6==4){
+				if(t_7==4){
 					m_CreateBossBattle4();
 				}else{
-					if(t_6==5){
+					if(t_7==5){
 						m_CreateBossBattle5();
 					}else{
-						if(t_6==9){
+						if(t_7==9){
 							m_CreateBossBattle9();
 						}else{
-							if(t_6==10){
+							if(t_7==10){
 								m_CreateBossBattleFrankensteinway();
 							}
 						}
@@ -20585,20 +20669,20 @@ void c_Level::m_AddCrackedWall(int t_roomType){
 int c_Level::m_specialRoomEntranceX;
 int c_Level::m_specialRoomEntranceY;
 String c_Level::m_RandomFood(){
-	int t_160=c_Util::m_RndIntRangeFromZero(5,true);
-	if(t_160==0){
+	int t_161=c_Util::m_RndIntRangeFromZero(5,true);
+	if(t_161==0){
 		return String(L"food_1",6);
 	}else{
-		if(t_160==1){
+		if(t_161==1){
 			return String(L"food_2",6);
 		}else{
-			if(t_160==2){
+			if(t_161==2){
 				return String(L"food_3",6);
 			}else{
-				if(t_160==3){
+				if(t_161==3){
 					return String(L"food_4",6);
 				}else{
-					if(t_160==4){
+					if(t_161==4){
 						return String(L"food_carrot",11);
 					}
 				}
@@ -21118,11 +21202,11 @@ void c_Level::m_PlaceShopItemsAt(int t_tmpX,int t_tmpY,c_Rect* t_door){
 		if(!c_Util::m_IsCharacterActive(15)){
 			if(t_createKey){
 				String t_key=String();
-				int t_143=bb_controller_game_currentLevel;
-				if(t_143==1){
+				int t_144=bb_controller_game_currentLevel;
+				if(t_144==1){
 					t_key=String(L"misc_golden_key",15);
 				}else{
-					if(t_143==2){
+					if(t_144==2){
 						t_key=String(L"misc_golden_key3",16);
 					}else{
 						t_key=String(L"misc_golden_key2",16);
@@ -21194,11 +21278,11 @@ void c_Level::m_PlaceShopItemsAt(int t_tmpX,int t_tmpY,c_Rect* t_door){
 			c_Entity* t_item12=0;
 			if(t_createKey){
 				String t_key2=String();
-				int t_144=bb_controller_game_currentLevel;
-				if(t_144==1){
+				int t_145=bb_controller_game_currentLevel;
+				if(t_145==1){
 					t_key2=String(L"misc_golden_key",15);
 				}else{
-					if(t_144==2){
+					if(t_145==2){
 						t_key2=String(L"misc_golden_key3",16);
 					}else{
 						t_key2=String(L"misc_golden_key2",16);
@@ -21280,8 +21364,8 @@ void c_Level::m_PlaceShopItemsAt(int t_tmpX,int t_tmpY,c_Rect* t_door){
 }
 void c_Level::m_CreateRoomZone5(c_RoomWithDoor* t_rm,int t_roomType){
 	bb_logger_Debug->p_Log(String(L"CREATEROOMZONE5: Placing room ",30)+t_rm->m_body->p_ToString()+String(L" with door ",11)+t_rm->m_door->p_ToString()+String(L" of type ",9)+String(t_roomType));
-	int t_38=t_roomType;
-	if(t_38==3){
+	int t_39=t_roomType;
+	if(t_39==3){
 		m_CreateRoom3(t_rm->m_body->m_x,t_rm->m_body->m_y,t_rm->m_body->m_w,t_rm->m_body->m_h,false,t_roomType);
 		m_PlaceShopItemsAt(t_rm->m_body->m_x,t_rm->m_body->m_y,t_rm->m_door);
 	}else{
@@ -21470,29 +21554,29 @@ bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 					t_wire->p_AddWireConnection(t_dirToNext);
 				}
 			}
-			int t_158=t_dirToNext;
-			if(t_158==3){
+			int t_159=t_dirToNext;
+			if(t_159==3){
 				t_dirToPrev=1;
 			}else{
-				if(t_158==1){
+				if(t_159==1){
 					t_dirToPrev=3;
 				}else{
-					if(t_158==2){
+					if(t_159==2){
 						t_dirToPrev=0;
 					}else{
-						if(t_158==0){
+						if(t_159==0){
 							t_dirToPrev=2;
 						}else{
-							if(t_158==6){
+							if(t_159==6){
 								t_dirToPrev=4;
 							}else{
-								if(t_158==7){
+								if(t_159==7){
 									t_dirToPrev=5;
 								}else{
-									if(t_158==5){
+									if(t_159==5){
 										t_dirToPrev=7;
 									}else{
-										if(t_158==4){
+										if(t_159==4){
 											t_dirToPrev=6;
 										}else{
 											t_dirToPrev=-1;
@@ -21692,8 +21776,8 @@ void c_Level::m_PlaceSecretRooms(int t_numRooms){
 	bb_logger_Debug->p_WriteLine2(String(L"WARN: Failed to place secret rooms.",35));
 }
 bool c_Level::m_IsSecretRoom(int t_rmType){
-	int t_57=t_rmType;
-	if(t_57==5 || t_57==7){
+	int t_58=t_rmType;
+	if(t_58==5 || t_58==7){
 		return true;
 	}
 	return false;
@@ -21731,8 +21815,8 @@ c_Point* c_Level::m_GetRandPointInRoomWithOptions(c_RoomBase* t_room,bool t_skip
 			}
 		}
 		if(t_skipWater){
-			int t_53=m_GetTileTypeAt(t_x,t_y);
-			if(t_53==4 || t_53==8 || t_53==5){
+			int t_54=m_GetTileTypeAt(t_x,t_y);
+			if(t_54==4 || t_54==8 || t_54==5){
 				continue;
 			}
 		}
@@ -21801,8 +21885,8 @@ bool c_Level::m_FillSecretRoomsZone4(){
 		int t_secretRoomVariantRoll=c_Util::m_RndIntRangeFromZero(100,true);
 		if(t_room->m_type==7){
 			m_CreateRoom(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h,false,7,-1,-1,-1,-1,false,107,true,true);
-			int t_48=bb_controller_game_currentLevel;
-			if(t_48==2 || t_48==3){
+			int t_49=bb_controller_game_currentLevel;
+			if(t_49==2 || t_49==3){
 				int t_vaultRoll=c_Util::m_RndIntRangeFromZero(5,true);
 				if(t_vaultRoll==0){
 					m_FillVault(t_room);
@@ -21843,8 +21927,8 @@ bool c_Level::m_FillSecretRoomsZone4(){
 		if(t_secretRoomVariantRoll<=5){
 			if(t_room->m_w>=4 && t_room->m_h>=4){
 				int t_trapTypeRoll=c_Util::m_RndIntRangeFromZero(2,true);
-				int t_49=t_trapTypeRoll;
-				if(t_49==0){
+				int t_50=t_trapTypeRoll;
+				if(t_50==0){
 					c_BounceTrap* t_bounceTrapDown=(new c_BounceTrap)->m_new(t_room->m_x+1,t_room->m_y+2,0);
 					t_bounceTrapDown->m_canBeReplacedByTempoTrap=false;
 					c_BounceTrap* t_bounceTrapLeft=(new c_BounceTrap)->m_new(t_room->m_x+3,t_room->m_y+2,1);
@@ -21854,7 +21938,7 @@ bool c_Level::m_FillSecretRoomsZone4(){
 					c_BounceTrap* t_bounceTrapUp=(new c_BounceTrap)->m_new(t_room->m_x+2,t_room->m_y+3,3);
 					t_bounceTrapUp->m_canBeReplacedByTempoTrap=false;
 				}else{
-					if(t_49==1){
+					if(t_50==1){
 						(new c_SpikeTrap)->m_new(t_room->m_x+1,t_room->m_y+2);
 						(new c_SpikeTrap)->m_new(t_room->m_x+3,t_room->m_y+2);
 						(new c_SpikeTrap)->m_new(t_room->m_x+2,t_room->m_y+1);
@@ -22002,23 +22086,23 @@ bool c_Level::m_FillSecretRoomsZone4(){
 			}
 			int t_placeTrapChestRoll=c_Util::m_RndIntRangeFromZero(99,true);
 			bool t_placeTrapChest=false;
-			int t_50=bb_controller_game_currentLevel;
-			if(t_50==1){
+			int t_51=bb_controller_game_currentLevel;
+			if(t_51==1){
 				if(t_placeTrapChestRoll<=3){
 					t_placeTrapChest=true;
 				}
 			}else{
-				if(t_50==2){
+				if(t_51==2){
 					if(t_placeTrapChestRoll<=9){
 						t_placeTrapChest=true;
 					}
 				}else{
-					if(t_50==3){
+					if(t_51==3){
 						if(t_placeTrapChestRoll<=12){
 							t_placeTrapChest=true;
 						}
 					}else{
-						if(t_50==4){
+						if(t_51==4){
 							if(t_placeTrapChestRoll<=15){
 								t_placeTrapChest=true;
 							}
@@ -22036,11 +22120,11 @@ bool c_Level::m_FillSecretRoomsZone4(){
 				if(t_placeTrapChest){
 					int t_trapChestLevelRoll=c_Util::m_RndIntRangeFromZero(9,true);
 					int t_trapChestLevel=0;
-					int t_51=t_trapChestLevelRoll;
-					if(t_51==0){
+					int t_52=t_trapChestLevelRoll;
+					if(t_52==0){
 						t_trapChestLevel=3;
 					}else{
-						if(t_51==1){
+						if(t_52==1){
 							t_trapChestLevel=2;
 						}else{
 							t_trapChestLevel=1;
@@ -22122,8 +22206,8 @@ bool c_Level::m_FillSecretRoomsZone2(){
 			}
 			if(t_room->m_w>=4 && t_room->m_h>=4){
 				int t_trapTypeRoll=c_Util::m_RndIntRangeFromZero(2,true);
-				int t_45=t_trapTypeRoll;
-				if(t_45==0){
+				int t_46=t_trapTypeRoll;
+				if(t_46==0){
 					c_BounceTrap* t_bounceTrapDown=(new c_BounceTrap)->m_new(t_room->m_x+1,t_room->m_y+2,0);
 					t_bounceTrapDown->m_canBeReplacedByTempoTrap=false;
 					c_BounceTrap* t_bounceTrapLeft=(new c_BounceTrap)->m_new(t_room->m_x+3,t_room->m_y+2,1);
@@ -22133,7 +22217,7 @@ bool c_Level::m_FillSecretRoomsZone2(){
 					c_BounceTrap* t_bounceTrapUp=(new c_BounceTrap)->m_new(t_room->m_x+2,t_room->m_y+3,3);
 					t_bounceTrapUp->m_canBeReplacedByTempoTrap=false;
 				}else{
-					if(t_45==1){
+					if(t_46==1){
 						(new c_SpikeTrap)->m_new(t_room->m_x+1,t_room->m_y+2);
 						(new c_SpikeTrap)->m_new(t_room->m_x+3,t_room->m_y+2);
 						(new c_SpikeTrap)->m_new(t_room->m_x+2,t_room->m_y+1);
@@ -22239,23 +22323,23 @@ bool c_Level::m_FillSecretRoomsZone2(){
 			}
 			int t_trapChestRoll=c_Util::m_RndIntRangeFromZero(99,true);
 			bool t_placeTrapChest=false;
-			int t_46=bb_controller_game_currentLevel;
-			if(t_46==1){
+			int t_47=bb_controller_game_currentLevel;
+			if(t_47==1){
 				if(t_trapChestRoll<=3){
 					t_placeTrapChest=true;
 				}
 			}else{
-				if(t_46==2){
+				if(t_47==2){
 					if(t_trapChestRoll<=9){
 						t_placeTrapChest=true;
 					}
 				}else{
-					if(t_46==3){
+					if(t_47==3){
 						if(t_trapChestRoll<=12){
 							t_placeTrapChest=true;
 						}
 					}else{
-						if(t_46==4){
+						if(t_47==4){
 							if(t_trapChestRoll<=15){
 								t_placeTrapChest=true;
 							}
@@ -22275,11 +22359,11 @@ bool c_Level::m_FillSecretRoomsZone2(){
 			if(t_placeTrapChest){
 				int t_trapChestLevelRoll=c_Util::m_RndIntRangeFromZero(9,true);
 				int t_trapChestLevel=0;
-				int t_47=t_trapChestLevelRoll;
-				if(t_47==0){
+				int t_48=t_trapChestLevelRoll;
+				if(t_48==0){
 					t_trapChestLevel=3;
 				}else{
-					if(t_47==0){
+					if(t_48==0){
 						t_trapChestLevel=2;
 					}else{
 						t_trapChestLevel=1;
@@ -22378,8 +22462,8 @@ bool c_Level::m_FillSecretRoomsZone1(){
 				t_trapTypeLimitRoll=1;
 			}
 			int t_trapTypeRoll=c_Util::m_RndIntRangeFromZero(t_trapTypeLimitRoll,true);
-			int t_42=t_trapTypeRoll;
-			if(t_42==0){
+			int t_43=t_trapTypeRoll;
+			if(t_43==0){
 				c_BounceTrap* t_bounceTrap1=(new c_BounceTrap)->m_new(t_room->m_x+1,t_room->m_y+2,0);
 				c_BounceTrap* t_bounceTrap2=(new c_BounceTrap)->m_new(t_room->m_x+3,t_room->m_y+2,1);
 				c_BounceTrap* t_bounceTrap3=(new c_BounceTrap)->m_new(t_room->m_x+2,t_room->m_y+1,2);
@@ -22389,7 +22473,7 @@ bool c_Level::m_FillSecretRoomsZone1(){
 				t_bounceTrap3->m_canBeReplacedByTempoTrap=false;
 				t_bounceTrap4->m_canBeReplacedByTempoTrap=false;
 			}else{
-				if(t_42==1){
+				if(t_43==1){
 					(new c_SpikeTrap)->m_new(t_room->m_x+1,t_room->m_y+2);
 					(new c_SpikeTrap)->m_new(t_room->m_x+3,t_room->m_y+2);
 					(new c_SpikeTrap)->m_new(t_room->m_x+2,t_room->m_y+1);
@@ -22446,11 +22530,11 @@ bool c_Level::m_FillSecretRoomsZone1(){
 				c_Point* t_point3=m_GetRandPointInRoomWithOptions6(t_room);
 				if(t_point3!=0){
 					c_Enemy* t_wraith=0;
-					int t_43=bb_controller_game_currentZone;
-					if(t_43==5){
+					int t_44=bb_controller_game_currentZone;
+					if(t_44==5){
 						t_wraith=((new c_Wraith)->m_new(t_point3->m_x,t_point3->m_y,2));
 					}else{
-						if(t_43==3){
+						if(t_44==3){
 							t_wraith=((new c_Ghast)->m_new(t_point3->m_x,t_point3->m_y,1));
 						}else{
 							t_wraith=((new c_Wraith)->m_new(t_point3->m_x,t_point3->m_y,1));
@@ -22561,11 +22645,11 @@ bool c_Level::m_FillSecretRoomsZone1(){
 					if(t_placeTrapChest){
 						int t_trapChestLevelRoll=c_Util::m_RndIntRangeFromZero(9,true);
 						int t_trapChestLevel=0;
-						int t_44=t_trapChestLevelRoll;
-						if(t_44==0){
+						int t_45=t_trapChestLevelRoll;
+						if(t_45==0){
 							t_trapChestLevel=3;
 						}else{
-							if(t_44==1){
+							if(t_45==1){
 								t_trapChestLevel=2;
 							}else{
 								t_trapChestLevel=1;
@@ -22591,11 +22675,11 @@ bool c_Level::m_FillSecretRoomsZone1(){
 	return true;
 }
 bool c_Level::m_FillSecretRooms(){
-	int t_41=bb_controller_game_currentZone;
-	if(t_41==4){
+	int t_42=bb_controller_game_currentZone;
+	if(t_42==4){
 		return m_FillSecretRoomsZone4();
 	}else{
-		if(t_41==2){
+		if(t_42==2){
 			return m_FillSecretRoomsZone2();
 		}
 	}
@@ -22677,8 +22761,8 @@ c_Trap* c_Level::m_PlaceTrapInRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,i
 		if(m_GetTileTypeAt(t_point->m_x,t_point->m_y)==118){
 			continue;
 		}
-		int t_145=t_trapType;
-		if(t_145==1){
+		int t_146=t_trapType;
+		if(t_146==1){
 			if(c_Trap::m_GetTrapTypeAt(t_point->m_x+1,t_point->m_y)==1){
 				continue;
 			}
@@ -22707,25 +22791,25 @@ c_Trap* c_Level::m_PlaceTrapInRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,i
 			}
 			return ((new c_BounceTrap)->m_new(t_point->m_x,t_point->m_y,t_bounceDir));
 		}else{
-			if(t_145==2){
+			if(t_146==2){
 				return ((new c_SpikeTrap)->m_new(t_point->m_x,t_point->m_y));
 			}else{
-				if(t_145==3){
+				if(t_146==3){
 					return ((new c_TrapDoor)->m_new(t_point->m_x,t_point->m_y));
 				}else{
-					if(t_145==4){
+					if(t_146==4){
 						return ((new c_ConfuseTrap)->m_new(t_point->m_x,t_point->m_y));
 					}else{
-						if(t_145==5){
+						if(t_146==5){
 							return ((new c_TeleportTrap)->m_new(t_point->m_x,t_point->m_y));
 						}else{
-							if(t_145==11){
+							if(t_146==11){
 								return ((new c_ABTeleportTrap)->m_new(t_point->m_x,t_point->m_y));
 							}else{
-								if(t_145==9){
+								if(t_146==9){
 									return ((new c_BombTrap)->m_new(t_point->m_x,t_point->m_y));
 								}else{
-									if(t_145==14){
+									if(t_146==14){
 										return ((new c_ScatterTrap)->m_new(t_point->m_x,t_point->m_y));
 									}
 								}
@@ -22760,17 +22844,17 @@ void c_Level::m_PlaceTrapZone5(int t_xVal,int t_yVal,int t_wVal,int t_hVal){
 	t_weights->p_Push4(50);
 	t_weights->p_Push4(10);
 	int t_trapType=0;
-	int t_157=t_weights->p_PickRandom(true);
-	if(t_157==0){
+	int t_158=t_weights->p_PickRandom(true);
+	if(t_158==0){
 		t_trapType=9;
 	}else{
-		if(t_157==1){
+		if(t_158==1){
 			t_trapType=2;
 		}else{
-			if(t_157==2){
+			if(t_158==2){
 				t_trapType=3;
 			}else{
-				if(t_157==3){
+				if(t_158==3){
 					t_trapType=1;
 				}else{
 					t_trapType=14;
@@ -22784,15 +22868,15 @@ void c_Level::m_PlaceTrapsZone5(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_155=t_room->m_type;
-		if(t_155==3 || t_155==5 || t_155==7){
+		int t_156=t_room->m_type;
+		if(t_156==3 || t_156==5 || t_156==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
 			continue;
 		}
-		int t_156=bb_controller_game_currentLevel;
-		if(t_156==1){
+		int t_157=bb_controller_game_currentLevel;
+		if(t_157==1){
 			bool t_trapRoll=c_Util::m_RndBool(true);
 			if(t_trapRoll){
 				m_PlaceTrapZone5(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -22802,7 +22886,7 @@ void c_Level::m_PlaceTrapsZone5(){
 				m_PlaceTrapZone5(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
 			}
 		}else{
-			if(t_156==2){
+			if(t_157==2){
 				int t_trapRoll3=c_Util::m_RndIntRangeFromZero(4,true);
 				if(t_trapRoll3==0){
 					m_PlaceTrapZone5(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -22820,7 +22904,7 @@ void c_Level::m_PlaceTrapsZone5(){
 					m_PlaceTrapZone5(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
 				}
 			}else{
-				if(t_156==3){
+				if(t_157==3){
 					int t_trapRoll5=c_Util::m_RndIntRangeFromZero(2,true);
 					if(t_trapRoll5==0){
 						m_PlaceTrapZone5(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -22886,15 +22970,15 @@ void c_Level::m_PlaceTrapsZone4(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_153=t_room->m_type;
-		if(t_153==3 || t_153==5 || t_153==7){
+		int t_154=t_room->m_type;
+		if(t_154==3 || t_154==5 || t_154==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
 			continue;
 		}
-		int t_154=bb_controller_game_currentLevel;
-		if(t_154==1){
+		int t_155=bb_controller_game_currentLevel;
+		if(t_155==1){
 			bool t_trapRoll=c_Util::m_RndBool(true);
 			if(t_trapRoll){
 				m_PlaceTrapZone4(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -22904,7 +22988,7 @@ void c_Level::m_PlaceTrapsZone4(){
 				m_PlaceTrapZone4(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
 			}
 		}else{
-			if(t_154==2){
+			if(t_155==2){
 				int t_trapRoll3=c_Util::m_RndIntRangeFromZero(4,true);
 				if(t_trapRoll3==0){
 					m_PlaceTrapZone4(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -22922,7 +23006,7 @@ void c_Level::m_PlaceTrapsZone4(){
 					m_PlaceTrapZone4(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
 				}
 			}else{
-				if(t_154==3){
+				if(t_155==3){
 					int t_trapRoll5=c_Util::m_RndIntRangeFromZero(2,true);
 					if(t_trapRoll5==0){
 						m_PlaceTrapZone4(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -23022,15 +23106,15 @@ void c_Level::m_PlaceTrapsZone3(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_151=t_room->m_type;
-		if(t_151==3 || t_151==5 || t_151==7){
+		int t_152=t_room->m_type;
+		if(t_152==3 || t_152==5 || t_152==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
 			continue;
 		}
-		int t_152=bb_controller_game_currentLevel;
-		if(t_152==1){
+		int t_153=bb_controller_game_currentLevel;
+		if(t_153==1){
 			bool t_trapRoll=c_Util::m_RndBool(true);
 			if(t_trapRoll){
 				m_PlaceTrapZone3(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -23040,7 +23124,7 @@ void c_Level::m_PlaceTrapsZone3(){
 				m_PlaceTrapZone3(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
 			}
 		}else{
-			if(t_152==2){
+			if(t_153==2){
 				int t_trapRoll3=c_Util::m_RndIntRangeFromZero(4,true);
 				if(t_trapRoll3==0){
 					m_PlaceTrapZone3(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -23058,7 +23142,7 @@ void c_Level::m_PlaceTrapsZone3(){
 					m_PlaceTrapZone3(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
 				}
 			}else{
-				if(t_152==3){
+				if(t_153==3){
 					int t_trapRoll5=c_Util::m_RndIntRangeFromZero(2,true);
 					if(t_trapRoll5==0){
 						m_PlaceTrapZone3(t_room->m_x,t_room->m_y,t_room->m_w,t_room->m_h);
@@ -23097,15 +23181,15 @@ void c_Level::m_PlaceTrapsZone2(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_149=t_room->m_type;
-		if(t_149==3 || t_149==5 || t_149==7){
+		int t_150=t_room->m_type;
+		if(t_150==3 || t_150==5 || t_150==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
 			continue;
 		}
-		int t_150=bb_controller_game_currentLevel;
-		if(t_150==1){
+		int t_151=bb_controller_game_currentLevel;
+		if(t_151==1){
 			bool t_bounceTrapRoll=c_Util::m_RndBool(true);
 			if(t_bounceTrapRoll){
 				m_PlaceTrapInRoom4(t_room,1);
@@ -23120,7 +23204,7 @@ void c_Level::m_PlaceTrapsZone2(){
 				}
 			}
 		}else{
-			if(t_150==2){
+			if(t_151==2){
 				int t_trapDoorRoll=c_Util::m_RndIntRangeFromZero(4,true);
 				if(t_trapDoorRoll==0){
 					m_PlaceTrapInRoom4(t_room,3);
@@ -23143,7 +23227,7 @@ void c_Level::m_PlaceTrapsZone2(){
 					m_PlaceTrapInRoom4(t_room,1);
 				}
 			}else{
-				if(t_150==3){
+				if(t_151==3){
 					int t_trapDoorRoll2=c_Util::m_RndIntRangeFromZero(2,true);
 					if(t_trapDoorRoll2==0){
 						m_PlaceTrapInRoom4(t_room,3);
@@ -23209,15 +23293,15 @@ void c_Level::m_PlaceTrapsZone1(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_147=t_room->m_type;
-		if(t_147==3 || t_147==5 || t_147==7){
+		int t_148=t_room->m_type;
+		if(t_148==3 || t_148==5 || t_148==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
 			continue;
 		}
-		int t_148=bb_controller_game_currentLevel;
-		if(t_148==1){
+		int t_149=bb_controller_game_currentLevel;
+		if(t_149==1){
 			if(c_Util::m_RndBool(true)){
 				m_PlaceTrapInRoom4(t_room,1);
 			}
@@ -23231,7 +23315,7 @@ void c_Level::m_PlaceTrapsZone1(){
 				}
 			}
 		}else{
-			if(t_148==2){
+			if(t_149==2){
 				int t_trapDoorRoll=c_Util::m_RndIntRangeFromZero(4,true);
 				if(t_trapDoorRoll==0){
 					m_PlaceTrapInRoom4(t_room,3);
@@ -23253,7 +23337,7 @@ void c_Level::m_PlaceTrapsZone1(){
 					m_PlaceTrapInRoom4(t_room,1);
 				}
 			}else{
-				if(t_148==3){
+				if(t_149==3){
 					int t_trapDoorRoll2=c_Util::m_RndIntRangeFromZero(2,true);
 					if(t_trapDoorRoll2==0){
 						m_PlaceTrapInRoom4(t_room,3);
@@ -23301,17 +23385,17 @@ void c_Level::m_PlaceTrapsZone1(){
 }
 void c_Level::m_PlaceTraps(){
 	bb_logger_Debug->p_Log(String(L"PLACETRAPS",10));
-	int t_146=bb_controller_game_currentZone;
-	if(t_146==5){
+	int t_147=bb_controller_game_currentZone;
+	if(t_147==5){
 		m_PlaceTrapsZone5();
 	}else{
-		if(t_146==4){
+		if(t_147==4){
 			m_PlaceTrapsZone4();
 		}else{
-			if(t_146==3){
+			if(t_147==3){
 				m_PlaceTrapsZone3();
 			}else{
-				if(t_146==2){
+				if(t_147==2){
 					m_PlaceTrapsZone2();
 				}else{
 					m_PlaceTrapsZone1();
@@ -23321,11 +23405,6 @@ void c_Level::m_PlaceTraps(){
 	}
 }
 c_BlobRoom* c_Level::m_hallwayZone5;
-bool c_Level::m_isHardMode;
-c_XMLDoc* c_Level::m_GetHardModeXML(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.GetHardModeXML()",22));
-	return 0;
-}
 c_Enemy* c_Level::m_PlaceMinibossOfShapeAt(int t_newMiniboss,int t_xVal,int t_yVal){
 	int t_level=1;
 	if(bb_controller_game_currentLevel>=3){
@@ -23335,8 +23414,8 @@ c_Enemy* c_Level::m_PlaceMinibossOfShapeAt(int t_newMiniboss,int t_xVal,int t_yV
 		t_level=2;
 	}
 	if(bb_controller_game_currentDepth>=2 && t_level==1){
-		int t_107=t_newMiniboss;
-		if(t_107==402 || t_107==400 || t_107==407){
+		int t_108=t_newMiniboss;
+		if(t_108==402 || t_108==400 || t_108==407){
 			t_level=2;
 		}
 	}
@@ -23344,11 +23423,11 @@ c_Enemy* c_Level::m_PlaceMinibossOfShapeAt(int t_newMiniboss,int t_xVal,int t_yV
 		t_level=3;
 	}
 	if(bb_controller_game_currentDepth>=4){
-		int t_108=t_newMiniboss;
-		if(t_108==405 || t_108==409){
+		int t_109=t_newMiniboss;
+		if(t_109==405 || t_109==409){
 			t_level=2;
 		}else{
-			if(t_108==402){
+			if(t_109==402){
 				t_level=c_Util::m_RndIntRange(2,3,true,-1);
 			}
 		}
@@ -23368,26 +23447,26 @@ c_Enemy* c_Level::m_PlaceMinibossOfShapeAt(int t_newMiniboss,int t_xVal,int t_yV
 		bb_logger_Debug->p_TraceNotImplemented(String(L"Level.PlaceMinibossOfShapeAt(Int, Int, Int) (Hard Mode)",55));
 	}
 	c_Enemy* t_miniboss=0;
-	int t_109=t_newMiniboss;
-	if(t_109==402){
+	int t_110=t_newMiniboss;
+	if(t_110==402){
 		t_miniboss=((new c_Dragon)->m_new(t_xVal,t_yVal,t_level));
 	}else{
-		if(t_109==400){
+		if(t_110==400){
 			t_miniboss=((new c_BatMiniboss)->m_new(t_xVal,t_yVal,t_level));
 		}else{
-			if(t_109==405){
+			if(t_110==405){
 				t_miniboss=((new c_Banshee)->m_new(t_xVal,t_yVal,t_level));
 			}else{
-				if(t_109==409){
+				if(t_110==409){
 					t_miniboss=((new c_Nightmare)->m_new(t_xVal,t_yVal,t_level));
 				}else{
-					if(t_109==407){
+					if(t_110==407){
 						t_miniboss=((new c_Minotaur)->m_new(t_xVal,t_yVal,t_level));
 					}else{
-						if(t_109==412){
+						if(t_110==412){
 							t_miniboss=((new c_Ogre)->m_new(t_xVal,t_yVal,1));
 						}else{
-							if(t_109==411){
+							if(t_110==411){
 								t_miniboss=((new c_Mommy)->m_new(t_xVal,t_yVal,1));
 							}else{
 								t_miniboss=((new c_MetroGnome)->m_new(t_xVal,t_yVal,t_level));
@@ -23403,8 +23482,8 @@ c_Enemy* c_Level::m_PlaceMinibossOfShapeAt(int t_newMiniboss,int t_xVal,int t_yV
 void c_Level::m_PlaceAppropriateMinibosses(c_RoomBase* t_room){
 	c_WeightedPicker* t_weights=(new c_WeightedPicker)->m_new();
 	c_IntStack* t_minibossTypes=(new c_IntStack)->m_new2();
-	int t_80=bb_controller_game_currentZone;
-	if(t_80==1){
+	int t_81=bb_controller_game_currentZone;
+	if(t_81==1){
 		t_weights->p_Push4(1);
 		t_minibossTypes->p_Push4(402);
 		t_weights->p_Push4(1);
@@ -23414,7 +23493,7 @@ void c_Level::m_PlaceAppropriateMinibosses(c_RoomBase* t_room){
 			t_minibossTypes->p_Push4(400);
 		}
 	}else{
-		if(t_80==4){
+		if(t_81==4){
 			t_weights->p_Push4(20);
 			t_minibossTypes->p_Push4(402);
 			t_weights->p_Push4(15);
@@ -23426,7 +23505,7 @@ void c_Level::m_PlaceAppropriateMinibosses(c_RoomBase* t_room){
 			t_weights->p_Push4(25);
 			t_minibossTypes->p_Push4(411);
 		}else{
-			if(t_80==5){
+			if(t_81==5){
 				t_weights->p_Push4(2);
 				t_minibossTypes->p_Push4(402);
 				t_weights->p_Push4(1);
@@ -23574,25 +23653,25 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 	c_IntStack* t_enemyTypes=(new c_IntStack)->m_new2();
 	t_weights->p_Push4(1);
 	t_enemyTypes->p_Push4(402);
-	int t_116=bb_controller_game_currentZone;
-	if(t_116==1 || t_116==2 || t_116==3 || t_116==5){
+	int t_117=bb_controller_game_currentZone;
+	if(t_117==1 || t_117==2 || t_117==3 || t_117==5){
 		t_weights->p_Push4(1);
 		t_enemyTypes->p_Push4(407);
 	}
-	int t_117=bb_controller_game_currentZone;
-	if(t_117==1 || t_117==2 || t_117==3){
+	int t_118=bb_controller_game_currentZone;
+	if(t_118==1 || t_118==2 || t_118==3){
 		t_weights->p_Push4(1);
 		t_enemyTypes->p_Push4(400);
 	}
-	int t_118=bb_controller_game_currentZone;
-	if(t_118==2 || t_118==3 || t_118==4){
+	int t_119=bb_controller_game_currentZone;
+	if(t_119==2 || t_119==3 || t_119==4){
 		t_weights->p_Push4(1);
 		t_enemyTypes->p_Push4(405);
 		t_weights->p_Push4(1);
 		t_enemyTypes->p_Push4(409);
 	}
-	int t_119=bb_controller_game_currentZone;
-	if(t_119==5){
+	int t_120=bb_controller_game_currentZone;
+	if(t_120==5){
 		t_weights->p_Push4(1);
 		t_enemyTypes->p_Push4(413);
 	}
@@ -23610,13 +23689,13 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 	int t_sarcsPerRoom=c_ToughSarcophagus::m_GetPerRoomCount();
 	if(t_sarcsPerRoom>0){
 		c_StackEx* t_toughSarcophagusEnemyTypes=(new c_StackEx)->m_new();
-		int t_120=bb_controller_game_currentZone;
-		if(t_120==1){
-			int t_121=bb_controller_game_currentLevel;
-			if(t_121==1){
+		int t_121=bb_controller_game_currentZone;
+		if(t_121==1){
+			int t_122=bb_controller_game_currentLevel;
+			if(t_122==1){
 				t_toughSarcophagusEnemyTypes->p_Push4(3);
 			}else{
-				if(t_121==2){
+				if(t_122==2){
 					t_toughSarcophagusEnemyTypes->p_Push4(4);
 				}else{
 					t_toughSarcophagusEnemyTypes->p_Push4(5);
@@ -23629,13 +23708,13 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 			}
 			t_toughSarcophagusEnemyTypes->p_Push4(11);
 		}else{
-			if(t_120==2){
-				int t_122=bb_controller_game_currentLevel;
-				if(t_122==1){
+			if(t_121==2){
+				int t_123=bb_controller_game_currentLevel;
+				if(t_123==1){
 					t_toughSarcophagusEnemyTypes->p_Push4(100);
 					t_toughSarcophagusEnemyTypes->p_Push4(103);
 				}else{
-					if(t_122==2){
+					if(t_123==2){
 						t_toughSarcophagusEnemyTypes->p_Push4(101);
 						t_toughSarcophagusEnemyTypes->p_Push4(104);
 					}else{
@@ -23652,12 +23731,12 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 				}
 				t_toughSarcophagusEnemyTypes->p_Push4(114);
 			}else{
-				if(t_120==3){
-					int t_123=bb_controller_game_currentLevel;
-					if(t_123==1){
+				if(t_121==3){
+					int t_124=bb_controller_game_currentLevel;
+					if(t_124==1){
 						t_toughSarcophagusEnemyTypes->p_Push4(202);
 					}else{
-						if(t_123==2){
+						if(t_124==2){
 							t_toughSarcophagusEnemyTypes->p_Push4(203);
 						}else{
 							t_toughSarcophagusEnemyTypes->p_Push4(204);
@@ -23677,12 +23756,12 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 					t_toughSarcophagusEnemyTypes->p_Push4(211);
 					t_toughSarcophagusEnemyTypes->p_Push4(209);
 				}else{
-					if(t_120==4){
-						int t_124=bb_controller_game_currentLevel;
-						if(t_124==1){
+					if(t_121==4){
+						int t_125=bb_controller_game_currentLevel;
+						if(t_125==1){
 							t_toughSarcophagusEnemyTypes->p_Push4(309);
 						}else{
-							if(t_124==2){
+							if(t_125==2){
 								t_toughSarcophagusEnemyTypes->p_Push4(310);
 							}else{
 								t_toughSarcophagusEnemyTypes->p_Push4(311);
@@ -23707,13 +23786,13 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 						t_toughSarcophagusEnemyTypes->p_Push4(312);
 						t_toughSarcophagusEnemyTypes->p_Push4(313);
 					}else{
-						int t_125=bb_controller_game_currentLevel;
-						if(t_125==1){
+						int t_126=bb_controller_game_currentLevel;
+						if(t_126==1){
 							t_toughSarcophagusEnemyTypes->p_Push4(701);
 							t_toughSarcophagusEnemyTypes->p_Push4(704);
 							t_toughSarcophagusEnemyTypes->p_Push4(720);
 						}else{
-							if(t_125==2){
+							if(t_126==2){
 								t_toughSarcophagusEnemyTypes->p_Push4(712);
 								t_toughSarcophagusEnemyTypes->p_Push4(705);
 								t_toughSarcophagusEnemyTypes->p_Push4(721);
@@ -23742,8 +23821,8 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 		t_toughSarcophagusEnemyTypes->p_Shuffle(true);
 		for(int t_i2=0;t_i2<t_sarcsPerRoom;t_i2=t_i2+1){
 			bool t_nearWallIsOk=false;
-			int t_126=bb_controller_game_currentZone;
-			if(t_126==1 || t_126==4){
+			int t_127=bb_controller_game_currentZone;
+			if(t_127==1 || t_127==4){
 				t_nearWallIsOk=false;
 			}else{
 				t_nearWallIsOk=true;
@@ -23753,14 +23832,14 @@ void c_Level::m_PlaceRareEnemies(c_RoomBase* t_room,bool t_hasExit){
 				break;
 			}
 			int t_enemyType2=t_toughSarcophagusEnemyTypes->p_Get2(t_i2 % t_toughSarcophagusEnemyTypes->p_Length());
-			int t_127=t_enemyType2;
-			if(t_127==205){
+			int t_128=t_enemyType2;
+			if(t_128==205){
 				t_enemyType2=m_GetZone3ElementalType(t_point->m_x,t_point->m_y);
 			}else{
-				if(t_127==211){
+				if(t_128==211){
 					t_enemyType2=m_GetZone3YetiHellhoundType(t_point->m_x,t_point->m_y);
 				}else{
-					if(t_127==209){
+					if(t_128==209){
 						t_enemyType2=m_GetZone3BeetleType(t_point->m_x,t_point->m_y);
 					}
 				}
@@ -23837,16 +23916,16 @@ void c_Level::m_PutVariedEnemiesZone5(c_StackEx2* t_pts){
 		int t_enemyTypeRoll=t_picker->p_PickRandom(true);
 		int t_weight=t_picker->m_weights->p_Get2(t_enemyTypeRoll);
 		t_picker->m_weights->p_Set5(t_enemyTypeRoll,t_weight+1);
-		int t_159=t_enemyTypeRoll;
-		if(t_159==0){
+		int t_160=t_enemyTypeRoll;
+		if(t_160==0){
 			int t_electricMageLevelHigh=bb_math_Min(3,bb_controller_game_currentLevel);
 			int t_electricMageLevel=c_Util::m_RndIntRange(1,t_electricMageLevelHigh,true,-1);
 			(new c_ElectricMage)->m_new(t_point->m_x,t_point->m_y,t_electricMageLevel);
 		}else{
-			if(t_159==1){
+			if(t_160==1){
 				(new c_WaterBall)->m_new(t_point->m_x,t_point->m_y,1);
 			}else{
-				if(t_159==2){
+				if(t_160==2){
 					int t_gorgonLevel=1;
 					if(bb_controller_game_currentLevel>=2){
 						int t_gorgonLevelRoll=c_Util::m_RndIntRangeFromZero(2,true);
@@ -23856,17 +23935,17 @@ void c_Level::m_PutVariedEnemiesZone5(c_StackEx2* t_pts){
 					}
 					(new c_Gorgon)->m_new(t_point->m_x,t_point->m_y,t_gorgonLevel);
 				}else{
-					if(t_159==3){
+					if(t_160==3){
 						int t_skullLevelHigh=bb_math_Min(3,bb_controller_game_currentLevel);
 						int t_skullLevel=c_Util::m_RndIntRange(1,t_skullLevelHigh,true,-1);
 						(new c_Skull)->m_new(t_point->m_x,t_point->m_y,t_skullLevel);
 					}else{
-						if(t_159==4){
+						if(t_160==4){
 							int t_evilEyeLevelHigh=bb_math_Min(2,bb_controller_game_currentLevel);
 							int t_evilEyeLevel=c_Util::m_RndIntRange(1,t_evilEyeLevelHigh,true,-1);
 							(new c_EvilEye)->m_new(t_point->m_x,t_point->m_y,t_evilEyeLevel);
 						}else{
-							if(t_159==5){
+							if(t_160==5){
 								int t_orcLevelHigh=bb_math_Min(3,bb_controller_game_currentLevel);
 								int t_orcLevel=c_Util::m_RndIntRange(1,t_orcLevelHigh,true,-1);
 								(new c_Orc)->m_new(t_point->m_x,t_point->m_y,t_orcLevel);
@@ -23989,8 +24068,8 @@ void c_Level::m_PlaceEnemiesZone5(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_roomData=t_->p_NextObject();
-		int t_104=t_roomData->m_type;
-		if(t_104==3 || t_104==4 || t_104==5 || t_104==7){
+		int t_105=t_roomData->m_type;
+		if(t_105==3 || t_105==4 || t_105==5 || t_105==7){
 			continue;
 		}
 		c_RectRoom* t_room=(new c_RectRoom)->m_new(t_roomData);
@@ -24016,8 +24095,8 @@ void c_Level::m_PlaceEnemiesZone5(){
 	}
 }
 bool c_Level::m_IsWaterOrTarAt(int t_xVal,int t_yVal){
-	int t_59=m_GetTileTypeAt(t_xVal,t_yVal);
-	if(t_59==4 || t_59==8 || t_59==5){
+	int t_60=m_GetTileTypeAt(t_xVal,t_yVal);
+	if(t_60==4 || t_60==8 || t_60==5){
 		return true;
 	}
 	return false;
@@ -24046,8 +24125,8 @@ void c_Level::m_PlaceEnemiesZone4(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_102=t_room->m_type;
-		if(t_102==3 || t_102==4 || t_102==5 || t_102==7){
+		int t_103=t_room->m_type;
+		if(t_103==3 || t_103==4 || t_103==5 || t_103==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
@@ -24074,20 +24153,20 @@ void c_Level::m_PlaceEnemiesZone4(){
 			}
 			t_extraEnemies-=1;
 			int t_enemyTypeRoll=c_Util::m_RndIntRangeFromZero(4,true);
-			int t_103=t_enemyTypeRoll;
-			if(t_103==0){
+			int t_104=t_enemyTypeRoll;
+			if(t_104==0){
 				if(bb_controller_game_currentLevel<=2){
 					(new c_Monkey)->m_new(t_point->m_x,t_point->m_y,4);
 				}else{
 					(new c_Monkey)->m_new(t_point->m_x,t_point->m_y,3);
 				}
 			}else{
-				if(t_103==1){
+				if(t_104==1){
 				}else{
-					if(t_103==2){
+					if(t_104==2){
 						(new c_Golem)->m_new(t_point->m_x,t_point->m_y,3);
 					}else{
-						if(t_103==3){
+						if(t_104==3){
 							(new c_Harpy)->m_new(t_point->m_x,t_point->m_y,1);
 						}else{
 							(new c_Harpy)->m_new(t_point->m_x,t_point->m_y,1);
@@ -24306,8 +24385,8 @@ void c_Level::m_PlaceEnemiesZone3(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_99=t_room->m_type;
-		if(t_99==3 || t_99==5 || t_99==7){
+		int t_100=t_room->m_type;
+		if(t_100==3 || t_100==5 || t_100==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
@@ -24340,14 +24419,14 @@ void c_Level::m_PlaceEnemiesZone3(){
 				continue;
 			}
 			t_extraEnemies-=1;
-			int t_100=c_Util::m_RndIntRangeFromZero(4,true);
-			if(t_100==0){
+			int t_101=c_Util::m_RndIntRangeFromZero(4,true);
+			if(t_101==0){
 				m_PlaceZone3YetiHellhound(t_point->m_x,t_point->m_y);
 			}else{
-				if(t_100==1){
+				if(t_101==1){
 					t_point=m_GetRandPointInRoomWithOptions5(t_room,false,false,false);
 				}else{
-					if(t_100==2){
+					if(t_101==2){
 						int t_skeletonKnightLevel=c_Util::m_RndIntRange(2,3,true,-1);
 						(new c_SkeletonKnight)->m_new(t_point->m_x,t_point->m_y,t_skeletonKnightLevel);
 					}else{
@@ -24356,8 +24435,8 @@ void c_Level::m_PlaceEnemiesZone3(){
 				}
 			}
 		}
-		int t_101=bb_controller_game_currentLevel;
-		if(t_101==1){
+		int t_102=bb_controller_game_currentLevel;
+		if(t_102==1){
 			int t_ghastRoll=c_Util::m_RndIntRangeFromZero(4,true);
 			if(t_ghastRoll==0){
 				t_point=m_GetRandPointInRoomWithOptions5(t_room,false,true,false);
@@ -24428,7 +24507,7 @@ void c_Level::m_PlaceEnemiesZone3(){
 			}
 			m_PlaceZone3Slime(t_point->m_x,t_point->m_y);
 		}else{
-			if(t_101==2){
+			if(t_102==2){
 				int t_ghastRoll2=c_Util::m_RndIntRangeFromZero(4,true);
 				if(t_ghastRoll2==0){
 					t_point=m_GetRandPointInRoomWithOptions5(t_room,false,true,false);
@@ -24634,8 +24713,8 @@ void c_Level::m_PlaceEnemiesZone2(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_96=t_room->m_type;
-		if(t_96==3 || t_96==5 || t_96==7){
+		int t_97=t_room->m_type;
+		if(t_97==3 || t_97==5 || t_97==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
@@ -24674,11 +24753,11 @@ void c_Level::m_PlaceEnemiesZone2(){
 			}
 			t_extraEnemies-=1;
 			int t_enemyTypeRoll=c_Util::m_RndIntRangeFromZero(4,true);
-			int t_97=t_enemyTypeRoll;
-			if(t_97==0){
+			int t_98=t_enemyTypeRoll;
+			if(t_98==0){
 				(new c_Wight)->m_new(t_point->m_x,t_point->m_y,1);
 			}else{
-				if(t_97==1){
+				if(t_98==1){
 					t_point=m_GetRandPointInRoomWithOptions5(t_room,false,false,false);
 					if(t_point==0){
 						continue;
@@ -24686,11 +24765,11 @@ void c_Level::m_PlaceEnemiesZone2(){
 					int t_skeletonMageLevelRoll=c_Util::m_RndIntRange(2,3,true,-1);
 					(new c_SkeletonMage)->m_new(t_point->m_x,t_point->m_y,t_skeletonMageLevelRoll);
 				}else{
-					if(t_97==2){
+					if(t_98==2){
 						int t_armoredSkeletonLevelRoll=c_Util::m_RndIntRange(2,3,true,-1);
 						(new c_ArmoredSkeleton)->m_new(t_point->m_x,t_point->m_y,t_armoredSkeletonLevelRoll);
 					}else{
-						if(t_97==3){
+						if(t_98==3){
 							int t_batLevelRoll=c_Util::m_RndIntRange(1,2,true,-1);
 							(new c_Bat)->m_new(t_point->m_x,t_point->m_y,t_batLevelRoll);
 						}else{
@@ -24701,8 +24780,8 @@ void c_Level::m_PlaceEnemiesZone2(){
 				}
 			}
 		}
-		int t_98=bb_controller_game_currentLevel;
-		if(t_98==1){
+		int t_99=bb_controller_game_currentLevel;
+		if(t_99==1){
 			bool t_skeletonMageRoll=c_Util::m_RndBool(true);
 			if(t_skeletonMageRoll){
 				t_point=m_GetRandPointInRoomWithOptions5(t_room,false,true,false);
@@ -24786,7 +24865,7 @@ void c_Level::m_PlaceEnemiesZone2(){
 				(new c_ArmoredSkeleton)->m_new(t_point->m_x,t_point->m_y,1);
 			}
 		}else{
-			if(t_98==2){
+			if(t_99==2){
 				bool t_skeletonMageRoll2=c_Util::m_RndBool(true);
 				if(t_skeletonMageRoll2){
 					t_point=m_GetRandPointInRoomWithOptions5(t_room,false,true,false);
@@ -25037,8 +25116,8 @@ void c_Level::m_PlaceEnemiesZone1(){
 	c_Enumerator27* t_=m_rooms->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_RoomData* t_room=t_->p_NextObject();
-		int t_92=t_room->m_type;
-		if(t_92==3 || t_92==5 || t_92==7){
+		int t_93=t_room->m_type;
+		if(t_93==3 || t_93==5 || t_93==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
@@ -25066,11 +25145,11 @@ void c_Level::m_PlaceEnemiesZone1(){
 			}
 			t_extraEnemies-=1;
 			int t_enemyRoll=c_Util::m_RndIntRangeFromZero(3,true);
-			int t_93=t_enemyRoll;
-			if(t_93==0){
+			int t_94=t_enemyRoll;
+			if(t_94==0){
 				(new c_Wraith)->m_new(t_point->m_x,t_point->m_y,1);
 			}else{
-				if(t_93==1){
+				if(t_94==1){
 					t_point=m_GetRandPointInRoomWithOptions5(t_room,false,false,false);
 					if(t_point==0){
 						continue;
@@ -25078,7 +25157,7 @@ void c_Level::m_PlaceEnemiesZone1(){
 					int t_batLevel=c_Util::m_RndIntRange(1,2,true,-1);
 					(new c_Bat)->m_new(t_point->m_x,t_point->m_y,t_batLevel);
 				}else{
-					if(t_93==2){
+					if(t_94==2){
 						int t_skeletonLevel=c_Util::m_RndIntRange(2,3,true,-1);
 						(new c_Skeleton)->m_new(t_point->m_x,t_point->m_y,t_skeletonLevel);
 					}else{
@@ -25087,8 +25166,8 @@ void c_Level::m_PlaceEnemiesZone1(){
 				}
 			}
 		}
-		int t_94=bb_controller_game_currentLevel;
-		if(t_94==1){
+		int t_95=bb_controller_game_currentLevel;
+		if(t_95==1){
 			int t_batRoll=c_Util::m_RndIntRangeFromZero(5,true);
 			if(t_batRoll==0){
 				t_point=m_GetRandPointInRoomWithOptions5(t_room,false,true,false);
@@ -25174,7 +25253,7 @@ void c_Level::m_PlaceEnemiesZone1(){
 				(new c_Skeleton)->m_new(t_point->m_x,t_point->m_y,1);
 			}
 		}else{
-			if(t_94==2){
+			if(t_95==2){
 				bool t_batRoll2=c_Util::m_RndBool(true);
 				if(t_batRoll2){
 					t_point=m_GetRandPointInRoomWithOptions5(t_room,false,true,false);
@@ -25407,18 +25486,18 @@ void c_Level::m_PlaceEnemiesZone1(){
 						continue;
 					}
 					int t_enemyRoll2=c_Util::m_RndIntRangeFromZero(3,true);
-					int t_95=t_enemyRoll2;
-					if(t_95==0){
+					int t_96=t_enemyRoll2;
+					if(t_96==0){
 						(new c_Wraith)->m_new(t_point->m_x,t_point->m_y,1);
 					}else{
-						if(t_95==1){
+						if(t_96==1){
 							t_point=m_GetRandPointInRoomWithOptions5(t_room,false,false,false);
 							if(t_point==0){
 								continue;
 							}
 							(new c_Slime)->m_new(t_point->m_x,t_point->m_y,3);
 						}else{
-							if(t_95==2){
+							if(t_96==2){
 								(new c_Skeleton)->m_new(t_point->m_x,t_point->m_y,3);
 							}else{
 								(new c_Monkey)->m_new(t_point->m_x,t_point->m_y,2);
@@ -25446,17 +25525,17 @@ void c_Level::m_PlaceEnemiesZone1(){
 }
 void c_Level::m_PlaceEnemies(){
 	bb_logger_Debug->p_Log(String(L"PLACEENEMIES",12));
-	int t_90=bb_controller_game_currentZone;
-	if(t_90==5){
+	int t_91=bb_controller_game_currentZone;
+	if(t_91==5){
 		m_PlaceEnemiesZone5();
 	}else{
-		if(t_90==4){
+		if(t_91==4){
 			m_PlaceEnemiesZone4();
 		}else{
-			if(t_90==3){
+			if(t_91==3){
 				m_PlaceEnemiesZone3();
 			}else{
-				if(t_90==2){
+				if(t_91==2){
 					m_PlaceEnemiesZone2();
 				}else{
 					m_PlaceEnemiesZone1();
@@ -25471,11 +25550,11 @@ void c_Level::m_PlaceEnemies(){
 		}
 		t_maxEnemies+=5*m_GetHardModeExtraEnemies();
 		t_maxEnemies+=bb_controller_game_currentLevel;
-		int t_91=bb_controller_game_currentZone;
-		if(t_91==1 || t_91==4){
+		int t_92=bb_controller_game_currentZone;
+		if(t_92==1 || t_92==4){
 			t_maxEnemies+=24;
 		}else{
-			if(t_91==3){
+			if(t_92==3){
 				t_maxEnemies+=17;
 			}else{
 				t_maxEnemies+=20;
@@ -25598,8 +25677,8 @@ void c_Level::m_PlaceCrateOrBarrel(){
 		if(!t_failedRooms->p_Contains(t_roomIndex)){
 			Array<c_RoomData* > t_roomsArray=m_rooms->p_ToArray();
 			c_RoomData* t_room=t_roomsArray[t_roomIndex];
-			int t_89=t_room->m_type;
-			if(t_89==3 || t_89==5 || t_89==7){
+			int t_90=t_room->m_type;
+			if(t_90==3 || t_90==5 || t_90==7){
 				continue;
 			}
 			if(t_room->m_hasExit){
@@ -25624,14 +25703,14 @@ bool c_Level::m_DoWePlaceAdditionalChestThisLevel(){
 	if(m_isHardcoreMode){
 		return false;
 	}
-	int t_39=bb_controller_game_currentLevel;
-	if(t_39==1){
+	int t_40=bb_controller_game_currentLevel;
+	if(t_40==1){
 		return c_GameData::m_GetItemUnlocked(String(L"addchest_red",12),true) && !m_placedAdditionalRedChest;
 	}else{
-		if(t_39==2){
+		if(t_40==2){
 			return c_GameData::m_GetItemUnlocked(String(L"addchest_white",14),true) && !m_placedAdditionalWhiteChest;
 		}else{
-			if(t_39==3){
+			if(t_40==3){
 				return c_GameData::m_GetItemUnlocked(String(L"addchest_black",14),true) && !m_placedAdditionalBlackChest;
 			}
 		}
@@ -25648,23 +25727,23 @@ void c_Level::m_PlaceZoneAppropriateNumberOfDiamondsAt(int t_xVal,int t_yVal){
 void c_Level::m_PlaceChests(bool t_freeBroadsword){
 	int t_trapChestRoll=c_Util::m_RndIntRangeFromZero(99,true);
 	bool t_placeTrapChest=false;
-	int t_81=bb_controller_game_currentLevel;
-	if(t_81==1){
+	int t_82=bb_controller_game_currentLevel;
+	if(t_82==1){
 		if(t_trapChestRoll<=0){
 			t_placeTrapChest=true;
 		}
 	}else{
-		if(t_81==2){
+		if(t_82==2){
 			if(t_trapChestRoll<=3){
 				t_placeTrapChest=true;
 			}
 		}else{
-			if(t_81==3){
+			if(t_82==3){
 				if(t_trapChestRoll<=7){
 					t_placeTrapChest=true;
 				}
 			}else{
-				if(t_81==4){
+				if(t_82==4){
 					if(t_trapChestRoll<=10){
 						t_placeTrapChest=true;
 					}
@@ -25702,8 +25781,8 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 		}
 		Array<c_RoomData* > t_roomsArray=m_rooms->p_ToArray();
 		c_RoomData* t_room=t_roomsArray[t_roomIndex];
-		int t_82=t_room->m_type;
-		if(t_82==3 || t_82==5 || t_82==7){
+		int t_83=t_room->m_type;
+		if(t_83==3 || t_83==5 || t_83==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
@@ -25733,11 +25812,11 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 		if(t_placeTrapChest && (t_placedDiamonds || m_isHardcoreMode)){
 			int t_trapChestLevelRoll=c_Util::m_RndIntRangeFromZero(9,true);
 			if(m_chestsStillToPlace>0){
-				int t_83=t_trapChestLevelRoll;
-				if(t_83==0){
+				int t_84=t_trapChestLevelRoll;
+				if(t_84==0){
 					(new c_TrapChest)->m_new(t_point->m_x,t_point->m_y,3);
 				}else{
-					if(t_83==1){
+					if(t_84==1){
 						(new c_TrapChest)->m_new(t_point->m_x,t_point->m_y,2);
 					}else{
 						(new c_TrapChest)->m_new(t_point->m_x,t_point->m_y,1);
@@ -25780,17 +25859,17 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 			String t_contents=String();
 			int t_weaponTypeRoll=c_Util::m_RndIntRangeFromZero(99,true);
 			if(t_weaponTypeRoll<=40){
-				int t_84=t_weaponQuality;
-				if(t_84==1){
+				int t_85=t_weaponQuality;
+				if(t_85==1){
 					t_contents=String(L"weapon_golden_broadsword",24);
 				}else{
-					if(t_84==2){
+					if(t_85==2){
 						t_contents=String(L"weapon_blood_broadsword",23);
 					}else{
-						if(t_84==3){
+						if(t_85==3){
 							t_contents=String(L"weapon_titanium_broadsword",26);
 						}else{
-							if(t_84==4){
+							if(t_85==4){
 								t_contents=String(L"weapon_obsidian_broadsword",26);
 							}else{
 								t_contents=String(L"weapon_broadsword",17);
@@ -25801,17 +25880,17 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 			}else{
 				if(t_weaponTypeRoll<=55){
 					if(c_Item::m_IsUnlocked(String(L"weapon_rapier",13))){
-						int t_85=t_weaponQuality;
-						if(t_85==1){
+						int t_86=t_weaponQuality;
+						if(t_86==1){
 							t_contents=String(L"weapon_golden_rapier",20);
 						}else{
-							if(t_85==2){
+							if(t_86==2){
 								t_contents=String(L"weapon_blood_rapier",19);
 							}else{
-								if(t_85==3){
+								if(t_86==3){
 									t_contents=String(L"weapon_titanium_rapier",22);
 								}else{
-									if(t_85==4){
+									if(t_86==4){
 										t_contents=String(L"weapon_obsidian_rapier",22);
 									}else{
 										t_contents=String(L"weapon_rapier",13);
@@ -25823,17 +25902,17 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 				}else{
 					if(t_weaponTypeRoll<=80 && !c_Util::m_IsCharacterActive(12) && !c_Util::m_IsCharacterActive(8)){
 						if(c_Item::m_IsUnlocked(String(L"weapon_spear",12))){
-							int t_86=t_weaponQuality;
-							if(t_86==1){
+							int t_87=t_weaponQuality;
+							if(t_87==1){
 								t_contents=String(L"weapon_golden_spear",19);
 							}else{
-								if(t_86==2){
+								if(t_87==2){
 									t_contents=String(L"weapon_blood_spear",18);
 								}else{
-									if(t_86==3){
+									if(t_87==3){
 										t_contents=String(L"weapon_titanium_spear",21);
 									}else{
-										if(t_86==4){
+										if(t_87==4){
 											t_contents=String(L"weapon_obsidian_spear",21);
 										}else{
 											t_contents=String(L"weapon_spear",12);
@@ -25844,17 +25923,17 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 						}
 					}else{
 						if(c_Item::m_IsUnlocked(String(L"weapon_whip",11))){
-							int t_87=t_weaponQuality;
-							if(t_87==1){
+							int t_88=t_weaponQuality;
+							if(t_88==1){
 								t_contents=String(L"weapon_golden_whip",18);
 							}else{
-								if(t_87==2){
+								if(t_88==2){
 									t_contents=String(L"weapon_blood_whip",17);
 								}else{
-									if(t_87==3){
+									if(t_88==3){
 										t_contents=String(L"weapon_titanium_whip",20);
 									}else{
-										if(t_87==4){
+										if(t_88==4){
 											t_contents=String(L"weapon_obsidian_whip",20);
 										}else{
 											t_contents=String(L"weapon_whip",11);
@@ -25863,17 +25942,17 @@ void c_Level::m_PlaceChests(bool t_freeBroadsword){
 								}
 							}
 						}else{
-							int t_88=t_weaponQuality;
-							if(t_88==1){
+							int t_89=t_weaponQuality;
+							if(t_89==1){
 								t_contents=String(L"weapon_golden_broadsword",24);
 							}else{
-								if(t_88==2){
+								if(t_89==2){
 									t_contents=String(L"weapon_blood_broadsword",23);
 								}else{
-									if(t_88==3){
+									if(t_89==3){
 										t_contents=String(L"weapon_titanium_broadsword",26);
 									}else{
-										if(t_88==4){
+										if(t_89==4){
 											t_contents=String(L"weapon_obsidian_broadsword",26);
 										}else{
 											t_contents=String(L"weapon_broadsword",17);
@@ -25937,8 +26016,8 @@ c_Point* c_Level::m_GetShrinePoint(){
 		int t_roomIndex=c_Util::m_RndIntRangeFromZero(m_rooms->p_Count()-1,true);
 		Array<c_RoomData* > t_roomsArray=m_rooms->p_ToArray();
 		c_RoomData* t_room=t_roomsArray[t_roomIndex];
-		int t_54=t_room->m_type;
-		if(t_54==3 || t_54==4 || t_54==5 || t_54==7){
+		int t_55=t_room->m_type;
+		if(t_55==3 || t_55==4 || t_55==5 || t_55==7){
 			continue;
 		}
 		if(t_room->m_hasExit){
@@ -26303,8 +26382,8 @@ c_RoomData* c_Level::m_PlaceRoomZone4(int t_roomType){
 		int t_roomsIndex=c_Util::m_RndIntRangeFromZero(m_rooms->p_Count()-1,true);
 		Array<c_RoomData* > t_roomsArray=m_rooms->p_ToArray();
 		t_roomToAttachTo=t_roomsArray[t_roomsIndex];
-		int t_139=t_roomToAttachTo->m_type;
-		if(t_139==5 || t_139==7){
+		int t_140=t_roomToAttachTo->m_type;
+		if(t_140==5 || t_140==7){
 			continue;
 		}
 		break;
@@ -26367,16 +26446,16 @@ c_RoomData* c_Level::m_PlaceRoomZone4(int t_roomType){
 	m_CarveCorridorTile(t_x,t_y,t_horizontal,true,false,t_roomType,false);
 	int t_wVal=c_Util::m_RndIntRange(5,7,true,-1);
 	int t_hVal=c_Util::m_RndIntRange(5,7,true,-1);
-	int t_140=t_roomType;
-	if(t_140==3){
+	int t_141=t_roomType;
+	if(t_141==3){
 		t_wVal=6;
 		t_hVal=8;
 	}else{
-		if(t_140==5){
+		if(t_141==5){
 			t_wVal=4;
 			t_hVal=3;
 		}else{
-			if(t_140==7){
+			if(t_141==7){
 				t_wVal=4;
 				t_hVal=3;
 			}
@@ -26388,13 +26467,13 @@ c_RoomData* c_Level::m_PlaceRoomZone4(int t_roomType){
 	int t_yOff=0;
 	int t_originX=m_carveX;
 	int t_originY=m_carveY;
-	int t_141=t_moveX;
-	if(t_141==-1){
+	int t_142=t_moveX;
+	if(t_142==-1){
 		t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-3,true);
 		t_xVal=t_originX-t_wVal;
 		t_yVal=t_originY-t_yOff-1;
 	}else{
-		if(t_141==1){
+		if(t_142==1){
 			t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-3,true);
 			t_xVal=t_originX;
 			t_yVal=t_originY-t_yOff-1;
@@ -26432,11 +26511,11 @@ c_RoomData* c_Level::m_PlaceRoomZone4(int t_roomType){
 			(new c_Tile)->m_new(t_tileX,t_tileY,t_tileType,false,-1);
 		}
 	}
-	int t_142=t_roomType;
-	if(t_142==3){
+	int t_143=t_roomType;
+	if(t_143==3){
 		m_PlaceShopItemsAt(t_xVal,t_yVal,0);
 	}else{
-		if(t_142==5 || t_142==7){
+		if(t_143==5 || t_143==7){
 		}else{
 			(new c_Tile)->m_new(t_originX,t_originY,103,false,-1);
 		}
@@ -26502,8 +26581,8 @@ void c_Level::m_CheckMapConsistency(){
 	c_Enumerator7* t_=c_Trap::m_trapList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_Trap* t_trap=t_->p_NextObject();
-		int t_5=t_trap->m_trapType;
-		if(t_5==1 || t_5==2 || t_5==3 || t_5==4 || t_5==5 || t_5==6 || t_5==7 || t_5==9){
+		int t_6=t_trap->m_trapType;
+		if(t_6==1 || t_6==2 || t_6==3 || t_6==4 || t_6==5 || t_6==6 || t_6==7 || t_6==9){
 			if(m_IsWallAt(t_trap->m_x,t_trap->m_y,false,false)){
 				bb_logger_Debug->p_Log(String(L"MAP INCONSISTENCY: Trap type ",29)+String(t_trap->m_trapType)+String(L" inside wall at ",16)+t_trap->p_GetLocation()->p_ToString());
 			}
@@ -26542,22 +26621,22 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 	int t_xHigh=0;
 	int t_yLow=0;
 	int t_yHigh=0;
-	int t_26=t_roomPositionRoll;
-	if(t_26==0){
+	int t_27=t_roomPositionRoll;
+	if(t_27==0){
 		t_xLow=-2;
 		t_xHigh=12;
 		t_yLow=-2;
 		t_yHigh=12;
 		t_exitRoom=(new c_RoomData)->m_new(t_xHigh,t_yHigh,5,5,0,false);
 	}else{
-		if(t_26==1){
+		if(t_27==1){
 			t_xLow=-2;
 			t_xHigh=12;
 			t_yLow=-17;
 			t_yHigh=-3;
 			t_exitRoom=(new c_RoomData)->m_new(t_xHigh,t_yLow,5,5,0,false);
 		}else{
-			if(t_26==2){
+			if(t_27==2){
 				t_xLow=-17;
 				t_xHigh=-3;
 				t_yLow=-2;
@@ -26624,8 +26703,8 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 		Array<c_RoomData* > t_roomsArray2=m_rooms->p_ToArray();
 		c_RoomData* t_room3=t_roomsArray2[t_roomsIndex];
 		int t_direction=c_Util::m_RndIntRangeFromZero(3,true);
-		int t_27=t_direction;
-		if(t_27==0){
+		int t_28=t_direction;
+		if(t_28==0){
 			if(t_room3->m_x+t_room3->m_w>=t_xMax){
 				continue;
 			}
@@ -26644,7 +26723,7 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 				}
 			}
 		}else{
-			if(t_27==1){
+			if(t_28==1){
 				if(t_room3->m_y+t_room3->m_h>=t_yMax){
 					continue;
 				}
@@ -26663,7 +26742,7 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 					}
 				}
 			}else{
-				if(t_27==2){
+				if(t_28==2){
 					if(t_xLow>=t_room3->m_x){
 						continue;
 					}
@@ -26682,7 +26761,7 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 						}
 					}
 				}else{
-					if(t_27==3){
+					if(t_28==3){
 						if(t_yLow>=t_room3->m_y){
 							continue;
 						}
@@ -26705,18 +26784,18 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 			}
 		}
 		bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE4: Expanding room at ",35)+t_room3->p_GetLocation()->p_ToString()+String(L" of size ",9)+t_room3->p_GetSize()->p_ToString()+String(L" in direction ",14)+c_Util::m_DirToString(t_direction));
-		int t_28=t_direction;
-		if(t_28==0){
+		int t_29=t_direction;
+		if(t_29==0){
 			t_room3->m_w+=1;
 		}else{
-			if(t_28==1){
+			if(t_29==1){
 				t_room3->m_h+=1;
 			}else{
-				if(t_28==2){
+				if(t_29==2){
 					t_room3->m_x-=1;
 					t_room3->m_w+=1;
 				}else{
-					if(t_28==3){
+					if(t_29==3){
 						t_room3->m_y-=1;
 						t_room3->m_h+=1;
 					}
@@ -26889,8 +26968,8 @@ c_RoomData* c_Level::m_PlaceRoomZone3(int t_roomType,c_RoomData* t_roomToAttachT
 	m_pendingTiles->p_Clear();
 	c_Tile::m_CleanUpPendingTiles();
 	bool t_wideCorridor=true;
-	int t_135=t_roomType;
-	if(t_135==3 || t_135==5 || t_135==7){
+	int t_136=t_roomType;
+	if(t_136==3 || t_136==5 || t_136==7){
 		t_wideCorridor=false;
 	}
 	int t_x=0;
@@ -27001,16 +27080,16 @@ c_RoomData* c_Level::m_PlaceRoomZone3(int t_roomType,c_RoomData* t_roomToAttachT
 	}
 	int t_wVal=c_Util::m_RndIntRange(5,6,true,-1);
 	int t_hVal=c_Util::m_RndIntRange(5,7,true,-1);
-	int t_136=t_roomType;
-	if(t_136==3){
+	int t_137=t_roomType;
+	if(t_137==3){
 		t_wVal=6;
 		t_hVal=8;
 	}else{
-		if(t_136==5){
+		if(t_137==5){
 			t_wVal=4;
 			t_hVal=3;
 		}else{
-			if(t_136==7){
+			if(t_137==7){
 				t_wVal=4;
 				t_hVal=3;
 			}
@@ -27022,8 +27101,8 @@ c_RoomData* c_Level::m_PlaceRoomZone3(int t_roomType,c_RoomData* t_roomToAttachT
 	int t_yOff=0;
 	int t_originX=m_carveX;
 	int t_originY=m_carveY;
-	int t_137=t_moveX;
-	if(t_137==-1){
+	int t_138=t_moveX;
+	if(t_138==-1){
 		t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-2,true);
 		if(t_wideCorridor){
 			t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-3,true);
@@ -27031,7 +27110,7 @@ c_RoomData* c_Level::m_PlaceRoomZone3(int t_roomType,c_RoomData* t_roomToAttachT
 		t_xVal=t_originX-t_wVal;
 		t_yVal=t_originY-t_yOff-1;
 	}else{
-		if(t_137==1){
+		if(t_138==1){
 			t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-2,true);
 			if(t_wideCorridor){
 				t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-3,true);
@@ -27075,11 +27154,11 @@ c_RoomData* c_Level::m_PlaceRoomZone3(int t_roomType,c_RoomData* t_roomToAttachT
 			(new c_Tile)->m_new(t_tileX,t_tileY,t_tileType,false,-1);
 		}
 	}
-	int t_138=t_roomType;
-	if(t_138==3){
+	int t_139=t_roomType;
+	if(t_139==3){
 		m_PlaceShopItemsAt(t_xVal,t_yVal,0);
 	}else{
-		if(t_138==5 || t_138==7){
+		if(t_139==5 || t_139==7){
 		}else{
 			(new c_Tile)->m_new(t_originX,t_originY,1,false,-1);
 			if(t_wideCorridor){
@@ -27235,16 +27314,16 @@ void c_Level::m_AddSomePillarsInOpenSpace(){
 c_Point* c_Level::m_GetRandomWallInRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal){
 	c_Point* t_point=(new c_Point)->m_new(0,0);
 	for(int t_i=500;t_i>0;t_i=t_i+-1){
-		int t_52=c_Util::m_RndIntRangeFromZero(3,true);
-		if(t_52==0){
+		int t_53=c_Util::m_RndIntRangeFromZero(3,true);
+		if(t_53==0){
 			t_point->m_x=t_xVal;
 			t_point->m_y=t_yVal+c_Util::m_RndIntRangeFromZero(t_hVal-1,true);
 		}else{
-			if(t_52==1){
+			if(t_53==1){
 				t_point->m_x=t_xVal+t_wVal;
 				t_point->m_y=t_yVal+c_Util::m_RndIntRangeFromZero(t_hVal-1,true);
 			}else{
-				if(t_52==2){
+				if(t_53==2){
 					t_point->m_x=t_xVal+c_Util::m_RndIntRangeFromZero(t_wVal-1,true);
 					t_point->m_y=t_yVal;
 				}else{
@@ -27386,14 +27465,14 @@ bool c_Level::m_CreateMapZone3(){
 		return m__FailMap();
 	}
 	c_RoomData* t_lastRoom=t_room4;
-	int t_24=t_lastRoomIndex;
-	if(t_24==4){
+	int t_25=t_lastRoomIndex;
+	if(t_25==4){
 		t_lastRoom=t_room5;
 	}else{
-		if(t_24==5){
+		if(t_25==5){
 			t_lastRoom=t_room6;
 		}else{
-			if(t_24==6){
+			if(t_25==6){
 				t_lastRoom=t_room7;
 			}
 		}
@@ -27496,16 +27575,16 @@ bool c_Level::m_CreateMapZone3(){
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE3: Placing torches",32));
 	int t_minTorch=3;
 	int t_maxTorch=4;
-	int t_25=bb_controller_game_currentLevel;
-	if(t_25==2){
+	int t_26=bb_controller_game_currentLevel;
+	if(t_26==2){
 		t_minTorch=2;
 		t_maxTorch=3;
 	}else{
-		if(t_25==3){
+		if(t_26==3){
 			t_minTorch=1;
 			t_maxTorch=2;
 		}else{
-			if(t_25==4){
+			if(t_26==4){
 				t_minTorch=1;
 				t_maxTorch=1;
 			}else{
@@ -27567,8 +27646,8 @@ c_RoomData* c_Level::m_PlaceRoomZone2(int t_roomType,c_RoomData* t_roomToAttachT
 	m_pendingTiles->p_Clear();
 	c_Tile::m_CleanUpPendingTiles();
 	bool t_wideCorridor=true;
-	int t_130=t_roomType;
-	if(t_130==3 || t_130==5 || t_130==7){
+	int t_131=t_roomType;
+	if(t_131==3 || t_131==5 || t_131==7){
 		t_wideCorridor=false;
 	}
 	int t_x=0;
@@ -27637,16 +27716,16 @@ c_RoomData* c_Level::m_PlaceRoomZone2(int t_roomType,c_RoomData* t_roomToAttachT
 	}
 	int t_wVal=c_Util::m_RndIntRange(8,7,true,-1);
 	int t_hVal=c_Util::m_RndIntRange(7,6,true,-1);
-	int t_131=t_roomType;
-	if(t_131==3){
+	int t_132=t_roomType;
+	if(t_132==3){
 		t_wVal=6;
 		t_hVal=8;
 	}else{
-		if(t_131==5){
+		if(t_132==5){
 			t_wVal=4;
 			t_hVal=3;
 		}else{
-			if(t_131==7){
+			if(t_132==7){
 				t_wVal=4;
 				t_hVal=3;
 			}
@@ -27658,8 +27737,8 @@ c_RoomData* c_Level::m_PlaceRoomZone2(int t_roomType,c_RoomData* t_roomToAttachT
 	int t_yOff=0;
 	int t_originX=m_carveX;
 	int t_originY=m_carveY;
-	int t_132=t_moveX;
-	if(t_132==-1){
+	int t_133=t_moveX;
+	if(t_133==-1){
 		t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-2,true);
 		if(t_wideCorridor){
 			t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-3,true);
@@ -27667,7 +27746,7 @@ c_RoomData* c_Level::m_PlaceRoomZone2(int t_roomType,c_RoomData* t_roomToAttachT
 		t_xVal=t_originX-t_wVal;
 		t_yVal=t_originY-t_yOff-1;
 	}else{
-		if(t_132==1){
+		if(t_133==1){
 			t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-2,true);
 			if(t_wideCorridor){
 				t_yOff=c_Util::m_RndIntRangeFromZero(t_hVal-3,true);
@@ -27711,26 +27790,26 @@ c_RoomData* c_Level::m_PlaceRoomZone2(int t_roomType,c_RoomData* t_roomToAttachT
 			(new c_Tile)->m_new(t_tileX,t_tileY,t_tileType,false,-1);
 		}
 	}
-	int t_133=t_roomType;
-	if(t_133==3){
+	int t_134=t_roomType;
+	if(t_134==3){
 		m_PlaceShopItemsAt(t_xVal,t_yVal,0);
 	}else{
-		if(t_133==5 || t_133==7){
+		if(t_134==5 || t_134==7){
 		}else{
 			int t_addDoorRoll=c_Util::m_RndIntRangeFromZero(100,true);
 			bool t_addDoor=false;
-			int t_134=bb_controller_game_currentLevel;
-			if(t_134==1){
+			int t_135=bb_controller_game_currentLevel;
+			if(t_135==1){
 				if(t_addDoorRoll<=20){
 					t_addDoor=true;
 				}
 			}else{
-				if(t_134==2){
+				if(t_135==2){
 					if(t_addDoorRoll<=15){
 						t_addDoor=true;
 					}
 				}else{
-					if(t_134==3){
+					if(t_135==3){
 						if(t_addDoorRoll<=10){
 							t_addDoor=true;
 						}
@@ -27902,14 +27981,14 @@ bool c_Level::m_CreateMapZone2(){
 		return m__FailMap();
 	}
 	c_RoomData* t_lastRoom=t_room4;
-	int t_20=t_lastRoomIndex;
-	if(t_20==4){
+	int t_21=t_lastRoomIndex;
+	if(t_21==4){
 		t_lastRoom=t_room5;
 	}else{
-		if(t_20==5){
+		if(t_21==5){
 			t_lastRoom=t_room6;
 		}else{
-			if(t_20==6){
+			if(t_21==6){
 				t_lastRoom=t_room7;
 			}
 		}
@@ -27920,13 +27999,13 @@ bool c_Level::m_CreateMapZone2(){
 	}
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE2: Deploying NPCs if necessary",44));
 	bool t_deployNPC=false;
-	int t_21=bb_controller_game_currentLevel;
-	if(t_21==2){
+	int t_22=bb_controller_game_currentLevel;
+	if(t_22==2){
 		if(!c_GameData::m_GetNPCUnlock(String(L"weaponmaster",12))){
 			t_deployNPC=true;
 		}
 	}else{
-		if(t_21==3){
+		if(t_22==3){
 			if(!c_GameData::m_GetNPCUnlock(String(L"diamonddealer",13))){
 				t_deployNPC=true;
 			}
@@ -27949,11 +28028,11 @@ bool c_Level::m_CreateMapZone2(){
 			}
 		}
 		c_NPC* t_npc=0;
-		int t_22=bb_controller_game_currentLevel;
-		if(t_22==2){
+		int t_23=bb_controller_game_currentLevel;
+		if(t_23==2){
 			t_npc=((new c_Weaponmaster)->m_new(t_x,t_y,1,true));
 		}else{
-			if(t_22==3){
+			if(t_23==3){
 				t_npc=((new c_DiamondDealer)->m_new(t_x,t_y,1,true));
 			}
 		}
@@ -28076,8 +28155,8 @@ bool c_Level::m_CreateMapZone2(){
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE2: Placing torches",32));
 	int t_minTorch=0;
 	int t_maxTorch=0;
-	int t_23=bb_controller_game_currentLevel;
-	if(t_23==2){
+	int t_24=bb_controller_game_currentLevel;
+	if(t_24==2){
 		t_minTorch=1;
 		t_maxTorch=2;
 	}else{
@@ -28186,8 +28265,8 @@ c_RoomData* c_Level::m_PlaceRoomZone1(int t_roomType,c_RoomData* t_roomToAttachT
 	if(bb_controller_game_currentLevel>4 && t_wideCorridorRoll<=90){
 		t_wideCorridor=true;
 	}
-	int t_128=t_roomType;
-	if(t_128==3 || t_128==5 || t_128==7){
+	int t_129=t_roomType;
+	if(t_129==3 || t_129==5 || t_129==7){
 		t_wideCorridor=false;
 	}
 	int t_x=0;
@@ -28310,8 +28389,8 @@ c_RoomData* c_Level::m_PlaceRoomZone1(int t_roomType,c_RoomData* t_roomToAttachT
 	int t_yOff=0;
 	int t_originX=m_carveX;
 	int t_originY=m_carveY;
-	int t_129=t_moveX;
-	if(t_129==-1){
+	int t_130=t_moveX;
+	if(t_130==-1){
 		t_yOff=c_Util::m_RndIntRangeFromZero(t_height-2,true);
 		if(t_wideCorridor){
 			t_yOff=c_Util::m_RndIntRangeFromZero(t_height-3,true);
@@ -28319,7 +28398,7 @@ c_RoomData* c_Level::m_PlaceRoomZone1(int t_roomType,c_RoomData* t_roomToAttachT
 		t_xVal=t_originX-t_width;
 		t_yVal=t_originY-t_yOff-1;
 	}else{
-		if(t_129==1){
+		if(t_130==1){
 			t_yOff=c_Util::m_RndIntRangeFromZero(t_height-2,true);
 			if(t_wideCorridor){
 				t_yOff=c_Util::m_RndIntRangeFromZero(t_height-3,true);
@@ -28532,14 +28611,14 @@ bool c_Level::m_CreateMapZone1(){
 		return m__FailMap();
 	}
 	c_RoomData* t_lastRoom=t_room4;
-	int t_16=t_lastRoomIndex;
-	if(t_16==4){
+	int t_17=t_lastRoomIndex;
+	if(t_17==4){
 		t_lastRoom=t_room5;
 	}else{
-		if(t_16==5){
+		if(t_17==5){
 			t_lastRoom=t_room6;
 		}else{
-			if(t_16==6){
+			if(t_17==6){
 				t_lastRoom=t_room7;
 			}
 		}
@@ -28550,18 +28629,18 @@ bool c_Level::m_CreateMapZone1(){
 	}
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE1: Deploying NPCs if necessary",44));
 	bool t_deployNPC=false;
-	int t_17=bb_controller_game_currentLevel;
-	if(t_17==1){
+	int t_18=bb_controller_game_currentLevel;
+	if(t_18==1){
 		if(!c_GameData::m_GetNPCUnlock(String(L"beastmaster",11))){
 			t_deployNPC=true;
 		}
 	}else{
-		if(t_17==2){
+		if(t_18==2){
 			if(!c_GameData::m_GetNPCUnlock(String(L"merlin",6))){
 				t_deployNPC=true;
 			}
 		}else{
-			if(t_17==3){
+			if(t_18==3){
 				if(!c_GameData::m_GetNPCUnlock(String(L"bossmaster",10))){
 					t_deployNPC=true;
 				}
@@ -28588,14 +28667,14 @@ bool c_Level::m_CreateMapZone1(){
 			return m__FailMap();
 		}
 		c_NPC* t_npc=0;
-		int t_18=bb_controller_game_currentLevel;
-		if(t_18==1){
+		int t_19=bb_controller_game_currentLevel;
+		if(t_19==1){
 			t_npc=((new c_Beastmaster)->m_new(t_x,t_y,1,true));
 		}else{
-			if(t_18==2){
+			if(t_19==2){
 				t_npc=((new c_Merlin)->m_new(t_x,t_y,1,true));
 			}else{
-				if(t_18==3){
+				if(t_19==3){
 					t_npc=((new c_Bossmaster)->m_new(t_x,t_y,1,true));
 				}
 			}
@@ -28681,14 +28760,14 @@ bool c_Level::m_CreateMapZone1(){
 	}
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE1: Placing torches",32));
 	int t_minTorch=4;
-	int t_19=bb_controller_game_currentLevel;
-	if(t_19==2){
+	int t_20=bb_controller_game_currentLevel;
+	if(t_20==2){
 		t_minTorch=3;
 	}else{
-		if(t_19==3){
+		if(t_20==3){
 			t_minTorch=2;
 		}else{
-			if(t_19==4){
+			if(t_20==4){
 				t_minTorch=1;
 			}else{
 				if(bb_controller_game_currentLevel>4){
@@ -28903,23 +28982,23 @@ bool c_Level::m_CreateMap(c_LevelObject* t_levelObj){
 		m_CreateSwarmMap();
 		return true;
 	}
-	int t_15=bb_controller_game_currentZone;
-	if(t_15==5){
+	int t_16=bb_controller_game_currentZone;
+	if(t_16==5){
 		if(!m_CreateMapZone5(false)){
 			return false;
 		}
 	}else{
-		if(t_15==4){
+		if(t_16==4){
 			if(!m_CreateMapZone4(false)){
 				return false;
 			}
 		}else{
-			if(t_15==3){
+			if(t_16==3){
 				if(!m_CreateMapZone3()){
 					return false;
 				}
 			}else{
-				if(t_15==2){
+				if(t_16==2){
 					if(!m_CreateMapZone2()){
 						return false;
 					}
@@ -29172,11 +29251,11 @@ void c_Level::m_CreateFinalBossBattle(){
 	gc_assign(t_switch21->m_pairedSwitch,t_switch22);
 	gc_assign(c_Necrodancer::m_necrodancer->m_theLute,(new c_Item)->m_new(2,-15,String(L"weapon_golden_lute",18),false,-1,false));
 	String t_weaponName=String();
-	int t_14=c_Util::m_RndIntRangeFromZero(2,true);
-	if(t_14==0){
+	int t_15=c_Util::m_RndIntRangeFromZero(2,true);
+	if(t_15==0){
 		t_weaponName=String(L"weapon_broadsword",17);
 	}else{
-		if(t_14==1){
+		if(t_15==1){
 			t_weaponName=String(L"weapon_flail",12);
 		}else{
 			t_weaponName=String(L"weapon_longsword",16);
@@ -29259,11 +29338,11 @@ void c_Level::m_LoadLevelSong(c_LevelObject* t_levelObj){
 }
 void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c_LevelObject* t_levelObj,bool t_continuedRun){
 	bb_logger_Debug->p_Log(String(L"NEWLEVEL level: ",16)+String(t_level)+String(L" zone: ",7)+String(t_zone)+String(L" currentLevel: ",15)+String(bb_controller_game_currentLevel)+String(L" currentZone: ",14)+String(bb_controller_game_currentZone)+String(L" currentDepth: ",15)+String(bb_controller_game_currentDepth));
-	int t_60=t_level;
-	if(t_60==-2){
+	int t_61=t_level;
+	if(t_61==-2){
 		c_Player::m_SetCoins(0,true);
 	}else{
-		if(t_60==-3){
+		if(t_61==-3){
 			if(c_ControllerLevelEditor::m_playingLevel!=-1){
 				if(c_ControllerLevelEditor::m_playingWholeDungeon && c_ControllerLevelEditor::m_playingLevel<c_ControllerLevelEditor::m_storedEditor->m_numLevels){
 					c_ControllerLevelEditor::m_playingLevel+=1;
@@ -29405,8 +29484,8 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 		t_flag2=true;
 	}
 	if(t_zone==1){
-		int t_61=t_level;
-		if(t_61==1 || t_61==2){
+		int t_62=t_level;
+		if(t_62==1 || t_62==2){
 			if(!c_GameData::m_GetTutorialComplete()){
 				t_level=0;
 			}
@@ -29490,8 +29569,8 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 	bb_controller_game_currentLevel=t_level;
 	bb_controller_game_currentZone=t_zone;
 	bool t_setTodaysRandSeedString=false;
-	int t_62=bb_controller_game_currentLevel;
-	if(t_62==-9){
+	int t_63=bb_controller_game_currentLevel;
+	if(t_63==-9){
 		if(m_randSeed==-1){
 			t_setTodaysRandSeedString=true;
 			bb_logger_Debug->p_TraceNotImplemented(String(L"Level.NewLevel(Int, Int, Int, Bool, LevelObject, Bool) (Daily seed)",67));
@@ -29499,7 +29578,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 			bb_logger_Debug->p_Log(String(L"Setting random seed to ",23)+String(m_randSeed));
 		}
 	}else{
-		if(t_62==-53 || t_62==-10 || t_62==-63 || t_62==-56 || t_62==-64 || t_62==-62){
+		if(t_63==-53 || t_63==-10 || t_63==-63 || t_63==-56 || t_63==-64 || t_63==-62){
 			m_isSeededMode=true;
 			m_randSeed=c_Util::m_ParseTextSeed(m_randSeedString);
 			if(m_randSeed==-1){
@@ -29507,16 +29586,16 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 			}
 		}else{
 			bool t_isNonDeterministic=false;
-			int t_63=t_level;
-			if(t_63==-2 || t_63==-3000 || t_63==-50 || t_63==-51 || t_63==-52 || t_63==-54 || t_63==-55 || t_63==-57 || t_63==-59 || t_63==-60 || t_63==-61 || t_63==-7 || t_63==-1901){
+			int t_64=t_level;
+			if(t_64==-2 || t_64==-3000 || t_64==-50 || t_64==-51 || t_64==-52 || t_64==-54 || t_64==-55 || t_64==-57 || t_64==-59 || t_64==-60 || t_64==-61 || t_64==-7 || t_64==-1901){
 				t_isNonDeterministic=true;
 			}
 			if(m_isLevelEditor){
 				t_isNonDeterministic=true;
 			}
 			if(!m_isHardcoreMode){
-				int t_64=t_level;
-				if(t_64==1 || t_64==-8){
+				int t_65=t_level;
+				if(t_65==1 || t_65==-8){
 					t_isNonDeterministic=true;
 				}
 			}
@@ -29529,8 +29608,8 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 					m_nonDeterministicMSStart=bb_app_Millisecs();
 				}
 				bb_logger_Debug->p_Log(String(L"NON-DETERMINISTIC MS START INIT: ",33)+String(m_nonDeterministicMSStart));
-				int t_65=bb_controller_game_currentLevel;
-				if(t_65==-7 || t_65==-50 || t_65==-51 || t_65==-52 || t_65==-54 || t_65==-55 || t_65==-57 || t_65==-59 || t_65==-60 || t_65==-61){
+				int t_66=bb_controller_game_currentLevel;
+				if(t_66==-7 || t_66==-50 || t_66==-51 || t_66==-52 || t_66==-54 || t_66==-55 || t_66==-57 || t_66==-59 || t_66==-60 || t_66==-61){
 					m_randSeed=m_nonDeterministicMSStart;
 				}
 			}
@@ -29560,8 +29639,8 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 		if(m_replay->m_curReplayData!=0){
 			t_randSeed=m_replay->m_curReplayData->p_Value()->m_randSeed;
 		}
-		int t_66=bb_controller_game_currentLevel;
-		if(t_66==-9 || t_66==-7 || t_66==-10){
+		int t_67=bb_controller_game_currentLevel;
+		if(t_67==-9 || t_67==-7 || t_67==-10){
 			m_randSeed=t_randSeed;
 		}
 	}
@@ -29569,14 +29648,14 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 	c_Util::m_SeedRnd(t_randSeed);
 	m_creatingMap=true;
 	if(!m_isReplaying && !m_isLevelEditor && t_levelObj==0){
-		int t_67=bb_controller_game_currentLevel;
-		if(t_67==1 || t_67==-8){
+		int t_68=bb_controller_game_currentLevel;
+		if(t_68==1 || t_68==-8){
 			String t_saveData=c_GameData::m_xmlSaveData->p_Export(1);
 		}
 	}
 	int t_creatingMapStart=bb_app_Millisecs();
-	int t_68=bb_controller_game_currentLevel;
-	if(t_68==0){
+	int t_69=bb_controller_game_currentLevel;
+	if(t_69==0){
 		if(!m_isReplaying){
 			c_Util::m_AddMetric(String(L"event",5),String(L"newRun",6),false,false,false);
 			c_Util::m_AddMetric(String(L"runType",7),String(L"tutorial",8),true,false,false);
@@ -29590,43 +29669,43 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 		t_firstPlayer3->p_SetTotallyBlank();
 		m_CreateTutorialMap();
 	}else{
-		if(t_68==-12){
+		if(t_69==-12){
 			m_CreateCharSelect();
 		}else{
-			if(t_68==-13){
+			if(t_69==-13){
 				m_CreateBeastmasterZone1();
 			}else{
-				if(t_68==-14){
+				if(t_69==-14){
 					m_CreateBeastmasterZone2();
 				}else{
-					if(t_68==-15){
+					if(t_69==-15){
 						m_CreateBeastmasterZone3();
 					}else{
-						if(t_68==-16){
+						if(t_69==-16){
 							m_CreateBeastmasterZone4();
 						}else{
-							if(t_68==-21){
+							if(t_69==-21){
 								m_CreateBeastmasterZone5();
 							}else{
-								if(t_68==-17){
+								if(t_69==-17){
 									m_CreateBossmasterMinibosses();
 								}else{
-									if(t_68==-18){
+									if(t_69==-18){
 										m_CreateBossmasterBosses();
 									}else{
-										if(t_68==-20){
+										if(t_69==-20){
 											m_CreateExtraModesSelect();
 										}else{
-											if(t_68==-3001){
+											if(t_69==-3001){
 												(new c_ControllerLevelEditor)->m_new();
 												return;
 											}else{
-												if(t_68==-3000){
+												if(t_69==-3000){
 													if(t_levelObj==0){
 														m_CreateTestMap();
 													}
 												}else{
-													if(t_68==-1901){
+													if(t_69==-1901){
 														int t_character=0;
 														int t_numEnabledCharacter=c_Player::m_NumEnabledCharacters()-1;
 														for(int t_i5=1000;t_i5>0;t_i5=t_i5+-1){
@@ -29650,7 +29729,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 														m_CreateLobby();
 														m_nonDeterministicMSStart=-1;
 													}else{
-														if(t_68==-1900 || t_68==-19){
+														if(t_69==-1900 || t_69==-19){
 															m_isAllCharactersMode=true;
 															if(bb_controller_game_currentLevel==-1900){
 																for(int t_i6=0;t_i6<m_allCharsCompletion.Length();t_i6=t_i6+1){
@@ -29666,7 +29745,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 															bb_controller_game_currentLevel=-19;
 															m_CreateAllCharsSelect();
 														}else{
-															if(t_68==-1700 || t_68==-22){
+															if(t_69==-1700 || t_69==-22){
 																m_isAllCharactersDLCMode=true;
 																if(bb_controller_game_currentLevel==-1700){
 																	for(int t_i7=0;t_i7<m_allCharsCompletionDLC.Length();t_i7=t_i7+1){
@@ -29682,7 +29761,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																bb_controller_game_currentLevel=-22;
 																m_CreateAllCharsDLCSelect();
 															}else{
-																if(t_68==4){
+																if(t_69==4){
 																	if(m_IsFinalBossZone() && c_Util::m_IsCharacterActive(2)){
 																		bb_controller_game_currentLevel=5;
 																		m_bossNumber=8;
@@ -29697,14 +29776,14 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																		}
 																	}
 																}else{
-																	if(t_68==-1){
+																	if(t_69==-1){
 																		m_isSeededMode=false;
 																		m_isHardcoreMode=false;
 																		m_isDailyChallenge=false;
 																		m_isDDRMode=false;
 																		m_CreateTestMap();
 																	}else{
-																		if(t_68==-8){
+																		if(t_69==-8){
 																			if(!m_isReplaying){
 																				c_Util::m_AddMetric(String(L"event",5),String(L"newRun",6),false,false,false);
 																				c_Util::m_AddMetric(String(L"runType",7),String(L"DDR",3),true,false,false);
@@ -29721,7 +29800,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																			m_GetTileAt(0,0)->p_AddTextLabel(String(L"|126|Practice with this mode until|",35),0,32,FLOAT(3.0),false,true);
 																			m_GetTileAt(0,1)->p_AddTextLabel(String(L"|127|you are ready for normal modes!|",37),0,15,FLOAT(3.0),false,true);
 																		}else{
-																			if(t_68==1){
+																			if(t_69==1){
 																				bb_controller_game_currentDepth=bb_controller_game_currentZone;
 																				if(c_Util::m_IsCharacterActive(2) && 1<=bb_controller_game_currentZone && bb_controller_game_currentZone<=4){
 																					bb_controller_game_currentDepth=5-bb_controller_game_currentZone;
@@ -29731,14 +29810,14 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																				c_Util::m_SeedRnd(t_randSeed);
 																				if(!m_isReplaying){
 																					c_Util::m_AddMetric(String(L"event",5),String(L"newRun",6),false,false,false);
-																					int t_69=bb_controller_game_currentZone;
-																					if(t_69==1){
+																					int t_70=bb_controller_game_currentZone;
+																					if(t_70==1){
 																						c_Util::m_AddMetric(String(L"runType",7),String(L"zone1",5),true,false,false);
 																					}else{
-																						if(t_69==2){
+																						if(t_70==2){
 																							c_Util::m_AddMetric(String(L"runType",7),String(L"zone2",5),true,false,false);
 																						}else{
-																							if(t_69==3){
+																							if(t_70==3){
 																								c_Util::m_AddMetric(String(L"runType",7),String(L"zone3",5),true,false,false);
 																							}else{
 																								c_Util::m_AddMetric(String(L"runType",7),String(L"zone4",5),true,false,false);
@@ -29749,7 +29828,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																				m_ResetCustomLevel(t_inEditor,t_randSeed);
 																				m_CreateMap(t_levelObj);
 																			}else{
-																				if(t_68==-7 || t_68==-9 || t_68==-10 || t_68==-50 || t_68==-51 || t_68==-52 || t_68==-53 || t_68==-54 || t_68==-55 || t_68==-56 || t_68==-57 || t_68==-59 || t_68==-62 || t_68==-60 || t_68==-63 || t_68==-61 || t_68==-64){
+																				if(t_69==-7 || t_69==-9 || t_69==-10 || t_69==-50 || t_69==-51 || t_69==-52 || t_69==-53 || t_69==-54 || t_69==-55 || t_69==-56 || t_69==-57 || t_69==-59 || t_69==-62 || t_69==-60 || t_69==-63 || t_69==-61 || t_69==-64){
 																					m_forceBoss=-1;
 																					c_Shrine::m_ResetShrines();
 																					if(!m_isReplaying){
@@ -29765,8 +29844,8 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																						bb_controller_game_runPlaytimeMilliseconds=0;
 																					}
 																					bb_controller_game_subRunPlaytimeMilliseconds=0;
-																					int t_70=bb_controller_game_currentLevel;
-																					if(t_70==-9){
+																					int t_71=bb_controller_game_currentLevel;
+																					if(t_71==-9){
 																						m_isDailyChallenge=true;
 																						m_isDeathlessMode=false;
 																						m_isAllCharactersMode=false;
@@ -29774,7 +29853,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																						c_Player* t_firstPlayer4=bb_controller_game_players[0];
 																						t_firstPlayer4->p_SetCharacter(0);
 																					}else{
-																						if(t_70==-50){
+																						if(t_71==-50){
 																							m_isStoryMode=true;
 																							m_isDeathlessMode=false;
 																							m_isAllCharactersMode=false;
@@ -29784,40 +29863,40 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																								t_firstPlayer5->p_SetCharacter(10);
 																							}
 																						}else{
-																							if(t_70==-51){
+																							if(t_71==-51){
 																								m_isSwarmMode=true;
 																							}else{
-																								if(t_70==-52 || t_70==-53){
+																								if(t_71==-52 || t_71==-53){
 																									m_isNoReturnMode=true;
 																								}else{
-																									if(t_70==-55 || t_70==-56){
+																									if(t_71==-55 || t_71==-56){
 																										m_isHardMode=true;
 																									}else{
-																										if(t_70==-57){
+																										if(t_71==-57){
 																											m_isFloorIsLavaMode=true;
 																											for(int t_i8=0;t_i8<bb_controller_game_numPlayers;t_i8=t_i8+1){
 																												c_Player* t_player5=bb_controller_game_players[t_i8];
-																												int t_71=t_player5->m_characterID;
-																												if(t_71==0 || t_71==1 || t_71==5 || t_71==8 || t_71==9 || t_71==10){
+																												int t_72=t_player5->m_characterID;
+																												if(t_72==0 || t_72==1 || t_72==5 || t_72==8 || t_72==9 || t_72==10){
 																													continue;
 																												}
 																												t_player5->p_SetCharacter(0);
 																											}
 																										}else{
-																											if(t_70==-59 || t_70==-62){
+																											if(t_71==-59 || t_71==-62){
 																												m_isPhasingMode=true;
 																											}else{
-																												if(t_70==-60 || t_70==-63){
+																												if(t_71==-60 || t_71==-63){
 																													m_isRandomizerMode=true;
 																													c_Enemy::m_StartRandomizerRun();
 																												}else{
-																													if(t_70==-61 || t_70==-64){
+																													if(t_71==-61 || t_71==-64){
 																														m_isMysteryMode=true;
 																													}else{
-																														if(t_70==-7){
+																														if(t_71==-7){
 																															c_GameData::m_SetHavePlayedHardcore(true);
 																														}else{
-																															if(t_70==-54){
+																															if(t_71==-54){
 																																m_isSoulMode=true;
 																															}
 																														}
@@ -29910,7 +29989,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																						}
 																					}
 																				}else{
-																					if(t_68==-2){
+																					if(t_69==-2){
 																						if(!m_quickRestart && c_ControllerLevelEditor::m_playingLevel==-1){
 																							m_isSeededMode=false;
 																							m_isHardcoreMode=false;
@@ -29923,7 +30002,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																							m_CreateMap(t_levelObj);
 																						}
 																					}else{
-																						if(t_68==-11){
+																						if(t_69==-11){
 																							if(!m_quickRestart && c_ControllerLevelEditor::m_playingLevel==-1){
 																								if(bb_controller_game_numPlayers>1){
 																									bb_controller_game_players[bb_controller_game_numPlayers-1]->p_Die();
@@ -29970,17 +30049,17 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																									}
 																								}else{
 																									if(!m_isReplaying){
-																										int t_72=bb_controller_game_currentZone;
-																										if(t_72==1){
+																										int t_73=bb_controller_game_currentZone;
+																										if(t_73==1){
 																											m_UnlockChar(4);
 																										}else{
-																											if(t_72==2){
+																											if(t_73==2){
 																												m_UnlockChar(6);
 																											}else{
-																												if(t_72==3){
+																												if(t_73==3){
 																													m_UnlockChar(5);
 																												}else{
-																													if(t_72==5){
+																													if(t_73==5){
 																														m_UnlockChar(11);
 																													}else{
 																														if(c_Util::m_IsCharacterActive(5)){
@@ -30004,16 +30083,16 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																										bb_controller_game_currentZone=m_zoneOrder->p_Get2(bb_controller_game_currentDepth-1);
 																										bb_controller_game_currentLevel=1;
 																										bool t_isAlreadyUnlocked=false;
-																										int t_73=bb_controller_game_currentZone;
-																										if(t_73==2){
+																										int t_74=bb_controller_game_currentZone;
+																										if(t_74==2){
 																											t_isAlreadyUnlocked=c_GameData::m_GetZone2UnlockedCurrentCharacters();
 																											c_GameData::m_SetZone2UnlockedCurrentCharacters();
 																										}else{
-																											if(t_73==3){
+																											if(t_74==3){
 																												t_isAlreadyUnlocked=c_GameData::m_GetZone3UnlockedCurrentCharacters();
 																												c_GameData::m_SetZone3UnlockedCurrentCharacters();
 																											}else{
-																												if(t_73==4){
+																												if(t_74==4){
 																													t_isAlreadyUnlocked=c_GameData::m_GetZone4UnlockedCurrentCharacters();
 																													c_GameData::m_SetZone4UnlockedCurrentCharacters();
 																												}
@@ -30036,14 +30115,14 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																												t_runTime=m_replay->m_runTime;
 																											}
 																										}else{
-																											int t_74=bb_controller_game_currentZone;
-																											if(t_74==1){
+																											int t_75=bb_controller_game_currentZone;
+																											if(t_75==1){
 																												if(!c_GameData::m_GetZone2UnlockedCurrentCharacters()){
 																													m_justUnlocked=String(L"zone2",5);
 																												}
 																												c_GameData::m_SetZone2UnlockedCurrentCharacters();
 																											}else{
-																												if(t_74==2){
+																												if(t_75==2){
 																													if(!c_Util::m_IsCharacterActive(2)){
 																														if(!c_GameData::m_GetZone3UnlockedCurrentCharacters()){
 																															m_justUnlocked=String(L"zone3",5);
@@ -30056,7 +30135,7 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																														c_GameData::m_SetZone1UnlockedCurrentCharacters();
 																													}
 																												}else{
-																													if(t_74==3){
+																													if(t_75==3){
 																														if(!c_Util::m_IsCharacterActive(2)){
 																															if(!c_GameData::m_GetZone4UnlockedCurrentCharacters()){
 																																m_justUnlocked=String(L"zone4",5);
@@ -30085,17 +30164,17 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																												if(m_isHardcoreMode){
 																													c_Util::m_AddMetric(String(L"runType",7),String(L"hardcore",8),false,false,false);
 																												}else{
-																													int t_75=bb_controller_game_currentZone;
-																													if(t_75==1){
+																													int t_76=bb_controller_game_currentZone;
+																													if(t_76==1){
 																														c_Util::m_AddMetric(String(L"runType",7),String(L"zone1",5),false,false,false);
 																													}else{
-																														if(t_75==2){
+																														if(t_76==2){
 																															c_Util::m_AddMetric(String(L"runType",7),String(L"zone2",5),false,false,false);
 																														}else{
-																															if(t_75==3){
+																															if(t_76==3){
 																																c_Util::m_AddMetric(String(L"runType",7),String(L"zone3",5),false,false,false);
 																															}else{
-																																if(t_75==4){
+																																if(t_76==4){
 																																	c_Util::m_AddMetric(String(L"runType",7),String(L"zone4",5),false,false,false);
 																																}else{
 																																	c_Util::m_AddMetric(String(L"runType",7),String(L"Unknown!",8),false,false,false);
@@ -30185,63 +30264,63 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 																								if(t_isTrainingLevel){
 																									m_isTrainingMode=true;
 																									m_practiceEnemyNum=bb_controller_game_currentLevel+bb_math_Abs(-1000);
-																									int t_76=bb_controller_game_currentLevel;
-																									if(t_76==-500){
+																									int t_77=bb_controller_game_currentLevel;
+																									if(t_77==-500){
 																										m_forceBoss=1;
 																										bb_controller_game_currentDepth=bb_controller_game_currentZone;
 																										m_CreateBossBattle();
 																									}else{
-																										if(t_76==-499){
+																										if(t_77==-499){
 																											m_forceBoss=2;
 																											bb_controller_game_currentDepth=bb_controller_game_currentZone;
 																											m_CreateBossBattle();
 																										}else{
-																											if(t_76==-498){
+																											if(t_77==-498){
 																												m_forceBoss=3;
 																												bb_controller_game_currentDepth=bb_controller_game_currentZone;
 																												m_CreateBossBattle();
 																											}else{
-																												if(t_76==-497){
+																												if(t_77==-497){
 																													m_forceBoss=4;
 																													bb_controller_game_currentDepth=bb_controller_game_currentZone;
 																													m_CreateBossBattle();
 																												}else{
-																													if(t_76==-496){
+																													if(t_77==-496){
 																														m_forceBoss=5;
 																														bb_controller_game_currentDepth=bb_controller_game_currentZone;
 																														m_CreateBossBattle();
 																													}else{
-																														if(t_76==-495){
+																														if(t_77==-495){
 																															m_forceBoss=9;
 																															bb_controller_game_currentZone=4;
 																															bb_controller_game_currentDepth=4;
 																															m_CreateBossBattle();
 																														}else{
-																															if(t_76==-494){
+																															if(t_77==-494){
 																																m_bossNumber=6;
 																																bb_controller_game_currentZone=4;
 																																bb_controller_game_currentDepth=4;
 																																m_CreateFinalBossBattle();
 																															}else{
-																																if(t_76==-493){
+																																if(t_77==-493){
 																																	m_bossNumber=7;
 																																	bb_controller_game_currentZone=4;
 																																	bb_controller_game_currentDepth=4;
 																																	m_CreateFinalBossBattle2();
 																																}else{
-																																	if(t_76==-492){
+																																	if(t_77==-492){
 																																		m_bossNumber=8;
 																																		bb_controller_game_currentZone=1;
 																																		bb_controller_game_currentDepth=4;
 																																		m_CreateFinalBossBattle3();
 																																	}else{
-																																		if(t_76==-491){
+																																		if(t_77==-491){
 																																			m_forceBoss=10;
 																																			bb_controller_game_currentZone=5;
 																																			bb_controller_game_currentDepth=5;
 																																			m_CreateBossBattle();
 																																		}else{
-																																			if(t_76==-490){
+																																			if(t_77==-490){
 																																				m_bossNumber=11;
 																																				bb_controller_game_currentZone=5;
 																																				bb_controller_game_currentDepth=5;
@@ -30394,22 +30473,22 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 			for(int t_i13=0;t_i13<bb_controller_game_numPlayers;t_i13=t_i13+1){
 				c_Player* t_player12=bb_controller_game_players[t_i13];
 				if(t_player12!=0){
-					int t_77=t_player12->m_characterID;
-					if(t_77==2 || t_77==1 || t_77==7){
+					int t_78=t_player12->m_characterID;
+					if(t_78==2 || t_78==1 || t_78==7){
 						t_player12->p_AddItemOfType(String(L"armor_glass",11),0,true,false);
 						t_player12->p_AddItemOfType(String(L"spell_fireball",14),0,true,false);
 						t_player12->p_AddItemOfType(String(L"spell_heal",10),0,true,false);
 					}else{
-						if(t_77==4 || t_77==10){
+						if(t_78==4 || t_78==10){
 							t_player12->m_health->p_Reset2(10);
 							t_player12->p_AddItemOfType(String(L"spell_fireball",14),0,true,false);
 							t_player12->p_AddItemOfType(String(L"spell_heal",10),0,true,false);
 						}else{
-							if(t_77==6){
+							if(t_78==6){
 								t_player12->m_health->p_Reset2(10);
 								t_player12->p_AddItemOfType(String(L"spell_heal",10),0,true,false);
 							}else{
-								if(t_77==11){
+								if(t_78==11){
 									t_player12->m_health->p_Reset2(10);
 								}else{
 									t_player12->m_ownedItems->p_Set7(String(L"weapon",6),String(L"no_item",7));
@@ -30466,8 +30545,8 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 		while(t_5<t_4.Length()){
 			String t_item=t_4[t_5];
 			t_5=t_5+1;
-			String t_78=t_item;
-			if(t_78==String() || t_78==String(L"no_item",7)){
+			String t_79=t_item;
+			if(t_79==String() || t_79==String(L"no_item",7)){
 				continue;
 			}
 			(new c_Item)->m_new(0,0,t_item,false,-1,false);
@@ -30500,8 +30579,8 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 		m_isRunNoItemsNoShrines=true;
 	}
 	m_LoadLevelSong(0);
-	int t_79=bb_controller_game_currentLevel;
-	if(t_79==4 || t_79==5){
+	int t_80=bb_controller_game_currentLevel;
+	if(t_80==4 || t_80==5){
 		if(c_GameData::m_GetEnableBossIntros() && !m_isReplaying){
 			(new c_ControllerBossIntro)->m_new(bb_controller_game_controllerGamePointer,m_bossNumber);
 		}
@@ -30641,8 +30720,8 @@ String c_Level::m_GetTileFlyawayAt(int t_xVal,int t_yVal){
 	return String();
 }
 bool c_Level::m_IsSeededMode2(int t_mode){
-	int t_58=t_mode;
-	if(t_58==-53 || t_58==-10 || t_58==-63 || t_58==-56 || t_58==-62 || t_58==-64){
+	int t_59=t_mode;
+	if(t_59==-53 || t_59==-10 || t_59==-63 || t_59==-56 || t_59==-62 || t_59==-64){
 		return true;
 	}
 	return false;
@@ -30706,8 +30785,8 @@ void c_Level::m_PlaceHotCoalTileAt(int t_xVal,int t_yVal){
 	if(!m_IsFloorAt(t_xVal,t_yVal)){
 		return;
 	}
-	int t_105=m_GetTileTypeAt(t_xVal,t_yVal);
-	if(t_105==11){
+	int t_106=m_GetTileTypeAt(t_xVal,t_yVal);
+	if(t_106==11){
 		m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,4);
 	}else{
 		c_Trap* t_trap=c_Trap::m_GetTrapAt(t_xVal,t_yVal);
@@ -30725,11 +30804,11 @@ void c_Level::m_PlaceIceTileAt(int t_xVal,int t_yVal){
 	if(!m_IsFloorAt(t_xVal,t_yVal)){
 		return;
 	}
-	int t_106=m_GetTileTypeAt(t_xVal,t_yVal);
-	if(t_106==10){
+	int t_107=m_GetTileTypeAt(t_xVal,t_yVal);
+	if(t_107==10){
 		m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,4);
 	}else{
-		if(t_106==4 || t_106==5){
+		if(t_107==4 || t_107==5){
 			m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,0);
 		}else{
 			c_Trap* t_trap=c_Trap::m_GetTrapAt(t_xVal,t_yVal);
@@ -30763,8 +30842,8 @@ void c_Level::m_DryUpAllWater(int t_replacementFloor){
 			c_Node27* t_tileNode=t_2->p_NextObject();
 			c_Tile* t_tile=t_tileNode->p_Value();
 			int t_tileType=m_GetTileTypeAt(t_tile->m_x,t_tile->m_y);
-			int t_40=t_tileType;
-			if(t_40==4 || t_40==5){
+			int t_41=t_tileType;
+			if(t_41==4 || t_41==5){
 				m_PlaceTileRemovingExistingTiles2(t_tile->m_x,t_tile->m_y,t_replacementFloor);
 			}
 		}
@@ -31522,13 +31601,13 @@ c_RenderableObject::c_RenderableObject(){
 	m_collides=false;
 	m_isEnemy=false;
 	m_lightSourceBrightness=FLOAT(1.0);
-	m_isTrap=false;
-	m_isItem=false;
-	m_isCrate=false;
-	m_isNPC=false;
 	m_playerOverrideCollide=false;
 	m_width=1;
 	m_height=1;
+	m_isItem=false;
+	m_isCrate=false;
+	m_isNPC=false;
+	m_isTrap=false;
 	m_isChest=false;
 	m_clampedOn=false;
 }
@@ -37188,7 +37267,6 @@ c_Enemy::c_Enemy(){
 	m_wasSeekingX=true;
 	m_swarmCulprit=false;
 	m_allowDiagonalFlip=false;
-	m_animOverride=-1;
 	m_isFormationDancer=false;
 	m_currentMoveDelay=1;
 	m_inPenaltyBox=false;
@@ -37205,6 +37283,7 @@ c_Enemy::c_Enemy(){
 	m_stealth=false;
 	m_containsItem=false;
 	m_overrideMoveSound=String();
+	m_animOverride=-1;
 	m_enableTell=true;
 	m_overrideCrySound=String();
 	m_overrideAttackSwipe=false;
@@ -50738,234 +50817,115 @@ void c_EvilEye::p_Update(){
 void c_EvilEye::mark(){
 	c_Enemy::mark();
 }
-c_SpikeTrap::c_SpikeTrap(){
-	m_retractCounter=0;
-	m_frameToShow=0;
-}
-c_SpikeTrap* c_SpikeTrap::m_new(int t_xVal,int t_yVal){
-	c_Trap::m_new(t_xVal,t_yVal,2);
-	this->m_xOff=FLOAT(-4.0);
-	this->m_yOff=FLOAT(11.0);
-	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"traps/spiketrap.png",19),34,20,6,c_Image::m_DefaultFlags));
-	this->m_image->p_SetZ(FLOAT(-995.0));
-	return this;
-}
-c_SpikeTrap* c_SpikeTrap::m_new2(){
-	c_Trap::m_new2();
-	return this;
-}
-void c_SpikeTrap::p_Trigger(c_Entity* t_ent){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SpikeTrap.Trigger(Entity)",25));
-}
-void c_SpikeTrap::p_Update(){
-	if(this->m_retractCounter>0){
-		this->m_retractCounter-=1;
-		if(this->m_retractCounter==0){
-			this->m_triggered=false;
-			this->m_frameToShow=0;
-		}
-	}
-	this->m_image->p_SetFrame(this->m_frameToShow);
-	c_Trap::p_Update();
-}
-void c_SpikeTrap::mark(){
-	c_Trap::mark();
-}
-c_TrapType::c_TrapType(){
-}
-String c_TrapType::m_ToDisplayName(int t_type){
-	int t_1=t_type;
-	if(t_1==1){
-		return String(L"Bounce Trap",11);
-	}else{
-		if(t_1==2){
-			return String(L"Spike Trap",10);
-		}else{
-			if(t_1==3){
-				return String(L"Trap Door",9);
-			}else{
-				if(t_1==4){
-					return String(L"Confuse Trap",12);
-				}else{
-					if(t_1==5){
-						return String(L"Teleport Trap",13);
-					}else{
-						if(t_1==6){
-							return String(L"Slow Down Trap",14);
-						}else{
-							if(t_1==7){
-								return String(L"Speed Up Trap",13);
-							}else{
-								if(t_1==8){
-									return String(L"Travel Rune",11);
-								}else{
-									if(t_1==9){
-										return String(L"Bomb Trap",9);
-									}else{
-										if(t_1==10){
-											return String(L"Wall Pig",8);
-										}else{
-											if(t_1==11){
-												return String(L"AB Teleport Trap",16);
-											}else{
-												if(t_1==12){
-													return String(L"Switch",6);
-												}else{
-													if(t_1==13){
-														return String(L"Decorative Fire Trap",20);
-													}else{
-														if(t_1==14){
-															return String(L"Scatter Trap",12);
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return String(L"Unknown trap (",14)+String(t_type)+String(L")",1);
-}
-void c_TrapType::mark(){
-	Object::mark();
-}
-c_SpeedUpTrap::c_SpeedUpTrap(){
-	m_speedUpStartBeat=-1;
-	m_currentMusicSpeed=FLOAT(1.0);
-}
-c_SpeedUpTrap* c_SpeedUpTrap::m_new(int t_xVal,int t_yVal){
-	c_Trap::m_new(t_xVal,t_yVal,7);
-	this->m_xOff=FLOAT(5.0);
-	this->m_yOff=FLOAT(15.0);
-	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"traps/speeduptrap.png",21),14,16,4,c_Image::m_DefaultFlags));
-	this->m_image->p_SetZ(FLOAT(-995.0));
-	return this;
-}
-c_SpeedUpTrap* c_SpeedUpTrap::m_new2(){
-	c_Trap::m_new2();
-	return this;
-}
-void c_SpeedUpTrap::p_Trigger(c_Entity* t_ent){
-	if(!t_ent->m_isPlayer){
-		return;
-	}
-	this->m_image->p_SetFrame(0);
-	if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"head_spiked_ears",16),false)){
-		c_Flyaway* t_flyaway=(new c_Flyaway)->m_new(String(L"|14000|MUFFLED!|",16),t_ent->m_x,t_ent->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,120);
-		t_flyaway->p_CenterX();
-	}else{
-		if(this->m_speedUpStartBeat==-1){
-			if(!c_Level::m_isReplaying || c_Audio::m_musicSpeed==FLOAT(1.0)){
-				this->m_currentMusicSpeed=FLOAT(1.0);
-				this->m_speedUpStartBeat=c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,false);
-			}
-			c_Flyaway* t_flyaway2=(new c_Flyaway)->m_new(String(L"|232|TEMPO UP!|",15),t_ent->m_x,t_ent->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,120);
-			t_flyaway2->p_CenterX();
-			c_Audio::m_PlayGameSoundAt(String(L"trapdoorOpen",12),this->m_x,this->m_y,false,-1,false);
-		}
-	}
-	c_Trap::p_Trigger(t_ent);
-}
-void c_SpeedUpTrap::p_Update(){
-	if(this->m_speedUpStartBeat!=-1){
-		int t_timeUntilStart=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat);
-		int t_timeUntilAfterStart=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+2);
-		int t_timeUntilBeforeEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+18);
-		int t_timeUntilEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+20);
-		if(t_timeUntilAfterStart>0){
-			this->m_currentMusicSpeed=FLOAT(1.125)+Float(t_timeUntilAfterStart/(t_timeUntilAfterStart-t_timeUntilStart))*FLOAT(-0.125);
-		}else{
-			if(t_timeUntilBeforeEnd>0){
-				this->m_currentMusicSpeed=FLOAT(1.125);
-			}else{
-				if(t_timeUntilEnd>0){
-					this->m_currentMusicSpeed=FLOAT(1.0)-Float(t_timeUntilEnd/(t_timeUntilEnd-t_timeUntilBeforeEnd))*FLOAT(0.125);
-				}else{
-					this->m_currentMusicSpeed=FLOAT(1.0);
-					this->m_speedUpStartBeat=-1;
-				}
-			}
-		}
-		this->m_currentMusicSpeed=bb_math_Max2(FLOAT(1.0),this->m_currentMusicSpeed);
-		c_Audio::m_ModifyMusicSpeed(this->m_currentMusicSpeed);
-	}
-	if(this->m_speedUpStartBeat!=-1){
-		this->m_triggered=false;
-	}
-	this->m_image->p_SetFrame(1);
-	if(this->m_triggered){
-		this->m_image->p_SetFrame(0);
-	}
-	c_Trap::p_Update();
-}
-void c_SpeedUpTrap::mark(){
-	c_Trap::mark();
-}
-c_ConfuseTrap::c_ConfuseTrap(){
-}
-c_ConfuseTrap* c_ConfuseTrap::m_new(int t_xVal,int t_yVal){
-	c_Trap::m_new(t_xVal,t_yVal,4);
-	this->m_xOff=FLOAT(5.0);
-	this->m_yOff=FLOAT(15.0);
-	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"traps/confusetrap.png",21),14,16,4,c_Image::m_DefaultFlags));
-	this->m_image->p_SetZOff(FLOAT(-995.0));
-	return this;
-}
-c_ConfuseTrap* c_ConfuseTrap::m_new2(){
-	c_Trap::m_new2();
-	return this;
-}
-void c_ConfuseTrap::p_Trigger(c_Entity* t_ent){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConfuseTrap.Trigger(Entity)",27));
-}
-void c_ConfuseTrap::mark(){
-	c_Trap::mark();
-}
-c_DeathMetal::c_DeathMetal(){
-}
-c_DeathMetal* c_DeathMetal::m_new(int t_xVal,int t_yVal,int t_l){
-	c_Enemy::m_new();
-	this->p_Init3(t_xVal,t_yVal,t_l,String(L"deathmetal",10),String(),-1,-1);
-	this->m_animOverride=0;
-	this->m_overrideHitSound=String(L"deathMetal_hit",14);
-	this->m_overrideDeathSound=String(L"deathMetal_death",16);
-	this->m_overrideAttackSound=String(L"deathMetal_attack",17);
-	if(c_Util::m_IsCharacterActive(5) || c_Util::m_IsCharacterActive(7)){
-		this->m_coinsToDrop=1;
-	}
-	return this;
-}
-c_DeathMetal* c_DeathMetal::m_new2(){
-	c_Enemy::m_new();
-	return this;
-}
-c_Point* c_DeathMetal::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.GetMovementDirection()",33));
-	return 0;
-}
-bool c_DeathMetal::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Hit(String, Int, Int, Entity, Bool, Int)",51));
-	return false;
-}
-void c_DeathMetal::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.MoveSucceed(Bool, Bool)",34));
-}
-void c_DeathMetal::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Update()",19));
-}
-void c_DeathMetal::mark(){
-	c_Enemy::mark();
-}
 c_EnemyType::c_EnemyType(){
 }
 void c_EnemyType::mark(){
 	Object::mark();
+}
+c_Stack4::c_Stack4(){
+	m_data=Array<c_Point* >();
+	m_length=0;
+}
+c_Stack4* c_Stack4::m_new(){
+	return this;
+}
+c_Stack4* c_Stack4::m_new2(Array<c_Point* > t_data){
+	gc_assign(this->m_data,t_data.Slice(0));
+	this->m_length=t_data.Length();
+	return this;
+}
+void c_Stack4::p_Push10(c_Point* t_value){
+	if(m_length==m_data.Length()){
+		gc_assign(m_data,m_data.Resize(m_length*2+10));
+	}
+	gc_assign(m_data[m_length],t_value);
+	m_length+=1;
+}
+void c_Stack4::p_Push11(Array<c_Point* > t_values,int t_offset,int t_count){
+	for(int t_i=0;t_i<t_count;t_i=t_i+1){
+		p_Push10(t_values[t_offset+t_i]);
+	}
+}
+void c_Stack4::p_Push12(Array<c_Point* > t_values,int t_offset){
+	p_Push11(t_values,t_offset,t_values.Length()-t_offset);
+}
+bool c_Stack4::p_IsEmpty(){
+	return m_length==0;
+}
+c_Point* c_Stack4::m_NIL;
+void c_Stack4::p_Length2(int t_newlength){
+	if(t_newlength<m_length){
+		for(int t_i=t_newlength;t_i<m_length;t_i=t_i+1){
+			gc_assign(m_data[t_i],m_NIL);
+		}
+	}else{
+		if(t_newlength>m_data.Length()){
+			gc_assign(m_data,m_data.Resize(bb_math_Max(m_length*2+10,t_newlength)));
+		}
+	}
+	m_length=t_newlength;
+}
+int c_Stack4::p_Length(){
+	return m_length;
+}
+c_Point* c_Stack4::p_Get2(int t_index){
+	return m_data[t_index];
+}
+c_Enumerator25* c_Stack4::p_ObjectEnumerator(){
+	return (new c_Enumerator25)->m_new(this);
+}
+void c_Stack4::p_Set17(int t_index,c_Point* t_value){
+	gc_assign(m_data[t_index],t_value);
+}
+void c_Stack4::p_Remove4(int t_index){
+	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
+		gc_assign(m_data[t_i],m_data[t_i+1]);
+	}
+	m_length-=1;
+	gc_assign(m_data[m_length],m_NIL);
+}
+c_Point* c_Stack4::p_Pop(){
+	m_length-=1;
+	c_Point* t_v=m_data[m_length];
+	gc_assign(m_data[m_length],m_NIL);
+	return t_v;
+}
+void c_Stack4::mark(){
+	Object::mark();
+	gc_mark_q(m_data);
+}
+c_StackEx2::c_StackEx2(){
+}
+c_StackEx2* c_StackEx2::m_new(){
+	c_Stack4::m_new();
+	return this;
+}
+c_Point* c_StackEx2::p_ChooseRandom(bool t_useSeed){
+	int t_randomIndex=c_Util::m_RndIntRangeFromZero(this->p_Length()-1,t_useSeed);
+	return this->p_Get2(t_randomIndex);
+}
+void c_StackEx2::p_Shuffle(bool t_useSeed){
+	for(int t_i=1;t_i<this->p_Length();t_i=t_i+1){
+		int t_randomValue=c_Util::m_RndIntRangeFromZero(t_i,t_useSeed);
+		if(t_i!=t_randomValue){
+			c_Point* t_value_at_i=this->p_Get2(t_i);
+			c_Point* t_value_at_randomValue=this->p_Get2(t_randomValue);
+			this->p_Set17(t_i,t_value_at_randomValue);
+			this->p_Set17(t_randomValue,t_value_at_i);
+		}
+	}
+}
+void c_StackEx2::mark(){
+	c_Stack4::mark();
+}
+c_IntPointStack::c_IntPointStack(){
+}
+c_IntPointStack* c_IntPointStack::m_new(){
+	c_StackEx2::m_new();
+	return this;
+}
+void c_IntPointStack::mark(){
+	c_StackEx2::mark();
 }
 c_Slime::c_Slime(){
 	m_moveCount=0;
@@ -54435,6 +54395,230 @@ void c_Orc::p_Update(){
 void c_Orc::mark(){
 	c_Enemy::mark();
 }
+c_SpikeTrap::c_SpikeTrap(){
+	m_retractCounter=0;
+	m_frameToShow=0;
+}
+c_SpikeTrap* c_SpikeTrap::m_new(int t_xVal,int t_yVal){
+	c_Trap::m_new(t_xVal,t_yVal,2);
+	this->m_xOff=FLOAT(-4.0);
+	this->m_yOff=FLOAT(11.0);
+	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"traps/spiketrap.png",19),34,20,6,c_Image::m_DefaultFlags));
+	this->m_image->p_SetZ(FLOAT(-995.0));
+	return this;
+}
+c_SpikeTrap* c_SpikeTrap::m_new2(){
+	c_Trap::m_new2();
+	return this;
+}
+void c_SpikeTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SpikeTrap.Trigger(Entity)",25));
+}
+void c_SpikeTrap::p_Update(){
+	if(this->m_retractCounter>0){
+		this->m_retractCounter-=1;
+		if(this->m_retractCounter==0){
+			this->m_triggered=false;
+			this->m_frameToShow=0;
+		}
+	}
+	this->m_image->p_SetFrame(this->m_frameToShow);
+	c_Trap::p_Update();
+}
+void c_SpikeTrap::mark(){
+	c_Trap::mark();
+}
+c_TrapType::c_TrapType(){
+}
+String c_TrapType::m_ToDisplayName(int t_type){
+	int t_1=t_type;
+	if(t_1==1){
+		return String(L"Bounce Trap",11);
+	}else{
+		if(t_1==2){
+			return String(L"Spike Trap",10);
+		}else{
+			if(t_1==3){
+				return String(L"Trap Door",9);
+			}else{
+				if(t_1==4){
+					return String(L"Confuse Trap",12);
+				}else{
+					if(t_1==5){
+						return String(L"Teleport Trap",13);
+					}else{
+						if(t_1==6){
+							return String(L"Slow Down Trap",14);
+						}else{
+							if(t_1==7){
+								return String(L"Speed Up Trap",13);
+							}else{
+								if(t_1==8){
+									return String(L"Travel Rune",11);
+								}else{
+									if(t_1==9){
+										return String(L"Bomb Trap",9);
+									}else{
+										if(t_1==10){
+											return String(L"Wall Pig",8);
+										}else{
+											if(t_1==11){
+												return String(L"AB Teleport Trap",16);
+											}else{
+												if(t_1==12){
+													return String(L"Switch",6);
+												}else{
+													if(t_1==13){
+														return String(L"Decorative Fire Trap",20);
+													}else{
+														if(t_1==14){
+															return String(L"Scatter Trap",12);
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return String(L"Unknown trap (",14)+String(t_type)+String(L")",1);
+}
+void c_TrapType::mark(){
+	Object::mark();
+}
+c_SpeedUpTrap::c_SpeedUpTrap(){
+	m_speedUpStartBeat=-1;
+	m_currentMusicSpeed=FLOAT(1.0);
+}
+c_SpeedUpTrap* c_SpeedUpTrap::m_new(int t_xVal,int t_yVal){
+	c_Trap::m_new(t_xVal,t_yVal,7);
+	this->m_xOff=FLOAT(5.0);
+	this->m_yOff=FLOAT(15.0);
+	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"traps/speeduptrap.png",21),14,16,4,c_Image::m_DefaultFlags));
+	this->m_image->p_SetZ(FLOAT(-995.0));
+	return this;
+}
+c_SpeedUpTrap* c_SpeedUpTrap::m_new2(){
+	c_Trap::m_new2();
+	return this;
+}
+void c_SpeedUpTrap::p_Trigger(c_Entity* t_ent){
+	if(!t_ent->m_isPlayer){
+		return;
+	}
+	this->m_image->p_SetFrame(0);
+	if(c_Player::m_DoesAnyPlayerHaveItemOfType(String(L"head_spiked_ears",16),false)){
+		c_Flyaway* t_flyaway=(new c_Flyaway)->m_new(String(L"|14000|MUFFLED!|",16),t_ent->m_x,t_ent->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,120);
+		t_flyaway->p_CenterX();
+	}else{
+		if(this->m_speedUpStartBeat==-1){
+			if(!c_Level::m_isReplaying || c_Audio::m_musicSpeed==FLOAT(1.0)){
+				this->m_currentMusicSpeed=FLOAT(1.0);
+				this->m_speedUpStartBeat=c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,false);
+			}
+			c_Flyaway* t_flyaway2=(new c_Flyaway)->m_new(String(L"|232|TEMPO UP!|",15),t_ent->m_x,t_ent->m_y,0,-14,true,FLOAT(0.0),FLOAT(0.2),true,120);
+			t_flyaway2->p_CenterX();
+			c_Audio::m_PlayGameSoundAt(String(L"trapdoorOpen",12),this->m_x,this->m_y,false,-1,false);
+		}
+	}
+	c_Trap::p_Trigger(t_ent);
+}
+void c_SpeedUpTrap::p_Update(){
+	if(this->m_speedUpStartBeat!=-1){
+		int t_timeUntilStart=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat);
+		int t_timeUntilAfterStart=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+2);
+		int t_timeUntilBeforeEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+18);
+		int t_timeUntilEnd=c_Audio::m_TimeUntilSpecificBeat(this->m_speedUpStartBeat+20);
+		if(t_timeUntilAfterStart>0){
+			this->m_currentMusicSpeed=FLOAT(1.125)+Float(t_timeUntilAfterStart/(t_timeUntilAfterStart-t_timeUntilStart))*FLOAT(-0.125);
+		}else{
+			if(t_timeUntilBeforeEnd>0){
+				this->m_currentMusicSpeed=FLOAT(1.125);
+			}else{
+				if(t_timeUntilEnd>0){
+					this->m_currentMusicSpeed=FLOAT(1.0)-Float(t_timeUntilEnd/(t_timeUntilEnd-t_timeUntilBeforeEnd))*FLOAT(0.125);
+				}else{
+					this->m_currentMusicSpeed=FLOAT(1.0);
+					this->m_speedUpStartBeat=-1;
+				}
+			}
+		}
+		this->m_currentMusicSpeed=bb_math_Max2(FLOAT(1.0),this->m_currentMusicSpeed);
+		c_Audio::m_ModifyMusicSpeed(this->m_currentMusicSpeed);
+	}
+	if(this->m_speedUpStartBeat!=-1){
+		this->m_triggered=false;
+	}
+	this->m_image->p_SetFrame(1);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(0);
+	}
+	c_Trap::p_Update();
+}
+void c_SpeedUpTrap::mark(){
+	c_Trap::mark();
+}
+c_ConfuseTrap::c_ConfuseTrap(){
+}
+c_ConfuseTrap* c_ConfuseTrap::m_new(int t_xVal,int t_yVal){
+	c_Trap::m_new(t_xVal,t_yVal,4);
+	this->m_xOff=FLOAT(5.0);
+	this->m_yOff=FLOAT(15.0);
+	gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"traps/confusetrap.png",21),14,16,4,c_Image::m_DefaultFlags));
+	this->m_image->p_SetZOff(FLOAT(-995.0));
+	return this;
+}
+c_ConfuseTrap* c_ConfuseTrap::m_new2(){
+	c_Trap::m_new2();
+	return this;
+}
+void c_ConfuseTrap::p_Trigger(c_Entity* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConfuseTrap.Trigger(Entity)",27));
+}
+void c_ConfuseTrap::mark(){
+	c_Trap::mark();
+}
+c_DeathMetal::c_DeathMetal(){
+}
+c_DeathMetal* c_DeathMetal::m_new(int t_xVal,int t_yVal,int t_l){
+	c_Enemy::m_new();
+	this->p_Init3(t_xVal,t_yVal,t_l,String(L"deathmetal",10),String(),-1,-1);
+	this->m_animOverride=0;
+	this->m_overrideHitSound=String(L"deathMetal_hit",14);
+	this->m_overrideDeathSound=String(L"deathMetal_death",16);
+	this->m_overrideAttackSound=String(L"deathMetal_attack",17);
+	if(c_Util::m_IsCharacterActive(5) || c_Util::m_IsCharacterActive(7)){
+		this->m_coinsToDrop=1;
+	}
+	return this;
+}
+c_DeathMetal* c_DeathMetal::m_new2(){
+	c_Enemy::m_new();
+	return this;
+}
+c_Point* c_DeathMetal::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.GetMovementDirection()",33));
+	return 0;
+}
+bool c_DeathMetal::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Hit(String, Int, Int, Entity, Bool, Int)",51));
+	return false;
+}
+void c_DeathMetal::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.MoveSucceed(Bool, Bool)",34));
+}
+void c_DeathMetal::p_Update(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Update()",19));
+}
+void c_DeathMetal::mark(){
+	c_Enemy::mark();
+}
 c_BounceTrap::c_BounceTrap(){
 	m_bounceDir=0;
 	m_isRotatingCW=false;
@@ -55251,108 +55435,6 @@ c_Rect* c_Rect::p_Copy(){
 }
 void c_Rect::mark(){
 	Object::mark();
-}
-c_Stack4::c_Stack4(){
-	m_data=Array<c_Point* >();
-	m_length=0;
-}
-c_Stack4* c_Stack4::m_new(){
-	return this;
-}
-c_Stack4* c_Stack4::m_new2(Array<c_Point* > t_data){
-	gc_assign(this->m_data,t_data.Slice(0));
-	this->m_length=t_data.Length();
-	return this;
-}
-void c_Stack4::p_Push10(c_Point* t_value){
-	if(m_length==m_data.Length()){
-		gc_assign(m_data,m_data.Resize(m_length*2+10));
-	}
-	gc_assign(m_data[m_length],t_value);
-	m_length+=1;
-}
-void c_Stack4::p_Push11(Array<c_Point* > t_values,int t_offset,int t_count){
-	for(int t_i=0;t_i<t_count;t_i=t_i+1){
-		p_Push10(t_values[t_offset+t_i]);
-	}
-}
-void c_Stack4::p_Push12(Array<c_Point* > t_values,int t_offset){
-	p_Push11(t_values,t_offset,t_values.Length()-t_offset);
-}
-c_Point* c_Stack4::p_Get2(int t_index){
-	return m_data[t_index];
-}
-c_Enumerator25* c_Stack4::p_ObjectEnumerator(){
-	return (new c_Enumerator25)->m_new(this);
-}
-c_Point* c_Stack4::m_NIL;
-void c_Stack4::p_Length2(int t_newlength){
-	if(t_newlength<m_length){
-		for(int t_i=t_newlength;t_i<m_length;t_i=t_i+1){
-			gc_assign(m_data[t_i],m_NIL);
-		}
-	}else{
-		if(t_newlength>m_data.Length()){
-			gc_assign(m_data,m_data.Resize(bb_math_Max(m_length*2+10,t_newlength)));
-		}
-	}
-	m_length=t_newlength;
-}
-int c_Stack4::p_Length(){
-	return m_length;
-}
-void c_Stack4::p_Set17(int t_index,c_Point* t_value){
-	gc_assign(m_data[t_index],t_value);
-}
-void c_Stack4::p_Remove4(int t_index){
-	for(int t_i=t_index;t_i<m_length-1;t_i=t_i+1){
-		gc_assign(m_data[t_i],m_data[t_i+1]);
-	}
-	m_length-=1;
-	gc_assign(m_data[m_length],m_NIL);
-}
-c_Point* c_Stack4::p_Pop(){
-	m_length-=1;
-	c_Point* t_v=m_data[m_length];
-	gc_assign(m_data[m_length],m_NIL);
-	return t_v;
-}
-void c_Stack4::mark(){
-	Object::mark();
-	gc_mark_q(m_data);
-}
-c_StackEx2::c_StackEx2(){
-}
-c_StackEx2* c_StackEx2::m_new(){
-	c_Stack4::m_new();
-	return this;
-}
-c_Point* c_StackEx2::p_ChooseRandom(bool t_useSeed){
-	int t_randomIndex=c_Util::m_RndIntRangeFromZero(this->p_Length()-1,t_useSeed);
-	return this->p_Get2(t_randomIndex);
-}
-void c_StackEx2::p_Shuffle(bool t_useSeed){
-	for(int t_i=1;t_i<this->p_Length();t_i=t_i+1){
-		int t_randomValue=c_Util::m_RndIntRangeFromZero(t_i,t_useSeed);
-		if(t_i!=t_randomValue){
-			c_Point* t_value_at_i=this->p_Get2(t_i);
-			c_Point* t_value_at_randomValue=this->p_Get2(t_randomValue);
-			this->p_Set17(t_i,t_value_at_randomValue);
-			this->p_Set17(t_randomValue,t_value_at_i);
-		}
-	}
-}
-void c_StackEx2::mark(){
-	c_Stack4::mark();
-}
-c_IntPointStack::c_IntPointStack(){
-}
-c_IntPointStack* c_IntPointStack::m_new(){
-	c_StackEx2::m_new();
-	return this;
-}
-void c_IntPointStack::mark(){
-	c_StackEx2::mark();
 }
 c_Stack5::c_Stack5(){
 	m_data=Array<c_XMLNode* >();
@@ -59847,6 +59929,8 @@ int bbInit(){
 	c_Enemy::m_heartEmptySmall=0;
 	c_Sarcophagus::m_sarcophagi=(new c_List19)->m_new();
 	c_KingConga::m_theKing=0;
+	c_Level::m_isHardMode=false;
+	c_Stack4::m_NIL=0;
 	c_Audio::m_debugEnablePlaceholders=true;
 	c_Enemy::m_killingAllEnemies=false;
 	c_Audio::m_cachedSongPositionFrame=-1;
@@ -59907,14 +59991,12 @@ int bbInit(){
 	c_Stack7::m_NIL=0;
 	c_Stack8::m_NIL=0;
 	c_Level::m_debugForceMonstrousShop=false;
-	c_Stack4::m_NIL=0;
 	c_Stack9::m_NIL=0;
 	c_Stack10::m_NIL=0;
 	c_Level::m_tempTileWalk=(new c_List27)->m_new();
 	c_Level::m_chestsStillToPlace=0;
 	c_Poltergeist::m_theGhoul=0;
 	c_Level::m_hallwayZone5=0;
-	c_Level::m_isHardMode=false;
 	bb_controller_game_runPlaytimeLastAdded=0;
 	bb_controller_game_runPlaytimeMilliseconds=0;
 	bb_controller_game_subRunPlaytimeMilliseconds=0;
@@ -60105,6 +60187,7 @@ void gc_mark(){
 	gc_mark_q(c_Enemy::m_heartEmptySmall);
 	gc_mark_q(c_Sarcophagus::m_sarcophagi);
 	gc_mark_q(c_KingConga::m_theKing);
+	gc_mark_q(c_Stack4::m_NIL);
 	gc_mark_q(bb_controller_game_beatData);
 	gc_mark_q(c_SoulFamiliar::m_allSouls);
 	gc_mark_q(c_Item::m_pickupList);
@@ -60139,7 +60222,6 @@ void gc_mark(){
 	gc_mark_q(c_Crate::m_crateList);
 	gc_mark_q(c_Stack7::m_NIL);
 	gc_mark_q(c_Stack8::m_NIL);
-	gc_mark_q(c_Stack4::m_NIL);
 	gc_mark_q(c_Stack9::m_NIL);
 	gc_mark_q(c_Stack10::m_NIL);
 	gc_mark_q(c_Level::m_tempTileWalk);

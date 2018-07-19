@@ -125,6 +125,7 @@ Import shrine
 Import spells
 Import sprite
 Import stack_ex
+Import textlog
 Import tile
 Import tiledata
 Import util
@@ -958,7 +959,51 @@ Class Level
     End Function
 
     Function BossMaybeMinibossesAt: Void(x1: Int, y1: Int, x2: Int, y2: Int)
-        Debug.TraceNotImplemented("Level.BossMaybeMinibossesAt(Int, Int, Int, Int)")
+        If Level.QueryHarderBosses()
+            Local minibossType1: Int
+            Local minibossType2: Int
+
+            Select controller_game.currentZone
+                Case 1
+                    If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfPeace, False)
+                        minibossType1 = EnemyType.LightMinotaur
+                        minibossType2 = EnemyType.GreenDragon
+                    Else
+                        minibossType1 = EnemyType.DarkMinotaur
+                        minibossType2 = EnemyType.RedDragon
+                    End If
+                Case 2
+                    If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfPeace, False)
+                        minibossType1 = EnemyType.DarkNightmare
+                        minibossType2 = EnemyType.BlueBanshee
+                    Else
+                        minibossType1 = EnemyType.BloodNightmare
+                        minibossType2 = EnemyType.GreenBanshee
+                    End If
+                Case 3
+                    If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfPeace, False)
+                        minibossType1 = EnemyType.LightMinotaur
+                        minibossType2 = EnemyType.DarkNightmare
+                    Else
+                        minibossType1 = EnemyType.DarkMinotaur
+                        minibossType2 = EnemyType.BloodNightmare
+                    End If
+                Case 4
+                    minibossType1 = EnemyType.TheMommy
+                    minibossType2 = EnemyType.Ogre
+                Default
+                    If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfPeace, False)
+                        minibossType1 = EnemyType.GoldMetroGnome
+                        minibossType2 = EnemyType.GreenDragon
+                    Else
+                        minibossType1 = EnemyType.GreenMetroGnome
+                        minibossType2 = EnemyType.EarthDragon
+                    End If
+            End Select
+
+            Level.TrySpawnBossMinibossAt(x1, y1, minibossType1)
+            Level.TrySpawnBossMinibossAt(x2, y2, minibossType2)
+        End If
     End Function
 
     Function BreakIce: Void(xVal: Int, yVal: Int)
@@ -13269,7 +13314,13 @@ Class Level
     End Function
 
     Function QueryHarderBosses: Bool()
-        Debug.TraceNotImplemented("Level.QueryHarderBosses()")
+        If Level.isHardMode
+            Local hardModeXML := Level.GetHardModeXML()
+
+            Return hardModeXML.GetAttribute("harderBosses", False)
+        End If
+
+        Return False
     End Function
 
     Function RandomFood: String()
@@ -13534,7 +13585,32 @@ Class Level
     End Function
 
     Function TrySpawnBossMinibossAt: Void(x: Int, y: Int, etype: Int)
-        Debug.TraceNotImplemented("Level.TrySpawnBossMinibossAt(Int, Int, Int)")
+        Local points := New IntPointStack()
+
+        If Not Util.IsGlobalCollisionAt(x, y, False, False, False, False)
+            points.Push(New Point(x, y))
+        End If
+
+        If Not Util.IsGlobalCollisionAt(x, y + 1, False, False, False, False)
+            points.Push(New Point(x, y + 1))
+        End If
+
+        If Not Util.IsGlobalCollisionAt(x + 1, y, False, False, False, False)
+            points.Push(New Point(x + 1, y))
+        End If
+
+        If Not Util.IsGlobalCollisionAt(x + 1, y + 1, False, False, False, False)
+            points.Push(New Point(x + 1, y + 1))
+        End If
+
+        If points.IsEmpty
+            TextLog.Message("Couldn't find an unoccupied spawn position for miniboss")
+
+            Return
+        End If
+
+        Local randomPoint := points.ChooseRandom(True)
+        Enemy.MakeEnemy(randomPoint.x, randomPoint.y, etype)
     End Function
 
     Function UnlockChar: Void(characterID: Int)

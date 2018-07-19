@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import monkey.stack
 Import util
@@ -8,7 +8,7 @@ Class StackEx<T> Extends Stack<T>
     Function _EditorFix: Void() End
 
     Method ChooseRandom: T(useSeed: Bool)
-        Local randomIndex := Util.RndIntRangeFromZero(Self.Length() - 1, useSeed)
+        Local randomIndex := Util.RndIntRangeFromZero(Self.Length - 1, useSeed)
 
         Return Self.Get(randomIndex)
     End Method
@@ -19,12 +19,8 @@ Class StackEx<T> Extends Stack<T>
         End For
     End Method
 
-    Method Find: Int(value: Int)
-        Debug.TraceNotImplemented("StackEx.Find()")
-    End Method
-
     Method Shuffle: Void(useSeed: Bool)
-        For Local i := 1 Until Self.Length()
+        For Local i := 1 Until Self.Length
             Local randomValue := Util.RndIntRangeFromZero(i, useSeed)
             If i <> randomValue
                 Local value_at_i := Self.Get(i)
