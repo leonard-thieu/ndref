@@ -10603,6 +10603,7 @@ class c_Clone : public c_Enemy{
 	c_Clone();
 	c_Clone* m_new(int,int,int);
 	c_Clone* m_new2();
+	bool p_CanBeLord();
 	c_Point* p_GetMovementDirection();
 	void mark();
 };
@@ -52311,6 +52312,9 @@ c_Clone* c_Clone::m_new(int t_xVal,int t_yVal,int t_l){
 c_Clone* c_Clone::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+bool c_Clone::p_CanBeLord(){
+	return !this->m_isLord;
 }
 c_Point* c_Clone::p_GetMovementDirection(){
 	c_Player* t_player1=bb_controller_game_players[bb_controller_game_player1];

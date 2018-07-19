@@ -50,6 +50,10 @@ Class Clone Extends Enemy
         Self.overrideDeathSound = "cloneDeath"
     End Method
 
+    Method CanBeLord: Bool()
+        Return Not Self.isLord
+    End Method
+
     Method GetMovementDirection: Point()
         Local player1 := controller_game.players[controller_game.player1]
         Local invertedMoveDir := Util.InvertDir(player1.moveLastBeat)
