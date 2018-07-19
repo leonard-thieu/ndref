@@ -10564,6 +10564,7 @@ class c_ArmoredSkeleton : public c_Enemy{
 	bool m_hasHead;
 	c_Point* m_cachedMoveDir;
 	int m_directionHitFrom;
+	bool m_justBounced;
 	bool m_shieldDestroyed;
 	int m_shieldDir;
 	bool m_gotBounced;
@@ -10576,6 +10577,7 @@ class c_ArmoredSkeleton : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	int p_MoveImmediate(int,int,String);
+	void p_AdjustShieldDir();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -52082,6 +52084,7 @@ c_ArmoredSkeleton::c_ArmoredSkeleton(){
 	m_hasHead=true;
 	m_cachedMoveDir=(new c_Point)->m_new(0,0);
 	m_directionHitFrom=-1;
+	m_justBounced=false;
 	m_shieldDestroyed=false;
 	m_shieldDir=1;
 	m_gotBounced=false;
@@ -52141,8 +52144,16 @@ int c_ArmoredSkeleton::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSo
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.MoveImmediate(Int, Int, String)",47));
 	return 0;
 }
+void c_ArmoredSkeleton::p_AdjustShieldDir(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.AdjustShieldDir()",33));
+}
 void c_ArmoredSkeleton::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.MoveSucceed(Bool, Bool)",39));
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
+	if(this->m_justBounced){
+		this->m_justBounced=false;
+	}else{
+		this->p_AdjustShieldDir();
+	}
 }
 void c_ArmoredSkeleton::p_Update(){
 	if(!this->m_shieldDestroyed){

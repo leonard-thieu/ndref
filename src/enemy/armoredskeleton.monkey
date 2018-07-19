@@ -101,7 +101,13 @@ Class ArmoredSkeleton Extends Enemy
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("ArmoredSkeleton.MoveSucceed(Bool, Bool)")
+        Super.MoveSucceed(hitPlayer, moveDelayed)
+
+        If Self.justBounced
+            Self.justBounced = False
+        Else
+            Self.AdjustShieldDir()
+        End If
     End Method
 
     Method Update: Void()
