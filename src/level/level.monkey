@@ -12207,11 +12207,7 @@ Class Level
         End If
     End Function
 
-    Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int)
-        Return Level.PlaceTileRemovingExistingTiles(xVal, yVal, tileType, False, -1, False)
-    End Function
-
-    Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool, tilesetOverride: Int, fromEarthSpell: Bool)
+    Function PlaceTileRemovingExistingTiles: Tile(xVal: Int, yVal: Int, tileType: Int, pending: Bool = False, tilesetOverride: Int = TilesetType.None, fromEarthSpell: Bool = False)
         Local lightValueCached: Float
         Local alpha: Float
         Local hasBeenSeen: Bool

@@ -6863,7 +6863,6 @@ class c_Level : public Object{
 	static bool m_IsWallAt2(int,int);
 	static c_IntMap7* m_pendingTiles;
 	static c_Tile* m_PlaceTileRemovingExistingTiles(int,int,int,bool,int,bool);
-	static c_Tile* m_PlaceTileRemovingExistingTiles2(int,int,int);
 	static c_List18* m__CreateRoom(int,int,int,int,int,int,int,int,int,bool,int);
 	static int m_lastCreatedRoomType;
 	static c_Point* m_GetExitValue(int,int);
@@ -10628,6 +10627,8 @@ class c_TarMonster : public c_EnemyClamper{
 class c_Mole : public c_Enemy{
 	public:
 	c_MoleDirt* m_currentDirt;
+	bool m_wasBurrowed;
+	bool m_isBurrowed;
 	c_Mole();
 	void p_UnoccupyDirt();
 	void p_PutDirt();
@@ -10660,6 +10661,7 @@ class c_ParticleSystemData : public Object{
 	static c_ParticleSystemData* m_TAR_SPLASH_IN;
 	static c_ParticleSystemData* m_WATER_SPLASH_OUT;
 	static c_ParticleSystemData* m_TAR_SPLASH_OUT;
+	static c_ParticleSystemData* m_MOLE_APPEAR;
 	static c_ParticleSystemData* m_GEYSER;
 	void mark();
 };
@@ -18945,9 +18947,6 @@ c_Tile* c_Level::m_PlaceTileRemovingExistingTiles(int t_xVal,int t_yVal,int t_ti
 	}
 	return t_tile;
 }
-c_Tile* c_Level::m_PlaceTileRemovingExistingTiles2(int t_xVal,int t_yVal,int t_tileType){
-	return m_PlaceTileRemovingExistingTiles(t_xVal,t_yVal,t_tileType,false,-1,false);
-}
 c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int t_roomType,int t_originX,int t_originY,int t_originX2,int t_originY2,bool t_wideCorridor,int t_wallType){
 	c_List18* t_tiles=(new c_List18)->m_new();
 	int t_xMax=t_xVal+t_wVal;
@@ -19445,7 +19444,7 @@ void c_Level::m_PlaceFirstBossRoom(String t_bossTrainingName,int t_tilesetOverri
 	}
 	if(m_isTrainingMode){
 		m_AddExit(2,0,-2,1);
-		m_PlaceTileRemovingExistingTiles2(2,0,2);
+		m_PlaceTileRemovingExistingTiles(2,0,2,false,-1,false);
 	}
 	if(c_Util::m_IsCharacterActive(13)){
 		if(m_WantPenaltyBox()){
@@ -19455,10 +19454,10 @@ void c_Level::m_PlaceFirstBossRoom(String t_bossTrainingName,int t_tilesetOverri
 			t_sarcophagus->m_coinsToDrop=0;
 		}
 	}
-	m_PlaceTileRemovingExistingTiles2(-1,-1,109);
-	m_PlaceTileRemovingExistingTiles2(1,-1,109);
-	m_PlaceTileRemovingExistingTiles2(-1,1,109);
-	m_PlaceTileRemovingExistingTiles2(1,1,109);
+	m_PlaceTileRemovingExistingTiles(-1,-1,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,-1,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,1,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,1,109,false,-1,false);
 	m_GetTileAt(-1,-1)->p_AddTorch();
 	m_GetTileAt(1,-1)->p_AddTorch();
 	m_GetTileAt(-1,1)->p_AddTorch();
@@ -19468,14 +19467,14 @@ void c_Level::m_PlaceFirstBossRoom(String t_bossTrainingName,int t_tilesetOverri
 			if(t_y==-3){
 				m_PlaceTileRemovingExistingTiles(t_x,t_y,14,false,t_tilesetOverride,false);
 			}else{
-				m_PlaceTileRemovingExistingTiles2(t_x,t_y,14);
+				m_PlaceTileRemovingExistingTiles(t_x,t_y,14,false,-1,false);
 			}
 		}
 	}
-	m_PlaceTileRemovingExistingTiles2(-2,-4,109);
-	m_PlaceTileRemovingExistingTiles2(2,-4,109);
-	m_PlaceTileRemovingExistingTiles2(-2,-5,109);
-	m_PlaceTileRemovingExistingTiles2(2,-5,109);
+	m_PlaceTileRemovingExistingTiles(-2,-4,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-4,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-2,-5,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-5,109,false,-1,false);
 }
 void c_Level::m_PlaceFirstBossRoom2(String t_bossTrainingName){
 	m_PlaceFirstBossRoom(t_bossTrainingName,-1);
@@ -19625,7 +19624,7 @@ void c_Level::m_CreateBossBattle1(){
 	m_PlaceFirstBossRoom2(String(L"conga",5));
 	m_CreateRoom3(-8,-18,16,12,false,6);
 	for(int t_x=-1;t_x<=1;t_x=t_x+1){
-		m_PlaceTileRemovingExistingTiles2(t_x,-6,103);
+		m_PlaceTileRemovingExistingTiles(t_x,-6,103,false,-1,false);
 	}
 	m_GetTileAt(-2,-6)->p_AddTorch();
 	m_GetTileAt(2,-6)->p_AddTorch();
@@ -19637,7 +19636,7 @@ void c_Level::m_CreateBossBattle1(){
 	m_PaintTriggerInterior(-8,-18,16,12,1);
 	c_KingConga* t_kingConga=(new c_KingConga)->m_new(0,-17,1);
 	t_kingConga->p_ActivateLight(FLOAT(0.01),FLOAT(0.02));
-	c_Tile* t_throneTile=m_PlaceTileRemovingExistingTiles2(0,-17,108);
+	c_Tile* t_throneTile=m_PlaceTileRemovingExistingTiles(0,-17,108,false,-1,false);
 	t_throneTile->p_SetDigTrigger(24);
 	t_throneTile->p_AddTorch();
 	c_Point* t_zombieBasePoint=m_GetRandomOffsetPoint();
@@ -19906,7 +19905,7 @@ void c_Level::m_CreateBossBattle2(){
 	m_PlaceFirstBossRoom2(String(L"deathmetal",10));
 	m_CreateRoom3(-6,-16,12,10,false,6);
 	for(int t_x=-1;t_x<=1;t_x=t_x+1){
-		m_PlaceTileRemovingExistingTiles2(t_x,-6,103);
+		m_PlaceTileRemovingExistingTiles(t_x,-6,103,false,-1,false);
 	}
 	m_GetTileAt(-2,-6)->p_AddTorch();
 	m_GetTileAt(2,-6)->p_AddTorch();
@@ -19972,7 +19971,7 @@ void c_Level::m_CreateBossBattle3(){
 	m_PlaceFirstBossRoom2(String(L"deepblues",9));
 	m_CreateRoom3(-4,-15,9,9,false,6);
 	for(int t_x=-1;t_x<=1;t_x=t_x+1){
-		m_PlaceTileRemovingExistingTiles2(t_x,-6,103);
+		m_PlaceTileRemovingExistingTiles(t_x,-6,103,false,-1,false);
 	}
 	for(int t_x2=-1;t_x2<=1;t_x2=t_x2+1){
 		m_GetTileAt(t_x2,-6)->p_SetDoorTrigger(2);
@@ -20111,7 +20110,7 @@ void c_Level::m_CreateBossBattle4(){
 	m_PlaceFirstBossRoom2(String(L"octoboss",8));
 	m_CreateRoom3(-6,-15,12,9,false,6);
 	for(int t_x=-1;t_x<=1;t_x=t_x+1){
-		m_PlaceTileRemovingExistingTiles2(t_x,-6,103);
+		m_PlaceTileRemovingExistingTiles(t_x,-6,103,false,-1,false);
 	}
 	m_GetTileAt(-2,-6)->p_AddTorch();
 	m_GetTileAt(2,-6)->p_AddTorch();
@@ -20126,7 +20125,7 @@ void c_Level::m_CreateBossBattle4(){
 	m_PaintTriggerInterior(-6,-15,12,9,1);
 	for(int t_x3=-5;t_x3<=5;t_x3=t_x3+1){
 		for(int t_y=-14;t_y<=-11;t_y=t_y+1){
-			m_PlaceTileRemovingExistingTiles2(t_x3,t_y,4);
+			m_PlaceTileRemovingExistingTiles(t_x3,t_y,4,false,-1,false);
 		}
 	}
 	c_Octoboss* t_coralRiff=(new c_Octoboss)->m_new(0,-14,1);
@@ -20142,7 +20141,7 @@ void c_Level::m_CreateBossBattle5(){
 	m_PlaceFirstBossRoom3();
 	m_CreateRoom3(-6,-17,12,11,false,6);
 	for(int t_x=-1;t_x<=1;t_x=t_x+1){
-		m_PlaceTileRemovingExistingTiles2(t_x,-6,103);
+		m_PlaceTileRemovingExistingTiles(t_x,-6,103,false,-1,false);
 	}
 	m_GetTileAt(-2,-6)->p_AddTorch();
 	m_GetTileAt(2,-6)->p_AddTorch();
@@ -20190,9 +20189,9 @@ void c_Level::m_FillTiles(c_Rect* t_rect,int t_tileType,int t_tileTypeEdge){
 	for(int t_x=t_xMin;t_x<=t_xMax;t_x=t_x+1){
 		for(int t_y=t_yMin;t_y<=t_yMax;t_y=t_y+1){
 			if(t_x==t_xMin || t_x==t_xMax || t_y==t_yMin || t_y==t_yMax){
-				m_PlaceTileRemovingExistingTiles2(t_x,t_y,t_tileTypeEdge);
+				m_PlaceTileRemovingExistingTiles(t_x,t_y,t_tileTypeEdge,false,-1,false);
 			}else{
-				m_PlaceTileRemovingExistingTiles2(t_x,t_y,t_tileType);
+				m_PlaceTileRemovingExistingTiles(t_x,t_y,t_tileType,false,-1,false);
 			}
 		}
 	}
@@ -20209,7 +20208,7 @@ void c_Level::m_CreateBossBattle9(){
 		m_PlaceTileRemovingExistingTiles(t_x,-6,103,false,5,false);
 	}
 	for(int t_x2=-2;t_x2<=2;t_x2=t_x2+1){
-		m_PlaceTileRemovingExistingTiles2(t_x2,-7,0);
+		m_PlaceTileRemovingExistingTiles(t_x2,-7,0,false,-1,false);
 	}
 	m_GetTileAt(-3,-7)->p_AddTorch();
 	m_GetTileAt(3,-7)->p_AddTorch();
@@ -20222,17 +20221,17 @@ void c_Level::m_CreateBossBattle9(){
 	}
 	m_SetMagicBarrier(true);
 	m_PaintTriggerInterior(-7,-15,14,9,1);
-	m_PlaceTileRemovingExistingTiles2(-5,-15,115);
-	m_PlaceTileRemovingExistingTiles2(-4,-15,113);
-	m_PlaceTileRemovingExistingTiles2(-3,-15,113);
-	m_PlaceTileRemovingExistingTiles2(-2,-15,113);
-	m_PlaceTileRemovingExistingTiles2(-1,-15,112);
-	m_PlaceTileRemovingExistingTiles2(0,-15,112);
-	m_PlaceTileRemovingExistingTiles2(1,-15,112);
-	m_PlaceTileRemovingExistingTiles2(2,-15,113);
-	m_PlaceTileRemovingExistingTiles2(3,-15,113);
-	m_PlaceTileRemovingExistingTiles2(4,-15,113);
-	m_PlaceTileRemovingExistingTiles2(5,-15,115);
+	m_PlaceTileRemovingExistingTiles(-5,-15,115,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-4,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-3,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-2,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,-15,112,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(0,-15,112,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,-15,112,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(4,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(5,-15,115,false,-1,false);
 	int t_fortissimoleX=c_Util::m_RndIntRange(-2,2,true,-1);
 	(new c_Fortissimole)->m_new(t_fortissimoleX,-15,1);
 	c_Fortissimole::m_SpawnFans();
@@ -21135,7 +21134,7 @@ c_RoomData* c_Level::m_PlaceFirstRoom(){
 	return t_roomData;
 }
 void c_Level::m_PlaceConnectedWireDoor(c_Point* t_p){
-	c_Tile* t_wiredDoor=m_PlaceTileRemovingExistingTiles2(t_p->m_x,t_p->m_y,118);
+	c_Tile* t_wiredDoor=m_PlaceTileRemovingExistingTiles(t_p->m_x,t_p->m_y,118,false,-1,false);
 	for(int t_d=0;t_d<3;t_d=t_d+1){
 		c_Point* t_offset=c_Util::m_GetPointFromDir(t_d);
 		c_Point* t_connectionPoint=t_p->p_Add6(t_offset);
@@ -21359,7 +21358,7 @@ void c_Level::m_PlaceShopItemsAt(int t_tmpX,int t_tmpY,c_Rect* t_door){
 				}
 			}
 			c_Point* t_fakeWallLocation=t_pointsNotAdjacentToDoors->p_ChooseRandom(true);
-			m_PlaceTileRemovingExistingTiles2(t_fakeWallLocation->m_x,t_fakeWallLocation->m_y,0);
+			m_PlaceTileRemovingExistingTiles(t_fakeWallLocation->m_x,t_fakeWallLocation->m_y,0,false,-1,false);
 			(new c_FakeWall)->m_new(t_fakeWallLocation->m_x,t_fakeWallLocation->m_y,2);
 		}
 	}
@@ -21548,7 +21547,7 @@ bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 				}
 			}
 			if(!m_IsExitAt(t_dstKey->m_x,t_dstKey->m_y)){
-				c_Tile* t_wire=m_PlaceTileRemovingExistingTiles2(t_dstKey->m_x,t_dstKey->m_y,20);
+				c_Tile* t_wire=m_PlaceTileRemovingExistingTiles(t_dstKey->m_x,t_dstKey->m_y,20,false,-1,false);
 				if(t_dirToPrev!=-1){
 					t_wire->p_AddWireConnection(t_dirToPrev);
 				}
@@ -23052,7 +23051,7 @@ void c_Level::m_PlaceTrapsZone4(){
 			if(t_destructibleWall->m_y==0){
 				continue;
 			}
-			m_PlaceTileRemovingExistingTiles2(t_destructibleWall->m_x,t_destructibleWall->m_y,108);
+			m_PlaceTileRemovingExistingTiles(t_destructibleWall->m_x,t_destructibleWall->m_y,108,false,-1,false);
 			(new c_FireTrap)->m_new(t_destructibleWall->m_x,t_destructibleWall->m_y,0,false);
 		}else{
 			if(!m_IsFloorAt(t_destructibleWall->m_x-1,t_destructibleWall->m_y)){
@@ -23061,7 +23060,7 @@ void c_Level::m_PlaceTrapsZone4(){
 			if(t_destructibleWall->m_y==0){
 				continue;
 			}
-			m_PlaceTileRemovingExistingTiles2(t_destructibleWall->m_x,t_destructibleWall->m_y,108);
+			m_PlaceTileRemovingExistingTiles(t_destructibleWall->m_x,t_destructibleWall->m_y,108,false,-1,false);
 			(new c_FireTrap)->m_new(t_destructibleWall->m_x,t_destructibleWall->m_y,2,false);
 		}
 		return;
@@ -26116,7 +26115,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 	c_Enumerator23* t_=t_hallwayTiles->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
 		c_TileData* t_hallwayTile=t_->p_NextObject();
-		m_PlaceTileRemovingExistingTiles2(t_hallwayTile->m_x,t_hallwayTile->m_y,t_hallwayTile->m_type);
+		m_PlaceTileRemovingExistingTiles(t_hallwayTile->m_x,t_hallwayTile->m_y,t_hallwayTile->m_type,false,-1,false);
 	}
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE5: Placed hallway at ",35)+t_hallway->p_GetBounds()->p_ToString());
 	m_DumpMap();
@@ -26255,7 +26254,7 @@ bool c_Level::m_CreateMapZone5(bool t_recursive){
 			c_Point* t_roomFloorPoint=t_6->p_NextObject();
 			if(m_IsTileTypeAdjacent(t_roomFloorPoint->m_x,t_roomFloorPoint->m_y,118)){
 				t_wirePoints->p_Push10(t_roomFloorPoint);
-				c_Tile* t_wire=m_PlaceTileRemovingExistingTiles2(t_roomFloorPoint->m_x,t_roomFloorPoint->m_y,20);
+				c_Tile* t_wire=m_PlaceTileRemovingExistingTiles(t_roomFloorPoint->m_x,t_roomFloorPoint->m_y,20,false,-1,false);
 				for(int t_dir=0;t_dir<3;t_dir=t_dir+1){
 					c_Point* t_offset=c_Util::m_GetPointFromDir(t_dir);
 					c_Point* t_connectionPoint=t_roomFloorPoint->p_Add6(t_offset);
@@ -26693,7 +26692,7 @@ bool c_Level::m_CreateMapZone4(bool t_recursive){
 			if(!m_IsTileEmpty(t_x2,t_y2)){
 				continue;
 			}
-			m_PlaceTileRemovingExistingTiles2(t_x2,t_y2,100);
+			m_PlaceTileRemovingExistingTiles(t_x2,t_y2,100,false,-1,false);
 		}
 	}
 	bb_logger_Debug->p_Log(String(L"CREATEMAP ZONE4: Placing secret rooms 1",39));
@@ -27250,7 +27249,7 @@ void c_Level::m_WidenCorridors(){
 	c_Enumerator17* t_3=t_corridorWallLocations->p_ObjectEnumerator();
 	while(t_3->p_HasNext()){
 		c_Point* t_corridorWallLocation=t_3->p_NextObject();
-		m_PlaceTileRemovingExistingTiles2(t_corridorWallLocation->m_x,t_corridorWallLocation->m_y,0);
+		m_PlaceTileRemovingExistingTiles(t_corridorWallLocation->m_x,t_corridorWallLocation->m_y,0,false,-1,false);
 	}
 }
 bool c_Level::m_IsTrapOrExitAbove(int t_xVal,int t_yVal){
@@ -27303,7 +27302,7 @@ void c_Level::m_AddSomePillarsInOpenSpace(){
 		c_Point* t_pillarCandidate=t_pillarCandidatesArray[t_pillarCandidatesIndex];
 		if(m_IsFloorAdjacent(t_pillarCandidate->m_x,t_pillarCandidate->m_y)){
 			if(!m_IsCorridorFloorOrDoorAdjacent(t_pillarCandidate->m_x,t_pillarCandidate->m_y)){
-				m_PlaceTileRemovingExistingTiles2(t_pillarCandidate->m_x,t_pillarCandidate->m_y,100);
+				m_PlaceTileRemovingExistingTiles(t_pillarCandidate->m_x,t_pillarCandidate->m_y,100,false,-1,false);
 				t_numPillars-=1;
 			}
 		}
@@ -29142,7 +29141,7 @@ void c_Level::m_CreateFinalBossBattle(){
 	m_CreateRoom3(-2,-3,6,7,false,6);
 	if(m_isTrainingMode){
 		m_AddExit(2,0,-2,1);
-		m_PlaceTileRemovingExistingTiles2(2,0,2);
+		m_PlaceTileRemovingExistingTiles(2,0,2,false,-1,false);
 		if(bb_controller_game_numPlayers==1){
 			m_MakeHelper();
 		}
@@ -29152,13 +29151,13 @@ void c_Level::m_CreateFinalBossBattle(){
 	m_GetTileAt(1,4)->p_AddTorch();
 	for(int t_y=-3;t_y>=-5;t_y=t_y+-1){
 		for(int t_x=0;t_x<=2;t_x=t_x+1){
-			m_PlaceTileRemovingExistingTiles2(t_x,t_y,14);
+			m_PlaceTileRemovingExistingTiles(t_x,t_y,14,false,-1,false);
 		}
 	}
-	m_PlaceTileRemovingExistingTiles2(-1,-4,109);
-	m_PlaceTileRemovingExistingTiles2(3,-4,109);
-	m_PlaceTileRemovingExistingTiles2(-1,-5,109);
-	m_PlaceTileRemovingExistingTiles2(3,-5,109);
+	m_PlaceTileRemovingExistingTiles(-1,-4,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-4,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,-5,109,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-5,109,false,-1,false);
 	m_CreateRoom3(-7,-17,16,11,false,6);
 	for(int t_x2=0;t_x2<=2;t_x2=t_x2+1){
 		m_GetTileAt(t_x2,-6)->p_SetDoorTrigger(2);
@@ -29175,43 +29174,43 @@ void c_Level::m_CreateFinalBossBattle(){
 	m_GetTileAt(-7,-10)->p_AddTorch2();
 	m_GetTileAt(9,-14)->p_AddTorch2();
 	m_GetTileAt(9,-10)->p_AddTorch2();
-	m_PlaceTileRemovingExistingTiles2(-2,-17,115);
-	m_PlaceTileRemovingExistingTiles2(-1,-17,116);
-	m_PlaceTileRemovingExistingTiles2(0,-17,117);
-	m_PlaceTileRemovingExistingTiles2(1,-17,116);
-	m_PlaceTileRemovingExistingTiles2(2,-17,117);
-	m_PlaceTileRemovingExistingTiles2(3,-17,116);
-	m_PlaceTileRemovingExistingTiles2(4,-17,115);
-	m_PlaceTileRemovingExistingTiles2(-2,-16,114);
-	m_PlaceTileRemovingExistingTiles2(-1,-16,114);
-	m_PlaceTileRemovingExistingTiles2(0,-16,114);
-	m_PlaceTileRemovingExistingTiles2(1,-16,114);
-	m_PlaceTileRemovingExistingTiles2(2,-16,114);
-	m_PlaceTileRemovingExistingTiles2(3,-16,114);
-	m_PlaceTileRemovingExistingTiles2(4,-16,114);
-	m_PlaceTileRemovingExistingTiles2(-2,-15,114);
-	m_PlaceTileRemovingExistingTiles2(-1,-15,114);
-	m_PlaceTileRemovingExistingTiles2(0,-15,113);
-	m_PlaceTileRemovingExistingTiles2(1,-15,113);
-	m_PlaceTileRemovingExistingTiles2(2,-15,113);
-	m_PlaceTileRemovingExistingTiles2(3,-15,114);
-	m_PlaceTileRemovingExistingTiles2(4,-15,114);
-	m_PlaceTileRemovingExistingTiles2(-2,-14,114);
-	m_PlaceTileRemovingExistingTiles2(-1,-14,113);
-	m_PlaceTileRemovingExistingTiles2(0,-14,113);
-	m_PlaceTileRemovingExistingTiles2(1,-14,112);
-	m_PlaceTileRemovingExistingTiles2(2,-14,113);
-	m_PlaceTileRemovingExistingTiles2(3,-14,113);
-	m_PlaceTileRemovingExistingTiles2(4,-14,114);
-	m_PlaceTileRemovingExistingTiles2(-2,-13,114);
-	m_PlaceTileRemovingExistingTiles2(-1,-13,113);
-	m_PlaceTileRemovingExistingTiles2(0,-13,112);
-	m_PlaceTileRemovingExistingTiles2(1,-13,112);
-	m_PlaceTileRemovingExistingTiles2(2,-13,112);
-	m_PlaceTileRemovingExistingTiles2(3,-13,113);
-	m_PlaceTileRemovingExistingTiles2(4,-13,114);
+	m_PlaceTileRemovingExistingTiles(-2,-17,115,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,-17,116,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(0,-17,117,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,-17,116,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-17,117,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-17,116,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(4,-17,115,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-2,-16,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,-16,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(0,-16,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,-16,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-16,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-16,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(4,-16,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-2,-15,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,-15,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(0,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-15,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-15,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(4,-15,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-2,-14,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,-14,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(0,-14,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,-14,112,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-14,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-14,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(4,-14,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-2,-13,114,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(-1,-13,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(0,-13,112,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(1,-13,112,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(2,-13,112,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(3,-13,113,false,-1,false);
+	m_PlaceTileRemovingExistingTiles(4,-13,114,false,-1,false);
 	for(int t_x3=-3;t_x3<=5;t_x3=t_x3+1){
-		m_PlaceTileRemovingExistingTiles2(t_x3,-18,109);
+		m_PlaceTileRemovingExistingTiles(t_x3,-18,109,false,-1,false);
 	}
 	(new c_DecorativeFireTrap)->m_new(-1,-16);
 	(new c_DecorativeFireTrap)->m_new(3,-16);
@@ -29235,8 +29234,8 @@ void c_Level::m_CreateFinalBossBattle(){
 	t_leftWhiteSkeleton->p_MakeDancer();
 	c_Skeleton* t_rightWhiteSkeleton=(new c_Skeleton)->m_new(4,-15,1);
 	t_rightWhiteSkeleton->p_MakeDancer();
-	m_PlaceTileRemovingExistingTiles2(1,-9,109);
-	c_Tile* t_hintTile=m_PlaceTileRemovingExistingTiles2(1,2,109);
+	m_PlaceTileRemovingExistingTiles(1,-9,109,false,-1,false);
+	c_Tile* t_hintTile=m_PlaceTileRemovingExistingTiles(1,2,109,false,-1,false);
 	t_hintTile->p_AddTextLabel(String(L"|49|USE ALL WALLS TO YOUR ADVANTAGE!|",37),0,-12,FLOAT(2.0),false,true);
 	c_Switch* t_switch11=(new c_Switch)->m_new(2,-5,33,0);
 	c_Switch* t_switch12=(new c_Switch)->m_new(0,-5,33,t_switch11);
@@ -30400,11 +30399,11 @@ void c_Level::m_NewLevel(int t_level,int t_zone,int t_playerID,bool t_inEditor,c
 				if(!((t_tile->m_trigger)!=0)){
 					if(t_tile->p_IsNormalFloor()){
 						if(!c_Util::m_IsAnyPlayerAt(t_tile->m_x,t_tile->m_y) && c_Shrine::m_GetShrineAt(t_tile->m_x,t_tile->m_y-1)==0){
-							m_PlaceTileRemovingExistingTiles2(t_tile->m_x,t_tile->m_y,10);
+							m_PlaceTileRemovingExistingTiles(t_tile->m_x,t_tile->m_y,10,false,-1,false);
 						}
 					}
 					if(t_tile->p_IsDoor()){
-						m_PlaceTileRemovingExistingTiles2(t_tile->m_x,t_tile->m_y,10);
+						m_PlaceTileRemovingExistingTiles(t_tile->m_x,t_tile->m_y,10,false,-1,false);
 					}
 				}
 			}
@@ -30789,13 +30788,13 @@ void c_Level::m_PlaceHotCoalTileAt(int t_xVal,int t_yVal){
 	}
 	int t_106=m_GetTileTypeAt(t_xVal,t_yVal);
 	if(t_106==11){
-		m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,4);
+		m_PlaceTileRemovingExistingTiles(t_xVal,t_yVal,4,false,-1,false);
 	}else{
 		c_Trap* t_trap=c_Trap::m_GetTrapAt(t_xVal,t_yVal);
 		if(t_trap!=0){
 			t_trap->p_Die();
 		}
-		m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,11);
+		m_PlaceTileRemovingExistingTiles(t_xVal,t_yVal,11,false,-1,false);
 	}
 }
 void c_Level::m_PlaceIceTileAt(int t_xVal,int t_yVal){
@@ -30808,16 +30807,16 @@ void c_Level::m_PlaceIceTileAt(int t_xVal,int t_yVal){
 	}
 	int t_107=m_GetTileTypeAt(t_xVal,t_yVal);
 	if(t_107==10){
-		m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,4);
+		m_PlaceTileRemovingExistingTiles(t_xVal,t_yVal,4,false,-1,false);
 	}else{
 		if(t_107==4 || t_107==5){
-			m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,0);
+			m_PlaceTileRemovingExistingTiles(t_xVal,t_yVal,0,false,-1,false);
 		}else{
 			c_Trap* t_trap=c_Trap::m_GetTrapAt(t_xVal,t_yVal);
 			if(t_trap!=0){
 				t_trap->p_Die();
 			}
-			m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,10);
+			m_PlaceTileRemovingExistingTiles(t_xVal,t_yVal,10,false,-1,false);
 		}
 	}
 }
@@ -30829,7 +30828,7 @@ void c_Level::m_PlaceTileTypeAt(int t_xVal,int t_yVal,int t_tileType){
 	if(!m_IsFloorAt(t_xVal,t_yVal)){
 		return;
 	}
-	m_PlaceTileRemovingExistingTiles2(t_xVal,t_yVal,t_tileType);
+	m_PlaceTileRemovingExistingTiles(t_xVal,t_yVal,t_tileType,false,-1,false);
 	c_Trap* t_trap=c_Trap::m_GetTrapAt(t_xVal,t_yVal);
 	if(t_trap!=0 && !t_trap->m_indestructible){
 		t_trap->p_Die();
@@ -30846,7 +30845,7 @@ void c_Level::m_DryUpAllWater(int t_replacementFloor){
 			int t_tileType=m_GetTileTypeAt(t_tile->m_x,t_tile->m_y);
 			int t_41=t_tileType;
 			if(t_41==4 || t_41==5){
-				m_PlaceTileRemovingExistingTiles2(t_tile->m_x,t_tile->m_y,t_replacementFloor);
+				m_PlaceTileRemovingExistingTiles(t_tile->m_x,t_tile->m_y,t_replacementFloor,false,-1,false);
 			}
 		}
 	}
@@ -49944,7 +49943,7 @@ void c_KingConga::p_AddZombieFriend(c_Enemy* t_z){
 }
 void c_KingConga::p_Die(){
 	c_Enemy::m_SetEnemiesToDropNoCoinsOverride();
-	c_Level::m_PlaceTileRemovingExistingTiles2(this->m_initX,this->m_initY,0);
+	c_Level::m_PlaceTileRemovingExistingTiles(this->m_initX,this->m_initY,0,false,-1,false);
 	m_theKing=0;
 	c_Enemy::p_Die();
 	c_Enemy::m_KillAllEnemies();
@@ -52407,6 +52406,8 @@ void c_TarMonster::mark(){
 }
 c_Mole::c_Mole(){
 	m_currentDirt=0;
+	m_wasBurrowed=false;
+	m_isBurrowed=true;
 }
 void c_Mole::p_UnoccupyDirt(){
 	if(this->m_currentDirt!=0){
@@ -52458,7 +52459,17 @@ void c_Mole::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Mole.MoveSucceed(Bool, Bool)",28));
 }
 void c_Mole::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Mole.Update()",13));
+	if(c_Level::m_IsWaterOrTarAt(this->m_x,this->m_y)){
+		c_Level::m_PlaceTileRemovingExistingTiles(this->m_x,this->m_y,0,false,-1,false);
+	}
+	if(this->m_wasBurrowed && !this->m_isBurrowed){
+		Float t_particlesX=FLOAT(24.0)*(Float(this->m_x)+FLOAT(0.5));
+		int t_particlesY=24*(this->m_y+1);
+		(new c_ParticleSystem)->m_new(int(t_particlesX),t_particlesY,c_ParticleSystemData::m_MOLE_APPEAR,-1,String());
+		c_Audio::m_PlayGameSoundAt(String(L"molePopout",10),this->m_x,this->m_y,false,-1,false);
+	}
+	this->m_wasBurrowed=this->m_isBurrowed;
+	c_Enemy::p_Update();
 }
 void c_Mole::mark(){
 	c_Enemy::mark();
@@ -52502,6 +52513,7 @@ c_ParticleSystemData* c_ParticleSystemData::m_WATER_SPLASH_IN;
 c_ParticleSystemData* c_ParticleSystemData::m_TAR_SPLASH_IN;
 c_ParticleSystemData* c_ParticleSystemData::m_WATER_SPLASH_OUT;
 c_ParticleSystemData* c_ParticleSystemData::m_TAR_SPLASH_OUT;
+c_ParticleSystemData* c_ParticleSystemData::m_MOLE_APPEAR;
 c_ParticleSystemData* c_ParticleSystemData::m_GEYSER;
 void c_ParticleSystemData::mark(){
 	Object::mark();
@@ -60092,6 +60104,7 @@ int bbInit(){
 	c_Bomb::m_bombList=(new c_List42)->m_new();
 	c_Audio::m_songPaused=false;
 	c_Entity::m_anyPlayerHaveNazarCharmCached=false;
+	c_ParticleSystemData::m_MOLE_APPEAR=0;
 	c_Audio::m_songShopkeeper=-1;
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
@@ -60273,6 +60286,7 @@ void gc_mark(){
 	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_OUT);
 	gc_mark_q(c_CrystalShards::m_shardsList);
 	gc_mark_q(c_Bomb::m_bombList);
+	gc_mark_q(c_ParticleSystemData::m_MOLE_APPEAR);
 	gc_mark_q(c_ParticleSystemData::m_GEYSER);
 	gc_mark_q(c_Level::m_mapLightValues);
 	gc_mark_q(c_Level::m_constMapLightValues);

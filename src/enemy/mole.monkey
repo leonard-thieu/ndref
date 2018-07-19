@@ -1,12 +1,15 @@
 'Strict
 
 Import enemy
-Import entity
 Import level
+Import entity
+Import audio2
 Import logger
 Import mole_dirt
+Import particles
 Import player_class
 Import point
+Import tile
 Import util
 
 Class Mole Extends Enemy
@@ -84,7 +87,22 @@ Class Mole Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Mole.Update()")
+        If Level.IsWaterOrTarAt(Self.x, Self.y)
+            Level.PlaceTileRemovingExistingTiles(Self.x, Self.y, TileType.Floor)
+        End If
+
+        If Self.wasBurrowed And
+           Not Self.isBurrowed
+            Local particlesX := 24 * (Self.x + 0.5)
+            Local particlesY := 24 * (Self.y + 1)
+            New ParticleSystem(particlesX, particlesY, ParticleSystemData.MOLE_APPEAR, Direction.None, "")
+
+            Audio.PlayGameSoundAt("molePopout", Self.x, Self.y, False, -1, False)
+        End If
+
+        Self.wasBurrowed = Self.isBurrowed
+
+        Super.Update()
     End Method
 
 End Class
