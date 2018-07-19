@@ -19,6 +19,10 @@ Class Thing Extends Entity
         Debug.TraceNotImplemented("Thing.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
+    Method Render: Void()
+        Return
+    End Method
+
     Method Update: Void()
         Return
     End Method
