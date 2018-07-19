@@ -10645,11 +10645,19 @@ class c_Mole : public c_Enemy{
 class c_MoleDirt : public c_Entity{
 	public:
 	bool m_occupied;
+	bool m_vibrate;
+	int m_vibrateCounter;
+	Float m_vibrateOffset;
+	int m_preFadeCounter;
+	int m_PREFADE_TIME;
+	int m_fadeCounter;
+	int m_FADE_TIME;
 	c_MoleDirt();
 	void p_Unoccupy();
 	c_MoleDirt* m_new(int,int);
 	c_MoleDirt* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_UpdateFade();
 	void p_Update();
 	void mark();
 };
@@ -52477,6 +52485,13 @@ void c_Mole::mark(){
 }
 c_MoleDirt::c_MoleDirt(){
 	m_occupied=true;
+	m_vibrate=false;
+	m_vibrateCounter=3;
+	m_vibrateOffset=FLOAT(0.7);
+	m_preFadeCounter=0;
+	m_PREFADE_TIME=34;
+	m_fadeCounter=0;
+	m_FADE_TIME=60;
 }
 void c_MoleDirt::p_Unoccupy(){
 	this->m_occupied=false;
@@ -52500,8 +52515,33 @@ bool c_MoleDirt::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_
 	bb_logger_Debug->p_TraceNotImplemented(String(L"MoleDirt.Hit(String, Int, Int, Entity, Bool, Int)",49));
 	return false;
 }
+void c_MoleDirt::p_UpdateFade(){
+	if(!this->m_occupied){
+		this->m_preFadeCounter+=1;
+		if(this->m_preFadeCounter>this->m_PREFADE_TIME){
+			if(this->m_fadeCounter<this->m_FADE_TIME){
+				int t_alpha=(this->m_FADE_TIME-this->m_fadeCounter)/this->m_FADE_TIME;
+				this->m_image->p_SetAlphaValue(Float(t_alpha));
+				this->m_fadeCounter+=1;
+			}else{
+				this->p_Die();
+			}
+		}
+	}
+}
 void c_MoleDirt::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"MoleDirt.Update()",17));
+	if(this->m_vibrate){
+		this->m_vibrateCounter-=1;
+		if(this->m_vibrateCounter==0){
+			this->m_xOff=this->m_vibrateOffset;
+			this->m_vibrateOffset=-this->m_vibrateOffset;
+			this->m_vibrateCounter=3;
+		}
+	}else{
+		this->m_xOff=FLOAT(0.0);
+	}
+	this->p_UpdateFade();
+	c_Entity::p_Update();
 }
 void c_MoleDirt::mark(){
 	c_Entity::mark();

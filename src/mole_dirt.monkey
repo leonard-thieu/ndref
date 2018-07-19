@@ -49,11 +49,35 @@ Class MoleDirt Extends Entity
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("MoleDirt.Update()")
+        If Self.vibrate
+            Self.vibrateCounter -= 1
+            If Self.vibrateCounter = 0
+                Self.xOff = Self.vibrateOffset
+                Self.vibrateOffset = -Self.vibrateOffset
+                Self.vibrateCounter = 3
+            End If
+        Else
+            Self.xOff = 0.0
+        End If
+
+        Self.UpdateFade()
+
+        Super.Update()
     End Method
 
     Method UpdateFade: Void()
-        Debug.TraceNotImplemented("MoleDirt.UpdateFade()")
+        If Not Self.occupied
+            Self.preFadeCounter += 1
+            If Self.preFadeCounter > Self.PREFADE_TIME
+                If Self.fadeCounter < Self.FADE_TIME
+                    Local alpha := (Self.FADE_TIME - Self.fadeCounter) / Self.FADE_TIME
+                    Self.image.SetAlphaValue(alpha)
+                    Self.fadeCounter += 1
+                Else
+                    Self.Die()
+                End If
+            End If
+        End If
     End Method
 
 End Class
