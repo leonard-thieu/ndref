@@ -41,12 +41,20 @@ Class Wight Extends Enemy
         Debug.TraceNotImplemented("Wight.BecomeCorporeal(Bool)")
     End Method
 
+    Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
+        Debug.TraceNotImplemented("Wight.CanBeDamaged(Bool, Bool)")
+    End Method
+
     Method CheckCorporeality: Void()
         Debug.TraceNotImplemented("Wight.CheckCorporeality()")
     End Method
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Wight.GetMovementDirection()")
+    End Method
+
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
+        Debug.TraceNotImplemented("Wight.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method Update: Void()
