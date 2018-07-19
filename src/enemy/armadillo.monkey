@@ -2,6 +2,7 @@
 
 Import monkey.math
 Import enemy
+Import audio2
 Import entity
 Import logger
 Import necrodancergame
@@ -33,11 +34,127 @@ Class Armadillo Extends Enemy
     Field stunnedTime: Int
 
     Method AttemptCharge: Void(target: Entity, immediate: Bool)
-        Debug.TraceNotImplemented("Armadillo.AttemptCharge(Entity, Bool)")
+        If Not Self.hasBeenVisible
+            Return
+        End If
+
+        Local dir := Direction.None
+        Local xDiffAbs := math.Abs(target.x - Self.x)
+        Local yDiffAbs := math.Abs(target.y - Self.y)
+
+        If target.x <> Self.x Or
+           yDiffAbs > 6
+            If target.y <> y Or
+               xDiffAbs > 6
+                Select Self.level
+                    Case 3
+                        If xDiffAbs = yDiffAbs And
+                           xDiffAbs <= 6
+                            Local xOff := math.Sgn(target.x - Self.x)
+                            Local yOff := math.Sgn(target.y - Self.y)
+                            Local destX := Self.x
+                            Local destY := Self.y
+
+                            Repeat
+                                destX += xOff
+                                destY += yOff
+
+                                If target.x = destX Or
+                                   target.y = destY
+                                    Exit
+                                End If
+
+                                If Util.IsGlobalCollisionAt(destX, destY, False, False, False, False)
+                                    Return
+                                End If
+                            Forever
+
+                            If immediate
+                                Audio.PlayGameSoundAt("armadilloCry", Self.x, Self.y, False, -1, False)
+                            End If
+
+                            If target.x < Self.x
+                                If target.y < Self.y
+                                    chargingDir = Direction.UpLeft
+                                Else If target.y > Self.y
+                                    chargingDir = Direction.DownLeft
+                                End If
+                            Else If target.x > Self.x
+                                If target.y < Self.y
+                                    chargingDir = Direction.UpRight
+                                Else If target.y > Self.y
+                                    chargingDir = Direction.DownRight
+                                End If
+                            End If
+                        End If
+                End Select
+            Else
+                Local minX := math.Min(target.x, Self.x)
+                minX += 1
+                Local maxX := math.Max(target.x, Self.x)
+
+                For Local x := minX Until maxX
+                    If Util.IsGlobalCollisionAt(x, target.y, False, False, False, False)
+                        Return
+                    End If
+                End For
+
+                If immediate
+                    Audio.PlayGameSoundAt("armadilloCry", Self.x, Self.y, False, -1, False)
+                End If
+
+                If target.x < Self.x
+                    dir = Direction.Left
+                Else
+                    dir = Direction.Right
+                End If
+            End If
+        Else
+            Local minY := math.Min(target.y, Self.y)
+            minY += 1
+            Local maxY := math.Max(target.y, Self.y)
+
+            For Local y := minY Until maxY
+                If Util.IsGlobalCollisionAt(target.x, y, False, False, False, False)
+                    Return
+                End If
+            End For
+
+            If immediate
+                Audio.PlayGameSoundAt("armadilloCry", Self.x, Self.y, False, -1, False)
+            End If
+
+            If target.y < Self.y
+                dir = Direction.Up
+            Else
+                dir = Direction.Down
+            End If
+        End If
+
+        If immediate
+            Self.chargingDir = dir
+        Else
+            Self.chargeNext = dir
+        End If
     End Method
 
     Method AttemptCharge: Void(immediate: Bool)
-        Debug.TraceNotImplemented("Armadillo.AttemptCharge(Bool)")
+        If Self.stunnedTime <= 0 And
+           Self.chargingDir = Direction.None And
+           Self.chargeNext = Direction.None
+            Local closestPlayer := Util.GetClosestPlayer(Self.x, Self.y)
+            Self.AttemptCharge(closestPlayer, immediate)
+
+            If controller_game.numPlayers > 1 And
+               Self.chargingDir = Direction.None And
+               Self.chargeNext = Direction.None
+                If closestPlayer = controller_game.players[0]
+                    Self.AttemptCharge(controller_game.players[1], immediate)
+                Else
+                    Self.AttemptCharge(controller_game.players[0], immediate)
+                End If
+            End If
+        End If
     End Method
 
     Method GetMovementDirection: Point()

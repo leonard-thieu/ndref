@@ -5966,8 +5966,8 @@ class c_Util : public Object{
 	static c_List40* m_GetPlayersAt(c_Rect*);
 	static c_List40* m_GetPlayersAt2(int,int);
 	static int m_GetDirFromDiff(int,int);
-	static int m_InvertDir(int);
 	static c_Player* m_GetClosestPlayer(int,int);
+	static int m_InvertDir(int);
 	static Float m_GetDistSqFromClosestPlayer(int,int,bool,bool);
 	void mark();
 };
@@ -10119,6 +10119,7 @@ class c_Armadillo : public c_Enemy{
 	public:
 	int m_chargingDir;
 	int m_stunnedTime;
+	int m_chargeNext;
 	c_Armadillo();
 	c_Armadillo* m_new(int,int,int);
 	c_Armadillo* m_new2();
@@ -12884,6 +12885,8 @@ class c_Enumerator39 : public Object{
 	c_CrystalShards* p_NextObject();
 	void mark();
 };
+int bb_math_Sgn(int);
+Float bb_math_Sgn2(Float);
 class c_List42 : public Object{
 	public:
 	c_Node60* m__head;
@@ -12909,8 +12912,6 @@ class c_HeadNode42 : public c_Node60{
 	c_HeadNode42* m_new();
 	void mark();
 };
-int bb_math_Sgn(int);
-Float bb_math_Sgn2(Float);
 void bb_fmod_StopSoundFMOD(int);
 class c_ConductorBattery : public c_Enemy{
 	public:
@@ -14358,6 +14359,19 @@ int c_Util::m_GetDirFromDiff(int t_xDiff,int t_yDiff){
 	}
 	return t_dir;
 }
+c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
+	Float t_dist=FLOAT(99999.0);
+	c_Player* t_closestPlayer=bb_controller_game_players[bb_controller_game_player1];
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		Float t_distToPlayer=m_GetDist(t_player->m_x,t_player->m_y,t_xVal,t_yVal);
+		if(t_dist>t_distToPlayer){
+			t_dist=t_distToPlayer;
+			t_closestPlayer=t_player;
+		}
+	}
+	return t_closestPlayer;
+}
 int c_Util::m_InvertDir(int t_dir){
 	int t_inverted=-1;
 	int t_3=t_dir;
@@ -14393,19 +14407,6 @@ int c_Util::m_InvertDir(int t_dir){
 		}
 	}
 	return t_inverted;
-}
-c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
-	Float t_dist=FLOAT(99999.0);
-	c_Player* t_closestPlayer=bb_controller_game_players[bb_controller_game_player1];
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		Float t_distToPlayer=m_GetDist(t_player->m_x,t_player->m_y,t_xVal,t_yVal);
-		if(t_dist>t_distToPlayer){
-			t_dist=t_distToPlayer;
-			t_closestPlayer=t_player;
-		}
-	}
-	return t_closestPlayer;
 }
 Float c_Util::m_GetDistSqFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls,bool t_includeLambs){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDistSqFromClosestPlayer(Int, Int, Bool, Bool)",53));
@@ -50051,6 +50052,7 @@ void c_SkeletonMage::mark(){
 c_Armadillo::c_Armadillo(){
 	m_chargingDir=-1;
 	m_stunnedTime=0;
+	m_chargeNext=-1;
 }
 c_Armadillo* c_Armadillo::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -50086,10 +50088,109 @@ void c_Armadillo::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.MoveSucceed(Bool, Bool)",33));
 }
 void c_Armadillo::p_AttemptCharge(c_Entity* t_target,bool t_immediate){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.AttemptCharge(Entity, Bool)",37));
+	if(!this->m_hasBeenVisible){
+		return;
+	}
+	int t_dir=-1;
+	int t_xDiffAbs=bb_math_Abs(t_target->m_x-this->m_x);
+	int t_yDiffAbs=bb_math_Abs(t_target->m_y-this->m_y);
+	if(t_target->m_x!=this->m_x || t_yDiffAbs>6){
+		if(t_target->m_y!=m_y || t_xDiffAbs>6){
+			int t_1=this->m_level;
+			if(t_1==3){
+				if(t_xDiffAbs==t_yDiffAbs && t_xDiffAbs<=6){
+					int t_xOff=bb_math_Sgn(t_target->m_x-this->m_x);
+					int t_yOff=bb_math_Sgn(t_target->m_y-this->m_y);
+					int t_destX=this->m_x;
+					int t_destY=this->m_y;
+					do{
+						t_destX+=t_xOff;
+						t_destY+=t_yOff;
+						if(t_target->m_x==t_destX || t_target->m_y==t_destY){
+							break;
+						}
+						if(c_Util::m_IsGlobalCollisionAt2(t_destX,t_destY,false,false,false,false)){
+							return;
+						}
+					}while(!(false));
+					if(t_immediate){
+						c_Audio::m_PlayGameSoundAt(String(L"armadilloCry",12),this->m_x,this->m_y,false,-1,false);
+					}
+					if(t_target->m_x<this->m_x){
+						if(t_target->m_y<this->m_y){
+							m_chargingDir=6;
+						}else{
+							if(t_target->m_y>this->m_y){
+								m_chargingDir=5;
+							}
+						}
+					}else{
+						if(t_target->m_x>this->m_x){
+							if(t_target->m_y<this->m_y){
+								m_chargingDir=7;
+							}else{
+								if(t_target->m_y>this->m_y){
+									m_chargingDir=4;
+								}
+							}
+						}
+					}
+				}
+			}
+		}else{
+			int t_minX=bb_math_Min(t_target->m_x,this->m_x);
+			t_minX+=1;
+			int t_maxX=bb_math_Max(t_target->m_x,this->m_x);
+			for(int t_x=t_minX;t_x<t_maxX;t_x=t_x+1){
+				if(c_Util::m_IsGlobalCollisionAt2(t_x,t_target->m_y,false,false,false,false)){
+					return;
+				}
+			}
+			if(t_immediate){
+				c_Audio::m_PlayGameSoundAt(String(L"armadilloCry",12),this->m_x,this->m_y,false,-1,false);
+			}
+			if(t_target->m_x<this->m_x){
+				t_dir=2;
+			}else{
+				t_dir=0;
+			}
+		}
+	}else{
+		int t_minY=bb_math_Min(t_target->m_y,this->m_y);
+		t_minY+=1;
+		int t_maxY=bb_math_Max(t_target->m_y,this->m_y);
+		for(int t_y=t_minY;t_y<t_maxY;t_y=t_y+1){
+			if(c_Util::m_IsGlobalCollisionAt2(t_target->m_x,t_y,false,false,false,false)){
+				return;
+			}
+		}
+		if(t_immediate){
+			c_Audio::m_PlayGameSoundAt(String(L"armadilloCry",12),this->m_x,this->m_y,false,-1,false);
+		}
+		if(t_target->m_y<this->m_y){
+			t_dir=3;
+		}else{
+			t_dir=1;
+		}
+	}
+	if(t_immediate){
+		this->m_chargingDir=t_dir;
+	}else{
+		this->m_chargeNext=t_dir;
+	}
 }
 void c_Armadillo::p_AttemptCharge2(bool t_immediate){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Armadillo.AttemptCharge(Bool)",29));
+	if(this->m_stunnedTime<=0 && this->m_chargingDir==-1 && this->m_chargeNext==-1){
+		c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);
+		this->p_AttemptCharge((t_closestPlayer),t_immediate);
+		if(bb_controller_game_numPlayers>1 && this->m_chargingDir==-1 && this->m_chargeNext==-1){
+			if(t_closestPlayer==bb_controller_game_players[0]){
+				this->p_AttemptCharge((bb_controller_game_players[1]),t_immediate);
+			}else{
+				this->p_AttemptCharge((bb_controller_game_players[0]),t_immediate);
+			}
+		}
+	}
 }
 void c_Armadillo::p_Update(){
 	if(this->m_lastX>this->m_x){
@@ -50101,30 +50202,30 @@ void c_Armadillo::p_Update(){
 	}
 	int t_chargingDir=this->m_chargingDir;
 	if(this->m_level!=3){
-		int t_1=this->m_chargingDir;
-		if(t_1==5 || t_1==6){
+		int t_2=this->m_chargingDir;
+		if(t_2==5 || t_2==6){
 			t_chargingDir=2;
 		}else{
-			if(t_1==4 || t_1==7){
+			if(t_2==4 || t_2==7){
 				t_chargingDir=0;
 			}
 		}
 	}
 	int t_animOverrideOffset=0;
-	int t_2=t_chargingDir;
-	if(t_2==6 || t_2==7){
+	int t_3=t_chargingDir;
+	if(t_3==6 || t_3==7){
 		t_animOverrideOffset=11;
 	}else{
-		if(t_2==4 || t_2==5){
+		if(t_3==4 || t_3==5){
 			t_animOverrideOffset=15;
 		}else{
-			if(t_2==0 || t_2==2){
+			if(t_3==0 || t_3==2){
 				t_animOverrideOffset=7;
 			}else{
-				if(t_2==3 || t_2==1){
+				if(t_3==3 || t_3==1){
 					t_animOverrideOffset=3;
 				}else{
-					if(t_2==-1){
+					if(t_3==-1){
 						if(this->m_stunnedTime<=0){
 							this->m_animOverride=-1;
 						}
@@ -59218,6 +59319,21 @@ void c_Enumerator39::mark(){
 	gc_mark_q(m__list);
 	gc_mark_q(m__curr);
 }
+int bb_math_Sgn(int t_x){
+	if(t_x<0){
+		return -1;
+	}
+	return ((t_x>0)?1:0);
+}
+Float bb_math_Sgn2(Float t_x){
+	if(t_x<FLOAT(0.0)){
+		return FLOAT(-1.0);
+	}
+	if(t_x>FLOAT(0.0)){
+		return FLOAT(1.0);
+	}
+	return FLOAT(0.0);
+}
 c_List42::c_List42(){
 	m__head=((new c_HeadNode42)->m_new());
 }
@@ -59273,21 +59389,6 @@ c_HeadNode42* c_HeadNode42::m_new(){
 }
 void c_HeadNode42::mark(){
 	c_Node60::mark();
-}
-int bb_math_Sgn(int t_x){
-	if(t_x<0){
-		return -1;
-	}
-	return ((t_x>0)?1:0);
-}
-Float bb_math_Sgn2(Float t_x){
-	if(t_x<FLOAT(0.0)){
-		return FLOAT(-1.0);
-	}
-	if(t_x>FLOAT(0.0)){
-		return FLOAT(1.0);
-	}
-	return FLOAT(0.0);
 }
 void bb_fmod_StopSoundFMOD(int t_snd){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"StopSoundFMOD(Int)",18));
