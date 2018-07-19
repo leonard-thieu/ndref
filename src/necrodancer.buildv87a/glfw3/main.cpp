@@ -10565,8 +10565,8 @@ class c_ArmoredSkeleton : public c_Enemy{
 	c_Point* m_cachedMoveDir;
 	int m_directionHitFrom;
 	bool m_justBounced;
-	bool m_shieldDestroyed;
 	int m_shieldDir;
+	bool m_shieldDestroyed;
 	bool m_gotBounced;
 	c_ArmoredSkeleton();
 	c_ArmoredSkeleton* m_new(int,int,int);
@@ -52085,8 +52085,8 @@ c_ArmoredSkeleton::c_ArmoredSkeleton(){
 	m_cachedMoveDir=(new c_Point)->m_new(0,0);
 	m_directionHitFrom=-1;
 	m_justBounced=false;
-	m_shieldDestroyed=false;
 	m_shieldDir=1;
+	m_shieldDestroyed=false;
 	m_gotBounced=false;
 }
 c_ArmoredSkeleton* c_ArmoredSkeleton::m_new(int t_xVal,int t_yVal,int t_l){
@@ -52145,7 +52145,21 @@ int c_ArmoredSkeleton::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSo
 	return 0;
 }
 void c_ArmoredSkeleton::p_AdjustShieldDir(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.AdjustShieldDir()",33));
+	if(this->m_cachedMoveDir->m_x<0){
+		this->m_shieldDir=2;
+	}else{
+		if(this->m_cachedMoveDir->m_x>0){
+			this->m_shieldDir=0;
+		}else{
+			if(this->m_cachedMoveDir->m_y<0){
+				this->m_shieldDir=3;
+			}else{
+				if(this->m_cachedMoveDir->m_y>0){
+					this->m_shieldDir=1;
+				}
+			}
+		}
+	}
 }
 void c_ArmoredSkeleton::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
