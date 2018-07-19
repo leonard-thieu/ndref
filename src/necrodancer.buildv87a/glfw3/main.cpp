@@ -10561,11 +10561,12 @@ class c_StandardItemPredicate : public Object,public virtual c_IItemPredicate{
 };
 class c_ArmoredSkeleton : public c_Enemy{
 	public:
+	bool m_hasHead;
+	c_Point* m_cachedMoveDir;
+	int m_directionHitFrom;
 	bool m_shieldDestroyed;
 	int m_shieldDir;
-	int m_directionHitFrom;
 	bool m_gotBounced;
-	bool m_hasHead;
 	c_ArmoredSkeleton();
 	c_ArmoredSkeleton* m_new(int,int,int);
 	c_ArmoredSkeleton* m_new2();
@@ -52072,11 +52073,12 @@ void c_StandardItemPredicate::mark(){
 	Object::mark();
 }
 c_ArmoredSkeleton::c_ArmoredSkeleton(){
+	m_hasHead=true;
+	m_cachedMoveDir=(new c_Point)->m_new(0,0);
+	m_directionHitFrom=-1;
 	m_shieldDestroyed=false;
 	m_shieldDir=1;
-	m_directionHitFrom=-1;
 	m_gotBounced=false;
-	m_hasHead=true;
 }
 c_ArmoredSkeleton* c_ArmoredSkeleton::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -52106,8 +52108,18 @@ bool c_ArmoredSkeleton::p_CanBeLord(){
 	return false;
 }
 c_Point* c_ArmoredSkeleton::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.GetMovementDirection()",38));
-	return 0;
+	c_Point* t_movementDirection=0;
+	if(this->m_isFormationDancer){
+		t_movementDirection=(new c_Point)->m_new(0,1);
+	}else{
+		if(this->m_hasHead){
+			t_movementDirection=this->p_BasicSeek();
+			gc_assign(this->m_cachedMoveDir,t_movementDirection);
+		}else{
+			t_movementDirection=c_Util::m_GetPointFromDir(this->m_directionHitFrom);
+		}
+	}
+	return t_movementDirection;
 }
 bool c_ArmoredSkeleton::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.Hit(String, Int, Int, Entity, Bool, Int)",56));
@@ -52162,6 +52174,7 @@ void c_ArmoredSkeleton::p_Update(){
 }
 void c_ArmoredSkeleton::mark(){
 	c_Enemy::mark();
+	gc_mark_q(m_cachedMoveDir);
 }
 c_Mushroom::c_Mushroom(){
 	m_vibrateCounter=3;

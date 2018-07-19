@@ -57,7 +57,19 @@ Class ArmoredSkeleton Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("ArmoredSkeleton.GetMovementDirection()")
+        Local movementDirection: Point
+
+        If Self.isFormationDancer
+            movementDirection = New Point(0, 1)
+        Else If Self.hasHead
+            movementDirection = Self.BasicSeek()
+
+            Self.cachedMoveDir = movementDirection
+        Else
+            movementDirection = Util.GetPointFromDir(Self.directionHitFrom)
+        End If
+
+        Return movementDirection
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
