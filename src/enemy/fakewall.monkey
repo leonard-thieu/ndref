@@ -1,10 +1,13 @@
 'Strict
 
+Import controller.controller_game
 Import enemy
+Import audio2
 Import item
 Import level
 Import logger
 Import point
+Import util
 
 Class FakeWall Extends Enemy
 
@@ -51,7 +54,38 @@ Class FakeWall Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("FakeWall.Update()")
+        Local distSqFromClosestPlayer := Util.GetDistSqFromClosestPlayer(Self.x, Self.y, True, False)
+        
+        Local maxDist := 1.0
+        If Self.level = 2
+            maxDist = 2.0
+        End If
+
+        If maxDist >= distSqFromClosestPlayer And
+           Self.stealth
+            Self.currentMoveDelay = 2
+
+            If Enemy.EnemiesHaveMovedClosestBeat() Or
+               (Audio.IsFixedBeatSet() And
+                Not controller_game.incrementFixedBeatNum)
+                Self.currentMoveDelay = 1
+            End If
+
+            Self.stealth = False
+
+            Audio.PlayGameSoundAt("wallMonsterCry", Self.x, Self.y, False, -1, False)
+        End If
+
+        If Not Self.stealth
+            Self.animOverride = -1
+        Else If distSqFromClosestPlayer <= 29.0 And
+                Audio.IsBeatAnimTime(False, False)
+            Self.animOverride = 1
+        Else
+            Self.animOverride = 0
+        End If
+
+        Super.Update()
     End Method
 
 End Class

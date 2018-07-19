@@ -5968,6 +5968,7 @@ class c_Util : public Object{
 	static int m_GetDirFromDiff(int,int);
 	static int m_InvertDir(int);
 	static c_Player* m_GetClosestPlayer(int,int);
+	static Float m_GetDistSqFromClosestPlayer(int,int,bool,bool);
 	void mark();
 };
 class c_TextLog : public Object{
@@ -14405,6 +14406,10 @@ c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
 		}
 	}
 	return t_closestPlayer;
+}
+Float c_Util::m_GetDistSqFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls,bool t_includeLambs){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDistSqFromClosestPlayer(Int, Int, Bool, Bool)",53));
+	return 0;
 }
 void c_Util::mark(){
 	Object::mark();
@@ -52355,7 +52360,29 @@ c_Point* c_FakeWall::p_GetMovementDirection(){
 	return 0;
 }
 void c_FakeWall::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"FakeWall.Update()",17));
+	Float t_distSqFromClosestPlayer=c_Util::m_GetDistSqFromClosestPlayer(this->m_x,this->m_y,true,false);
+	Float t_maxDist=FLOAT(1.0);
+	if(this->m_level==2){
+		t_maxDist=FLOAT(2.0);
+	}
+	if(t_maxDist>=t_distSqFromClosestPlayer && this->m_stealth){
+		this->m_currentMoveDelay=2;
+		if(c_Enemy::m_EnemiesHaveMovedClosestBeat() || c_Audio::m_IsFixedBeatSet() && !bb_controller_game_incrementFixedBeatNum){
+			this->m_currentMoveDelay=1;
+		}
+		this->m_stealth=false;
+		c_Audio::m_PlayGameSoundAt(String(L"wallMonsterCry",14),this->m_x,this->m_y,false,-1,false);
+	}
+	if(!this->m_stealth){
+		this->m_animOverride=-1;
+	}else{
+		if(t_distSqFromClosestPlayer<=FLOAT(29.0) && c_Audio::m_IsBeatAnimTime(false,false)){
+			this->m_animOverride=1;
+		}else{
+			this->m_animOverride=0;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_FakeWall::mark(){
 	c_Enemy::mark();
