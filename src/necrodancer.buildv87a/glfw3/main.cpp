@@ -14409,8 +14409,31 @@ int c_Util::m_InvertDir(int t_dir){
 	return t_inverted;
 }
 Float c_Util::m_GetDistSqFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls,bool t_includeLambs){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDistSqFromClosestPlayer(Int, Int, Bool, Bool)",53));
-	return 0;
+	Float t_distSq=FLOAT(99999.0);
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(!t_player->p_Perished()){
+			Float t_distToPlayerSq=m_GetDistSqFromObject(t_xVal,t_yVal,(t_player));
+			t_distSq=bb_math_Min2(t_distSq,t_distToPlayerSq);
+		}
+	}
+	if(t_includeSouls){
+		c_Enumerator9* t_=c_SoulFamiliar::m_allSouls->p_ObjectEnumerator();
+		while(t_->p_HasNext()){
+			c_SoulFamiliar* t_soulFamiliar=t_->p_NextObject();
+			Float t_distToSoulFamiliarSq=m_GetDistSqFromObject(t_xVal,t_yVal,(t_soulFamiliar));
+			t_distSq=bb_math_Min2(t_distSq,t_distToSoulFamiliarSq);
+		}
+	}
+	if(t_includeLambs){
+		c_Enumerator36* t_2=c_Familiar::m_familiarList->p_ObjectEnumerator();
+		while(t_2->p_HasNext()){
+			c_Familiar* t_familiar=t_2->p_NextObject();
+			Float t_distToFamiliarSq=m_GetDistSqFromObject(t_xVal,t_yVal,(t_familiar));
+			t_distSq=bb_math_Min2(t_distSq,t_distToFamiliarSq);
+		}
+	}
+	return t_distSq;
 }
 void c_Util::mark(){
 	Object::mark();

@@ -8,6 +8,7 @@ Import monkey.random
 Import os
 Import mojo.input
 Import controller.controller_game
+Import familiar
 Import familiar_fixed.soul_familiar
 Import level
 Import camera
@@ -227,7 +228,31 @@ Class Util
     End Function
 
     Function GetDistSqFromClosestPlayer: Float(xVal: Int, yVal: Int, includeSouls: Bool, includeLambs: Bool)
-        Debug.TraceNotImplemented("Util.GetDistSqFromClosestPlayer(Int, Int, Bool, Bool)")
+        Local distSq := 99999.0
+
+        For Local i := 0 Until controller_game.numPlayers
+            Local player := controller_game.players[i]
+            If Not player.Perished
+                Local distToPlayerSq := Util.GetDistSqFromObject(xVal, yVal, player)
+                distSq = math.Min(distSq, distToPlayerSq)
+            End If
+        End for
+
+        If includeSouls
+            For Local soulFamiliar := EachIn SoulFamiliar.allSouls
+                Local distToSoulFamiliarSq := Util.GetDistSqFromObject(xVal, yVal, soulFamiliar)
+                distSq = math.Min(distSq, distToSoulFamiliarSq)
+            End For
+        End If
+
+        If includeLambs
+            For Local familiar := EachIn Familiar.familiarList
+                Local distToFamiliarSq := Util.GetDistSqFromObject(xVal, yVal, familiar)
+                distSq = math.Min(distSq, distToFamiliarSq)
+            End For
+        End If
+
+        Return distSq
     End Function
 
     Function GetDistSqFromObject: Float(xVal: Int, yVal: Int, obj: RenderableObject)
