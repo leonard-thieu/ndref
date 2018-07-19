@@ -48,12 +48,24 @@ Class ArmoredSkeleton Extends Enemy
     Field justBounced: Bool
     Field willHaveHead: Bool = True
 
+    Method AdjustShieldDir: Void()
+        Debug.TraceNotImplemented("ArmoredSkeleton.AdjustShieldDir()")
+    End Method
+
+    Method Beheadable: Void()
+        Debug.TraceNotImplemented("ArmoredSkeleton.Beheadable()")
+    End Method
+
     Method CanBeLord: Bool()
         Debug.TraceNotImplemented("ArmoredSkeleton.CanBeLord()")
     End Method
 
     Method DestroyShield: Void(dir: Int)
         Debug.TraceNotImplemented("ArmoredSkeleton.DestroyShield(Int)")
+    End Method
+
+    Method Die: Void()
+        Debug.TraceNotImplemented("ArmoredSkeleton.Die()")
     End Method
 
     Method GetMovementDirection: Point()
@@ -78,6 +90,14 @@ Class ArmoredSkeleton Extends Enemy
 
     Method Knockback: Void(dir: Int)
         Debug.TraceNotImplemented("ArmoredSkeleton.Knockback(Int)")
+    End Method
+
+    Method MoveFail: Void()
+        Debug.TraceNotImplemented("ArmoredSkeleton.MoveFail()")
+    End Method
+
+    Method MoveImmediate: Int(xVal: Int, yVal: Int, movementSource: String)
+        Debug.TraceNotImplemented("ArmoredSkeleton.MoveImmediate(Int, Int, String)")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)

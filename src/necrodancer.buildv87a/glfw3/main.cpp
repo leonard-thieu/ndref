@@ -10571,8 +10571,11 @@ class c_ArmoredSkeleton : public c_Enemy{
 	c_ArmoredSkeleton* m_new(int,int,int);
 	c_ArmoredSkeleton* m_new2();
 	bool p_CanBeLord();
+	void p_Die();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_MoveFail();
+	int p_MoveImmediate(int,int,String);
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -52110,6 +52113,9 @@ bool c_ArmoredSkeleton::p_CanBeLord(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.CanBeLord()",27));
 	return false;
 }
+void c_ArmoredSkeleton::p_Die(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.Die()",21));
+}
 c_Point* c_ArmoredSkeleton::p_GetMovementDirection(){
 	c_Point* t_movementDirection=0;
 	if(this->m_isFormationDancer){
@@ -52127,6 +52133,13 @@ c_Point* c_ArmoredSkeleton::p_GetMovementDirection(){
 bool c_ArmoredSkeleton::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.Hit(String, Int, Int, Entity, Bool, Int)",56));
 	return false;
+}
+void c_ArmoredSkeleton::p_MoveFail(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.MoveFail()",26));
+}
+int c_ArmoredSkeleton::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.MoveImmediate(Int, Int, String)",47));
+	return 0;
 }
 void c_ArmoredSkeleton::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.MoveSucceed(Bool, Bool)",39));
