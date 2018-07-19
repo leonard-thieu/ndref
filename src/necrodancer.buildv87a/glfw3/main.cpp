@@ -13094,7 +13094,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==2 && bb_controller_game_currentLevel==1){
+			if(bb_controller_game_currentDepth==2 && bb_controller_game_currentLevel==2){
 				bb_app_EndApp();
 			}
 		}
@@ -52313,8 +52313,9 @@ c_Clone* c_Clone::m_new2(){
 	return this;
 }
 c_Point* c_Clone::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Clone.GetMovementDirection()",28));
-	return 0;
+	c_Player* t_player1=bb_controller_game_players[bb_controller_game_player1];
+	int t_invertedMoveDir=c_Util::m_InvertDir(t_player1->m_moveLastBeat);
+	return c_Util::m_GetPointFromDir(t_invertedMoveDir);
 }
 void c_Clone::mark(){
 	c_Enemy::mark();

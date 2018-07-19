@@ -1,9 +1,10 @@
-'Strict
+Strict
 
+Import controller.controller_game
 Import enemy
-Import logger
 Import point
 Import player_class
+Import util
 
 Class Clone Extends Enemy
 
@@ -50,7 +51,10 @@ Class Clone Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Clone.GetMovementDirection()")
+        Local player1 := controller_game.players[controller_game.player1]
+        Local invertedMoveDir := Util.InvertDir(player1.moveLastBeat)
+
+        Return Util.GetPointFromDir(invertedMoveDir)
     End Method
 
 End Class
