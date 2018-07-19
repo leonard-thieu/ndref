@@ -10619,6 +10619,7 @@ class c_TarMonster : public c_EnemyClamper{
 	c_TarMonster* m_new2();
 	void p_Die();
 	c_Point* p_GetMovementDirection();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
 	int p_PerformMovement(int,int);
 	void p_Update();
@@ -52396,6 +52397,10 @@ void c_TarMonster::p_Die(){
 c_Point* c_TarMonster::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.GetMovementDirection()",33));
 	return 0;
+}
+bool c_TarMonster::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.Hit(String, Int, Int, Entity, Bool, Int)",51));
+	return false;
 }
 void c_TarMonster::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.MoveSucceed(Bool, Bool)",34));

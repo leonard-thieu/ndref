@@ -3,12 +3,14 @@
 Import enemy
 Import enemy.enemyclamper
 Import level
+Import entity
 Import logger
 Import player_class
 Import point
 Import sprite
 Import tile
 Import trap
+Import util
 
 Class TarMonster Extends EnemyClamper
 
@@ -85,6 +87,10 @@ Class TarMonster Extends EnemyClamper
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("TarMonster.GetMovementDirection()")
+    End Method
+
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
+        Debug.TraceNotImplemented("TarMonster.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
