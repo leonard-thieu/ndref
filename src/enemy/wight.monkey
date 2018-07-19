@@ -1,6 +1,10 @@
 'Strict
 
 Import enemy
+Import level
+Import audio2
+Import camera
+Import entity
 Import logger
 Import player_class
 Import point
@@ -58,7 +62,26 @@ Class Wight Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Wight.Update()")
+        If Not Self.dead And
+           Entity.AnyPlayerHaveNazarCharm()
+            Self.coinsToDrop = 0
+            Self.Die()
+        End If
+
+        If Not Enemy.EnemiesMovingThisFrame()
+            Self.CheckCorporeality()
+        End If
+
+        If Not Self.invisible And
+           Self.IsVisible() And
+           Camera.IsOnScreen(Self.x, Self.y) And
+           Not Self.hasRoared And
+           Not Level.isLevelEditor
+            Audio.PlayGameSoundAt("wightCry", Self.x, Self.y, True, -1, False)
+            Self.hasRoared = True
+        End If
+
+        Super.Update()
     End Method
 
 End Class

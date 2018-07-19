@@ -10677,10 +10677,13 @@ class c_ParticleSystemData : public Object{
 };
 class c_Wight : public c_Enemy{
 	public:
+	bool m_hasRoared;
 	c_Wight();
 	c_Wight* m_new(int,int,int);
 	c_Wight* m_new2();
 	c_Point* p_GetMovementDirection();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_CheckCorporeality();
 	void p_Update();
 	void mark();
 };
@@ -52611,6 +52614,7 @@ void c_ParticleSystemData::mark(){
 	Object::mark();
 }
 c_Wight::c_Wight(){
+	m_hasRoared=false;
 }
 c_Wight* c_Wight::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -52638,8 +52642,26 @@ c_Point* c_Wight::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.GetMovementDirection()",28));
 	return 0;
 }
+bool c_Wight::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.Hit(String, Int, Int, Entity, Bool, Int)",46));
+	return false;
+}
+void c_Wight::p_CheckCorporeality(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.CheckCorporeality()",25));
+}
 void c_Wight::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.Update()",14));
+	if(!this->m_dead && c_Entity::m_AnyPlayerHaveNazarCharm()){
+		this->m_coinsToDrop=0;
+		this->p_Die();
+	}
+	if(!c_Enemy::m_EnemiesMovingThisFrame()){
+		this->p_CheckCorporeality();
+	}
+	if(!this->m_invisible && this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		c_Audio::m_PlayGameSoundAt(String(L"wightCry",8),this->m_x,this->m_y,true,-1,false);
+		this->m_hasRoared=true;
+	}
+	c_Enemy::p_Update();
 }
 void c_Wight::mark(){
 	c_Enemy::mark();
