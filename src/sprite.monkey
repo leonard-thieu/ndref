@@ -190,7 +190,7 @@ Class Sprite Extends Tweenable
     End Method
 
     Method SetFlipXOff: Void(x: Int)
-        Debug.TraceNotImplemented("Sprite.SetFlipXOff(Int)")
+        Self.flipXOff = x
     End Method
 
     Method SetFrame: Void(f: Int)

@@ -6414,6 +6414,7 @@ class c_Sprite : public c_Tweenable{
 	Float m_zOff;
 	bool m_cutoffYSet;
 	Float m_alpha;
+	int m_flipXOff;
 	bool m_flipX;
 	bool m_flipXWithOffset;
 	Float m_renderX;
@@ -6438,6 +6439,7 @@ class c_Sprite : public c_Tweenable{
 	void p_DiscardTempImage();
 	void p_SetFrame(int);
 	void p_SetAlphaValue(Float);
+	void p_SetFlipXOff(int);
 	void p_FlipX(bool,bool);
 	void p_SetAlphaTweenFromCurrent(Float,int);
 	void p_UnSetZ();
@@ -7332,14 +7334,15 @@ class c_Entity : public c_RenderableObject{
 	int m_level;
 	String m_xmlName;
 	String m_friendlyName;
+	int m_shadowXOff;
+	int m_shadowYOff;
+	bool m_isMysteried;
 	int m_damagePerHit;
 	bool m_ignoreWalls;
 	bool m_hasBeenVisible;
 	String m_overrideAttackSound;
 	bool m_isGentle;
 	bool m_flaggedForDeath;
-	bool m_isMysteried;
-	int m_shadowYOff;
 	bool m_invisible;
 	bool m_isWraithLike;
 	bool m_canMoveOntoPlayer;
@@ -8078,6 +8081,13 @@ class c_Enemy : public c_MobileEntity{
 	int m_enemyType;
 	Array<int > m_lastPlayerHitFrame;
 	Array<String > m_lastPlayerHitSource;
+	int m_heartXOff;
+	int m_heartYOff;
+	int m_storedZOff;
+	bool m_autoFlip;
+	bool m_baseFlipX;
+	String m_shadowVal;
+	bool m_bounceOnMovementFail;
 	int m_beatsPerMove;
 	int m_movePriority;
 	int m_health;
@@ -8130,7 +8140,6 @@ class c_Enemy : public c_MobileEntity{
 	bool m_isSarcophagus;
 	int m_minEnemyMoveDistance;
 	bool m_isNecroDancer;
-	int m_storedZOff;
 	bool m_isDancer;
 	bool m_movedThisFrame;
 	bool m_attemptedMoveThisFrame;
@@ -8141,7 +8150,6 @@ class c_Enemy : public c_MobileEntity{
 	c_Player* m_seekingPlayer;
 	c_Point* m_lastAttemptedMove;
 	bool m_tramples;
-	bool m_bounceOnMovementFail;
 	int m_renderSwipeTime;
 	int m_attackSwipeDir;
 	c_Point* m_attackSwipePoint;
@@ -8173,6 +8181,7 @@ class c_Enemy : public c_MobileEntity{
 	c_Enemy* m_new();
 	static c_XMLDoc* m_randomizerXML;
 	static c_XMLNode* m_GetEnemyXML(String,int);
+	bool p_ExemptFromMysteryMode();
 	void p_InitImage(c_XMLNode*,String,int,int);
 	static c_Sprite* m_heartSmall;
 	static c_Sprite* m_heartEmptySmall;
@@ -16861,6 +16870,7 @@ c_Sprite::c_Sprite(){
 	m_zOff=FLOAT(.0);
 	m_cutoffYSet=false;
 	m_alpha=FLOAT(1.0);
+	m_flipXOff=0;
 	m_flipX=false;
 	m_flipXWithOffset=true;
 	m_renderX=FLOAT(.0);
@@ -16920,6 +16930,9 @@ void c_Sprite::p_SetFrame(int t_f){
 }
 void c_Sprite::p_SetAlphaValue(Float t_a){
 	this->m_alpha=bb_math_Clamp2(t_a,FLOAT(0.0),FLOAT(1.0));
+}
+void c_Sprite::p_SetFlipXOff(int t_x){
+	this->m_flipXOff=t_x;
 }
 void c_Sprite::p_FlipX(bool t_f,bool t_withOffset){
 	this->m_flipX=t_f;
@@ -31620,14 +31633,15 @@ c_Entity::c_Entity(){
 	m_level=0;
 	m_xmlName=String();
 	m_friendlyName=String();
+	m_shadowXOff=0;
+	m_shadowYOff=0;
+	m_isMysteried=false;
 	m_damagePerHit=1;
 	m_ignoreWalls=false;
 	m_hasBeenVisible=false;
 	m_overrideAttackSound=String();
 	m_isGentle=false;
 	m_flaggedForDeath=false;
-	m_isMysteried=false;
-	m_shadowYOff=0;
 	m_invisible=false;
 	m_isWraithLike=false;
 	m_canMoveOntoPlayer=false;
@@ -37141,6 +37155,13 @@ c_Enemy::c_Enemy(){
 	m_enemyType=0;
 	m_lastPlayerHitFrame=Array<int >(4);
 	m_lastPlayerHitSource=Array<String >(4);
+	m_heartXOff=0;
+	m_heartYOff=0;
+	m_storedZOff=0;
+	m_autoFlip=true;
+	m_baseFlipX=false;
+	m_shadowVal=String();
+	m_bounceOnMovementFail=true;
 	m_beatsPerMove=1;
 	m_movePriority=0;
 	m_health=1;
@@ -37193,7 +37214,6 @@ c_Enemy::c_Enemy(){
 	m_isSarcophagus=false;
 	m_minEnemyMoveDistance=3;
 	m_isNecroDancer=false;
-	m_storedZOff=0;
 	m_isDancer=false;
 	m_movedThisFrame=false;
 	m_attemptedMoveThisFrame=false;
@@ -37204,7 +37224,6 @@ c_Enemy::c_Enemy(){
 	m_seekingPlayer=0;
 	m_lastAttemptedMove=(new c_Point)->m_new(0,0);
 	m_tramples=false;
-	m_bounceOnMovementFail=true;
 	m_renderSwipeTime=0;
 	m_attackSwipeDir=-1;
 	m_attackSwipePoint=(new c_Point)->m_new(0,0);
@@ -37268,10 +37287,55 @@ c_XMLNode* c_Enemy::m_GetEnemyXML(String t_name,int t_level){
 	}
 	return t_enemyNode;
 }
+bool c_Enemy::p_ExemptFromMysteryMode(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.ExemptFromMysteryMode()",29));
+	return false;
+}
 void c_Enemy::p_InitImage(c_XMLNode* t_enemyXML,String t_overrideSpriteName,int t_overrideFrameW,int t_overrideFrameH){
-	gc_assign(this->m_image,(new c_Sprite)->m_new4());
-	gc_assign(this->m_shadow,(new c_Sprite)->m_new4());
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.InitImage(XMLNode, String, Int, Int)",42));
+	c_XMLNode* t_spritesheetNode=t_enemyXML->p_GetChild2(String(L"spritesheet",11),false);
+	String t_spritesheetPath=t_spritesheetNode->p_value();
+	int t_frameW=t_spritesheetNode->p_GetAttribute3(String(L"frameW",6),0);
+	int t_frameH=t_spritesheetNode->p_GetAttribute3(String(L"frameH",6),0);
+	if(t_overrideSpriteName!=String()){
+		t_spritesheetPath=t_overrideSpriteName;
+	}
+	if(t_overrideFrameW!=-1){
+		t_frameW=t_overrideFrameW;
+	}
+	if(t_overrideFrameH!=-1){
+		t_frameH=t_overrideFrameH;
+	}
+	if(!c_Level::m_isMysteryMode || this->p_ExemptFromMysteryMode()){
+		int t_numFrames=t_spritesheetNode->p_GetAttribute3(String(L"numFrames",9),1);
+		gc_assign(this->m_image,(new c_Sprite)->m_new(t_spritesheetPath,t_frameW,t_frameH,t_numFrames,c_Image::m_DefaultFlags));
+		int t_flipXOff=t_spritesheetNode->p_GetAttribute3(String(L"flipXOff",8),0);
+		this->m_image->p_SetFlipXOff(t_flipXOff);
+		this->m_xOff=Float(t_spritesheetNode->p_GetAttribute3(String(L"xOff",4),0));
+		this->m_yOff=Float(t_spritesheetNode->p_GetAttribute3(String(L"yOff",4),0));
+		this->m_heartXOff=t_spritesheetNode->p_GetAttribute3(String(L"heartXOff",9),0);
+		this->m_heartYOff=t_spritesheetNode->p_GetAttribute3(String(L"heartYOff",9),-2);
+		this->m_storedZOff=t_spritesheetNode->p_GetAttribute3(String(L"storedZOff",10),0);
+		this->m_image->p_SetZOff(Float(this->m_storedZOff));
+		Float t_scale=t_spritesheetNode->p_GetAttribute4(String(L"scale",5),FLOAT(1.0));
+		if(t_scale!=FLOAT(1.0)){
+			this->m_image->p_SetScale(t_scale);
+		}
+		this->m_autoFlip=t_spritesheetNode->p_GetAttribute2(String(L"autoFlip",8),true);
+		this->m_baseFlipX=t_spritesheetNode->p_GetAttribute2(String(L"flipX",5),false);
+		c_XMLNode* t_shadowNode=t_enemyXML->p_GetChild2(String(L"shadow",6),false);
+		this->m_shadowVal=t_shadowNode->p_value();
+		if(this->m_shadowVal!=String()){
+			gc_assign(this->m_shadow,(new c_Sprite)->m_new2(this->m_shadowVal,1,c_Image::m_DefaultFlags));
+		}
+		this->m_shadowXOff=t_shadowNode->p_GetAttribute3(String(L"xOff",4),0);
+		this->m_shadowYOff=t_shadowNode->p_GetAttribute3(String(L"yOff",4),0);
+	}else{
+		gc_assign(this->m_image,(new c_Sprite)->m_new(String(L"entities/mystery_enemy.png",26),22,26,8,c_Image::m_DefaultFlags));
+		gc_assign(this->m_shadow,(new c_Sprite)->m_new2(String(L"entities/TEMP_shadow_standard.png",33),1,c_Image::m_DefaultFlags));
+		this->m_isMysteried=true;
+	}
+	c_XMLNode* t_optionalStatsNode=t_enemyXML->p_GetChild2(String(L"optionalStats",13),false);
+	this->m_bounceOnMovementFail=t_optionalStatsNode->p_GetAttribute2(String(L"bounceOnMovementFail",20),true);
 }
 c_Sprite* c_Enemy::m_heartSmall;
 c_Sprite* c_Enemy::m_heartEmptySmall;

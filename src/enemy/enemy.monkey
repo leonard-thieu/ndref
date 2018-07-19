@@ -2902,10 +2902,65 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method InitImage: Void(enemyXML: XMLNode, overrideSpriteName: String, overrideFrameW: Int, overrideFrameH: Int)
-        Self.image = New Sprite()
-        Self.shadow = New Sprite()
+        Local spritesheetNode := enemyXML.GetChild("spritesheet")
+        Local spritesheetPath := spritesheetNode.value
+        Local frameW := spritesheetNode.GetAttribute("frameW", 0)
+        Local frameH := spritesheetNode.GetAttribute("frameH", 0)
 
-        Debug.TraceNotImplemented("Enemy.InitImage(XMLNode, String, Int, Int)")
+        If overrideSpriteName <> ""
+            spritesheetPath = overrideSpriteName
+        End If
+
+        If overrideFrameW <> -1
+            frameW = overrideFrameW
+        End If
+
+        If overrideFrameH <> -1
+            frameH = overrideFrameH
+        End If
+
+        If Not Level.isMysteryMode Or
+           Self.ExemptFromMysteryMode()
+            Local numFrames := spritesheetNode.GetAttribute("numFrames", 1)
+
+            Self.image = New Sprite(spritesheetPath, frameW, frameH, numFrames)
+
+            Local flipXOff := spritesheetNode.GetAttribute("flipXOff", 0)
+            Self.image.SetFlipXOff(flipXOff)
+
+            Self.xOff = spritesheetNode.GetAttribute("xOff", 0)
+            Self.yOff = spritesheetNode.GetAttribute("yOff", 0)
+            Self.heartXOff = spritesheetNode.GetAttribute("heartXOff", 0)
+            Self.heartYOff = spritesheetNode.GetAttribute("heartYOff", -2)
+            
+            Self.storedZOff = spritesheetNode.GetAttribute("storedZOff", 0)
+            Self.image.SetZOff(Self.storedZOff)
+
+            Local scale := spritesheetNode.GetAttribute("scale", 1.0)
+            If scale <> 1.0
+                Self.image.SetScale(scale)
+            End If
+
+            Self.autoFlip = spritesheetNode.GetAttribute("autoFlip", True)
+            Self.baseFlipX = spritesheetNode.GetAttribute("flipX", False)
+
+            Local shadowNode := enemyXML.GetChild("shadow")
+            Self.shadowVal = shadowNode.value
+            If Self.shadowVal <> ""
+                Self.shadow = New Sprite(Self.shadowVal, 1)
+            End If
+
+            Self.shadowXOff = shadowNode.GetAttribute("xOff", 0)
+            Self.shadowYOff = shadowNode.GetAttribute("yOff", 0)
+        Else
+            Self.image = New Sprite("entities/mystery_enemy.png", 22, 26, 8)
+            Self.shadow = New Sprite("entities/TEMP_shadow_standard.png", 1)
+            Self.isMysteried = True
+        End If
+
+        Local optionalStatsNode := enemyXML.GetChild("optionalStats")
+        
+        Self.bounceOnMovementFail = optionalStatsNode.GetAttribute("bounceOnMovementFail", True)
     End Method
 
     Method IsAt: Bool(xVal: Int, yVal: Int)
