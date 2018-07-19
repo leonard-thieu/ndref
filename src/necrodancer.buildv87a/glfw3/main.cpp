@@ -10677,12 +10677,14 @@ class c_ParticleSystemData : public Object{
 };
 class c_Wight : public c_Enemy{
 	public:
+	bool m_seeking;
 	bool m_hasRoared;
 	c_Wight();
 	c_Wight* m_new(int,int,int);
 	c_Wight* m_new2();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_BecomeCorporeal(bool);
 	void p_CheckCorporeality();
 	void p_Update();
 	void mark();
@@ -51925,22 +51927,8 @@ void c_Wraith::p_CheckCorporeality(){
 		this->m_seeking=true;
 		int t_xDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
 		int t_yDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
-		int t_xOff=0;
-		if(t_xDiff<0){
-			t_xOff=-5;
-		}else{
-			if(t_xDiff==0){
-				t_xOff=5;
-			}
-		}
-		int t_yOff=0;
-		if(t_yDiff<0){
-			t_yOff=-5;
-		}else{
-			if(t_yDiff>0){
-				t_yOff=5;
-			}
-		}
+		int t_xOff=bb_math_Sgn(t_xDiff)*5;
+		int t_yOff=bb_math_Sgn(t_yDiff)*5;
 		if(c_Audio::m_GetClosestBeatNum(true)!=0){
 			int t_tempOff=t_xOff;
 			t_xOff=t_yOff;
@@ -52614,6 +52602,7 @@ void c_ParticleSystemData::mark(){
 	Object::mark();
 }
 c_Wight::c_Wight(){
+	m_seeking=false;
 	m_hasRoared=false;
 }
 c_Wight* c_Wight::m_new(int t_xVal,int t_yVal,int t_l){
@@ -52646,8 +52635,58 @@ bool c_Wight::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.Hit(String, Int, Int, Entity, Bool, Int)",46));
 	return false;
 }
+void c_Wight::p_BecomeCorporeal(bool t_force){
+	if(c_Player::m_AllPlayersPerished() || !this->m_invisible){
+		return;
+	}
+	if(!t_force){
+		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
+			return;
+		}
+		if(c_Player::m_AnyPlayerInSpecialRoom()){
+			this->m_coinsToDrop=0;
+			this->p_Die();
+			return;
+		}
+		if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,true,false,false)){
+			return;
+		}
+	}
+	this->m_invisible=false;
+	this->m_collides=true;
+	this->m_seeking=false;
+	this->m_currentMoveDelay=0;
+	c_Enemy::m_lastWraithSpawnBeat=c_Audio::m_GetClosestBeatNum(true);
+}
 void c_Wight::p_CheckCorporeality(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.CheckCorporeality()",25));
+	if(this->p_IsVisible() || this->m_earthquaked || c_Tile::m_AnyPlayerHaveMonocle() || c_Entity::m_AnyPlayerHaveCircletOrGlassTorch()){
+		this->p_BecomeCorporeal(false);
+	}
+	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);
+	Float t_distFronClosestPlayer=c_Util::m_GetDist(this->m_x,this->m_y,t_closestPlayer->m_x,t_closestPlayer->m_y);
+	if(this->m_seeking || t_distFronClosestPlayer<FLOAT(3.0) && this->m_invisible){
+		this->m_seeking=true;
+		int t_xDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
+		int t_yDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
+		int t_xOff=bb_math_Sgn(t_xDiff)*5;
+		int t_yOff=bb_math_Sgn(t_yDiff)*5;
+		if(c_Audio::m_GetClosestBeatNum(true)!=0){
+			int t_tempOff=t_xOff;
+			t_xOff=t_yOff;
+			t_yOff=t_tempOff;
+		}
+		int t_x=t_closestPlayer->m_x+t_xOff;
+		int t_y=t_closestPlayer->m_y+t_yOff;
+		if(!c_Util::m_IsGlobalCollisionAt2(t_x,t_y,false,this->m_ignoreWalls,false,false) && c_Util::m_GetDistFromClosestPlayer(t_x,t_y,false)>=FLOAT(5.0)){
+			c_Tile* t_tile=c_Level::m_GetTileAt(t_x,t_y);
+			if(t_tile!=0 && t_tile->p_IsFloor() && t_tile->p_IsVisible()){
+				this->m_seeking=false;
+				this->m_x=t_x;
+				this->m_y=t_y;
+				this->p_BecomeCorporeal(false);
+			}
+		}
+	}
 }
 void c_Wight::p_Update(){
 	if(!this->m_dead && c_Entity::m_AnyPlayerHaveNazarCharm()){

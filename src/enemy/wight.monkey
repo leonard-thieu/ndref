@@ -1,5 +1,6 @@
 'Strict
 
+Import monkey.math
 Import enemy
 Import level
 Import audio2
@@ -8,6 +9,7 @@ Import entity
 Import logger
 Import player_class
 Import point
+Import tile
 Import util
 
 Class Wight Extends Enemy
@@ -42,7 +44,38 @@ Class Wight Extends Enemy
     Field hasRoared: Bool
 
     Method BecomeCorporeal: Void(force: Bool)
-        Debug.TraceNotImplemented("Wight.BecomeCorporeal(Bool)")
+        If Player.AllPlayersPerished() Or
+           Not Self.invisible
+            Return
+        End If
+
+        If Not force
+            If Enemy.lastWraithSpawnBeat + 14 >= Audio.GetClosestBeatNum(True) And
+               Not Tile.AnyPlayerHaveMonocle() And
+               Not Entity.AnyPlayerHaveCircletOrGlassTorch() And
+               Not Self.earthquaked
+                Return
+            End If
+
+            If Player.AnyPlayerInSpecialRoom()
+                Self.coinsToDrop = 0
+                Self.Die()
+
+                Return
+            End If
+
+            If Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 3.0 Or
+               Util.IsGlobalCollisionAt(Self.x, Self.y, False, True, False, False)
+                Return
+            End If
+        End If
+
+        Self.invisible = False
+        Self.collides = True
+        Self.seeking = False
+        Self.currentMoveDelay = 0
+
+        Enemy.lastWraithSpawnBeat = Audio.GetClosestBeatNum(True)
     End Method
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
@@ -50,7 +83,46 @@ Class Wight Extends Enemy
     End Method
 
     Method CheckCorporeality: Void()
-        Debug.TraceNotImplemented("Wight.CheckCorporeality()")
+        If Self.IsVisible() Or
+           Self.earthquaked Or
+           Tile.AnyPlayerHaveMonocle() Or
+           Entity.AnyPlayerHaveCircletOrGlassTorch()
+            Self.BecomeCorporeal(False)
+        End If
+
+        Local closestPlayer := Util.GetClosestPlayer(Self.x, Self.y)
+        Local distFronClosestPlayer := Util.GetDist(Self.x, Self.y, closestPlayer.x, closestPlayer.y)
+        If Self.seeking Or
+           (distFronClosestPlayer < 3.0 And Self.invisible)
+            Self.seeking = True
+
+            Local xDiff := closestPlayer.lastX - closestPlayer.x
+            Local yDiff := closestPlayer.lastX - closestPlayer.x
+            Local xOff := math.Sgn(xDiff) * 5
+            Local yOff := math.Sgn(yDiff) * 5
+
+            If Audio.GetClosestBeatNum(True) <> 0
+                Local tempOff := xOff
+                xOff = yOff
+                yOff = tempOff
+            End If
+
+            Local x := closestPlayer.x + xOff
+            Local y := closestPlayer.y + yOff
+            
+            If Not Util.IsGlobalCollisionAt(x, y, False, Self.ignoreWalls, False, False) And
+               Util.GetDistFromClosestPlayer(x, y, False) >= 5.0
+                Local tile := Level.GetTileAt(x, y)
+                If tile <> Null And
+                   tile.IsFloor() And
+                   tile.IsVisible()
+                    Self.seeking = False
+                    Self.x = x
+                    Self.y = y
+                    Self.BecomeCorporeal(False)
+                End If
+            End If
+        End If
     End Method
 
     Method GetMovementDirection: Point()

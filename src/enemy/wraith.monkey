@@ -114,20 +114,8 @@ Class Wraith Extends Enemy
 
             Local xDiff := closestPlayer.lastX - closestPlayer.x
             Local yDiff := closestPlayer.lastX - closestPlayer.x
-
-            Local xOff: Int
-            If xDiff < 0
-                xOff = -5
-            Else If xDiff = 0
-                xOff = 5
-            End If
-
-            Local yOff: Int
-            If yDiff < 0
-                yOff = -5
-            Else If yDiff > 0
-                yOff = 5
-            End If
+            Local xOff := math.Sgn(xDiff) * 5
+            Local yOff := math.Sgn(yDiff) * 5
 
             If Audio.GetClosestBeatNum(True) <> 0
                 Local tempOff := xOff
