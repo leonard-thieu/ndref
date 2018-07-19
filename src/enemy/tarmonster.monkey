@@ -64,16 +64,14 @@ Class TarMonster Extends EnemyClamper
         End If
 
         If Self.enableDeathEffects
-            Local exitValue := Level.GetExitValue(Self.x, Self.y)
-            If exitValue.x = LevelType.Unknown_4
-                If Level.IsFloorAt(Self.x, Self.y)
-                    Level.PlaceTileRemovingExistingTiles(Self.x, Self.y, TileType.Tar, False, -1, False)
+            If Not Level.IsExitAt(Self.x, Self.y) And
+               Level.IsFloorAt(Self.x, Self.y)
+                Level.PlaceTileRemovingExistingTiles(Self.x, Self.y, TileType.Tar)
 
-                    Local trapAtDeath := Trap.GetTrapAt(Self.x, Self.y)
-                    If trapAtDeath <> Null And
-                       Not trapAtDeath.indestructible
-                        trapAtDeath.Die()
-                    End If
+                Local trapAtDeath := Trap.GetTrapAt(Self.x, Self.y)
+                If trapAtDeath <> Null And
+                   Not trapAtDeath.indestructible
+                    trapAtDeath.Die()
                 End If
             End If
         End If

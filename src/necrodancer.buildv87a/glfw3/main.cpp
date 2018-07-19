@@ -52381,14 +52381,11 @@ void c_TarMonster::p_Die(){
 		this->m_clampedOnto->m_clampedEnemy=0;
 	}
 	if(this->m_enableDeathEffects){
-		c_Point* t_exitValue=c_Level::m_GetExitValue(this->m_x,this->m_y);
-		if(t_exitValue->m_x==-4){
-			if(c_Level::m_IsFloorAt(this->m_x,this->m_y)){
-				c_Level::m_PlaceTileRemovingExistingTiles(this->m_x,this->m_y,8,false,-1,false);
-				c_Trap* t_trapAtDeath=c_Trap::m_GetTrapAt(this->m_x,this->m_y);
-				if(t_trapAtDeath!=0 && !t_trapAtDeath->m_indestructible){
-					t_trapAtDeath->p_Die();
-				}
+		if(!c_Level::m_IsExitAt(this->m_x,this->m_y) && c_Level::m_IsFloorAt(this->m_x,this->m_y)){
+			c_Level::m_PlaceTileRemovingExistingTiles(this->m_x,this->m_y,8,false,-1,false);
+			c_Trap* t_trapAtDeath=c_Trap::m_GetTrapAt(this->m_x,this->m_y);
+			if(t_trapAtDeath!=0 && !t_trapAtDeath->m_indestructible){
+				t_trapAtDeath->p_Die();
 			}
 		}
 	}
