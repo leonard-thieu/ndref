@@ -191,6 +191,10 @@ Class Entity Extends RenderableObject Abstract
         Self.PerformTween(Self.x + p.x, Self.y + p.y, Self.x, Self.y, 10, 11, bufferTween)
     End Method
 
+    Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
+        Return True
+    End Method
+
     Method CancelTween: Void()
         Debug.TraceNotImplemented("Entity.CancelTween()")
     End Method
