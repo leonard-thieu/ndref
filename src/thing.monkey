@@ -20,7 +20,7 @@ Class Thing Extends Entity
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Thing.Update()")
+        Return
     End Method
 
 End Class

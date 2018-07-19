@@ -56277,7 +56277,7 @@ bool c_Thing::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	return false;
 }
 void c_Thing::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Thing.Update()",14));
+	return;
 }
 void c_Thing::mark(){
 	c_Entity::mark();
