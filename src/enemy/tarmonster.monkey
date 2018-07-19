@@ -1,8 +1,10 @@
 'Strict
 
+Import controller.controller_game
 Import enemy
 Import enemy.enemyclamper
 Import level
+Import audio2
 Import entity
 Import logger
 Import player_class
@@ -104,7 +106,62 @@ Class TarMonster Extends EnemyClamper
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("TarMonster.Update()")
+        Local distToClosestPlayer := Util.GetDistFromClosestPlayer(Self.x, Self.y, True)
+
+        If distToClosestPlayer <= 1.0 And
+           Self.stealth
+            Self.currentMoveDelay = 2
+            If Enemy.EnemiesHaveMovedClosestBeat() Or
+               (Audio.IsFixedBeatSet() And
+                Not controller_game.incrementFixedBeatNum)
+                Self.currentMoveDelay = 1
+            End If
+
+            Self.stealth = False
+            Self.moveTween = 1
+            Self.moveShadowTween = 2
+
+            Audio.PlayGameSoundAt("tarMonsterCry", Self.x, Self.y, True, -1, False)
+        End If
+
+        If Self.clampedOn
+            If Self.x <> Self.clampedOnto.x And
+               Self.y <> Self.clampedOnto.y
+                Self.x = Self.clampedOnto.x
+                Self.y = Self.clampedOnto.y
+            End If
+
+            If Self.clampedOnto <> Null And
+               Self.clampedOnto.Perished
+                Self.clampedOn = False
+                Self.clampedOnto = Null
+                Self.animOverride = 0
+                Self.stealth = True
+                Self.yOff = 8.0
+                Self.coinsToDrop = Self.startingCoinsToDrop
+                Self.health = 1
+                Self.healthMax = 1
+            End If
+            
+            Self.animOverride = 3
+            Self.image.SetZOff(-20.0)
+        Else If Not Self.stealth Or
+                Level.isLevelEditor
+            If Audio.IsBeatAnimTime(False, False)
+                Self.animOverride = 0
+            Else
+                Self.animOverride = 1
+            End If
+        Else If distToClosestPlayer <= 2.5
+            Self.animOverride = 4
+            Self.shadow.SkipNextDraw()
+        Else
+            Self.image.SkipNextDraw()
+            Self.image2.SkipNextDraw()
+            Self.shadow.SkipNextDraw()
+        End If
+
+        Super.Update()
     End Method
 
 End Class

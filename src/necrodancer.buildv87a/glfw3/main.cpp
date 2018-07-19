@@ -6447,6 +6447,7 @@ class c_Sprite : public c_Tweenable{
 	void p_SetCutoffY(int);
 	int p_GetFrame();
 	int p_GetNumFrames();
+	void p_SkipNextDraw();
 	void mark();
 };
 class c_XMLError : public Object{
@@ -16974,6 +16975,9 @@ int c_Sprite::p_GetFrame(){
 int c_Sprite::p_GetNumFrames(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.GetNumFrames()",21));
 	return 0;
+}
+void c_Sprite::p_SkipNextDraw(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sprite.SkipNextDraw()",21));
 }
 void c_Sprite::mark(){
 	c_Tweenable::mark();
@@ -52407,7 +52411,53 @@ int c_TarMonster::p_PerformMovement(int t_xVal,int t_yVal){
 	return 0;
 }
 void c_TarMonster::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TarMonster.Update()",19));
+	Float t_distToClosestPlayer=c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,true);
+	if(t_distToClosestPlayer<=FLOAT(1.0) && this->m_stealth){
+		this->m_currentMoveDelay=2;
+		if(c_Enemy::m_EnemiesHaveMovedClosestBeat() || c_Audio::m_IsFixedBeatSet() && !bb_controller_game_incrementFixedBeatNum){
+			this->m_currentMoveDelay=1;
+		}
+		this->m_stealth=false;
+		this->m_moveTween=1;
+		this->m_moveShadowTween=2;
+		c_Audio::m_PlayGameSoundAt(String(L"tarMonsterCry",13),this->m_x,this->m_y,true,-1,false);
+	}
+	if(this->m_clampedOn){
+		if(this->m_x!=this->m_clampedOnto->m_x && this->m_y!=this->m_clampedOnto->m_y){
+			this->m_x=this->m_clampedOnto->m_x;
+			this->m_y=this->m_clampedOnto->m_y;
+		}
+		if(this->m_clampedOnto!=0 && this->m_clampedOnto->p_Perished()){
+			this->m_clampedOn=false;
+			this->m_clampedOnto=0;
+			this->m_animOverride=0;
+			this->m_stealth=true;
+			this->m_yOff=FLOAT(8.0);
+			this->m_coinsToDrop=this->m_startingCoinsToDrop;
+			this->m_health=1;
+			this->m_healthMax=1;
+		}
+		this->m_animOverride=3;
+		this->m_image->p_SetZOff(FLOAT(-20.0));
+	}else{
+		if(!this->m_stealth || c_Level::m_isLevelEditor){
+			if(c_Audio::m_IsBeatAnimTime(false,false)){
+				this->m_animOverride=0;
+			}else{
+				this->m_animOverride=1;
+			}
+		}else{
+			if(t_distToClosestPlayer<=FLOAT(2.5)){
+				this->m_animOverride=4;
+				this->m_shadow->p_SkipNextDraw();
+			}else{
+				this->m_image->p_SkipNextDraw();
+				this->m_image2->p_SkipNextDraw();
+				this->m_shadow->p_SkipNextDraw();
+			}
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_TarMonster::mark(){
 	c_EnemyClamper::mark();
