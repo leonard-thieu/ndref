@@ -1,9 +1,8 @@
-'Strict
+Strict
 
 Import level
 Import audio2
 Import entity
-Import logger
 Import particles
 Import tile
 Import util
@@ -21,7 +20,7 @@ Class MobileEntity Extends Entity Abstract
     Field gotOutOfTar: Bool
     Field moveTween: Int = 1
     Field moveShadowTween: Int = 2
-    Field slidingDir: Int = -1
+    Field slidingDir: Int = Direction.None
     Field isMassive: Bool
     Field ignoreLiquids: Bool
     Field wasKnockedBack: Bool
@@ -56,7 +55,10 @@ Class MobileEntity Extends Entity Abstract
     End Method
 
     Method Splash: Void(destroyWater: Bool)
-        Debug.TraceNotImplemented("MobileEntity.Splash(Bool)")
+        Self.gotOutOfTar = True
+
+        Level.SplashWater(Self.x, Self.y, destroyWater)
+        Level.BreakIce(Self.x, Self.y)
     End Method
 
     Method Update: Void()

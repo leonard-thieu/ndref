@@ -962,7 +962,17 @@ Class Level
     End Function
 
     Function BreakIce: Void(xVal: Int, yVal: Int)
-        Debug.TraceNotImplemented("Level.BreakIce(Int, Int)")
+        If Level.GetTileTypeAt(xVal, yVal) = TileType.Ice
+            Local tile := Level.GetTileAt(xVal, yVal)
+            Local alpha := tile.GetCurrentAlpha()
+            Local tilesetOverride = tile.tilesetOverride
+            tile.Die()
+
+            Local newTile := New Tile(xVal, yVal, TileType.Floor, False, tilesetOverride)
+            newTile.image.SetAlphaValue(alpha)
+
+            Audio.PlayGameSoundAt("iceBreak", xVal, yVal, False, -1, False)
+        End If
     End Function
 
     Function CarveCorridorTile: Void(xVal: Int, yVal: Int, horizontal: Bool, pending: Bool, skipWalls: Bool, roomType: Int, wideCorridor: Bool)
@@ -13474,7 +13484,37 @@ Class Level
     End Function
 
     Function SplashWater: Void(xVal: Int, yVal: Int, destroyWater: Bool)
-        Debug.TraceNotImplemented("Level.SplashWater(Int, Int, Bool)")
+        If Level.IsWaterOrTarAt(xVal, yVal)
+            If Level.GetTileTypeAt(xVal, yVal) = TileType.Water
+                If destroyWater
+                    Local tile := Level.GetTileAt(xVal, yVal)
+                    Local alpha := tile.GetCurrentAlpha()
+                    Local tilesetOverride = tile.tilesetOverride
+                    tile.Die()
+
+                    Local newTile := New Tile(xVal, yVal, TileType.Floor, False, tilesetOverride)
+                    newTile.image.SetAlphaValue(alpha)
+                End If
+
+                Audio.PlayGameSoundAt("waterOut", xVal, yVal, False, -1, False)
+
+                Local particlesX := 24.0 * (xVal + 0.5)
+                Local particlesY := 24.0 * (yVal + 0.85)
+                New ParticleSystem(particlesX, particlesY, ParticleSystemData.WATER_SPLASH_OUT, Direction.None, "")
+            Else If Level.GetTileTypeAt(xVal, yVal) = TileType.DeepWater
+                Audio.PlayGameSoundAt("waterOut", xVal, yVal, False, -1, False)
+
+                Local particlesX := 24.0 * (xVal + 0.5)
+                Local particlesY := 24.0 * (yVal + 0.85)
+                New ParticleSystem(particlesX, particlesY, ParticleSystemData.WATER_SPLASH_OUT, Direction.None, "")
+            Else
+                Audio.PlayGameSoundAt("tarOut", xVal, yVal, False, -1, False)
+
+                Local particlesX := 24.0 * (xVal + 0.5)
+                Local particlesY := 24.0 * (yVal + 0.85)
+                New ParticleSystem(particlesX, particlesY, ParticleSystemData.TAR_SPLASH_OUT, Direction.None, "")
+            End If
+        End If
     End Function
 
     Function StartReplayPlayback: Void()

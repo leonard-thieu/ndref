@@ -7085,6 +7085,8 @@ class c_Level : public Object{
 	static void m_TakeActionAfterAllCharsScoreSubmit();
 	static void m_Update();
 	static bool m_IsVisibleTileAt(int,int);
+	static void m_SplashWater(int,int,bool);
+	static void m_BreakIce(int,int);
 	static void m_PlaceHotCoalTileAt(int,int);
 	static void m_PlaceIceTileAt(int,int);
 	static void m_PlaceTileTypeAt(int,int,int);
@@ -10655,6 +10657,8 @@ class c_ParticleSystemData : public Object{
 	static c_ParticleSystemData* m_MOLE_DIG;
 	static c_ParticleSystemData* m_WATER_SPLASH_IN;
 	static c_ParticleSystemData* m_TAR_SPLASH_IN;
+	static c_ParticleSystemData* m_WATER_SPLASH_OUT;
+	static c_ParticleSystemData* m_TAR_SPLASH_OUT;
 	static c_ParticleSystemData* m_GEYSER;
 	void mark();
 };
@@ -30640,6 +30644,47 @@ bool c_Level::m_IsVisibleTileAt(int t_xVal,int t_yVal){
 	c_Tile* t_tile=m_GetTileAt(t_xVal,t_yVal);
 	return t_tile!=0 && t_tile->p_IsVisible();
 }
+void c_Level::m_SplashWater(int t_xVal,int t_yVal,bool t_destroyWater){
+	if(m_IsWaterOrTarAt(t_xVal,t_yVal)){
+		if(m_GetTileTypeAt(t_xVal,t_yVal)==4){
+			if(t_destroyWater){
+				c_Tile* t_tile=m_GetTileAt(t_xVal,t_yVal);
+				Float t_alpha=t_tile->p_GetCurrentAlpha();
+				int t_tilesetOverride=t_tile->m_tilesetOverride;
+				t_tile->p_Die();
+				c_Tile* t_newTile=(new c_Tile)->m_new(t_xVal,t_yVal,0,false,t_tilesetOverride);
+				t_newTile->m_image->p_SetAlphaValue(t_alpha);
+			}
+			c_Audio::m_PlayGameSoundAt(String(L"waterOut",8),t_xVal,t_yVal,false,-1,false);
+			Float t_particlesX=FLOAT(24.0)*(Float(t_xVal)+FLOAT(0.5));
+			Float t_particlesY=FLOAT(24.0)*(Float(t_yVal)+FLOAT(0.85));
+			(new c_ParticleSystem)->m_new(int(t_particlesX),int(t_particlesY),c_ParticleSystemData::m_WATER_SPLASH_OUT,-1,String());
+		}else{
+			if(m_GetTileTypeAt(t_xVal,t_yVal)==5){
+				c_Audio::m_PlayGameSoundAt(String(L"waterOut",8),t_xVal,t_yVal,false,-1,false);
+				Float t_particlesX2=FLOAT(24.0)*(Float(t_xVal)+FLOAT(0.5));
+				Float t_particlesY2=FLOAT(24.0)*(Float(t_yVal)+FLOAT(0.85));
+				(new c_ParticleSystem)->m_new(int(t_particlesX2),int(t_particlesY2),c_ParticleSystemData::m_WATER_SPLASH_OUT,-1,String());
+			}else{
+				c_Audio::m_PlayGameSoundAt(String(L"tarOut",6),t_xVal,t_yVal,false,-1,false);
+				Float t_particlesX3=FLOAT(24.0)*(Float(t_xVal)+FLOAT(0.5));
+				Float t_particlesY3=FLOAT(24.0)*(Float(t_yVal)+FLOAT(0.85));
+				(new c_ParticleSystem)->m_new(int(t_particlesX3),int(t_particlesY3),c_ParticleSystemData::m_TAR_SPLASH_OUT,-1,String());
+			}
+		}
+	}
+}
+void c_Level::m_BreakIce(int t_xVal,int t_yVal){
+	if(m_GetTileTypeAt(t_xVal,t_yVal)==11){
+		c_Tile* t_tile=m_GetTileAt(t_xVal,t_yVal);
+		Float t_alpha=t_tile->p_GetCurrentAlpha();
+		int t_tilesetOverride=t_tile->m_tilesetOverride;
+		t_tile->p_Die();
+		c_Tile* t_newTile=(new c_Tile)->m_new(t_xVal,t_yVal,0,false,t_tilesetOverride);
+		t_newTile->m_image->p_SetAlphaValue(t_alpha);
+		c_Audio::m_PlayGameSoundAt(String(L"iceBreak",8),t_xVal,t_yVal,false,-1,false);
+	}
+}
 void c_Level::m_PlaceHotCoalTileAt(int t_xVal,int t_yVal){
 	c_Point* t_exitValue=m_GetExitValue(t_xVal,t_yVal);
 	if(t_exitValue->m_x!=-4){
@@ -32298,7 +32343,9 @@ bool c_MobileEntity::p_IsStuckInLiquid(){
 	return (c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==4 || c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==5 || c_Level::m_GetTileTypeAt(this->m_x,this->m_y)==8) && (!this->m_floating && !this->m_gotOutOfTar && !this->m_isMassive && !this->m_ignoreLiquids);
 }
 void c_MobileEntity::p_Splash(bool t_destroyWater){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"MobileEntity.Splash(Bool)",25));
+	this->m_gotOutOfTar=true;
+	c_Level::m_SplashWater(this->m_x,this->m_y,t_destroyWater);
+	c_Level::m_BreakIce(this->m_x,this->m_y);
 }
 void c_MobileEntity::mark(){
 	c_Entity::mark();
@@ -52411,6 +52458,8 @@ c_ParticleSystemData::c_ParticleSystemData(){
 c_ParticleSystemData* c_ParticleSystemData::m_MOLE_DIG;
 c_ParticleSystemData* c_ParticleSystemData::m_WATER_SPLASH_IN;
 c_ParticleSystemData* c_ParticleSystemData::m_TAR_SPLASH_IN;
+c_ParticleSystemData* c_ParticleSystemData::m_WATER_SPLASH_OUT;
+c_ParticleSystemData* c_ParticleSystemData::m_TAR_SPLASH_OUT;
 c_ParticleSystemData* c_ParticleSystemData::m_GEYSER;
 void c_ParticleSystemData::mark(){
 	Object::mark();
@@ -59867,6 +59916,8 @@ int bbInit(){
 	bb_controller_game_DEBUG_ALL_TILES_VISIBLE=false;
 	c_FamiliarFixed::m_debugTouchDamage=true;
 	bb_necrodancergame_DEBUG_STOP_ENEMY_MOVEMENT=false;
+	c_ParticleSystemData::m_WATER_SPLASH_OUT=0;
+	c_ParticleSystemData::m_TAR_SPLASH_OUT=0;
 	c_Camera::m_overlayRedDuration=0;
 	c_CrystalShards::m_shardsList=(new c_List41)->m_new();
 	c_Audio::m_musicSpeed=FLOAT(1.0);
@@ -60054,6 +60105,8 @@ void gc_mark(){
 	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_IN);
 	gc_mark_q(c_Doppelganger::m_doppelgangers);
 	gc_mark_q(c_Flyaway::m_activeFlyaways);
+	gc_mark_q(c_ParticleSystemData::m_WATER_SPLASH_OUT);
+	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_OUT);
 	gc_mark_q(c_CrystalShards::m_shardsList);
 	gc_mark_q(c_Bomb::m_bombList);
 	gc_mark_q(c_ParticleSystemData::m_GEYSER);
