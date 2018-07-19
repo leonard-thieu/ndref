@@ -1,8 +1,9 @@
 'Strict
 
 Import monkey.math
-Import audio2
 Import enemy
+Import audio2
+Import crystal_shards
 Import entity
 Import logger
 Import point
@@ -73,7 +74,12 @@ Class ArmoredSkeleton Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("ArmoredSkeleton.Die()")
+        Select Self.level
+            Case 4
+                New CrystalShards(Self.x, Self.y)
+        End Select
+
+        Super.Die()
     End Method
 
     Method GetMovementDirection: Point()

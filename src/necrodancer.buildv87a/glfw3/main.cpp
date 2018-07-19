@@ -52117,7 +52117,11 @@ bool c_ArmoredSkeleton::p_CanBeLord(){
 	return false;
 }
 void c_ArmoredSkeleton::p_Die(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.Die()",21));
+	int t_1=this->m_level;
+	if(t_1==4){
+		(new c_CrystalShards)->m_new(this->m_x,this->m_y);
+	}
+	c_Enemy::p_Die();
 }
 c_Point* c_ArmoredSkeleton::p_GetMovementDirection(){
 	c_Point* t_movementDirection=0;
@@ -52171,11 +52175,11 @@ void c_ArmoredSkeleton::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 }
 void c_ArmoredSkeleton::p_Update(){
 	if(!this->m_shieldDestroyed){
-		int t_1=this->m_shieldDir;
-		if(t_1==2){
+		int t_2=this->m_shieldDir;
+		if(t_2==2){
 			this->m_image->p_FlipX(false,true);
 		}else{
-			if(t_1==0){
+			if(t_2==0){
 				this->m_image->p_FlipX(true,true);
 			}
 		}
@@ -52199,11 +52203,11 @@ void c_ArmoredSkeleton::p_Update(){
 		}
 	}
 	if(!this->m_shieldDestroyed){
-		int t_2=this->m_shieldDir;
-		if(t_2==2 || t_2==0){
+		int t_3=this->m_shieldDir;
+		if(t_3==2 || t_3==0){
 			this->m_animOverrideState=2;
 		}else{
-			if(t_2==3){
+			if(t_3==3){
 				this->m_animOverrideState=0;
 			}else{
 				this->m_animOverrideState=4;
