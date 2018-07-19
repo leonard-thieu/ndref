@@ -32,6 +32,10 @@ Class MoleDirt Extends Entity
     Field fadeCounter: Int
     Field FADE_TIME: Int = 60
 
+    Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
+        Return False
+    End Method
+
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("MoleDirt.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
