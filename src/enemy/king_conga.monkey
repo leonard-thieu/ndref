@@ -4,6 +4,7 @@ Import monkey.list
 Import controller.controller_game
 Import enemy
 Import level
+Import audio2
 Import entity
 Import logger
 Import player_class
@@ -119,7 +120,43 @@ Class KingConga Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("KingConga.Update()")
+        Self.xOff = Self.initialXOff
+
+        If Self.lastX > Self.x
+            Self.image.FlipX(False, True)
+        Else If Self.lastX < Self.x
+            Self.image.FlipX(True, True)
+            Self.xOff = Self.initialXOff + 4
+        End If
+
+        Select Self.state
+            Case 0
+                Local currentBeatNumber := Audio.GetCurrentBeatNumber(0, True)
+                If (currentBeatNumber Mod 7) = 0
+                    Self.animOverride = 4
+                Else
+                    Self.animOverride = -1
+                End If
+            Default
+                Local timeUntilCurrentBeat := Audio.TimeUntilBeat(0)
+                Local nextBeatDuration := Audio.GetNextBeatDuration()
+                Local percentDist := Float(timeUntilCurrentBeat) / Float(nextBeatDuration)
+                If percentDist > 0.95 And
+                   Self.lastBeatNum <> Audio.GetCurrentBeatNumberIncludingLoops(0, True)
+                    Self.lastBeatNum = Audio.GetCurrentBeatNumberIncludingLoops(0, True)
+
+                    Select Self.lastBeatAnim
+                        Case 5
+                            Self.animOverride = 6
+                        Default
+                            Self.animOverride = 5
+                    End Select
+
+                    Self.lastBeatAnim = Self.animOverride
+                End If
+        End Select
+
+        Super.Update()
     End Method
 
 End Class

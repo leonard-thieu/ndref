@@ -10064,6 +10064,9 @@ class c_KingConga : public c_Enemy{
 	int m_initialXOff;
 	c_Sprite* m_image2;
 	c_List10* m_zombieFriends;
+	int m_state;
+	int m_lastBeatNum;
+	int m_lastBeatAnim;
 	c_KingConga();
 	static c_KingConga* m_theKing;
 	c_KingConga* m_new(int,int,int);
@@ -49933,6 +49936,9 @@ c_KingConga::c_KingConga(){
 	m_initialXOff=-1;
 	m_image2=0;
 	m_zombieFriends=(new c_List10)->m_new();
+	m_state=0;
+	m_lastBeatNum=-1;
+	m_lastBeatAnim=-1;
 }
 c_KingConga* c_KingConga::m_theKing;
 c_KingConga* c_KingConga::m_new(int t_xVal,int t_yVal,int t_l){
@@ -49991,7 +49997,39 @@ void c_KingConga::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"KingConga.MoveSucceed(Bool, Bool)",33));
 }
 void c_KingConga::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"KingConga.Update()",18));
+	this->m_xOff=Float(this->m_initialXOff);
+	if(this->m_lastX>this->m_x){
+		this->m_image->p_FlipX(false,true);
+	}else{
+		if(this->m_lastX<this->m_x){
+			this->m_image->p_FlipX(true,true);
+			this->m_xOff=Float(this->m_initialXOff+4);
+		}
+	}
+	int t_1=this->m_state;
+	if(t_1==0){
+		int t_currentBeatNumber=c_Audio::m_GetCurrentBeatNumber(0,true);
+		if(t_currentBeatNumber % 7==0){
+			this->m_animOverride=4;
+		}else{
+			this->m_animOverride=-1;
+		}
+	}else{
+		int t_timeUntilCurrentBeat=c_Audio::m_TimeUntilBeat(0);
+		int t_nextBeatDuration=c_Audio::m_GetNextBeatDuration();
+		Float t_percentDist=Float(t_timeUntilCurrentBeat)/Float(t_nextBeatDuration);
+		if(t_percentDist>FLOAT(0.95) && this->m_lastBeatNum!=c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,true)){
+			this->m_lastBeatNum=c_Audio::m_GetCurrentBeatNumberIncludingLoops(0,true);
+			int t_2=this->m_lastBeatAnim;
+			if(t_2==5){
+				this->m_animOverride=6;
+			}else{
+				this->m_animOverride=5;
+			}
+			this->m_lastBeatAnim=this->m_animOverride;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_KingConga::mark(){
 	c_Enemy::mark();
