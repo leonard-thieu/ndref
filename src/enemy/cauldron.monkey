@@ -3,6 +3,7 @@ Strict
 Import enemy
 Import level
 Import player_class
+Import point
 Import util
 
 Class Cauldron Extends Enemy
@@ -31,8 +32,10 @@ Class Cauldron Extends Enemy
 
     Method Die: Void()
         Select Self.level
-            Case 2  Level.PlaceIceTileAt(Self.x, Self.y)
-            Default Level.PlaceHotCoalTileAt(Self.x, Self.y)
+            Case 2
+                Level.PlaceIceTileAt(Self.x, Self.y)
+            Default
+                Level.PlaceHotCoalTileAt(Self.x, Self.y)
         End Select
 
         Super.Die()
