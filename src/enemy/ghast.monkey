@@ -49,7 +49,41 @@ Class Ghast Extends Enemy
     Field beenHit: Bool
 
     Method BecomeCorporeal: Void(force: Bool)
-        Debug.TraceNotImplemented("Ghast.BecomeCorporeal(Bool)")
+        If Player.AllPlayersPerished() Or
+           Not Self.invisible
+            Return
+        End If
+
+        If Not force
+            If Enemy.lastWraithSpawnBeat + 14 >= Audio.GetClosestBeatNum(True) And
+               Not Tile.AnyPlayerHaveMonocle() And
+               Not Entity.AnyPlayerHaveCircletOrGlassTorch() And
+               Not Self.earthquaked
+                Return
+            End If
+
+            If Player.AnyPlayerInSpecialRoom()
+                Self.coinsToDrop = 0
+                Self.Die()
+
+                Return
+            End If
+
+            If Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 3.0 Or
+               Util.IsGlobalCollisionAt(Self.x, Self.y, False, True, False, False)
+                Return
+            End If
+        End If
+
+        Self.invisible = False
+        Self.seeking = False
+
+        If Not Self.collides
+            Self.collides = True
+            Self.currentMoveDelay = 0
+        End If
+
+        Enemy.lastWraithSpawnBeat = Audio.GetClosestBeatNum(True)
     End Method
 
     Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)

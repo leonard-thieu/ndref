@@ -52816,8 +52816,8 @@ void c_Wight::p_BecomeCorporeal(bool t_force){
 		}
 	}
 	this->m_invisible=false;
-	this->m_collides=true;
 	this->m_seeking=false;
+	this->m_collides=true;
 	this->m_currentMoveDelay=0;
 	c_Enemy::m_lastWraithSpawnBeat=c_Audio::m_GetClosestBeatNum(true);
 }
@@ -53219,7 +53219,29 @@ bool c_Ghast::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	return false;
 }
 void c_Ghast::p_BecomeCorporeal(bool t_force){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghast.BecomeCorporeal(Bool)",27));
+	if(c_Player::m_AllPlayersPerished() || !this->m_invisible){
+		return;
+	}
+	if(!t_force){
+		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
+			return;
+		}
+		if(c_Player::m_AnyPlayerInSpecialRoom()){
+			this->m_coinsToDrop=0;
+			this->p_Die();
+			return;
+		}
+		if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,true,false,false)){
+			return;
+		}
+	}
+	this->m_invisible=false;
+	this->m_seeking=false;
+	if(!this->m_collides){
+		this->m_collides=true;
+		this->m_currentMoveDelay=0;
+	}
+	c_Enemy::m_lastWraithSpawnBeat=c_Audio::m_GetClosestBeatNum(true);
 }
 void c_Ghast::p_CheckCorporeality(){
 	if(this->p_IsVisible() || this->m_earthquaked || c_Tile::m_AnyPlayerHaveMonocle() || c_Entity::m_AnyPlayerHaveCircletOrGlassTorch()){

@@ -71,8 +71,9 @@ Class Wight Extends Enemy
         End If
 
         Self.invisible = False
-        Self.collides = True
         Self.seeking = False
+        
+        Self.collides = True
         Self.currentMoveDelay = 0
 
         Enemy.lastWraithSpawnBeat = Audio.GetClosestBeatNum(True)
