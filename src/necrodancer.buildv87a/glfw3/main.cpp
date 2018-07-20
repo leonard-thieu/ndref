@@ -10174,6 +10174,7 @@ class c_Yeti : public c_Enemy{
 class c_Goblin : public c_Enemy{
 	public:
 	Array<Float > m_lastDist;
+	bool m_movingAway;
 	c_Goblin();
 	c_Goblin* m_new(int,int,int);
 	c_Goblin* m_new2();
@@ -10181,6 +10182,7 @@ class c_Goblin : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	int p_Move();
 	int p_MoveImmediate(int,int,String);
+	void p_ProcessDistanceChanges();
 	void p_Update();
 	void mark();
 };
@@ -50670,6 +50672,7 @@ void c_Yeti::mark(){
 }
 c_Goblin::c_Goblin(){
 	m_lastDist=Array<Float >(4);
+	m_movingAway=false;
 }
 c_Goblin* c_Goblin::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -50706,8 +50709,47 @@ int c_Goblin::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Goblin.MoveImmediate(Int, Int, String)",38));
 	return 0;
 }
+void c_Goblin::p_ProcessDistanceChanges(){
+	bool t_v43=false;
+	Float t_distFromClosestPlayer=c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false);
+	if(t_distFromClosestPlayer*FLOAT(1000.0)<=FLOAT(1000.0)){
+		t_v43=true;
+	}else{
+		for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+			c_Player* t_player=bb_controller_game_players[t_i];
+			Float t_distToPlayer=c_Util::m_GetDist(this->m_x,this->m_y,t_player->m_x,t_player->m_y);
+			if(t_distToPlayer*FLOAT(1000.0)>this->m_lastDist[t_i]*FLOAT(1000.0)){
+				t_v43=true;
+			}else{
+				if(t_distToPlayer*FLOAT(1000.0)<this->m_lastDist[t_i]*FLOAT(1000.0)){
+					this->m_movingAway=false;
+				}
+			}
+			this->m_lastDist[t_i]=t_distToPlayer;
+		}
+	}
+	if(t_v43){
+		this->m_movingAway=true;
+	}
+}
 void c_Goblin::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Goblin.Update()",15));
+	this->p_ProcessDistanceChanges();
+	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayerIncludeItemEffects(this->m_x,this->m_y,false);
+	if(t_closestPlayer!=0){
+		if(t_closestPlayer->m_x>this->m_x){
+			this->m_image->p_FlipX(true,true);
+		}else{
+			if(t_closestPlayer->m_x<this->m_x){
+				this->m_image->p_FlipX(false,true);
+			}
+		}
+	}
+	if(this->m_movingAway){
+		this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+4;
+	}else{
+		this->m_animOverride=-1;
+	}
+	c_Enemy::p_Update();
 }
 void c_Goblin::mark(){
 	c_Enemy::mark();

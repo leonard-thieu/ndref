@@ -1,6 +1,8 @@
 'Strict
 
+Import controller.controller_game
 Import enemy
+Import audio2
 Import entity
 Import logger
 Import necrodancergame
@@ -53,11 +55,50 @@ Class Goblin Extends Enemy
     End Method
 
     Method ProcessDistanceChanges: Void()
-        Debug.TraceNotImplemented("Goblin.ProcessDistanceChanges()")
+        Local v43 := False
+        
+        Local distFromClosestPlayer := Util.GetDistFromClosestPlayer(Self.x, Self.y, False)
+        If distFromClosestPlayer * 1000.0 <= 1000
+            v43 = True
+        Else
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                Local distToPlayer := Util.GetDist(Self.x, Self.y, player.x, player.y)
+
+                If distToPlayer * 1000.0 > Self.lastDist[i] * 1000.0
+                    v43 = True
+                Else If distToPlayer * 1000.0 < Self.lastDist[i] * 1000.0
+                    Self.movingAway = False
+                End If
+
+                Self.lastDist[i] = distToPlayer
+            End For
+        End If
+
+        If v43
+            Self.movingAway = True
+        End If
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Goblin.Update()")
+        Self.ProcessDistanceChanges()
+
+        Local closestPlayer := Util.GetClosestPlayerIncludeItemEffects(Self.x, Self.y, False)
+        If closestPlayer <> Null
+            If closestPlayer.x > Self.x
+                Self.image.FlipX(True, True)
+            Else If closestPlayer.x < Self.x
+                Self.image.FlipX(False, True)
+            End If
+        End If
+
+        If Self.movingAway
+            Self.animOverride = Audio.GetBeatAnimFrame4() + 4
+        Else
+            Self.animOverride = -1
+        End If
+
+        Super.Update()
     End Method
 
 End Class
