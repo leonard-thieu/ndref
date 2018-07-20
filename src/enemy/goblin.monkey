@@ -1,10 +1,12 @@
 'Strict
 
 Import enemy
+Import entity
 Import logger
 Import necrodancergame
 Import point
 Import shrine
+Import util
 
 Class Goblin Extends Enemy
 
@@ -19,7 +21,7 @@ Class Goblin Extends Enemy
 
         Self.Init(xVal, yVal, l, "goblin")
 
-        For Local i := 0 Until Self.lastDist.Length()
+        For Local i := 0 Until Self.lastDist.Length
             Self.lastDist[i] = 9999.0
         End For
 
@@ -36,6 +38,10 @@ Class Goblin Extends Enemy
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Goblin.GetMovementDirection()")
+    End Method
+
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
+        Debug.TraceNotImplemented("Goblin.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
     Method Move: Int()

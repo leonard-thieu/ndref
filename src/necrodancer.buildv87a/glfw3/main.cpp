@@ -10178,6 +10178,7 @@ class c_Goblin : public c_Enemy{
 	c_Goblin* m_new(int,int,int);
 	c_Goblin* m_new2();
 	c_Point* p_GetMovementDirection();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	int p_Move();
 	int p_MoveImmediate(int,int,String);
 	void p_Update();
@@ -50692,6 +50693,10 @@ c_Goblin* c_Goblin::m_new2(){
 c_Point* c_Goblin::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Goblin.GetMovementDirection()",29));
 	return 0;
+}
+bool c_Goblin::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Goblin.Hit(String, Int, Int, Entity, Bool, Int)",47));
+	return false;
 }
 int c_Goblin::p_Move(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Goblin.Move()",13));
