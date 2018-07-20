@@ -203,7 +203,7 @@ Class NecroDancerGame Extends App
                 End Select
             Else
                 If controller_game.currentDepth = 2 And
-                   controller_game.currentLevel = LevelType.Level3
+                   controller_game.currentLevel = LevelType.BossBattle
                     app.EndApp()
                 End If
             End If

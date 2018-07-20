@@ -102,6 +102,10 @@ Class KingConga Extends Enemy
         Debug.TraceNotImplemented("KingConga.ImmuneToFear()")
     End Method
 
+    Method MoveFail: Void()
+        Debug.TraceNotImplemented("KingConga.MoveFail()")
+    End Method
+
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
         Debug.TraceNotImplemented("KingConga.MoveSucceed(Bool, Bool)")
     End Method
