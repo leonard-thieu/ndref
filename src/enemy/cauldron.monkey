@@ -43,6 +43,10 @@ Class Cauldron Extends Enemy
         Return New Point(0, -1)
     End Method
 
+    Method PerformMovement: Int(xVal: Int, yVal: Int)
+        Return 0
+    End Method
+
     Method Update: Void()
         Debug.TraceNotImplemented("Cauldron.Update()")
     End Method
