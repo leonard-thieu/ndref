@@ -1,6 +1,9 @@
 'Strict
 
 Import enemy
+Import level
+Import audio2
+Import camera
 Import entity
 Import logger
 Import player_class
@@ -68,7 +71,72 @@ Class Ghast Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Ghast.Update()")
+        If Not Self.dead And
+           Entity.AnyPlayerHaveNazarCharm()
+            Self.coinsToDrop = 0
+            Self.Die()
+        End If
+
+        If Not Enemy.EnemiesMovingThisFrame()
+            Self.CheckCorporeality()
+        End If
+
+        If Self.frozenDuration <= 0 And
+           Self.teleporting
+            Self.teleporting = False
+
+            Local teleportDir := Util.InvertDir(Self.hitDir)
+            Local teleportDirPoint := Util.GetPointFromDir(teleportDir)
+
+            If teleportDirPoint.x = 0 And
+               teleportDirPoint.y = 0
+                Local closestUnoccupiedSpace := Util.FindClosestUnoccupiedSpace(Self.hitPlayer.x, Self.hitPlayer.y, True)
+
+                teleportDirPoint.x = closestUnoccupiedSpace.x - Self.hitPlayer.x
+                teleportDirPoint.y = closestUnoccupiedSpace.y - Self.hitPlayer.y
+            End If
+
+            Local x := teleportDirPoint.x + Self.hitPlayer.x
+            Local y := teleportDirPoint.y + Self.hitPlayer.y
+
+            Const MAX_TELEPORT_DISTANCE: Int = 10
+            For Local i := 0 Until MAX_TELEPORT_DISTANCE
+                If Not Util.IsGlobalCollisionAt(x, y, False, True, False, False)
+                    Exit
+                End If
+
+                If i <> MAX_TELEPORT_DISTANCE - 1
+                    x += teleportDirPoint.x
+                    y += teleportDirPoint.y
+                Else
+                    x = Self.x
+                    y = Self.y
+                End IF
+            End For
+
+            Local xDiff := x - Self.x
+            Local yDiff := y - Self.y
+            Self.MoveImmediate(xDiff, yDiff, "self")
+
+            Self.currentMoveDelay = 2
+            If Self.skippedMove
+                Self.currentMoveDelay = 1
+            End If
+
+            Audio.PlayGameSoundAt("teleport", x, y, False, -1, False)
+            Audio.PlayGameSoundAt("ghastTeleport", x, y, False, -1, False)
+        End If
+
+        If Not Self.invisible And
+           Self.IsVisible() And
+           Camera.IsOnScreen(Self.x, Self.y) And
+           Not Self.hasRoared And
+           Not Level.isLevelEditor
+            Audio.PlayGameSoundAt("ghastCry", Self.x, Self.y, True, -1, False)
+            Self.hasRoared = True
+        End If
+
+        Super.Update()
     End Method
 
 End Class

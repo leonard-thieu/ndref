@@ -92,7 +92,7 @@ Class Util
         Debug.TraceNotImplemented("Util.FindClosestTrulyUnoccupiedSpaceNotAdjacentToEnemy(Int, Int, Bool)")
     End Function
 
-    Function FindClosestUnoccupiedSpace: Object(xVal: Int, yVal: Int, ignoreWalls: Bool)
+    Function FindClosestUnoccupiedSpace: Point(xVal: Int, yVal: Int, ignoreWalls: Bool)
         Debug.TraceNotImplemented("Util.FindClosestUnoccupiedSpace(Int, Int, Bool)")
     End Function
 

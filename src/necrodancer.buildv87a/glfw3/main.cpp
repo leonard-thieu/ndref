@@ -5969,6 +5969,7 @@ class c_Util : public Object{
 	static c_Player* m_GetClosestPlayer(int,int);
 	static int m_InvertDir(int);
 	static Float m_GetDistSqFromClosestPlayer(int,int,bool,bool);
+	static c_Point* m_FindClosestUnoccupiedSpace(int,int,bool);
 	void mark();
 };
 class c_TextLog : public Object{
@@ -10768,11 +10769,17 @@ class c_ShoveMonster : public c_Enemy{
 };
 class c_Ghast : public c_Enemy{
 	public:
+	bool m_teleporting;
+	int m_hitDir;
+	c_Entity* m_hitPlayer;
+	bool m_skippedMove;
+	bool m_hasRoared;
 	c_Ghast();
 	c_Ghast* m_new(int,int,int);
 	c_Ghast* m_new2();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_CheckCorporeality();
 	void p_Update();
 	void mark();
 };
@@ -14489,6 +14496,10 @@ Float c_Util::m_GetDistSqFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeS
 		}
 	}
 	return t_distSq;
+}
+c_Point* c_Util::m_FindClosestUnoccupiedSpace(int t_xVal,int t_yVal,bool t_ignoreWalls){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.FindClosestUnoccupiedSpace(Int, Int, Bool)",47));
+	return 0;
 }
 void c_Util::mark(){
 	Object::mark();
@@ -53168,6 +53179,11 @@ void c_ShoveMonster::mark(){
 	c_Enemy::mark();
 }
 c_Ghast::c_Ghast(){
+	m_teleporting=false;
+	m_hitDir=-1;
+	m_hitPlayer=0;
+	m_skippedMove=false;
+	m_hasRoared=false;
 }
 c_Ghast* c_Ghast::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -53199,11 +53215,59 @@ bool c_Ghast::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghast.Hit(String, Int, Int, Entity, Bool, Int)",46));
 	return false;
 }
+void c_Ghast::p_CheckCorporeality(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghast.CheckCorporeality()",25));
+}
 void c_Ghast::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Ghast.Update()",14));
+	if(!this->m_dead && c_Entity::m_AnyPlayerHaveNazarCharm()){
+		this->m_coinsToDrop=0;
+		this->p_Die();
+	}
+	if(!c_Enemy::m_EnemiesMovingThisFrame()){
+		this->p_CheckCorporeality();
+	}
+	if(this->m_frozenDuration<=0 && this->m_teleporting){
+		this->m_teleporting=false;
+		int t_teleportDir=c_Util::m_InvertDir(this->m_hitDir);
+		c_Point* t_teleportDirPoint=c_Util::m_GetPointFromDir(t_teleportDir);
+		if(t_teleportDirPoint->m_x==0 && t_teleportDirPoint->m_y==0){
+			c_Point* t_closestUnoccupiedSpace=c_Util::m_FindClosestUnoccupiedSpace(this->m_hitPlayer->m_x,this->m_hitPlayer->m_y,true);
+			t_teleportDirPoint->m_x=t_closestUnoccupiedSpace->m_x-this->m_hitPlayer->m_x;
+			t_teleportDirPoint->m_y=t_closestUnoccupiedSpace->m_y-this->m_hitPlayer->m_y;
+		}
+		int t_x=t_teleportDirPoint->m_x+this->m_hitPlayer->m_x;
+		int t_y=t_teleportDirPoint->m_y+this->m_hitPlayer->m_y;
+		for(int t_i=0;t_i<10;t_i=t_i+1){
+			if(!c_Util::m_IsGlobalCollisionAt2(t_x,t_y,false,true,false,false)){
+				break;
+			}
+			if(t_i!=9){
+				t_x+=t_teleportDirPoint->m_x;
+				t_y+=t_teleportDirPoint->m_y;
+			}else{
+				t_x=this->m_x;
+				t_y=this->m_y;
+			}
+		}
+		int t_xDiff=t_x-this->m_x;
+		int t_yDiff=t_y-this->m_y;
+		this->p_MoveImmediate(t_xDiff,t_yDiff,String(L"self",4));
+		this->m_currentMoveDelay=2;
+		if(this->m_skippedMove){
+			this->m_currentMoveDelay=1;
+		}
+		c_Audio::m_PlayGameSoundAt(String(L"teleport",8),t_x,t_y,false,-1,false);
+		c_Audio::m_PlayGameSoundAt(String(L"ghastTeleport",13),t_x,t_y,false,-1,false);
+	}
+	if(!this->m_invisible && this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		c_Audio::m_PlayGameSoundAt(String(L"ghastCry",8),this->m_x,this->m_y,true,-1,false);
+		this->m_hasRoared=true;
+	}
+	c_Enemy::p_Update();
 }
 void c_Ghast::mark(){
 	c_Enemy::mark();
+	gc_mark_q(m_hitPlayer);
 }
 c_TrapCauldron::c_TrapCauldron(){
 }
