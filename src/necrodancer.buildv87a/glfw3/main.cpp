@@ -10785,6 +10785,7 @@ class c_Cauldron : public c_Enemy{
 	c_Cauldron* m_new(int,int,int);
 	c_Cauldron* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	void p_Update();
 	void mark();
 };
@@ -53196,6 +53197,9 @@ void c_Cauldron::p_Die(){
 		c_Level::m_PlaceHotCoalTileAt(this->m_x,this->m_y);
 	}
 	c_Enemy::p_Die();
+}
+c_Point* c_Cauldron::p_GetMovementDirection(){
+	return (new c_Point)->m_new(0,-1);
 }
 void c_Cauldron::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Cauldron.Update()",17));
