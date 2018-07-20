@@ -1,6 +1,4 @@
-'Strict
-
-Import logger
+Strict
 
 Class BeatAnimationData
 

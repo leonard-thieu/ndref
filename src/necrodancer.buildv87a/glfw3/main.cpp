@@ -6709,10 +6709,10 @@ class c_Audio : public Object{
 	static void m_IncrementFixedBeat();
 	static Float m_musicSpeed;
 	static int m_TimeUntilBeat(int);
-	static bool m_CloserToPreviousBeatThanNext();
-	static bool m_IsBeatAnimTime(bool,bool);
 	static Float m_GetPercentDistanceFromNextBeat();
 	static int m_GetBeatAnimFrame4();
+	static bool m_CloserToPreviousBeatThanNext();
+	static bool m_IsBeatAnimTime(bool,bool);
 	static bool m_songPaused;
 	static int m_songShopkeeper;
 	static void m_ModifyMusicSpeed(Float);
@@ -10085,6 +10085,7 @@ class c_ZombieSnake : public c_Enemy{
 	public:
 	c_ZombieSnake* m_zsChild;
 	c_ZombieSnake* m_zsParent;
+	int m_facing;
 	c_ZombieSnake();
 	c_ZombieSnake* m_new(int,int,int);
 	c_ZombieSnake* m_new2();
@@ -18428,15 +18429,6 @@ int c_Audio::m_TimeUntilBeat(int t_beatOffset){
 	int t_beatNumber=m_GetCurrentBeatNumberIncludingLoops(t_beatOffset,false);
 	return m_TimeUntilSpecificBeat(t_beatNumber);
 }
-bool c_Audio::m_CloserToPreviousBeatThanNext(){
-	int t_timeUntilNextbeat=m_TimeUntilBeat(0);
-	int t_timeUntilPreviousBeat=m_TimeUntilBeat(-1);
-	return bb_math_Abs(t_timeUntilPreviousBeat)<bb_math_Abs(t_timeUntilNextbeat);
-}
-bool c_Audio::m_IsBeatAnimTime(bool t_a1,bool t_a2){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.IsBeatAnimTime(Bool, Bool)",32));
-	return false;
-}
 Float c_Audio::m_GetPercentDistanceFromNextBeat(){
 	int t_currentBeatNumber=m_GetCurrentBeatNumberIncludingLoops(0,false);
 	int t_dist=m_TimeUntilSpecificBeat(t_currentBeatNumber);
@@ -18461,6 +18453,15 @@ int c_Audio::m_GetBeatAnimFrame4(){
 		return 2;
 	}
 	return 3;
+}
+bool c_Audio::m_CloserToPreviousBeatThanNext(){
+	int t_timeUntilNextbeat=m_TimeUntilBeat(0);
+	int t_timeUntilPreviousBeat=m_TimeUntilBeat(-1);
+	return bb_math_Abs(t_timeUntilPreviousBeat)<bb_math_Abs(t_timeUntilNextbeat);
+}
+bool c_Audio::m_IsBeatAnimTime(bool t_a1,bool t_a2){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.IsBeatAnimTime(Bool, Bool)",32));
+	return false;
 }
 bool c_Audio::m_songPaused;
 int c_Audio::m_songShopkeeper;
@@ -50039,6 +50040,7 @@ void c_KingConga::mark(){
 c_ZombieSnake::c_ZombieSnake(){
 	m_zsChild=0;
 	m_zsParent=0;
+	m_facing=-1;
 }
 c_ZombieSnake* c_ZombieSnake::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -50074,7 +50076,65 @@ void c_ZombieSnake::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieSnake.MoveSucceed(Bool, Bool)",35));
 }
 void c_ZombieSnake::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieSnake.Update()",20));
+	bool t_disownedChild=false;
+	bool t_disownedParent=false;
+	if(c_Enemy::m_enemiesFearfulDuration>0 || this->p_IsConfused()){
+		if(this->m_zsChild!=0){
+			this->m_zsChild=0;
+			t_disownedChild=true;
+		}
+		if(this->m_zsParent!=0){
+			this->m_zsParent=0;
+			t_disownedParent=true;
+		}
+	}else{
+		if(this->m_zsChild!=0 && this->m_zsChild->m_dead){
+			this->m_zsChild=0;
+			t_disownedChild=true;
+		}
+		if(this->m_zsParent!=0 && this->m_zsParent->m_dead){
+			this->m_zsParent=0;
+			t_disownedParent=true;
+		}
+	}
+	if(this->m_zsChild==0 && this->m_zsParent==0 && (t_disownedChild || t_disownedParent)){
+		this->m_beatsPerMove=1;
+		this->m_currentMoveDelay=2;
+		this->m_animNormal->p_Set16(0,(new c_BeatAnimationData)->m_new(10,FLOAT(0.74),FLOAT(0.99),false));
+		this->m_animNormal->p_Set16(1,(new c_BeatAnimationData)->m_new(11,FLOAT(0.49),FLOAT(0.74),false));
+		this->m_animNormal->p_Set16(2,(new c_BeatAnimationData)->m_new(12,FLOAT(0.24),FLOAT(0.49),false));
+		this->m_animNormal->p_Set16(3,(new c_BeatAnimationData)->m_new(13,FLOAT(0.99),FLOAT(0.24),false));
+		this->m_animBlink->p_Set16(1,(new c_BeatAnimationData)->m_new(14,FLOAT(0.49),FLOAT(0.74),false));
+	}else{
+		if(this->m_zsChild!=0 && (this->m_zsParent==0 && t_disownedParent) || this->m_animNormal->p_Get2(0)->m_frame!=0 && this->m_zsParent==0){
+			this->m_animNormal->p_Set16(0,(new c_BeatAnimationData)->m_new(5,FLOAT(0.74),FLOAT(0.99),false));
+			this->m_animNormal->p_Set16(1,(new c_BeatAnimationData)->m_new(6,FLOAT(0.49),FLOAT(0.74),false));
+			this->m_animNormal->p_Set16(2,(new c_BeatAnimationData)->m_new(7,FLOAT(0.24),FLOAT(0.49),false));
+			this->m_animNormal->p_Set16(3,(new c_BeatAnimationData)->m_new(8,FLOAT(0.99),FLOAT(0.24),false));
+			this->m_animBlink->p_Set16(1,(new c_BeatAnimationData)->m_new(9,FLOAT(0.49),FLOAT(0.74),false));
+		}
+	}
+	int t_animOverrideOff=0;
+	if(this->m_zsParent==0){
+		if(this->m_zsChild!=0){
+			t_animOverrideOff=24;
+		}else{
+			t_animOverrideOff=48;
+		}
+	}
+	int t_1=this->m_facing;
+	if(t_1==0 || t_1==2){
+		t_animOverrideOff+=8;
+	}else{
+		if(t_1==1){
+			t_animOverrideOff+=16;
+		}
+	}
+	if(this->m_currentMoveDelay>1){
+		t_animOverrideOff+=4;
+	}
+	this->m_animOverride=t_animOverrideOff+c_Audio::m_GetBeatAnimFrame4();
+	c_Enemy::p_Update();
 }
 void c_ZombieSnake::mark(){
 	c_Enemy::mark();
