@@ -1,8 +1,7 @@
-'Strict
+Strict
 
 Import enemy
 Import level
-Import logger
 Import player_class
 Import util
 
@@ -48,7 +47,11 @@ Class Cauldron Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Cauldron.Update()")
+        Local lightSourceMaxBase := Util.RndIntRangeFromZero(2, False)
+        Self.lightSourceMax = lightSourceMaxBase + 3
+        Self.constLightSourceMax = 4.125
+
+        Super.Update()
     End Method
 
 End Class

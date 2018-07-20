@@ -53206,7 +53206,10 @@ int c_Cauldron::p_PerformMovement(int t_xVal,int t_yVal){
 	return 0;
 }
 void c_Cauldron::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Cauldron.Update()",17));
+	int t_lightSourceMaxBase=c_Util::m_RndIntRangeFromZero(2,false);
+	this->m_lightSourceMax=Float(t_lightSourceMaxBase+3);
+	this->m_constLightSourceMax=FLOAT(4.125);
+	c_Enemy::p_Update();
 }
 void c_Cauldron::mark(){
 	c_Enemy::mark();
