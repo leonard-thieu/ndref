@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import monkey.math
 Import enemy
@@ -29,7 +29,13 @@ Class ShoveMonster Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("ShoveMonster.Update()")
+        If Self.x < Self.lastX
+            Self.image.FlipX(False, True)
+        Else If Self.x > Self.lastX
+            Self.image.FlipX(True, True)
+        End If
+
+        Super.Update()
     End Method
 
 End Class

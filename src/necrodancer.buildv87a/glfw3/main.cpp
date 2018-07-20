@@ -53175,7 +53175,14 @@ void c_ShoveMonster::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ShoveMonster.MoveSucceed(Bool, Bool)",36));
 }
 void c_ShoveMonster::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ShoveMonster.Update()",21));
+	if(this->m_x<this->m_lastX){
+		this->m_image->p_FlipX(false,true);
+	}else{
+		if(this->m_x>this->m_lastX){
+			this->m_image->p_FlipX(true,true);
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_ShoveMonster::mark(){
 	c_Enemy::mark();
