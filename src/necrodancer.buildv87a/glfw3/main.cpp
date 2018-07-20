@@ -10728,6 +10728,13 @@ class c_MushroomLight : public c_Enemy{
 };
 class c_SkeletonKnight : public c_Enemy{
 	public:
+	bool m_hasHorse;
+	bool m_shieldDestroyed;
+	int m_shieldDir;
+	int m_directionHitFrom;
+	bool m_gotBounced;
+	bool m_hasHead;
+	bool m_hasRoared;
 	c_SkeletonKnight();
 	c_SkeletonKnight* m_new(int,int,int);
 	c_SkeletonKnight* m_new2();
@@ -52318,7 +52325,11 @@ void c_ArmoredSkeleton::p_Update(){
 				this->m_animOverrideState=4;
 			}
 		}
-		this->m_animOverride=((c_Audio::m_IsBeatAnimTime(false,false))?1:0);
+		if(c_Audio::m_IsBeatAnimTime(false,false)){
+			this->m_animOverride=1;
+		}else{
+			this->m_animOverride=0;
+		}
 	}
 	c_Enemy::p_Update();
 }
@@ -52995,6 +53006,13 @@ void c_MushroomLight::mark(){
 	gc_mark_q(m_explosionImg);
 }
 c_SkeletonKnight::c_SkeletonKnight(){
+	m_hasHorse=true;
+	m_shieldDestroyed=false;
+	m_shieldDir=1;
+	m_directionHitFrom=-1;
+	m_gotBounced=false;
+	m_hasHead=true;
+	m_hasRoared=false;
 }
 c_SkeletonKnight* c_SkeletonKnight::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -53038,7 +53056,58 @@ void c_SkeletonKnight::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.MoveSucceed(Bool, Bool)",38));
 }
 void c_SkeletonKnight::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.Update()",23));
+	if(!this->m_hasHorse && !this->m_shieldDestroyed){
+		int t_1=this->m_shieldDir;
+		if(t_1==2){
+			this->m_image->p_FlipX(false,true);
+		}else{
+			if(t_1==0){
+				this->m_image->p_FlipX(true,true);
+			}
+		}
+	}
+	if(this->m_directionHitFrom!=-1 && this->m_gotBounced && !this->m_hasHead){
+		this->m_gotBounced=false;
+		if(this->m_x<this->m_lastX){
+			this->m_directionHitFrom=2;
+		}else{
+			if(this->m_x>this->m_lastX){
+				this->m_directionHitFrom=0;
+			}else{
+				if(this->m_y<this->m_lastY){
+					this->m_directionHitFrom=3;
+				}else{
+					if(this->m_y>this->m_lastY){
+						this->m_directionHitFrom=1;
+					}
+				}
+			}
+		}
+	}
+	if(!this->m_hasHorse && !this->m_shieldDestroyed){
+		int t_2=this->m_shieldDir;
+		if(t_2==0 || t_2==2){
+			this->m_animOverrideState=2;
+		}else{
+			if(t_2==3){
+				this->m_animOverrideState=0;
+			}else{
+				this->m_animOverrideState=4;
+			}
+		}
+		if(c_Audio::m_IsBeatAnimTime(false,false)){
+			this->m_animOverride=1;
+		}else{
+			this->m_animOverride=0;
+		}
+	}
+	if(!this->m_invisible && this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		if(this->m_hasHorse){
+			c_Audio::m_PlayGameSoundAt(String(L"skeletonKnightCry",17),this->m_x,this->m_y,true,-1,false);
+		}
+		this->m_hasRoared=true;
+	}
+	c_Enemy::p_Update();
 }
 void c_SkeletonKnight::mark(){
 	c_Enemy::mark();

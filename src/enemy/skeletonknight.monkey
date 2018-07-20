@@ -1,8 +1,11 @@
 'Strict
 
 Import monkey.math
-Import crystal_shards
 Import enemy
+Import level
+Import audio2
+Import camera
+Import crystal_shards
 Import entity
 Import logger
 Import point
@@ -90,7 +93,64 @@ Class SkeletonKnight Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("SkeletonKnight.Update()")
+        If Not Self.hasHorse And
+           Not Self.shieldDestroyed
+            Select Self.shieldDir
+                Case Direction.Left
+                    Self.image.FlipX(False, True)
+                Case Direction.Right
+                    Self.image.FlipX(True, True)
+            End Select
+        End If
+
+        If Self.directionHitFrom <> Direction.None And
+           Self.gotBounced And
+           Not Self.hasHead
+            Self.gotBounced = False
+
+            If Self.x < Self.lastX
+                Self.directionHitFrom = Direction.Left
+            Else If Self.x > Self.lastX
+                Self.directionHitFrom = Direction.Right
+            Else If Self.y < Self.lastY
+                Self.directionHitFrom = Direction.Up
+            Else If Self.y > Self.lastY
+                Self.directionHitFrom = Direction.Down
+            End If
+        End If
+
+        If Not Self.hasHorse And
+           Not Self.shieldDestroyed
+            Select Self.shieldDir
+                Case Direction.Right,
+                     Direction.Left
+                    Self.animOverrideState = 2
+                Case Direction.Up
+                    Self.animOverrideState = 0
+                Default
+                    Self.animOverrideState = 4
+            End Select
+
+            If Audio.IsBeatAnimTime(False, False)
+                Self.animOverride = 1
+            Else
+                Self.animOverride = 0
+            End If
+        End If
+
+        If Not Self.invisible And
+           Self.IsVisible() And
+           Camera.IsOnScreen(Self.x, Self.y) And
+           Not Self.hasRoared And
+           Not Level.isLevelEditor
+            If Self.hasHorse
+                Audio.PlayGameSoundAt("skeletonKnightCry", Self.x, Self.y, True, -1, False)
+            End If
+
+            Self.hasRoared = True
+        End If
+
+        Super.Update()
     End Method
 
 End Class

@@ -161,7 +161,11 @@ Class ArmoredSkeleton Extends Enemy
                     Self.animOverrideState = 4
             End Select
 
-            Self.animOverride = Audio.IsBeatAnimTime(False, False)
+            If Audio.IsBeatAnimTime(False, False)
+                Self.animOverride = 1
+            Else
+                Self.animOverride = 0
+            End If
         End If
 
         Super.Update()
