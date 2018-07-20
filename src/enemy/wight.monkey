@@ -126,7 +126,13 @@ Class Wight Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Wight.GetMovementDirection()")
+        Self.CheckCorporeality()
+
+        If Not Self.invisible
+            Return Self.BasicSeek()
+        End If
+
+        Return New Point(0, 0)
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)

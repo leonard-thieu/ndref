@@ -10687,10 +10687,10 @@ class c_Wight : public c_Enemy{
 	c_Wight();
 	c_Wight* m_new(int,int,int);
 	c_Wight* m_new2();
-	c_Point* p_GetMovementDirection();
-	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_BecomeCorporeal(bool);
 	void p_CheckCorporeality();
+	c_Point* p_GetMovementDirection();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
 };
@@ -13118,7 +13118,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==2 && bb_controller_game_currentLevel==2){
+			if(bb_controller_game_currentDepth==2 && bb_controller_game_currentLevel==3){
 				bb_app_EndApp();
 			}
 		}
@@ -52669,14 +52669,6 @@ c_Wight* c_Wight::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
-c_Point* c_Wight::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.GetMovementDirection()",28));
-	return 0;
-}
-bool c_Wight::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.Hit(String, Int, Int, Entity, Bool, Int)",46));
-	return false;
-}
 void c_Wight::p_BecomeCorporeal(bool t_force){
 	if(c_Player::m_AllPlayersPerished() || !this->m_invisible){
 		return;
@@ -52729,6 +52721,17 @@ void c_Wight::p_CheckCorporeality(){
 			}
 		}
 	}
+}
+c_Point* c_Wight::p_GetMovementDirection(){
+	this->p_CheckCorporeality();
+	if(!this->m_invisible){
+		return this->p_BasicSeek();
+	}
+	return (new c_Point)->m_new(0,0);
+}
+bool c_Wight::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Wight.Hit(String, Int, Int, Entity, Bool, Int)",46));
+	return false;
 }
 void c_Wight::p_Update(){
 	if(!this->m_dead && c_Entity::m_AnyPlayerHaveNazarCharm()){
