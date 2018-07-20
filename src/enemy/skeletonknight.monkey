@@ -7,6 +7,7 @@ Import entity
 Import logger
 Import point
 Import shrine
+Import util
 
 Class SkeletonKnight Extends Enemy
 
@@ -31,17 +32,21 @@ Class SkeletonKnight Extends Enemy
 
     Field hasHead: Bool = True
     Field cachedMoveDir: Point = New Point(0, 0)
-    Field directionHitFrom: Int = -1
+    Field directionHitFrom: Int = Direction.None
     Field gotBounced: Bool
     Field hasHorse: Bool = True
     Field shieldDestroyed: Bool
-    Field shieldDir: Int = 1
+    Field shieldDir: Int = Direction.Down
     Field hasRoared: Bool
     Field justBounced: Bool
     Field willHaveHead: Bool = True
 
     Method AdjustShieldDir: Void()
         Debug.TraceNotImplemented("SkeletonKnight.AdjustShieldDir()")
+    End Method
+
+    Method Beheadable: Bool()
+        Debug.TraceNotImplemented("SkeletonKnight.Beheadable()")
     End Method
 
     Method DestroyHorse: Void(dir: Int)
