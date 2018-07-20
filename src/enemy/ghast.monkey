@@ -37,7 +37,7 @@ Class Ghast Extends Enemy
 
     Field seeking: Bool
     Field teleporting: Bool
-    Field hitDir: Int = -1
+    Field hitDir: Int = Direction.None
     Field hitPlayer: Entity
     Field skippedMove: Bool
     Field hasRoared: Bool
@@ -47,12 +47,24 @@ Class Ghast Extends Enemy
         Debug.TraceNotImplemented("Ghast.BecomeCorporeal(Bool)")
     End Method
 
+    Method CanBeDamaged: Bool(phasing: Bool, piercing: Bool)
+        Debug.TraceNotImplemented("Ghast.CanBeDamaged(Bool, Bool)")
+    End Method
+
+    Method CheckCorporeality: Void()
+        Debug.TraceNotImplemented("Ghast.CheckCorporeality()")
+    End Method
+
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Ghast.GetMovementDirection()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("Ghast.Hit(String, Int, Int, Entity, Bool, Int)")
+    End Method
+
+    Method Render: Void()
+        Debug.TraceNotImplemented("Ghast.Render()")
     End Method
 
     Method Update: Void()
