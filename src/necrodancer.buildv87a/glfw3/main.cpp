@@ -11531,6 +11531,7 @@ class c_TrapDoor : public c_Trap{
 };
 class c_TeleportTrap : public c_Trap{
 	public:
+	int m_retractCounter;
 	c_TeleportTrap();
 	c_TeleportTrap* m_new(int,int);
 	c_TeleportTrap* m_new2();
@@ -13123,7 +13124,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==2 && bb_controller_game_currentLevel==4){
+			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==1){
 				bb_app_EndApp();
 			}
 		}
@@ -56106,6 +56107,7 @@ void c_TrapDoor::mark(){
 	c_Trap::mark();
 }
 c_TeleportTrap::c_TeleportTrap(){
+	m_retractCounter=0;
 }
 c_TeleportTrap* c_TeleportTrap::m_new(int t_xVal,int t_yVal){
 	c_Trap::m_new(t_xVal,t_yVal,5);
@@ -56123,7 +56125,17 @@ void c_TeleportTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"TeleportTrap.Trigger(Entity)",28));
 }
 void c_TeleportTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"TeleportTrap.Update()",21));
+	if(this->m_retractCounter>0){
+		this->m_retractCounter-=1;
+		if(this->m_retractCounter==0){
+			this->m_triggered=false;
+		}
+	}
+	this->m_image->p_SetFrame(1);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(0);
+	}
+	c_Trap::p_Update();
 }
 void c_TeleportTrap::mark(){
 	c_Trap::mark();

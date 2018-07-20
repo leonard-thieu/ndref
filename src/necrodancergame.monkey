@@ -202,8 +202,8 @@ Class NecroDancerGame Extends App
                         Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
                 End Select
             Else
-                If controller_game.currentDepth = 2 And
-                   controller_game.currentLevel = LevelType.BossBattle
+                If controller_game.currentDepth = 3 And
+                   controller_game.currentLevel = LevelType.Level1
                     app.EndApp()
                 End If
             End If
