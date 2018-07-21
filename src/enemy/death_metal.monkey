@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import entity
 Import logger
 Import player_class
@@ -81,7 +82,79 @@ Class DeathMetal Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("DeathMetal.Update()")
+        Self.preventKnockbackThisFrame = False
+
+        If Not Self.shieldDestroyed
+            Select Self.shieldDir
+                Case Direction.Left
+                    Self.image.FlipX(False, True)
+                Case Direction.Right
+                    Self.image.FlipX(True, True)
+            End Select
+        End If
+
+        If Self.health <= 4
+            Self.actionDelayTime = 3
+            Self.lastActionTime = 6
+        End If
+
+        If Self.health <= 2
+            Self.lastActionTime = 4
+            Self.actionDelayTime = 4
+        End If
+
+        If Self.shieldDestroyed
+            If Audio.GetClosestBeatNum(True) - Self.actionDelay >= Self.actionDelayTime And
+               Self.actionDelay > 0
+                Self.TakeAction()
+            End If
+
+            If Audio.GetClosestBeatNum(True) - Self.lastAction >= Self.lastActionTime And
+               (Util.GetDistFromClosestPlayer(Self.x, Self.y, False) >= 2.0 Or
+                Self.health <= 2)
+                If Self.health > 4
+                    Audio.PlayGameSound("deathMetal_skels", -1, 1.0)
+                Else If Self.health > 2
+                    Audio.PlayGameSound("deathMetal_skels2", -1, 1.0)
+                Else
+                    Audio.PlayGameSound("deathMetal_fireball", -1, 1.0)
+                End If
+
+                Self.lastAction = Audio.GetClosestBeatNum(True)
+                Self.actionDelay = Audio.GetClosestBeatNum(True)
+            End If
+
+            If Self.actionDelay < 0
+                Self.animOverrideState = 8
+                Self.animOverride = -1
+            Else
+                Self.animOverrideState = 6
+
+                If Audio.IsBeatAnimTime(False, True)
+                    Self.animOverride = 1
+                Else
+                    Self.animOverride = 0
+                End If
+            End If
+        Else
+            Select Self.shieldDir
+                Case Direction.Left,
+                     Direction.Right
+                    Self.animOverrideState = 0
+                Case Direction.Up
+                    Self.animOverrideState = 4
+                Default
+                    Self.animOverrideState = 2
+            End Select
+
+            If Audio.IsBeatAnimTime(False, True)
+                Self.animOverride = 0
+            Else
+                Self.animOverride = 1
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class

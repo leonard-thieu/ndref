@@ -11240,6 +11240,13 @@ class c_ConfuseTrap : public c_Trap{
 };
 class c_DeathMetal : public c_Enemy{
 	public:
+	bool m_preventKnockbackThisFrame;
+	bool m_shieldDestroyed;
+	int m_shieldDir;
+	int m_actionDelayTime;
+	int m_lastActionTime;
+	int m_actionDelay;
+	int m_lastAction;
 	c_DeathMetal();
 	c_DeathMetal* m_new(int,int,int);
 	c_DeathMetal* m_new2();
@@ -11248,6 +11255,7 @@ class c_DeathMetal : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
+	void p_TakeAction();
 	void p_Update();
 	void mark();
 };
@@ -55602,6 +55610,13 @@ void c_ConfuseTrap::mark(){
 	c_Trap::mark();
 }
 c_DeathMetal::c_DeathMetal(){
+	m_preventKnockbackThisFrame=false;
+	m_shieldDestroyed=false;
+	m_shieldDir=1;
+	m_actionDelayTime=3;
+	m_lastActionTime=7;
+	m_actionDelay=-1;
+	m_lastAction=0;
 }
 c_DeathMetal* c_DeathMetal::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -55636,8 +55651,75 @@ void c_DeathMetal::p_MoveFail(){
 void c_DeathMetal::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.MoveSucceed(Bool, Bool)",34));
 }
+void c_DeathMetal::p_TakeAction(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.TakeAction()",23));
+}
 void c_DeathMetal::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Update()",19));
+	this->m_preventKnockbackThisFrame=false;
+	if(!this->m_shieldDestroyed){
+		int t_1=this->m_shieldDir;
+		if(t_1==2){
+			this->m_image->p_FlipX(false,true);
+		}else{
+			if(t_1==0){
+				this->m_image->p_FlipX(true,true);
+			}
+		}
+	}
+	if(this->m_health<=4){
+		this->m_actionDelayTime=3;
+		this->m_lastActionTime=6;
+	}
+	if(this->m_health<=2){
+		this->m_lastActionTime=4;
+		this->m_actionDelayTime=4;
+	}
+	if(this->m_shieldDestroyed){
+		if(c_Audio::m_GetClosestBeatNum(true)-this->m_actionDelay>=this->m_actionDelayTime && this->m_actionDelay>0){
+			this->p_TakeAction();
+		}
+		if(c_Audio::m_GetClosestBeatNum(true)-this->m_lastAction>=this->m_lastActionTime && (c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)>=FLOAT(2.0) || this->m_health<=2)){
+			if(this->m_health>4){
+				c_Audio::m_PlayGameSound(String(L"deathMetal_skels",16),-1,FLOAT(1.0));
+			}else{
+				if(this->m_health>2){
+					c_Audio::m_PlayGameSound(String(L"deathMetal_skels2",17),-1,FLOAT(1.0));
+				}else{
+					c_Audio::m_PlayGameSound(String(L"deathMetal_fireball",19),-1,FLOAT(1.0));
+				}
+			}
+			this->m_lastAction=c_Audio::m_GetClosestBeatNum(true);
+			this->m_actionDelay=c_Audio::m_GetClosestBeatNum(true);
+		}
+		if(this->m_actionDelay<0){
+			this->m_animOverrideState=8;
+			this->m_animOverride=-1;
+		}else{
+			this->m_animOverrideState=6;
+			if(c_Audio::m_IsBeatAnimTime(false,true)){
+				this->m_animOverride=1;
+			}else{
+				this->m_animOverride=0;
+			}
+		}
+	}else{
+		int t_2=this->m_shieldDir;
+		if(t_2==2 || t_2==0){
+			this->m_animOverrideState=0;
+		}else{
+			if(t_2==3){
+				this->m_animOverrideState=4;
+			}else{
+				this->m_animOverrideState=2;
+			}
+		}
+		if(c_Audio::m_IsBeatAnimTime(false,true)){
+			this->m_animOverride=0;
+		}else{
+			this->m_animOverride=1;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_DeathMetal::mark(){
 	c_Enemy::mark();
