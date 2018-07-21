@@ -11243,8 +11243,10 @@ class c_DeathMetal : public c_Enemy{
 	c_DeathMetal();
 	c_DeathMetal* m_new(int,int,int);
 	c_DeathMetal* m_new2();
+	void p_Die();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -13163,7 +13165,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==3){
+			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==4){
 				bb_app_EndApp();
 			}
 		}
@@ -55617,6 +55619,9 @@ c_DeathMetal* c_DeathMetal::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+void c_DeathMetal::p_Die(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Die()",16));
+}
 c_Point* c_DeathMetal::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.GetMovementDirection()",33));
 	return 0;
@@ -55624,6 +55629,9 @@ c_Point* c_DeathMetal::p_GetMovementDirection(){
 bool c_DeathMetal::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Hit(String, Int, Int, Entity, Bool, Int)",51));
 	return false;
+}
+void c_DeathMetal::p_MoveFail(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.MoveFail()",21));
 }
 void c_DeathMetal::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.MoveSucceed(Bool, Bool)",34));

@@ -32,13 +32,13 @@ Class DeathMetal Extends Enemy
     Field cachedMoveDir: Point = New Point(0, 0)
     Field shieldDestroyed: Bool
     Field preventKnockbackThisFrame: Bool
-    Field shieldDir: Int = 1
+    Field shieldDir: Int = Direction.Down
     Field actionDelayTime: Int = 3
     Field lastActionTime: Int = 7
     Field lastAction: Int
     Field summonCount: Int
     Field justBounced: Bool
-    Field directionHitFrom: Int = -1
+    Field directionHitFrom: Int = Direction.None
 
     Method AdjustShieldDir: Void()
         Debug.TraceNotImplemented("DeathMetal.AdjustShieldDir()")
@@ -46,6 +46,10 @@ Class DeathMetal Extends Enemy
 
     Method DestroyShield: Void(dir: Int)
         Debug.TraceNotImplemented("DeathMetal.DestroyShield(Int)")
+    End Method
+
+    Method Die: Void()
+        Debug.TraceNotImplemented("DeathMetal.Die()")
     End Method
 
     Method GetMovementDirection: Point()
@@ -62,6 +66,10 @@ Class DeathMetal Extends Enemy
 
     Method MakeEnemies: Void(enType: Int, numMin: Int, numMax: Int)
         Debug.TraceNotImplemented("DeathMetal.MakeEnemies(Int, Int, Int)")
+    End Method
+
+    Method MoveFail: Void()
+        Debug.TraceNotImplemented("DeathMetal.MoveFail()")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
