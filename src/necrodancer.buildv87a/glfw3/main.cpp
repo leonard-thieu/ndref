@@ -10828,6 +10828,10 @@ class c_Cauldron : public c_Enemy{
 };
 class c_SleepingGoblin : public c_Enemy{
 	public:
+	bool m_sleeping;
+	int m_stunnedTime;
+	int m_wakeupTime;
+	bool m_haveReslept;
 	c_SleepingGoblin();
 	c_SleepingGoblin* m_new(int,int,int);
 	c_SleepingGoblin* m_new2();
@@ -53891,6 +53895,10 @@ void c_Cauldron::mark(){
 	c_Enemy::mark();
 }
 c_SleepingGoblin::c_SleepingGoblin(){
+	m_sleeping=true;
+	m_stunnedTime=0;
+	m_wakeupTime=3;
+	m_haveReslept=false;
 }
 c_SleepingGoblin* c_SleepingGoblin::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -53913,7 +53921,34 @@ void c_SleepingGoblin::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SleepingGoblin.MoveFail()",25));
 }
 void c_SleepingGoblin::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SleepingGoblin.Update()",23));
+	c_Enemy::p_Update();
+	if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) && this->m_sleeping){
+		if(c_Enemy::m_EnemiesHaveMovedClosestBeat() || c_Audio::m_IsFixedBeatSet() && !bb_controller_game_incrementFixedBeatNum){
+			this->m_sleeping=false;
+		}
+	}
+	if(this->m_sleeping){
+		this->m_animOverride=4;
+	}else{
+		if(this->m_stunnedTime>0 || this->m_wakeupTime>0){
+			if(this->m_animOverride!=5 && !this->m_haveReslept){
+				c_Audio::m_PlayGameSoundAt(String(L"goblinAwaken",12),this->m_x,this->m_y,false,-1,false);
+				this->m_haveReslept=true;
+			}
+			this->m_animOverride=5;
+		}else{
+			this->m_animOverride=-1;
+		}
+	}
+	if(this->m_animOverride==-1){
+		if(this->m_x<this->m_lastX){
+			this->m_image->p_FlipX(false,true);
+		}else{
+			if(this->m_x>this->m_lastX){
+				this->m_image->p_FlipX(false,true);
+			}
+		}
+	}
 }
 void c_SleepingGoblin::mark(){
 	c_Enemy::mark();
