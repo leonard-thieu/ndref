@@ -11618,6 +11618,7 @@ class c_FireTrap : public c_Trap{
 	public:
 	int m_fireDir;
 	bool m_manual;
+	bool m_isReady;
 	int m_vibrateCounter;
 	Float m_vibrateOffset;
 	c_FireTrap();
@@ -57052,6 +57053,7 @@ void c_ScatterTrap::mark(){
 c_FireTrap::c_FireTrap(){
 	m_fireDir=0;
 	m_manual=false;
+	m_isReady=false;
 	m_vibrateCounter=3;
 	m_vibrateOffset=FLOAT(0.7);
 }
@@ -57080,8 +57082,19 @@ void c_FireTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Trigger(Entity)",24));
 }
 int c_FireTrap::p_GetFrameToShow(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.GetFrameToShow()",25));
-	return 0;
+	int t_1=this->m_fireDir;
+	if(t_1==0){
+		this->m_image->p_FlipX(false,false);
+	}else{
+		this->m_image->p_FlipX(true,false);
+	}
+	if(this->m_isReady){
+		return 2;
+	}
+	if(this->m_triggered){
+		return 0;
+	}
+	return 1;
 }
 void c_FireTrap::p_Update(){
 	c_Trap::p_Update();

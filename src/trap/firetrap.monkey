@@ -42,7 +42,22 @@ Class FireTrap Extends Trap
     End Method
 
     Method GetFrameToShow: Int()
-        Debug.TraceNotImplemented("FireTrap.GetFrameToShow()")
+        Select Self.fireDir
+            Case Direction.Right
+                Self.image.FlipX(False, False)
+            Default
+                Self.image.FlipX(True, False)
+        End Select
+
+        If Self.isReady
+            Return 2
+        End If
+
+        If Self.triggered
+            Return 0
+        End If
+        
+        Return 1
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
