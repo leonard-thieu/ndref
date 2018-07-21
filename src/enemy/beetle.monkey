@@ -1,8 +1,11 @@
 'Strict
 
 Import enemy
+Import level
+Import audio2
 Import entity
 Import logger
+Import util
 
 Class Beetle Extends Enemy
 
@@ -31,7 +34,26 @@ Class Beetle Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Beetle.Update()")
+        If Self.hasArmor And
+           Util.GetDistFromClosestPlayer(Self.x, Self.y, True) <= 1.0
+            Self.hasArmor = False
+
+            Audio.PlayGameSoundAt("beetleDrop", Self.x, Self.y, False, -1, False)
+
+            Select Self.level
+                Case 1
+                    Level.PlaceHotCoalTileAt(Self.x, Self.y)
+                Default
+                    Level.PlaceIceTileAt(Self.x, Self.y)
+            End Select
+        End If
+
+        If Not Self.hasArmor
+            Self.animOverrideState = 4
+            Self.animOverride = Audio.GetBeatAnimFrame4()
+        End If
+
+        Super.Update()
     End Method
 
 End Class

@@ -10761,6 +10761,7 @@ class c_SkeletonKnight : public c_Enemy{
 };
 class c_Beetle : public c_Enemy{
 	public:
+	bool m_hasArmor;
 	c_Beetle();
 	c_Beetle* m_new(int,int,int);
 	c_Beetle* m_new2();
@@ -13157,7 +13158,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==1){
+			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==2){
 				bb_app_EndApp();
 			}
 		}
@@ -53452,6 +53453,7 @@ void c_SkeletonKnight::mark(){
 	c_Enemy::mark();
 }
 c_Beetle::c_Beetle(){
+	m_hasArmor=true;
 }
 c_Beetle* c_Beetle::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -53475,7 +53477,21 @@ int c_Beetle::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSource){
 	return 0;
 }
 void c_Beetle::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Beetle.Update()",15));
+	if(this->m_hasArmor && c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,true)<=FLOAT(1.0)){
+		this->m_hasArmor=false;
+		c_Audio::m_PlayGameSoundAt(String(L"beetleDrop",10),this->m_x,this->m_y,false,-1,false);
+		int t_1=this->m_level;
+		if(t_1==1){
+			c_Level::m_PlaceHotCoalTileAt(this->m_x,this->m_y);
+		}else{
+			c_Level::m_PlaceIceTileAt(this->m_x,this->m_y);
+		}
+	}
+	if(!this->m_hasArmor){
+		this->m_animOverrideState=4;
+		this->m_animOverride=c_Audio::m_GetBeatAnimFrame4();
+	}
+	c_Enemy::p_Update();
 }
 void c_Beetle::mark(){
 	c_Enemy::mark();
