@@ -1,6 +1,9 @@
 'Strict
 
 Import enemy
+Import level
+Import audio2
+Import camera
 Import entity
 Import logger
 Import player_class
@@ -92,7 +95,60 @@ Class Poltergeist Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Poltergeist.Update()")
+        If Not Self.dead And
+           Entity.AnyPlayerHaveNazarCharm()
+            Self.coinsToDrop = 0
+            Self.Die()
+        End If
+
+        If Not Enemy.EnemiesMovingThisFrame()
+            Self.CheckCorporeality()
+        End If
+
+        If Self.frozenDuration <= 0 And
+           Self.teleporting
+            Self.teleporting = False
+            Self.multiImage = True
+
+            Local dir := Util.GetDirFromDiff(Self.x - hitPlayer.x, Self.y - hitPlayer.y)
+            dir = Util.GetDirAfterRotation(dir, 0, False)
+
+            Local xDiff := 0
+            Local yDiff := 0
+
+            Const MAX_ROTATIONS: Int = 15
+            For Local i := 0 Until MAX_ROTATIONS
+                dir = Util.GetDirAfterRotation(dir, 0, False)
+                Local dirPoint := Util.GetPointFromDir(dir)
+
+                If Not Util.IsGlobalCollisionAt(Self.x + dirPoint.x, Self.y + dirPoint.y, False, True, False, False)
+                    xDiff = dirPoint.x
+                    yDiff = dirPoint.y
+
+                    Exit
+                End IF
+            End For
+
+            Self.MoveImmediate(xDiff, yDiff, "self")
+
+            Self.currentMoveDelay = 2
+            If Self.skippedMove
+                Self.currentMoveDelay = 1
+            End If
+
+            Audio.PlayGameSoundAt("ghoulTeleport", Self.x, Self.y, True, -1, False)
+        End If
+
+        If Not Self.invisible And
+           Self.IsVisible() And
+           Camera.IsOnScreen(Self.x, Self.y) And
+           Not Self.hasRoared And
+           Not Level.isLevelEditor
+            Audio.PlayGameSoundAt("ghoulCry", Self.x, Self.y, True, -1, False)
+            Self.hasRoared = True
+        End If
+
+        Super.Update()
     End Method
 
 End Class

@@ -5970,6 +5970,7 @@ class c_Util : public Object{
 	static int m_InvertDir(int);
 	static Float m_GetDistSqFromClosestPlayer(int,int,bool,bool);
 	static c_Point* m_FindClosestUnoccupiedSpace(int,int,bool);
+	static int m_GetDirAfterRotation(int,int,bool);
 	void mark();
 };
 class c_TextLog : public Object{
@@ -12444,6 +12445,11 @@ class c_Enumerator27 : public Object{
 class c_Poltergeist : public c_Enemy{
 	public:
 	c_Sprite* m_alphaImage;
+	bool m_teleporting;
+	bool m_multiImage;
+	c_Entity* m_hitPlayer;
+	bool m_skippedMove;
+	bool m_hasRoared;
 	c_Poltergeist();
 	static c_Poltergeist* m_theGhoul;
 	void p_Die();
@@ -12452,6 +12458,7 @@ class c_Poltergeist : public c_Enemy{
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
+	void p_CheckCorporeality();
 	void p_Update();
 	void mark();
 };
@@ -14537,6 +14544,10 @@ Float c_Util::m_GetDistSqFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeS
 }
 c_Point* c_Util::m_FindClosestUnoccupiedSpace(int t_xVal,int t_yVal,bool t_ignoreWalls){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.FindClosestUnoccupiedSpace(Int, Int, Bool)",47));
+	return 0;
+}
+int c_Util::m_GetDirAfterRotation(int t_dir,int t_rotation,bool t_includeDiagonals){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Util.GetDirAfterRotation(Int, Int, Bool)",40));
 	return 0;
 }
 void c_Util::mark(){
@@ -59414,6 +59425,11 @@ void c_Enumerator27::mark(){
 }
 c_Poltergeist::c_Poltergeist(){
 	m_alphaImage=0;
+	m_teleporting=false;
+	m_multiImage=false;
+	m_hitPlayer=0;
+	m_skippedMove=false;
+	m_hasRoared=false;
 }
 c_Poltergeist* c_Poltergeist::m_theGhoul;
 void c_Poltergeist::p_Die(){
@@ -59465,12 +59481,50 @@ bool c_Poltergeist::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity*
 void c_Poltergeist::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.MoveSucceed(Bool, Bool)",35));
 }
+void c_Poltergeist::p_CheckCorporeality(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.CheckCorporeality()",31));
+}
 void c_Poltergeist::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.Update()",20));
+	if(!this->m_dead && c_Entity::m_AnyPlayerHaveNazarCharm()){
+		this->m_coinsToDrop=0;
+		this->p_Die();
+	}
+	if(!c_Enemy::m_EnemiesMovingThisFrame()){
+		this->p_CheckCorporeality();
+	}
+	if(this->m_frozenDuration<=0 && this->m_teleporting){
+		this->m_teleporting=false;
+		this->m_multiImage=true;
+		int t_dir=c_Util::m_GetDirFromDiff(this->m_x-m_hitPlayer->m_x,this->m_y-m_hitPlayer->m_y);
+		t_dir=c_Util::m_GetDirAfterRotation(t_dir,0,false);
+		int t_xDiff=0;
+		int t_yDiff=0;
+		for(int t_i=0;t_i<15;t_i=t_i+1){
+			t_dir=c_Util::m_GetDirAfterRotation(t_dir,0,false);
+			c_Point* t_dirPoint=c_Util::m_GetPointFromDir(t_dir);
+			if(!c_Util::m_IsGlobalCollisionAt2(this->m_x+t_dirPoint->m_x,this->m_y+t_dirPoint->m_y,false,true,false,false)){
+				t_xDiff=t_dirPoint->m_x;
+				t_yDiff=t_dirPoint->m_y;
+				break;
+			}
+		}
+		this->p_MoveImmediate(t_xDiff,t_yDiff,String(L"self",4));
+		this->m_currentMoveDelay=2;
+		if(this->m_skippedMove){
+			this->m_currentMoveDelay=1;
+		}
+		c_Audio::m_PlayGameSoundAt(String(L"ghoulTeleport",13),this->m_x,this->m_y,true,-1,false);
+	}
+	if(!this->m_invisible && this->p_IsVisible() && c_Camera::m_IsOnScreen(this->m_x,this->m_y) && !this->m_hasRoared && !c_Level::m_isLevelEditor){
+		c_Audio::m_PlayGameSoundAt(String(L"ghoulCry",8),this->m_x,this->m_y,true,-1,false);
+		this->m_hasRoared=true;
+	}
+	c_Enemy::p_Update();
 }
 void c_Poltergeist::mark(){
 	c_Enemy::mark();
 	gc_mark_q(m_alphaImage);
+	gc_mark_q(m_hitPlayer);
 }
 c_ABTeleportTrap::c_ABTeleportTrap(){
 }
