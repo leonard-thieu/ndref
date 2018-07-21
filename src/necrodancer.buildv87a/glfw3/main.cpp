@@ -12445,6 +12445,7 @@ class c_Enumerator27 : public Object{
 class c_Poltergeist : public c_Enemy{
 	public:
 	c_Sprite* m_alphaImage;
+	bool m_seeking;
 	bool m_teleporting;
 	bool m_multiImage;
 	c_Entity* m_hitPlayer;
@@ -12458,6 +12459,7 @@ class c_Poltergeist : public c_Enemy{
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveSucceed(bool,bool);
+	void p_BecomeCorporeal(bool);
 	void p_CheckCorporeality();
 	void p_Update();
 	void mark();
@@ -59425,6 +59427,7 @@ void c_Enumerator27::mark(){
 }
 c_Poltergeist::c_Poltergeist(){
 	m_alphaImage=0;
+	m_seeking=false;
 	m_teleporting=false;
 	m_multiImage=false;
 	m_hitPlayer=0;
@@ -59481,8 +59484,38 @@ bool c_Poltergeist::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity*
 void c_Poltergeist::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.MoveSucceed(Bool, Bool)",35));
 }
+void c_Poltergeist::p_BecomeCorporeal(bool t_force){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.BecomeCorporeal(Bool)",33));
+}
 void c_Poltergeist::p_CheckCorporeality(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.CheckCorporeality()",31));
+	if(this->p_IsVisible() || this->m_earthquaked || c_Tile::m_AnyPlayerHaveMonocle() || c_Entity::m_AnyPlayerHaveCircletOrGlassTorch()){
+		this->p_BecomeCorporeal(false);
+	}
+	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);
+	Float t_distFronClosestPlayer=c_Util::m_GetDist(this->m_x,this->m_y,t_closestPlayer->m_x,t_closestPlayer->m_y);
+	if(this->m_seeking || t_distFronClosestPlayer<FLOAT(3.0) && this->m_invisible){
+		this->m_seeking=true;
+		int t_xDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
+		int t_yDiff=t_closestPlayer->m_lastX-t_closestPlayer->m_x;
+		int t_xOff=bb_math_Sgn(t_xDiff)*6;
+		int t_yOff=bb_math_Sgn(t_yDiff)*6;
+		if(c_Audio::m_GetClosestBeatNum(true)!=0){
+			int t_tempOff=t_xOff;
+			t_xOff=t_yOff;
+			t_yOff=t_tempOff;
+		}
+		int t_x=t_closestPlayer->m_x+t_xOff;
+		int t_y=t_closestPlayer->m_y+t_yOff;
+		if(!c_Util::m_IsGlobalCollisionAt2(t_x,t_y,false,this->m_ignoreWalls,false,false) && c_Util::m_GetDistFromClosestPlayer(t_x,t_y,false)>=FLOAT(6.0)){
+			c_Tile* t_tile=c_Level::m_GetTileAt(t_x,t_y);
+			if(t_tile!=0 && t_tile->p_IsFloor() && t_tile->p_IsVisible()){
+				this->m_seeking=false;
+				this->m_x=t_x;
+				this->m_y=t_y;
+				this->p_BecomeCorporeal(false);
+			}
+		}
+	}
 }
 void c_Poltergeist::p_Update(){
 	if(!this->m_dead && c_Entity::m_AnyPlayerHaveNazarCharm()){

@@ -1,5 +1,6 @@
 'Strict
 
+Import monkey.math
 Import enemy
 Import level
 Import audio2
@@ -9,6 +10,7 @@ Import logger
 Import player_class
 Import point
 Import sprite
+Import tile
 Import util
 
 Class Poltergeist Extends Enemy
@@ -67,7 +69,46 @@ Class Poltergeist Extends Enemy
     End Method
 
     Method CheckCorporeality: Void()
-        Debug.TraceNotImplemented("Poltergeist.CheckCorporeality()")
+        If Self.IsVisible() Or
+           Self.earthquaked Or
+           Tile.AnyPlayerHaveMonocle() Or
+           Entity.AnyPlayerHaveCircletOrGlassTorch()
+            Self.BecomeCorporeal(False)
+        End If
+
+        Local closestPlayer := Util.GetClosestPlayer(Self.x, Self.y)
+        Local distFronClosestPlayer := Util.GetDist(Self.x, Self.y, closestPlayer.x, closestPlayer.y)
+        If Self.seeking Or
+           (distFronClosestPlayer < 3.0 And Self.invisible)
+            Self.seeking = True
+
+            Local xDiff := closestPlayer.lastX - closestPlayer.x
+            Local yDiff := closestPlayer.lastX - closestPlayer.x
+            Local xOff := math.Sgn(xDiff) * 6
+            Local yOff := math.Sgn(yDiff) * 6
+
+            If Audio.GetClosestBeatNum(True) <> 0
+                Local tempOff := xOff
+                xOff = yOff
+                yOff = tempOff
+            End If
+
+            Local x := closestPlayer.x + xOff
+            Local y := closestPlayer.y + yOff
+            
+            If Not Util.IsGlobalCollisionAt(x, y, False, Self.ignoreWalls, False, False) And
+               Util.GetDistFromClosestPlayer(x, y, False) >= 6.0
+                Local tile := Level.GetTileAt(x, y)
+                If tile <> Null And
+                   tile.IsFloor() And
+                   tile.IsVisible()
+                    Self.seeking = False
+                    Self.x = x
+                    Self.y = y
+                    Self.BecomeCorporeal(False)
+                End If
+            End If
+        End If
     End Method
 
     Method Die: Void()
