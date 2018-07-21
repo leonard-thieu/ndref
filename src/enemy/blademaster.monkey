@@ -5,6 +5,7 @@ Import entity
 Import logger
 Import point
 Import shrine
+Import util
 
 Class Blademaster Extends Enemy
 
@@ -27,8 +28,12 @@ Class Blademaster Extends Enemy
     End Method
 
     Field charging: Bool
-    Field hitDir: Int = -1
+    Field hitDir: Int = Direction.None
     Field vulnerable: Bool
+
+    Method CanBeLord: Bool()
+        Debug.TraceNotImplemented("ArmoredSkeleton.CanBeLord()")
+    End Method
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Blademaster.GetMovementDirection()")

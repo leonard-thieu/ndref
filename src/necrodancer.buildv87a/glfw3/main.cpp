@@ -10219,6 +10219,7 @@ class c_Blademaster : public c_Enemy{
 	c_Blademaster();
 	c_Blademaster* m_new(int,int,int);
 	c_Blademaster* m_new2();
+	bool p_CanBeLord();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
@@ -51130,6 +51131,10 @@ c_Blademaster* c_Blademaster::m_new(int t_xVal,int t_yVal,int t_l){
 c_Blademaster* c_Blademaster::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+bool c_Blademaster::p_CanBeLord(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.CanBeLord()",27));
+	return false;
 }
 c_Point* c_Blademaster::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.GetMovementDirection()",34));
