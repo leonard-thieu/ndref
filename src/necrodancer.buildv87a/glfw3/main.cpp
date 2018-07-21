@@ -10938,6 +10938,7 @@ class c_Dragon : public c_Enemy{
 };
 class c_Banshee : public c_Enemy{
 	public:
+	bool m_hasShrieked;
 	c_Banshee();
 	c_Banshee* m_new(int,int,int);
 	c_Banshee* m_new2();
@@ -54334,6 +54335,7 @@ void c_Dragon::mark(){
 	gc_mark_q(m_iceBlast);
 }
 c_Banshee::c_Banshee(){
+	m_hasShrieked=false;
 }
 c_Banshee* c_Banshee::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -54359,7 +54361,11 @@ bool c_Banshee::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_h
 	return false;
 }
 void c_Banshee::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Banshee.Update()",16));
+	this->m_animOverride=c_Audio::m_GetBeatAnimFrame4();
+	if(this->m_hasShrieked){
+		this->m_animOverride+=4;
+	}
+	c_Enemy::p_Update();
 }
 void c_Banshee::mark(){
 	c_Enemy::mark();

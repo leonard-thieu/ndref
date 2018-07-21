@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import entity
 Import logger
 Import shrine
@@ -37,7 +38,12 @@ Class Banshee Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Banshee.Update()")
+        Self.animOverride = Audio.GetBeatAnimFrame4()
+        If Self.hasShrieked
+            Self.animOverride += 4
+        End If
+
+        Super.Update()
     End Method
 
 End Class
