@@ -54531,7 +54531,22 @@ void c_Minotaur::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.MoveFail()",19));
 }
 void c_Minotaur::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.MoveSucceed(Bool, Bool)",32));
+	if(this->m_image->p_GetFrame()!=3 && t_moveDelayed){
+		c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);
+		if(this->m_x>t_closestPlayer->m_x){
+			this->m_image->p_FlipX(false,true);
+		}else{
+			if(this->m_x<t_closestPlayer->m_x){
+				this->m_image->p_FlipX(true,true);
+			}
+		}
+	}
+	if(t_hitPlayer){
+		this->m_stunnedTime=2;
+		this->m_chargingDir=-1;
+		this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+5;
+	}
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
 void c_Minotaur::p_Update(){
 	if(this->m_animOverride<4){

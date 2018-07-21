@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import enemy
 Import level
@@ -98,7 +98,23 @@ Class Minotaur Extends Enemy
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Minotaur.MoveSucceed(Bool, Bool)")
+        If Self.image.GetFrame() <> 3 And
+           moveDelayed
+            Local closestPlayer := Util.GetClosestPlayer(Self.x, Self.y)
+            If Self.x > closestPlayer.x
+                Self.image.FlipX(False, True)
+            Else If Self.x < closestPlayer.x
+                Self.image.FlipX(True, True)
+            End If
+        End If
+
+        If hitPlayer
+            Self.stunnedTime = 2
+            Self.chargingDir = Direction.None
+            Self.animOverride = Audio.GetBeatAnimFrame4() + 5
+        End If
+
+        Super.MoveSucceed(hitPlayer, moveDelayed)
     End Method
 
     Method TryChargeAt: Int(targetX: Int, targetY: Int)
