@@ -3,6 +3,7 @@
 Import enemy
 Import entity
 Import logger
+Import player_class
 Import point
 Import shrine
 Import util
@@ -52,7 +53,34 @@ Class Blademaster Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Blademaster.Update()")
+        If Util.IsCharacterActive(Character.Mary)
+            Self.coinsToDrop = 0
+            Super.Die()
+        End If
+
+        If Self.charging
+            If Self.GetBeatNum() Mod 2 = 1
+                Self.animOverride = Audio.GetBeatAnimFrame4() + 12
+            Else
+                Self.animOverride = Audio.GetBeatAnimFrame4() + 8
+            End If
+        Else
+            If Self.vulnerable
+                Self.animOverride = Audio.GetBeatAnimFrame4() + 16
+            Else
+                Self.animOverride = -1
+            End If
+        End If
+
+        Super.Update()
+
+        If Not Self.isMysteried
+            If Self.image.flipX
+                Self.xOff = -2.0
+            Else
+                Self.xOff = -13.0
+            End If
+        End If
     End Method
 
 End Class

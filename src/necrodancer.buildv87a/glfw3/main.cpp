@@ -10216,6 +10216,8 @@ class c_FireElemental : public c_ElementalBase{
 };
 class c_Blademaster : public c_Enemy{
 	public:
+	bool m_charging;
+	bool m_vulnerable;
 	c_Blademaster();
 	c_Blademaster* m_new(int,int,int);
 	c_Blademaster* m_new2();
@@ -51114,6 +51116,8 @@ void c_FireElemental::mark(){
 	c_ElementalBase::mark();
 }
 c_Blademaster::c_Blademaster(){
+	m_charging=false;
+	m_vulnerable=false;
 }
 c_Blademaster* c_Blademaster::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -51151,7 +51155,31 @@ void c_Blademaster::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.MoveSucceed(Bool, Bool)",35));
 }
 void c_Blademaster::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.Update()",20));
+	if(c_Util::m_IsCharacterActive(12)){
+		this->m_coinsToDrop=0;
+		c_Enemy::p_Die();
+	}
+	if(this->m_charging){
+		if(this->p_GetBeatNum() % 2==1){
+			this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+12;
+		}else{
+			this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+8;
+		}
+	}else{
+		if(this->m_vulnerable){
+			this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+16;
+		}else{
+			this->m_animOverride=-1;
+		}
+	}
+	c_Enemy::p_Update();
+	if(!this->m_isMysteried){
+		if(this->m_image->m_flipX){
+			this->m_xOff=FLOAT(-2.0);
+		}else{
+			this->m_xOff=FLOAT(-13.0);
+		}
+	}
 }
 void c_Blademaster::mark(){
 	c_Enemy::mark();
