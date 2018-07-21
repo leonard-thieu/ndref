@@ -52444,18 +52444,15 @@ void c_Wraith::p_BecomeCorporeal(bool t_force){
 		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
 			return;
 		}
-		if(c_Player::m_AnyPlayerInSpecialRoom()){
+		if(c_Player::m_AnyPlayerInSpecialRoom() || c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,false,false,false)){
 			this->m_coinsToDrop=0;
 			this->p_Die();
 			return;
 		}
-		if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,false,false,false)){
-			return;
-		}
 	}
 	this->m_invisible=false;
-	this->m_collides=true;
 	this->m_seeking=false;
+	this->m_collides=true;
 	this->m_currentMoveDelay=0;
 	c_Enemy::m_lastWraithSpawnBeat=c_Audio::m_GetClosestBeatNum(true);
 }
@@ -53220,12 +53217,9 @@ void c_Wight::p_BecomeCorporeal(bool t_force){
 		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
 			return;
 		}
-		if(c_Player::m_AnyPlayerInSpecialRoom()){
+		if(c_Player::m_AnyPlayerInSpecialRoom() || c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,true,false,false)){
 			this->m_coinsToDrop=0;
 			this->p_Die();
-			return;
-		}
-		if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,true,false,false)){
 			return;
 		}
 	}
@@ -53690,12 +53684,9 @@ void c_Ghast::p_BecomeCorporeal(bool t_force){
 		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
 			return;
 		}
-		if(c_Player::m_AnyPlayerInSpecialRoom()){
+		if(c_Player::m_AnyPlayerInSpecialRoom() || c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,true,false,false)){
 			this->m_coinsToDrop=0;
 			this->p_Die();
-			return;
-		}
-		if(c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,true,false,false)){
 			return;
 		}
 	}

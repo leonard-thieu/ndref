@@ -73,22 +73,20 @@ Class Wraith Extends Enemy
                 Return
             End If
 
-            If Player.AnyPlayerInSpecialRoom()
+            If Player.AnyPlayerInSpecialRoom() Or
+               Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 3.0 Or
+               Util.IsGlobalCollisionAt(Self.x, Self.y, False, False, False, False)
                 Self.coinsToDrop = 0
                 Self.Die()
 
                 Return
             End If
-
-            If Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 3.0 Or
-               Util.IsGlobalCollisionAt(Self.x, Self.y, False, False, False, False)
-                Return
-            End If
         End If
 
         Self.invisible = False
-        Self.collides = True
         Self.seeking = False
+
+        Self.collides = True
         Self.currentMoveDelay = 0
 
         Enemy.lastWraithSpawnBeat = Audio.GetClosestBeatNum(True)
