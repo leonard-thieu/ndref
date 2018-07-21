@@ -10743,6 +10743,7 @@ class c_SkeletonKnight : public c_Enemy{
 	bool m_hasHead;
 	int m_directionHitFrom;
 	c_Point* m_cachedMoveDir;
+	bool m_justBounced;
 	bool m_hasHorse;
 	bool m_shieldDestroyed;
 	int m_shieldDir;
@@ -10756,6 +10757,7 @@ class c_SkeletonKnight : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	int p_MoveImmediate(int,int,String);
+	void p_AdjustShieldDir();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -53350,6 +53352,7 @@ c_SkeletonKnight::c_SkeletonKnight(){
 	m_hasHead=true;
 	m_directionHitFrom=-1;
 	m_cachedMoveDir=(new c_Point)->m_new(0,0);
+	m_justBounced=false;
 	m_hasHorse=true;
 	m_shieldDestroyed=false;
 	m_shieldDir=1;
@@ -53397,8 +53400,16 @@ int c_SkeletonKnight::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSou
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.MoveImmediate(Int, Int, String)",46));
 	return 0;
 }
+void c_SkeletonKnight::p_AdjustShieldDir(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.AdjustShieldDir()",32));
+}
 void c_SkeletonKnight::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.MoveSucceed(Bool, Bool)",38));
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
+	if(this->m_justBounced){
+		this->m_justBounced=false;
+	}else{
+		this->p_AdjustShieldDir();
+	}
 }
 void c_SkeletonKnight::p_Update(){
 	if(!this->m_hasHorse && !this->m_shieldDestroyed){
