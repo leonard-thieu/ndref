@@ -10954,11 +10954,13 @@ class c_Banshee : public c_Enemy{
 class c_Minotaur : public c_Enemy{
 	public:
 	int m_initalYOff;
-	bool m_hasRoared;
+	int m_stunnedTime;
 	int m_chargingDir;
+	bool m_hasRoared;
 	c_Minotaur();
 	c_Minotaur* m_new(int,int,int);
 	c_Minotaur* m_new2();
+	int p_TryChargeAt(int,int);
 	c_Point* p_GetMovementDirection();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -13161,7 +13163,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==2){
+			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==3){
 				bb_app_EndApp();
 			}
 		}
@@ -54419,8 +54421,9 @@ void c_Banshee::mark(){
 }
 c_Minotaur::c_Minotaur(){
 	m_initalYOff=0;
-	m_hasRoared=false;
+	m_stunnedTime=0;
 	m_chargingDir=-1;
+	m_hasRoared=false;
 }
 c_Minotaur* c_Minotaur::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -54438,9 +54441,74 @@ c_Minotaur* c_Minotaur::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
-c_Point* c_Minotaur::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.GetMovementDirection()",31));
+int c_Minotaur::p_TryChargeAt(int t_targetX,int t_targetY){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.TryChargeAt(Int, Int)",30));
 	return 0;
+}
+c_Point* c_Minotaur::p_GetMovementDirection(){
+	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);
+	if(this->m_stunnedTime>0){
+		this->m_stunnedTime-=1;
+		if(this->m_stunnedTime==0){
+			this->m_animOverride=-1;
+		}
+		return (new c_Point)->m_new(0,0);
+	}
+	if(this->m_chargingDir!=-1){
+		if(!this->p_IsConfused()){
+			if(this->m_x>this->m_lastX){
+				this->m_chargingDir=0;
+				this->m_image->p_FlipX(true,true);
+			}else{
+				if(this->m_x<this->m_lastX){
+					this->m_chargingDir=2;
+					this->m_image->p_FlipX(false,true);
+				}else{
+					if(this->m_y>this->m_lastY){
+						this->m_chargingDir=1;
+					}else{
+						if(this->m_y<this->m_lastY){
+							this->m_chargingDir=3;
+						}
+					}
+				}
+			}
+		}
+		int t_1=this->m_chargingDir;
+		if(t_1==0){
+			return (new c_Point)->m_new(1,0);
+		}else{
+			if(t_1==2){
+				return (new c_Point)->m_new(-1,0);
+			}else{
+				if(t_1==1){
+					return (new c_Point)->m_new(0,1);
+				}else{
+					if(t_1==3){
+						return (new c_Point)->m_new(0,-1);
+					}
+				}
+			}
+		}
+		return (new c_Point)->m_new(0,0);
+	}
+	this->m_chargingDir=this->p_TryChargeAt(t_closestPlayer->m_x,t_closestPlayer->m_y);
+	if(this->m_chargingDir==-1){
+		this->m_chargingDir=this->p_TryChargeAt(t_closestPlayer->m_lastBeatX,t_closestPlayer->m_lastBeatY);
+	}
+	if(this->m_chargingDir!=-1){
+		c_Audio::m_PlayGameSoundAt(String(L"minotaurCharge",14),this->m_x,this->m_y,false,-1,false);
+		c_Point* t_movementDirection=c_Util::m_GetPointFromDir(this->m_chargingDir);
+		if(t_movementDirection->m_x<0){
+			this->m_image->p_FlipX(false,true);
+		}else{
+			if(t_movementDirection->m_x>0){
+				this->m_image->p_FlipX(true,true);
+			}
+		}
+		return t_movementDirection;
+	}
+	return this->p_BasicSeek();
 }
 void c_Minotaur::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.MoveFail()",19));
