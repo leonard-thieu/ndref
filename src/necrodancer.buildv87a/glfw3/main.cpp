@@ -54442,8 +54442,25 @@ c_Minotaur* c_Minotaur::m_new2(){
 	return this;
 }
 int c_Minotaur::p_TryChargeAt(int t_targetX,int t_targetY){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Minotaur.TryChargeAt(Int, Int)",30));
-	return 0;
+	if(this->m_x!=t_targetX && this->m_y!=t_targetY){
+		return -1;
+	}
+	int t_l1Dist=c_Util::m_GetL1Dist(this->m_x,this->m_y,t_targetX,t_targetY);
+	if(t_l1Dist>6){
+		return -1;
+	}
+	int t_dir=c_Util::m_GetDirFromDiff(t_targetX-this->m_x,t_targetY-this->m_y);
+	c_Point* t_dirPoint=c_Util::m_GetPointFromDir(t_dir);
+	int t_x=this->m_x;
+	int t_y=this->m_y;
+	for(int t_i=0;t_i<t_l1Dist;t_i=t_i+1){
+		t_x+=t_dirPoint->m_x;
+		t_y+=t_dirPoint->m_y;
+		if(c_Util::m_IsGlobalCollisionAt2(t_x,t_y,false,false,false,false)){
+			return -1;
+		}
+	}
+	return t_dir;
 }
 c_Point* c_Minotaur::p_GetMovementDirection(){
 	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);

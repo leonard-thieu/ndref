@@ -102,7 +102,31 @@ Class Minotaur Extends Enemy
     End Method
 
     Method TryChargeAt: Int(targetX: Int, targetY: Int)
-        Debug.TraceNotImplemented("Minotaur.TryChargeAt(Int, Int)")
+        If Self.x <> targetX And
+           Self.y <> targetY
+            Return Direction.None
+        End If
+
+        Local l1Dist := Util.GetL1Dist(Self.x, Self.y, targetX, targetY)
+        If l1Dist > 6
+            Return Direction.None
+        End If
+
+        Local dir := Util.GetDirFromDiff(targetX - Self.x, targetY - Self.y)
+        Local dirPoint := Util.GetPointFromDir(dir)
+
+        Local x := Self.x
+        Local y := Self.y
+        For Local i := 0 Until l1Dist
+            x += dirPoint.x
+            y += dirPoint.y
+
+            If Util.IsGlobalCollisionAt(x, y, False, False, False, False)
+                Return Direction.None
+            End If
+        End For
+
+        Return dir
     End Method
 
     Method Update: Void()
