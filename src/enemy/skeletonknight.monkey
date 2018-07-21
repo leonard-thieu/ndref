@@ -45,7 +45,15 @@ Class SkeletonKnight Extends Enemy
     Field willHaveHead: Bool = True
 
     Method AdjustShieldDir: Void()
-        Debug.TraceNotImplemented("SkeletonKnight.AdjustShieldDir()")
+        If Self.cachedMoveDir.x > 0
+            Self.shieldDir = Direction.Right
+        Else If Self.cachedMoveDir.x < 0
+            Self.shieldDir = Direction.Left
+        Else If Self.cachedMoveDir.y > 0
+            Self.shieldDir = Direction.Down
+        Else If Self.cachedMoveDir.y < 0
+            Self.shieldDir = Direction.Up
+        End If
     End Method
 
     Method Beheadable: Bool()

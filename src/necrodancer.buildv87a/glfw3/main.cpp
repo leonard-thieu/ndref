@@ -10744,9 +10744,9 @@ class c_SkeletonKnight : public c_Enemy{
 	int m_directionHitFrom;
 	c_Point* m_cachedMoveDir;
 	bool m_justBounced;
+	int m_shieldDir;
 	bool m_hasHorse;
 	bool m_shieldDestroyed;
-	int m_shieldDir;
 	bool m_gotBounced;
 	bool m_hasRoared;
 	c_SkeletonKnight();
@@ -53353,9 +53353,9 @@ c_SkeletonKnight::c_SkeletonKnight(){
 	m_directionHitFrom=-1;
 	m_cachedMoveDir=(new c_Point)->m_new(0,0);
 	m_justBounced=false;
+	m_shieldDir=1;
 	m_hasHorse=true;
 	m_shieldDestroyed=false;
-	m_shieldDir=1;
 	m_gotBounced=false;
 	m_hasRoared=false;
 }
@@ -53401,7 +53401,21 @@ int c_SkeletonKnight::p_MoveImmediate(int t_xVal,int t_yVal,String t_movementSou
 	return 0;
 }
 void c_SkeletonKnight::p_AdjustShieldDir(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.AdjustShieldDir()",32));
+	if(this->m_cachedMoveDir->m_x>0){
+		this->m_shieldDir=0;
+	}else{
+		if(this->m_cachedMoveDir->m_x<0){
+			this->m_shieldDir=2;
+		}else{
+			if(this->m_cachedMoveDir->m_y>0){
+				this->m_shieldDir=1;
+			}else{
+				if(this->m_cachedMoveDir->m_y<0){
+					this->m_shieldDir=3;
+				}
+			}
+		}
+	}
 }
 void c_SkeletonKnight::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
