@@ -4,14 +4,16 @@ Import monkey.list
 Import monkey.math
 Import mojo.graphics
 Import controller.controller_game
-Import gui.flyaway
-Import gui.minimap
 Import enemy
 Import enemy.nightmare
 Import enemy.sarcophagus
 Import familiar
+Import gui.flyaway
+Import gui.gui_gameplay
+Import gui.minimap
 Import level
 Import audio2
+Import bomb
 Import camera
 Import entity
 Import item
@@ -24,7 +26,6 @@ Import renderableobject
 Import shrine
 Import sprite
 Import textsprite
-Import tile
 Import util
 
 Class Tile Extends RenderableObject
@@ -1002,7 +1003,356 @@ Class Tile Extends RenderableObject
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
-        Debug.TraceNotImplemented("Tile.Hit(String, Int, Int, Entity, Bool, Int)")
+        If Self.dead Or
+           hitType = 3 Or
+           damageSource = "RAT FAMILIAR" Or
+           (Self.IsWall() And
+            (Self.type <> TileType.MetalDoor Or
+             (Self.IsMetalDoorOpen() And
+              damageSource <> "bomb" And
+              damageSource <> "orphanedDoor")))
+            Return False
+        End If
+
+        Local player := Player(hitter)
+
+        If Self.unbreakable And
+           Tile.playSounds And
+           Not Tile.ignoreFailSounds
+            Audio.PlayGameSoundAt("digFail", Self.x, Self.y, False, -1, False)
+
+            Return False
+        End If
+
+        If Self.type = TileType.LockedDoor And
+           player <> Null
+            If player.SubtractKey()
+                If Tile.playSounds
+                    Audio.PlayGameSoundAt("unlock", Self.x, Self.y, False, -1, False)
+                End If
+
+                Self.type = TileType.Door
+                Self.health = 1
+                damage = 1
+            Else
+                If Level.IsFinalBoss()
+                    Return False
+                End If
+
+                GUI_gameplay.errorKeyRenderTimer = 90
+                GUI_gameplay.errorKeyRenderLocX = Self.x
+                GUI_gameplay.errorKeyRenderLocY = Self.y
+
+                Local needKeyFlyaway := New Flyaway("text/TEMP_need_key.png", player.x, player.y, 0, -6, True, 0.0, 0.2, False, -1)
+                needKeyFlyaway.CenterX()
+
+                If Tile.playSounds And
+                   Not Tile.ignoreFailSounds
+                    Audio.PlayGameSoundAt("error", Self.x, Self.y, False, -1, False)
+                End If
+
+                Return False
+            End If
+        End If
+
+        Local isZeroDamageAndZone4Dirt := False
+        If damage = 0 And
+           Self.IsZone4Dirt()
+            isZeroDamageAndZone4Dirt = True
+        End If
+
+        If damage < Self.health And
+           Not isZeroDamageAndZone4Dirt
+            If Tile.playSounds And
+               Not Tile.ignoreFailSounds
+                Audio.PlayGameSoundAt("digFail", Self.x, Self.y, False, -1, False)
+            End If
+
+            Return False
+        End If
+
+        If Tile.playSounds
+            Select Self.type
+                Case TileType.Door,
+                     TileType.WiredDoor
+                    Audio.PlayGameSoundAt("doorOpen", Self.x, Self.y, False, -1, False)
+
+                    If Self.triggerDoor <> 0
+                        Self.triggerDoor = Level.ActivateTrigger(Self.triggerDoor, hitter, Null)
+                    End If
+                Case TileType.MetalDoor
+                    Audio.PlayGameSoundAt("metalDoorOpen", Self.x, Self.y, False, -1, False)
+
+                    If Self.triggerDoor <> 0
+                        Self.triggerDoor = Level.ActivateTrigger(Self.triggerDoor, hitter, Null)
+                    End If
+                Default
+                    If (Self.isStone And
+                        Self.type = TileType.CatacombWall) Or
+                       Self.IsShopWall()
+                        Audio.PlayGameSoundAt("digBrick", Self.x, Self.y, False, -1, False)
+                    Else If Self.isStone
+                        Audio.PlayGameSoundAt("digStone", Self.x, Self.y, False, -1, False)
+                    Else
+                        Audio.PlayGameSoundAt("digDirt", Self.x, Self.y, False, -1, False)
+                    End If
+            End Select
+        End If
+
+        Camera.Shake(2, Self.x, Self.y)
+
+        If player <> Null And
+           Self.health = 4 And
+           damageSource = "playerShovel" And
+           Not player.IsLordCrownActive() And
+           player.bloodDrumBeats <= 0
+            player.BreakGlassShovel()
+        End If
+
+        Select Self.type
+            Case TileType.Door,
+                 TileType.WiredDoor,
+                 TileType.MetalDoor
+                ' Do nothing
+            Default
+                Local particlesData := ParticleSystemData.DIG
+                If Self.IsTileset(TilesetType.Zone4)
+                    particlesData = ParticleSystemData.DIG_ZONE4
+                End If
+
+                Select dir
+                    Case Direction.Left
+                        Local particlesX := 24 * (Self.x + 1)
+                        Local particlesY := 24 * (Self.y + 0.75)
+                        New ParticleSystem(particlesX, particlesY, particlesData, dir, "")
+                    Case Direction.Up
+                        Local particlesX := 24 * (Self.x + 0.5)
+                        Local particlesY := 24 * (Self.y + 1.25)
+                        New ParticleSystem(particlesX, particlesY, particlesData, dir, "")
+                    Case Direction.Down
+                        Local particlesX := 24 * (Self.x + 0.5)
+                        Local particlesY := 24 * (Self.y + 0.25)
+                        New ParticleSystem(particlesX, particlesY, particlesData, dir, "")
+                    Case Direction.Right
+                        Local particlesX := 24 * (Self.x)
+                        Local particlesY := 24 * (Self.y + 0.75)
+                        New ParticleSystem(particlesX, particlesY, particlesData, dir, "")
+                End Select
+        End Select
+
+        If Self.IsTileset(TilesetType.Zone4) And
+           (damageSource = "playerShovel" Or
+            damageSource = "sleepingGoblin") And
+           (Self.type = TileType.StoneWall Or
+            Self.type = TileType.DirtWall) And
+           Not isZeroDamageAndZone4Dirt
+            Tile.playSounds = False
+
+            If Level.GetTileTypeAt(Self.x - 1, Self.y) = TileType.DirtWall Or
+               Level.GetTileTypeAt(Self.x - 1, Self.y) = TileType.StoneWall
+                Local tile := Level.GetTileAt(Self.x - 1, Self.y)
+                tile.Hit("zone4Reaction", damage, Direction.Left, hitter)
+            End If
+
+            If Level.GetTileTypeAt(Self.x + 1, Self.y) = TileType.DirtWall Or
+               Level.GetTileTypeAt(Self.x + 1, Self.y) = TileType.StoneWall
+                Local tile := Level.GetTileAt(Self.x + 1, Self.y)
+                tile.Hit("zone4Reaction", damage, Direction.Right, hitter)
+            End If
+
+            If Level.GetTileTypeAt(Self.x, Self.y - 1) = TileType.DirtWall Or
+               Level.GetTileTypeAt(Self.x, Self.y - 1) = TileType.StoneWall
+                Local tile := Level.GetTileAt(Self.x, Self.y - 1)
+                tile.Hit("zone4Reaction", damage, Direction.Up, hitter)
+            End If
+
+            If Level.GetTileTypeAt(Self.x, Self.y + 1) = TileType.DirtWall Or
+               Level.GetTileTypeAt(Self.x, Self.y + 1) = TileType.StoneWall
+                Local tile := Level.GetTileAt(Self.x, Self.y + 1)
+                tile.Hit("zone4Reaction", damage, Direction.Down, hitter)
+            End If
+
+            Tile.playSounds = True
+        End If
+
+        If (damageSource = "playerShovel" Or
+            damageSource = "zone4Reaction") And
+           hitter <> Null And
+           hitter.isPlayer
+            player = Player(hitter)
+            If player.HasItemOfType(ItemType.Pickaxe, False) And
+               Not Self.IsDoor() And
+               Self.pickaxedNumTimes < Self.health - 1
+                Self.BecomeCracked()
+                Self.pickaxedNumTimes += 1
+
+                Return True
+            End If
+        End If
+
+        If damageSource <> "bomb" And
+           damageSource <> "orphanedDoor" And
+           Self.type = TileType.MetalDoor And
+           Not Self.IsMetalDoorOpen()
+            Tile.totalTilesCreatedOrDestroyed += 1
+            Self.metalDoorOpenedBeat = Audio.GetClosestBeatNum(True)
+            Self.collides = False
+        Else
+            Self.health = 0
+            Self.Die()
+
+            If Self.triggerDig <> 0
+                Self.triggerDig = Level.ActivateTrigger(Self.triggerDig, hitter, Self)
+            End If
+
+            Local floorType := TileType.Floor
+
+            If Level.isFloorIsLavaMode
+                floorType = TileType.HotCoal
+            End If
+
+            If Self.type = TileType.StoneWall
+                If Self.IsTileset(TilesetType.Zone3Hot)
+                    floorType = TileType.HotCoal
+                End If
+
+                If Self.IsTileset(TilesetType.Zone3Cold)
+                    floorType = TileType.Ice
+                End If
+            End If
+
+            If Self.type = TileType.WiredDoor
+                floorType = TileType.Wire
+            End If
+
+            If damage <= 1 And
+               player <> Null And
+               Self.IsDirt() And
+               Not Self.isCracked And
+               Self.hasResource = 0 And
+               Self.IsTileset(TilesetType.Zone5)
+                floorType = TileType.RecededFloor
+            End If
+
+            Local floorTile := New Tile(Self.x, Self.y, floorType, False, Self.tilesetOverride)
+            
+            Local alpha := Self.GetCurrentAlpha()
+            floorTile.image.SetAlphaValue(alpha)
+
+            floorTile.wasInLOS = True
+            floorTile.magicBarrier = Self.magicBarrier
+            floorTile.wireMask = Self.wireMask
+        End If
+
+        If Self.hasResource = 1
+            If Level.isHardcoreMode
+                New Item(Self.x, Self.y, ItemType.Coin0, False, 25, False)
+            Else
+                Select controller_game.currentZone
+                    Case 1
+                        New Item(Self.x, Self.y, ItemType.Diamond, False, -1, False)
+                    Case 2
+                        New Item(Self.x, Self.y, ItemType.Diamond2, False, -1, False)
+                    Case 3
+                        New Item(Self.x, Self.y, ItemType.Diamond3, False, -1, False)
+                    Default
+                        New Item(Self.x, Self.y, ItemType.Diamond4, False, -1, False)
+                End Select
+            End If
+
+            If Tile.playSounds
+                Audio.PlayGameSoundAt("digDiamond", Self.x, Self.y, False, -1, False)
+            End If
+        End If
+
+        If Self.IsShopWall() And
+           Not Util.IsCharacterActive(Character.Eli) And
+           damageSource.ToUpper() <> "OGRE"
+            New Item(Self.x, Self.y, ItemType.Coin10, False, -1, False)
+        End If
+
+        If Self.hasResource = 2
+            Local bomb := New Bomb(Self.x, Self.y, Null, True, False, "bomb")
+            bomb.beatsUntilExplosion = 0
+        End If
+
+        If Level.GetTileAt(Self.x + 1, Self.y) = Null
+            New Tile(Self.x + 1, Self.y, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        If Level.GetTileAt(Self.x + 1, Self.y + 1) = Null
+            New Tile(Self.x + 1, Self.y + 1, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        If Level.GetTileAt(Self.x, Self.y + 1) = Null
+            New Tile(Self.x, Self.y + 1, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        If Level.GetTileAt(Self.x - 1, Self.y + 1) = Null
+            New Tile(Self.x - 1, Self.y + 1, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        If Level.GetTileAt(Self.x - 1, Self.y) = Null
+            New Tile(Self.x - 1, Self.y, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        If Level.GetTileAt(Self.x - 1, Self.y - 1) = Null
+            New Tile(Self.x - 1, Self.y - 1, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        If Level.GetTileAt(Self.x, Self.y - 1) = Null
+            New Tile(Self.x, Self.y - 1, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        If Level.GetTileAt(Self.x + 1, Self.y - 1) = Null
+            New Tile(Self.x + 1, Self.y - 1, TileType.DirtWall, False, Self.tilesetOverride)
+        End If
+
+        Select Self.type
+            Case TileType.WiredDoor,
+                 TileType.Door,
+                 TileType.MetalDoor,
+                 TileType.LockedDoor
+                If Level.IsDoorAt(Self.x + 1, Self.y)
+                    Local door := Level.GetTileAt(Self.x + 1, Self.y)
+                    door.Hit("adjacentDoorOpen", damage, dir, player)
+                End If
+
+                If Level.IsDoorAt(Self.x - 1, Self.y)
+                    Local door := Level.GetTileAt(Self.x - 1, Self.y)
+                    door.Hit("adjacentDoorOpen", damage, dir, player)
+                End If
+
+                If Level.IsDoorAt(Self.x, Self.y + 1)
+                    Local door := Level.GetTileAt(Self.x, Self.y + 1)
+                    door.Hit("adjacentDoorOpen", damage, dir, player)
+                End If
+
+                If Level.IsDoorAt(Self.x, Self.y - 1)
+                    Local door := Level.GetTileAt(Self.x, Self.y - 1)
+                    door.Hit("adjacentDoorOpen", damage, dir, player)
+                End If
+        End Select
+
+        For Local d := Direction.MinCardinalDirection To Direction.MaxCardinalDirection
+            Local dirPoint := Util.GetPointFromDir(d)
+            Local nextX := Self.x + dirPoint.x
+            Local nextY := Self.y + dirPoint.y
+            Local tile := Level.GetTileAt(nextX, nextY)
+            Select tile.type
+                Case TileType.Door,
+                     TileType.WiredDoor,
+                     TileType.MetalDoor
+                    If Level.IsFloorAt(nextX - 1, nextY) And
+                       Level.IsFloorAt(nextX + 1, nextY) And
+                       Level.IsFloorAt(nextX, nextY - 1) And
+                       Level.IsFloorAt(nextX, nextY + 1)
+                        tile.Hit("orphanedDoor", damage, d, player)
+                    End If
+            End Select
+        End For
+
+        Return True
     End Method
 
     Method IsConductorWall: Bool()
