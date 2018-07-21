@@ -1,10 +1,13 @@
 'Strict
 
 Import enemy
+Import level
 Import audio2
+Import camera
 Import logger
 Import point
 Import shrine
+Import util
 
 Class Minotaur Extends Enemy
 
@@ -126,9 +129,9 @@ Class Minotaur Extends Enemy
         End If
 
         If Enemy.enemiesFearfulDuration > 0
-            Self.chargingDir = -1
+            Self.chargingDir = Direction.None
             Self.animOverride = -1
-        Else If Self.chargingDir <> -1
+        Else If Self.chargingDir <> Direction.None
             If Self.x < Self.lastX
                 Self.image.FlipX(False, True)
             Else If Self.x > Self.lastX
