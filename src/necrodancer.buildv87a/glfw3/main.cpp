@@ -11617,12 +11617,15 @@ class c_FireTrap : public c_Trap{
 	public:
 	int m_fireDir;
 	bool m_manual;
+	int m_vibrateCounter;
+	Float m_vibrateOffset;
 	c_FireTrap();
 	c_FireTrap* m_new(int,int,int,bool);
 	c_FireTrap* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Move();
 	void p_Trigger(c_Entity*);
+	int p_GetFrameToShow();
 	void p_Update();
 	void mark();
 };
@@ -13173,7 +13176,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==3 && bb_controller_game_currentLevel==4){
+			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==1){
 				bb_app_EndApp();
 			}
 		}
@@ -57014,6 +57017,8 @@ void c_ScatterTrap::mark(){
 c_FireTrap::c_FireTrap(){
 	m_fireDir=0;
 	m_manual=false;
+	m_vibrateCounter=3;
+	m_vibrateOffset=FLOAT(0.7);
 }
 c_FireTrap* c_FireTrap::m_new(int t_xVal,int t_yVal,int t_d,bool t_m){
 	c_Trap::m_new(t_xVal,t_yVal,10);
@@ -57039,8 +57044,27 @@ void c_FireTrap::p_Move(){
 void c_FireTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Trigger(Entity)",24));
 }
+int c_FireTrap::p_GetFrameToShow(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.GetFrameToShow()",25));
+	return 0;
+}
 void c_FireTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Update()",17));
+	c_Trap::p_Update();
+	if(this->p_GetFrameToShow()==2){
+		this->m_vibrateCounter-=1;
+		if(this->m_vibrateCounter==0){
+			this->m_vibrateCounter=3;
+			this->m_xOff=this->m_vibrateOffset+FLOAT(12.0);
+			this->m_vibrateOffset=-this->m_vibrateOffset;
+		}
+	}else{
+		this->m_xOff=FLOAT(12.0);
+	}
+	int t_frame=this->p_GetFrameToShow();
+	this->m_image->p_SetFrame(t_frame);
+	if(!c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+		this->p_Die();
+	}
 }
 void c_FireTrap::mark(){
 	c_Trap::mark();

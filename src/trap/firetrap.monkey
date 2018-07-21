@@ -1,10 +1,11 @@
 'Strict
 
 Import mojo.graphics
+Import level
+Import trap
 Import entity
 Import logger
 Import sprite
-Import trap
 
 Class FireTrap Extends Trap
 
@@ -65,7 +66,25 @@ Class FireTrap Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("FireTrap.Update()")
+        Super.Update()
+
+        If Self.GetFrameToShow() = 2
+            Self.vibrateCounter -= 1
+            If Self.vibrateCounter = 0
+                Self.vibrateCounter = 3
+                Self.xOff = Self.vibrateOffset + 12.0
+                Self.vibrateOffset = -Self.vibrateOffset
+            End If
+        Else
+            Self.xOff = 12.0
+        End If
+
+        Local frame := Self.GetFrameToShow()
+        Self.image.SetFrame(frame)
+
+        If Not Level.IsWallAt(Self.x, Self.y)
+            Self.Die()
+        End If
     End Method
 
 End Class
