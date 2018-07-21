@@ -69,7 +69,13 @@ Class SkeletonKnight Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("SkeletonKnight.GetMovementDirection()")
+        If Not Self.hasHead
+            Return Util.GetPointFromDir(Self.directionHitFrom)
+        End If
+
+        Self.cachedMoveDir = Self.BasicSeek()
+
+        Return Self.cachedMoveDir
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)

@@ -10740,12 +10740,13 @@ class c_MushroomLight : public c_Enemy{
 };
 class c_SkeletonKnight : public c_Enemy{
 	public:
+	bool m_hasHead;
+	int m_directionHitFrom;
+	c_Point* m_cachedMoveDir;
 	bool m_hasHorse;
 	bool m_shieldDestroyed;
 	int m_shieldDir;
-	int m_directionHitFrom;
 	bool m_gotBounced;
-	bool m_hasHead;
 	bool m_hasRoared;
 	c_SkeletonKnight();
 	c_SkeletonKnight* m_new(int,int,int);
@@ -53346,12 +53347,13 @@ void c_MushroomLight::mark(){
 	gc_mark_q(m_explosionImg);
 }
 c_SkeletonKnight::c_SkeletonKnight(){
+	m_hasHead=true;
+	m_directionHitFrom=-1;
+	m_cachedMoveDir=(new c_Point)->m_new(0,0);
 	m_hasHorse=true;
 	m_shieldDestroyed=false;
 	m_shieldDir=1;
-	m_directionHitFrom=-1;
 	m_gotBounced=false;
-	m_hasHead=true;
 	m_hasRoared=false;
 }
 c_SkeletonKnight* c_SkeletonKnight::m_new(int t_xVal,int t_yVal,int t_l){
@@ -53378,8 +53380,11 @@ void c_SkeletonKnight::p_Die(){
 	c_Enemy::p_Die();
 }
 c_Point* c_SkeletonKnight::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.GetMovementDirection()",37));
-	return 0;
+	if(!this->m_hasHead){
+		return c_Util::m_GetPointFromDir(this->m_directionHitFrom);
+	}
+	gc_assign(this->m_cachedMoveDir,this->p_BasicSeek());
+	return this->m_cachedMoveDir;
 }
 bool c_SkeletonKnight::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"SkeletonKnight.Hit(String, Int, Int, Entity, Bool, Int)",55));
@@ -53451,6 +53456,7 @@ void c_SkeletonKnight::p_Update(){
 }
 void c_SkeletonKnight::mark(){
 	c_Enemy::mark();
+	gc_mark_q(m_cachedMoveDir);
 }
 c_Beetle::c_Beetle(){
 	m_hasArmor=true;
