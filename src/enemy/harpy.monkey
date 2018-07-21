@@ -20,6 +20,10 @@ Class Harpy Extends Enemy
         Self.overrideAttackSound = "harpyAttack"
     End Method
 
+    Method CanBeLord: Bool()
+        Debug.TraceNotImplemented("Harpy.CanBeLord()")
+    End Method
+
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Harpy.GetMovementDirection()")
     End Method

@@ -10230,6 +10230,7 @@ class c_Harpy : public c_Enemy{
 	c_Harpy();
 	c_Harpy* m_new(int,int,int);
 	c_Harpy* m_new2();
+	bool p_CanBeLord();
 	c_Point* p_GetMovementDirection();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
@@ -51150,6 +51151,10 @@ c_Harpy* c_Harpy::m_new(int t_xVal,int t_yVal,int t_l){
 c_Harpy* c_Harpy::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+bool c_Harpy::p_CanBeLord(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.CanBeLord()",17));
+	return false;
 }
 c_Point* c_Harpy::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.GetMovementDirection()",28));
