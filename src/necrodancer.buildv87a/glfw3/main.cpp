@@ -51157,8 +51157,38 @@ bool c_Harpy::p_CanBeLord(){
 	return false;
 }
 c_Point* c_Harpy::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.GetMovementDirection()",28));
-	return 0;
+	c_Point* t_movementDirection=(new c_Point)->m_new(0,0);
+	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayerIncludeItemEffects(this->m_x,this->m_y,false);
+	if(t_closestPlayer==0){
+		return t_movementDirection;
+	}
+	gc_assign(this->m_seekingPlayer,t_closestPlayer);
+	if(c_Util::m_GetDist(this->m_x,this->m_y,t_closestPlayer->m_x,t_closestPlayer->m_y)<=FLOAT(1.0)){
+		return this->p_BasicSeek();
+	}
+	c_List27* t_points=(new c_List27)->m_new();
+	for(int t_xOff=-3;t_xOff<=3;t_xOff=t_xOff+1){
+		for(int t_yOff=-3;t_yOff<=3;t_yOff=t_yOff+1){
+			int t_nextX=this->m_x+t_xOff;
+			int t_nextY=this->m_y+t_yOff;
+			if(bb_math_Abs(t_xOff)+bb_math_Abs(t_yOff)<=3 && !c_Util::m_IsGlobalCollisionAt2(t_nextX,t_nextY,false,false,false,false) && !c_Util::m_IsAnyPlayerAt(t_nextX,t_nextY) && c_Level::m_CheckLOS(this->m_x,this->m_y,t_nextX,t_nextY,true)){
+				t_points->p_AddLast27((new c_Point)->m_new(t_xOff,t_yOff));
+			}
+		}
+	}
+	int t_l1DistToClosestPlayer=c_Util::m_GetL1Dist(t_closestPlayer->m_x,t_closestPlayer->m_y,this->m_x,this->m_y);
+	c_Enumerator17* t_=t_points->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Point* t_point=t_->p_NextObject();
+		int t_nextL1Dist=c_Util::m_GetL1Dist(t_closestPlayer->m_x,t_closestPlayer->m_y,this->m_x+t_point->m_x,this->m_y+t_point->m_y);
+		if(t_l1DistToClosestPlayer>t_nextL1Dist || c_Util::m_GetDist(t_movementDirection->m_x,t_movementDirection->m_y,0,0)>c_Util::m_GetDist(t_point->m_x,t_point->m_y,0,0)){
+			t_movementDirection=t_point;
+		}
+	}
+	if(t_movementDirection->m_x==0 && t_movementDirection->m_y==0){
+		return this->p_BasicSeek();
+	}
+	return t_movementDirection;
 }
 void c_Harpy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.MoveSucceed(Bool, Bool)",29));
