@@ -83,7 +83,34 @@ Class Harpy Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Harpy.Update()")
+        If Util.IsCharacterActive(Character.Mary) Or
+           Util.IsCharacterActive(Character.Dove) Or
+           (Util.AreAriaOrCodaActive() And
+            controller_game.currentZone <= 3)
+            Self.coinsToDrop = 0
+            Self.Die()
+        End If
+
+        If Self.hasBeenVisible
+            If Not Self.wasVisibleLastFrame
+                Self.wasVisibleLastFrame = True
+                Self.currentMoveDelay = 1
+            End If
+        Else
+            Self.currentMoveDelay = 2
+        End If
+
+        If Self.lastX > Self.x
+            Self.image.FlipX(False, True)
+            Self.xOff = -9.0
+        End If
+
+        If Self.lastX < Self.x
+            Self.image.FlipX(True, True)
+            Self.xOff = -15.0
+        End If
+
+        Super.Update()
     End Method
 
 End Class

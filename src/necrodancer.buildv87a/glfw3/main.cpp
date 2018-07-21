@@ -51195,7 +51195,27 @@ void c_Harpy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.MoveSucceed(Bool, Bool)",29));
 }
 void c_Harpy::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.Update()",14));
+	if(c_Util::m_IsCharacterActive(12) || c_Util::m_IsCharacterActive(6) || c_Util::m_AreAriaOrCodaActive() && bb_controller_game_currentZone<=3){
+		this->m_coinsToDrop=0;
+		this->p_Die();
+	}
+	if(this->m_hasBeenVisible){
+		if(!this->m_wasVisibleLastFrame){
+			this->m_wasVisibleLastFrame=true;
+			this->m_currentMoveDelay=1;
+		}
+	}else{
+		this->m_currentMoveDelay=2;
+	}
+	if(this->m_lastX>this->m_x){
+		this->m_image->p_FlipX(false,true);
+		this->m_xOff=FLOAT(-9.0);
+	}
+	if(this->m_lastX<this->m_x){
+		this->m_image->p_FlipX(true,true);
+		this->m_xOff=FLOAT(-15.0);
+	}
+	c_Enemy::p_Update();
 }
 void c_Harpy::mark(){
 	c_Enemy::mark();
