@@ -59485,7 +59485,37 @@ void c_Poltergeist::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.MoveSucceed(Bool, Bool)",35));
 }
 void c_Poltergeist::p_BecomeCorporeal(bool t_force){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Poltergeist.BecomeCorporeal(Bool)",33));
+	if(c_Player::m_AllPlayersPerished() || !this->m_invisible){
+		return;
+	}
+	if(!t_force){
+		if(c_Enemy::m_lastWraithSpawnBeat+14>=c_Audio::m_GetClosestBeatNum(true) && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
+			return;
+		}
+		if(c_Player::m_AnyPlayerInSpecialRoom() || c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(3.0) || c_Util::m_IsGlobalCollisionAt2(this->m_x,this->m_y,false,true,false,false)){
+			this->m_coinsToDrop=0;
+			this->p_Die();
+			return;
+		}
+	}
+	c_Player* t_closestPlayer=c_Util::m_GetClosestPlayer(this->m_x,this->m_y);
+	if(this->m_invisible && !c_Tile::m_AnyPlayerHaveMonocle() && !c_Entity::m_AnyPlayerHaveCircletOrGlassTorch() && !this->m_earthquaked){
+		for(int t_nextX=t_closestPlayer->m_x-3;t_nextX<=t_closestPlayer->m_x+3;t_nextX=t_nextX+1){
+			for(int t_nextY=t_closestPlayer->m_y-3;t_nextY<=t_closestPlayer->m_y+3;t_nextY=t_nextY+1){
+				c_Enemy* t_enemy=c_Enemy::m_GetEnemyAt(t_nextX,t_nextY,true);
+				if(t_enemy!=0 && !t_enemy->m_isCrate){
+					return;
+				}
+			}
+		}
+	}
+	this->m_invisible=false;
+	this->m_seeking=false;
+	if(!this->m_collides){
+		this->m_collides=true;
+		this->m_currentMoveDelay=0;
+	}
+	c_Enemy::m_lastWraithSpawnBeat=c_Audio::m_GetClosestBeatNum(true);
 }
 void c_Poltergeist::p_CheckCorporeality(){
 	if(this->p_IsVisible() || this->m_earthquaked || c_Tile::m_AnyPlayerHaveMonocle() || c_Entity::m_AnyPlayerHaveCircletOrGlassTorch()){
