@@ -87,7 +87,18 @@ Class Sarcophagus Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Sarcophagus.Update()")
+        If Self.currentMoveDelay > 1
+            Self.xOff = 0.0
+        Else
+            Self.vibrateCounter -= 1
+            If Self.vibrateCounter = 0
+                Self.xOff = Self.vibrateOffset
+                Self.vibrateOffset = -Self.vibrateOffset
+                Self.vibrateCounter = 3
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class

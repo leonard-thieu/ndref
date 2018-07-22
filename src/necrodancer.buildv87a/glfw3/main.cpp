@@ -9973,6 +9973,8 @@ class c_StringStack : public c_Stack3{
 class c_Sarcophagus : public c_Enemy{
 	public:
 	int m_numEnemiesSpawned;
+	int m_vibrateCounter;
+	Float m_vibrateOffset;
 	c_Sarcophagus();
 	static c_List19* m_sarcophagi;
 	c_Sarcophagus* m_new(int,int,int);
@@ -49937,6 +49939,8 @@ void c_StringStack::mark(){
 }
 c_Sarcophagus::c_Sarcophagus(){
 	m_numEnemiesSpawned=0;
+	m_vibrateCounter=3;
+	m_vibrateOffset=FLOAT(0.7);
 }
 c_List19* c_Sarcophagus::m_sarcophagi;
 c_Sarcophagus* c_Sarcophagus::m_new(int t_xVal,int t_yVal,int t_l){
@@ -49996,7 +50000,17 @@ int c_Sarcophagus::p_PerformMovement(int t_xVal,int t_yVal){
 	return 0;
 }
 void c_Sarcophagus::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.Update()",20));
+	if(this->m_currentMoveDelay>1){
+		this->m_xOff=FLOAT(0.0);
+	}else{
+		this->m_vibrateCounter-=1;
+		if(this->m_vibrateCounter==0){
+			this->m_xOff=this->m_vibrateOffset;
+			this->m_vibrateOffset=-this->m_vibrateOffset;
+			this->m_vibrateCounter=3;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Sarcophagus::mark(){
 	c_Enemy::mark();
