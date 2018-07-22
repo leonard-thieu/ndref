@@ -9977,9 +9977,14 @@ class c_Sarcophagus : public c_Enemy{
 	static c_List19* m_sarcophagi;
 	c_Sarcophagus* m_new(int,int,int);
 	c_Sarcophagus* m_new2();
+	bool p_CanBeLord();
 	void p_Delete();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
+	bool p_ImmuneToFear();
 	void p_MoveFail();
+	void p_MoveSucceed(bool,bool);
+	int p_PerformMovement(int,int);
 	void p_Update();
 	void mark();
 };
@@ -49949,6 +49954,10 @@ c_Sarcophagus* c_Sarcophagus::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+bool c_Sarcophagus::p_CanBeLord(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.CanBeLord()",23));
+	return false;
+}
 void c_Sarcophagus::p_Delete(){
 	m_sarcophagi->p_RemoveEach9(this);
 	c_Enemy::p_Delete();
@@ -49968,8 +49977,23 @@ void c_Sarcophagus::p_Die(){
 	m_sarcophagi->p_RemoveEach9(this);
 	c_Enemy::p_Die();
 }
+c_Point* c_Sarcophagus::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.GetMovementDirection()",34));
+	return 0;
+}
+bool c_Sarcophagus::p_ImmuneToFear(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.ImmuneToFear()",26));
+	return false;
+}
 void c_Sarcophagus::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.MoveFail()",22));
+}
+void c_Sarcophagus::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.MoveSucceed(Bool, Bool)",35));
+}
+int c_Sarcophagus::p_PerformMovement(int t_xVal,int t_yVal){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.PerformMovement(Int, Int)",37));
+	return 0;
 }
 void c_Sarcophagus::p_Update(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.Update()",20));

@@ -3,6 +3,7 @@
 Import monkey.list
 Import enemy
 Import logger
+Import point
 Import shrine
 
 Class Sarcophagus Extends Enemy
@@ -11,6 +12,10 @@ Class Sarcophagus Extends Enemy
 
     Function DestroyAll: Void()
         Debug.TraceNotImplemented("Sarcophagus.DestroyAll()")
+    End Function
+
+    Function GetNumSarcophagi: Void()
+        Debug.TraceNotImplemented("Sarcophagus.GetNumSarcophagi()")
     End Function
 
     Function _EditorFix: Void() End
@@ -35,6 +40,10 @@ Class Sarcophagus Extends Enemy
     Field vibrateCounter: Int = 3
     Field vibrateOffset: Float = 0.7
 
+    Method CanBeLord: Bool()
+        Debug.TraceNotImplemented("Sarcophagus.CanBeLord()")
+    End Method
+
     Method Delete: Void()
         Sarcophagus.sarcophagi.RemoveEach(Self)
 
@@ -57,8 +66,24 @@ Class Sarcophagus Extends Enemy
         Super.Die()
     End Method
 
+    Method GetMovementDirection: Point()
+        Debug.TraceNotImplemented("Sarcophagus.GetMovementDirection()")
+    End Method
+
+    Method ImmuneToFear: Bool()
+        Debug.TraceNotImplemented("Sarcophagus.ImmuneToFear()")
+    End Method
+
     Method MoveFail: Void()
         Debug.TraceNotImplemented("Sarcophagus.MoveFail()")
+    End Method
+
+    Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
+        Debug.TraceNotImplemented("Sarcophagus.MoveSucceed(Bool, Bool)")
+    End Method
+
+    Method PerformMovement: Int(xVal: Int, yVal: Int)
+        Debug.TraceNotImplemented("Sarcophagus.PerformMovement(Int, Int)")
     End Method
 
     Method Update: Void()
