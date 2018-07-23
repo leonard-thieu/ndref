@@ -11025,7 +11025,9 @@ class c_Ogre : public c_Enemy{
 	c_Ogre();
 	c_Ogre* m_new(int,int,int);
 	c_Ogre* m_new2();
+	bool p_CanBeLord();
 	c_Point* p_GetMovementDirection();
+	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -13213,7 +13215,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==2){
+			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==3){
 				bb_app_EndApp();
 			}
 		}
@@ -55042,9 +55044,16 @@ c_Ogre* c_Ogre::m_new2(){
 	c_Enemy::m_new();
 	return this;
 }
+bool c_Ogre::p_CanBeLord(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.CanBeLord()",16));
+	return false;
+}
 c_Point* c_Ogre::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.GetMovementDirection()",27));
 	return 0;
+}
+void c_Ogre::p_MoveFail(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.MoveFail()",15));
 }
 void c_Ogre::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.MoveSucceed(Bool, Bool)",28));

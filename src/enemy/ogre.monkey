@@ -4,6 +4,7 @@ Import enemy
 Import logger
 Import point
 Import sprite
+Import util
 
 Class Ogre Extends Enemy
 
@@ -28,13 +29,21 @@ Class Ogre Extends Enemy
     Field imageSmashLeft: Sprite
     Field imageSmashDown: Sprite
     Field imageSmashUp: Sprite
-    Field smashingDir: Int = -1
+    Field smashingDir: Int = Direction.None
     Field justSmashed: Bool
-    Field smashedDir: Int = -1
+    Field smashedDir: Int = Direction.None
     Field smashCounter: Int
+
+    Method CanBeLord: Bool()
+        Debug.TraceNotImplemented("Ogre.CanBeLord()")
+    End Method
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Ogre.GetMovementDirection()")
+    End Method
+
+    Method MoveFail: Void()
+        Debug.TraceNotImplemented("Ogre.MoveFail()")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
