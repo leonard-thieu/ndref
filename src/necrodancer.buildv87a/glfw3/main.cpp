@@ -10989,6 +10989,7 @@ class c_Minotaur : public c_Enemy{
 class c_Nightmare : public c_Enemy{
 	public:
 	Float m_NIGHTMARE_DARKNESS_RADIUS;
+	int m_seekDistance;
 	c_Nightmare();
 	static c_Nightmare* m_nightmare;
 	c_Nightmare* m_new(int,int,int);
@@ -54819,6 +54820,7 @@ void c_Minotaur::mark(){
 }
 c_Nightmare::c_Nightmare(){
 	m_NIGHTMARE_DARKNESS_RADIUS=FLOAT(2.5);
+	m_seekDistance=9;
 }
 c_Nightmare* c_Nightmare::m_nightmare;
 c_Nightmare* c_Nightmare::m_new(int t_xVal,int t_yVal,int t_l){
@@ -54866,7 +54868,19 @@ void c_Nightmare::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.MoveSucceed(Bool, Bool)",33));
 }
 void c_Nightmare::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.Update()",18));
+	if(Float(this->m_seekDistance)>=c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false) || this->m_executedCry){
+		this->m_movesRegardlessOfDistance=true;
+		this->m_dontMove=false;
+	}
+	if(this->m_lastX>this->m_x){
+		this->m_image->p_FlipX(false,true);
+		this->m_xOff=FLOAT(-19.0);
+	}
+	if(this->m_lastX<this->m_x){
+		this->m_image->p_FlipX(true,true);
+		this->m_xOff=FLOAT(-15.0);
+	}
+	c_Enemy::p_Update();
 }
 void c_Nightmare::mark(){
 	c_Enemy::mark();

@@ -5,6 +5,7 @@ Import entity
 Import logger
 Import point
 Import shrine
+Import util
 
 Class Nightmare Extends Enemy
 
@@ -67,7 +68,23 @@ Class Nightmare Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Nightmare.Update()")
+        If Self.seekDistance >= Util.GetDistFromClosestPlayer(Self.x, Self.y, False) Or
+           Self.executedCry
+            Self.movesRegardlessOfDistance = True
+            Self.dontMove = False
+        End If
+
+        If Self.lastX > Self.x
+            Self.image.FlipX(False, True)
+            Self.xOff = -19.0
+        End If
+
+        If Self.lastX < Self.x
+            Self.image.FlipX(True, True)
+            Self.xOff = -15.0
+        End If
+
+        Super.Update()
     End Method
 
 End Class
