@@ -55999,7 +55999,18 @@ void c_ZombieElectric::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.MoveFail()",25));
 }
 void c_ZombieElectric::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.MoveSucceed(Bool, Bool)",38));
+	this->m_rested=false;
+	if(this->m_queueRest){
+		this->m_rested=true;
+		this->m_queueRest=false;
+	}
+	if(this->m_turnToFace!=-1){
+		this->m_facing=this->m_turnToFace;
+		this->m_turnToFace=-1;
+		this->p_BounceInPlace(false);
+	}
+	this->m_facing=this->p_GetMovementDir();
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
 void c_ZombieElectric::p_Update(){
 	int t_1=this->m_facing;
