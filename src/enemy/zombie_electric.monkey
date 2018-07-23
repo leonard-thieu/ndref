@@ -15,17 +15,16 @@ Class ZombieElectric Extends Enemy
 
         Self.Init(x_, y_, l, "zombie_electric")
 
-        Self.facing = Util.RndIntRangeFromZero(3, True)
-        Local movementDir := Self.GetMovementDir()
+        Self.facing = Util.RndIntRange(Direction.MinCardinalDirection, Direction.MaxCardinalDirection, True)
         Self.movesRegardlessOfDistance = True
-        Self.facing = movementDir
+        Self.facing = Self.GetMovementDir()
 
         Self.overrideAttackSound = "eleczombieAttack"
         Self.overrideDeathSound = "eleczombieDeath"
     End Method
 
-    Field facing: Int = -1
-    Field turnToFace: Int = -1
+    Field facing: Int = Direction.None
+    Field turnToFace: Int = Direction.None
     Field rested: Bool
     Field queueRest: Bool
 

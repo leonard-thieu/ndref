@@ -13228,7 +13228,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==4){
+			if(bb_controller_game_currentDepth==5 && bb_controller_game_currentLevel==1){
 				bb_app_EndApp();
 			}
 		}
@@ -55916,10 +55916,9 @@ int c_ZombieElectric::p_GetMovementDir(){
 c_ZombieElectric* c_ZombieElectric::m_new(int t_x_,int t_y_,int t_l){
 	c_Enemy::m_new();
 	this->p_Init3(t_x_,t_y_,t_l,String(L"zombie_electric",15),String(),-1,-1);
-	this->m_facing=c_Util::m_RndIntRangeFromZero(3,true);
-	int t_movementDir=this->p_GetMovementDir();
+	this->m_facing=c_Util::m_RndIntRange(0,3,true,-1);
 	this->m_movesRegardlessOfDistance=true;
-	this->m_facing=t_movementDir;
+	this->m_facing=this->p_GetMovementDir();
 	this->m_overrideAttackSound=String(L"eleczombieAttack",16);
 	this->m_overrideDeathSound=String(L"eleczombieDeath",15);
 	return this;
