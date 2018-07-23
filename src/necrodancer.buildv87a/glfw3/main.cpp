@@ -5947,9 +5947,10 @@ class c_Util : public Object{
 	static bool m_IsGlobalCollisionAt(int,int,bool,bool,bool,bool,bool);
 	static bool m_IsGlobalCollisionAt2(int,int,bool,bool,bool,bool);
 	static Float m_GetDistFromClosestPlayer(int,int,bool);
+	static c_Point* m_GetPointFromDir(int);
+	static int m_InvertDir(int);
 	static bool m_IsAnyPlayerAt(int,int);
 	static bool m_IsWeaponlessCharacterActive();
-	static c_Point* m_GetPointFromDir(int);
 	static int m_GetL1Dist(int,int,int,int);
 	static bool m_IsBomblessCharacterActive();
 	static String m_DirToString(int);
@@ -5967,7 +5968,6 @@ class c_Util : public Object{
 	static c_List41* m_GetPlayersAt2(int,int);
 	static int m_GetDirFromDiff(int,int);
 	static c_Player* m_GetClosestPlayer(int,int);
-	static int m_InvertDir(int);
 	static Float m_GetDistSqFromClosestPlayer(int,int,bool,bool);
 	static c_Point* m_FindClosestUnoccupiedSpace(int,int,bool);
 	static int m_GetDirAfterRotation(int,int,bool);
@@ -6891,6 +6891,7 @@ class c_Level : public Object{
 	static bool m_QueryHarderBosses();
 	static void m_ClearMinibossWall();
 	static int m_ActivateTrigger(int,c_Entity*,c_RenderableObject*);
+	static bool m_IsExitAt(int,int);
 	static void m_TrySpawnBossMinibossAt(int,int,int);
 	static void m_BossMaybeMinibossesAt(int,int,int,int);
 	static void m_CreateBossBattle1();
@@ -6936,7 +6937,6 @@ class c_Level : public Object{
 	static c_RoomWithDoor* m_CreateRoomZone52(c_StackEx3*,int,int,int,int);
 	static c_RoomWithDoor* m_CreateRoomZone53(c_StackEx3*,int,int,int);
 	static bool m_IsWallAdjacent8(int,int);
-	static bool m_IsExitAt(int,int);
 	static bool m_PlaceWire(c_Point*,c_Point*);
 	static bool m_IsTileTypeAdjacent(int,int,int);
 	static c_List27* m_tempTileWalk;
@@ -9028,9 +9028,9 @@ class c_Tile : public c_RenderableObject{
 	void p_SetDoorTrigger(int);
 	void p_SetTrigger(int);
 	void p_SetDigTrigger(int);
+	bool p_IsExit();
 	Float p_GetCurrentAlpha();
 	void p_BecomeCracked();
-	bool p_IsExit();
 	void p_AddWireConnection(int);
 	static void m_GenerateWireConnections();
 	void p_AddFloorOverlayImage(String);
@@ -11224,10 +11224,11 @@ class c_Gorgon : public c_Enemy{
 class c_ZombieElectric : public c_Enemy{
 	public:
 	int m_facing;
-	bool m_queueRest;
 	int m_turnToFace;
+	bool m_queueRest;
 	bool m_rested;
 	c_ZombieElectric();
+	int p_GetNextMovementDir();
 	int p_GetMovementDir();
 	c_ZombieElectric* m_new(int,int,int);
 	c_ZombieElectric* m_new2();
@@ -14214,27 +14215,6 @@ Float c_Util::m_GetDistFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSou
 	}
 	return t_dist;
 }
-bool c_Util::m_IsAnyPlayerAt(int t_xVal,int t_yVal){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(t_player->p_Perished()){
-			continue;
-		}
-		if(t_player->m_x==t_xVal && t_player->m_y==t_yVal){
-			return true;
-		}
-	}
-	return false;
-}
-bool c_Util::m_IsWeaponlessCharacterActive(){
-	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
-		c_Player* t_player=bb_controller_game_players[t_i];
-		if(t_player->p_IsWeaponlessCharacter()){
-			return true;
-		}
-	}
-	return false;
-}
 c_Point* c_Util::m_GetPointFromDir(int t_dir){
 	int t_x=0;
 	int t_y=0;
@@ -14282,6 +14262,63 @@ c_Point* c_Util::m_GetPointFromDir(int t_dir){
 		}
 	}
 	return (new c_Point)->m_new(t_x,t_y);
+}
+int c_Util::m_InvertDir(int t_dir){
+	int t_inverted=-1;
+	int t_3=t_dir;
+	if(t_3==3){
+		t_inverted=1;
+	}else{
+		if(t_3==1){
+			t_inverted=3;
+		}else{
+			if(t_3==2){
+				t_inverted=0;
+			}else{
+				if(t_3==0){
+					t_inverted=2;
+				}else{
+					if(t_3==6){
+						t_inverted=4;
+					}else{
+						if(t_3==7){
+							t_inverted=5;
+						}else{
+							if(t_3==5){
+								t_inverted=7;
+							}else{
+								if(t_3==4){
+									t_inverted=6;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return t_inverted;
+}
+bool c_Util::m_IsAnyPlayerAt(int t_xVal,int t_yVal){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(t_player->p_Perished()){
+			continue;
+		}
+		if(t_player->m_x==t_xVal && t_player->m_y==t_yVal){
+			return true;
+		}
+	}
+	return false;
+}
+bool c_Util::m_IsWeaponlessCharacterActive(){
+	for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+		c_Player* t_player=bb_controller_game_players[t_i];
+		if(t_player->p_IsWeaponlessCharacter()){
+			return true;
+		}
+	}
+	return false;
 }
 int c_Util::m_GetL1Dist(int t_x1,int t_y1,int t_x2,int t_y2){
 	return bb_math_Abs(t_x1-t_x2)+bb_math_Abs(t_y1-t_y2);
@@ -14530,42 +14567,6 @@ c_Player* c_Util::m_GetClosestPlayer(int t_xVal,int t_yVal){
 		}
 	}
 	return t_closestPlayer;
-}
-int c_Util::m_InvertDir(int t_dir){
-	int t_inverted=-1;
-	int t_3=t_dir;
-	if(t_3==3){
-		t_inverted=1;
-	}else{
-		if(t_3==1){
-			t_inverted=3;
-		}else{
-			if(t_3==2){
-				t_inverted=0;
-			}else{
-				if(t_3==0){
-					t_inverted=2;
-				}else{
-					if(t_3==6){
-						t_inverted=4;
-					}else{
-						if(t_3==7){
-							t_inverted=5;
-						}else{
-							if(t_3==5){
-								t_inverted=7;
-							}else{
-								if(t_3==4){
-									t_inverted=6;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return t_inverted;
 }
 Float c_Util::m_GetDistSqFromClosestPlayer(int t_xVal,int t_yVal,bool t_includeSouls,bool t_includeLambs){
 	Float t_distSq=FLOAT(99999.0);
@@ -19699,6 +19700,10 @@ int c_Level::m_ActivateTrigger(int t_triggerNum,c_Entity* t_ent,c_RenderableObje
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Level.ActivateTrigger(Int, Entity, RenderableObject)",52));
 	return 0;
 }
+bool c_Level::m_IsExitAt(int t_x,int t_y){
+	c_Tile* t_tile=m_GetTileAt(t_x,t_y);
+	return ((t_tile)!=0) && t_tile->p_IsExit();
+}
 void c_Level::m_TrySpawnBossMinibossAt(int t_x,int t_y,int t_etype){
 	c_IntPointStack* t_points=(new c_IntPointStack)->m_new();
 	if(!c_Util::m_IsGlobalCollisionAt2(t_x,t_y,false,false,false,false)){
@@ -21629,10 +21634,6 @@ bool c_Level::m_IsWallAdjacent8(int t_xVal,int t_yVal){
 		}
 	}
 	return false;
-}
-bool c_Level::m_IsExitAt(int t_x,int t_y){
-	c_Tile* t_tile=m_GetTileAt(t_x,t_y);
-	return ((t_tile)!=0) && t_tile->p_IsExit();
 }
 bool c_Level::m_PlaceWire(c_Point* t_src,c_Point* t_dst){
 	bb_logger_Debug->p_Log(String(L"PLACEWIRE: Wiring ",18)+t_src->p_ToString()+String(L" to ",4)+t_dst->p_ToString());
@@ -45780,6 +45781,13 @@ void c_Tile::p_SetTrigger(int t_triggerVal){
 void c_Tile::p_SetDigTrigger(int t_triggerVal){
 	this->m_triggerDig=t_triggerVal;
 }
+bool c_Tile::p_IsExit(){
+	int t_22=this->m_type;
+	if(t_22==6 || t_22==2 || t_22==9 || t_22==15 || t_22==16){
+		return true;
+	}
+	return false;
+}
 Float c_Tile::p_GetCurrentAlpha(){
 	return this->m_image->p_GetAlphaValue();
 }
@@ -45861,13 +45869,6 @@ void c_Tile::p_BecomeCracked(){
 		this->m_image->p_SetZOff(FLOAT(8.0));
 	}
 	this->m_isCracked=true;
-}
-bool c_Tile::p_IsExit(){
-	int t_22=this->m_type;
-	if(t_22==6 || t_22==2 || t_22==9 || t_22==15 || t_22==16){
-		return true;
-	}
-	return false;
 }
 void c_Tile::p_AddWireConnection(int t_dir){
 	if(0<=t_dir && t_dir<=3){
@@ -55958,13 +55959,58 @@ void c_Gorgon::mark(){
 }
 c_ZombieElectric::c_ZombieElectric(){
 	m_facing=-1;
-	m_queueRest=false;
 	m_turnToFace=-1;
+	m_queueRest=false;
 	m_rested=false;
 }
+int c_ZombieElectric::p_GetNextMovementDir(){
+	c_Tile* t_tile=c_Level::m_GetTileAt(this->m_x,this->m_y);
+	if(t_tile==0 || !t_tile->p_IsWire()){
+		return this->m_facing;
+	}
+	int t_dirMask=0;
+	for(int t_dir=0;t_dir<=3;t_dir=t_dir+1){
+		c_Point* t_dirPoint=c_Util::m_GetPointFromDir(t_dir);
+		int t_bit=1<<t_dir;
+		if((t_tile->m_wireMask&t_bit)!=0 && !c_Level::m_IsExitAt(this->m_x+t_dirPoint->m_x,this->m_y+t_dirPoint->m_y)){
+			t_dirMask|=t_bit;
+		}
+	}
+	int t_nextMovementDir=c_Util::m_InvertDir(this->m_facing);
+	int t_i=0;
+	int t_anyNewConnDir=-1;
+	int t_otherDir=-1;
+	for(int t_dir2=0;t_dir2<=3;t_dir2=t_dir2+1){
+		int t_bit2=1<<t_dir2;
+		if((t_dirMask&t_bit2)!=0){
+			t_i+=1;
+			t_otherDir=t_dir2;
+			if(t_nextMovementDir!=t_dir2){
+				t_anyNewConnDir=t_dir2;
+			}
+		}
+	}
+	int t_bit3=1<<this->m_facing;
+	if((t_dirMask&t_bit3)!=0){
+		return this->m_facing;
+	}
+	int t_1=t_i;
+	if(t_1==1){
+		return t_otherDir;
+	}else{
+		if(t_1==2){
+			bb_logger_Debug->p_Assert(t_anyNewConnDir!=-1,String());
+		}
+	}
+	return t_anyNewConnDir;
+}
 int c_ZombieElectric::p_GetMovementDir(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.GetMovementDir()",31));
-	return 0;
+	int t_movementDir=this->p_GetNextMovementDir();
+	if(t_movementDir==c_Util::m_InvertDir(this->m_facing)){
+		this->m_turnToFace=t_movementDir;
+		return this->m_facing;
+	}
+	return t_movementDir;
 }
 c_ZombieElectric* c_ZombieElectric::m_new(int t_x_,int t_y_,int t_l){
 	c_Enemy::m_new();
@@ -56013,20 +56059,20 @@ void c_ZombieElectric::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
 void c_ZombieElectric::p_Update(){
-	int t_1=this->m_facing;
-	if(t_1==2){
+	int t_2=this->m_facing;
+	if(t_2==2){
 		this->m_image->p_FlipX(false,true);
 	}else{
-		if(t_1==0){
+		if(t_2==0){
 			this->m_image->p_FlipX(true,true);
 		}
 	}
 	int t_animOverrideBase=0;
-	int t_2=this->m_facing;
-	if(t_2==2 || t_2==0){
+	int t_3=this->m_facing;
+	if(t_3==2 || t_3==0){
 		t_animOverrideBase=16;
 	}else{
-		if(t_2==1){
+		if(t_3==1){
 			t_animOverrideBase=32;
 		}
 	}

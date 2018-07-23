@@ -31,7 +31,14 @@ Class ZombieElectric Extends Enemy
     Field queueRest: Bool
 
     Method GetMovementDir: Int()
-        Debug.TraceNotImplemented("ZombieElectric.GetMovementDir()")
+        Local movementDir := Self.GetNextMovementDir()
+        If movementDir = Util.InvertDir(Self.facing)
+            Self.turnToFace = movementDir
+
+            Return Self.facing
+        End If
+
+        Return movementDir
     End Method
 
     Method GetMovementDirection: Point()
@@ -52,7 +59,55 @@ Class ZombieElectric Extends Enemy
     End Method
 
     Method GetNextMovementDir: Int()
-        Debug.TraceNotImplemented("ZombieElectric.GetNextMovementDir()")
+        Local tile := Level.GetTileAt(Self.x, Self.y)
+        If tile = Null Or
+           Not tile.IsWire()
+            Return Self.facing
+        End If
+
+        Local dirMask := 0
+
+        For Local dir := Direction.MinCardinalDirection To Direction.MaxCardinalDirection
+            Local dirPoint := Util.GetPointFromDir(dir)
+            Local bit := 1 Shl dir
+
+            If tile.wireMask & bit <> 0 And
+               Not Level.IsExitAt(Self.x + dirPoint.x, Self.y + dirPoint.y)
+                dirMask |= bit
+            End If
+        End For
+
+        Local nextMovementDir := Util.InvertDir(Self.facing)
+        Local i := 0
+        Local anyNewConnDir := Direction.None
+        Local otherDir := Direction.None
+
+        For Local dir := Direction.MinCardinalDirection To Direction.MaxCardinalDirection
+            Local bit := 1 Shl dir
+
+            If dirMask & bit <> 0
+                i += 1
+
+                otherDir = dir
+                If nextMovementDir <> dir
+                    anyNewConnDir = dir
+                End If
+            End If
+        End For
+
+        Local bit := 1 Shl Self.facing
+        If dirMask & bit <> 0
+            Return Self.facing
+        End If
+
+        Select i
+            Case 1
+                Return otherDir
+            Case 2
+                Debug.Assert(anyNewConnDir <> Direction.None)
+        End Select
+
+        Return anyNewConnDir
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
