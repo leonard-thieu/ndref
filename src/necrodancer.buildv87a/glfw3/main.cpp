@@ -11220,6 +11220,8 @@ class c_Gorgon : public c_Enemy{
 class c_ZombieElectric : public c_Enemy{
 	public:
 	int m_facing;
+	bool m_queueRest;
+	int m_turnToFace;
 	bool m_rested;
 	c_ZombieElectric();
 	int p_GetMovementDir();
@@ -55917,6 +55919,8 @@ void c_Gorgon::mark(){
 }
 c_ZombieElectric::c_ZombieElectric(){
 	m_facing=-1;
+	m_queueRest=false;
+	m_turnToFace=-1;
 	m_rested=false;
 }
 int c_ZombieElectric::p_GetMovementDir(){
@@ -55938,8 +55942,15 @@ c_ZombieElectric* c_ZombieElectric::m_new2(){
 	return this;
 }
 c_Point* c_ZombieElectric::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.GetMovementDirection()",37));
-	return 0;
+	this->m_queueRest=false;
+	if(this->m_turnToFace!=-1){
+		return (new c_Point)->m_new(0,0);
+	}
+	if(!c_Level::m_IsWireAt(this->m_x,this->m_y) && !this->m_rested){
+		this->m_queueRest=true;
+		return (new c_Point)->m_new(0,0);
+	}
+	return c_Util::m_GetPointFromDir(this->m_facing);
 }
 bool c_ZombieElectric::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.Hit(String, Int, Int, Entity, Bool, Int)",55));

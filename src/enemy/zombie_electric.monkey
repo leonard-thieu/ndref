@@ -35,7 +35,20 @@ Class ZombieElectric Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("ZombieElectric.GetMovementDirection()")
+        Self.queueRest = False
+
+        If Self.turnToFace <> Direction.None
+            Return New Point(0, 0)
+        End If
+
+        If Not Level.IsWireAt(Self.x, Self.y) And
+           Not Self.rested
+            Self.queueRest = True
+
+            Return New Point(0, 0)
+        End If
+
+        Return Util.GetPointFromDir(Self.facing)
     End Method
 
     Method GetNextMovementDir: Int()
