@@ -6716,9 +6716,9 @@ class c_Audio : public Object{
 	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
 	static bool m_songPaused;
+	static int m_GetBeatAnimFrame2();
 	static int m_songShopkeeper;
 	static void m_ModifyMusicSpeed(Float);
-	static int m_GetBeatAnimFrame2();
 	void mark();
 };
 class c_Level : public Object{
@@ -11022,6 +11022,10 @@ class c_Ogre : public c_Enemy{
 	c_Sprite* m_imageSmashLeft;
 	c_Sprite* m_imageSmashDown;
 	c_Sprite* m_imageSmashUp;
+	int m_smashingDir;
+	bool m_justSmashed;
+	int m_smashedDir;
+	int m_smashCounter;
 	c_Ogre();
 	c_Ogre* m_new(int,int,int);
 	c_Ogre* m_new2();
@@ -18564,13 +18568,13 @@ bool c_Audio::m_IsBeatAnimTime(bool t_a1,bool t_a2){
 	return false;
 }
 bool c_Audio::m_songPaused;
-int c_Audio::m_songShopkeeper;
-void c_Audio::m_ModifyMusicSpeed(Float t_spd){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.ModifyMusicSpeed(Float)",29));
-}
 int c_Audio::m_GetBeatAnimFrame2(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.GetBeatAnimFrame2()",25));
 	return 0;
+}
+int c_Audio::m_songShopkeeper;
+void c_Audio::m_ModifyMusicSpeed(Float t_spd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.ModifyMusicSpeed(Float)",29));
 }
 void c_Audio::mark(){
 	Object::mark();
@@ -55027,6 +55031,10 @@ c_Ogre::c_Ogre(){
 	m_imageSmashLeft=0;
 	m_imageSmashDown=0;
 	m_imageSmashUp=0;
+	m_smashingDir=-1;
+	m_justSmashed=false;
+	m_smashedDir=-1;
+	m_smashCounter=0;
 }
 c_Ogre* c_Ogre::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -55059,7 +55067,101 @@ void c_Ogre::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.MoveSucceed(Bool, Bool)",28));
 }
 void c_Ogre::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Ogre.Update()",13));
+	if(!this->m_isMysteried){
+		int t_1=this->m_smashingDir;
+		if(t_1==2){
+			gc_assign(this->m_image,this->m_imageSmashLeft);
+			this->m_image->p_FlipX(false,true);
+			this->m_animOverride=c_Audio::m_GetBeatAnimFrame2()+2;
+			this->m_xOff=FLOAT(-78.0);
+			this->m_yOff=FLOAT(-40.0);
+			this->m_image->p_SetZOff(FLOAT(40.0));
+		}else{
+			if(t_1==0){
+				gc_assign(this->m_image,this->m_imageSmashLeft);
+				this->m_image->p_FlipX(true,true);
+				this->m_animOverride=c_Audio::m_GetBeatAnimFrame2()+2;
+				this->m_xOff=FLOAT(-21.0);
+				this->m_yOff=FLOAT(-40.0);
+				this->m_image->p_SetZOff(FLOAT(40.0));
+			}else{
+				if(t_1==1){
+					gc_assign(this->m_image,this->m_imageSmashDown);
+					this->m_animOverride=c_Audio::m_GetBeatAnimFrame2()+2;
+					this->m_xOff=FLOAT(-11.0);
+					this->m_yOff=FLOAT(-42.0);
+					this->m_image->p_SetZOff(FLOAT(42.0));
+				}else{
+					if(t_1==3){
+						gc_assign(this->m_image,this->m_imageSmashUp);
+						this->m_animOverride=c_Audio::m_GetBeatAnimFrame2()+2;
+						this->m_xOff=FLOAT(-11.0);
+						this->m_yOff=FLOAT(-72.0);
+						this->m_image->p_SetZOff(FLOAT(72.0));
+					}else{
+						if(this->m_justSmashed){
+							int t_2=this->m_smashedDir;
+							if(t_2==2){
+								gc_assign(this->m_image,this->m_imageSmashLeft);
+								this->m_image->p_FlipX(false,true);
+								this->m_imageStandard->p_FlipX(false,true);
+								this->m_animOverride=this->m_smashCounter/8+4;
+								this->m_xOff=FLOAT(-78.0);
+								this->m_yOff=FLOAT(-40.0);
+								this->m_image->p_SetZOff(FLOAT(40.0));
+							}else{
+								if(t_2==0){
+									gc_assign(this->m_image,this->m_imageSmashLeft);
+									this->m_image->p_FlipX(true,true);
+									this->m_imageStandard->p_FlipX(true,true);
+									this->m_animOverride=this->m_smashCounter/8+4;
+									this->m_xOff=FLOAT(-21.0);
+									this->m_yOff=FLOAT(-40.0);
+									this->m_image->p_SetZOff(FLOAT(40.0));
+								}else{
+									if(t_2==1){
+										gc_assign(this->m_image,this->m_imageSmashDown);
+										this->m_animOverride=this->m_smashCounter/8+4;
+										this->m_xOff=FLOAT(-11.0);
+										this->m_yOff=FLOAT(-42.0);
+										this->m_image->p_SetZOff(FLOAT(42.0));
+									}else{
+										if(t_2==1){
+											gc_assign(this->m_image,this->m_imageSmashUp);
+											this->m_animOverride=this->m_smashCounter/8+4;
+											this->m_xOff=FLOAT(-11.0);
+											this->m_yOff=FLOAT(-72.0);
+											this->m_image->p_SetZOff(FLOAT(72.0));
+										}else{
+											gc_assign(this->m_image,this->m_imageStandard);
+											this->m_animOverride=1;
+											this->m_xOff=FLOAT(-11.0);
+											this->m_yOff=FLOAT(-18.0);
+											this->m_image->p_SetZOff(FLOAT(35.0));
+										}
+									}
+								}
+							}
+						}else{
+							gc_assign(this->m_image,this->m_imageStandard);
+							this->m_animOverride=1;
+							this->m_xOff=FLOAT(-11.0);
+							this->m_yOff=FLOAT(-18.0);
+							this->m_image->p_SetZOff(FLOAT(35.0));
+						}
+					}
+				}
+			}
+		}
+	}
+	if(this->m_justSmashed){
+		this->m_smashCounter+=1;
+		if(this->m_smashCounter>=32){
+			this->m_smashCounter=0;
+			this->m_justSmashed=false;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Ogre::mark(){
 	c_Enemy::mark();

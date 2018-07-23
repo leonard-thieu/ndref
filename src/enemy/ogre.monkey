@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import logger
 Import point
 Import sprite
@@ -51,7 +52,111 @@ Class Ogre Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Ogre.Update()")
+        If Not Self.isMysteried
+            Select Self.smashingDir
+                Case Direction.Left
+                    Self.image = Self.imageSmashLeft
+                    Self.image.FlipX(False, True)
+
+                    Self.animOverride = Audio.GetBeatAnimFrame2() + 2
+                    Self.xOff = -78.0
+                    Self.yOff = -40.0
+
+                    Self.image.SetZOff(40.0)
+                Case Direction.Right
+                    Self.image = Self.imageSmashLeft
+                    Self.image.FlipX(True, True)
+
+                    Self.animOverride = Audio.GetBeatAnimFrame2() + 2
+                    Self.xOff = -21.0
+                    Self.yOff = -40.0
+
+                    Self.image.SetZOff(40.0)
+                Case Direction.Down
+                    Self.image = Self.imageSmashDown
+
+                    Self.animOverride = Audio.GetBeatAnimFrame2() + 2
+                    Self.xOff = -11.0
+                    Self.yOff = -42.0
+
+                    Self.image.SetZOff(42.0)
+                Case Direction.Up
+                    Self.image = Self.imageSmashUp
+
+                    Self.animOverride = Audio.GetBeatAnimFrame2() + 2
+                    Self.xOff = -11.0
+                    Self.yOff = -72.0
+
+                    Self.image.SetZOff(72.0)
+                Default
+                    If Self.justSmashed
+                        Select Self.smashedDir
+                            Case Direction.Left
+                                Self.image = Self.imageSmashLeft
+                                Self.image.FlipX(False, True)
+                                Self.imageStandard.FlipX(False, True)
+
+                                Self.animOverride = (Self.smashCounter / 8) + 4
+                                Self.xOff = -78.0
+                                Self.yOff = -40.0
+
+                                Self.image.SetZOff(40.0)
+                            Case Direction.Right
+                                Self.image = Self.imageSmashLeft
+                                Self.image.FlipX(True, True)
+                                Self.imageStandard.FlipX(True, True)
+
+                                Self.animOverride = (Self.smashCounter / 8) + 4
+                                Self.xOff = -21.0
+                                Self.yOff = -40.0
+
+                                Self.image.SetZOff(40.0)
+                            Case Direction.Down
+                                Self.image = Self.imageSmashDown
+
+                                Self.animOverride = (Self.smashCounter / 8) + 4
+                                Self.xOff = -11.0
+                                Self.yOff = -42.0
+
+                                Self.image.SetZOff(42.0)
+                            Case Direction.Down
+                                Self.image = Self.imageSmashUp
+
+                                Self.animOverride = (Self.smashCounter / 8) + 4
+                                Self.xOff = -11.0
+                                Self.yOff = -72.0
+
+                                Self.image.SetZOff(72.0)
+                            Default
+                                Self.image = Self.imageStandard
+
+                                Self.animOverride = 1
+                                Self.xOff = -11.0
+                                Self.yOff = -18.0
+
+                                Self.image.SetZOff(35.0)
+                        End Select
+                    Else
+                        Self.image = Self.imageStandard
+
+                        Self.animOverride = 1
+                        Self.xOff = -11.0
+                        Self.yOff = -18.0
+
+                        Self.image.SetZOff(35.0)
+                    End If
+            End Select
+        End If
+
+        If Self.justSmashed
+            Self.smashCounter += 1
+            If Self.smashCounter >= 32
+                Self.smashCounter = 0
+                Self.justSmashed = False
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class
