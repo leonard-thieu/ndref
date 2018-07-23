@@ -10993,6 +10993,7 @@ class c_Minotaur : public c_Enemy{
 class c_Nightmare : public c_Enemy{
 	public:
 	Float m_NIGHTMARE_DARKNESS_RADIUS;
+	bool m_failedLastMove;
 	int m_seekDistance;
 	c_Nightmare();
 	static c_Nightmare* m_nightmare;
@@ -54935,6 +54936,7 @@ void c_Minotaur::mark(){
 }
 c_Nightmare::c_Nightmare(){
 	m_NIGHTMARE_DARKNESS_RADIUS=FLOAT(2.5);
+	m_failedLastMove=false;
 	m_seekDistance=9;
 }
 c_Nightmare* c_Nightmare::m_nightmare;
@@ -54965,8 +54967,10 @@ void c_Nightmare::p_Die(){
 	m_nightmare=0;
 }
 c_Point* c_Nightmare::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.GetMovementDirection()",32));
-	return 0;
+	if(this->m_failedLastMove && !this->m_hasBeenVisible){
+		return this->p_RandomSeek(true,false);
+	}
+	return this->p_BasicSeek();
 }
 bool c_Nightmare::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.Hit(String, Int, Int, Entity, Bool, Int)",50));

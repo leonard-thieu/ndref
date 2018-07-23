@@ -49,7 +49,12 @@ Class Nightmare Extends Enemy
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Nightmare.GetMovementDirection()")
+        If Self.failedLastMove And
+           Not Self.hasBeenVisible
+            Return Self.RandomSeek(True, False)
+        End If
+
+        Return Self.BasicSeek()
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
