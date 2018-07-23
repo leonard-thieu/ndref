@@ -27,8 +27,8 @@ Class Orc Extends Enemy
         Self.overrideDeathSound = "orcDeath"
     End Method
 
-    Field facing: Int = -1
-    Field nextFacing: Int = -1
+    Field facing: Int = Direction.None
+    Field nextFacing: Int = Direction.None
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("Orc.GetMovementDirection()")
