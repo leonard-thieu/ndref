@@ -1,14 +1,15 @@
 'Strict
 
+Import monkey.list
+Import enemy
 Import enemy.conductor
 Import enemy.water_ball
-Import enemy
 Import entity
 Import logger
 
 Class ConductorBattery Extends Enemy
 
-    Global allBatteries: Object
+    Global allBatteries: List<ConductorBattery> = New List<ConductorBattery>()
 
     Function GetBatteryAt: Object(xVal: Int, yVal: Int)
         Debug.TraceNotImplemented("ConductorBattery.GetBatteryAt(Int, Int)")
@@ -21,14 +22,24 @@ Class ConductorBattery Extends Enemy
     Function _EditorFix: Void() End
 
     Method New(xVal: Int, yVal: Int, bNum: Int)
-        Debug.TraceNotImplemented("ConductorBattery.New(Int, Int, Int)")
+        Super.New()
+
+        Self.isCrate = True
+
+        Self.Init(xVal, yVal, 1, "conductor_battery")
+
+        Self.origXOff = Self.xOff
+        Self.neverSilhouette = True
+        Self.batteryNum = bNum
+
+        ConductorBattery.allBatteries.AddLast(Self)
     End Method
 
     Field batteryNum: Int
     Field parent: Conductor
-    Field vibrateCounter: Int
+    Field vibrateCounter: Int = 3
     Field origXOff: Int
-    Field vibrateOffset: Float
+    Field vibrateOffset: Float = 0.7
     Field killCount: Int
 
     Method AddKills: Void(num: Int)
