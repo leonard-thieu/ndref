@@ -107,7 +107,153 @@ Class DeadRinger Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("DeadRinger.Update()")
+        If Self.smashing
+            Self.image = Self.imageSmash
+
+            Self.animOverride = Audio.GetBeatAnimFrame3() + 1
+            If Self.phase = 1
+                Self.animOverride += 7
+            End If
+
+            Self.xOff = 0.0
+            Self.yOff = -22.0
+
+            Self.image.SetZOff(25.0)
+        Else If Self.justSmashed
+            Self.image = Self.imageSmash
+
+            Self.animOverride = (Self.smashCounter / 10) + 4
+            If Self.phase = 1
+                Self.animOverride += 7
+            End If
+
+            Self.xOff = 0.0
+            Self.yOff = -22.0
+
+            Self.image.SetZOff(25.0)
+        Else If Self.chargingDir <> Direction.None
+            Self.image = Self.imageCharge
+
+            Self.animOverride = 0
+            If Self.phase = 1
+                Self.animOverride += 2
+            End If
+
+            Self.yOff = -10.0
+
+            Self.image.SetZOff(24.0)
+
+            Select Self.chargingDir
+                Case Direction.Right
+                    Self.image.FlipX(False, True)
+
+                    Self.xOff = -19.0
+                Default
+                    Self.image.FlipX(True, True)
+
+                    Self.xOff = -10.0
+            End Select
+
+            If Self.phase = 1
+                Self.yOff -= 2.0
+            End If
+        Else If Self.chargedDir <> Direction.None
+            Self.image = Self.imageCharge
+
+            Self.animOverride = 0
+            If Self.phase = 1
+                Self.animOverride += 2
+            End If
+
+            If Self.chargeCounter < 10
+                Select Self.chargedDir
+                    Case Direction.Right,
+                         Direction.Left
+                        Self.animOverride = 1
+                End Select
+            End If
+
+            Self.yOff = -10.0
+
+            Self.image.SetZOff(24.0)
+
+            ' This might be flipped.
+            If Self.lastX < Self.x
+                Self.image.FlipX(False, True)
+                
+                Self.xOff = -19.0
+            Else If Self.lastX > Self.x
+                Self.image.FlipX(True, True)
+
+                Self.xOff = -10.0
+            End If
+
+            If Self.phase = 1
+                Self.yOff -= 2.0
+            End If
+        Else
+            Self.image = Self.imageStandard
+
+            Self.animOverride = Audio.GetBeatAnimFrame4()
+            If Self.phase = 1
+                Self.animOverride += 4
+            End If
+
+            Self.xOff = -1.0
+            Self.yOff = -11.0
+
+            Self.image.SetZOff(22.0)
+
+            ' This might be flipped.
+            If Self.lastX < Self.x
+                Self.image.FlipX(False, True)
+                
+                Self.xOff = -1.0
+            Else If Self.lastX > Self.x
+                Self.image.FlipX(True, True)
+
+                Self.xOff = -13.0
+            End If
+
+            If Self.phase = 1
+                Self.yOff -= 2.0
+            End If
+        End If
+
+        If Self.justSmashed
+            Self.smashCounter += 1
+            If Self.smashCounter >= 30
+                Self.smashCounter = 0
+                Self.justSmashed = False
+            End If
+        End If
+
+        If Self.chargedDir <> Direction.None
+            Self.chargeCounter += 1
+            If Self.chargeCounter >= 20
+                Self.chargeCounter = 0
+                Self.chargedDir = Direction.None
+            End If
+        End If
+
+        If Self.chargingDir <> Direction.None
+            Self.currentMoveDelay = 1
+        End If
+
+        ' Exclude big bell
+        For Local i := 0 Until Self.bells.Length - 1
+            Local bell := Self.bells[i]
+
+            bell.beingSought = False
+        End For
+
+        If Self.seekingBell < Self.bells.Length - 1
+            Local bell := Self.bells[Self.seekingBell]
+
+            bell.beingSought = True
+        End If
+
+        Super.Update()
     End Method
 
 End Class

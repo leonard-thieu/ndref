@@ -6723,6 +6723,7 @@ class c_Audio : public Object{
 	static int m_GetBeatAnimFrame2();
 	static int m_songShopkeeper;
 	static void m_ModifyMusicSpeed(Float);
+	static int m_GetBeatAnimFrame3();
 	void mark();
 };
 class c_Level : public Object{
@@ -11451,6 +11452,13 @@ class c_DeadRinger : public c_Enemy{
 	c_Sprite* m_imageSmash;
 	c_Sprite* m_imageCharge;
 	c_Sprite* m_imageChargeSwipe;
+	bool m_smashing;
+	int m_phase;
+	bool m_justSmashed;
+	int m_smashCounter;
+	int m_chargingDir;
+	int m_chargedDir;
+	int m_chargeCounter;
 	c_DeadRinger();
 	c_DeadRinger* m_new(int,int,int,c_Bell*,c_Bell*,c_Bell*,c_Bell*);
 	c_DeadRinger* m_new2();
@@ -18650,6 +18658,10 @@ int c_Audio::m_GetBeatAnimFrame2(){
 int c_Audio::m_songShopkeeper;
 void c_Audio::m_ModifyMusicSpeed(Float t_spd){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.ModifyMusicSpeed(Float)",29));
+}
+int c_Audio::m_GetBeatAnimFrame3(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.GetBeatAnimFrame3()",25));
+	return 0;
 }
 void c_Audio::mark(){
 	Object::mark();
@@ -57203,6 +57215,13 @@ c_DeadRinger::c_DeadRinger(){
 	m_imageSmash=0;
 	m_imageCharge=0;
 	m_imageChargeSwipe=0;
+	m_smashing=false;
+	m_phase=0;
+	m_justSmashed=false;
+	m_smashCounter=0;
+	m_chargingDir=-1;
+	m_chargedDir=-1;
+	m_chargeCounter=0;
 }
 c_DeadRinger* c_DeadRinger::m_new(int t_xVal,int t_yVal,int t_l,c_Bell* t_b1,c_Bell* t_b2,c_Bell* t_b3,c_Bell* t_b4){
 	c_Enemy::m_new();
@@ -57263,7 +57282,123 @@ void c_DeadRinger::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeadRinger.MoveSucceed(Bool, Bool)",34));
 }
 void c_DeadRinger::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DeadRinger.Update()",19));
+	if(this->m_smashing){
+		gc_assign(this->m_image,this->m_imageSmash);
+		this->m_animOverride=c_Audio::m_GetBeatAnimFrame3()+1;
+		if(this->m_phase==1){
+			this->m_animOverride+=7;
+		}
+		this->m_xOff=FLOAT(0.0);
+		this->m_yOff=FLOAT(-22.0);
+		this->m_image->p_SetZOff(FLOAT(25.0));
+	}else{
+		if(this->m_justSmashed){
+			gc_assign(this->m_image,this->m_imageSmash);
+			this->m_animOverride=this->m_smashCounter/10+4;
+			if(this->m_phase==1){
+				this->m_animOverride+=7;
+			}
+			this->m_xOff=FLOAT(0.0);
+			this->m_yOff=FLOAT(-22.0);
+			this->m_image->p_SetZOff(FLOAT(25.0));
+		}else{
+			if(this->m_chargingDir!=-1){
+				gc_assign(this->m_image,this->m_imageCharge);
+				this->m_animOverride=0;
+				if(this->m_phase==1){
+					this->m_animOverride+=2;
+				}
+				this->m_yOff=FLOAT(-10.0);
+				this->m_image->p_SetZOff(FLOAT(24.0));
+				int t_1=this->m_chargingDir;
+				if(t_1==0){
+					this->m_image->p_FlipX(false,true);
+					this->m_xOff=FLOAT(-19.0);
+				}else{
+					this->m_image->p_FlipX(true,true);
+					this->m_xOff=FLOAT(-10.0);
+				}
+				if(this->m_phase==1){
+					this->m_yOff-=FLOAT(2.0);
+				}
+			}else{
+				if(this->m_chargedDir!=-1){
+					gc_assign(this->m_image,this->m_imageCharge);
+					this->m_animOverride=0;
+					if(this->m_phase==1){
+						this->m_animOverride+=2;
+					}
+					if(this->m_chargeCounter<10){
+						int t_2=this->m_chargedDir;
+						if(t_2==0 || t_2==2){
+							this->m_animOverride=1;
+						}
+					}
+					this->m_yOff=FLOAT(-10.0);
+					this->m_image->p_SetZOff(FLOAT(24.0));
+					if(this->m_lastX<this->m_x){
+						this->m_image->p_FlipX(false,true);
+						this->m_xOff=FLOAT(-19.0);
+					}else{
+						if(this->m_lastX>this->m_x){
+							this->m_image->p_FlipX(true,true);
+							this->m_xOff=FLOAT(-10.0);
+						}
+					}
+					if(this->m_phase==1){
+						this->m_yOff-=FLOAT(2.0);
+					}
+				}else{
+					gc_assign(this->m_image,this->m_imageStandard);
+					this->m_animOverride=c_Audio::m_GetBeatAnimFrame4();
+					if(this->m_phase==1){
+						this->m_animOverride+=4;
+					}
+					this->m_xOff=FLOAT(-1.0);
+					this->m_yOff=FLOAT(-11.0);
+					this->m_image->p_SetZOff(FLOAT(22.0));
+					if(this->m_lastX<this->m_x){
+						this->m_image->p_FlipX(false,true);
+						this->m_xOff=FLOAT(-1.0);
+					}else{
+						if(this->m_lastX>this->m_x){
+							this->m_image->p_FlipX(true,true);
+							this->m_xOff=FLOAT(-13.0);
+						}
+					}
+					if(this->m_phase==1){
+						this->m_yOff-=FLOAT(2.0);
+					}
+				}
+			}
+		}
+	}
+	if(this->m_justSmashed){
+		this->m_smashCounter+=1;
+		if(this->m_smashCounter>=30){
+			this->m_smashCounter=0;
+			this->m_justSmashed=false;
+		}
+	}
+	if(this->m_chargedDir!=-1){
+		this->m_chargeCounter+=1;
+		if(this->m_chargeCounter>=20){
+			this->m_chargeCounter=0;
+			this->m_chargedDir=-1;
+		}
+	}
+	if(this->m_chargingDir!=-1){
+		this->m_currentMoveDelay=1;
+	}
+	for(int t_i=0;t_i<this->m_bells.Length()-1;t_i=t_i+1){
+		c_Bell* t_bell=this->m_bells[t_i];
+		t_bell->m_beingSought=false;
+	}
+	if(this->m_seekingBell<this->m_bells.Length()-1){
+		c_Bell* t_bell2=this->m_bells[this->m_seekingBell];
+		t_bell2->m_beingSought=true;
+	}
+	c_Enemy::p_Update();
 }
 void c_DeadRinger::mark(){
 	c_Enemy::mark();
