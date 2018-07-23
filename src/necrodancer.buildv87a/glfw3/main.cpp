@@ -11635,6 +11635,8 @@ class c_FireTrap : public c_Trap{
 	public:
 	int m_fireDir;
 	bool m_manual;
+	int m_shootBeats;
+	int m_retractBeats;
 	bool m_isReady;
 	int m_vibrateCounter;
 	Float m_vibrateOffset;
@@ -11642,8 +11644,10 @@ class c_FireTrap : public c_Trap{
 	c_FireTrap* m_new(int,int,int,bool);
 	c_FireTrap* m_new2();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
-	void p_Move();
+	void p_DoShot();
+	bool p_CheckTriggerRadius(Object*);
 	void p_Trigger(c_Entity*);
+	void p_Move();
 	int p_GetFrameToShow();
 	void p_Update();
 	void mark();
@@ -57217,6 +57221,8 @@ void c_ScatterTrap::mark(){
 c_FireTrap::c_FireTrap(){
 	m_fireDir=0;
 	m_manual=false;
+	m_shootBeats=-1;
+	m_retractBeats=0;
 	m_isReady=false;
 	m_vibrateCounter=3;
 	m_vibrateOffset=FLOAT(0.7);
@@ -57239,11 +57245,40 @@ bool c_FireTrap::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Hit(String, Int, Int, Entity, Bool, Int)",49));
 	return false;
 }
-void c_FireTrap::p_Move(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Move()",15));
+void c_FireTrap::p_DoShot(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.DoShot()",17));
+}
+bool c_FireTrap::p_CheckTriggerRadius(Object* t_ent){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.CheckTriggerRadius(Object)",35));
+	return false;
 }
 void c_FireTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FireTrap.Trigger(Entity)",24));
+}
+void c_FireTrap::p_Move(){
+	if(this->m_shootBeats>0){
+		this->m_shootBeats-=1;
+	}
+	if(this->m_shootBeats==0){
+		this->p_DoShot();
+		this->m_shootBeats=-1;
+	}
+	if(!this->m_manual && this->m_hasBeenVisible && (this->p_IsVisible() || c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false)<=FLOAT(4.0) && this->p_IsInAnyPlayerLineOfSight())){
+		for(int t_i=0;t_i<bb_controller_game_numPlayers;t_i=t_i+1){
+			c_Player* t_player=bb_controller_game_players[t_i];
+			if(!t_player->p_Perished() && t_player->p_GetItemInSlot(String(L"head",4),false)!=String(L"head_ninja_mask",15) && this->p_CheckTriggerRadius(t_player)){
+				this->m_triggeredOnBeat=c_Audio::m_GetClosestBeatNum(true);
+				this->p_Trigger(t_player);
+			}
+		}
+	}
+	this->m_newTrap=false;
+	if(this->m_retractBeats>0){
+		this->m_retractBeats-=1;
+		if(this->m_retractBeats==0){
+			this->m_triggered=false;
+		}
+	}
 }
 int c_FireTrap::p_GetFrameToShow(){
 	int t_1=this->m_fireDir;

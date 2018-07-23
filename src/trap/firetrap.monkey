@@ -1,11 +1,15 @@
 'Strict
 
 Import mojo.graphics
+Import controller.controller_game
 Import level
 Import trap
+Import audio2
 Import entity
+Import item
 Import logger
 Import sprite
+Import util
 
 Class FireTrap Extends Trap
 
@@ -65,7 +69,39 @@ Class FireTrap Extends Trap
     End Method
 
     Method Move: Void()
-        Debug.TraceNotImplemented("FireTrap.Move()")
+        If Self.shootBeats > 0
+            Self.shootBeats -= 1
+        End If
+
+        If Self.shootBeats = 0
+            Self.DoShot()
+            Self.shootBeats = -1
+        End If
+
+        If Not Self.manual And
+           Self.hasBeenVisible And
+           (Self.IsVisible() Or
+            (Util.GetDistFromClosestPlayer(Self.x, Self.y, False) <= 4.0 And
+             Self.IsInAnyPlayerLineOfSight()))
+            For Local i := 0 Until controller_game.numPlayers
+                Local player := controller_game.players[i]
+                If Not player.Perished And
+                   player.GetItemInSlot("head", False) <> ItemType.NinjaMask And
+                   Self.CheckTriggerRadius(player)
+                    Self.triggeredOnBeat = Audio.GetClosestBeatNum(True)
+                    Self.Trigger(player)
+                End If
+            End For
+        End If
+
+        Self.newTrap = False
+
+        If Self.retractBeats > 0
+            Self.retractBeats -= 1
+            If Self.retractBeats = 0
+                Self.triggered = False
+            End If
+        End If
     End Method
 
     Method Ready: Void()
