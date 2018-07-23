@@ -14,7 +14,7 @@ Class Sarcophagus Extends Enemy
         Debug.TraceNotImplemented("Sarcophagus.DestroyAll()")
     End Function
 
-    Function GetNumSarcophagi: Void()
+    Function GetNumSarcophagi: Int()
         Debug.TraceNotImplemented("Sarcophagus.GetNumSarcophagi()")
     End Function
 

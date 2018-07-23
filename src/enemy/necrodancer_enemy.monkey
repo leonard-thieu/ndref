@@ -2,9 +2,14 @@
 
 Import mojo.graphics
 Import enemy
+Import enemy.sarcophagus
+Import level
+Import trap
+Import audio2
 Import entity
 Import item
 Import logger
+Import player_class
 Import point
 Import sprite
 
@@ -145,7 +150,141 @@ Class Necrodancer Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Necrodancer.Update()")
+        Self.frozenDuration = 0
+
+        If Self.level = 2 And
+           Self.phase = 2
+            If Self.currentMoveDelay <= 1
+                Enemy.SetAllNonNecroDancerEnemyMoveDelays(1)
+            Else
+                Enemy.SetAllNonNecroDancerEnemyMoveDelays(999)
+            End If
+        End If
+
+        If Enemy.enemiesPaused
+            Self.actionDelay = -1
+            Self.lastAction = Audio.GetClosestBeatNum(True)
+        End If
+
+        If Self.level = 2 And
+           Not Self.didCry And
+           Not Enemy.enemiesPaused
+            Self.didCry = True
+
+            Audio.PlayGameSound("necrodancerLuteIsMine", 5, 1.0)
+        End If
+
+        If Player.AllPlayersPerished()
+            Return
+        End If
+
+        If Self.level = 2
+            If Self.health = 1 And
+               Self.phase <= 1
+                Self.TriggeredWalls()
+            End If
+
+            If Level.IsWallAt(Self.x, Self.y)
+                Self.Teleport()
+            End If
+        End If
+
+        If Audio.GetClosestBeatNum(True) - Self.actionDelay >= Self.actionDelayTime
+            If Self.actionDelay > 0
+                Self.TakeAction()
+            End If
+        End If
+
+        If Audio.GetClosestBeatNum(True) - Self.lastAction >= Self.actionTime
+            Self.lastAction = Audio.GetClosestBeatNum(True)
+            Self.actionDelay = Audio.GetClosestBeatNum(True)
+            Self.actionDelayTime = 2
+
+            Self.ChooseSpell()
+            If Self.spellNum = 1
+                If Self.health >= 4
+                    Self.actionDelayTime = 5
+                Else
+                    Self.actionDelayTime = 4
+                End If
+            End If
+        End If
+
+        If Self.actionDelay < 0
+            Self.animOverride = -1
+        Else
+            Select Self.level
+                Case 1
+                    If Self.phase <> 0
+                        Select Self.spellNum
+                            Case 0
+                                Self.animOverride = 5
+                            Case 1
+                                Self.animOverride = 6
+                            Case 2
+                                Self.animOverride = 7
+                            Case 3
+                                Self.animOverride = 4
+                        End Select
+                    End If
+                Default
+                    Self.animOverride = 7
+
+                    Select Self.phase
+                        Case 0
+                            If Sarcophagus.GetNumSarcophagi() > 5
+                                Self.animOverride = 4
+                            End If
+                        Case 1
+                            If Sarcophagus.GetNumSarcophagi() > 3
+                                Self.animOverride = 6
+                            End If
+                    End Select
+            End Select
+        End If
+
+        If Self.spellNum = 1 And
+           Self.actionDelay > 0 And
+           Audio.GetClosestBeatNum(True) - Self.actionDelay >= Self.actionDelayTime - 2
+            Self.vibrateCounter -= 1
+            If Self.vibrateCounter = 0
+                Self.vibrateCounter = 3
+                Self.xOff = Self.origXOff + Self.vibrateOffset
+                Self.vibrateOffset = -Self.vibrateOffset
+            End If
+        Else
+            Self.xOff = Self.origXOff
+        End If
+
+        Select Self.level
+            Case 1
+                Select Self.phase
+                    Case 0
+                        If Not Level.IsWallAt(Self.x, Self.y)
+                            Self.actionTime = 8
+                            Self.phase = 1
+                            Self.spellNum = 0
+
+                            Audio.StartNecrodancerTransition(Self)
+                            Audio.PlayGameSound("necrodancerCurseYou", 5, 1.0)
+
+                            Self.SummonMiniboss()
+
+                            Self.lastSpell = 2
+                        End If
+                    Case 1
+                        If Self.theLute <> Null
+                            If Self.theLute.dead Or
+                               Not Level.IsWallAt(Self.x, Self.y)
+                                Trap.RemoveAll()
+                            End If
+                        End If
+                End Select
+        End Select
+
+        Super.Update()
+
+        Self.frozenDuration = 0
     End Method
 
 End Class

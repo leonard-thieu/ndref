@@ -6720,6 +6720,7 @@ class c_Audio : public Object{
 	static bool m_CloserToPreviousBeatThanNext();
 	static bool m_IsBeatAnimTime(bool,bool);
 	static bool m_songPaused;
+	static void m_StartNecrodancerTransition(Object*);
 	static int m_GetBeatAnimFrame2();
 	static int m_songShopkeeper;
 	static void m_ModifyMusicSpeed(Float);
@@ -8269,6 +8270,7 @@ class c_Enemy : public c_MobileEntity{
 	void p_Update();
 	static void m_SetEnemiesToDropNoCoinsOverride();
 	static void m_KillAllEnemies();
+	static void m_SetAllNonNecroDancerEnemyMoveDelays(int);
 	static int m_GetNumEnemies();
 	void p_Fall(bool);
 	void mark();
@@ -9699,6 +9701,7 @@ class c_Trap : public c_Entity{
 	static void m_MoveAll();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
+	static void m_RemoveAll();
 	void mark();
 };
 class c_List15 : public Object{
@@ -10004,6 +10007,7 @@ class c_Sarcophagus : public c_Enemy{
 	void p_MoveSucceed(bool,bool);
 	int p_PerformMovement(int,int);
 	void p_Update();
+	static int m_GetNumSarcophagi();
 	void mark();
 };
 class c_BeatAnimationData : public Object{
@@ -10934,6 +10938,15 @@ class c_Necrodancer : public c_Enemy{
 	int m_actionTime;
 	c_Item* m_theLute;
 	bool m_saidLutePhrase;
+	int m_phase;
+	int m_actionDelay;
+	int m_lastAction;
+	bool m_didCry;
+	int m_actionDelayTime;
+	int m_spellNum;
+	int m_vibrateCounter;
+	Float m_vibrateOffset;
+	int m_lastSpell;
 	c_Necrodancer();
 	static c_Necrodancer* m_necrodancer;
 	static int m_wallsStep;
@@ -10944,6 +10957,11 @@ class c_Necrodancer : public c_Enemy{
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
+	void p_TriggeredWalls();
+	void p_Teleport();
+	void p_TakeAction();
+	void p_ChooseSpell();
+	void p_SummonMiniboss();
 	void p_Update();
 	void mark();
 };
@@ -18651,6 +18669,9 @@ bool c_Audio::m_IsBeatAnimTime(bool t_a1,bool t_a2){
 	return false;
 }
 bool c_Audio::m_songPaused;
+void c_Audio::m_StartNecrodancerTransition(Object* t_necrodancer){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.StartNecrodancerTransition(Object)",40));
+}
 int c_Audio::m_GetBeatAnimFrame2(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.GetBeatAnimFrame2()",25));
 	return 0;
@@ -41735,6 +41756,9 @@ void c_Enemy::m_KillAllEnemies(){
 	}
 	m_killingAllEnemies=false;
 }
+void c_Enemy::m_SetAllNonNecroDancerEnemyMoveDelays(int t_cmd){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.SetAllNonNecroDancerEnemyMoveDelays(Int)",46));
+}
 int c_Enemy::m_GetNumEnemies(){
 	return m_enemyList->p_Count()-c_Crate::m_GetNumCrates();
 }
@@ -49244,6 +49268,9 @@ void c_Trap::p_Update(){
 	}
 	c_Entity::p_Update();
 }
+void c_Trap::m_RemoveAll(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Trap.RemoveAll()",16));
+}
 void c_Trap::mark(){
 	c_Entity::mark();
 	gc_mark_q(m_triggeredOn);
@@ -50242,6 +50269,10 @@ void c_Sarcophagus::p_Update(){
 		}
 	}
 	c_Enemy::p_Update();
+}
+int c_Sarcophagus::m_GetNumSarcophagi(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Sarcophagus.GetNumSarcophagi()",30));
+	return 0;
 }
 void c_Sarcophagus::mark(){
 	c_Enemy::mark();
@@ -54541,6 +54572,15 @@ c_Necrodancer::c_Necrodancer(){
 	m_actionTime=12;
 	m_theLute=0;
 	m_saidLutePhrase=false;
+	m_phase=0;
+	m_actionDelay=-1;
+	m_lastAction=0;
+	m_didCry=false;
+	m_actionDelayTime=3;
+	m_spellNum=0;
+	m_vibrateCounter=3;
+	m_vibrateOffset=FLOAT(1.0);
+	m_lastSpell=-1;
 }
 c_Necrodancer* c_Necrodancer::m_necrodancer;
 int c_Necrodancer::m_wallsStep;
@@ -54590,8 +54630,141 @@ void c_Necrodancer::p_MoveFail(){
 void c_Necrodancer::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.MoveSucceed(Bool, Bool)",35));
 }
+void c_Necrodancer::p_TriggeredWalls(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.TriggeredWalls()",28));
+}
+void c_Necrodancer::p_Teleport(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.Teleport()",22));
+}
+void c_Necrodancer::p_TakeAction(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.TakeAction()",24));
+}
+void c_Necrodancer::p_ChooseSpell(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.ChooseSpell()",25));
+}
+void c_Necrodancer::p_SummonMiniboss(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.SummonMiniboss()",28));
+}
 void c_Necrodancer::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Necrodancer.Update()",20));
+	this->m_frozenDuration=0;
+	if(this->m_level==2 && this->m_phase==2){
+		if(this->m_currentMoveDelay<=1){
+			c_Enemy::m_SetAllNonNecroDancerEnemyMoveDelays(1);
+		}else{
+			c_Enemy::m_SetAllNonNecroDancerEnemyMoveDelays(999);
+		}
+	}
+	if(c_Enemy::m_enemiesPaused){
+		this->m_actionDelay=-1;
+		this->m_lastAction=c_Audio::m_GetClosestBeatNum(true);
+	}
+	if(this->m_level==2 && !this->m_didCry && !c_Enemy::m_enemiesPaused){
+		this->m_didCry=true;
+		c_Audio::m_PlayGameSound(String(L"necrodancerLuteIsMine",21),5,FLOAT(1.0));
+	}
+	if(c_Player::m_AllPlayersPerished()){
+		return;
+	}
+	if(this->m_level==2){
+		if(this->m_health==1 && this->m_phase<=1){
+			this->p_TriggeredWalls();
+		}
+		if(c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+			this->p_Teleport();
+		}
+	}
+	if(c_Audio::m_GetClosestBeatNum(true)-this->m_actionDelay>=this->m_actionDelayTime){
+		if(this->m_actionDelay>0){
+			this->p_TakeAction();
+		}
+	}
+	if(c_Audio::m_GetClosestBeatNum(true)-this->m_lastAction>=this->m_actionTime){
+		this->m_lastAction=c_Audio::m_GetClosestBeatNum(true);
+		this->m_actionDelay=c_Audio::m_GetClosestBeatNum(true);
+		this->m_actionDelayTime=2;
+		this->p_ChooseSpell();
+		if(this->m_spellNum==1){
+			if(this->m_health>=4){
+				this->m_actionDelayTime=5;
+			}else{
+				this->m_actionDelayTime=4;
+			}
+		}
+	}
+	if(this->m_actionDelay<0){
+		this->m_animOverride=-1;
+	}else{
+		int t_2=this->m_level;
+		if(t_2==1){
+			if(this->m_phase!=0){
+				int t_3=this->m_spellNum;
+				if(t_3==0){
+					this->m_animOverride=5;
+				}else{
+					if(t_3==1){
+						this->m_animOverride=6;
+					}else{
+						if(t_3==2){
+							this->m_animOverride=7;
+						}else{
+							if(t_3==3){
+								this->m_animOverride=4;
+							}
+						}
+					}
+				}
+			}
+		}else{
+			this->m_animOverride=7;
+			int t_4=this->m_phase;
+			if(t_4==0){
+				if(c_Sarcophagus::m_GetNumSarcophagi()>5){
+					this->m_animOverride=4;
+				}
+			}else{
+				if(t_4==1){
+					if(c_Sarcophagus::m_GetNumSarcophagi()>3){
+						this->m_animOverride=6;
+					}
+				}
+			}
+		}
+	}
+	if(this->m_spellNum==1 && this->m_actionDelay>0 && c_Audio::m_GetClosestBeatNum(true)-this->m_actionDelay>=this->m_actionDelayTime-2){
+		this->m_vibrateCounter-=1;
+		if(this->m_vibrateCounter==0){
+			this->m_vibrateCounter=3;
+			this->m_xOff=Float(this->m_origXOff)+this->m_vibrateOffset;
+			this->m_vibrateOffset=-this->m_vibrateOffset;
+		}
+	}else{
+		this->m_xOff=Float(this->m_origXOff);
+	}
+	int t_5=this->m_level;
+	if(t_5==1){
+		int t_6=this->m_phase;
+		if(t_6==0){
+			if(!c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+				this->m_actionTime=8;
+				this->m_phase=1;
+				this->m_spellNum=0;
+				c_Audio::m_StartNecrodancerTransition(this);
+				c_Audio::m_PlayGameSound(String(L"necrodancerCurseYou",19),5,FLOAT(1.0));
+				this->p_SummonMiniboss();
+				this->m_lastSpell=2;
+			}
+		}else{
+			if(t_6==1){
+				if(this->m_theLute!=0){
+					if(this->m_theLute->m_dead || !c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+						c_Trap::m_RemoveAll();
+					}
+				}
+			}
+		}
+	}
+	c_Enemy::p_Update();
+	this->m_frozenDuration=0;
 }
 void c_Necrodancer::mark(){
 	c_Enemy::mark();
