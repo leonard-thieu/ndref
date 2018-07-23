@@ -1,6 +1,8 @@
 'Strict
 
 Import enemy
+Import level
+Import audio2
 Import entity
 Import logger
 Import point
@@ -53,7 +55,32 @@ Class ZombieElectric Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("ZombieElectric.Update()")
+        Select Self.facing
+            Case Direction.Left
+                Self.image.FlipX(False, True)
+            Case Direction.Right
+                Self.image.FlipX(True, True)
+        End Select
+
+        Local animOverrideBase := 0
+
+        Select Self.facing
+            Case Direction.Left,
+                 Direction.Right
+                animOverrideBase = 16
+            Case Direction.Down
+                animOverrideBase = 32
+        End Select
+
+        If Level.IsWireLikeAt(Self.x, Self.y)
+            animOverrideBase += 8
+        Else If Not Self.rested
+            animOverrideBase += 4
+        End If
+
+        Self.animOverride = Audio.GetBeatAnimFrame4() + animOverrideBase
+
+        Super.Update()
     End Method
 
 End Class

@@ -7097,6 +7097,8 @@ class c_Level : public Object{
 	static void m_PlaceHotCoalTileAt(int,int);
 	static void m_PlaceIceTileAt(int,int);
 	static void m_PlaceTileTypeAt(int,int,int);
+	static bool m_IsWireAt(int,int);
+	static bool m_IsWireLikeAt(int,int);
 	static void m_DryUpAllWater(int);
 	static void m_RemoveExit(int,int);
 	static Array<Float > m_mapLightValues;
@@ -11218,6 +11220,7 @@ class c_Gorgon : public c_Enemy{
 class c_ZombieElectric : public c_Enemy{
 	public:
 	int m_facing;
+	bool m_rested;
 	c_ZombieElectric();
 	int p_GetMovementDir();
 	c_ZombieElectric* m_new(int,int,int);
@@ -30978,6 +30981,12 @@ void c_Level::m_PlaceTileTypeAt(int t_xVal,int t_yVal,int t_tileType){
 	if(t_trap!=0 && !t_trap->m_indestructible){
 		t_trap->p_Die();
 	}
+}
+bool c_Level::m_IsWireAt(int t_xVal,int t_yVal){
+	return m_GetTileTypeAt(t_xVal,t_yVal)==20 || m_GetTileTypeAt(t_xVal,t_yVal)==118;
+}
+bool c_Level::m_IsWireLikeAt(int t_x,int t_y){
+	return m_IsWireAt(t_x,t_y) || m_IsExitAt(t_x,t_y);
 }
 void c_Level::m_DryUpAllWater(int t_replacementFloor){
 	c_NodeEnumerator2* t_=m_tiles->p_ObjectEnumerator();
@@ -55908,6 +55917,7 @@ void c_Gorgon::mark(){
 }
 c_ZombieElectric::c_ZombieElectric(){
 	m_facing=-1;
+	m_rested=false;
 }
 int c_ZombieElectric::p_GetMovementDir(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.GetMovementDir()",31));
@@ -55942,7 +55952,32 @@ void c_ZombieElectric::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.MoveSucceed(Bool, Bool)",38));
 }
 void c_ZombieElectric::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.Update()",23));
+	int t_1=this->m_facing;
+	if(t_1==2){
+		this->m_image->p_FlipX(false,true);
+	}else{
+		if(t_1==0){
+			this->m_image->p_FlipX(true,true);
+		}
+	}
+	int t_animOverrideBase=0;
+	int t_2=this->m_facing;
+	if(t_2==2 || t_2==0){
+		t_animOverrideBase=16;
+	}else{
+		if(t_2==1){
+			t_animOverrideBase=32;
+		}
+	}
+	if(c_Level::m_IsWireLikeAt(this->m_x,this->m_y)){
+		t_animOverrideBase+=8;
+	}else{
+		if(!this->m_rested){
+			t_animOverrideBase+=4;
+		}
+	}
+	this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+t_animOverrideBase;
+	c_Enemy::p_Update();
 }
 void c_ZombieElectric::mark(){
 	c_Enemy::mark();

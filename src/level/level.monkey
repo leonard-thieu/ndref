@@ -6916,8 +6916,14 @@ Class Level
         Return False
     End Function
 
+    Function IsWireAt: Bool(xVal: Int, yVal: Int)
+        Return Level.GetTileTypeAt(xVal, yVal) = TileType.Wire Or
+               Level.GetTileTypeAt(xVal, yVal) = TileType.WiredDoor
+    End Function
+
     Function IsWireLikeAt: Bool(x: Int, y: Int)
-        Debug.TraceNotImplemented("Level.IsWireLikeAt(Int, Int)")
+        Return Level.IsWireAt(x, y) Or
+               Level.IsExitAt(x, y)
     End Function
 
     Function IsZone5RoomLegal: Bool(loc: Rect)
