@@ -2,6 +2,8 @@
 
 Import enemy
 Import level
+Import audio2
+Import camera
 Import entity
 Import logger
 Import point
@@ -76,7 +78,15 @@ Class Nightmare Extends Enemy
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Nightmare.MoveSucceed(Bool, Bool)")
+        If Not moveDelayed
+            Self.failedLastMove = False
+
+            Camera.Shake(1, Self.x, Self.y)
+
+            Audio.PlayGameSoundAt("dragonWalk", Self.x, Self.y, False, -1, False)
+        End If
+
+        Super.MoveSucceed(hitPlayer, moveDelayed)
     End Method
 
     Method Update: Void()

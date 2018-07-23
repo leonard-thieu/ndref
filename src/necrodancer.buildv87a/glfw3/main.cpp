@@ -55133,7 +55133,12 @@ void c_Nightmare::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.MoveFail()",20));
 }
 void c_Nightmare::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.MoveSucceed(Bool, Bool)",33));
+	if(!t_moveDelayed){
+		this->m_failedLastMove=false;
+		c_Camera::m_Shake(1,this->m_x,this->m_y);
+		c_Audio::m_PlayGameSoundAt(String(L"dragonWalk",10),this->m_x,this->m_y,false,-1,false);
+	}
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
 void c_Nightmare::p_Update(){
 	if(Float(this->m_seekDistance)>=c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,false) || this->m_executedCry){
