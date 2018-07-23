@@ -2,6 +2,8 @@
 
 Import controller.controller_game
 Import enemy
+Import level
+Import audio2
 Import logger
 Import player_class
 Import point
@@ -48,7 +50,32 @@ Class Spider Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Spider.Update()")
+        If Self.currentMoveDelay <= 1
+            Self.animOverride = 4
+        Else
+            Self.animOverride = 1
+        End If
+
+        If Self.deathCounter > 0
+            Self.deathCounter -= 1
+        End If
+
+        If Self.deathCounter = 0
+            Self.Die()
+        End If
+
+        If Self.onWall And
+           Not Level.IsWallAt(Self.x, Self.y)
+            Self.onWall = False
+            Self.beatsPerMove = 1
+            Self.currentMoveDelay = 2
+            Self.yOff += 8.0
+            Self.ignoreWalls = False
+
+            Audio.PlayGameSoundAt("spiderFall", Self.x, Self.y, False, -1, False)
+        End If
+
+        Super.Update()
     End Method
 
 End Class

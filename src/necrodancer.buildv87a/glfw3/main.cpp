@@ -10882,6 +10882,8 @@ class c_Pixie : public c_Enemy{
 };
 class c_Spider : public c_Enemy{
 	public:
+	int m_deathCounter;
+	bool m_onWall;
 	c_Spider();
 	c_Spider* m_new(int,int,int);
 	c_Spider* m_new2();
@@ -54098,6 +54100,8 @@ void c_Pixie::mark(){
 	gc_mark_q(m_explosionImg);
 }
 c_Spider::c_Spider(){
+	m_deathCounter=-1;
+	m_onWall=true;
 }
 c_Spider* c_Spider::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -54129,7 +54133,26 @@ void c_Spider::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Spider.MoveSucceed(Bool, Bool)",30));
 }
 void c_Spider::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Spider.Update()",15));
+	if(this->m_currentMoveDelay<=1){
+		this->m_animOverride=4;
+	}else{
+		this->m_animOverride=1;
+	}
+	if(this->m_deathCounter>0){
+		this->m_deathCounter-=1;
+	}
+	if(this->m_deathCounter==0){
+		this->p_Die();
+	}
+	if(this->m_onWall && !c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+		this->m_onWall=false;
+		this->m_beatsPerMove=1;
+		this->m_currentMoveDelay=2;
+		this->m_yOff+=FLOAT(8.0);
+		this->m_ignoreWalls=false;
+		c_Audio::m_PlayGameSoundAt(String(L"spiderFall",10),this->m_x,this->m_y,false,-1,false);
+	}
+	c_Enemy::p_Update();
 }
 void c_Spider::mark(){
 	c_Enemy::mark();
