@@ -3,6 +3,7 @@
 Import monkey.map
 Import controller.controller_game
 Import enemy
+Import enemy.skeleton
 Import entity
 Import logger
 Import mole_dirt
@@ -11,6 +12,10 @@ Import shrine
 Import util
 
 Class Fortissimole Extends Enemy
+
+    Function HaveSpeakerAt: Bool(xVal: Int)
+        Debug.TraceNotImplemented("Fortissimole.CanBeDamaged(Int)")
+    End Function
 
     Function SpawnFans: Void()
         Local skeletonLevel := 1
@@ -44,9 +49,9 @@ Class Fortissimole Extends Enemy
 
         Self.ActivateLight(0.01, 0.02)
 
-        Self.paceDir = 0
+        Self.paceDir = Direction.Right
         If Util.RndBool(True)
-            Self.paceDir = 2
+            Self.paceDir = Direction.Left
         End If
 
         Local healthBonus := controller_game.currentDepth - 1
@@ -60,7 +65,7 @@ Class Fortissimole Extends Enemy
 
     Field yOffOffstage: Int
     Field yOffOnstage: Int
-    Field paceDir: Int = 2
+    Field paceDir: Int = Direction.Left
     Field imageOnStage: Bool
     Field onstageState: Int
     Field spawnArmsOffset: Int = -1
@@ -81,6 +86,7 @@ Class Fortissimole Extends Enemy
 
     Method Die: Void()
         Self.UnoccupyDirt()
+
         Enemy.SetEnemiesToDropNoCoinsOverride()
         Super.Die()
         Enemy.KillAllEnemies()
@@ -102,6 +108,10 @@ Class Fortissimole Extends Enemy
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("Fortissimole.Hit(String, Int, Int, Entity, Bool, Int)")
+    End Method
+
+    Method ImmuneToFear: Bool()
+        Debug.TraceNotImplemented("Fortissimole.ImmuneToFear()")
     End Method
 
     Method MoveFail: Void()

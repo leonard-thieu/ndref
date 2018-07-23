@@ -11133,6 +11133,7 @@ class c_Fortissimole : public c_Enemy{
 	void p_Die();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	bool p_ImmuneToFear();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	int p_PerformMovement(int,int);
@@ -13222,7 +13223,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==3){
+			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==4){
 				bb_app_EndApp();
 			}
 		}
@@ -55553,6 +55554,10 @@ c_Point* c_Fortissimole::p_GetMovementDirection(){
 }
 bool c_Fortissimole::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.Hit(String, Int, Int, Entity, Bool, Int)",53));
+	return false;
+}
+bool c_Fortissimole::p_ImmuneToFear(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.ImmuneToFear()",27));
 	return false;
 }
 void c_Fortissimole::p_MoveFail(){
