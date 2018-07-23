@@ -214,39 +214,6 @@ Class NecroDancerGame Extends App
         Return 0
     End Method
 
-    Method TestSeededAllZonesMode: Void(character: Int, randSeedString: String)
-        controller_game.players[0] = New Player(0, character)
-
-        Level.randSeedString = randSeedString
-
-        Level.NewLevel(LevelType.SeededAllZonesMode, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-        
-        Level.NewLevel(LevelType.NextLevel, controller_game.currentZone)
-    End Method
-
     Method TestSeededRandomizerMode: Void(character: Int, randSeedString: String)
         controller_game.players[0] = New Player(0, character)
 
