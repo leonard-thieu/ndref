@@ -56042,7 +56042,10 @@ bool c_ZombieElectric::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Enti
 	return false;
 }
 void c_ZombieElectric::p_MoveFail(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ZombieElectric.MoveFail()",25));
+	this->m_rested=false;
+	this->m_facing=c_Util::m_InvertDir(this->m_facing);
+	this->m_facing=this->p_GetMovementDir();
+	c_Enemy::p_MoveFail();
 }
 void c_ZombieElectric::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	this->m_rested=false;

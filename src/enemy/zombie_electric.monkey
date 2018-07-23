@@ -115,7 +115,11 @@ Class ZombieElectric Extends Enemy
     End Method
 
     Method MoveFail: Void()
-        Debug.TraceNotImplemented("ZombieElectric.MoveFail()")
+        Self.rested = False
+        Self.facing = Util.InvertDir(Self.facing)
+        Self.facing = Self.GetMovementDir()
+
+        Super.MoveFail()
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
