@@ -35,6 +35,10 @@ Class Pixie Extends Enemy
     Field explosionFrameCounter: Int = 3
     Field explosionFrame: Int
 
+    Method CanBeLord: Bool()
+        Debug.TraceNotImplemented("Pixie.CanBeLord()")
+    End Method
+
     Method Die: Void()
         If Not Level.isReplaying And
            ControllerLevelEditor.playingLevel = -1
