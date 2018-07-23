@@ -11660,6 +11660,7 @@ class c_BombTrap : public c_Trap{
 };
 class c_ScatterTrap : public c_Trap{
 	public:
+	int m_triggeredFrames;
 	c_ScatterTrap();
 	c_ScatterTrap* m_new(int,int);
 	c_ScatterTrap* m_new2();
@@ -57783,6 +57784,7 @@ void c_BombTrap::mark(){
 	c_Trap::mark();
 }
 c_ScatterTrap::c_ScatterTrap(){
+	m_triggeredFrames=0;
 }
 c_ScatterTrap* c_ScatterTrap::m_new(int t_xVal,int t_yVal){
 	c_Trap::m_new(t_xVal,t_yVal,14);
@@ -57800,7 +57802,17 @@ void c_ScatterTrap::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ScatterTrap.Trigger(Entity)",27));
 }
 void c_ScatterTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ScatterTrap.Update()",20));
+	if(this->m_triggeredFrames>0){
+		this->m_triggeredFrames-=1;
+		if(this->m_triggeredFrames==0){
+			this->m_triggered=false;
+		}
+	}
+	this->m_image->p_SetFrame(1);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(0);
+	}
+	c_Trap::p_Update();
 }
 void c_ScatterTrap::mark(){
 	c_Trap::mark();

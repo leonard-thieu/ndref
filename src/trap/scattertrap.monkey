@@ -1,4 +1,4 @@
-'Strict
+Strict
 
 Import entity
 Import logger
@@ -26,7 +26,19 @@ Class ScatterTrap Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("ScatterTrap.Update()")
+        If Self.triggeredFrames > 0
+            Self.triggeredFrames -= 1
+            If Self.triggeredFrames = 0
+                Self.triggered = False
+            End If
+        End If
+
+        Self.image.SetFrame(1)
+        If Self.triggered
+            Self.image.SetFrame(0)
+        End If
+
+        Super.Update()
     End Method
 
 End Class
