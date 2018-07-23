@@ -11401,6 +11401,8 @@ class c_Bell : public c_Enemy{
 	public:
 	int m_bellNum;
 	bool m_isBig;
+	int m_rungOnBeat;
+	bool m_beingSought;
 	c_Bell();
 	static c_List24* m_bells;
 	c_Bell* m_new(int,int,int);
@@ -11409,6 +11411,7 @@ class c_Bell : public c_Enemy{
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	bool p_ImmuneToFear();
+	bool p_HasBeenRung();
 	void p_Update();
 	void mark();
 };
@@ -57049,6 +57052,8 @@ void c_Tentacle::mark(){
 c_Bell::c_Bell(){
 	m_bellNum=-1;
 	m_isBig=false;
+	m_rungOnBeat=-1;
+	m_beingSought=false;
 }
 c_List24* c_Bell::m_bells;
 c_Bell* c_Bell::m_new(int t_xVal,int t_yVal,int t_num){
@@ -57090,8 +57095,27 @@ bool c_Bell::p_ImmuneToFear(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Bell.ImmuneToFear()",19));
 	return false;
 }
+bool c_Bell::p_HasBeenRung(){
+	return this->m_rungOnBeat!=-1;
+}
 void c_Bell::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Bell.Update()",13));
+	int t_1=this->m_level;
+	if(t_1==1){
+		if(this->p_HasBeenRung() && c_Audio::m_GetClosestBeatNum(true)-this->m_rungOnBeat<=15){
+			this->m_animOverride=-1;
+		}else{
+			if(!this->p_HasBeenRung() && c_Audio::m_GetClosestBeatNum(true)-this->m_rungOnBeat>15){
+				this->m_animOverride=2;
+			}else{
+				if(this->m_beingSought){
+					this->m_animOverride=3;
+				}else{
+					this->m_animOverride=0;
+				}
+			}
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Bell::mark(){
 	c_Enemy::mark();

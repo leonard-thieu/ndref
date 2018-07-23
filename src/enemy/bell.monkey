@@ -2,6 +2,7 @@
 
 Import monkey.list
 Import enemy
+Import audio2
 Import entity
 Import logger
 Import point
@@ -57,7 +58,7 @@ Class Bell Extends Enemy
     End Method
 
     Method HasBeenRung: Bool()
-        Debug.TraceNotImplemented("Bell.HasBeenRung()")
+        Return Self.rungOnBeat <> -1
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
@@ -85,7 +86,23 @@ Class Bell Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Bell.Update()")
+        Select Self.level
+            Case 1
+                ' Not 100% sure this is correct but it probably doesn't matter.
+                If Self.HasBeenRung() And
+                   Audio.GetClosestBeatNum(True) - Self.rungOnBeat <= 15
+                    Self.animOverride = -1
+                Else If Not Self.HasBeenRung() And
+                        Audio.GetClosestBeatNum(True) - Self.rungOnBeat > 15
+                    Self.animOverride = 2
+                Else If Self.beingSought
+                    Self.animOverride = 3
+                Else
+                    Self.animOverride = 0
+                End If
+        End Select
+
+        Super.Update()
     End Method
 
 End Class
