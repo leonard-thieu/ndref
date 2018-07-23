@@ -8242,6 +8242,7 @@ class c_Enemy : public c_MobileEntity{
 	c_Point* p_BasicSeekTarget(int,int,int,int,bool,bool,bool,bool);
 	c_Point* p_BasicSeek();
 	c_Point* p_BasicSeekNoTraps();
+	c_Point* p_BasicSeekTargetIncludeDiagonals_dumb(int,int);
 	c_Point* p_BasicSeekIncludeDiagonals();
 	c_Point* p_RandomIncludeDiagonals(bool,bool);
 	virtual c_Point* p_GetMovementDirection();
@@ -13238,7 +13239,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==5 && bb_controller_game_currentLevel==1){
+			if(bb_controller_game_currentDepth==5 && bb_controller_game_currentLevel==2){
 				bb_app_EndApp();
 			}
 		}
@@ -41203,9 +41204,59 @@ c_Point* c_Enemy::p_BasicSeekNoTraps(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicSeekNoTraps()",24));
 	return 0;
 }
+c_Point* c_Enemy::p_BasicSeekTargetIncludeDiagonals_dumb(int t_targetX,int t_targetY){
+	c_Point* t_movementDirection=(new c_Point)->m_new(0,0);
+	c_List27* t_points=(new c_List27)->m_new();
+	for(int t_x=-1;t_x<=1;t_x=t_x+1){
+		for(int t_y=-1;t_y<=1;t_y=t_y+1){
+			t_points->p_AddLast27((new c_Point)->m_new(t_x,t_y));
+		}
+	}
+	int t_l1Dist=c_Util::m_GetL1Dist(t_targetX,t_targetY,this->m_x,this->m_y);
+	c_Enumerator17* t_=t_points->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_Point* t_point=t_->p_NextObject();
+		int t_nextX=this->m_x+t_point->m_x;
+		int t_nextY=this->m_y+t_point->m_y;
+		if(!c_Util::m_IsGlobalCollisionAt2(t_nextX,t_nextY,false,this->m_ignoreWalls,false,false)){
+			int t_nextL1Dist=c_Util::m_GetL1Dist(t_targetX,t_targetY,t_nextX,t_nextY);
+			if(t_nextL1Dist<t_l1Dist){
+				t_l1Dist=t_nextL1Dist;
+				t_movementDirection=t_point;
+			}
+		}
+	}
+	if(t_movementDirection->m_x==0 && t_movementDirection->m_y==0){
+		c_Enumerator17* t_2=t_points->p_ObjectEnumerator();
+		while(t_2->p_HasNext()){
+			c_Point* t_point2=t_2->p_NextObject();
+			int t_nextX2=this->m_x+t_point2->m_x;
+			int t_nextY2=this->m_y+t_point2->m_y;
+			int t_nextL1Dist2=c_Util::m_GetL1Dist(t_targetX,t_targetY,t_nextX2,t_nextY2);
+			if(t_nextL1Dist2<t_l1Dist){
+				t_l1Dist=t_nextL1Dist2;
+				t_movementDirection=t_point2;
+			}
+		}
+	}
+	if(this->m_allowDiagonalFlip){
+		if(t_movementDirection->m_x<0){
+			this->p_ImageFlipX(false);
+		}else{
+			if(t_movementDirection->m_x>0){
+				this->p_ImageFlipX(true);
+			}
+		}
+	}
+	return t_movementDirection;
+}
 c_Point* c_Enemy::p_BasicSeekIncludeDiagonals(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.BasicSeekIncludeDiagonals()",33));
-	return 0;
+	c_Player* t_player=c_Util::m_GetClosestPlayerIncludeItemEffects(this->m_x,this->m_y,this->m_ignoreWalls);
+	if(t_player!=0){
+		gc_assign(this->m_seekingPlayer,t_player);
+		return this->p_BasicSeekTargetIncludeDiagonals_dumb(t_player->m_x,t_player->m_y);
+	}
+	return (new c_Point)->m_new(0,0);
 }
 c_Point* c_Enemy::p_RandomIncludeDiagonals(bool t_trueRandom,bool t_ignoreRingOfLuck){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Enemy.RandomIncludeDiagonals(Bool, Bool)",40));
@@ -51584,8 +51635,7 @@ c_Devil* c_Devil::m_new2(){
 	return this;
 }
 c_Point* c_Devil::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Devil.GetMovementDirection()",28));
-	return 0;
+	return this->p_BasicSeekIncludeDiagonals();
 }
 bool c_Devil::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Devil.Hit(String, Int, Int, Entity, Bool, Int)",46));

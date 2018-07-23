@@ -2466,7 +2466,14 @@ Class Enemy Extends MobileEntity Abstract
     End Method
 
     Method BasicSeekIncludeDiagonals: Point()
-        Debug.TraceNotImplemented("Enemy.BasicSeekIncludeDiagonals()")
+        Local player := Util.GetClosestPlayerIncludeItemEffects(Self.x, Self.y, Self.ignoreWalls)
+        If player <> Null
+            Self.seekingPlayer = player
+
+            Return Self.BasicSeekTargetIncludeDiagonals_dumb(player.x, player.y)
+        End If
+
+        Return New Point(0, 0)
     End Method
 
     Method BasicSeekInWalls: Object()
@@ -2572,8 +2579,55 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.BasicSeekTargetIncludeDiagonals(Int, Int)")
     End Method
 
-    Method BasicSeekTargetIncludeDiagonals_dumb: Object(targetX: Int, targetY: Int)
-        Debug.TraceNotImplemented("Enemy.BasicSeekTargetIncludeDiagonals_dumb(Int, Int)")
+    Method BasicSeekTargetIncludeDiagonals_dumb: Point(targetX: Int, targetY: Int)
+        Local movementDirection := New Point(0, 0)
+
+        Local points := New List<Point>()
+
+        For Local x := -1 To 1
+            For Local y := -1 To 1
+                points.AddLast(New Point(x, y))
+            End For
+        End For
+
+        Local l1Dist := Util.GetL1Dist(targetX, targetY, Self.x, Self.y)
+
+        For Local point := EachIn points
+            Local nextX := Self.x + point.x
+            Local nextY := Self.y + point.y
+
+            If Not Util.IsGlobalCollisionAt(nextX, nextY, False, Self.ignoreWalls, False, False)
+                Local nextL1Dist := Util.GetL1Dist(targetX, targetY, nextX, nextY)
+                If nextL1Dist < l1Dist
+                    l1Dist = nextL1Dist
+                    movementDirection = point
+                End If
+            End If
+        End For
+
+        If movementDirection.x = 0 And
+           movementDirection.y = 0
+            For Local point := EachIn points
+                Local nextX := Self.x + point.x
+                Local nextY := Self.y + point.y
+                
+                Local nextL1Dist := Util.GetL1Dist(targetX, targetY, nextX, nextY)
+                If nextL1Dist < l1Dist
+                    l1Dist = nextL1Dist
+                    movementDirection = point
+                End If
+            End For
+        End If
+
+        If Self.allowDiagonalFlip
+            If movementDirection.x < 0
+                Self.ImageFlipX(False)
+            Else If movementDirection.x > 0
+                Self.ImageFlipX(True)
+            End If
+        End If
+
+        Return movementDirection
     End Method
 
     Method CanBeLord: Bool()
