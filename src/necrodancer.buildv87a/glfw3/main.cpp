@@ -55842,7 +55842,9 @@ c_DeathMetal* c_DeathMetal::m_new2(){
 	return this;
 }
 void c_DeathMetal::p_Die(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.Die()",16));
+	c_Enemy::m_SetEnemiesToDropNoCoinsOverride();
+	c_Enemy::p_Die();
+	c_Enemy::m_KillAllEnemies();
 }
 c_Point* c_DeathMetal::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeathMetal.GetMovementDirection()",33));

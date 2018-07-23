@@ -50,7 +50,9 @@ Class DeathMetal Extends Enemy
     End Method
 
     Method Die: Void()
-        Debug.TraceNotImplemented("DeathMetal.Die()")
+        Enemy.SetEnemiesToDropNoCoinsOverride()
+        Super.Die()
+        Enemy.KillAllEnemies()
     End Method
 
     Method GetMovementDirection: Point()
