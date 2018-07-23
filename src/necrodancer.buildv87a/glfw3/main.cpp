@@ -13302,7 +13302,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==5 && bb_controller_game_currentLevel==4){
+			if(bb_controller_game_currentDepth==5 && bb_controller_game_currentLevel==5){
 				bb_app_EndApp();
 			}
 		}
@@ -60864,7 +60864,12 @@ c_DecorativeFireTrap* c_DecorativeFireTrap::m_new2(){
 	return this;
 }
 void c_DecorativeFireTrap::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"DecorativeFireTrap.Update()",27));
+	c_Trap::p_Update();
+	int t_frame=c_Audio::m_GetBeatAnimFrame4();
+	this->m_image->p_SetFrame(t_frame);
+	if(!c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+		this->p_Die();
+	}
 }
 void c_DecorativeFireTrap::mark(){
 	c_Trap::mark();

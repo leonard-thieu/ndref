@@ -1,8 +1,9 @@
-'Strict
+Strict
 
-Import logger
-Import sprite
+Import level
 Import trap
+Import audio2
+Import sprite
 
 Class DecorativeFireTrap Extends Trap
 
@@ -19,7 +20,14 @@ Class DecorativeFireTrap Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("DecorativeFireTrap.Update()")
+        Super.Update()
+
+        Local frame := Audio.GetBeatAnimFrame4()
+        Self.image.SetFrame(frame)
+
+        If Not Level.IsWallAt(Self.x, Self.y)
+            Self.Die()
+        End If
     End Method
 
 End Class
