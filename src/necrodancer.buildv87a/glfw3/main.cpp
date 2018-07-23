@@ -10298,6 +10298,7 @@ class c_EvilEye : public c_Enemy{
 	c_EvilEye* m_new(int,int,int);
 	c_EvilEye* m_new2();
 	c_Point* p_GetMovementDirection();
+	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	void p_Update();
 	void mark();
@@ -51624,6 +51625,9 @@ c_EvilEye* c_EvilEye::m_new2(){
 c_Point* c_EvilEye::p_GetMovementDirection(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"EvilEye.GetMovementDirection()",30));
 	return 0;
+}
+void c_EvilEye::p_MoveFail(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"EvilEye.MoveFail()",18));
 }
 void c_EvilEye::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"EvilEye.MoveSucceed(Bool, Bool)",31));

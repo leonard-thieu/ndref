@@ -29,7 +29,7 @@ Class EvilEye Extends Enemy
         Self.overrideDeathSound = "evileyeDeath"
     End Method
 
-    Field dashDir: Int = -1
+    Field dashDir: Int = Direction.None
 
     Method CheckDash: Void()
         Debug.TraceNotImplemented("EvilEye.CheckDash()")
@@ -37,6 +37,10 @@ Class EvilEye Extends Enemy
 
     Method GetMovementDirection: Point()
         Debug.TraceNotImplemented("EvilEye.GetMovementDirection()")
+    End Method
+
+    Method MoveFail: Void()
+        Debug.TraceNotImplemented("EvilEye.MoveFail()")
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
