@@ -10286,6 +10286,7 @@ class c_Devil : public c_Enemy{
 	c_Devil();
 	c_Devil* m_new(int,int,int);
 	c_Devil* m_new2();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
@@ -51576,6 +51577,10 @@ c_Devil* c_Devil::m_new(int t_xVal,int t_yVal,int t_l){
 c_Devil* c_Devil::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+c_Point* c_Devil::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Devil.GetMovementDirection()",28));
+	return 0;
 }
 bool c_Devil::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Devil.Hit(String, Int, Int, Entity, Bool, Int)",46));
