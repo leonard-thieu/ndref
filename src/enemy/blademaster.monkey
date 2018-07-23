@@ -1,6 +1,8 @@
 'Strict
 
 Import enemy
+Import familiar
+Import audio2
 Import entity
 Import logger
 Import player_class
@@ -68,7 +70,69 @@ Class Blademaster Extends Enemy
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Blademaster.MoveSucceed(Bool, Bool)")
+        Local xDiff := Self.x - Self.lastX
+        Local yDiff := Self.y - Self.lastY
+        Local nextX := Self.x + xDiff
+        Local nextY := Self.y + yDiff
+
+        Local players := Util.GetPlayersAt(nextX, nextY)
+        Local familiar := Familiar.GetFamiliarAt(nextX, nextY)
+
+        If Not moveDelayed And
+           Not hitPlayer And
+           Self.charging
+            If Util.InvertDir(Self.hitDir) = Util.GetDirFromDiff(Self.x - Self.lastX, Self.y - Self.lastY)
+                Audio.PlayGameSoundAt("blademasterAttackFar", Self.x, Self.y, False, -1, False)
+
+                For Local player := EachIn players
+                    Local hitDir := Util.GetDirFromDiff(nextX - Self.x, nextY - Self.y)
+                    player.Hit(Self.friendlyName, 2 * Self.damagePerHit, hitDir, Self)
+                End For
+
+                If familiar <> Null
+                    Local hitDir := Util.GetDirFromDiff(nextX - Self.x, nextY - Self.y)
+                    familiar.Hit(Self.friendlyName, 2 * Self.damagePerHit, hitDir, Self)
+                End If
+
+                Local moveTween := Self.moveTween
+                Local moveShadowTween := Self.moveShadowTween
+
+                Self.moveTween = 12
+                Self.moveShadowTween = 12
+
+                If Util.IsGlobalCollisionAt(nextX, nextY, False, False, False, False) Or
+                   Not players.IsEmpty()
+                    Self.PerformTween(Self.x, Self.y, Self.lastX, Self.lastY, Self.moveTween, Self.moveShadowTween, False)
+                Else
+                    Self.PerformTween(nextX, nextY, Self.lastX, Self.lastY, Self.moveTween, Self.moveShadowTween, False)
+
+                    Self.x = nextX
+                    Self.y = nextY
+
+                    Local hitDir := Util.GetDirFromDiff(nextX - Self.x, nextY - Self.y)
+                    Self.CheckFamiliarTouch(hitDir)
+                End If
+
+                Self.moveTween = moveTween
+                Self.moveShadowTween = moveShadowTween
+                Self.vulnerable = True
+                Self.charging = False
+                Self.hitDir = Direction.None
+
+                Super.MoveSucceed(hitPlayer, moveDelayed)
+            End If
+        End If
+
+        If Self.vulnerable
+            Self.vulnerable = False
+        End If
+
+        If Not moveDelayed
+            Self.charging = False
+            Self.hitDir = Direction.None
+        End If
+
+        Super.MoveSucceed(hitPlayer, moveDelayed)
     End Method
 
     Method Update: Void()

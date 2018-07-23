@@ -51278,7 +51278,54 @@ void c_Blademaster::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.MoveFail()",22));
 }
 void c_Blademaster::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.MoveSucceed(Bool, Bool)",35));
+	int t_xDiff=this->m_x-this->m_lastX;
+	int t_yDiff=this->m_y-this->m_lastY;
+	int t_nextX=this->m_x+t_xDiff;
+	int t_nextY=this->m_y+t_yDiff;
+	c_List41* t_players=c_Util::m_GetPlayersAt2(t_nextX,t_nextY);
+	c_Familiar* t_familiar=c_Familiar::m_GetFamiliarAt(t_nextX,t_nextY);
+	if(!t_moveDelayed && !t_hitPlayer && this->m_charging){
+		if(c_Util::m_InvertDir(this->m_hitDir)==c_Util::m_GetDirFromDiff(this->m_x-this->m_lastX,this->m_y-this->m_lastY)){
+			c_Audio::m_PlayGameSoundAt(String(L"blademasterAttackFar",20),this->m_x,this->m_y,false,-1,false);
+			c_Enumerator37* t_=t_players->p_ObjectEnumerator();
+			while(t_->p_HasNext()){
+				c_Player* t_player=t_->p_NextObject();
+				int t_hitDir=c_Util::m_GetDirFromDiff(t_nextX-this->m_x,t_nextY-this->m_y);
+				t_player->p_Hit(this->m_friendlyName,2*this->m_damagePerHit,t_hitDir,(this),false,0);
+			}
+			if(t_familiar!=0){
+				int t_hitDir2=c_Util::m_GetDirFromDiff(t_nextX-this->m_x,t_nextY-this->m_y);
+				t_familiar->p_Hit(this->m_friendlyName,2*this->m_damagePerHit,t_hitDir2,(this),false,0);
+			}
+			int t_moveTween=this->m_moveTween;
+			int t_moveShadowTween=this->m_moveShadowTween;
+			this->m_moveTween=12;
+			this->m_moveShadowTween=12;
+			if(c_Util::m_IsGlobalCollisionAt2(t_nextX,t_nextY,false,false,false,false) || !t_players->p_IsEmpty()){
+				this->p_PerformTween(this->m_x,this->m_y,this->m_lastX,this->m_lastY,this->m_moveTween,this->m_moveShadowTween,false);
+			}else{
+				this->p_PerformTween(t_nextX,t_nextY,this->m_lastX,this->m_lastY,this->m_moveTween,this->m_moveShadowTween,false);
+				this->m_x=t_nextX;
+				this->m_y=t_nextY;
+				int t_hitDir3=c_Util::m_GetDirFromDiff(t_nextX-this->m_x,t_nextY-this->m_y);
+				this->p_CheckFamiliarTouch(t_hitDir3);
+			}
+			this->m_moveTween=t_moveTween;
+			this->m_moveShadowTween=t_moveShadowTween;
+			this->m_vulnerable=true;
+			this->m_charging=false;
+			this->m_hitDir=-1;
+			c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
+		}
+	}
+	if(this->m_vulnerable){
+		this->m_vulnerable=false;
+	}
+	if(!t_moveDelayed){
+		this->m_charging=false;
+		this->m_hitDir=-1;
+	}
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
 }
 void c_Blademaster::p_Update(){
 	if(c_Util::m_IsCharacterActive(12)){

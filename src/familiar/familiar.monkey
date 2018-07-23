@@ -6,6 +6,7 @@ Import logger
 Import mobileentity
 Import player_class
 Import sprite
+Import util
 
 Class Familiar Extends MobileEntity
 
@@ -57,7 +58,7 @@ Class Familiar Extends MobileEntity
         Debug.TraceNotImplemented("Familiar.Die()")
     End Method
 
-    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
         Debug.TraceNotImplemented("Familiar.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
