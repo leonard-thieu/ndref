@@ -1,8 +1,8 @@
 'Strict
 
 Import enemy.npc
-Import entity
 Import level
+Import entity
 Import logger
 Import shrine
 
@@ -43,6 +43,10 @@ Class Shriner Extends NPC
         Self.shrine3.SetCost()
 
         Super.Die()
+    End Method
+
+    Method GetMovementDirection: Point()
+        Debug.TraceNotImplemented("Shriner.GetMovementDirection()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)

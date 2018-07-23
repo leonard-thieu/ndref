@@ -9864,6 +9864,7 @@ class c_Shriner : public c_NPC{
 	c_Shriner* m_new(int,int,int,bool);
 	c_Shriner* m_new2();
 	void p_Die();
+	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	void p_Update();
 	void mark();
@@ -49817,6 +49818,10 @@ void c_Shriner::p_Die(){
 	this->m_shrine3->m_cost=0;
 	this->m_shrine3->p_SetCost();
 	c_NPC::p_Die();
+}
+c_Point* c_Shriner::p_GetMovementDirection(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shriner.GetMovementDirection()",30));
+	return 0;
 }
 bool c_Shriner::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Shriner.Hit(String, Int, Int, Entity, Bool, Int)",48));
