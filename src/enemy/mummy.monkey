@@ -35,7 +35,13 @@ Class Mummy Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Mummy.Update()")
+        If Self.currentMoveDelay = 1
+            Self.animOverride = -1
+        Else
+            Self.animOverride = Self.animNum + 4
+        End If
+
+        Super.Update()
     End Method
 
 End Class

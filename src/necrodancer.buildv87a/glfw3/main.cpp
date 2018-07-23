@@ -10922,6 +10922,7 @@ class c_Spider : public c_Enemy{
 };
 class c_Mummy : public c_Enemy{
 	public:
+	int m_animNum;
 	c_Mummy();
 	c_Mummy* m_new(int,int,int);
 	c_Mummy* m_new2();
@@ -54536,6 +54537,7 @@ void c_Spider::mark(){
 	c_Enemy::mark();
 }
 c_Mummy::c_Mummy(){
+	m_animNum=0;
 }
 c_Mummy* c_Mummy::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -54560,7 +54562,12 @@ void c_Mummy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Mummy.MoveSucceed(Bool, Bool)",29));
 }
 void c_Mummy::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Mummy.Update()",14));
+	if(this->m_currentMoveDelay==1){
+		this->m_animOverride=-1;
+	}else{
+		this->m_animOverride=this->m_animNum+4;
+	}
+	c_Enemy::p_Update();
 }
 void c_Mummy::mark(){
 	c_Enemy::mark();
