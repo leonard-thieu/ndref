@@ -54858,8 +54858,11 @@ bool c_Nightmare::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t
 	return false;
 }
 bool c_Nightmare::p_IsVisible(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.IsVisible()",21));
-	return false;
+	c_Tile* t_tile=c_Level::m_GetTileAt(this->m_x,this->m_y);
+	if(t_tile!=0 && t_tile->p_IsInAnyPlayerLineOfSight()){
+		return true;
+	}
+	return c_Entity::p_IsVisible();
 }
 void c_Nightmare::p_MoveFail(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Nightmare.MoveFail()",20));

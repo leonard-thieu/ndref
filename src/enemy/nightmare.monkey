@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import level
 Import entity
 Import logger
 Import point
@@ -56,7 +57,13 @@ Class Nightmare Extends Enemy
     End Method
 
     Method IsVisible: Bool()
-        Debug.TraceNotImplemented("Nightmare.IsVisible()")
+        Local tile := Level.GetTileAt(Self.x, Self.y)
+        If tile <> Null And
+           tile.IsInAnyPlayerLineOfSight()
+            Return True
+        End If
+
+        Return Super.IsVisible()
     End Method
 
     Method MoveFail: Void()
