@@ -41,7 +41,14 @@ Class GoblinBomber Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("GoblinBomber.Update()")
+        If Not Self.hasBeenVisible
+            Self.currentMoveDelay = 2
+        Else If Not Self.wasVisibleLastFrame
+            Self.wasVisibleLastFrame = False
+            Self.currentMoveDelay = 1
+        End If
+
+        Super.Update()
     End Method
 
 End Class

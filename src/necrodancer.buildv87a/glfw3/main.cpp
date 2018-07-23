@@ -51362,7 +51362,15 @@ c_Point* c_GoblinBomber::p_GetMovementDirection(){
 	return 0;
 }
 void c_GoblinBomber::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"GoblinBomber.Update()",21));
+	if(!this->m_hasBeenVisible){
+		this->m_currentMoveDelay=2;
+	}else{
+		if(!this->m_wasVisibleLastFrame){
+			this->m_wasVisibleLastFrame=false;
+			this->m_currentMoveDelay=1;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_GoblinBomber::mark(){
 	c_Enemy::mark();
