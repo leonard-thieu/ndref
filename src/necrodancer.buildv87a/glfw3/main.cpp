@@ -6718,6 +6718,7 @@ class c_Audio : public Object{
 	static bool m_songPaused;
 	static int m_songShopkeeper;
 	static void m_ModifyMusicSpeed(Float);
+	static int m_GetBeatAnimFrame2();
 	void mark();
 };
 class c_Level : public Object{
@@ -8342,6 +8343,9 @@ class c_Gargoyle : public c_Enemy{
 	c_Sprite* m_gustImage;
 	bool m_determinedContents;
 	String m_contents;
+	c_Sprite* m_image2;
+	c_Bouncer* m_bounce2;
+	bool m_active;
 	c_Gargoyle();
 	void p_DetermineContents();
 	c_Gargoyle* m_new(int,int,int);
@@ -18561,6 +18565,10 @@ bool c_Audio::m_songPaused;
 int c_Audio::m_songShopkeeper;
 void c_Audio::m_ModifyMusicSpeed(Float t_spd){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.ModifyMusicSpeed(Float)",29));
+}
+int c_Audio::m_GetBeatAnimFrame2(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Audio.GetBeatAnimFrame2()",25));
+	return 0;
 }
 void c_Audio::mark(){
 	Object::mark();
@@ -42085,6 +42093,9 @@ c_Gargoyle::c_Gargoyle(){
 	m_gustImage=0;
 	m_determinedContents=false;
 	m_contents=String();
+	m_image2=0;
+	m_bounce2=0;
+	m_active=false;
 }
 void c_Gargoyle::p_DetermineContents(){
 	if(!this->m_determinedContents && this->m_level!=7){
@@ -42145,11 +42156,62 @@ void c_Gargoyle::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Gargoyle.MoveSucceed(Bool, Bool)",32));
 }
 void c_Gargoyle::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Gargoyle.Update()",17));
+	Float t_distToClosestPlayer=c_Util::m_GetDistFromClosestPlayer(this->m_x,this->m_y,true);
+	int t_1=this->m_level;
+	if(t_1==7){
+		if(!c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+			this->p_Die();
+		}
+	}else{
+		if(t_1==5 || t_1==6){
+			if(this->p_IsVisible() && c_Tile::m_AnyPlayerHaveMonocle() && this->m_image2==0){
+				this->p_DetermineContents();
+				c_XMLNode* t_itemNode=c_Item::m_GetItemXML(this->m_contents);
+				String t_framePath=String(L"items/",6)+t_itemNode->p_value();
+				int t_frameW=t_itemNode->p_GetAttribute3(String(L"imageW",6),24);
+				int t_frameH=t_itemNode->p_GetAttribute3(String(L"imageH",6),24);
+				int t_numFrames=t_itemNode->p_GetAttribute3(String(L"numFrames",9),1);
+				gc_assign(this->m_image2,(new c_Sprite)->m_new(t_framePath,t_frameW,t_frameH,2*t_numFrames,c_Image::m_DefaultFlags));
+				this->m_image2->p_SetZOff(FLOAT(17.0));
+				this->m_image2->p_SetAlphaValue(FLOAT(0.6));
+				gc_assign(this->m_bounce2,(new c_Bouncer)->m_new(FLOAT(-2.5),FLOAT(0.0),FLOAT(1.5),40));
+			}
+		}
+	}
+	if(this->m_bounce2!=0){
+		this->m_bounce2->p_Update();
+	}
+	if(t_distToClosestPlayer<=FLOAT(1.0) && !this->m_active){
+		int t_2=this->m_level;
+		if(t_2==2 || t_2==3){
+			this->m_currentMoveDelay=2;
+			if(c_Enemy::m_EnemiesHaveMovedClosestBeat() || c_Audio::m_IsFixedBeatSet() && !bb_controller_game_incrementFixedBeatNum){
+				this->m_currentMoveDelay=1;
+			}
+			this->m_active=true;
+			c_Audio::m_PlayGameSoundAt(String(L"gargoyleAwaken",14),this->m_x,this->m_y,false,-1,false);
+		}
+	}
+	if(this->m_level<=3 && this->m_active){
+		if(t_distToClosestPlayer>FLOAT(2.5)){
+			this->m_animOverride=2;
+		}else{
+			this->m_animOverride=c_Audio::m_GetBeatAnimFrame2()+2;
+		}
+	}else{
+		if(this->m_level>=5 || t_distToClosestPlayer>FLOAT(2.5)){
+			this->m_animOverride=0;
+		}else{
+			this->m_animOverride=-1;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Gargoyle::mark(){
 	c_Enemy::mark();
 	gc_mark_q(m_gustImage);
+	gc_mark_q(m_image2);
+	gc_mark_q(m_bounce2);
 }
 c_List6::c_List6(){
 	m__head=((new c_HeadNode6)->m_new());

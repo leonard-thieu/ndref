@@ -2,16 +2,20 @@
 
 Import mojo.graphics
 Import controller.controller_game
+Import enemy
 Import enemy.crate
 Import enemy.necrodancer_enemy
-Import bouncer
-Import enemy
-Import entity
 Import level
+Import audio2
+Import bouncer
+Import entity
+Import item
 Import logger
 Import player_class
 Import point
 Import sprite
+Import tile
+Import util
 
 Class Gargoyle Extends Enemy
 
@@ -96,7 +100,70 @@ Class Gargoyle Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Gargoyle.Update()")
+        Local distToClosestPlayer := Util.GetDistFromClosestPlayer(Self.x, Self.y, True)
+
+        Select Self.level
+            Case 7
+                If Not Level.IsWallAt(Self.x, Self.y)
+                    Self.Die()
+                End If
+            Case 5,
+                 6
+                If Self.IsVisible() And
+                   Tile.AnyPlayerHaveMonocle() And
+                   Self.image2 = Null
+                    Self.DetermineContents()
+
+                    Local itemNode := Item.GetItemXML(Self.contents)
+                    Local framePath := "items/" + itemNode.value
+                    Local frameW := itemNode.GetAttribute("imageW", 24)
+                    Local frameH := itemNode.GetAttribute("imageH", 24)
+                    Local numFrames := itemNode.GetAttribute("numFrames", 1)
+                    Self.image2 = New Sprite(framePath, frameW, frameH, 2 * numFrames)
+                    Self.image2.SetZOff(17.0)
+                    Self.image2.SetAlphaValue(0.6)
+
+                    Self.bounce2 = New Bouncer(-2.5, 0.0, 1.5, 40)
+                End If
+        end Select
+
+        If Self.bounce2 <> Null
+            Self.bounce2.Update()
+        End If
+
+        If distToClosestPlayer <= 1.0 And
+           Not Self.active
+            Select Self.level
+                Case 2,
+                     3
+                    Self.currentMoveDelay = 2
+                    If Enemy.EnemiesHaveMovedClosestBeat() Or
+                       (Audio.IsFixedBeatSet() And
+                        Not controller_game.incrementFixedBeatNum)
+                        Self.currentMoveDelay = 1
+                    End If
+
+                    Self.active = True
+
+                    Audio.PlayGameSoundAt("gargoyleAwaken", Self.x, Self.y, False, -1, False)
+            End Select
+        End If
+
+        If Self.level <= 3 And
+           Self.active
+            If distToClosestPlayer > 2.5
+                Self.animOverride = 2
+            Else
+                Self.animOverride = Audio.GetBeatAnimFrame2() + 2
+            End If
+        Else If Self.level >= 5 Or
+                distToClosestPlayer > 2.5
+            Self.animOverride = 0
+        Else
+            Self.animOverride = -1
+        End If
+
+        Super.Update()
     End Method
 
 End Class
