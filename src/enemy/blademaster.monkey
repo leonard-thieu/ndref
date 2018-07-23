@@ -33,11 +33,30 @@ Class Blademaster Extends Enemy
     Field vulnerable: Bool
 
     Method CanBeLord: Bool()
-        Debug.TraceNotImplemented("ArmoredSkeleton.CanBeLord()")
+        Debug.TraceNotImplemented("Blademaster.CanBeLord()")
     End Method
 
     Method GetMovementDirection: Point()
-        Debug.TraceNotImplemented("Blademaster.GetMovementDirection()")
+        If Not Self.charging
+            Return Self.BasicSeek()
+        End If
+
+        Local dir := Util.InvertDir(Self.hitDir)
+        local dirPoint := Util.GetPointFromDir(dir)
+
+        If Util.IsGlobalCollisionAt(Self.x + dirPoint.x, Self.y + dirPoint.y, False, False, False, False)
+            Return Self.BasicSeek()
+        End If
+
+        If dirPoint.x > 0
+            Self.image.FlipX(True, True)
+        End If
+
+        If dirPoint.x < 0
+            Self.image.FlipX(False, True)
+        End If
+
+        Return dirPoint
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)

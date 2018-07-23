@@ -10224,6 +10224,7 @@ class c_FireElemental : public c_ElementalBase{
 class c_Blademaster : public c_Enemy{
 	public:
 	bool m_charging;
+	int m_hitDir;
 	bool m_vulnerable;
 	c_Blademaster();
 	c_Blademaster* m_new(int,int,int);
@@ -13207,7 +13208,7 @@ int c_NecroDancerGame::p_OnUpdate(){
 				c_Level::m_NewLevel(-3,bb_controller_game_currentZone,0,false,0,false);
 			}
 		}else{
-			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==1){
+			if(bb_controller_game_currentDepth==4 && bb_controller_game_currentLevel==2){
 				bb_app_EndApp();
 			}
 		}
@@ -51165,6 +51166,7 @@ void c_FireElemental::mark(){
 }
 c_Blademaster::c_Blademaster(){
 	m_charging=false;
+	m_hitDir=-1;
 	m_vulnerable=false;
 }
 c_Blademaster* c_Blademaster::m_new(int t_xVal,int t_yVal,int t_l){
@@ -51185,12 +51187,25 @@ c_Blademaster* c_Blademaster::m_new2(){
 	return this;
 }
 bool c_Blademaster::p_CanBeLord(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ArmoredSkeleton.CanBeLord()",27));
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.CanBeLord()",23));
 	return false;
 }
 c_Point* c_Blademaster::p_GetMovementDirection(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.GetMovementDirection()",34));
-	return 0;
+	if(!this->m_charging){
+		return this->p_BasicSeek();
+	}
+	int t_dir=c_Util::m_InvertDir(this->m_hitDir);
+	c_Point* t_dirPoint=c_Util::m_GetPointFromDir(t_dir);
+	if(c_Util::m_IsGlobalCollisionAt2(this->m_x+t_dirPoint->m_x,this->m_y+t_dirPoint->m_y,false,false,false,false)){
+		return this->p_BasicSeek();
+	}
+	if(t_dirPoint->m_x>0){
+		this->m_image->p_FlipX(true,true);
+	}
+	if(t_dirPoint->m_x<0){
+		this->m_image->p_FlipX(false,true);
+	}
+	return t_dirPoint;
 }
 bool c_Blademaster::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Blademaster.Hit(String, Int, Int, Entity, Bool, Int)",52));
