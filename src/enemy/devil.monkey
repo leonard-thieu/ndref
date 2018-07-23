@@ -27,6 +27,10 @@ Class Devil Extends Enemy
 
     Field inEgg: Bool = True
 
+    Method GetMovementDirection: Point()
+        Debug.TraceNotImplemented("Devil.GetMovementDirection()")
+    End Method
+
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("Devil.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
