@@ -56024,7 +56024,25 @@ void c_Orc::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Orc.MoveSucceed(Bool, Bool)",27));
 }
 void c_Orc::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Orc.Update()",12));
+	int t_1=this->m_facing;
+	if(t_1==2){
+		this->m_image->p_FlipX(false,true);
+	}else{
+		if(t_1==0){
+			this->m_image->p_FlipX(true,true);
+		}
+	}
+	int t_animOverrideBase=0;
+	int t_2=this->m_facing;
+	if(t_2==2 || t_2==0){
+		t_animOverrideBase=4;
+	}else{
+		if(t_2==1){
+			t_animOverrideBase=8;
+		}
+	}
+	this->m_animOverride=c_Audio::m_GetBeatAnimFrame4()+t_animOverrideBase;
+	c_Enemy::p_Update();
 }
 void c_Orc::mark(){
 	c_Enemy::mark();

@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import entity
 Import logger
 Import point
@@ -43,7 +44,26 @@ Class Orc Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Orc.Update()")
+        Select Self.facing
+            Case Direction.Left
+                Self.image.FlipX(False, True)
+            Case Direction.Right
+                Self.image.FlipX(True, True)
+        End Select
+
+        Local animOverrideBase := 0
+        
+        Select Self.facing
+            Case Direction.Left,
+                 Direction.Right
+                animOverrideBase = 4
+            Case Direction.Down
+                animOverrideBase = 8
+        End Select
+
+        Self.animOverride = Audio.GetBeatAnimFrame4() + animOverrideBase
+
+        Super.Update()
     End Method
 
 End Class
