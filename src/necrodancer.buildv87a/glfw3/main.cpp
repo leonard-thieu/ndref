@@ -10294,6 +10294,7 @@ class c_Devil : public c_Enemy{
 };
 class c_EvilEye : public c_Enemy{
 	public:
+	int m_dashDir;
 	c_EvilEye();
 	c_EvilEye* m_new(int,int,int);
 	c_EvilEye* m_new2();
@@ -51602,6 +51603,7 @@ void c_Devil::mark(){
 	c_Enemy::mark();
 }
 c_EvilEye::c_EvilEye(){
+	m_dashDir=-1;
 }
 c_EvilEye* c_EvilEye::m_new(int t_x_,int t_y_,int t_l){
 	c_Enemy::m_new();
@@ -51633,7 +51635,27 @@ void c_EvilEye::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"EvilEye.MoveSucceed(Bool, Bool)",31));
 }
 void c_EvilEye::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"EvilEye.Update()",16));
+	if(!this->m_hasBeenVisible){
+		this->m_currentMoveDelay=2;
+	}else{
+		if(this->m_wasVisibleLastFrame){
+			c_TextLog::m_Message(String(L"Evil Eye at ",12)+(this->p_GetLocation()->p_ToString())+String(L" setting wasVisibleLastFrame=True",33));
+			this->m_wasVisibleLastFrame=true;
+			this->m_currentMoveDelay=1;
+		}
+	}
+	if(this->m_dashDir!=-1){
+		this->m_overrideNormal2Timing=1;
+	}else{
+		this->m_overrideNormal2Timing=0;
+	}
+	if(this->m_dashDir==0){
+		this->m_image->p_FlipX(true,true);
+	}
+	if(this->m_dashDir==2){
+		this->m_image->p_FlipX(false,true);
+	}
+	c_Enemy::p_Update();
 }
 void c_EvilEye::mark(){
 	c_Enemy::mark();
