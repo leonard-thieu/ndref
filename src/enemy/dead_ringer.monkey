@@ -1,13 +1,14 @@
 'Strict
 
 Import mojo.graphics
+Import enemy
 Import enemy.bell
 Import audio2
-Import enemy
 Import entity
 Import logger
 Import point
 Import sprite
+Import util
 
 Class DeadRinger Extends Enemy
 
@@ -46,8 +47,8 @@ Class DeadRinger Extends Enemy
     Field phase: Int
     Field justSmashed: Bool
     Field smashCounter: Int
-    Field chargingDir: Int = -1
-    Field chargedDir: Int = -1
+    Field chargingDir: Int = Direction.None
+    Field chargedDir: Int = Direction.None
     Field chargeCounter: Int
     Field justGotHit: Bool
     Field readyToCharge: Bool
@@ -79,6 +80,10 @@ Class DeadRinger Extends Enemy
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("DeadRinger.Hit(String, Int, Int, Entity, Bool, Int)")
+    End Method
+
+    Method ImmuneToFear: Bool()
+        Debug.TraceNotImplemented("DeadRinger.ImmuneToFear()")
     End Method
 
     Method Move: Int()

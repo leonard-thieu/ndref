@@ -11457,6 +11457,7 @@ class c_DeadRinger : public c_Enemy{
 	void p_Die();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	bool p_ImmuneToFear();
 	int p_Move();
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
@@ -57245,6 +57246,10 @@ c_Point* c_DeadRinger::p_GetMovementDirection(){
 }
 bool c_DeadRinger::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"DeadRinger.Hit(String, Int, Int, Entity, Bool, Int)",51));
+	return false;
+}
+bool c_DeadRinger::p_ImmuneToFear(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"DeadRinger.ImmuneToFear()",25));
 	return false;
 }
 int c_DeadRinger::p_Move(){
