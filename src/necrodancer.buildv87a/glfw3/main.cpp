@@ -5685,6 +5685,10 @@ class c_Node60;
 class c_HeadNode42;
 class c_Enumerator39;
 class c_ConductorBattery;
+class c_List43;
+class c_Node61;
+class c_HeadNode43;
+class c_Enumerator40;
 class c_App : public Object{
 	public:
 	c_App();
@@ -13082,11 +13086,50 @@ void bb_fmod_StopSoundFMOD(int);
 class c_ConductorBattery : public c_Enemy{
 	public:
 	c_ConductorBattery();
+	static c_List43* m_allBatteries;
+	void p_AddKills(int);
 	static void m_WaterBallDeath(c_WaterBall*);
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	bool p_ImmuneToFear();
 	void p_Update();
+	void mark();
+};
+class c_List43 : public Object{
+	public:
+	c_Node61* m__head;
+	c_List43();
+	c_List43* m_new();
+	c_Node61* p_AddLast43(c_ConductorBattery*);
+	c_List43* m_new2(Array<c_ConductorBattery* >);
+	c_Enumerator40* p_ObjectEnumerator();
+	void mark();
+};
+class c_Node61 : public Object{
+	public:
+	c_Node61* m__succ;
+	c_Node61* m__pred;
+	c_ConductorBattery* m__data;
+	c_Node61();
+	c_Node61* m_new(c_Node61*,c_Node61*,c_ConductorBattery*);
+	c_Node61* m_new2();
+	void mark();
+};
+class c_HeadNode43 : public c_Node61{
+	public:
+	c_HeadNode43();
+	c_HeadNode43* m_new();
+	void mark();
+};
+class c_Enumerator40 : public Object{
+	public:
+	c_List43* m__list;
+	c_Node61* m__curr;
+	c_Enumerator40();
+	c_Enumerator40* m_new(c_List43*);
+	c_Enumerator40* m_new2();
+	bool p_HasNext();
+	c_ConductorBattery* p_NextObject();
 	void mark();
 };
 void gc_mark( BBGame *p ){}
@@ -61712,8 +61755,29 @@ void bb_fmod_StopSoundFMOD(int t_snd){
 }
 c_ConductorBattery::c_ConductorBattery(){
 }
+c_List43* c_ConductorBattery::m_allBatteries;
+void c_ConductorBattery::p_AddKills(int t_num){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.AddKills(Int)",30));
+}
 void c_ConductorBattery::m_WaterBallDeath(c_WaterBall* t_enemy){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.WaterBallDeath(WaterBall)",42));
+	c_Enumerator40* t_=m_allBatteries->p_ObjectEnumerator();
+	while(t_->p_HasNext()){
+		c_ConductorBattery* t_battery=t_->p_NextObject();
+		if(t_enemy->m_enableDeathEffects){
+			if(t_battery->m_x!=t_enemy->m_x || t_battery->m_y>=t_enemy->m_y){
+				continue;
+			}
+		}else{
+			c_Player* t_player=c_Util::m_GetClosestPlayer(t_enemy->m_x,t_enemy->m_y);
+			if(t_battery->m_x!=t_player->m_x || t_battery->m_y>=t_player->m_y){
+				continue;
+			}
+		}
+		if(t_enemy->m_y>=-7){
+			continue;
+		}
+		t_battery->p_AddKills(8);
+	}
 }
 void c_ConductorBattery::p_Die(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Die()",22));
@@ -61731,6 +61795,93 @@ void c_ConductorBattery::p_Update(){
 }
 void c_ConductorBattery::mark(){
 	c_Enemy::mark();
+}
+c_List43::c_List43(){
+	m__head=((new c_HeadNode43)->m_new());
+}
+c_List43* c_List43::m_new(){
+	return this;
+}
+c_Node61* c_List43::p_AddLast43(c_ConductorBattery* t_data){
+	return (new c_Node61)->m_new(m__head,m__head->m__pred,t_data);
+}
+c_List43* c_List43::m_new2(Array<c_ConductorBattery* > t_data){
+	Array<c_ConductorBattery* > t_=t_data;
+	int t_2=0;
+	while(t_2<t_.Length()){
+		c_ConductorBattery* t_t=t_[t_2];
+		t_2=t_2+1;
+		p_AddLast43(t_t);
+	}
+	return this;
+}
+c_Enumerator40* c_List43::p_ObjectEnumerator(){
+	return (new c_Enumerator40)->m_new(this);
+}
+void c_List43::mark(){
+	Object::mark();
+	gc_mark_q(m__head);
+}
+c_Node61::c_Node61(){
+	m__succ=0;
+	m__pred=0;
+	m__data=0;
+}
+c_Node61* c_Node61::m_new(c_Node61* t_succ,c_Node61* t_pred,c_ConductorBattery* t_data){
+	gc_assign(m__succ,t_succ);
+	gc_assign(m__pred,t_pred);
+	gc_assign(m__succ->m__pred,this);
+	gc_assign(m__pred->m__succ,this);
+	gc_assign(m__data,t_data);
+	return this;
+}
+c_Node61* c_Node61::m_new2(){
+	return this;
+}
+void c_Node61::mark(){
+	Object::mark();
+	gc_mark_q(m__succ);
+	gc_mark_q(m__pred);
+	gc_mark_q(m__data);
+}
+c_HeadNode43::c_HeadNode43(){
+}
+c_HeadNode43* c_HeadNode43::m_new(){
+	c_Node61::m_new2();
+	gc_assign(m__succ,(this));
+	gc_assign(m__pred,(this));
+	return this;
+}
+void c_HeadNode43::mark(){
+	c_Node61::mark();
+}
+c_Enumerator40::c_Enumerator40(){
+	m__list=0;
+	m__curr=0;
+}
+c_Enumerator40* c_Enumerator40::m_new(c_List43* t_list){
+	gc_assign(m__list,t_list);
+	gc_assign(m__curr,t_list->m__head->m__succ);
+	return this;
+}
+c_Enumerator40* c_Enumerator40::m_new2(){
+	return this;
+}
+bool c_Enumerator40::p_HasNext(){
+	while(m__curr->m__succ->m__pred!=m__curr){
+		gc_assign(m__curr,m__curr->m__succ);
+	}
+	return m__curr!=m__list->m__head;
+}
+c_ConductorBattery* c_Enumerator40::p_NextObject(){
+	c_ConductorBattery* t_data=m__curr->m__data;
+	gc_assign(m__curr,m__curr->m__succ);
+	return t_data;
+}
+void c_Enumerator40::mark(){
+	Object::mark();
+	gc_mark_q(m__list);
+	gc_mark_q(m__curr);
 }
 int bbInit(){
 	GC_CTOR
@@ -62186,6 +62337,7 @@ int bbInit(){
 	c_Entity::m_anyPlayerHaveNazarCharmCached=false;
 	c_ParticleSystemData::m_MOLE_APPEAR=0;
 	c_Audio::m_songShopkeeper=-1;
+	c_ConductorBattery::m_allBatteries=(new c_List43)->m_new();
 	c_Camera::m_overlayWhiteDuration=0;
 	c_ParticleSystemData::m_GEYSER=0;
 	c_Level::m_mapLightValues=Array<Float >();
@@ -62369,6 +62521,7 @@ void gc_mark(){
 	gc_mark_q(c_ParticleSystemData::m_TAR_SPLASH_OUT);
 	gc_mark_q(c_CrystalShards::m_shardsList);
 	gc_mark_q(c_ParticleSystemData::m_MOLE_APPEAR);
+	gc_mark_q(c_ConductorBattery::m_allBatteries);
 	gc_mark_q(c_ParticleSystemData::m_GEYSER);
 	gc_mark_q(c_Level::m_mapLightValues);
 	gc_mark_q(c_Level::m_constMapLightValues);

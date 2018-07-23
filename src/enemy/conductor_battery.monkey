@@ -16,7 +16,26 @@ Class ConductorBattery Extends Enemy
     End Function
 
     Function WaterBallDeath: Void(enemy: WaterBall)
-        Debug.TraceNotImplemented("ConductorBattery.WaterBallDeath(WaterBall)")
+        For Local battery := EachIn ConductorBattery.allBatteries
+            If enemy.enableDeathEffects
+                If battery.x <> enemy.x Or
+                   battery.y >= enemy.y
+                    Continue
+                End If
+            Else
+                Local player := Util.GetClosestPlayer(enemy.x, enemy.y)
+                If battery.x <> player.x Or
+                   battery.y >= player.y
+                    Continue
+                End If
+            End If
+
+            If enemy.y >= -7
+                Continue
+            End If
+
+            battery.AddKills(8)
+        End For
     End Function
 
     Function _EditorFix: Void() End
