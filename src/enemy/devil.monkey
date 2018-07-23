@@ -1,6 +1,7 @@
 'Strict
 
 Import enemy
+Import audio2
 Import entity
 Import logger
 Import shrine
@@ -36,7 +37,14 @@ Class Devil Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Devil.Update()")
+        If Self.inEgg
+            Self.animOverrideState = 1
+        Else
+            Self.animOverrideState = 8
+            Self.animOverride = Audio.GetBeatAnimFrame4()
+        End If
+
+        Super.Update()
     End Method
 
 End Class

@@ -10283,6 +10283,7 @@ class c_ElectricMage : public c_Enemy{
 };
 class c_Devil : public c_Enemy{
 	public:
+	bool m_inEgg;
 	c_Devil();
 	c_Devil* m_new(int,int,int);
 	c_Devil* m_new2();
@@ -51561,6 +51562,7 @@ void c_ElectricMage::mark(){
 	c_Enemy::mark();
 }
 c_Devil::c_Devil(){
+	m_inEgg=true;
 }
 c_Devil* c_Devil::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -51587,7 +51589,13 @@ bool c_Devil::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hit
 	return false;
 }
 void c_Devil::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Devil.Update()",14));
+	if(this->m_inEgg){
+		this->m_animOverrideState=1;
+	}else{
+		this->m_animOverrideState=8;
+		this->m_animOverride=c_Audio::m_GetBeatAnimFrame4();
+	}
+	c_Enemy::p_Update();
 }
 void c_Devil::mark(){
 	c_Enemy::mark();
