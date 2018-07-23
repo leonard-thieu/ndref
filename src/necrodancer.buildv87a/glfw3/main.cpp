@@ -13085,6 +13085,7 @@ class c_ConductorBattery : public c_Enemy{
 	static void m_WaterBallDeath(c_WaterBall*);
 	void p_Die();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	bool p_ImmuneToFear();
 	void p_Update();
 	void mark();
 };
@@ -61719,6 +61720,10 @@ void c_ConductorBattery::p_Die(){
 }
 bool c_ConductorBattery::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.Hit(String, Int, Int, Entity, Bool, Int)",57));
+	return false;
+}
+bool c_ConductorBattery::p_ImmuneToFear(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"ConductorBattery.ImmuneToFear()",31));
 	return false;
 }
 void c_ConductorBattery::p_Update(){

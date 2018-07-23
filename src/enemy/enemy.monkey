@@ -2794,6 +2794,10 @@ Class Enemy Extends MobileEntity Abstract
         Debug.TraceNotImplemented("Enemy.ImageFlipX(Bool)")
     End Method
 
+    Method ImmuneToEarth: Bool()
+        Return False
+    End Method
+
     Method ImmuneToFear: Bool()
         Return False
     End Method

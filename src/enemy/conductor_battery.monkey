@@ -54,6 +54,14 @@ Class ConductorBattery Extends Enemy
         Debug.TraceNotImplemented("ConductorBattery.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 
+    Method ImmuneToEarth: Bool()
+        Debug.TraceNotImplemented("ConductorBattery.ImmuneToEarth()")
+    End Method
+
+    Method ImmuneToFear: Bool()
+        Debug.TraceNotImplemented("ConductorBattery.ImmuneToFear()")
+    End Method
+
     Method Update: Void()
         Debug.TraceNotImplemented("ConductorBattery.Update()")
     End Method
