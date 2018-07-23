@@ -4,6 +4,8 @@ Import monkey.map
 Import controller.controller_game
 Import enemy
 Import enemy.skeleton
+Import level
+Import audio2
 Import entity
 Import logger
 Import mole_dirt
@@ -14,7 +16,7 @@ Import util
 Class Fortissimole Extends Enemy
 
     Function HaveSpeakerAt: Bool(xVal: Int)
-        Debug.TraceNotImplemented("Fortissimole.CanBeDamaged(Int)")
+        Debug.TraceNotImplemented("Fortissimole.HaveSpeakerAt(Int)")
     End Function
 
     Function SpawnFans: Void()
@@ -154,7 +156,79 @@ Class Fortissimole Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Fortissimole.Update()")
+        Self.animOffset = 0
+        Self.animOverride = -1
+
+        If Level.IsWallAt(Self.x, Self.y)
+            If Not Self.imageOnStage
+                Self.shadowYOff -= 8
+                Self.yOff = Self.yOffOnstage
+                Self.imageOnStage = True
+
+                Self.shadow.UnSetZ()
+                Self.shadow.SetZOff(Self.image.zOff + 24.0)
+
+                Self.image.SetZOff(Self.image.zOff + 124.0)
+            End If
+
+            Select Self.paceDir
+                Case Direction.Right
+                    Self.ImageFlipX(True)
+                Default
+                    Self.ImageFlipX(False)
+            End Select
+
+            If Self.onstageState = 1
+                Self.animOffset = 7
+            Else If Self.spawnArmsOffset <> -1
+                Local newSpawnArmsOffset := (Audio.GetBeatAnimFrame4() + 3) Mod 4
+                If Self.spawnArmsOffset <= newSpawnArmsOffset And newSpawnArmsOffset <= Self.spawnArmsOffset + 2
+                    Self.spawnArmsOffset = newSpawnArmsOffset
+                End If
+
+                Self.animOverride = Self.spawnArmsOffset + 22
+            End If
+        Else
+            If Self.imageOnStage
+                Self.shadowYOff += 8
+                Self.imageOnStage = False
+
+                Self.image.SetZOff(Self.image.zOff - 124.0)
+
+                Self.shadow.SetZOff(0.0)
+                Self.shadow.SetZ(-990.0)
+            End If
+
+            If Self.yOffOnstage <= Self.yOff
+                If Self.jumpingOffstage And
+                   Self.image.GetTweenDurationRemaining() = 0
+                    Audio.PlayGameSoundAt("fortissimoleLand", Self.x, Self.y, False, -1, False)
+
+                    Self.jumpingOffstage = False
+
+                    Self.PutDirt()
+                End If
+            Else
+                Self.yOff += 1.0
+            End If
+
+            Select Audio.GetBeatAnimFrame4()
+                Case 0
+                    Self.animOverride = 5
+                Case 1
+                    Self.animOverride = 6
+                Case 2,
+                     3
+                    Self.animOverride = 4
+            End Select
+
+            If Self.jumpingOffstage
+                Self.animOverride = -1
+                Self.animOffset = 0
+            End If
+        End If
+
+        Super.Update()
     End Method
 
 End Class

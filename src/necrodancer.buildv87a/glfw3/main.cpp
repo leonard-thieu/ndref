@@ -11125,6 +11125,10 @@ class c_Fortissimole : public c_Enemy{
 	int m_yOffOnstage;
 	int m_paceDir;
 	c_MoleDirt* m_currentDirt;
+	bool m_imageOnStage;
+	int m_onstageState;
+	int m_spawnArmsOffset;
+	bool m_jumpingOffstage;
 	c_Fortissimole();
 	c_Fortissimole* m_new(int,int,int);
 	c_Fortissimole* m_new2();
@@ -11137,6 +11141,7 @@ class c_Fortissimole : public c_Enemy{
 	void p_MoveFail();
 	void p_MoveSucceed(bool,bool);
 	int p_PerformMovement(int,int);
+	void p_PutDirt();
 	void p_Update();
 	void mark();
 };
@@ -55489,6 +55494,10 @@ c_Fortissimole::c_Fortissimole(){
 	m_yOffOnstage=0;
 	m_paceDir=2;
 	m_currentDirt=0;
+	m_imageOnStage=false;
+	m_onstageState=0;
+	m_spawnArmsOffset=-1;
+	m_jumpingOffstage=false;
 }
 c_Fortissimole* c_Fortissimole::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -55570,8 +55579,73 @@ int c_Fortissimole::p_PerformMovement(int t_xVal,int t_yVal){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.PerformMovement(Int, Int)",38));
 	return 0;
 }
+void c_Fortissimole::p_PutDirt(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.PutDirt()",22));
+}
 void c_Fortissimole::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Fortissimole.Update()",21));
+	this->m_animOffset=0;
+	this->m_animOverride=-1;
+	if(c_Level::m_IsWallAt2(this->m_x,this->m_y)){
+		if(!this->m_imageOnStage){
+			this->m_shadowYOff-=8;
+			this->m_yOff=Float(this->m_yOffOnstage);
+			this->m_imageOnStage=true;
+			this->m_shadow->p_UnSetZ();
+			this->m_shadow->p_SetZOff(this->m_image->m_zOff+FLOAT(24.0));
+			this->m_image->p_SetZOff(this->m_image->m_zOff+FLOAT(124.0));
+		}
+		int t_1=this->m_paceDir;
+		if(t_1==0){
+			this->p_ImageFlipX(true);
+		}else{
+			this->p_ImageFlipX(false);
+		}
+		if(this->m_onstageState==1){
+			this->m_animOffset=7;
+		}else{
+			if(this->m_spawnArmsOffset!=-1){
+				int t_newSpawnArmsOffset=(c_Audio::m_GetBeatAnimFrame4()+3) % 4;
+				if(this->m_spawnArmsOffset<=t_newSpawnArmsOffset && t_newSpawnArmsOffset<=this->m_spawnArmsOffset+2){
+					this->m_spawnArmsOffset=t_newSpawnArmsOffset;
+				}
+				this->m_animOverride=this->m_spawnArmsOffset+22;
+			}
+		}
+	}else{
+		if(this->m_imageOnStage){
+			this->m_shadowYOff+=8;
+			this->m_imageOnStage=false;
+			this->m_image->p_SetZOff(this->m_image->m_zOff-FLOAT(124.0));
+			this->m_shadow->p_SetZOff(FLOAT(0.0));
+			this->m_shadow->p_SetZ(FLOAT(-990.0));
+		}
+		if(Float(this->m_yOffOnstage)<=this->m_yOff){
+			if(this->m_jumpingOffstage && this->m_image->p_GetTweenDurationRemaining()==0){
+				c_Audio::m_PlayGameSoundAt(String(L"fortissimoleLand",16),this->m_x,this->m_y,false,-1,false);
+				this->m_jumpingOffstage=false;
+				this->p_PutDirt();
+			}
+		}else{
+			this->m_yOff+=FLOAT(1.0);
+		}
+		int t_2=c_Audio::m_GetBeatAnimFrame4();
+		if(t_2==0){
+			this->m_animOverride=5;
+		}else{
+			if(t_2==1){
+				this->m_animOverride=6;
+			}else{
+				if(t_2==2 || t_2==3){
+					this->m_animOverride=4;
+				}
+			}
+		}
+		if(this->m_jumpingOffstage){
+			this->m_animOverride=-1;
+			this->m_animOffset=0;
+		}
+	}
+	c_Enemy::p_Update();
 }
 void c_Fortissimole::mark(){
 	c_Enemy::mark();
