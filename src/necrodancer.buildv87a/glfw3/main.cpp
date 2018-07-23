@@ -61082,7 +61082,14 @@ void c_Switch::p_Trigger(c_Entity* t_ent){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Switch.Trigger(Entity)",22));
 }
 void c_Switch::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Switch.Update()",15));
+	if(this->m_triggered && !c_Util::m_IsAnyPlayerAt(this->m_x,this->m_y)){
+		this->m_triggered=false;
+	}
+	this->m_image->p_SetFrame(1);
+	if(this->m_triggered){
+		this->m_image->p_SetFrame(0);
+	}
+	c_Trap::p_Update();
 }
 void c_Switch::mark(){
 	c_Trap::mark();

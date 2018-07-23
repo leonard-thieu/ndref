@@ -1,9 +1,11 @@
 'Strict
 
+Import monkey.list
+Import trap
 Import entity
 Import logger
 Import sprite
-Import trap
+Import util
 
 Class Switch Extends Trap
 
@@ -44,7 +46,17 @@ Class Switch Extends Trap
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Switch.Update()")
+        If Self.triggered And
+           Not Util.IsAnyPlayerAt(Self.x, Self.y)
+            Self.triggered = False
+        End If
+
+        Self.image.SetFrame(1)
+        If Self.triggered
+            Self.image.SetFrame(0)
+        End If
+
+        Super.Update()
     End Method
 
 End Class
