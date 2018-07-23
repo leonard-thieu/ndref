@@ -4,6 +4,7 @@ Import monkey.list
 Import enemy
 Import entity
 Import logger
+Import point
 
 Class Bell Extends Enemy
 
@@ -51,12 +52,24 @@ Class Bell Extends Enemy
         End If
     End Method
 
+    Method GetMovementDirection: Point()
+        Debug.TraceNotImplemented("Bell.GetMovementDirection()")
+    End Method
+
     Method HasBeenRung: Bool()
         Debug.TraceNotImplemented("Bell.HasBeenRung()")
     End Method
 
     Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
         Debug.TraceNotImplemented("Bell.Hit(String, Int, Int, Entity, Bool, Int)")
+    End Method
+
+    Method ImmuneToEarth: Bool()
+        Debug.TraceNotImplemented("Bell.ImmuneToEarth()")
+    End Method
+
+    Method ImmuneToFear: Bool()
+        Debug.TraceNotImplemented("Bell.ImmuneToFear()")
     End Method
 
     Method Ring: Void(makeEnemy: Bool)
