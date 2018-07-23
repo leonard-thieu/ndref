@@ -4,6 +4,7 @@ Import monkey.list
 Import monkey.math
 Import enemy
 Import level
+Import audio2
 Import logger
 Import point
 Import util
@@ -79,7 +80,12 @@ Class Harpy Extends Enemy
     End Method
 
     Method MoveSucceed: Void(hitPlayer: Bool, moveDelayed: Bool)
-        Debug.TraceNotImplemented("Harpy.MoveSucceed(Bool, Bool)")
+        Super.MoveSucceed(hitPlayer, moveDelayed)
+
+        If Not moveDelayed And
+           Not hitPlayer
+            Audio.PlayGameSoundAt("harpyFly", Self.x, Self.y, False, -1, False)
+        End If
     End Method
 
     Method Update: Void()

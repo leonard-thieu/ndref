@@ -51282,7 +51282,10 @@ c_Point* c_Harpy::p_GetMovementDirection(){
 	return t_movementDirection;
 }
 void c_Harpy::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Harpy.MoveSucceed(Bool, Bool)",29));
+	c_Enemy::p_MoveSucceed(t_hitPlayer,t_moveDelayed);
+	if(!t_moveDelayed && !t_hitPlayer){
+		c_Audio::m_PlayGameSoundAt(String(L"harpyFly",8),this->m_x,this->m_y,false,-1,false);
+	}
 }
 void c_Harpy::p_Update(){
 	if(c_Util::m_IsCharacterActive(12) || c_Util::m_IsCharacterActive(6) || c_Util::m_AreAriaOrCodaActive() && bb_controller_game_currentZone<=3){
