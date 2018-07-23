@@ -10874,9 +10874,11 @@ class c_Lich : public c_Enemy{
 class c_Pixie : public c_Enemy{
 	public:
 	c_Sprite* m_explosionImg;
+	int m_dieCounter;
 	c_Pixie();
 	c_Pixie* m_new(int,int,int);
 	c_Pixie* m_new2();
+	bool p_CanBeLord();
 	void p_Die();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
@@ -54194,6 +54196,7 @@ void c_Lich::mark(){
 }
 c_Pixie::c_Pixie(){
 	m_explosionImg=0;
+	m_dieCounter=-1;
 }
 c_Pixie* c_Pixie::m_new(int t_xVal,int t_yVal,int t_l){
 	c_Enemy::m_new();
@@ -54209,6 +54212,10 @@ c_Pixie* c_Pixie::m_new(int t_xVal,int t_yVal,int t_l){
 c_Pixie* c_Pixie::m_new2(){
 	c_Enemy::m_new();
 	return this;
+}
+bool c_Pixie::p_CanBeLord(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Pixie.CanBeLord()",17));
+	return false;
 }
 void c_Pixie::p_Die(){
 	if(!c_Level::m_isReplaying && c_ControllerLevelEditor::m_playingLevel==-1){
@@ -54232,7 +54239,22 @@ void c_Pixie::p_MoveSucceed(bool t_hitPlayer,bool t_moveDelayed){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Pixie.MoveSucceed(Bool, Bool)",29));
 }
 void c_Pixie::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Pixie.Update()",14));
+	if(this->m_dieCounter>0){
+		this->m_dieCounter-=1;
+		if(this->m_dieCounter==0){
+			this->p_Die();
+		}
+		c_Audio::m_PlayGameSoundAt(String(L"pixieDeath",10),this->m_x,this->m_y,false,-1,false);
+	}
+	if(this->m_hasBeenVisible){
+		if(!this->m_wasVisibleLastFrame){
+			this->m_wasVisibleLastFrame=true;
+			this->m_currentMoveDelay=1;
+		}
+	}else{
+		this->m_currentMoveDelay=2;
+	}
+	c_Enemy::p_Update();
 }
 void c_Pixie::mark(){
 	c_Enemy::mark();

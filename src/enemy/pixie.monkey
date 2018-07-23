@@ -3,6 +3,7 @@
 Import controller.controller_level_editor
 Import enemy
 Import level
+Import audio2
 Import entity
 Import gamedata
 Import logger
@@ -69,7 +70,25 @@ Class Pixie Extends Enemy
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Pixie.Update()")
+        If Self.dieCounter > 0
+            Self.dieCounter -= 1
+            If Self.dieCounter = 0
+                Self.Die()
+            End If
+
+            Audio.PlayGameSoundAt("pixieDeath", Self.x, Self.y, False, -1, False)
+        End If
+
+        If Self.hasBeenVisible
+            If Not Self.wasVisibleLastFrame
+                Self.wasVisibleLastFrame = True
+                Self.currentMoveDelay = 1
+            End If
+        Else
+            Self.currentMoveDelay = 2
+        End If
+
+        Super.Update()
     End Method
 
 End Class
