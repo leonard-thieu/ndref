@@ -9860,12 +9860,15 @@ class c_Shriner : public c_NPC{
 	c_Shrine* m_shrine1;
 	c_Shrine* m_shrine2;
 	c_Shrine* m_shrine3;
+	bool m_hasSummoned;
+	bool m_preventShrineDeath;
 	c_Shriner();
 	c_Shriner* m_new(int,int,int,bool);
 	c_Shriner* m_new2();
 	void p_Die();
 	c_Point* p_GetMovementDirection();
 	bool p_Hit(String,int,int,c_Entity*,bool,int);
+	void p_SummonDragons();
 	void p_Update();
 	void mark();
 };
@@ -49796,6 +49799,8 @@ c_Shriner::c_Shriner(){
 	m_shrine1=0;
 	m_shrine2=0;
 	m_shrine3=0;
+	m_hasSummoned=false;
+	m_preventShrineDeath=true;
 }
 c_Shriner* c_Shriner::m_new(int t_xVal,int t_yVal,int t_l,bool t_captv){
 	c_NPC::m_new();
@@ -49827,8 +49832,14 @@ bool c_Shriner::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_h
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Shriner.Hit(String, Int, Int, Entity, Bool, Int)",48));
 	return false;
 }
+void c_Shriner::p_SummonDragons(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Shriner.SummonDragons()",23));
+}
 void c_Shriner::p_Update(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Shriner.Update()",16));
+	if(!this->m_hasSummoned && (this->m_shrine1->m_dead || this->m_shrine2->m_dead || this->m_shrine3->m_dead) && this->m_preventShrineDeath){
+		this->p_SummonDragons();
+	}
+	c_NPC::p_Update();
 }
 void c_Shriner::mark(){
 	c_NPC::mark();

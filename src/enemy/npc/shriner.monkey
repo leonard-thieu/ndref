@@ -58,7 +58,15 @@ Class Shriner Extends NPC
     End Method
 
     Method Update: Void()
-        Debug.TraceNotImplemented("Shriner.Update()")
+        If Not Self.hasSummoned And
+           (Self.shrine1.dead Or
+            Self.shrine2.dead Or
+            Self.shrine3.dead) And
+           Self.preventShrineDeath
+            Self.SummonDragons()
+        End If
+
+        Super.Update()
     End Method
 
 End Class
