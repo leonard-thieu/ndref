@@ -1010,7 +1010,7 @@ Class Level
         If Level.GetTileTypeAt(xVal, yVal) = TileType.Ice
             Local tile := Level.GetTileAt(xVal, yVal)
             Local alpha := tile.GetCurrentAlpha()
-            Local tilesetOverride = tile.tilesetOverride
+            Local tilesetOverride := tile.tilesetOverride
             tile.Die()
 
             Local newTile := New Tile(xVal, yVal, TileType.Floor, False, tilesetOverride)
@@ -3377,7 +3377,7 @@ Class Level
         Local i := 50
         Local numFakeWall := Util.RndIntRangeFromZero(3, True)
 
-        For Local i = i - 1 Until 0 Step -1
+        For Local i := i - 1 Until 0 Step -1
             If numFakeWall <= 0 Then Exit
 
             Local dirtWallLocation := Level.FindTileOfType(TileType.DirtWall)
@@ -4545,7 +4545,7 @@ Class Level
                     If tile.type = TileType.Floor Then numLiquid += 1
                 End For
 
-                Local numFloorToConvert = math.Min(numLiquid, numLiquidMax)
+                Local numFloorToConvert := math.Min(numLiquid, numLiquidMax)
                 Local numFloorToSkip := Util.RndIntRangeFromZero(numLiquid - 1, True)
 
                 Local createdFirstLiquid := False
@@ -6710,7 +6710,7 @@ Class Level
             Return controller_game.currentDepth = maxDepth
         End If
 
-        Local maxZone = Level.GetSingleZoneModeFinalBossZone()
+        Local maxZone := Level.GetSingleZoneModeFinalBossZone()
 
         Return controller_game.currentZone = maxZone
     End Function
@@ -8259,7 +8259,7 @@ Class Level
 
         Local creatingMapEnd := app.Millisecs()
 
-        Local creatingMapDuration = creatingMapEnd - creatingMapStart
+        Local creatingMapDuration := creatingMapEnd - creatingMapStart
         Debug.Log("Level generation completed in " + creatingMapDuration + " ms")
 
         If Shrine.paceShrineActive
@@ -8361,11 +8361,11 @@ Class Level
             Tile.anyPlayerHaveMonocleCachedFrame = -1
             Tile.anyPlayerHaveRingOfLuckCachedFrame = -1
             Tile.anyPlayerHaveSunglassesCachedFrame = -1
-            Entity.anyPlayerHaveCircletCachedFrame = -1;
-            Entity.anyPlayerHaveGlassTorchCachedFrame = -1;
-            Entity.anyPlayerHaveForesightTorchCachedFrame = -1;
-            Entity.anyPlayerHaveWallsTorchCachedFrame = -1;
-            Entity.anyPlayerHaveNazarCharmCachedFrame = -1;
+            Entity.anyPlayerHaveCircletCachedFrame = -1
+            Entity.anyPlayerHaveGlassTorchCachedFrame = -1
+            Entity.anyPlayerHaveForesightTorchCachedFrame = -1
+            Entity.anyPlayerHaveWallsTorchCachedFrame = -1
+            Entity.anyPlayerHaveNazarCharmCachedFrame = -1
 
             ' TODO: Verify condition
             If Not Level.isReplaying And
@@ -9432,7 +9432,7 @@ Class Level
             End If
 
             Local i := 500
-            For Local i = i - 1 Until 0 Step -1
+            For i = i - 1 Until 0 Step -1
                 If extraEnemies <= 0 Then Exit
 
                 point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
@@ -10277,7 +10277,7 @@ Class Level
                 point = Level.GetRandPointInRoomWithOptions(room, False, True, False)
                 If point = Null Then Continue
 
-                Local lichLevel = math.Min(3, controller_game.currentLevel)
+                Local lichLevel := math.Min(3, controller_game.currentLevel)
                 New Lich(point.x, point.y, lichLevel)
             End If
 
@@ -12492,7 +12492,7 @@ Class Level
                         Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
                     End If
 
-                    Local bounceTrapRoll2 = Util.RndIntRangeFromZero(2, True)
+                    Local bounceTrapRoll2 := Util.RndIntRangeFromZero(2, True)
                     If bounceTrapRoll2 = 0
                         Level.PlaceTrapInRoom(room, TrapType.BounceTrap)
                     Else
@@ -12543,7 +12543,7 @@ Class Level
                     End If
 
                     Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
-                    For Local numBounceTraps = numBounceTraps Until 0 Step -1
+                    For Local numBounceTraps := numBounceTraps Until 0 Step -1
                         Local bounceTrapDirectionRoll := Util.RndBool(True)
                         Local bounceTrapDirection := BounceTrapDirection.None
                         If Not bounceTrapDirectionRoll
@@ -12575,7 +12575,7 @@ Class Level
                         End If
 
                         Local numBounceTraps := Util.RndIntRange(1, 3, True, -1)
-                        For Local numBounceTraps = numBounceTraps Until 0 Step -1
+                        For Local numBounceTraps := numBounceTraps Until 0 Step -1
                             Local bounceTrapDirectionRoll := Util.RndIntRangeFromZero(2, True)
                             Local bounceTrapDirection := BounceTrapDirection.None
                             If bounceTrapDirectionRoll <> 0
@@ -13472,7 +13472,7 @@ Class Level
         Local i := 500
         Local numWallsToRemove := Int(removalCandidates.Count() * percentToRemove)
 
-        For Local i = i - 1 Until 0 Step -1
+        For i = i - 1 Until 0 Step -1
             If removalCandidates.IsEmpty() Then Exit
             If numWallsToRemove <= 0 Then Exit
 
@@ -13542,7 +13542,7 @@ Class Level
                 If destroyWater
                     Local tile := Level.GetTileAt(xVal, yVal)
                     Local alpha := tile.GetCurrentAlpha()
-                    Local tilesetOverride = tile.tilesetOverride
+                    Local tilesetOverride := tile.tilesetOverride
                     tile.Die()
 
                     Local newTile := New Tile(xVal, yVal, TileType.Floor, False, tilesetOverride)

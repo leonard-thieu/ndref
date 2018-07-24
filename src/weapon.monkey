@@ -523,12 +523,12 @@ Class Weapon
                 swipeImage2.SetZOff(1000.0)
                 Self.swipeImage2.Set(0, swipeImage2)
 
-                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1);
-                Local attackPoint2 := New WeaponPoint(1, -1, Self, -1, Null, 3, True, 0, 1);
-                Local attackPoint3 := New WeaponPoint(-1, -1, Self, -1, Null, 3, True, 0, 1);
-                Local attackPoint4 := New WeaponPoint(1, -2, Self, -1, attackPoint1, 3, True, 0, 1);
-                Local attackPoint5 := New WeaponPoint(-1, -2, Self, -1, attackPoint1, 3, True, 0, 1);
-                Local attackPoint6 := New WeaponPoint(0, -2, Self, -1, attackPoint1, 3, True, 0, 1);
+                Local attackPoint1 := New WeaponPoint(0, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint2 := New WeaponPoint(1, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint3 := New WeaponPoint(-1, -1, Self, -1, Null, 3, True, 0, 1)
+                Local attackPoint4 := New WeaponPoint(1, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                Local attackPoint5 := New WeaponPoint(-1, -2, Self, -1, attackPoint1, 3, True, 0, 1)
+                Local attackPoint6 := New WeaponPoint(0, -2, Self, -1, attackPoint1, 3, True, 0, 1)
                 Self.attackPoints.AddLast(attackPoint2)
                 Self.attackPoints.AddLast(attackPoint3)
                 attackPoint1.children.AddLast(attackPoint4)

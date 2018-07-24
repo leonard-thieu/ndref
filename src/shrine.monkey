@@ -222,12 +222,12 @@ Class Shrine Extends Entity
                 Case Shrine.SHRINE_BLOOD
                     Self.contents1 = Item.GetRandomItemInClass("isBlood", -1, "chestChance", Chest.CHEST_COLOR_NONE, True, "", False)
                 Case Shrine.SHRINE_RISK
-                    Local requestedLevel = controller_game.currentLevel + 2
+                    Local requestedLevel := controller_game.currentLevel + 2
                     Self.contents1 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, True, "", False)
                     Self.contents2 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, True, "", False)
                     Self.contents3 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, True, "", False)
                 Case Shrine.SHRINE_SACRIFICE
-                    Local requestedLevel = controller_game.currentLevel + 2
+                    Local requestedLevel := controller_game.currentLevel + 2
                     Self.contents1 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, True, "", False)
                     Self.contents2 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, True, "", False)
                     Self.contents3 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, True, "", False)
@@ -235,7 +235,7 @@ Class Shrine Extends Entity
                     Self.contents5 = Self.RandomGlassWeapon()
                     Self.contents6 = Self.RandomGlassWeapon()
                 Case Shrine.SHRINE_CHANCE
-                    Local requestedLevel = controller_game.currentLevel
+                    Local requestedLevel := controller_game.currentLevel
                     Self.contents1 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", False)
                     Self.contents2 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", False)
                     Self.contents3 = Item.GetRandomItemInClass("", requestedLevel, "chestChance", Chest.CHEST_COLOR_NONE, False, "", False)

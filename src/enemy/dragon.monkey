@@ -349,7 +349,7 @@ Class Dragon Extends Enemy
             '    v6 = Player.PlayersHaveMovedThisBeat()
             'End If
 
-            Local v6 = Player.PlayersHaveMovedThisBeat()
+            Local v6 := Player.PlayersHaveMovedThisBeat()
 
             If Self.playerMoveOverride
                 Self.playerMoveOverride = False

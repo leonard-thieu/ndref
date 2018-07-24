@@ -2494,8 +2494,8 @@ Class Enemy Extends MobileEntity Abstract
         End If
         
         Local closestMovement := Self.GetAdjacentTileThatIsClosestToTarget(targetLastX, targetLastY, -1)
-        Local nextX = Self.x + closestMovement.x
-        Local nextY = Self.y + closestMovement.y
+        Local nextX := Self.x + closestMovement.x
+        Local nextY := Self.y + closestMovement.y
 
         If (Util.IsGlobalCollisionAt(nextX, nextY, False, Self.ignoreWalls, False, False)) Or
            (Not ignoreLiquids And Level.IsWaterOrTarAt(nextX, nextY)) Or

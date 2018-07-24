@@ -660,7 +660,7 @@ Class Util
         Debug.TraceNotImplemented("Util.RotatePointInGeneralDirection(Object, Int)")
     End Function
 
-    Function SeedRnd(seed: Int)
+    Function SeedRnd: Void(seed: Int)
         Util.storedSeed = -1
         random.Seed = seed
     End Function

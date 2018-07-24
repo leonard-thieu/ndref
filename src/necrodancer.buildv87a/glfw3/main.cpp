@@ -5944,7 +5944,7 @@ class c_Util : public Object{
 	static int m_RndIntRangeFromZero(int,bool);
 	static bool m_RndBool(bool);
 	static int m_ParseTextSeed(String);
-	static int m_SeedRnd(int);
+	static void m_SeedRnd(int);
 	static int m_GetDistSq(int,int,int,int);
 	static Float m_GetDist(int,int,int,int);
 	static bool m_AreAriaOrCodaActive();
@@ -14223,10 +14223,9 @@ int c_Util::m_ParseTextSeed(String t_randSeedString){
 	}
 	return t_seed;
 }
-int c_Util::m_SeedRnd(int t_seed){
+void c_Util::m_SeedRnd(int t_seed){
 	m_storedSeed=-1;
 	bb_random_Seed=t_seed;
-	return 0;
 }
 int c_Util::m_GetDistSq(int t_x,int t_y,int t_x2,int t_y2){
 	return (t_x2-t_x)*(t_x2-t_x)+(t_y2-t_y)*(t_y2-t_y);
@@ -24989,7 +24988,7 @@ void c_Level::m_PlaceEnemiesZone2(){
 			t_extraEnemies+=1;
 		}
 		int t_i=500;
-		for(int t_i2=t_i-1;t_i2>0;t_i2=t_i2+-1){
+		for(t_i=t_i-1;t_i>0;t_i=t_i+-1){
 			if(t_extraEnemies<=0){
 				break;
 			}
@@ -27455,7 +27454,7 @@ void c_Level::m_RemoveSomeWallsAwayFromCorridors(Float t_percentToRemove,bool t_
 	}
 	int t_i=500;
 	int t_numWallsToRemove=int(Float(t_removalCandidates->p_Count())*t_percentToRemove);
-	for(int t_i2=t_i-1;t_i2>0;t_i2=t_i2+-1){
+	for(t_i=t_i-1;t_i>0;t_i=t_i+-1){
 		if(t_removalCandidates->p_IsEmpty()){
 			break;
 		}
@@ -55068,16 +55067,16 @@ void c_Dragon::p_Update(){
 		this->m_dontMove=false;
 	}
 	if(this->p_Shoots() && this->m_frozenDuration<=0 && c_Enemy::m_enemiesFearfulDuration<0){
-		int t_v6=((c_Player::m_PlayersHaveMovedThisBeat())?1:0);
+		bool t_v6=c_Player::m_PlayersHaveMovedThisBeat();
 		if(this->m_playerMoveOverride){
 			this->m_playerMoveOverride=false;
-			t_v6=1;
+			t_v6=true;
 		}
 		int t_4=this->m_attackState;
 		if(t_4==1){
 			int t_5=this->m_animOverride;
 			if(t_5==4){
-				if(c_Audio::m_GetPercentDistanceFromNextBeat()<=FLOAT(0.5) && !((t_v6)!=0)){
+				if(c_Audio::m_GetPercentDistanceFromNextBeat()<=FLOAT(0.5) && !t_v6){
 					this->m_animOverride=5;
 				}
 			}else{
@@ -55086,7 +55085,7 @@ void c_Dragon::p_Update(){
 					}
 				}else{
 					if(t_5==6){
-						if((t_v6)!=0){
+						if(t_v6){
 							this->m_attackState=2;
 						}
 					}
@@ -55096,7 +55095,7 @@ void c_Dragon::p_Update(){
 			if(t_4==2){
 				int t_6=this->m_animOverride;
 				if(t_6==8){
-					if(!((t_v6)!=0)){
+					if(!t_v6){
 						this->m_attackState=0;
 						this->m_currentMoveDelay=2;
 					}
