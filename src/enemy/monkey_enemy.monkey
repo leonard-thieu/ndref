@@ -24,7 +24,7 @@ Class Monkey Extends EnemyClamper
             End Select
         End If
 
-        Self.Init(xVal, yVal, l, "monkey", "", -1, -1)
+        Self.Init(xVal, yVal, l, "monkey")
 
         Self.overrideDeathSound = "monkeyDeath"
         If l = 4
@@ -59,10 +59,25 @@ Class Monkey Extends EnemyClamper
     End Method
 
     Method DislodgeAttempt: Bool()
-        Debug.TraceNotImplemented("Monkey.DislodgeAttempt()")
+        Local damage := Self.clampedOnto.GetDamage()
+        damage = math.Max(1, damage)
+
+        Self.Hit("playerDislodge", damage)
+
+        Select Self.level
+            Case 3
+                Return False
+            Case 4
+                Self.clampedOnto.PlayVO("Teleport")
+                Util.TeleportEntity(Self.clampedOnto, 0.0, 0, 0, False)
+
+                Self.Die()
+        End Select
+
+        Return True
     End Method
 
-    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int = Direction.None, hitter: Entity = Null, hitAtLastTile: Bool = False, hitType: Int = 0)
         Debug.TraceNotImplemented("Monkey.Hit(String, Int, Int, Entity, Bool, Int)")
     End Method
 

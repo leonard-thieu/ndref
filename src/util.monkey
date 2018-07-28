@@ -11,7 +11,9 @@ Import controller.controller_game
 Import familiar
 Import familiar_fixed.soul_familiar
 Import level
+Import audio2
 Import camera
+Import entity
 Import gamedata
 Import item
 Import logger
@@ -669,8 +671,28 @@ Class Util
         Debug.TraceNotImplemented("Util.SegmentSegmentIntersection(Float, Float, Float, Float, Float, Float, Float, Float)")
     End Function
 
-    Function SendEntityTo: Void(ent: Object, xVal: Int, yVal: Int, triggerBossStart: Bool)
-        Debug.TraceNotImplemented("Util.SendEntityTo(Object, Int, Int, Bool)")
+    Function SendEntityTo: Void(ent: Entity, xVal: Int, yVal: Int, triggerBossStart: Bool)
+        If ent.isPlayer And
+           triggerBossStart And
+           controller_game.currentLevel = 4
+            Level.ActivateTrigger(1, Null, Null)
+        End If
+
+        If ent.isPlayer
+            Local player := Player(ent)
+            player.WarpTo(xVal, yVal)
+
+            If player.clampedEnemy <> Null
+                Util.SendEntityTo(player.clampedEnemy, xVal, yVal, True)
+            End If
+        Else
+            ent.lastX = ent.x
+            ent.x = xVal
+            ent.lastY = ent.y
+            ent.y = yVal
+        End If
+
+        ent.wasTeleported = True
     End Function
 
     Function SetAppFolder: Void()
@@ -721,8 +743,79 @@ Class Util
         Debug.TraceNotImplemented("Util.SubmitSpeedrunScore(Int, Int, Int, Int, Int, Int)")
     End Function
 
-    Function TeleportEntity: Bool(ent: Object, minDist: Float, oldX: Int, oldY: Int, anyFloor: Bool)
-        Debug.TraceNotImplemented("Util.TeleportEntity(Object, Float, Int, Int, Bool)")
+    Function TeleportEntity: Bool(ent: Entity, minDist: Float, oldX: Int, oldY: Int, anyFloor: Bool)
+        If ent.isPlayer And
+           controller_game.currentLevel = 4
+            Level.ActivateTrigger(1, Null, Null)
+        End If
+
+        If Level.isReplaying
+            Local x := Level.replay.GetRand(1)
+            Local y := Level.replay.GetRand(1)
+
+            If x = -999 Or
+               y = -999
+                Return False
+            End If
+
+            Util.SendEntityTo(ent, x, y, True)
+
+            If ent.isPlayer
+                Audio.PlayGameSound("teleport", -1, 1.0)
+            Else
+                Audio.PlayGameSoundAt("teleport", x, y, False, -1, False)
+                Audio.PlayGameSoundAt("teleport", oldX, oldY, False, -1, False)
+            End If
+
+            Return True
+        End If
+
+        Local i := 5000
+        For i = i - 1 Until 0 Step -1
+            Local x := Util.RndIntRange(Level.minLevelX, Level.maxLevelX, False)
+            Local y := Util.RndIntRange(Level.minLevelY, Level.maxLevelY, False)
+
+            If x < -150 Or
+               y < -150
+                Continue
+            End If
+
+            If i Mod 1000 = 0
+                minDist -= 1.0
+            End If
+
+            If minDist <= Util.GetDist(x, y, oldX, oldY) And
+               (Level.IsNormalFloorAt(x, y) Or
+                (anyFloor And Level.IsFloorAt(x, y))) And
+               Not Util.IsGlobalCollisionAt(x, y, False, False, False, False)
+                If ent.isPlayer
+                    If Not Trap.IsLiveTrapAt(x, y) And
+                       Item.GetPickupAt(x, y) = Null And
+                       (controller_game.numPlayers <= 1 Or
+                        Camera.IsOnScreen(x, y))
+                        Util.SendEntityTo(ent, x, y, True)
+                        Audio.PlayGameSound("teleport", -1, 1.0)
+
+                        Level.RecordRand(1, x)
+                        Level.RecordRand(1, y)
+
+                        Return True
+                    End If
+                Else If Util.GetDistFromClosestPlayer(x, y, False) >= 3.0 Or
+                        i < 1000
+                    Util.SendEntityTo(ent, x, y, True)
+                    Audio.PlayGameSoundAt("teleport", x, y, False, -1, False)
+                    Audio.PlayGameSoundAt("teleport", oldX, oldY, False, -1, False)
+
+                    Level.RecordRand(1, x)
+                    Level.RecordRand(1, y)
+
+                    Return True
+                End If
+            End If
+        End For
+
+        Return False
     End Function
 
     Function _EditorFix: Void() End
