@@ -6469,7 +6469,7 @@ Class Level
 
             If room.hasExit Then Continue
 
-            Local point := Level.GetRandPointInRoomWithOptions(room.x + 1, room.y + 1, room.w -2, room.h - 2, True, True, False)
+            Local point := Level.GetRandPointInRoomWithOptions(room.x + 1, room.y + 1, room.w - 2, room.h - 2, True, True, False)
             If point = Null Then Continue
 
             If Item.GetPickupAt(point.x, point.y, Null) <> Null Then Continue
@@ -6882,7 +6882,7 @@ Class Level
 
     Function IsWallAdjacent8: Bool(xVal: Int, yVal: Int)
         For Local y := yVal - 1 To yVal + 1
-            For Local x := xVal -1 To xVal + 1
+            For Local x := xVal - 1 To xVal + 1
                 If x = xVal And
                    y = yVal
                     Continue
@@ -13398,6 +13398,13 @@ Class Level
         End If
 
         Level.minimap = New Minimap()
+    End Function
+
+    Function RecordRand(channel: Int, num: Int)
+        If Not Level.isReplaying And
+           Level.replay <> Null
+            Level.replay.RecordRand(channel, num)
+        End If
     End Function
 
     Function RefreshLineOfSightTiles: Void()
