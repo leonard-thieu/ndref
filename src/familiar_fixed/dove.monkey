@@ -1,7 +1,9 @@
 'Strict
 
+Import enemy
 Import familiar_fixed
 Import logger
+Import renderableobject
 Import sprite
 
 Class Dove Extends FamiliarFixed
@@ -18,7 +20,15 @@ Class Dove Extends FamiliarFixed
     End Method
 
     Method ApplyEffect: Bool(dir: Int)
-        Debug.TraceNotImplemented("Dove.ApplyEffect(Int)")
+        Local enemy := Enemy.GetEnemyAt(Self.x, Self.y, True)
+        If enemy <> Null And
+           Not enemy.isCrate
+            RenderableObject.HitTile("DOVE FAMILIAR", Self.x, Self.y, 0, dir, Self.owner, False, False, False, False, False)
+
+            Return True
+        End If
+
+        Return False
     End Method
 
     Method Update: Void()
