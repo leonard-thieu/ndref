@@ -7846,11 +7846,12 @@ class c_FamiliarFixed : public c_Entity{
 	int m_offsetY;
 	c_FamiliarFixed();
 	void p_Die();
+	static c_List4* m_familiarList;
 	c_FamiliarFixed* m_new();
 	void p_WarpTo(int,int);
-	static c_List4* m_familiarList;
 	static c_FamiliarFixed* m_GetFamiliarAt(int,int);
 	void p_TryPickup();
+	bool p_Hit(String,int,int,c_Entity*,bool,int);
 	static bool m_debugTouchDamage;
 	bool p_ApplyEffect(int);
 	void p_Update();
@@ -35642,14 +35643,15 @@ c_FamiliarFixed::c_FamiliarFixed(){
 void c_FamiliarFixed::p_Die(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FamiliarFixed.Die()",19));
 }
+c_List4* c_FamiliarFixed::m_familiarList;
 c_FamiliarFixed* c_FamiliarFixed::m_new(){
 	c_Entity::m_new();
+	m_familiarList->p_AddLast4(this);
 	return this;
 }
 void c_FamiliarFixed::p_WarpTo(int t_x_,int t_y_){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"FamiliarFixed.WarpTo(Int, Int)",30));
 }
-c_List4* c_FamiliarFixed::m_familiarList;
 c_FamiliarFixed* c_FamiliarFixed::m_GetFamiliarAt(int t_x,int t_y){
 	c_Enumerator2* t_=m_familiarList->p_ObjectEnumerator();
 	while(t_->p_HasNext()){
@@ -35661,6 +35663,10 @@ c_FamiliarFixed* c_FamiliarFixed::m_GetFamiliarAt(int t_x,int t_y){
 	return 0;
 }
 void c_FamiliarFixed::p_TryPickup(){
+}
+bool c_FamiliarFixed::p_Hit(String t_damageSource,int t_damage,int t_dir,c_Entity* t_hitter,bool t_hitAtLastTile,int t_hitType){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"FamiliarFixed.Hit()",19));
+	return false;
 }
 bool c_FamiliarFixed::m_debugTouchDamage;
 bool c_FamiliarFixed::p_ApplyEffect(int t_dir){
@@ -62433,6 +62439,7 @@ int bbInit(){
 	c_Level::m_exits=(new c_ExitMap)->m_new();
 	c_Enemy::m_enemyList=(new c_EnemyList)->m_new();
 	c_Entity::m_entityCount=0;
+	c_FamiliarFixed::m_familiarList=(new c_List4)->m_new();
 	c_Familiar::m_familiarList=(new c_List11)->m_new();
 	c_Level::m_isLevelEditor=false;
 	bb_controller_game_dailyChallengeSuccessScore=-1;
@@ -62566,7 +62573,6 @@ int bbInit(){
 	c_Audio::m_songDuration=0;
 	c_SoulFamiliar::m_allSouls=(new c_List20)->m_new();
 	c_Item::m_pickupList=(new c_List21)->m_new();
-	c_FamiliarFixed::m_familiarList=(new c_List4)->m_new();
 	c_Wraith::m_theCursedWraith=0;
 	c_Item::m_itemPoolRandom=(new c_List)->m_new();
 	c_Item::m_itemPoolRandom2=(new c_List)->m_new();
@@ -62758,6 +62764,7 @@ void gc_mark(){
 	gc_mark_q(c_Level::m_minimap);
 	gc_mark_q(c_Level::m_exits);
 	gc_mark_q(c_Enemy::m_enemyList);
+	gc_mark_q(c_FamiliarFixed::m_familiarList);
 	gc_mark_q(c_Familiar::m_familiarList);
 	gc_mark_q(c_Player::m_hudCoins);
 	gc_mark_q(c_Player::m_hudDiamonds);
@@ -62819,7 +62826,6 @@ void gc_mark(){
 	gc_mark_q(bb_controller_game_beatData);
 	gc_mark_q(c_SoulFamiliar::m_allSouls);
 	gc_mark_q(c_Item::m_pickupList);
-	gc_mark_q(c_FamiliarFixed::m_familiarList);
 	gc_mark_q(c_Wraith::m_theCursedWraith);
 	gc_mark_q(c_Item::m_itemPoolRandom);
 	gc_mark_q(c_Item::m_itemPoolRandom2);

@@ -23,10 +23,16 @@ Class FamiliarFixed Extends Entity Abstract
 
     Function _EditorFix: Void() End
 
+    Method New()
+        Super.New()
+
+        FamiliarFixed.familiarList.AddLast(Self)
+    End Method
+
     Field offsetX: Int
     Field offsetY: Int
     Field type: Int
-    Field enableAutoFlip: Bool
+    Field enableAutoFlip: Bool = True
     Field owner: Player
     Field hasMovedThisFrame: Bool
 
@@ -38,8 +44,16 @@ Class FamiliarFixed Extends Entity Abstract
         Debug.TraceNotImplemented("FamiliarFixed.Die()")
     End Method
 
-    Method Init2: Void(x_: Int, y_: Int, type_: Int)
-        Debug.TraceNotImplemented("FamiliarFixed.Init2(Int, Int, Int)")
+    Method Hit: Bool(damageSource: String, damage: Int, dir: Int, hitter: Entity, hitAtLastTile: Bool, hitType: Int)
+        Debug.TraceNotImplemented("FamiliarFixed.Hit()")
+    End Method
+
+    Method Init: Void(x_: Int, y_: Int, type_: Int)
+        Debug.TraceNotImplemented("FamiliarFixed.Init(Int, Int, Int)")
+    End Method
+
+    Method IsSoul: Bool()
+        Debug.TraceNotImplemented("FamiliarFixed.IsSoul()")
     End Method
 
     Method MoveTo: Void(x_: Int, y_: Int)
