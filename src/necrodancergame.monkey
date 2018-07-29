@@ -19,6 +19,7 @@ Import util
 Import xml
 
 Const MAX_NUM_PLAYERS: Int = 4
+Const GAME_VERSION: Int = 94
 
 Global CHRISTMAS_MODE: Bool
 Global DEBUG_DISABLE_CLOUD_SAVES: Bool

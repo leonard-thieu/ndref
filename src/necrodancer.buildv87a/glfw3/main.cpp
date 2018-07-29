@@ -9327,6 +9327,8 @@ class c_Replay : public Object{
 	int m_startingLevel;
 	c_Node25* m_curReplayData;
 	int m_runTime;
+	int m_gameVersion;
+	Array<int > m_curBeats;
 	String m_saveData;
 	int m_startingGold;
 	bool m_hasBroadsword;
@@ -47789,6 +47791,8 @@ c_Replay::c_Replay(){
 	m_startingLevel=1;
 	m_curReplayData=0;
 	m_runTime=0;
+	m_gameVersion=0;
+	m_curBeats=Array<int >(4);
 	m_saveData=String();
 	m_startingGold=0;
 	m_hasBroadsword=false;
@@ -47806,7 +47810,10 @@ void c_Replay::p_NextLevel(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.NextLevel()",18));
 }
 c_Replay* c_Replay::m_new(){
-	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.New()",12));
+	this->m_gameVersion=94;
+	for(int t_i=0;t_i<this->m_curBeats.Length();t_i=t_i+1){
+		this->m_curBeats[t_i]=0;
+	}
 	return this;
 }
 void c_Replay::p_NewLevel(int t_randSeed){
@@ -47822,6 +47829,7 @@ int c_Replay::p_GetNumBeats(){
 void c_Replay::mark(){
 	Object::mark();
 	gc_mark_q(m_curReplayData);
+	gc_mark_q(m_curBeats);
 }
 c_Stack2::c_Stack2(){
 	m_data=Array<int >();

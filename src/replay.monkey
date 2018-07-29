@@ -28,7 +28,11 @@ Class Replay
     Function _EditorFix: Void() End
 
     Method New()
-        Debug.TraceNotImplemented("Replay.New()")
+        Self.gameVersion = necrodancergame.GAME_VERSION
+
+        For Local i := 0 Until Self.curBeats.Length
+            Self.curBeats[i] = 0
+        End For
     End Method
 
     Field curReplayData: list.Node<ReplayData>
