@@ -47785,8 +47785,8 @@ Float bb_math_Clamp2(Float t_n,Float t_min,Float t_max){
 	return t_n;
 }
 c_Replay::c_Replay(){
-	m_startingZone=0;
-	m_startingLevel=0;
+	m_startingZone=1;
+	m_startingLevel=1;
 	m_curReplayData=0;
 	m_runTime=0;
 	m_saveData=String();
@@ -47806,6 +47806,7 @@ void c_Replay::p_NextLevel(){
 	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.NextLevel()",18));
 }
 c_Replay* c_Replay::m_new(){
+	bb_logger_Debug->p_TraceNotImplemented(String(L"Replay.New()",12));
 	return this;
 }
 void c_Replay::p_NewLevel(int t_randSeed){

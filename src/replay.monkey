@@ -9,39 +9,43 @@ Class Replay
 
     Global lastSavedReplayFile: String
 
-    Function LoadReplayFromFile: Void(filename: Int, replay: Object)
-        Debug.TraceNotImplemented("Replay.LoadReplayFromFile(Int, Object)")
+    Function LoadReplayFromFile: Void(filename: String, replay: Replay)
+        Debug.TraceNotImplemented("Replay.LoadReplayFromFile(String, Replay)")
     End Function
 
-    Function LoadReplayFromString: Void(data: Int, replay: Object)
-        Debug.TraceNotImplemented("Replay.LoadReplayFromString(Int, Object)")
+    Function LoadReplayFromString: Void(data: String, replay: Replay)
+        Debug.TraceNotImplemented("Replay.LoadReplayFromString(String, Replay)")
     End Function
 
-    Function SaveReplayToFile: Void(replay: Object)
-        Debug.TraceNotImplemented("Replay.SaveReplayToFile(Object)")
+    Function SaveReplayToFile: Void(replay: Replay)
+        Debug.TraceNotImplemented("Replay.SaveReplayToFile(Replay)")
     End Function
 
-    Function SaveReplayToString: Int(replay: Object)
-        Debug.TraceNotImplemented("Replay.SaveReplayToString(Object)")
+    Function SaveReplayToString: String(replay: Replay)
+        Debug.TraceNotImplemented("Replay.SaveReplayToString(Replay)")
     End Function
 
     Function _EditorFix: Void() End
 
+    Method New()
+        Debug.TraceNotImplemented("Replay.New()")
+    End Method
+
     Field curReplayData: list.Node<ReplayData>
     Field gaveWarning: Bool
-    Field startingZone: Int
-    Field startingLevel: Int
-    Field curBeats: Int[]
+    Field startingZone: Int = 1
+    Field startingLevel: Int = 1
+    Field curBeats: Int[] = New Int[necrodancergame.MAX_NUM_PLAYERS]
     Field beatOffset: Int
     Field runTime: Int
     Field replayStr: String
     Field gameVersion: Int
     Field startingGold: Int
     Field hasBroadsword: Bool
-    Field replayData: List<ReplayData>
+    Field replayData: List<ReplayData> = New List<ReplayData>()
     Field saveData: String
 
-    Method GetDirectionsHitForBeat: Object(playerNum: Int, closestBeat: Int, percentDist: Float)
+    Method GetDirectionsHitForBeat: List<Int>(playerNum: Int, closestBeat: Int, percentDist: Float)
         Debug.TraceNotImplemented("Replay.GetDirectionsHitForBeat(Int, Int, Float)")
     End Method
 
@@ -53,8 +57,8 @@ Class Replay
         Debug.TraceNotImplemented("Replay.GetRand(Int)")
     End Method
 
-    Method Load: Void(filename: Int)
-        Debug.TraceNotImplemented("Replay.Load(Int)")
+    Method Load: Void(filename: String)
+        Debug.TraceNotImplemented("Replay.Load(String)")
     End Method
 
     Method NewLevel: Void(randSeed: Int)
