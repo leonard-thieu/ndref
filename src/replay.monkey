@@ -4,6 +4,7 @@ Import monkey.list
 Import monkey.map
 Import logger
 Import necrodancergame
+Import textlog
 
 Class Replay
 
@@ -58,7 +59,30 @@ Class Replay
     End Method
 
     Method GetRand: Int(channel: Int)
-        Debug.TraceNotImplemented("Replay.GetRand(Int)")
+        If Self.curReplayData = Null
+            Return 0
+        End If
+
+        Local randList: List<Int>
+
+        Select channel
+            Case 0
+                randList = Self.curReplayData.Value().randList1
+            Default
+                randList = Self.curReplayData.Value().randList2
+        End Select
+
+        If Not randList.IsEmpty()
+            Return randList.RemoveFirst()
+        End If
+
+        If Not Self.gaveWarning
+            TextLog.Message("WARNING: Replay ran out of random numbers")
+        End If
+
+        Self.gaveWarning = True
+
+        Return 0
     End Method
 
     Method Load: Void(filename: String)
