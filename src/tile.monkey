@@ -1665,9 +1665,9 @@ Class Tile Extends RenderableObject
                 Return New Sprite("level/zone5_floor.png", 26, 26, 6, Image.XYPadding)
             Default
                 If Util.RndBool(False)
-                    Return New Sprite("level/floor_dirt1.png", 26, 26, 12, Image.XYPadding)
+                    Return New Sprite("level/floor_dirt1.png", 26, 26, 6, Image.XYPadding)
                 Else
-                    Return New Sprite("level/floor_dirt2.png", 26, 26, 12, Image.XYPadding)
+                    Return New Sprite("level/floor_dirt2.png", 26, 26, 6, Image.XYPadding)
                 End If
         End Select
     End Method

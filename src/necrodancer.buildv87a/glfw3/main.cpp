@@ -45,9 +45,6 @@
 
 #include <wctype.h>
 #include <locale.h>
-#include <windows.h>
-#include <cstdio>
-#include <vector>
 
 // C++ Monkey runtime.
 //
@@ -5103,8 +5100,8 @@ class BBFileSystem{
 			}
 			fclose( srcp );
 		}else{
-//			printf( "FOPEN 'rb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) )
-;			fflush( stdout );
+//			printf( "FOPEN 'rb' for CopyFile(%s,%s) failed\n",C_STR(srcpath),C_STR(dstpath) );
+			fflush( stdout );
 		}
 		return err==0;
 #endif
@@ -5806,8 +5803,8 @@ class c_Frame : public Object{
 c_Image* bb_graphics_LoadImage(String,int,int);
 c_Image* bb_graphics_LoadImage2(String,int,int,int,int);
 int bb_graphics_SetFont(c_Image*,int);
-extern gxtkAudio* bb_audio2_device;
-int bb_audio2_SetAudioDevice(gxtkAudio*);
+extern gxtkAudio* bb_audio_device;
+int bb_audio_SetAudioDevice(gxtkAudio*);
 class c_InputDevice : public Object{
 	public:
 	Array<c_JoyState* > m__joyStates;
@@ -13360,7 +13357,7 @@ void c_GameDelegate::StartGame(){
 	bb_graphics_SetGraphicsDevice(m__graphics);
 	bb_graphics_SetFont(0,32);
 	gc_assign(m__audio,(new gxtkAudio));
-	bb_audio2_SetAudioDevice(m__audio);
+	bb_audio_SetAudioDevice(m__audio);
 	gc_assign(m__input,(new c_InputDevice)->m_new());
 	bb_input_SetInputDevice(m__input);
 	bb_app_ValidateDeviceWindow(false);
@@ -13618,9 +13615,9 @@ int bb_graphics_SetFont(c_Image* t_font,int t_firstChar){
 	bb_graphics_context->m_firstChar=t_firstChar;
 	return 0;
 }
-gxtkAudio* bb_audio2_device;
-int bb_audio2_SetAudioDevice(gxtkAudio* t_dev){
-	gc_assign(bb_audio2_device,t_dev);
+gxtkAudio* bb_audio_device;
+int bb_audio_SetAudioDevice(gxtkAudio* t_dev){
+	gc_assign(bb_audio_device,t_dev);
 	return 0;
 }
 c_InputDevice::c_InputDevice(){
@@ -45342,9 +45339,9 @@ c_Sprite* c_Tile::p_LoadFloor(){
 							return (new c_Sprite)->m_new(String(L"level/zone5_floor.png",21),26,26,6,6);
 						}else{
 							if(c_Util::m_RndBool(false)){
-								return (new c_Sprite)->m_new(String(L"level/floor_dirt1.png",21),26,26,12,6);
+								return (new c_Sprite)->m_new(String(L"level/floor_dirt1.png",21),26,26,6,6);
 							}else{
-								return (new c_Sprite)->m_new(String(L"level/floor_dirt2.png",21),26,26,12,6);
+								return (new c_Sprite)->m_new(String(L"level/floor_dirt2.png",21),26,26,6,6);
 							}
 						}
 					}
@@ -62336,7 +62333,7 @@ int bbInit(){
 	bb_graphics_device=0;
 	bb_graphics_context=(new c_GraphicsContext)->m_new();
 	c_Image::m_DefaultFlags=0;
-	bb_audio2_device=0;
+	bb_audio_device=0;
 	bb_input_device=0;
 	bb_app__devWidth=0;
 	bb_app__devHeight=0;
@@ -62797,7 +62794,7 @@ void gc_mark(){
 	gc_mark_q(bb_app__delegate);
 	gc_mark_q(bb_graphics_device);
 	gc_mark_q(bb_graphics_context);
-	gc_mark_q(bb_audio2_device);
+	gc_mark_q(bb_audio_device);
 	gc_mark_q(bb_input_device);
 	gc_mark_q(bb_app__displayModes);
 	gc_mark_q(bb_app__desktopMode);
