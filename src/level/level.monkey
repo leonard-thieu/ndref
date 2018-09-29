@@ -105,7 +105,7 @@ Import camera
 Import chain
 Import chest
 Import entity
-import gamedata
+Import gamedata
 Import input2
 Import intpointlist
 Import intpointset
