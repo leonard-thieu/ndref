@@ -4742,8 +4742,8 @@ Class Level
                     If Level.GetTileTypeAt(xVal, y) <> TileType.CatacombWall
                         Level.PlaceTileRemovingExistingTiles(xVal, y, tileType, False, -1, False) ' Left wall
                     End If
-                    If Level.GetTileTypeAt(xVal, y) <> TileType.CatacombWall
-                        Level.PlaceTileRemovingExistingTiles(xVal, y, tileType, False, -1, False) ' Right wall
+                    If Level.GetTileTypeAt(xMax, y) <> TileType.CatacombWall
+                        Level.PlaceTileRemovingExistingTiles(xMax, y, tileType, False, -1, False) ' Right wall
                     End If
                 End For
 

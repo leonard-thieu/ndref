@@ -19301,8 +19301,8 @@ c_List18* c_Level::m__CreateRoom(int t_xVal,int t_yVal,int t_wVal,int t_hVal,int
 									if(m_GetTileTypeAt(t_xVal,t_y4)!=108){
 										m_PlaceTileRemovingExistingTiles(t_xVal,t_y4,t_tileType,false,-1,false);
 									}
-									if(m_GetTileTypeAt(t_xVal,t_y4)!=108){
-										m_PlaceTileRemovingExistingTiles(t_xVal,t_y4,t_tileType,false,-1,false);
+									if(m_GetTileTypeAt(t_xMax,t_y4)!=108){
+										m_PlaceTileRemovingExistingTiles(t_xMax,t_y4,t_tileType,false,-1,false);
 									}
 								}
 								m__CreateFloor(t_tiles,t_xVal,t_yVal,t_xMax,t_yMax,19);
