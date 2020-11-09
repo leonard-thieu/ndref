@@ -190,8 +190,7 @@ Class Crate Extends Enemy
         If Level.creatingMap Then replayConsistencyChannel = -1
 
         Local itemRoll := Util.RndIntRange(0, 100, False, replayConsistencyChannel)
-        If (Self.crateType = Crate.TYPE_BARREL And itemRoll <= 30) Or
-           itemRoll <= 40
+        If itemRoll <= 30 Or (Self.crateType <> Crate.TYPE_BARREL And itemRoll <= 40)
             Self.beEmpty = True
         Else If Not Self.beEmpty
             Self.contents = Crate.SelectItem(controller_game.currentLevel)
@@ -238,12 +237,16 @@ Class Crate Extends Enemy
             Return
         End If
 
-        If coinsRoll > 98
+        If coinsRoll <= 98
             Self.emptyCoins = 30
             If Player.DoesAnyPlayerHaveItemOfType(ItemType.RingOfLuck)
                 Self.emptyCoins = 50
             End If
+
+            Return
         End If
+
+        Self.emptyCoins = 50
     End Method
 
     Method DetermineContents: Void()
