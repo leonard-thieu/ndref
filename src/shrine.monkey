@@ -154,7 +154,7 @@ Class Shrine Extends Entity
             Case Shrine.SHRINE_PEACE
                 Return Not Util.IsWeaponlessCharacterActive()
             Case Shrine.SHRINE_UNCERTAINTY
-                Return Not Util.IsWeaponlessCharacterActive() Or
+                Return Not Util.IsWeaponlessCharacterActive() And
                        Not Util.IsCharacterActive(Character.Tempo)
             Case Shrine.SHRINE_RHYTHM
                 Return Not Util.IsCharacterActive(Character.Bard)
